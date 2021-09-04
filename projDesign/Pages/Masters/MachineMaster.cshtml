@@ -1,0 +1,115 @@
+﻿@page
+@{
+    ViewData["Title"] = "MachineMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Machine Master</h4>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Location<i>*</i></label>
+                            <select id="ddllocation" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Sub Location<i>*</i></label>
+                            <select id="ddlsublocation" title="Sub Location" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">IP Address<i>*</i></label>
+                            <input id="txtIpAddress" type="text" maxlength="50" autocomplete="off" placeholder="IP Address" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Port Number<i>*</i></label>
+                            <input id="txtPort" type="text" maxlength="4" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeydown="OnlyNumeric(event);" autocomplete="off" placeholder="Port Number" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Machine Number<i>*</i></label>
+                            <input id="txtMachineNumber" class="form-control" type="text" onkeydown="OnlyNumeric(event);" maxlength="2" autocomplete="off" placeholder="Machine Number" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Machine Type<i>*</i></label>
+                            <select id="ddlMachineType" class="form-control">
+                                <option value="">Select Machine Type</option>
+                                <option value="1">Fingerprint</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Description<i>*</i></label>
+                            <textarea id="txtDescription" class="form-control" autocomplete="off" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                        <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                        <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Machine Master List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblgrade" class="table nowrap w-100">
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+               
+                <input type="hidden" id="hdnid"  />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+                <script src="~/apiJS/Masters/JsMachineMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,394 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddLocationMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<!-- left panel end -->
+
+<div class="col-xl-12">
+    <div class="panel">
+
+
+        <div class="card ">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <h4 class=" float-left">Location Master</h4>
+
+                        <a href="/Masters/DetailLocationMaster" class="btn btn-primary float-right mt-1">View Location</a>
+                        <div class="clearfix"></div>
+                        <hr />
+                    </div>
+
+                    <div class="form-container">
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select class="form-control" id="ddlcompany">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="tab btn-group btn-block">
+                                <button class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tab1addlocation')" id="tab1_btn"> Location Master</button>
+                                <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab2addsublocation')"> Sub Location Master</button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 mt-4">
+                            <div id="tab1addlocation" class="tabcontent" style="display: block;">
+                                <div class="slider-wrap">
+                                    <div class="clear"></div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Location Name <i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtlocationname" autocomplete="off" class="form-control" placeholder="Location Name" maxlength="50" onkeypress="return AlphaNumeric(event);" />
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-6 form-group">
+
+                                            <div class="col-md-4"><label class="col-form-label">Location Name <i>*</i></label></div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="txtlocationname" autocomplete="off" class="form-control" placeholder="Location Name" maxlength="50" onkeypress="return AlphaNumeric(event);" />
+                                            </div>
+                                        </div>*@
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Location Code <i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input id="txtlocationcode" type="text" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Type of location <i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <select class="form-control" id="ddllocationtype">
+                                                <option value="0">--Select--</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-12">
+                                        <h4 class="header-title mt-4 card-header mb-4">Address</h4>
+                                    </div>
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Address Line 1 <i>*</i></label>
+                                            <textarea id="txtaddress1" autocomplete="off" maxlength="100" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Address Line 2 <i>*</i></label>
+                                            <textarea id="txtaddress2" autocomplete="off" maxlength="100" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Country <i>*</i></label>
+                                            <select class="form-control" id="ddlcountry">
+                                                <option value="0">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">State <i>*</i></label>
+                                            <select class="form-control" id="ddlstate">
+                                                <option value="0">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">City <i>*</i></label>
+                                            <select class="form-control" id="ddlcity">
+                                                <option value="0">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Pin Code <i>*</i></label>
+                                            <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Pin Code" id="txtpincode" class="form-control" maxlength="6" autocomplete="off" onkeydown="OnlyNumeric(event);" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <h4 class="header-title mt-4 card-header mb-4 col-6">Email ID</h4>
+                                                <h4 class="header-title mt-4 card-header mb-4 col-6 ">Contact No.</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Primary Email Id <i>*</i></label></div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txtprimaryemail" class="form-control" maxlength="50" placeholder="Primary Email Id" onchange="return ValidEmailId('txtprimaryemail');" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Primary No <i>*</i></label></div>
+                                        <div class="col-md-8">
+                                            <input type="text" placeholder="Primary Number" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="txtprimaryno" maxlength="10" autocomplete="off" onkeydown="OnlyNumeric(event);" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Secondary Email Id <i>*</i></label></div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txtsecondaryemail" maxlength="50" class="form-control" placeholder="Secondary Email Id" onchange="return ValidEmailId('txtsecondaryemail');" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label">Secondary No <i>*</i></label></div>
+                                        <div class="col-md-8">
+                                            <input type="text" placeholder="Secondary Number" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="txtsecondaryno" maxlength="10" autocomplete="off" onkeydown="OnlyNumeric(event);" />
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label"> Website</label></div>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txtwebsite" maxlength="50" class="form-control" autocomplete="off" onchange="return ValidateURL('txtwebsite');" placeholder="www.abc.com" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4"><label class="col-form-label"> Image</label></div>
+                                        <div class="col-md-8">
+                                            <input type="file" id="File1" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-12 form-inline">
+                                        <label class=" my-1 control-label mr-3">Status</label>
+                                        <div class="">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center">
+
+
+                                            <div class=" btn-group">
+                                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                </div>
+                            </div>
+                            <!-- first tab end -->
+
+                            <div id="tab2addsublocation" class="tabcontent" style="display: none;">
+
+                                <div class="slider-wrap">
+                                    <div class="slider" id="slider2">
+
+
+                                        <div class="col-md-12">
+                                            <h4>Add Sub Location Master</h4>
+                                            <hr>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Location<i>*</i></label>
+                                                <div>
+                                                    <select id="ddllocation_sub_loc" class="form-control">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Sub Location<i>*</i></label>
+
+                                                <div class="">
+                                                    <input id="txtsublocationname" type="text" maxlength="50" class="form-control" onkeypress="return AlphaNumeric(event);" autocomplete="off" placeholder="Sub Location Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class=" col-md-12 ">
+
+                                            <div class="form-group">
+                                                <label class=" mb-0 ">Status</label>
+                                                <div class="clear"></div>
+                                                <div class="form-check-inline ">
+                                                    <div class="custom-control custom-radio">
+                                                        <input class="custom-control-input" id="is_active_sub_loc" type="radio" value="1" name="chkstatus_sub_loc">
+                                                        <label class="custom-control-label" for="is_active_sub_loc">  Active</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check-inline ">
+                                                    <div class="custom-control custom-radio">
+                                                        <input class="custom-control-input" id="is_in_active_sub_loc" type="radio" value="0" name="chkstatus_sub_loc">
+                                                        <label class="custom-control-label" for="is_in_active_sub_loc">  Inactive</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group text-center mx-auto">
+                                                <div class=" btn-group">
+                                                    <button type="button" class="btn btn-primary btn-lg" id="btnsave_sub_loc">Save</button>
+                                                    <button type="button" class="btn btn-primary btn-lg" id="btnupdate_sub_loc">Update</button>
+                                                    <button type="button" id="btnreset_sub_loc" class="btn btn-light btn-lg">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="slider-wrap" style="width: auto; height: auto;">
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<input type="hidden" id="hdn_loc_id" />
+<input type="hidden" id="hdn_sub_loc_id" />
+<!-- COMPANY master panel end -->
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="HFb64" />
+
+<link href="~/datatable/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="~/datatable/js/dataTables.bootstrap.min.js"></script>
+<script src="~/datatable/js/jquery.dataTables.js"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Masters/LocationMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            
+
+            var token = localStorage.getItem('Token');
+
+            if (token == null) {
+                window.location = '/Login';
+            }
+
+            var qs = getQueryStrings();
+            var locationid = qs["id"];
+            var login_emp_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+            var company_idd = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+            var emp_role_idd = CryptoJS.AES.decrypt(localStorage.getItem("emp_role_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+
+            BindAllEmp_Company('ddlcompany', login_emp_id, company_idd);
+            BindLocationList('ddllocation_sub_loc', company_idd, -1);
+
+            BindCountryList('ddlcountry', 0);
+
+            if (locationid != '' && locationid != 'undefined' && locationid != null) {
+                if (locationid.split('_')[1] == "loc") {
+                    $("#hdn_loc_id").val(locationid.split('_')[0]);
+                    GetEditData(locationid.split('_')[0]);
+                }
+                else if (locationid.split('_')[1] == "sub") {
+                    $("#hdn_sub_loc_id").val(locationid.split('_')[0]);
+                    document.getElementById("tab2_btn").click();
+                    document.getElementById('tab2_btn').className.replace("  btn-outline-light", " btn-primary text-light");
+                    document.getElementById('tab1_btn').className.replace(" btn-primary text-light", "  btn-outline-light");
+                    GetEdit_sub_loc_Data(locationid.split('_')[0]);
+
+                    // openCity('tab2_btn', 'tab2addsublocation');
+                }
+            }
+            else {
+                //GetData();
+                $('#btnupdate').hide();
+                $('#btnsave').show();
+                $("#btnsave_sub_loc").show();
+                $("#btnupdate_sub_loc").hide();
+                //BindAllEmp_Company('ddlcompany', login_emp_id, company_idd);
+                //BindLocationList('ddllocation_sub_loc', company_idd, -1);
+
+                //BindCountryList('ddlcountry', 0);
+
+            }
+
+            $('#ddlcountry').bind("change", function () {
+                BindStateList('ddlstate', 0, $(this).val());
+            });
+
+            $('#ddlstate').bind("change", function () {
+                BindCityList('ddlcity', $(this).val(), 0);
+            });
+            BindLocationType('ddllocationtype', 0);
+
+            EL("File1").addEventListener("change", readFile, false);
+
+            $("#ddlcompany").bind("change", function () {
+                BindLocationList('ddllocation_sub_loc', $(this).val(), 0);
+            });
+
+        }, 2000);// end timeout
+
+    });
+
+</script>

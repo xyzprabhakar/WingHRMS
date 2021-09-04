@@ -1,0 +1,193 @@
+﻿
+@page
+@{
+    ViewData["Title"] = "Minimum Wages Central Rules FORMII";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+
+               
+                   
+                <div class="form-container leave no-top-margin not-res" style="height:700px">
+                    <div class="col-md-12">
+                        <h4>Register of Deduction for Damage or Loss in Form-II</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Payroll Month</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlPayrollMonth" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="div_fileds_for_edit" style="display:none">
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlemp" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Father's / Husband's Name</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_fatherorhusbandname" type="text" class="form-control bg-light" autocomplete="off" placeholder="Father's / Husband's Name" />
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-6">
+                <div class="col-md-6 text-center"><label>Sex</label></div>
+                <div class="col-md-6">
+                    <select id="ddlgender" title="Gender">
+                        <option value="0">--Please Select--</option>
+                        <option value="1">Female</option>
+                        <option value="2">Male</option>
+                        <option value="3">Other</option>
+                    </select>
+                </div>
+            </div>*@
+                        @*<div class="col-md-6">
+                <div class="col-md-6 text-center"><label>Department</label></div>
+                <div class="col-md-6">
+                    <select id="ddldepartment" title="Leave Type">
+                        <option>--Please Select--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clear"></div>*@
+
+
+
+
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Damage or Loss Caused with Date</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_damageorlosswithdate" type="text" class="form-control" autocomplete="off" placeholder="Damage or Loss Caused with Date" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Whether Workman Showed Cause Against Deduction, if so enter date</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_WhetherWorkmanShowedCause" type="text" class="form-control" autocomplete="off" placeholder="Whether Workman Showed Cause Against Deduction, if so enter date" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">No of Installment If Any</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_noofinstallment" type="text" class="form-control" autocomplete="off" placeholder="No of Installments" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date Of Deduction Imposed </label></div>
+                            <div class="col-md-6">
+                                <input id="txt_DateOfDeductionImposed" type="text" class="form-control" autocomplete="off" placeholder="Date of Deduction Imposed " />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Amount Of Deduction Imposed </label></div>
+                            <div class="col-md-6">
+                                <input id="txt_AmtOfDeductionImposed" type="text" class="form-control" autocomplete="off" placeholder="Amount of Deduction Imposed " />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date On Which Fine Realised </label></div>
+                            <div class="col-md-6">
+                                <input id="txtDateOnWhichDeductionRealised" type="text" class="form-control" autocomplete="off" placeholder="Date On Which Fine Realised" />
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Remarks</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_Remarks" type="text" class="form-control" autocomplete="off" placeholder="Remarks" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                <input type="hidden" id="form_ii_id" />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-12">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnFreeze" style="display:none">Freeze</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnadd" style="display:none">Add</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnresetalldata" style="display:none">Reset All Data</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btndownload" style="display:none">Download PDF</button>
+                        </div>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-12">
+                        @*<hr />*@
+                        <h4 class="margin-top">Register of Deduction For Damage or Loss in Form-II Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <div id="div_tblRegisterOfdeductionInForm1">
+                                <table id="tblRegisterOfdeductionInForm1" class="table nowrap w-100"></table>
+                            </div>
+                            <div id="div_tblRegisterOfdeductionInForm12">
+                                <table id="tblRegisterOfdeductionInForm12" class="table nowrap w-100"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+                </div>
+            </div>
+        </div>
+    </div>
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/apiJS/Payroll/JsMinimumWagesCentralRulesFORMII.js?ver=@DateTime.Now.Ticks.ToString()"></script>

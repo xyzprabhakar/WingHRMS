@@ -1,0 +1,128 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employeement Type";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container no-top-margin" style="">
+                    <div class="col-md-12">
+                        <h4>Employment Status</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employment Status<i>*</i></label>
+                            <select id="ddlemptype" class="form-control">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Effective From Date<i>*</i></label>
+                            <input type="text" id="effective_dt" class="ip-ap form-control" readonly placeholder="Effective From Date" />
+                        </div>
+                    </div>
+
+
+                    <!-- approve box end -->
+                    <div class="col-md-12 text-center mt-4">
+                        <button class="btn btn-primary waves-effect waves-light" id="btn_save_emptype">Save</button>
+                    </div>
+                    <div class="clear"></div>
+                    <!--  button box end -->
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h5 class="margin-top">Employement Status Details</h5>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div id="div_tbl" class="table-responsive no-margin">
+                            <table id="tbl_emptype_dtl" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<div id="myemptypeModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+                <table id="tbl_emptype" class="table w-100 nowrap"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/CommonJs.js"></script>
+<script src="~/apiJS/Employee/JsEmploymentType.js?ver=@DateTime.Now.Ticks.ToString()"></script>

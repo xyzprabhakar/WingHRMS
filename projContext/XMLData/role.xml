@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<roles>
+  
+  <role>
+    <id>1</id>
+    <name>FullAdmin</name>
+  </role>
+
+  <role>
+    <id>2</id>
+    <name>Hr</name>
+  </role>
+  
+  <role>
+    <id>3</id>
+    <name>Account</name>
+  </role>
+
+  <role>
+    <id>4</id>
+    <name>Employee</name>
+  </role>
+  
+</roles>

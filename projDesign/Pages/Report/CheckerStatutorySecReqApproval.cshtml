@@ -1,0 +1,61 @@
+﻿@page
+@{
+    ViewData["Title"] = "CheckerStatutorySecReqApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body ">
+
+                <div class="panel">
+                    <h1> Checker's Statutory Section Requests Approval</h1>
+                    <hr />
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblReport" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div id="leave_action_div" style="display:none">
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3 text-rigth"><label>Action<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlaction_type" class="form-control">
+                                    <option value="2">--Select--</option>
+                                    <option value="0">Approve</option>
+                                    <option value="1">Reject</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="display:none">
+                            <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtremarks" class="form-control" placeholder="remark/comment.." maxlength="100" style="height:40px;resize:none;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Reports/JsCheckerStatutorySecReqApproval.js"></script>

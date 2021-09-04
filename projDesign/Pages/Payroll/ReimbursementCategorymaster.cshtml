@@ -1,0 +1,85 @@
+﻿@page
+@{
+    ViewData["Title"] = "ReimbursementCategorymaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("_ReimbursementLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin not-res">
+                    <div class="col-md-12">
+                        <h4>Reimbursement Category Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Category Name<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtCategoryMaster" class="form-control" maxlength="200" placeholder="Category Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Is Active<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlActive" class="form-control">
+                                <option value="2">--Please Select--</option>
+                                <option value="1">Active</option>
+                                <option value="0">De-Active</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+
+                        <div class="form-group text-center">
+
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Reimbursement Category</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblCategory" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Category Name</th>
+                                        <th>Is Active</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnCategory" />
+<script src="~/apiJS/Payroll/JsReimbursement.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>

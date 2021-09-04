@@ -1,0 +1,82 @@
+﻿@page
+@{
+    ViewData["Title"] = "SalarySlip";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+}
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+@*<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+</style>*@
+
+@*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>*@
+@*<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>*@
+<script src="~/js/jspdf_1_5_3.js"></script>
+
+<script src="~/js/Html2Canvas.js"></script>
+
+<div class="col-xl-12">
+   
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Salary Slips</h4><hr />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control"></select>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    @*<div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemployee" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                    @*<div class="col-md-12">
+            <h4 class="margin-top">Salary Slips</h4><hr />
+        </div>*@
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblsalaryslip" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div id="div_show_d"></div>
+                    </div>
+                    
+                    <!-- form container end -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/SalarySlip.js"></script>
+

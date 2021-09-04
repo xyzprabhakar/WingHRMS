@@ -1,0 +1,171 @@
+﻿@page
+@{
+    ViewData["Title"] = "KTTask";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        
+    }
+
+    button.tabkt.inactive {
+        background-color: #ccc;
+        color: black;
+    }
+
+    button.tabkt.active {
+        background-image: linear-gradient(to right, #902036, #4b0f17);
+        color: white;
+    }
+
+    button.tabkt {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        border-right: 1px solid #CCCCCC;
+    }
+</style>
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-9">
+                        <h4>KT Task Master</h4>
+
+                        @*<a onclick="opentabKT(2);" href="#" class="btn btn-primary float-right mt-1 mb-1" style="margin-left:10px">Upload KT File</a>
+
+            <a onclick="opentabKT(1);" href="#" class="btn btn-primary float-right mt-1 mb-1">KT Form</a>*@
+
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <button class="tabkt tablinks active" onclick=" return opentab(event, 'ktform')">KT Form</button>
+                        <button class="tabkt tablinks inactive" onclick=" return opentab(event, 'ktfile')">Upload KT File</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr />
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="description" class="col-form-label">Company<i>*</i></label>
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label">Employee (Handover By)</label>
+                                <select id="ddlEmployeeCode" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 ktfile" style="margin-top: 30px; display:none">
+                            <div class="form-group">
+                                <a id="lnk_kt_file" style="display:none" href="#" class="btn btn-success btn-lg text-right"><i class="fa fa-download"></i>Get Last Updated KT File</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <div class="form-row">
+                            <div class="tabcontent ktform">
+                                <div class="table-responsive">
+                                    <table id="tblkttask_insert" class="table table-centered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Task Name</th>
+                                                <th>Procedure</th>
+                                                <th>Mode of Handover</th>
+                                                <th>Team Members (Handover To)</th>
+                                                <th>Remarks</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td> <input id="txtTaskName" type="text" maxlength="500" class="form-control" autocomplete="off" placeholder="Task Name" /></td>
+                                                <td> <input id="txtprocedure" type="text" class="form-control" autocomplete="off" placeholder="Procedure" /></td>
+                                                <td>
+                                                    <select id="ddlmoh" class="form-control">
+                                                        <option value="0">--Select--</option>
+                                                        <option value="Online">Online</option>
+                                                        <option value="Offline">Offline</option>
+                                                        <option value="Both">Both</option>
+                                                    </select>
+                                                    @*<input id="txtModHandover" type="text" class="form-control" autocomplete="off" placeholder="Mode of Handover" />*@
+                                                </td>
+                                                <td>
+                                                    <select multiple="multiple" id="ddlemployeetype" class="form-control">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </td>
+                                                <td>  <textarea type="text" maxlength="100" class="form-control" id="txtremark" placeholder="Remark.." style="resize:none;"></textarea></td>
+                                                <td><input type="button" id="btnAdd" class="addcell" value="+" /></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row ktfile" style="display:none">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Upload KT File</label>
+                                    <input type="file" id="f_kttaskstatus" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="margin-top: 27px;">
+                                <div class="form-group">
+                                    <label class="col-form-label">&nbsp;</label>
+                                    <a href="#" class="btn btn-success btn-lg text-right " onClick="Download_KTExcelFile();"><i class="fa fa-download"></i> Download Format</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <div class=" btn-group">
+                                    <button type="button" class="btn btn-primary btn-lg ktform" id="btnsave">Save</button>
+                                    <button type="button" class="btn btn-light btn-lg ktform" id="btnupdate">Update</button>
+                                    <button type="button" style="display:none" class="btn btn-primary btn-lg ktfile" id="btnupload">Upload</button>
+                                    <button type="button" id="btnreset" class="btn btn-light btn-lg ktform">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 ktform">
+                            <h4 class="mt-4">KT Task List</h4>
+                            <hr />
+                        </div>
+
+                        <div class="col-md-12 ktform">
+                            <div class="table-responsive no-margin">
+                                <table id="tblKTTask" class="table nowrap"></table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnsno" />
+<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsKTTask.js?ver=@DateTime.Now.Ticks.ToString()"></script>

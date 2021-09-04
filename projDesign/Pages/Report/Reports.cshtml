@@ -1,0 +1,417 @@
+﻿@page
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    b, span {
+        font-size: 13px
+    }
+
+</style>
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel report-panel">
+                <div class="form-container" style="width:100%;">
+                    <div class="col-md-12">
+                        <h1>Report</h1>
+                        <hr />
+                        <div class="col-md-9">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" checked id="dlcheckbox" name="report" class="custom-control-input">
+                                    <label class="custom-control-label" for="dlcheckbox">Daily</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="mncheckbox" name="report" class="custom-control-input">
+                                    <label class="custom-control-label" for="mncheckbox">Monthly</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="dailly-report-panel report-tag no-top-margin " id="dailyreport" style="display:block;">
+
+                        <div class="report-form-inner" style=" width: auto;">
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Company</label>
+                                    <select id="ddlCompany" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Location</label>
+                                    <select id="ddllocation" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Department</label>
+                                    <select id="ddldepartment" class="form-control" title="Leave Type">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Shift</label>
+                                    <select id="ddlShift" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Form Date</label>
+                                    <input type="text" class="ip-ap form-control" autocomplete="off" id="txtFromDate" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">To Date</label>
+                                    <input type="text" class="ip-ap form-control" autocomplete="off" id="txtToDate" />
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12" style="height: 200px;">
+                            <div class="report-option-select select-rigth-panel" style="min-height:0px; max-height: none;">
+                                <div class="col-md-12"><h6>Choose Report Type</h6></div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" checked id="rptPresentReport" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptPresentReport">Present Report</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptAbsentReport" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptAbsentReport">Absent Report@*Monthly*@</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptLeaveReport" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptLeaveReport">Leave Report</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptPerformanceIndividual" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptPerformanceIndividual">Attendance Report@*Performance Individual*@</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptMispunch" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptMispunch">Mispunch</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptManualPunchReport" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptManualPunchReport">Manual Punch</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptLatePunchIn" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptLatePunchIn">Late Punch In</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptEarlyPunchOut" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptEarlyPunchOut">Early Punch Out</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="rptLocationByReport" name="reportSelect" class="custom-control-input">
+                                                <label class="custom-control-label" for="rptLocationByReport">Location By Report</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--right select panel end-->
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnViewDailyReoprt">View Report</button>
+
+                            </div>
+                        </div>
+                        <div class="report_view display w-100" id="divPresentReport">
+
+                            <div class="col-md-12"><h1>Present Report</h1></div>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblPresentReport" class="table nowrap w-100">  </table>
+                                </div>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divAbsentReport">
+
+                            <div class="col-md-12"><h1>Absent Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblAbsentReport" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divLeaveReport">
+
+                            <div class="col-md-6"><h1>Leave Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblLeaveReport" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divPerformanceDateWise">
+
+                            <div class="col-md-6"><h1>Attendance Report@*Performance Report*@</h1></div>
+
+                            <div class="clear"></div>
+                            <div class="table-responsive">
+                                <table id="tblPerformanceDateWise" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divMispunch">
+
+                            <div class="col-md-6"><h1>Mispunch Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblMispunch" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divManualPunchReport">
+
+                            <div class="col-md-6"><h1>Manual Punch Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblManualPunchReport" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divLatePunchIn">
+
+                            <div class="col-md-6"><h1>Late Punch In Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblLatePunchIn" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divEarlyPunchOut">
+                            <hr />
+                            <div class="col-md-6"><h1>Early Punch Out Report</h1></div>
+
+                            <div class="table-responsive">
+                                <table id="tblEarlyPunchOut" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+                        <div class="report_view" id="divLocationByReport">
+
+                            <div class="col-md-6"><h1>Location By Report</h1></div>
+                            @*<div class="col-md-6 text-rigth">
+                                    <button class="printbtn">print</button>
+                                </div>*@
+                            <div class="clear"></div>
+                            <div class="table-responsive">
+                                <table id="tblLocationByReport" class="table nowrap w-100"></table>
+                            </div>
+                            <!-- table responsive-->
+                        </div>
+
+                    </div>
+                    <!--daily report panel end-->
+                    <div class="monthlt-report-panel report-tag" id="monthlyreport" style="display:none;">
+
+                        <div class="col-md-12">
+                            <h4 class=" float-top">Monthly Report</h4>
+                            <hr />
+                        </div>
+                        <div class="report-form-inner" style=" width: auto;">
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Company</label>
+                                    <select id="ddlCompanyM" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Location</label>
+                                    <select id="ddllocationM" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Department</label>
+                                    <select id="ddldepartmentM" class="form-control" title="Leave Type">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Shift</label>
+                                    <select id="ddlShiftM" class="form-control">
+                                        <option value="0">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="tag-form">
+                                    <label class="col-form-label">Month</label>
+                                    <input type="text" class="ip-ap" style="display:none" readonly autocomplete="off" />
+                                    <input type="text" class="AnyTimePicker" style="display:none" readonly autocomplete="off" />
+                                    <input type="text" class="iphr" style="display:none" readonly autocomplete="off" />
+                                    <input type="text" class="form-control" readonly autocomplete="off" id="txtMonthYear" />
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
+                        </div>
+                        <!--report form inner panel end-->
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="col-md-12"><h6>Choose Report Type</h6></div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-check-inline my-1">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" checked id="rptPerformanceDetailReport" name="reportMonthlySelect" class="custom-control-input">
+                                            <label class="custom-control-label" for="rptPerformanceDetailReport">Performance Detail Report</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check-inline my-1">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="rptPerformanceSummaryReport" name="reportMonthlySelect" class="custom-control-input">
+                                            <label class="custom-control-label" for="rptPerformanceSummaryReport">Performance Summary Report</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--right select panel end-->
+
+                            <div class="col-md-12 mt-4">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary btn-lg" id="btnMonthlthlyReoprt">View Report</button>
+                                </div>
+                            </div>
+                            <div class="report_view" id="divPerformanceDetailReport">
+                                <div class="col-md-6"><h1>Performance Detail Report</h1></div>
+                                <div class="table-responsive no-margin">
+                                    <table id="tblPerformanceDetail" class="table w-100 nowrap">
+                                        <thead>
+                                            <tr></tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <!-- table responsive-->
+                            </div>
+                            <div class="report_view" id="divPerformanceSummaryReport">
+                                <div class="col-md-6"><h1>Performance Summary Report</h1></div>
+                                <div class="clear"></div>
+                                <div class="table-responsive no-margin">
+                                    <table id="tblPerformanceSummaryReport" class="table w-100 nowrap">
+                                        <thead>
+                                            <tr></tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <!-- table responsive-->
+                            </div>
+
+
+                        </div>
+                        <!--form container end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Reports/JsReports.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script>
+    $('#dlcheckbox').on('click', function () {
+        $('#monthlyreport').hide();
+        $('#dailyreport').show();
+    });
+    $('#mncheckbox').on('click', function () {
+        $('#monthlyreport').show();
+        $('#dailyreport').hide();
+    });
+</script>

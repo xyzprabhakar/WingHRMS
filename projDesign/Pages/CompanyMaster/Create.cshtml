@@ -1,0 +1,227 @@
+﻿@page
+@{
+    ViewData["Title"] = "Create New Company";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+
+           
+
+            <div class="panel company-master no-top-margin">
+
+                <h4 class=" float-left">Company Master</h4>
+
+                <a href="/CompanyMaster/View" class="btn btn-primary float-right mt-1 mb-1">View Company</a>
+                <div class="clearfix"></div>
+                <hr />
+                <form asp-controller="CompanyMaster" asp-action="Create" method="post">
+                    @*<input name="__RequestVerificationToken" type="hidden" value="CfDJ8NrAkSldwD9CpLR...LongValueHere!" />*@
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-container row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label asp-for="company_name" class="col-form-label ">Company Name<i>*</i></label>
+                                <input id="txtcompany_name" required="" tabindex="1" autofocus autocomplete="off" type="text" class="form-control  " placeholder="Company Name">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label asp-for="company_code" class="col-form-label ">Company Code</label>
+                                <input id="txtcompany_code" autocomplete="off" tabindex="2" class="form-control" type="text" placeholder="Company Code" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label asp-for="prefix_for_employee_code" class="col-form-label">Prefix For Employee Code<i>*</i></label>
+                                <input id="txtprefix_for_employee_code" tabindex="3" class="form-control" onkeyup="this.value = this.value.toUpperCase();" maxlength="4" autocomplete="off" type="text" placeholder="Prefix for employee code">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="number_of_character_for_employee_code" class="col-form-label">Number Of Character For Code<i>*</i></label>
+                                <input id="txtnumber_of_character_for_employee_code" class="form-control" tabindex="4" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text" onkeydown="OnlyNumeric(event);" minlength="1" maxlength="1" placeholder="Number Of Character for code">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label asp-for="address_line_one" class="col-form-label">Address Line 1<i>*</i></label>
+                                <textarea id="txtaddress_line_one" class="form-control" autocomplete="off" tabindex="5"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <div class="form-group">
+                                    <label asp-for="address_line_two" class="col-form-label">Address Line 2</label>
+                                    <textarea id="txtaddress_line_two" class="form-control" autocomplete="off" tabindex="6"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="country" class="col-form-label"> Country <i>*</i></label>
+
+                                <select id="ddlcountry" tabindex="7" class="form-control">
+                                    <option value="">Select Country</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="state" class="col-form-label">State<i>*</i></label>
+
+                                <select id="ddlstate" tabindex="8" class="form-control">
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="city" class="col-form-label">City<i>*</i></label>
+                                <select id="ddlcity" tabindex="9" class="form-control">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="pin_code" class="col-form-label">Pin Code<i>*</i></label>
+                                <input id="txtpin_code" tabindex="10" type="text" class="form-control" onkeydown="OnlyNumeric(event);" autocomplete="off" placeholder="PIN Code" minlength="6" maxlength="6">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="primary_email_id" class="col-form-label">Email Id (Primary)<i>*</i></label>
+                                <input id="txtprimary_email_id" tabindex="11" class="form-control" type="text" autocomplete="off" maxlength="50" placeholder="Email id (primary) " onchange="return ValidEmailId('txtprimary_email_id');">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="primary_contact_number" class="col-form-label">Primary Contact No<i>*</i></label>
+                                <input id="txtprimary_contact_number" class="form-control" tabindex="13" onkeydown="OnlyNumeric(event);" onkeypress="return event.charCode >= 48 && event.charCode <= 57;validate(event)" type="text" autocomplete="off" placeholder="Contact No" minlength="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="secondary_email_id" class="col-form-label">Email Id (Secondary)</label>
+                                <input id="txtsecondary_email_id" tabindex="12" class="form-control" type="text" autocomplete="off" placeholder="Email id (Secondary)" onchange="return ValidEmailId('txtsecondary_email_id');">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="secondary_contact_number" class="col-form-label">Secondary Contact No</label>
+                                <input id="txtsecondary_contact_number" tabindex="14" class="form-control" onkeydown="OnlyNumeric(event);" onkeypress="return event.charCode >= 48 && event.charCode <= 57;validate(event)" type="text" autocomplete="off" placeholder="Contact No"  minlength="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6" style="display:none">
+                            <div class="col-md-6 text-rigth"><label asp-for="is_emp_code_manual_genrate">Employee  Code Is Manual</label></div>
+                            <div class="col-md-6">
+                                <label class="checkmark-container">
+                                    <input type="checkbox" id="is_emp_code_manual_genrate" name="is_emp_code_manual_genrate" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="company_website" class="col-form-label">Website (Please exclude http)</label>
+                                <input id="txtcompany_website" type="url" class="form-control" tabindex="15" autocomplete="off" placeholder="Website" onchange="return ValidateURL('txtcompany_website');">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="company_logo" class="col-form-label">Profile Image</label>
+
+                                <label id="#bb" class="col-form-label" tabindex="16">
+                                    Upload Logo
+                                </label>
+
+                                <input id="File1" type="file" class="form-control">
+
+                                <label id="lbl_file_name"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label class=" mb-0 ">Status</label>
+                                <div class="clear"></div>
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_active" type="radio" tabindex="17" checked="checked" value="active" name="Status">
+                                        <label class="custom-control-label" for="is_active">  Active</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_in_active" type="radio" tabindex="18" value="Inactive" name="Status">
+                                        <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="clear"></div>
+                      
+                        <div class="col-md-12 ">
+
+                            <div class="form-group text-center">
+
+
+                                <div class=" btn-group">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnSave">Save</button>
+                                    <button type="button" class="btn btn-light btn-lg" id="btnUpdate">Update</button>
+                                    <button type="button" id="btnReset" class="btn btn-light btn-lg">Reset</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <input type="hidden" id="HFb64" />
+                    <input type="hidden" id="hdnCompany_Id" />
+                    <input type="hidden" id="hdnCompany_logo" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/popup.js"></script>
+<script src="~/apiJS/CompanyMaster/JsCompanyMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

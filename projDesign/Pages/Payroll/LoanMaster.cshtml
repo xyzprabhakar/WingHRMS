@@ -1,0 +1,138 @@
+﻿@page
+@model projDesign.Pages.Payroll.LoanMasterModel
+@{
+    ViewData["Title"] = "LoanMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        
+                        <h4>Loan Master</h4>
+                       <hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Rate Of Interest<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtroi" class="form-control" maxlength="2" placeholder="Basic rate of interest" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Min.working days<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtminworkdays" class="form-control" maxlength="2" placeholder="Min work days" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Max Loan<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="maxloan" class="form-control" maxlength="12" placeholder="Max Loan Limit" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">No. Of Tenure<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="nooftenure" class="form-control" maxlength="2" placeholder="No of tenure" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Emp Status<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlempstatus"  class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Temporary</option>
+                                <option value="2">Permanent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Effective from <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txteffdate" class="form-control" maxlength="10" placeholder="Effective Date" onkeydown="return false;" />
+                        </div>
+                    </div>
+                  
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-form-label mb-0 ">Status <i>*</i></label>
+                            </div>
+                          
+                            <div class="col-md-6">
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                        <label class="custom-control-label" for="is_active">  Active</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                        <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Loan Master List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="loanmstr" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>From</th>
+                                        <th>Rate Of Interest</th>
+                                        <th>Min.working days</th>
+                                        <th>Max Loan</th>
+                                        <th>No. Of Tenure</th>
+                                        <th>Employee Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Payroll/Loanmaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

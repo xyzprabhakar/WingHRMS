@@ -1,0 +1,207 @@
+﻿@page
+@{
+    ViewData["Title"] = "LeaveSettingDetail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+
+                <div class="form-container master-panel">
+
+                    <div class="col-md-12">
+
+                        <h4 class="float-left">Leave Setting</h4>
+                        <a href="/Leave/AddLeaveSetting" class="addBTN btn btn-primary float-right " title="Add new record"> Add Leave Setting </a>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    @*<div class="col-md-12">
+                            <div class="tab-link float-left">
+                                <ul class="list-inline form-inline">
+                                    <li id="leavemaster"><a href="/Masters/AddLeaveType" class="mr-3 btn btn-outline-light">Leave Master</a></li>
+                                    <li id="leavesetting"><a href="/Leave/LeaveSettingDetail" class="btn btn-primary">Leave Settings</a></li>
+                                </ul>
+
+                            </div>
+                            <div class="text-rigth">
+                                <a href="/Leave/AddLeaveSetting" class="addBTN btn btn-primary float-right" title="Add new record">Add Leave Setting </a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr />
+                        </div>*@
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblleave" class="table"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnid" />
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            
+
+            var token = localStorage.getItem('Token');
+
+            if (token == null) {
+                window.location = '/Login';
+            }
+
+            var emp_role_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_role_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+            //if (emp_role_id == "1")
+            //{
+            //$('#leavemaster').show();
+            //$('#leavemaster').attr("class", "");
+            //$('#leavesetting').attr("class", "active");
+            //}
+            //else {
+            //    $('#leavemaster').show();
+            //    $('#leavesetting').attr("class", "active");
+            //   // window.location.href = "/Leave/LeaveSettingDetail";
+            //}
+
+            GetData();
+
+        }, 2000);// end timeout
+
+    });
+
+    //--------bind data in jquery data table
+    function GetData() {
+        // debugger;
+        var emp_role_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_role_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+        var company_idd = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+        var apiurl = "";
+
+        if (emp_role_id == "2")//For Admin
+        {
+            apiurl = localStorage.getItem("ApiUrl") + "/apiLeave/Gettbl_leave_infoByCompID/" + company_idd;
+        }
+        else {
+            apiurl = localStorage.getItem("ApiUrl") + 'apiLeave/0';
+        }
+
+        $.ajax({
+            type: "GET",
+            url: apiurl,
+            data: {},
+            dataType: "json",
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            contentType: 'application/json; charset=utf-8',
+            success: function (res) {
+                // debugger;
+
+                if (res.statusCode != undefined) {
+                    messageBox("error", res.message);
+                    $("#loader").hide();
+                    return false;
+                }
+
+                $("#tblleave").DataTable({
+                    "processing": true, // for show progress bar
+                    "serverSide": false, // for process server side
+                    "bDestroy": true,
+                    "filter": true, // this is for disable filter (search box)
+                    "orderMulti": false, // for disable multiple column at once
+                    //"scrollY": 200,
+                    "aaData": res,
+                    "columnDefs":
+                        [
+                            {
+                                targets: [1],
+                                render: function (data, type, row) {
+                                    return data == '1' ? 'Paid' : 'UnPaid'
+                                }
+                            },
+                            {
+                                targets: [3],
+                                render: function (data, type, row) {
+
+                                    var date = new Date(data);
+                                    return GetDateFormatddMMyyyy(date);
+                                }
+
+                            },
+                            {
+                                targets: [4],
+                                render: function (data, type, row) {
+
+                                    var date = new Date(data);
+                                    return GetDateFormatddMMyyyy(date);
+                                }
+                            },
+                            {
+                                targets: [5],
+                                render: function (data, type, row) {
+
+                                    return data == '1' ? 'Active' : 'InActive'
+                                },
+                                "class": "text-center",
+
+                            },
+                            {
+                                targets: [5],
+                                "class": "text-center",
+
+                            }
+                        ],
+
+                    "columns": [
+                        { "data": null, "name": "sno", "title": "S.No.", "autoWidth": true },
+                        { "data": "leave_type", "name": "leave_type", "title": "Leave Type", "autoWidth": true },
+                        { "data": "leave_type_name", "name": "leave_type_name", "title": "Type Name", "autoWidth": true },
+                        { "data": "leave_tenure_from_date", "name": "leave_tenure_from_date", "title": "From Date", "autoWidth": true },
+                        { "data": "leave_tenure_to_date", "name": "leave_tenure_to_date", "title": "To Date", "autoWidth": true },
+                        { "data": "status", "name": "status", "title": "Status", "autoWidth": true },
+                        {
+                            "title": "Action", "autoWidth": true,
+                            "render": function (data, type, full, meta) {
+
+                                // return '<a href="#" onclick="GetEditData(' + full.leaveinfoid + ')" ><i class="fa fa-pencil-square-o"></i></a>';
+                                return '<a href="/Leave/AddLeaveSetting?id=' + full.leave_info_id + '" ><i class="fa fa-pencil-square-o"></i></a>';
+
+                            }
+                        }
+                        //{
+                        //    "render": function (data, type, full, meta) {
+                        //        return '<a href="#" id="A1" onclick="DeleteData(' + full.leaveinfoid + ')" ><i class="fa fa-trash"></i></a>';
+
+                        //    }
+                        //}
+                    ],
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                        $("td:nth-child(1)", nRow).html(iDisplayIndex + 1);
+                        return nRow;
+                    },
+                    "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
+
+                });
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+
+    }
+</script>

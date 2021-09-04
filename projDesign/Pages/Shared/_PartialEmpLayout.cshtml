@@ -1,0 +1,104 @@
+﻿@*<nav class="payroll-nav bg-purple shadow-sm bg-white rounded ">
+
+
+
+
+
+        <ul class="metismenu " id="menu2">
+
+            <li><a href="CreateUser">Create New Employee</a></li>
+            <li><a href="OfficaialSection">Official Section</a></li>
+            <li><a href="ShiftAllocation">Shift Allocation</a></li>
+            <li><a href="WeekOff">Week Off</a></li>
+            <li><a href="GradeAllocation">Grade Allocation</a></li>
+            <li><a href="DesignationAllocation">Designation Allocation</a></li>
+            <li><a href="ManagerAllocation">Manager Allocation</a></li>
+            <li><a href="PersonalDetails">Personal Details</a></li>
+            <li><a href="QualificationSection">Qualification Section</a></li>
+            <li><a href="FamilySection">Family Section</a></li>
+            <li><a href="HealthCard">Health Card</a></li>
+            <li><a href="MaintainDocuments">Maintain Documents</a></li>
+            <li><a href="EmployeementTypeMaster">Employment Type</a></li>
+
+        </ul>
+    </nav>*@
+
+
+
+
+<style>
+    #ddlemp_chosen {
+        width: 100% !important;
+    }
+</style>
+
+
+
+
+
+<div class="card">
+    <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+        <ul class="metismenu " id="menu2">
+            <li><a href="/Employee/CreateUser"><i class="fa fa-user"></i>Create </a></li>
+            <li>
+                <a href="#" class="has-arrow"><i class="fa fa-user-tie"></i> Sections</a>
+                <ul>
+                    <li> <a href="/Employee/OfficaialSection">Official</a> </li>
+                    <li><a href="/Employee/QualificationSection">Qualification</a></li>
+                    <li><a href="/Employee/FamilySection">Family</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/Employee/Allocation"><i class="fa fa-user-check"></i> Allocations </a>
+            </li>
+            @*<li>
+                    <a href="#" class="has-arrow"><i class="fa fa-users-cog"></i> Allocations</a>
+                    <ul>
+                        <li><a href="/Employee/ShiftAllocation">Shift</a></li>
+                        <li><a href="/Employee/WeekOff">Week Off</a></li>
+                        <li><a href="/Employee/GradeAllocation">Grade Allocation</a></li>
+                        <li><a href="/Employee/DesignationAllocation">Designation</a></li>
+                        <li><a href="/Employee/ManagerAllocation">Manager</a></li>
+                    </ul>
+                </li>*@
+            <li>
+                <a href="/Employee/PersonalDetails"><i class="fa fa-user-check"></i> Personal Details </a>
+            </li>
+            <li>
+                <a href="/Employee/HealthCard"><i class="fa fa-user-md"></i> Health Card </a>
+            </li>
+            <li>
+                <a href="/Employee/MaintainDocuments"><i class="fa fa-folder-open"></i> Maintain Documents </a>
+            </li>
+
+            <li>
+                <a href="/Employee/EmploymentType"><i class="fa fa-user-tag"></i> Employee Status</a>
+            </li>
+
+            @*<li>
+                    <a href="/Employee/EmploymentType"><i class="fa fa-user-tag"></i> Employment Type</a>
+                </li>*@
+
+            <li>
+                <a href="/Employee/WorkingRoleAllocation"><i class="fa fa-users-cog"></i> Working Role</a>
+            </li>
+
+            <li>
+                <a href=""><i class="far fa-id-card"></i> Statutory</a>
+                <ul>
+                    <li> <a href="/Employee/UANDetails">PF, Esic</a> </li>
+                    <li><a href="/Employee/AccountDetails">Account Details</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="/Employee/BulkUpload"><i class="fa fa-upload"></i> Bulk Upload</a>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>
+
+<div class="clearfix"></div>

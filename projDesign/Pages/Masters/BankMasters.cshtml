@@ -1,0 +1,68 @@
+﻿@page
+@{
+    ViewData["Title"] = "Bank Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card ">
+            <div class="card-body">
+                <h4>Bank Master</h4>
+                <hr />
+             
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class="col-form-label" for="txtdesignation">Bank Name<i>*</i></label>
+                            <input id="txtbankname" type="text" class="form-control col-lg-8" autocomplete="off" placeholder="Bank Name" onkeyup="this.value = this.value.toUpperCase();" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label class=" mr-4 col-form-label">Status</label>
+                            <div class="">
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                        <label class="custom-control-label" for="is_active">  Active</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                        <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class=" btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Bank Master List</h4>
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_bankmaster" class="table w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnbank_id" />
+<script src="~/apiJS/Masters/JsBankMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

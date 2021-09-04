@@ -1,0 +1,356 @@
+﻿@page
+@{
+    ViewData["Title"] = "PersonalDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<script>
+        $(document).ready(function () {
+
+            var employee_id = localStorage.getItem('new_employee_id');
+
+            var default_company = localStorage.getItem('new_default_company');
+
+            if (default_company == null && employee_id == null) {
+                window.location.href = '/Employee/CreateUser';
+            }
+        }
+    </script>*@
+
+<div class="col-xl-12">
+    <div class="panel">
+
+        @Html.Partial("PartialEmpProfileLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="panel no-top-margin">
+                    <div class="form-container personal-employee-details">
+                        <div class="col-md-12">
+                            <h4>Personal Details</h4><hr />
+                        </div>
+
+                        <div class="tabs-container" id="c2" style="display:block;">
+
+                            <div class="col-md-6">
+                                <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                                <div class="col-md-8">
+                                    <select id="ddlCompany" class="form-control bg-light" disabled>
+                                        <option value="0">--Please Select--</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4"><label class="col-form-label">Employee Code</label></div>
+                                <div class="col-md-8"><select id="ddlEmployeeCode" class="form-control bg-light"></select></div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label id="lbl_blood_group" class="col-form-label">Blood Group<i>*</i></label></div>
+                                <div class="col-md-8">
+
+                                    <select id="blood_group" class="form-control">
+                                        <option value="">Select Blood Group</option>
+                                        <option value="1">A+</option>
+                                        <option value="2">O+</option>
+                                        <option value="3">B+</option>
+                                        <option value="4">AB+</option>
+                                        <option value="5">A-</option>
+                                        <option value="6">O-</option>
+                                        <option value="7">B-</option>
+                                        <option value="8">AB-</option>
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label class="col-form-label">Blood Group Doc.</label></div>
+                                <div class="col-md-8">
+                                    <input type="file" id="blood_group_doc" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4"><label id="lbl_primary_mobile_no" class="col-form-label">Primary Mobile No<i>*</i></label></div>
+                                <div class="col-md-8">
+
+                                    <input type="text" id="primary_contact_number" class="form-control" autocomplete="off" maxlength="10" placeholder="Primary Mobile No" onchange="return ValidNA_MobNo('primary_contact_number');" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4"><label id="lbl_secondary_mobile_no" class="col-form-label">Secondary Mob No</label></div>
+                                <div class="col-md-8">
+                                    <input type="text" id="secondary_contact_number" class="form-control" autocomplete="off" maxlength="10" placeholder="Secondary Mobile No" onchange="return ValidNA_MobNo('secondary_contact_number');" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label id="lbl_primary_email_id" class="col-form-label">Primary Email Id<i>*</i></label></div>
+                                <div class="col-md-8">
+
+                                    <input type="text" class="form-control" autocomplete="off" id="primary_email_id" maxlength="50" placeholder="Primary Email Id" onchange="return ValidNA_EmailId('primary_email_id');" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label id="lbl_secondary_email_id">Secondary Email Id</label></div>
+                                <div class="col-md-8">
+                                    <input type="text" id="secondary_email_id" class="form-control" maxlength="50" placeholder="Secondary Email Id" onchange="return ValidNA_EmailId('secondary_email_id');" />
+                                </div>
+                            </div>
+
+
+
+                            <!-- Accounts panel End -->
+                            <!-- address panel start -->
+                            <div class="col-md-12">
+
+                                <h4 class="header-title mt-4 card-header mb-4">Permanent Address</h4>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-4"><label id="lbl_permanent_address_line1" class="col-form-label">Line 1<i>*</i></label></div>
+                                <div class="col-md-8"><textarea id="permanent_address_line_one" class="form-control" autocomplete="off" placeholder="Permanent Address"></textarea></div>
+
+                                <div class="col-md-4 mt-1"><label id="lbl_permanent_address_line2" class="col-form-label">Line 2</label></div>
+                                <div class="col-md-8 mt-1"><textarea id="permanent_address_line_two" class="form-control" autocomplete="off" placeholder="Permanent Address"></textarea></div>
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-2"><label id="lbl_country" class="col-form-label">Country<i>*</i></label></div>
+                                <div class="col-md-4"><select id="permanent_country" class="form-control"><option>Select Country</option></select></div>
+
+
+                                <div class="col-md-2"><label id="lbl_state" class="col-form-label">State<i>*</i></label></div>
+                                <div class="col-md-4"><select id="permanent_state" class="form-control"><option>Select State</option></select></div>
+
+
+
+
+                                <div class="col-md-2 mt-1"><label id="lbl_city" class="col-form-label">City<i>*</i></label></div>
+                                <div class="col-md-4 mt-1"><select id="permanent_city" class="form-control"><option>Select City</option></select></div>
+
+
+                                <div class="col-md-2"><label id="lbl_pincode" class="col-form-label">Pin Code<i>*</i></label></div>
+                                <div class="col-md-4"><input type="text" class="form-control" id="permanent_pin_code" maxlength="6" placeholder="Pin Code" onchange="return ValidNA_INT('permanent_pin_code');" /></div>
+
+                                <div class="col-md-12">
+                                    <label class="col-form-label">Types of document</label>
+                                    <textarea id="permanent_document_type" class="form-control" autoComplete="off" placeholder="Permanent Document Type"></textarea>
+
+
+                                </div>
+
+                            </div>
+
+                            <!-- address panel end -->
+                            <!-- address panel two start -->
+                            <div class="col-md-12">
+                                <h4 class="header-title mt-3 card-header mb-3">Corresponding Address</h4>
+
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="checkbox my-2">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="SameAsPermanentAddress" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                        <label class="custom-control-label" for="SameAsPermanentAddress">Same as permanent address</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+
+
+
+                                <div class="col-md-4"><label id="lbl_corresponding_address_line1" class="col-form-label">Line 1<i>*</i></label></div>
+                                <div class="col-md-8"><textarea id="corresponding_address_line_one" class="form-control" placeholder="Corresponding Address"></textarea></div>
+
+
+                                <div class="col-md-4 mt-1"><label id="lbl_corresponding_address_line2" class="col-form-label">Line 2</label></div>
+                                <div class="col-md-8 mt-1"><textarea id="corresponding_address_line_two" class="form-control" placeholder="Corresponding Address"></textarea></div>
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-2 "><label id="lbl_corresponding_country" class="col-form-label">Country<i>*</i></label></div>
+                                <div class="col-md-4"><select id="corresponding_country" class="form-control"><option>Select Country</option></select></div>
+
+
+                                <div class="col-md-2"><label id="lbl_corresponding_state" class="col-form-label">State<i>*</i></label></div>
+                                <div class="col-md-4"><select class="form-control" id="corresponding_state"><option>Select State</option></select></div>
+
+
+
+
+                                <div class="col-md-2"><label id="lbl_corresponding_city" class="col-form-label">City<i>*</i></label></div>
+                                <div class="col-md-4"><select id="corresponding_city" class="form-control"><option>Select City</option></select></div>
+
+
+                                <div class="col-md-2"><label id="lbl_corresponding_pincode" class="col-form-label">Pin Code<i>*</i></label></div>
+                                <div class="col-md-4"><input type="text" id="corresponding_pin_code" class="form-control" maxlength="6" placeholder="Pin Code" onchange="return ValidNA_INT('corresponding_pin_code');" /></div>
+
+                                <div class="col-md-12">
+                                    <label class="col-form-label">Types of document</label>
+                                    <textarea class="form-control" id="corresponding_document_type" placeholder="Corresponding Document Type" autoComplete="off"></textarea>
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- address  panel two end -->
+                            <!-- address panel three start -->
+                            <div class="col-md-12">
+                                <h4 class="header-title card-header mt-3 mb-3">Emergency Contact    </h4>
+                            </div>
+                            <div class="col-md-12 ">
+
+                                <div class="col-md-1 "><label id="lbl_emergency_name" class="col-form-label">Name<i>*</i></label></div>
+                                <div class="col-md-3"><input type="text" id="emergency_contact_name" class="form-control" placeholder="Name" onkeypress="return IsAlphabet(event);" /></div>
+
+                                <div class="col-md-1"><label id="lbl_emergency_relation" class="col-form-label">Relation<i>*</i></label></div>
+                                <div class="col-md-3">
+                                    <select id="emergency_contact_relation" class="form-control"></select>
+
+                                </div>
+
+                                @*<div class="col-md-9"><input type="text" id="emergency_contact_relation" placeholder="Relation" onkeypress="return IsAlphabet(event);" /></div>*@
+
+                                <div class="col-md-1 "><label id="lbl_emergency_mobile" class="col-form-label">Mobile No<i>*</i></label></div>
+                                <div class="col-md-3"><input type="text" class="form-control" id="emergency_contact_mobile_number" maxlength="10" placeholder="Mobile No" onchange="return ValidNA_MobNo('emergency_contact_mobile_number');" /> </div>
+
+
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <div class="col-md-12">
+                                    <div class="radio my-2">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="chkSameAsPermanentAddressEmer" name="radioenquery" class="custom-control-input">
+                                            <label class="custom-control-label" for="chkSameAsPermanentAddressEmer">Same as permanent address</label>
+                                        </div>
+                                    </div>
+                                    <div class="radio my-2">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="chkSameAsCorrespondingAddressEmer" name="radioenquery" class="custom-control-input">
+                                            <label class="custom-control-label" for="chkSameAsCorrespondingAddressEmer">Same as Corresponding address</label>
+                                        </div>
+                                    </div>
+                                    <div class="radio my-2">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="chkOtherAddressEmer" name="radioenquery" class="custom-control-input" disabled>
+                                            <label class="custom-control-label" for="chkOtherAddressEmer">Other Address</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4"><label id="lbl_emergency_contact_line1" class="col-form-label">Line 1</label></div>
+
+                                <div class="col-md-8"><input type="text" class="form-control" id="emergency_contact_line_one" autocomplete="off" placeholder="Emergency Contact Address" /></div>
+
+
+                                <div class="col-md-4 mt-1"><label id="lbl_emergency_contact_line2" class="col-form-label">Line 2</label></div>
+                                <div class="col-md-8 mt-1"><input type="text" class="form-control" id="emergency_contact_line_two" autocomplete="off" placeholder="Emergency Contact Address" /></div>
+
+                                <div class="col-md-3" style="display:none"><label>Upload address proof</label></div>
+                                <div class="col-md-9" style="display:none"><label><img id="emergency_contact_address_proof_documentimg" style="width: 120%;height: 130px;" /></label></div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-2 "><label id="lbl_emergency_contact_country" class="col-form-label">Country</label></div>
+                                <div class="col-md-4"><select class="form-control" id="emergency_contact_country"><option>Select Country</option></select></div>
+
+
+                                <div class="col-md-2"><label id="lbl_emergency_contact_state" class="col-form-label">State</label></div>
+                                <div class="col-md-4"><select id="emergency_contact_state" class="form-control"><option>Select State</option></select></div>
+
+
+
+
+                                <div class="col-md-2 mt-1"><label id="lbl_emergency_contact_city" class="col-form-label">City</label></div>
+                                <div class="col-md-4 mt-1"><select id="emergency_contact_city" class="form-control"><option>Select City</option></select></div>
+
+
+                                <div class="col-md-2 mt-1"><label id="lbl_emergency_contact_pincode" class="col-form-label">Pin Code</label></div>
+                                <div class="col-md-4 mt-1"><input type="text" maxlength="6" class="form-control" id="emergency_contact_pin_code" placeholder="Pin Code" onchange="return ValidNA_INT('emergency_contact_pin_code');" /></div>
+
+                                <div class="col-md-12">
+                                    <label class="col-form-label">Types of document</label>
+                                    <textarea id="emergency_contact_document_type" class="form-control" autocomplete="off" placeholder="Emergency Document Type"></textarea>
+
+                                </div>
+
+
+                            </div>
+                            <!-- address  panel three end -->
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 text-center ">
+                                <hr />
+                                <button class="btn btn-primary waves-effect waves-light" id="btnSavePersonalDetails">Save</button>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<input type="hidden" id="HFb64pan_card_name" />
+    <input type="hidden" id="HFb64aadha_card_image" />
+    <input type="hidden" id="HFb64blood_group_doc" />
+    <input type="hidden" id="HFb64permanent_address_proof_document" />
+    <input type="hidden" id="HFb64corresponding_address_proof_document" />
+    <input type="hidden" id="HFb64emergency_contact_address_proof_document" />
+
+    <input type="hidden" id="hdnpan_card_image" />
+    <input type="hidden" id="hdnaadha_card_image" />
+    <input type="hidden" id="hdnblood_group_doc" />
+    <input type="hidden" id="hdnpermanent_address_proof_document" />
+    <input type="hidden" id="hdncorresponding_address_proof_document" />
+    <input type="hidden" id="hdnemergency_contact_address_proof_document" />*@
+
+<input type="hidden" id="HFb64upload_dtl" />
+
+<script src="~/apiJS/EmployeeProfile/JsPersonalDetails.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+@*<script src="~/apiJS/Employee/JsPersonalDetails.js"></script>*@
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>

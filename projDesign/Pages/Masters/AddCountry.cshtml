@@ -1,0 +1,384 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddCountry";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                @*<div class="text-rigth">
+                        <a href="#" class="addBTN">Add Country <span class="fa fa-plus"></span></a>
+                    </div>*@
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Add Country Master</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Country Name</label>
+                            <input type="text" id="txtcountryname" maxlength="50" autocomplete="off" placeholder="Country Name" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Short Name</label>
+                            <input type="text" id="txtshortname" autocomplete="off" placeholder="Short Name" maxlength="3" class="form-control" style="text-transform:uppercase">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Country List</h4>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblcountry" class="table nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Country Name</th>
+                                        <th>Short Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <input type="hidden" id="hdnid" />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#loader').show();
+    var login_emp_id;
+    $(document).ready(function () {
+        setTimeout(function () {
+            
+
+            // GenerateGuiID();
+            var token = localStorage.getItem('Token');
+
+            if (token == null) {
+                window.location = '/Login';
+            }
+
+            GetData();
+            $('#btnupdate').hide();
+            $('#btnsave').show();
+
+            login_emp_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+
+            $('#loader').hide();
+
+        }, 2000);// end timeout
+
+    });
+
+    $('#btnreset').bind('click', function () {
+        //$("#txtcountryname").val('');
+        //$("#txtshortname").val('');
+        location.reload();
+    });
+
+    $('#btnsave').bind("click", function () {
+        // debugger;
+
+        var headers = {};
+        headers["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headers["salt"] = $("#hdnsalt").val();
+
+        var CountryName = $("#txtcountryname").val();
+        var ShortName = $("#txtshortname").val().toUpperCase();
+
+        if (CountryName == "" || CountryName == null) {
+            messageBox("error", "Plese enter country name");
+            return false;
+        }
+
+        if (ShortName == "" || ShortName == null) {
+            messageBox("error", "Please enter short name");
+            return false;
+        }
+
+        var myData = {
+
+            CountryName: CountryName,
+            ShortName: ShortName,
+            created_by: login_emp_id
+        };
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/SaveCountry/';
+        var obj = JSON.stringify(myData);
+        $('#loader').show();
+        $.ajax({
+            url: apiurl,
+            type: "POST",
+            data: obj,
+            dataType: "json",
+            contentType: "application/json",
+            headers: headers,
+            // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            success: function (data) {
+                // debugger;
+                // var resp = JSON.parse(data);
+                _GUID_New();
+                var statuscode = data.statusCode;
+                var Msg = data.message;
+
+                if (statuscode == "0") {
+                    $("#txtcountryname").val('');
+                    $("#txtshortname").val('');
+                    $("#hdnid").val('');
+                    GetData();
+                    $('#btnupdate').hide();
+                    $('#btnsave').show();
+                    $("btnupdate").text('Update').attr("disabled", false);
+                    $('#loader').hide();
+                    messageBox("success", Msg);
+                    // alert(Msg);
+
+                    // location.reload();
+                }
+                else if (statuscode == "1" || statuscode == '2') {
+                    alert(Msg);
+                    $('#loader').hide();
+                }
+            },
+            error: function (request, status, error) {
+                _GUID_New();
+                $('#loader').hide();
+                var error = "";
+                var errordata = JSON.parse(request.responseText);
+                try {
+                    var i = 0;
+                    while (Object.keys(errordata).length > i) {
+                        var j = 0;
+                        while (errordata[Object.keys(errordata)[i]].length > j) {
+                            error = error + "\r\n  * " + errordata[Object.keys(errordata)[i]][j] + "</br>";
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                    }
+
+                } catch (err) { }
+                messageBox("error", error);
+
+            }
+
+        });
+    });
+
+    //--------bind data in jquery data table
+    function GetData() {
+        // debugger;
+
+        var countryid = $("#hdnid").val();
+        countryid = countryid == '' || countryid == 'undefined' ? 0 : countryid;
+
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/GetCountryList/' + countryid;
+
+        $.ajax({
+            type: "GET",
+            url: apiurl,
+            data: {},
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            // headers: headers,
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            success: function (res) {
+                // debugger;
+                $("#tblcountry").DataTable({
+                    "processing": true, // for show progress bar
+                    "serverSide": false, // for process server side
+                    "bDestroy": true,
+                    "filter": true, // this is for disable filter (search box)
+                    "orderMulti": false, // for disable multiple column at once
+                    "scrollY": 150,
+                    "aaData": res,
+                    "columnDefs":
+                        [{
+
+                        }],
+
+                    "columns": [
+                        { "data": "country_id", "name": "country_id", "autoWidth": true },
+                        { "data": "name", "name": "name", "autoWidth": true },
+                        { "data": "sort_name", "name": "sort_name", "autoWidth": true },
+                        {
+                            "render": function (data, type, full, meta) {
+                                return '<a href="#" onclick=EditData("' + full.country_id + '"); data-toggle="tooltip" title="Edit Record !" ><i class="fa fa-pencil-square-o"></i></a>';
+                            }
+                        }
+                    ],
+                    "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
+
+                });
+            },
+            error: function (error) {
+
+                $('#loader').hide();
+                messageBox("error", error.responseText);
+                //alert(error.responseText);
+            }
+        });
+
+    }
+
+    function EditData(countryid) {
+        // debugger;
+
+        //var objd = data.split(',');
+        //var countryid = objd[0];
+        //var countryname = objd[1];
+        //var shortname = objd[2];
+
+
+        if (countryid != null && countryid != "undefined") {
+            var myData = {
+                'CountryId': countryid
+            };
+            var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/GetCountryList/' + countryid;
+            $('#loader').show();
+            $.ajax({
+                type: "GET",
+                url: apiurl,
+                data: {},
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+                success: function (res) {
+                    // res = res["data"];
+                    $('#hdnid').val(res[0].country_id);
+                    $("#txtcountryname").val(res[0].name);
+                    $("#txtshortname").val(res[0].sort_name);
+                    $('#btnupdate').show();
+                    $('#btnsave').hide();
+                    $('#loader').hide();
+                },
+                error: function (err) {
+                    $('#loader').hide();
+                    messageBox("error", err.responseText);
+
+                }
+            });
+        }
+        else {
+            alert('There some problem to process this request !!');
+        }
+    }
+
+    //-------update country data
+    $("#btnupdate").bind("click", function () {
+        // debugger;
+        $('#btnupdate').val('Please wait..').prop("disabled", true);
+        var CountryName = $("#txtcountryname").val();
+        var ShortName = $("#txtshortname").val().toUpperCase();
+        var CountryId = $('#hdnid').val();
+
+        if (CountryName == "" || CountryName == null) {
+            messageBox("error", "Plese enter country name");
+            return false;
+        }
+
+        if (ShortName == "" || ShortName == null) {
+            messageBox("error", "Please enter short name");
+            return false;
+        }
+
+
+        var myData = {
+
+            'CountryName': CountryName,
+            'ShortName': ShortName,
+            'CountryId': CountryId,
+            'created_by': login_emp_id
+        };
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/UpdateCountry';
+        var obj = JSON.stringify(myData);
+
+        var headers = {};
+        headers["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headers["salt"] = $("#hdnsalt").val();
+        $('#loader').show();
+        $.ajax({
+            url: apiurl,
+            type: "POST",
+            data: obj,
+            dataType: "json",
+            contentType: "application/json",
+            headers: headers,
+            success: function (data) {
+                // debugger;
+                // var resp = JSON.parse(data);
+                _GUID_New();
+                var statuscode = data.statusCode;
+                var Msg = data.message;
+                $('#btnupdate').val('Update').prop("disabled", false);;
+                if (statuscode == "0") {
+                    $("#txtcountryname").val('');
+                    $("#txtshortname").val('');
+                    $("#hdnid").val('');
+                    GetData();
+                    $('#btnupdate').hide();
+                    $('#btnsave').show();
+                    $("btnupdate").text('Update').attr("disabled", false);
+                    $('#loader').hide();
+                    messageBox("success", Msg);
+
+                    // alert(Msg);
+
+                    //location.reload();
+                }
+                else if (statuscode == "1" || statuscode == '2') {
+                    messageBox("error", Msg);
+                }
+                $('#loader').hide();
+            },
+            error: function (request, status, error) {
+                _GUID_New();
+                $('#loader').hide();
+                $('#btnupdate').val('Update').prop("disabled", false);
+                var error = "";
+                var errordata = JSON.parse(request.responseText);
+                try {
+                    var i = 0;
+                    while (Object.keys(errordata).length > i) {
+                        var j = 0;
+                        while (errordata[Object.keys(errordata)[i]].length > j) {
+                            error = error + "\r\n  * " + errordata[Object.keys(errordata)[i]][j] + "</br>";
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                    }
+
+                } catch (err) { }
+
+                messageBox("error", error);
+            }
+
+        });
+    });
+
+
+</script>

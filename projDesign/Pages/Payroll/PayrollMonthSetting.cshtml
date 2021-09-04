@@ -1,0 +1,72 @@
+﻿@page
+@{
+    ViewData["Title"] = "PayrollMonthSetting";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="panel ">
+    <h1>Payroll Month Setting</h1>
+    <hr />
+    <div class="form-container master-panel desination-panel">
+        <div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label asp-for="description">Company</label></div>
+            <div class="col-md-6">
+                <select id="ddlcompany">
+                    <option value="0">--Select--</option>
+                </select>
+            </div>
+        </div>       
+        <div class="col-md-6">
+            <div class="col-md-3 text-rigth"><label asp-for="ipaddress">From <i>*</i></label></div>
+            <div class="col-md-9">
+                <input id="txtFrom" type="text" readonly class="col-lg-6 ip-ap-month" autocomplete="off" placeholder="From" />
+                <input type="text" class="ip-ap" style="display:none" readonly autocomplete="off" />
+                <input type="text" class="AnyTimePicker" style="display:none" readonly autocomplete="off" />
+                <input type="text" class="iphr" style="display:none" readonly autocomplete="off" />               
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label asp-for="portnumbar">From Day <i>*</i></label></div>
+            <div class="col-md-6"><input id="txtFromDay" readonly type="text"  class="ip-ap-day" maxlength="4" onkeydown="OnlyNumeric(event);" class="col-lg-6" autocomplete="off" placeholder="From Day" /></div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-3 text-rigth"><label asp-for="machinenumber">To Day <i>*</i></label></div>
+            <div class="col-md-9"> <input id="txtToDay" readonly type="text" class="ip-ap-day" onkeydown="OnlyNumeric(event);" maxlength="2" class="col-lg-6" autocomplete="off" placeholder="To Day" /></div>
+        </div>
+        <div class="clear"></div>
+        <hr />
+        <div class="col-md-12  btn-group text-rigth margin-top-btn">
+            <button type="button" class="btn" id="btnsave">Save</button>
+            <button type="button" class="btn" id="btnupdate">Update</button>
+            <button type="button" id="btnreset" class="btn">Reset</button>
+        </div>
+        <div class="clear"></div>
+        
+        <h2 class="margin-top">Machine Master List</h2>
+        <div class="col-md-12">
+            <div class="table-responsive no-margin">
+                <table id="tblgrade" class="table-defoult no-margin">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>From</th>
+                            <th>From Day</th>
+                            <th>To Day</th>
+                            <th>Created By</th>
+                            <th>Created On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Payroll/JsPayrollMonthSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

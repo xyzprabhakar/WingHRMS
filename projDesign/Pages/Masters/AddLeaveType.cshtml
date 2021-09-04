@@ -1,0 +1,122 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddLeaveType";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+              
+
+                <div class="form-container master-panel desination-panel mt-2">
+                    <div class="col-md-12">
+                        <h4>Leave Master</h4>
+                        <hr />
+                    </div>
+                    @*<div class="col-md-12">
+                        <div class="tab-link ">
+                            <ul class="list-inline form-inline">
+                                <li id="leavemaster"><a href="/Masters/AddLeaveType" class="btn btn-primary">Leave Master</a></li>
+                                <li id="leavesetting"><a href="/Leave/LeaveSettingDetail" class="ml-3 btn btn-outline-light">Leave Settings</a></li>
+                            </ul>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr />
+                    </div>*@
+                  
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Leave Type Name<i>*</i></label>
+                            <input type="text" id="txtleavetype" class="form-control" autocomplete="off" maxlength="50" placeholder="Leave Type Name" onkeypress="AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Description</label>
+                            <input type="text" id="txtdescription" class="form-control" autocomplete="off" maxlength="100" placeholder="Leave Description" onkeypress="AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+
+
+                    <div class=" col-md-6 ">
+
+                        <div class="form-group">
+                            <label class=" mb-0 ">Status</label>
+                            <div class="clear"></div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus" />
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus" />
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                   
+                   
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+
+
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    
+                   
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Leave Type Master List</h4>
+                        <hr />
+                        <div class="table-responsive no-margin">
+                            <table id="tblleavetype" class="table w-100 no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Type Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        @*<th>Created By</th>*@
+                                        <th>Created On</th>
+                                        <th>Modified On</th>
+                                        <th>Action</th>
+                                        @*<th>Delete</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Masters/LeaveType.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

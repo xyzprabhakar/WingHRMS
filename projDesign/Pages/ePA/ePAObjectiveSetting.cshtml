@@ -1,0 +1,150 @@
+﻿@page
+@{
+    ViewData["Title"] = "ePAObjectiveSetting";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel ">
+    <h1>Employee ePA Objective Setting</h1>
+    <hr />
+    <div class="form-container leave no-top-margin">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Financial Year<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlfyi">
+                        <option value="0">--Please Select--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Quarter<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlquarter">
+                        <option value="0">--Please Select--</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Job Holder<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlview">
+                        <option value="0">--Please Select--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Department<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lbldepartment" maxlength="100" readonly="readonly" />
+                </div>
+                
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Reporting Mgr<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lblrptmgr" maxlength="100" readonly="readonly" />
+                </div>
+               
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Next Level Mgr<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lblhod" maxlength="100" readonly="readonly" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Joining Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lbljoining" maxlength="100" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Designation<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lbldesignation" maxlength="100" readonly="readonly" />
+                </div>
+                
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Designation Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lbldesignationdt" maxlength="100" readonly="readonly" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="col-md-12">          
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Grade<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lblgrade" maxlength="100" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Last Grade Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="lblgradedate" maxlength="100" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 text-left"><label>Current Status<i>*</i></label></div>
+                <div class="col-md-6">
+                    <label id="lblgradedate" maxlength="100" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <hr />
+        <div class="col-md-12  btn-group text-rigth margin-top-btn">
+            <button type="button" class="btn" id="btnsave">Save as Draft</button>
+            <button type="button" class="btn" id="btnacceptance">Send for Acceptance</button>
+            @*<button type="button" id="btnreset" class="btn">Reset</button>*@
+        </div>
+        <div class="clear"></div>
+        <div class="tab-link">
+            <ul id="ul_tab">
+                @*<li class="active"><a href="#"></a></li>*@
+                @*<li><a href="#">KRA-Accountabilities</a></li>
+                <li><a href="#">SELF-Appraisal</a></li>
+                <li><a href="#">Contribution</a></li>
+                <li><a href="#">Manager's Comment</a></li>
+                <li><a href="#">Training</a></li>
+                <li><a href="#">Traits</a></li>
+                <li><a href="#">Final Review</a></li>*@
+
+            </ul>
+        </div>
+        @*<h2 class="margin-top">Financial Year List</h2>*@
+
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="tblePAObjective" class="table-defoult">
+                    @*<thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Financial Year</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>View</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>*@
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    </div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/ePA/ePA_ObjectiveSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

@@ -1,0 +1,288 @@
+﻿@page
+@{
+    ViewData["Title"] = "AssetRequestApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @*<div>@Html.Partial("PartialLayoutMyTeamTab")</div>*@
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Asset Request Approval</h4><hr />
+                    </div>
+
+
+                    <div class="col-md-12" id="div_report">
+                        <div class="table-responsive no-margin">
+                            <table id="tblassetrequestdtl" class="table nowrap w-100"></table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Action<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlaction_type" class="form-control">
+                                <option value="0">--Select--</option>
+                                <option value="1">Approve</option>
+                                <option value="2">Reject</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-left">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@*<script src="~/apiJS/Attendence/JsApplicationLink.js"></script>*@
+<script src="~/apiJS/Payroll/JsAssetApproval.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<input type="hidden" id="hdnasset_req_id" />
+
+@*<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+            width: 88%;
+        }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 60 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="col-xl-12">
+        <div class="panel ">
+
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="form-container master-panel">
+
+                        <div class="col-md-12">
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Requester Employee</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_requester_employee"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Asset Name</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_asset_name"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Asset Type</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_asset_type"></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Asset Description</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_asset_description"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Requested Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_requested_date"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Asset Issue Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_asset_issue_date"></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>From Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_from_date"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>To Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_to_date"></label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Submission Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_submission_date"></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Final Status</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_final_status"></label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Asset Number</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_asset_number"></label>
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-4 form-group">
+                                <div class="col-md-6"><label class="col-form-label"><b>Submission Date</b></label></div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label" id="txt_submission_date"></label>
+                                </div>
+                            </div>*@
+
+                        @*</div>*@
+
+                        @*<div class="col-md-12">
+                            <div class="table-responsive no-margin">*@
+                                @*<table class="table nowrap w-100">
+                                    <tr>
+                                        <td><b>Requester Employee</b></td>
+                                        <td><label id="txt_requester_employee"></label></td>
+                                        <td><b>Asset Name</b></td>
+                                        <td><label id="txt_asset_name"></label></td>
+                                        <td><b>Asset Type</b></td>
+                                        <td><label id="txt_asset_type"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Asset Description</b></td>
+                                        <td><label id="txt_asset_description"></label></td>
+                                        <td><b>Requested Date</b></td>
+                                        <td><label id="txt_requested_date"></label></td>
+                                        <td><b>Asset Issue Date</b></td>
+                                        <td><label id="txt_asset_issue_date"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>From Date</b></td>
+                                        <td><label id="txt_from_date"></label></td>
+                                        <td><b>To Date</b></td>
+                                        <td><label id="txt_to_date"></label></td>
+                                        <td><b>Submission Date</b></td>
+                                        <td><label id="txt_submission_date"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Final Status</b></td>
+                                        <td><label id="txt_final_status"></label></td>
+                                        <td><b>Asset Number</b></td>
+                                        <td><label id="txt_asset_number"></label></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>*@
+
+                            @*</div>
+
+                        </div>
+                      <div class="col-md-12">
+                           <hr />
+                       </div>
+                        
+                        <table id="tblapprovalhistory" class="table nowrap w-100"></table>
+                    </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>*@
+

@@ -1,0 +1,29 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employee FNF";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container">
+                    <div class="col-md-12">
+                        <h4>Employee FNF</h4><hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_emp_resigns" class="table nowrap w-100"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Payroll/JsEmployeeFNF.js?ver=@DateTime.Now.Ticks.ToString()"></script>

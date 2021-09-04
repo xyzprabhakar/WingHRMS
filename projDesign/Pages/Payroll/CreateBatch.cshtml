@@ -1,0 +1,81 @@
+﻿@page
+@{
+    ViewData["Title"] = "CreateBatch";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Create Batch</h4><hr />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control">
+                                @*<option>All</option>*@
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Batch Name<i>*</i></label></div>
+                        <div class="col-md-6"> <input type="text" id="txtBatchName" placeholder="Batch Name" onkeypress="return AlphaNumeric(event);" class="form-control" /></div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Department</label></div>
+                        <div class="col-md-6">
+                            <select id="ddldepartment" title="Leave Type" class="form-control">
+                                @*<option value="0">All</option>*@
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">From Date<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="ip-ap form-control" id="txtFromDate" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">To Date<i>*</i></label></div>
+                        <div class="col-md-6"> <input type="text" class="ip-ap form-control" id="txtToDate" /></div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button class="btn btn-primary btn-lg" id="btnsave" style="margin-right: 10%;">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsCreateBatch.js?ver=@DateTime.Now.Ticks.ToString()"></script>

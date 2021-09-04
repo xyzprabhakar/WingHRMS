@@ -1,0 +1,105 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddLeaveApplication";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>Leave Application</h1>
+                <hr />
+                <!--  <div class="text-rigth">
+                      <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                  </div>
+                    -->
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">From Date<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="txtfromdate" maxlength="10" placeholder="From Date" onkeydown="return false;" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">To Date<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="txttodate" maxlength="10" placeholder="To Date" onkeydown="return false;" />
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">Leave Type <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlleavetype" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">Leave Applicable For<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlapplicable" class="form-control">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">Full Day</option>
+                                    <option value="2">Half Day</option>
+                                    <option value="3">HH:MM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div id="Divhhmm" class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">HH:MM<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="time" class="form-control" id="txthhmm" />
+                            </div>
+                        </div>
+                        <div id="DivDayPart" class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">Day Part<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddldaypart" class="form-control">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">First Half</option>
+                                    <option value="2">Second Half</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div id="DivDayPart" class="col-md-6 form-group">
+                            <div class="col-md-3 text-rigth"><label class="col-form-label">Remarks<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <textarea type="text" class="form-control" maxlength="100" id="txtremark" placeholder="Remark.." style="height: 24px;resize:none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <h2 class="margin-top">Leave Application List</h2>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblleaveapp" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Leave/LeaveApplication.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

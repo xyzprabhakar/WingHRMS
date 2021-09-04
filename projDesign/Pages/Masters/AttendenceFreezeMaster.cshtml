@@ -1,0 +1,58 @@
+﻿@page
+@{
+    ViewData["Title"] = "AttendenceFreezeMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <h1>Attendence Freeze Master</h1>
+                <hr />
+                <div class="container-fluid">
+                    <div class="row justify-content-md-center">
+
+                        <div class="col-md-12 ">
+                            <div class="col-md-5  form-group">
+                                <label class="col-form-label">App Setting Name<i>*</i></label>
+                                <select id="ddlAppSettName" required="" class="form-control bg-light"></select>
+                            </div>
+
+                            <div class="col-md-5 form-group">
+                                <label class="col-form-label">App Setting Value <i>*</i></label>
+                                <select id="ddlAppSettValue" required="" class="form-control bg-light">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2  form-group">
+                                <label class="col-form-label"> <i></i></label><br /><br />
+                                <button type="button" id="btnsave" class="btn btn-primary ">Submit</button>
+                                <button type="button" id="btnupdate" class="btn btn-primary ">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <hr />
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblReport" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div> <!-- end col -->
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnid" />
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Masters/JsAttendenceFreezeMaster.js"></script>

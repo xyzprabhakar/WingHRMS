@@ -1,0 +1,163 @@
+﻿@page
+@{
+    ViewData["Title"] = "EpaSubmissionForm";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .hide_column {
+        display: none;
+    }
+</style>
+
+@*@Html.Partial("PartialLayoutMeTab")*@
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h4>EPA Submission Form</h4>
+                <hr />
+                <div class="form-container">
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="company_name" class="col-form-label ">Fiscal Year<i>*</i></label>
+                            <select id="ddlSession" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="ddlempcode" class="col-form-label ">Employee<i>*</i></label>
+                            <select id="ddlempcode" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="company_code" class="col-form-label ">EPA Cycle<i>*</i></label>
+                            <select id="ddlcicyle" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="ddlStatus" class="col-form-label">Status</label>
+                            <select id="ddlStatus" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lbl_current_status" class="col-form-label ">Current Status</label>
+                        </div>
+                        <span id="lbl_current_status"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblclocestatus" class="col-form-label ">Close Status</label>
+                        </div>
+                        <span id="lblclocestatus"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="Designation" class="col-form-label ">Designation</label>
+                        </div>
+                        <span id="lblDesignation"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="Designation" class="col-form-label ">Joining</label>
+                        </div>
+                        <span id="lblJoining"></span>
+                    </div>
+                    <div class="col-md-2" style="display:none">
+                        <div class="form-group ">
+                            <label asp-for="lbldepartment_name" class="col-form-label ">Department</label>
+                        </div>
+                        <span id="lbldepartment_name"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblw_r_name" class="col-form-label ">Working Role</label>
+                        </div>
+                        <span id="lblw_r_name"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblw_r_name" class="col-form-label ">Epa Start Date</label>
+                        </div>
+                        <span id="lblw_epa_start_date"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblw_r_name" class="col-form-label ">Epa End Date</label>
+                        </div>
+                        <span id="lblw_epa_end_date"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblmanager11" class="col-form-label ">Reporting Manager 1</label>
+                        </div>
+                        <span id="lblmanager11"></span>
+
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblmanager22" class="col-form-label ">Reporting Manager 2</label>
+                        </div>
+                        <span id="lblmanager22"></span>
+
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <label asp-for="lblmanager33" class="col-form-label ">Reporting Manager 3</label>
+                        </div>
+                        <span id="lblmanager33"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group" style="float: right;">
+                            <button type="button" class="btn btn-primary btn-lg" style="display:none" id="btnsave">Submit</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        table.dataTable tbody td {
+            word-break: break-word;
+            vertical-align: top;
+        }
+    </style>
+    <input type="hidden" id="submission_id" />
+    <input type="hidden" id="emp_off_id" />
+    <input type="hidden" id="emp_id" />
+    <input type="hidden" id="desig_id" />
+    <input type="hidden" id="department_id" />
+    <input type="hidden" id="epa_start_date" />
+    <input type="hidden" id="epa_end_date" />
+    <input type="hidden" id="w_r_id" />
+    <input type="hidden" id="rm_id1" />
+    <input type="hidden" id="rm_id2" />
+    <input type="hidden" id="rm_id3" />
+    <div class="card">
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="ul_tab" role="tablist"></ul>
+
+            <div class="tab-content" id="tab_div_data">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/ePA/JS_EpaSubmissionForm.js?ver=@DateTime.Now.Ticks.ToString()"></script>

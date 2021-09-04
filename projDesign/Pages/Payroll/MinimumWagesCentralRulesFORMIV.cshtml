@@ -1,0 +1,207 @@
+﻿@page
+@{
+    ViewData["Title"] = "Minimum Wages Central Rules FORMIV";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin not-res" style="height:700px">
+                    <div class="col-md-12">
+                        <h4>The Register of Overtime in Form-IV, Rule 21(4)</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Payroll Month</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlPayrollMonth" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="div_fileds_for_edit" style="display:none">
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlemp" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Father's / Husband's Name</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_fatherorhusbandname" type="text" class="form-control bg-light" autocomplete="off" placeholder="Father's / Husband's Name" />
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-6">
+                <div class="col-md-6 text-center"><label>Sex</label></div>
+                <div class="col-md-6">
+                    <select id="ddlgender" title="Gender">
+                        <option value="0">--Please Select--</option>
+                        <option value="1">Female</option>
+                        <option value="2">Male</option>
+                        <option value="3">Other</option>
+                    </select>
+                </div>
+            </div>*@
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Designation</label></div>
+                            <div class="col-md-6">
+                                <select id="ddldesignation" title="Leave Type" class="form-control bg-light">
+                                    <option>--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Department</label></div>
+                            <div class="col-md-6">
+                                <select id="ddldepartment" title="Leave Type" class="form-control bg-light">
+                                    <option>--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date on which Overtime Worked</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_DateofOvertimeWorked" type="text" class="form-control" autocomplete="off" placeholder="Date on which Overtime Worked" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Extent of Overtime on each occasion</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_ExtentOvertime" type="text" class="form-control" autocomplete="off" placeholder="Extent of Overtime on each occasion" />
+                            </div>
+                        </div>
+
+
+                        <hr />
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Total Overtime Worked or production in case of piece-workers</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_TotalOvertimeWorked" type="text" class="form-control" autocomplete="off" placeholder="Total Overtime Worked or production in case of piece-workers" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Normal Hours</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_NormalHr" type="text" class="form-control" autocomplete="off" placeholder="Normal Hours" />
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Normal Rate</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_NormalRate" type="text" class="form-control" autocomplete="off" placeholder="Normal Rate" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Overtime Rate</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_OvertimeRate" type="text" class="form-control" autocomplete="off" placeholder="Overtime Rate" />
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <hr />
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Normal Earnings</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_NormalEarning" type="text" class="form-control" autocomplete="off" placeholder="Normal Earnings" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Overtime Earnings</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_OvertimeEarning" type="text" class="form-control" autocomplete="off" placeholder="Overtime Earnings" />
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Total Earnings</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_TotalEarning" type="text" class="form-control" autocomplete="off" placeholder="Total Earnings" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date on which Overtime Payment made</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_DateofOvertimePaymentMade" type="text" class="form-control" autocomplete="off" placeholder="Date on which Overtime Payment made" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                <input type="hidden" id="form_iv_id" />
+                            </div>
+                            </div>
+
+                        </div>
+
+
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnFreeze" style="display:none">Freeze</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnadd" style="display:none">Add</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnresetalldata" style="display:none">Reset All Data</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btndownload" style="display:none">Download PDF</button>
+                            <hr />
+                        </div>
+                   </div>
+
+
+                    <div class="col-md-12">
+                        @*<hr />*@
+                        <h4 class="margin-top">Register of Overtime in Form-IV Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <div id="div_tblRegisterOfOvertimeInForm4">
+                                <table id="tblRegisterOfOvertimeInForm4" class="table nowrap"></table>
+                            </div>
+                            <div id="div_tblRegisterOfOvertimeInForm42">
+                                <table id="tblRegisterOfOvertimeInForm42" class="table nowrap"></table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+               
+                </div>
+            </div>
+        </div>
+    </div>
+
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/apiJS/Payroll/JsMinimumWagesCentralRulesFORMIV.js?ver=@DateTime.Now.Ticks.ToString()"></script>

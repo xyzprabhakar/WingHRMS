@@ -1,0 +1,105 @@
+﻿@page
+@{
+    ViewData["Title"] = "KRA Creation Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        @*<div>@Html.Partial("PartialLayoutMyTeamTab")</div>*@
+        <div class="card  mt-4">
+            <div class="card-body">
+
+              
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>KRA Master</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control bg-light"><option>--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6">
+             <div class="col-md-3 text-rigth"><label>Financial Year<i>*</i></label></div>
+             <div class="col-md-9">
+                 <select id="ddlfinancialyr"></select>
+             </div>
+         </div>
+         <div class="clear"></div>
+        <div class="col-md-6">
+             <div class="col-md-3 text-rigth"><label>Financial Cycle<i>*</i></label></div>
+             <div class="col-md-9">
+                 <select id="ddlfinancialcycl">></select>
+             </div>
+         </div>*@
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label>Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" class="form-control bg-light"><option>--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Working Role<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlworkingrole" class="form-control bg-light"><option>--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Description<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtdesc" class="form-control bg-light" maxlength="1000" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Factor/Result<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtfactor_result" class="form-control bg-light" maxlength="1000" placeholder="Factor/Result"></textarea>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">KRA Master Details</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblkramaster" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="col-md-12" id="empdivv">
+                        <select id="ddlempcodee"></select>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnkramasterid" />
+<script src="~/apiJS/ePA/JsKRACreationMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

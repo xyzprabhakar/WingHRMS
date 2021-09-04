@@ -1,0 +1,227 @@
+﻿@page
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>HRMS-Login</title>
+
+    @* Google Authentication *@
+
+    
+        @*<script src="https://apis.google.com/js/api.js" async defer></script>
+    
+        <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>*@
+
+
+
+
+    @*<script src="https://apis.google.com/js/platform.js"></script>*@
+  
+    @*For Local*@
+    @*<meta name="google-signin-client_id" content="89420726146-1u3lestpp1bo3htm33gjn4rvne8sgtn6.apps.googleusercontent.com">*@
+  
+    @*For QA*@
+    @*<meta name="google-signin-client_id" content="89420726146-114smcvc29dmt7dl2r48lo7vhms2kptt.apps.googleusercontent.com">*@
+  
+    @*For Live*@
+    <meta name="google-signin-client_id" content="89420726146-tvi3223a5f3vci43q7pepei66ga4aa70.apps.googleusercontent.com">
+
+    @* Google Authentication *@
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*
+        <link href="~/css/style.css" rel="stylesheet" />
+        <link href="~/css/responsive.css" rel="stylesheet" />*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/assets/css/icons.css" rel="stylesheet" />
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/js/aes.js"></script>
+
+</head>
+<body class=" bg-white container-fluid pl-md-0 pr-md-0">
+
+    <div class="row no-gutters">
+
+        <div class="col-lg-8 p-0 h-100vh d-lg-flex justify-content-center d-none d-sm-block ml-0">
+            <div class="accountbg d-flex align-items-center">
+                <div class="account-title text-center text-white">
+                    <h4 class="mt-3">Welcome To <span class="text-warning">OUR HRMS</span> </h4>
+                    <h1 class="mt-3">Your Strategic HR Partner</h1>
+
+                    <div class="border w-50 mt-4 mx-auto border-warning"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 pl-md-0">
+            <div class="card mb-0 shadow-none">
+                <div class="card-body">
+
+                    <h3 class="text-center m-0">
+                        <span class="logo logo-admin"><img src="~/Login Page Logos/OurHRMS.jpg" height="80" alt="logo" class="my-3"></span>
+                    </h3>
+
+                    <div class="px-md-2">
+
+                        <p class="text-muted text-center">Sign in to continue to Our HRMS.</p>
+
+                        <div class="form-group d-none">
+                            <label for="username">Company Code</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="txtCompanyCode" placeholder="Company Code">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                                </div>
+                                <input type="text" tabindex="1" class="form-control" autocomplete="off" id="txtUsername" autofocus placeholder="Enter username">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userpassword">Password</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input type="password" tabindex="2" class="form-control" autocomplete="off" id="txtPassword" placeholder="Enter password">
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <div class="input-group-prepend">
+                                <img id="img-captcha" src="~/img/default-captcha-img.png" style="float: left;" class="mr-1" />
+                                <button id="btnimg_captcha_change" class="btn-warning btn"><span class="fas fa-sync"></span></button>
+
+                                <input type="text" tabindex="3" class="form-control ml-md-1" placeholder="Captcha Code" id="CaptchaCode" asp-for="CaptchaCode" maxlength="4" autocomplete="off" />
+                                <span asp-validation-for="CaptchaCode" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group  row mt-4">
+                            <div class="col-12 ">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" id="btnLogin" tabindex="4" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></button>
+
+                            </div>
+                            <div class="col-12 center">
+                                <br />
+                                <div class="g-signin2" data-width="415" data-theme="dark" data-height="50" data-onfailure="onFailure" onclick="ClickLogin()" data-onsuccess="onSignIn"></div>
+                              
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-2">
+
+                            <div class="col-sm-12 text-right">
+                                <a href="#" tabindex="5" id="forgotten_password" class="text-muted font-13" data-toggle="modal" data-target="#exampleModal"><i class="mdi mdi-lock"></i> Forgot your password?</a>
+                            </div>
+                        </div>
+                        <div class="m-1 text-center bg-light p-3 text-primary">
+
+                            <button id="btnfeedback" tabindex="6" class="btn btn-outline-primary  waves-effect waves-light">click to Feedback</button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p class="mb-0">© Design & Developed by <i class="mdi mdi-heart text-danger"></i> <a href="http://sakshemit.com">Sakshem IT Solution</a></p>
+                        <input type="hidden" id="hdnCcCode" />
+                        <input type="hidden" id="hdnEmail" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loader" class="loader-wrapper">
+            <div class="loader-container">
+                <i class="fa fa-spinner "></i>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="myModal">
+
+                        <input type="hidden" name="salt" id="loginhdnsalt" value="@Html.ValueForModel(new projDesign.GenrateGUID().GetGuid)" />
+
+                        <!-- Modal content -->
+
+                        <div class="form-group">
+                            <label class="col-form-label">Enter your username</label>
+
+
+                            <input type="text" id="txtUsernameForgot" class="form-control" autocomplete="off" autofocus />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnForgotPassword">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Live  Api URL
+      //var apiurl = "http://sakshemitapi.ourhrms.com/api/";
+        //
+
+        //exim API URL
+        //var apiurl = "http://eximapi.sakshemithrms.net/api/";
+
+        //Qa Api URL
+       //var apiurl = "http://qapi.ourhrms.com/api/";
+
+
+        //IP Api URL
+       // var apiurl = "http://192.168.10.6:1011/api/";
+        //Qa demo Api URL
+        // var apiurl = "http://ouhrmsdemo1.sakshemit.com/api/";
+
+        // Localhost
+       // var apiurl = "https://localhost:44384/api/";
+        var apiurl = "http://localhost:51590/api/";
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+    <!-- The Modal -->
+
+    <script src="~/apiJS/Login.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

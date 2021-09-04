@@ -1,0 +1,286 @@
+﻿@page
+@{
+    ViewData["Title"] = "Manual Leaves";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+
+                <div class="col-md-12 mt-3">
+
+                    <h4 class="float-left">Manual Leave Credit/Debit</h4>
+                    <a href="/Leave/MannualLeaveReport" class="addBTN btn btn-primary float-right " title="Mannual Leave Report"> Mannual Leave Report</a>
+
+                </div>
+
+
+                <hr />
+
+                <div class="form-container leave no-top-margin">
+
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Company<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Employee<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlemployee" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+
+                        @*<div class="col-md-6 form-group">
+                                <div class="col-md-4 text-rigth"><label>Transaction Date<i>*</i></label></div>
+                                <div class="col-md-8">
+                                    <input type="text" class="ip-ap form-control" id="txttrandate" placeholder="Transaction Date" />
+                                </div>
+                            </div>*@
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Leave Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlleavetype" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Transaction Type</label></div>
+                            <div class="col-md-8">
+                                <label class="checkmark-container">
+                                    Credit
+                                    <input id="is_active" type="radio" value="5" name="chkstatus" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="checkmark-container">
+                                    Debit
+                                    <input id="is_in_active" type="radio" value="6" name="chkstatus" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        @*<div class="col-md-6 form-group">
+                                <div class="col-md-4 text-rigth"><label>Month Year<i>*</i></label></div>
+                                <div class="col-md-8">
+                                    <input type="text" id="txtmonthyear" class="form-control" readonly="readonly" placeholder="Month Year" />
+                                </div>
+                            </div>*@
+
+
+
+                        @*<div class="col-md-6 form-group">
+                                <div class="col-md-4 text-rigth"><label>Leave Addition Type<i>*</i></label></div>
+                                <div class="col-md-8">
+                                    <select id="ddlleaveadditiontype" class="form-control">
+                                        <option value="0">--Please Select--</option>
+                                        <option value="1">Monthly</option>
+                                        <option value="2">Quaterly</option>
+                                        <option value="3">Half Yearly</option>
+                                        <option value="4">Annually</option>
+                                    </select>
+                                </div>
+                            </div>*@
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>No.of Days<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtamount" autocomplete="off" class="form-control" maxlength="10" placeholder="No.of Days" onkeypress="return isNumber(event,this)" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Remarks</label></div>
+                            <div class="col-md-8">
+                                <textarea id="txtremarks" class="form-control" autocomplete="off" placeholder="Remarks"></textarea>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!--Panel Start Upload Personal Details-->
+
+                    <div class="col-md-12">
+                        <h4 class="header-title mt-4 card-header mb-4">Upload Details</h4>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <a id="solTitle" href="#" onClick="DownloadMannualLeaveExcelFile();" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-4"><label class="col-form-label">Upload</label></div>
+                        <div class="col-md-8"><input type="file" id="mannualleavefile" class="form-control" /></div>
+
+                        @*<div class="col-md-4 mt-1"><label class="col-form-label"></label></div>
+                            <div class="col-md-8 mt-1"></div>*@
+
+
+
+                    </div>
+
+                    <div class="col-md-12 text-center ">
+                        <hr />
+                        <button class="btn btn-primary waves-effect waves-light" id="btnupload_mannual_dtl">Upload Detail</button>
+
+                    </div>
+
+                    <!--Panel End Upload Personal Details-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdnleaveinfoid" />
+<input type="hidden" id="HFb64" />
+<script src="~/apiJS/Leave/MannualLeave.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<!-- The Modal -->
+@*<div id="myLeaveModal" class="modal">*@
+
+<!-- Modal content -->
+@*<div class="panel" style="padding:5px">
+
+            <div class="table-responsive no-margin">
+                <div class="form-container master-panel desination-panel">
+                    <table id="tbl_leavetype_dtl" class="table w-100 nowrap"></table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>*@
+
+
+
+<div id="Excel_upload_Modal" class="modal">
+    <div class="panel" style="padding:5px">
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+
+                <table id="tbl_exceldtl" class="table nowrap w-100"></table>
+            </div>
+        </div>
+
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<script>
+    var modal = document.getElementById("myLeaveModal");
+
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+
+    }
+
+
+    var excelmodal = document.getElementById("Excel_upload_Modal");
+
+
+    window.onclick = function (event) {
+        if (event.target == excelmodal) {
+            excelmodal.style.display = "none";
+        }
+
+    }
+
+
+
+</script>
+
+
+

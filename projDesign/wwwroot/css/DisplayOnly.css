@@ -1,0 +1,26 @@
+﻿select {
+    border: none !important;
+    background-color: #f5f5f5 !important;
+    -webkit-appearance: none;
+    pointer-events: none;
+}
+
+input {
+    border: 1px solid #f5f5f5 !important;
+    background-color: #f5f5f5 !important;
+    pointer-events: none;
+}
+
+    input:read-only {
+        border: 1px solid #f5f5f5 !important;
+        background-color: #f5f5f5 !important;
+        pointer-events: none;
+    }
+
+
+textarea {
+    border: 1px solid #f5f5f5 !important;
+    background-color: #f5f5f5 !important;
+    pointer-events: none;
+    -webkit-appearance: none;
+}

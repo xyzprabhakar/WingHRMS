@@ -1,0 +1,82 @@
+﻿@page
+@{
+    ViewData["Title"] = "Epa Bar Chart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-4">
+                        <div class="col-md-3"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <select id="ddlcompany" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="col-md-4"><label class="col-form-label">Financial year<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlfiscalyr" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="col-md-4"><label class="col-form-label">Cycle<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddl_epa_cycle" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btngetdtl">Get Details</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnreset">Reset</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4>Performance Graph</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div id="emp_epa_bar" class="h-300 morris-chart"></div>
+                    </div>
+
+
+                    <div class="col-md-12" id="fianl_reviewdetails">
+                        <hr />
+                      <div class="col-md-12">
+                          <h4>Performance Detail</h4>
+                          <hr />
+                      </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblperformancedtl" class="table nowrap">
+                                </table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+    <script src="~/assets/plugins/morris/morris.min.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script src="~/assets/plugins/raphael/raphael-min.js"></script>
+    <script src="~/apiJS/ePA/JsBarChatr.js?ver=@DateTime.Now.Ticks.ToString()"></script>

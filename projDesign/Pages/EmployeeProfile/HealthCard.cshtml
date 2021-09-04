@@ -1,0 +1,85 @@
+﻿@page
+@{
+    ViewData["Title"] = "HealthCard";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+
+
+
+<div class="col-xl-12">
+
+       <div>@Html.Partial("PartialEmpProfileLayout")</div>
+    @*<nav class="payroll-nav is-hoverable shadow-sm bg-white  ">
+        <div class="rounded">
+            <ul class="metismenu " id="menu2">
+                <li><a href="/EmployeeProfile/OfficialSection">Official Section</a></li>
+                <li><a href="/EmployeeProfile/ShiftAllocation">Shift Allocation</a></li>
+                <li><a href="/EmployeeProfile/WeekOff">Week Off</a></li>
+                <li><a href="/EmployeeProfile/GradeAllocation">Grade Allocation</a></li>
+                <li><a href="/EmployeeProfile/DesignationAllocation">Designation Allocation</a></li>
+                @*<li><a href="/EmployeeProfile/ManagerAllocation">Manager Allocation</a></li>*@
+                @*<li><a href="/EmployeeProfile/PersonalDetails">Personal Details</a></li>
+                <li><a href="/EmployeeProfile/QualificationSection">Qualification Section</a></li>
+                <li><a href="/EmployeeProfile/FamilySection">Family Section</a></li>
+                <li class="active"><a href="/EmployeeProfile/HealthCard">Health Card</a></li>
+                <li><a href="/EmployeeProfile/WorkingRoleAllocation">Working Role</a></li>
+            </ul>
+        </div>
+    </nav>*@
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="panel ">
+                
+                <div class="form-container master-panel desination-panel" style="height: 400px;">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <h4>Health Card</h4>
+                            <hr />
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label class="col-form-label">Company</label>
+
+                                    <select id="ddlcompany" class="form-control"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Employee</label>
+
+                                    <select id="ddlemployee" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12">
+                        <h4>Health Card Details</h4>
+                        <hr />
+                        <div class="table-responsive no-margin">
+                            <table id="tblhealthcard" class="table w-100 no-margin"></table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<input type="hidden" id="HFb64" />
+<input type="hidden" id="hdnEmployee_img" />
+
+<script src="~/apiJS/EmployeeProfile/JsHealthCard.js?ver=@DateTime.Now.Ticks.ToString()"></script>

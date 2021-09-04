@@ -1,0 +1,154 @@
+﻿@page
+@{
+    ViewData["Title"] = "AccountDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div>@Html.Partial("PartialEmpProfileLayout")</div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Employee Account Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlCompany" class="form-control bg-light" disabled>
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Employee Code<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlEmployeeCode" class="form-control" disabled></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Pan Card Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="pan_card_name" placeholder="Pan Card Name" autocomplete="off" class="form-control" onkeypress="return IsAlphabet(event);" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Aadhar Card Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="aadha_card_name" placeholder="Aadhar Card Name" autocomplete="off" class="form-control" onkeypress="return IsAlphabet(event);" disabled />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+
+                            <div class="col-md-4 "><label class="col-form-label">Pan Card Number<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="pan_card_number" maxlength="10" autocomplete="off" placeholder="Pan Card Number" class="form-control" onchange="return ValidatePanCard('pan_card_number');" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Aadhar Card No.<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="aadha_card_number" maxlength="12" autocomplete="off" placeholder="Aadhar Card No" class="form-control" onchange="return ValidAdhar('aadha_card_number');" onkeypress="return isNumberKey(event);" disabled />
+                            </div>
+                        </div>
+                        @*<div class="col-md-6 mt-1">
+                                <div class="col-md-4 "><label class="col-form-label">Upload PAN Card</label></div>
+                                <div class="col-md-8">
+                                    <input type="file" id="pan_card_image" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4 "><label class="col-form-label">Upload Aadhar Card</label></div>
+                                <div class="col-md-8">
+                                    <input type="file" id="aadha_card_image" />
+                                </div>
+                            </div>*@
+
+                        <!-- Accounts panel start -->
+                        <div class="col-md-12">
+
+                            <h4 class="header-title mt-4 card-header mb-4">Accounts Details</h4>
+
+                        </div>
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Bank Name</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlbankname" class="form-control" disabled><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Bank Account No.</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtbankaccount" autocomplete="off" placeholder="Bank Account No." maxlength="18" class="form-control" onkeypress="return isNumberKey(event);" disabled />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Bank IFSC Code</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtbankifsc" autocomplete="off" placeholder="Bank IFSC Code" maxlength="11" class="form-control" style="text-transform: uppercase;" onkeypress="return AlphaNumeric(event);" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Branch Name</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txt_branch_name" autocomplete="off" placeholder="Branch Name" class="form-control" style="text-transform: uppercase;" onkeypress="return AlphaNumeric(event);" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Payment Mode</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlPaymentMode" class="form-control" disabled>
+                                    <option value="0">--Please Select--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Accounts panel End -->
+
+                        <div class="clearfix"></div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="HFb64pan_card_name" />
+<input type="hidden" id="HFb64aadha_card_image" />
+<input type="hidden" id="hdnpan_card_image" />
+<input type="hidden" id="hdnaadha_card_image" />
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/EmployeeProfile/JsAccountDetails.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+
+

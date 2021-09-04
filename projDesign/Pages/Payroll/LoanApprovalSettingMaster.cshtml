@@ -1,0 +1,141 @@
+﻿
+@page
+
+@{
+    ViewData["Title"] = "ApprovalSettingMasterModel";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("_PartialLayoutLoan")</div>*@
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Approver Setting</h4><hr />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlempcode" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Approval Order<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlorder" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Approval 1</option>
+                                <option value="2">Approval 2</option>
+                                <option value="3">Approval 3</option>
+                                <option value="4">Approval 4</option>
+                                <option value="5">Approval 5</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Select Role<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlrole" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Approver Type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlapprovertype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-form-label mb-0 ">Is Final Approver</label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                        <label class="custom-control-label" for="is_active">  Yes</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline ">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                        <label class="custom-control-label" for="is_in_active">   No</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Approver's List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblloanApproval" class="table nowrap w-100"></table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnchkvaluee" />
+<input type="hidden" id="checkfinalapprover" />
+<input type="hidden" id="hdncompanyid" />
+<input type="hidden" id="hdnapprovertype" />
+<script src="~/apiJS/Payroll/JSLaonApprovalSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>

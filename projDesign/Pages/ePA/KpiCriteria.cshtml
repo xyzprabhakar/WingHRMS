@@ -1,0 +1,61 @@
+﻿@page
+@{
+    ViewData["Title"] = "KpiCriteria";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>KPI Criteria</h1>
+                <hr />
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Criteria Level<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddl_criteria_level" class="form-control">
+                                    <option value="">--Select Level--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnid" />
+            <script src="~/apiJS/ePA/JS_KpiCriteria.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        </div>
+    </div>
+</div>
+
+
+
+

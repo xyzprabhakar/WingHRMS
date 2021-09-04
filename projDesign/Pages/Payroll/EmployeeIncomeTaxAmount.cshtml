@@ -1,0 +1,133 @@
+﻿@page
+@{
+    ViewData["Title"] = "EmployeeIncomeTaxAmount";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4 class=" float-left">Employee Income Tax Amount Entry Form</h4>
+
+                        <a href="/Payroll/EmployeeListIncomeTaxAmount" class="btn btn-primary float-right mb-1">View List </a>
+
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light">
+                                @*<option>All</option>*@
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee Code<i>*</i></label></div>
+                        <div class="col-md-6"> <select id="ddlEmployeeCode" class="form-control"> <option value="0">--Please Select--</option></select></div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label" asp-for="ipaddress">Tax Amount<i>*</i></label></div>
+                        <div class="col-md-6"> <input id="txt_tax_amount" type="text" maxlength="50" class="form-control" autocomplete="off" placeholder="Tax Amount" /></div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Submit</button>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!--Panel Start Upload Personal Details-->
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <h4 class="">Upload Employee's Income Tax Details</h4><hr />
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <a id="solTitle" href="#" onClick="DownloadEmployeeTaxExcelFile();" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-4"><label class="col-form-label">Upload</label></div>
+                        <div class="col-md-8"><input type="file" id="EmployeeTaxDetailFile" class="form-control bg-light" /></div>
+
+                        @*<div class="col-md-4 mt-1"><label class="col-form-label"></label></div>
+            <div class="col-md-8 mt-1"></div>*@
+
+
+
+                    </div>
+
+                    <div class="col-md-12 text-center ">
+                        <hr />
+                        <button class="btn btn-primary waves-effect waves-light" id="btnuploaddtl">Upload Detail</button>
+
+                    </div>
+
+                    <!--Panel End Upload Personal Details-->
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title align-self-center mt-0">Upload Employee Tax Details(In Excel Only)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="table-responsive ">
+                    <table id="tbl_exceldtl" class="table nowrap w-100 "></table>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+<input type="hidden" id="HFb64" />
+<script src="~/apiJS/Payroll/JsIncomeTaxAmount.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

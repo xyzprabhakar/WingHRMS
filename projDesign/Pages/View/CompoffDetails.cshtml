@@ -1,0 +1,85 @@
+﻿@page
+@{
+    ViewData["Title"] = "CompoffDetail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>CompOff Details</h4><hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-6">
+                                <div class="col-md-3 text-rigth"><label>Select Year<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <select id="ddl_year" class="form-control">
+                                        <option value="2021" selected="selected">@DateTime.Now.Year</option>
+                                        <option value="2020">@DateTime.Now.AddYears(-1).Year</option>
+                                        <option value="2019">@DateTime.Now.AddYears(-2).Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblcompoff" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-12" id="empselectiondiv" style="display:none">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Action<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlaction_type" class="form-control bg-ligth">
+                                    <option value="1" selected="selected">Delete</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Remarks<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtDelremarks" name="txtDelremarks" placeholder="Remarks" style="width:200px" class="form-control bg-ligth"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+
+                                <button type="button" class="btn btn-primary btn-lg" id="BtnDelete">Save</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- form container end -->
+            </div>
+
+
+            <input type="hidden" id="hdnid" />
+
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/JsCompoffDetail.js"></script>

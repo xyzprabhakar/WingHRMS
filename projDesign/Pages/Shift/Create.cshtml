@@ -1,0 +1,276 @@
+﻿@page
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h4>Shift Master</h4>
+                <div class="form-container">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Company Name <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0"> All </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label"> Location <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddllocation" class="form-control" name="ddllocation">
+                                <option value="0"> All </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" class="form-control">
+                                <option value="0"> All </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Shift Type</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlShiftType" class="form-control">
+                                <option value="1">Fixed</option>
+                                <option value="2">Flexible</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Shift Name</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="txtShiftName" placeholder="Shift Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Shift Short Name</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="txtShiftShortName" placeholder="Shift Short Name" maxlength="2" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Shift Code</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtshift_code" class="form-control" placeholder="Shift Code" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Punch in Time</label></div>
+                        <div class="col-md-8">
+                            <input type="time" id="txtPunchInTime" class="datepicker form-control" value="00:00:00">
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Punch in max Time</label></div>
+                        <div class="col-md-8">
+                            <input id="txtpunch_in_max_time" class="form-control" type="time" value="00:00:00" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Punch Out Time</label></div>
+                        <div class="col-md-8">
+                            <input id="txtPunchOutTime" type="time" class="form-control" value="00:00:00" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Working hours</label></div>
+                        <div class="col-md-8">
+                            <input type="time" id="txtWorkingHours" class="form-control" placeholder="Working hours" value="00:00:00" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6 text-rigth"><label class="col-form-label">Grace time for late punch in</label></div>
+                        <div class="col-md-6"><input id="txtgrace_time_for_late_punch_in" class="form-control" type="time" value="00:00:00" /></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6 text-rigth"><label class="col-form-label">Grace time for late punch out</label></div>
+                        <div class="col-md-6"><input id="txtgrace_time_for_late_punch_out" class="form-control" type="time" value="00:00:00" /></div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-8 text-rigth"><label class="col-form-label">Number of grace time applicable in month</label></div>
+                        <div class="col-md-4">
+                            <input type="text"  class="form-control" id="txtnumber_of_grace_time_applicable_in_month" value="0" maxlength="2" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-12 text-rigth">
+                            <input id="chk_is_ot_applicable"  class="form-control" type="checkbox" /><label class="col-form-label"> OT Applicable</label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <hr />
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-12 ">
+                            <input type="checkbox" id="chkLunchPunchApplicable" /><label class="col-form-label"> Lunch punch applicable</label>
+                            <div class="pounchBox">
+                                <div class="col-md-3"><label class="col-form-label">Lunch punch out time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control" /></div>
+                                <div class="clear"></div>
+                                <div class="col-md-3"><label class="col-form-label">Lunch punch in time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control" /></div>
+                                <div class="clear"></div>
+
+                            </div>
+                            <!--  punch box end -->
+                        </div>
+                        <div class="col-md-3">  <input id="txtLunchPunchInTime"  class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtLunchPunchOutTime"  class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtmaximum_lunch_time"  class="form-control" type="time" value="00:00:00" /></div>
+
+                    </div>
+                    <div class="col-md-6 headnice">
+                        <div class="con1">
+                            <input type="checkbox" id="chkTeaPunch1" /><label class="col-form-label"> Tea punch 1</label>
+                            <div class="pounchBox">
+                                <div class="col-md-3 text-rigth"><label class="col-form-label">Lunch in time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control" /></div>
+                                <div class="clear"></div>
+                                <div class="col-md-3 text-rigth"><label class="col-form-label">Lunch out time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control" /></div>
+                                <div class="clear"></div>
+
+                            </div>
+                            <!--  punch box end -->
+                        </div>
+                        <div class="col-md-3">  <input id="txtTeaPunchInTime1"  class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtTeaPunchOutTime1"  class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtmaximum_tea_time_one"  class="form-control" type="time" value="00:00:00" /></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="">
+                            <input type="checkbox" id="chkTeaPunch2" /><label class="col-form-label"> Tea punch 2</label>
+                            <div class="pounchBox">
+                                <div class="col-md-3 text-rigth"><label class="col-form-label">Lunch in time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control" /></div>
+                                <div class="clear"></div>
+                                <div class="col-md-3 text-rigth"><label class="col-form-label">Lunch out time</label></div>
+                                <div class="col-md-9"><input type="time"  class="form-control"/></div>
+                                <div class="clear"></div>
+
+                            </div>
+                            <!--  punch box end -->
+                        </div>
+                        <div class="col-md-3">  <input id="txtTeaPunchInTime2"   class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtTeaPunchOutTime2"  class="form-control" type="time" value="00:00:00" /></div>
+                        <div class="col-md-3">  <input id="txtmaximum_tea_time_two"  class="form-control" type="time" value="00:00:00" /></div>
+                    </div>
+                    <div class="col-md-6 headnice">
+                        <div class="con1">
+                            <input type="checkbox" id="chkIsNightShift"  class="form-control" /><label class="col-form-label"> Is night shift</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-9"><label class="col-form-label">Mark as half day for working hours less then</label></div>
+                        <div class="col-md-3"><input type="time"  class="form-control" id="txtmark_as_half_day_for_working_hours_less_than" value="00:00" /></div>
+                        <div class="clear"></div>
+                        <div class="col-md-9"><label class="col-form-label">Weekly Off </label> <input id="chkWeekOff" type="checkbox" /></div>
+
+                    </div>
+                    <div class="col-md-6 headnice">
+                        <div class="con1">
+                            <h2>Punch ignore</h2>
+                            <div class="clear"></div>
+                            <div class="col-md-6"><label class="col-form-label">Early punch in ignore</label> <input type="radio" name="PunchInIgnore"  class="form-control" id="chkEarlyPunchInIgnore" /></div>
+                            <div class="col-md-6"><label class="col-form-label">Late punch out ignore</label> <input type="radio" name="PunchInIgnore"  class="form-control" id="chkLatePunchOutIgnore" /></div>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive ">
+                        <table id="dynamics" style="display:block" class="table w-100 nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Days</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>4</th>
+                                    <th>5</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkMonday" name="chkMonday" value="0" /> Monday</td>
+                                    <td><input type="checkbox" ID="chkMondayDays1" name="chkMondayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays2" name="chkMondayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays3" name="chkMondayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays4" name="chkMondayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays5" name="chkMondayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkTuesday" name="chkTuesday" value="0" /> Tuesday</td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays1" name="chkTuesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays2" name="chkTuesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays3" name="chkTuesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays4" name="chkTuesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays5" name="chkTuesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkWednesday" name="chkWednesday" value="0" /> Wednesday</td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays1" name="chkWednesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays2" name="chkWednesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays3" name="chkWednesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays4" name="chkWednesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays5" name="chkWednesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkThursday" name="chkThursday" value="0" />  Thursday</td>
+                                    <td><input type="checkbox" ID="chkThursdayDays1" name="chkThursdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays2" name="chkThursdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays3" name="chkThursdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays4" name="chkThursdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays5" name="chkThursdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkFriday" name="chkFriday" value="0" /> Friday</td>
+                                    <td><input type="checkbox" ID="chkFridayDays1" name="chkFridayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays2" name="chkFridayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays3" name="chkFridayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays4" name="chkFridayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays5" name="chkFridayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSaturday" name="chkSaturday" value="0" /> Saturday</td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays1" name="chkSaturdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays2" name="chkSaturdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays3" name="chkSaturdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays4" name="chkSaturdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays5" name="chkSaturdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSundayday" name="chkSundayday" value="0" /> Sunday</td>
+                                    <td><input type="checkbox" ID="chkSundayDays1" name="chkSundayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays2" name="chkSundayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays3" name="chkSundayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays4" name="chkSundayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays5" name="chkSundayDays1" value="5" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 text-rigth btn-group">
+                        <button type="button" class="btn" id="btnSave">Save</button>
+                        <button type="button" class="btn" id="btnUpdate">Update</button>
+                        <button class="btn">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Shift/JsShift.js"></script>*@
+

@@ -1,0 +1,168 @@
+﻿@page
+@{
+    ViewData["Title"] = "LoanRequestApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @*<div>@Html.Partial("PartialLayoutMyTeamTab")</div>*@
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary float-right mb-1" id="btn_apprval">Loan Approval</button>
+                    <button type="button" class="btn btn-primary float-right mb-1" id="btn_view">Loan Report</button>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-container master-panel desination-panel" id="div_approval">
+                    <div class="col-md-12">
+                        <h4>Loan Request Approval</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan Requester<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlloanreq" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    @*<div id="content">*@
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Department<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtdepartment" class="form-control bg-light" maxlength="100" placeholder="Department" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Designation<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtdesignation" class="form-control bg-light" maxlength="100" placeholder="Designation" readonly="readonly" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Grade<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtgrade" class="form-control bg-light" maxlength="100" placeholder="Grade" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Monthly Salary<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtmonthlysalary" class="form-control bg-light" maxlength="10" placeholder="Monthly Salary" readonly="readonly" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan Type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtloantype" class="form-control bg-light" maxlength="10" placeholder="Loan Type" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Rate Of Interest<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtroi" maxlength="10" class="form-control bg-light" placeholder="Basic rate of interest" readonly="readonly" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan Amount<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtloanamt" maxlength="10" class="form-control bg-light" placeholder=" Loan Amount" readonly="readonly" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Tenure of Loan<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtloantenure" maxlength="10" class="form-control bg-light" placeholder="Loan Tenure" readonly="readonly" onkeydown="return false;" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Purpose Of Loan<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtloanpurpose" maxlength="200" class="form-control bg-light" placeholder="Purpose of Loan" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan Approval <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlstarus" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Approved</option>
+                                <option value="2">Reject</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnSubmit">Submit</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnUpdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                </div>
+
+              
+
+                <div class="table-responsive" id="div_report">
+
+
+                    <table id="tblloanreqdetails" class="table dataTable nowrap w-100">
+                        @*<thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Employee</th>
+                    <th>Loan/Advance</th>
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Loan Tenure</th>
+                    <th>Loan Purpose</th>
+                    <th>Effective Date</th>
+                    <th>Final Approver Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>*@
+                    </table>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdn_loan_req_Id" />
+<script src="~/apiJS/Payroll/LoanRequestApproval.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>

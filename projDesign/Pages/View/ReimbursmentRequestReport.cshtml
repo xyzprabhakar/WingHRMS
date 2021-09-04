@@ -1,0 +1,201 @@
+﻿@page
+@{
+    ViewData["Title"] = "ReimbursmentRequestReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("PartialLayoutLeave")</div>*@
+<style>
+    .labledropdown {
+        border: none !important;
+        background-color: #f5f5f5 !important;
+        -webkit-appearance: none;
+        pointer-events: none;
+    }
+</style>
+
+<div class="tab-link">
+    <ul>
+      
+    </ul>
+</div>
+<!-- tab link end -->
+
+
+
+<div class="col-xl-12">
+  
+    <div class="card">
+        <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+            <ul class="metismenu " id="menu2">
+                <li><a href="/View/Dashboard">Leave & Attendence</a></li>
+                <li><a href="/View/SalarySlips">Salary Slips</a></li>
+                <li><a href="/View/LeaveBalance">Balance Leave</a></li>
+                <li><a href="/View/LoanRequest">Loan Request</a></li>
+                @*<li class="active"><a href="/View/ReimbursmentRequestMaster">Reimbursement Request</a></li>*@
+                <li><a href="/View/AssetRequest">Asset Request</a></li>
+            </ul>
+
+        </nav>
+
+    </div>
+    <div class="panel ">
+
+        <div class="clearfix"></div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+
+                        <h4>Reimbursment Request Status</h4>
+
+                        <a href="/View/ReimbursmentRequestMaster" class="btn btn-primary float-right mb-1">Reimbursment Request</a>
+                        <div class="clearfix"></div>
+                        <hr />
+
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-7">
+                            <select id="ddlcompany" class="form-control labledropdown"></select>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemployee" class="form-control labledropdown">
+                                @*<option value="0">--Please Select--</option>*@
+                            </select>
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-12">
+                            <h4 class="margin-top">Reimbursment Request Status</h4> <hr />
+                        </div>*@
+                    @*<div class="clear"></div>
+                        <div class="col-md-12  btn-group text-rigth margin-top-btn">
+                            <button type="button" class="btn" id="btnsave">Submit</button>
+                            <button type="button" id="btnreset" class="btn">Reset</button>
+                        </div>*@
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblrrstatus" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Company</th>
+                                        <th>Employee</th>
+                                        <th>Request Type</th>
+                                        <th>Financial Year</th>
+                                        <th>Month Year</th>
+                                        <th>Total Amount</th>
+                                        <th>Created On</th>
+                                        <th>Modified On</th>
+                                        <th>Status</th>
+                                        <th>Remarks</th>
+                                        <th>View</th>
+                                        <th>Cancel</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdncompanyid" />
+<script src="~/apiJS/View/Reimbursmentrequestreport.js"></script>
+
+
+@*When click on view than Modal Popup Open*@
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+        width: 88%;
+    }*/
+
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="width:600px;height:320px">
+        <div class="panel ">
+            <h1>Reimbursment Request Details</h1>
+            <hr />
+            <div class="table-responsive no-margin">
+                <table id="tblreimb_req_dtl" class="table-defoult no-margin">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Category</th>
+                            <th>Bill Amount</th>
+                            <th>Requested Amount</th>
+                            <th>Bill Date</th>
+                            <th>Created On</th>
+                            <th>Modified On</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+
+

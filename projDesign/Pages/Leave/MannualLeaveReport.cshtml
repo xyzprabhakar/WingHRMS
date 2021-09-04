@@ -1,0 +1,172 @@
+﻿@page
+@{
+    ViewData["Title"] = "Manual Leaves Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+
+                <div class="col-md-12 mt-3">
+
+                    <h4 class="float-left">Leave Ledger Credit/Debit Detail</h4>
+                    <a href="/Leave/MannualLeave" id="btnAddMannualLeave" class="addBTN btn btn-primary float-right " title="Add Mannual Leave"> Add Mannual Leave </a>
+
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                </div>
+                <div class="form-container leave no-top-margin">
+                    <div class="form-group">
+                        <div id="pnlHeaderData"></div>
+
+                        <div class=" col-md-6 form-group">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Select Year</label>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="ddl_year" class="form-control">
+                                    <option value="2021" selected="selected">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                </select>
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <div class="form-group"> &nbsp;</div>
+                    @*<div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company <i>*</i></label></div>
+                            <div class="col-md-8"><select id="ddlcompany" class="form-control"></select></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Location <i>*</i></label></div>
+                            <div class="col-md-8"><select id="ddllocation" class="form-control"></select></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Department <i>*</i></label></div>
+                            <div class="col-md-8"><select id="ddldepartment" class="form-control"></select></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            @*<div class="col-md-4"><label class="col-form-label">Month <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="number" min="1980" max="2099" step="1" value="2020" class="form-control" id="txtMonthYear" placeholder="Enter year" />
+                            </div
+                                </div>*@
+
+                    <div class="col-md-12 form-group">
+                        <input type="button" id="btnget_detail" class="btn-primary" style="height:40px" value="Get Detail" />
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblmannualleavedtl" class="table w-100 nowrap">
+                                <thead>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="myLeaveModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+                <table id="tbl_leavetype_dtl" class="table w-100 nowrap"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myLeaveModal_monthwise" class="modal">
+    <!-- Modal content -->
+    <div class="panel" style="padding:5px">
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+                <table id="tbl_leave_details_monthwise" class="table w-100 nowrap"></table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: false,
+                haveToDate: false,
+                haveCompanyData: true,
+                haveStateData: false,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+
+    <script src="~/apiJS/Leave/JsMannualLeaveReport.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+}

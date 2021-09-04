@@ -1,0 +1,141 @@
+﻿@page
+
+@{
+    ViewData["Title"] = "KeyMasterModel";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Key Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Key Name<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txtkey" maxlength="100" placeholder="Key Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Display Name<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txtdisplay" maxlength="150" placeholder="Display Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Callng Function Name<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtfunc_name" class="form-control" maxlength="9" placeholder="Calling Function" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Data Type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddltype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="int">int</option>
+                                <option value="string">string</option>
+                                <option value="DateTime">DateTime</option>
+                                <option value="Decimal">Decimal</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Formula Name<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtformula" class="form-control" maxlength="150" placeholder="Formula Name" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Description<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <textarea type="text" class="form-control" id="txtdescription" maxlength="400" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 margin-bottom-custom">
+                        <div class="col-md-4 "><label class="mb-0">Status<i>*</i></label></div>
+                        <div class="col-md-6">
+
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Key Master List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblkeyMaster" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Key Name</th>
+                                        <th>Display Name</th>
+                                        <th>Function Name</th>
+                                        <th>Formula Name</th>
+                                        <th>Key Description</th>
+                                        <th>Data Type</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Payroll/JsKeyMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

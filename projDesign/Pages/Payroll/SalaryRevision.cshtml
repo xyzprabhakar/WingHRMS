@@ -1,0 +1,335 @@
+﻿@page
+
+@{
+    ViewData["Title"] = "Salary Revision";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+
+    /*input[type=date]::-webkit-inner-spin-button,{
+        -webkit-appearance: none;
+        display: none;
+    }*/
+
+    /*input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-clear-button {
+        display: none;
+        -webkit-appearance: none;
+    }*/
+
+</style>
+@*<div>@Html.Partial("PartialLayout")</div>*@
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @*@Html.Partial("_PartialEmpLayout")*@
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Employee Salary Assign / Revise</h4>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlemp" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Effective from<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txteffectivedt" class="form-control" readonly="readonly" placeholder="01-Jan-2000" />
+                            @*<input type="date" id="txteffectivedt" />*@
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Joining Date<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtjoiningdt" class="form-control bg-light" readonly="readonly" placeholder="Joining Date" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Designation<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtdesignation" class="form-control bg-light" readonly="readonly" placeholder="Designation" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Experience <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtexperience" class="form-control bg-light" readonly="readonly" placeholder="Experience" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Department <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtdepartment" class="form-control bg-light" readonly="readonly" placeholder="Department" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Grade <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtgrade" readonly="readonly" class="form-control bg-light" placeholder="Grade" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Salary Group <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlsg" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                            @*<input type="text" id="txtsg" readonly="readonly" placeholder="Salary Group" />*@
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group" style="visibility:hidden;">
+                        <div class="col-md-4 "><label class="col-form-label">Payout From Month <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtpayoutmonth" class="form-control" readonly="readonly" placeholder="Payout month" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <hr />
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tab1')"> Salary Revision</button>
+                            <button id="tab3_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab3')"> Salary Upload</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab2')"> Salary Report</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 mt-4">
+
+                        <div id="tab1" class="tabcontent" style="display: block;">
+                            <div class="slider-wrap">
+                                <div class="clear"></div>
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="tblsalaryrevision" class="table nowrap w-100 no-margin">
+                                            <thead>
+                                                <tr>
+                                                    <th style="background-color:lightskyblue">S#</th>
+                                                    <th style="background-color:lightskyblue">Salary Item</th>
+                                                    <th style="background-color:lightskyblue">Current Salary</th>
+                                                    <th style="background-color:lightskyblue">Revised Salary</th>
+                                                    @*<th style="background-color:lightskyblue">Revision(%)</th>*@
+                                                </tr>
+
+
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+
+                                <div class="col-md-12" id="div_emp_salay" style="display:none">
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-3"><label class="col-form-label">Employee Salary<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtempelasry" class="form-control" placeholder="Employee Salary" onkeypress="return isNumber(event,this)" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="col-md-6 offset-md-3">
+                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light" id="btncalculate">Calculate</button>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+
+                                @*<div class="col-md-12">
+                                        <hr />
+                                    </div>*@
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-3"><label class="col-form-label">Employee Remarks</label></div>
+                                        <div class="col-md-6">
+                                            <textarea id="txtremarks" class="form-control" onkeypress="return AlphaNumeric(event);" placeholder="Employee Remarks" maxlength="300"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        @*<div class="col-md-3"><label class="col-form-label">Notes</label></div>
+                                        <div class="col-md-6">
+                                            <textarea id="txtnotes" class="form-control" onkeypress="return AlphaNumeric(event);" placeholder="Notes" maxlength="300"></textarea>
+                                        </div>*@
+                                    </div>
+                                    <div class="clear"></div>
+
+                                    <div class="col-md-12 text-center">
+                                        <hr />
+
+                                        <button type="button" class="btn btn-primary pl-3 pr-3 waves-effect waves-light " id="btnsave">Save</button>
+                                        @*<button type="button" id="btndelete" class="btn">Delete Revision</button>*@
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- first tab end -->
+
+                        <div id="tab2" class="tabcontent" style="display: none;">
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+
+                                    <div class="formula-panel no-top-margin">
+                                        <div class="col-md-12">
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-3"><label class="col-form-label">From Date<i>*</i></label></div>
+                                                <div class="col-md-6">
+                                                    @*<input type="text" id="txtfromdate" maxlength="100" />*@
+                                                    <input type="date" class="form-control" id="txtfromdate" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-3"><label class="col-form-label">To Date<i>*</i></label></div>
+                                                <div class="col-md-6">
+                                                    @*<input type="text" id="txttodate" maxlength="100" />*@
+                                                    <input type="date" class="form-control" id="txttodate" />
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <hr />
+                                            <div class="form-group text-center">
+                                                <div class=" btn-group">
+                                                    <button type="button" class="btn btn-primary btn-lg" id="btnsearch">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive no-margin">
+                                            <table id="tblsalaryrevisionrpt" class="table nowrap w-100"></table>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                    @*<div class="slider-wrap" style="width: auto; height: auto;">
+                                            <div class="clear"></div>
+                                        </div>*@
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="tab3" class="tabcontent" style="display: none;">
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+
+                                    <div class="row ">
+                                        <div class="col-md-12">
+                                            <a id="solTitle" href="#" onClick="DownloadSalaryUploadFormat();" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <br />
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Effective From <i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txteffective_dt" class="form-control" readonly="readonly" placeholder="Payout month" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Upload(Only Excel)<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="file" id="SalaryInput_File" class="form-control" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <hr />
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary waves-effect waves-light" id="btnuploaddtl">Upload Detail</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdneffectivedt" />
+<input type="hidden" id="hdnid" /><input type="hidden" id="hdn_salaryrevisionvalue" />
+<script src="~/apiJS/Payroll/JsSalaryRevision.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<div class="modal fade " id="mySalaryModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="margin-top: 3%;"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modal_close" style="margin-top:1%">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="table-responsive container mt-2 mb-2">
+                <table id="tbl_excel_dtl" class="table nowrap w-100"></table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+﻿@page
+@{
+    ViewData["Title"] = "DetailLocationMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="col-md-12">
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="float-left">Location Details</h4>
+            <a href="/Masters/AddLocationMaster" class="btn btn-primary text-right float-right ">Add Location </a>
+            <div class="clearfix"></div>
+            <hr />
+            <div class="">
+
+            </div>
+
+            <div class="form-container  master-panel desination-panel">
+
+                <div class="form-group">
+                    <div id="pnlHeaderData"></div>
+
+                </div>
+                <div class="col-md-12" style="text-align:right;">
+                    <button class="btn btn-primary btn-lg" id="btnGetData">Get Data</button>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+
+                <div class="col-md-12" id="locationdiv">
+                    <div class="table-responsive">
+                        <table id="tbllocation" class="table table-bordered w-100"></table>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12"><hr /> <h4 class="margin-top">Sub Location Master List</h4></div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tblsublocation" class="table no-margin w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdnid" />
+
+
+@*<script src="~/Comman/JS/CommanJS.js"></script>*@
+
+
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: false,
+                haveLocationData: false,
+                haveDepartmentData: false,
+                haveEmpData: false,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+
+    <script src="~/apiJS/Masters/LocationMaster.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                
+
+                if ($("#ddlcompany").val() != undefined && $("#ddlcompany").val() != null && $("#ddlcompany").val() != ""
+                    && $("#dtpFromDt").val() != undefined && $("#dtpFromDt").val() != null && $("#dtpFromDt").val() != ""
+                    && $("#dtpToDt").val() != undefined && $("#dtpToDt").val() != null && $("#dtpToDt").val() != ""
+                    && $("#ddllocation").val() != undefined && $("#ddllocation").val() != null && $("#ddllocation").val() != "") {
+
+                    GetData();
+                    GetSub_Location_DataByCompany();
+                }
+
+
+            }, 2000);// end timeout
+
+        });
+
+        $("#btnGetData").bind("click", function () {
+            if ($("#dtpFromDt").val() == undefined || $("#dtpFromDt").val() == null && $("#dtpFromDt").val() == "") {
+                messageBox("error", "Please select From Date");
+                return false
+            }
+
+            if ($("#dtpToDt").val() == undefined || $("#dtpToDt").val() == null && $("#dtpToDt").val() == "") {
+                messageBox("error", "Please select To Date");
+                return false
+            }
+
+            if ($("#ddlcompany").val() == undefined || $("#ddlcompany").val() == null || $("#ddlcompany").val() == "") {
+                messageBox("error", "Please select Company");
+                return false
+            }
+
+            if ($("#ddllocation").val() == undefined && $("#ddllocation").val() == null && $("#ddllocation").val() == "") {
+                messageBox("error", "Please select Location");
+                return false
+            }
+
+
+            GetData();
+            GetSub_Location_DataByCompany();
+
+
+        })
+
+
+            // debugger;
+            //var emp_role_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_role_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+            //var company_idd = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+            //var HaveDisplay = ISDisplayMenu("Display Company List");
+
+            // Get_SubLocation_Data();
+
+                //if (HaveDisplay == 0) {
+                //    GetData(company_idd);
+                //    GetSub_Location_DataByCompany(company_idd);
+                //}
+                //else {
+                //    GetData();
+                //    Get_SubLocation_Data();
+                //}
+
+    </script>
+
+}

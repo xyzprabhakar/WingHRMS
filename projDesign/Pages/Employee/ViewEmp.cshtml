@@ -1,0 +1,46 @@
+﻿@page
+@{
+    ViewData["Title"] = "ViewEmployee";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="panel">
+                    <h1>Employee List</h1>
+                    <hr />
+                </div>
+                <div class="col-md-12">
+                    <a href="/Employee/CreateUser" class="btn btn-success btn-lg text-right float-right">Create Employee </a>
+                </div>
+                <div class="table-responsive no-margin">
+                    <table id="tblEmployee" class="table nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+                                <th>Card Number</th>
+                                <th>Date Of Joining</th>
+                                <th>Date Of Birth</th>
+                                <th>Email Id</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Company Name</th>
+                                <th>Created Date</th>
+                                @*<th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Employee/JsEmpView.js?ver=@DateTime.Now.Ticks.ToString()"></script>

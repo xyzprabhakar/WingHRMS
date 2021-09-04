@@ -1,0 +1,463 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddCity";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                @*<div class="text-rigth">
+                        <a href="#" class="addBTN">Add City <span class="fa fa-plus"></span></a>
+                    </div>*@
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Add City Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Country Name</label>
+                            <select id="ddlcountry" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">State Name</label>
+                            <select id="ddlstate" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">City Name</label>
+                            <input type="text" id="txtcityname" maxlength="50" autocomplete="off" class="form-control" placeholder="City Name">
+                        </div>
+                    </div>
+
+                    @*<label class="col-md-3">Country Name</label>
+                        <select id="ddlcountry" class="col-md-3">
+                            <option value="0">--Select--</option>
+                        </select>
+                        <div class="clear"></div>*@
+
+                    @*<label class="col-md-3"></label>*@
+
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">City List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblcity" class="table nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Country Name</th>
+                                        <th>Short Name</th>
+                                        <th>State Name</th>
+                                        <th>City Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <input type="hidden" id="hdnid" />
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#loader').show();
+    var login_emp_id;
+    $(document).ready(function () {
+        setTimeout(function () {
+            
+
+            // debugger;
+            var token = localStorage.getItem('Token');
+
+            if (token == null) {
+                window.location = '/Login';
+            }
+
+            GetData();
+            $('#btnupdate').hide();
+            $('#btnsave').show();
+            BindCountryList('ddlcountry', 0);
+
+            $('#ddlcountry').bind("change", function () {
+                //$("#ddlstate").empty();
+                BindStateList('ddlstate', 0, $(this).val());
+            });
+            login_emp_id = CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+
+            $('#loader').hide();
+
+        }, 2000);// end timeout
+
+    });
+
+    $('#btnreset').bind('click', function () {
+        //$("#txtcityname").val('');
+        //$("#ddlstate").val('0');
+        location.reload();
+    });
+
+    $('#btnsave').bind("click", function () {
+        // debugger;
+        var CityName = $("#txtcityname").val();
+        var StateId = $("#ddlstate").val();
+        var errormsg = '';
+        var iserror = false;
+
+        if (CityName == '') {
+            errormsg = errormsg + 'Please enter city name !! \n';
+            iserror = true;
+        }
+        if (StateId == 'undefined' || StateId == '0' || StateId == "") {
+            errormsg = errormsg + 'Please select state name !!';
+            iserror = true;
+        }
+
+        if (iserror) {
+            alert(errormsg);
+            return false;
+        }
+
+
+        var myData = {
+
+            'CityName': CityName,
+            'CityId': 0,
+            'StateId': StateId,
+            'created_by': login_emp_id,
+            'ActionMode': 'Add'
+        };
+
+
+        $('#loader').show();
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/SaveAndUpdateCity/';
+        var obj = JSON.stringify(myData);
+
+        var headers = {};
+        headers["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headers["salt"] = $("#hdnsalt").val();
+
+        $.ajax({
+            url: apiurl,
+            type: "POST",
+            data: obj,
+            dataType: "json",
+            contentType: "application/json",
+            //headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            headers: headers,
+            success: function (data) {
+                // debugger;
+                // var resp = JSON.parse(data);
+                _GUID_New();
+                var statuscode = data.statusCode;
+                var Msg = data.message;
+
+                if (statuscode == "0") {
+                    $("#txtcityname").val('');
+                    $("#ddlstate").val('0');
+                    $("#ddlcountry").val('0');
+                    //GetData();
+                    // alert(Msg);
+                    //location.reload();
+                    $("#hdnid").val('');
+                    GetData();
+                    $('#btnupdate').hide();
+                    $('#btnsave').show();
+                    $("btnupdate").text('Update').attr("disabled", false);
+                    $('#loader').hide();
+                    messageBox("success", Msg);
+                    //GetData();
+                    // alert(Msg);
+                    // location.reload();
+
+                }
+                else if (statuscode == "1" || statuscode == '2') {
+                    $('#loader').hide();
+                    messageBox("error", Msg);
+                }
+
+            },
+            error: function (request, status, error) {
+                $('#loader').hide();
+                _GUID_New();
+                var error = "";
+                var errordata = JSON.parse(request.responseText);
+                try {
+                    var i = 0;
+                    while (Object.keys(errordata).length > i) {
+                        var j = 0;
+                        while (errordata[Object.keys(errordata)[i]].length > j) {
+                            error = error + "\r\n  * " + errordata[Object.keys(errordata)[i]][j] + "</br>";
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                    }
+
+                } catch (err) { }
+                messageBox("error", error);
+
+            }
+
+        });
+    });
+
+    //--------bind data in jquery data table
+    function GetData() {
+        // debugger;
+        var cityid = $("#hdnid").val();
+        cityid = cityid == '' || cityid == 'undefined' ? 0 : cityid;
+        var myData = {
+            'CityId': cityid,
+            'StateId': 0
+        };
+        $('#loader').show();
+        //var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/GetCityList/'+cityid+'/0';
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/GetCityList/0/-1';
+        $.ajax({
+            type: "GET",
+            url: apiurl,
+            data: {},
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            success: function (res) {
+                // debugger;
+                $('#loader').hide();
+                $("#tblcity").DataTable({
+                    "processing": true, // for show progress bar
+                    "serverSide": false, // for process server side
+                    "bDestroy": true,
+                    "filter": true, // this is for disable filter (search box)
+                    "orderMulti": false, // for disable multiple column at once
+                    "scrollY": 150,
+                    "aaData": res,
+                    "columnDefs":
+                        [
+                            {
+
+                            }
+                        ],
+
+                    "columns": [
+                        { "data": "cityid", "name": "cityid", "autoWidth": true },
+                        { "data": "countryname", "name": "countryname", "autoWidth": true },
+                        { "data": "shortname", "name": "shortname", "autoWidth": true },
+                        { "data": "statename", "name": "statename", "autoWidth": true },
+                        { "data": "cityname", "name": "cityname", "autoWidth": true },
+                        {
+                            "render": function (data, type, full, meta) {
+                                return '<a href="#" onclick=EditData("' + full.cityid + '"); data-toggle="tooltip" title="Edit Record !"><i class="fa fa-pencil-square-o"></i></a>';
+                            }
+                        }
+                    ],
+                    "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
+
+                });
+            },
+            error: function (error) {
+                $('#loader').hide();
+                messageBox("error", error.responseText);
+
+            }
+        });
+
+    }
+
+    function EditData(cityid) {
+        // debugger;
+
+        //var objd = data.split(',');
+        //var countryid = objd[0];
+        //var countryname = objd[1];
+        //var shortname = objd[2];
+
+
+        if (cityid != null && cityid != "undefined") {
+            var myData = {
+                'CityId': cityid,
+                'StateId': 0
+            };
+            var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/GetCityList/0/' + cityid;
+            $('#loader').show();
+
+            $.ajax({
+                type: "GET",
+                url: apiurl,
+                data: {},
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+                success: function (res) {
+                    //res = res["data"];
+                    $('#hdnid').val(res[0].city_id);
+                    $("#txtcityname").val(res[0].name);
+                    $("#ddlcountry").val(res[0].country_id);
+                    BindStateList('ddlstate', res[0].state_id, res[0].country_id);
+                    // $('#ddlstate').val(res[0].state_id);
+
+                    $('#btnupdate').show();
+                    $('#btnsave').hide();
+
+                    $('#loader').hide();
+                },
+                error: function (err) {
+                    messageBox("error", err.responseText)
+                    $('#loader').hide();
+                }
+            });
+        }
+        else {
+            $('#loader').hide();
+            alert('There some problem to process this request !!');
+        }
+    }
+
+    //-------update city data
+    $("#btnupdate").bind("click", function () {
+        // debugger;
+
+        $('#btnupdate').text('Please wait..').prop("disabled", true);
+        var CityId = $('#hdnid').val();
+
+        var CityName = $("#txtcityname").val();
+        var StateId = $("#ddlstate").val();
+        var errormsg = '';
+        var iserror = false;
+
+        if (CityName == '') {
+            errormsg = errormsg + 'Please enter city name !! \n';
+            iserror = true;
+        }
+        if (StateId == 'undefined' || StateId == '0' || StateId == "") {
+            errormsg = errormsg + 'Please select state name !!';
+            iserror = true;
+        }
+
+        if (iserror) {
+            alert(errormsg);
+            return false;
+        }
+
+        var myData = {
+
+
+            'CityName': CityName,
+            'CityId': CityId,
+            'StateId': StateId,
+            'created_by': login_emp_id,
+            'ActionMode': 'Update'
+        };
+        $('#loader').show();
+        var apiurl = localStorage.getItem("ApiUrl") + 'apiMasters/SaveAndUpdateCity/';
+        var obj = JSON.stringify(myData);
+
+        var headers = {};
+        headers["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headers["salt"] = $("#hdnsalt").val();
+
+        $.ajax({
+            url: apiurl,
+            type: "POST",
+            data: obj,
+            dataType: "json",
+            contentType: "application/json",
+            headers: headers,
+            // headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
+            success: function (data) {
+                // debugger;
+                // var resp = JSON.parse(data);
+                _GUID_New();
+                var statuscode = data.statusCode;
+                var Msg = data.message;
+                $('#btnupdate').text('Update').prop("disabled", false);;
+                //$('#loader').hide();
+                if (statuscode == "0") {
+                    //$("#txtcityname").val('');
+                    //$("#ddlstate").val('0');
+                    //$('#hdnid').val('');
+
+                    //$('#btnupdate').hide();
+                    //$('#btnsave').show();
+
+                    //GetData();
+                    //alert(Msg);
+                    // location.reload();
+                    $("#txtcityname").val('');
+                    $("#ddlstate").val('0');
+                    $("#ddlcountry").val('0');
+                    //GetData();
+                    // alert(Msg);
+                    //location.reload();
+                    $("#hdnid").val('');
+                    GetData();
+                    $('#btnupdate').hide();
+                    $('#btnsave').show();
+                    $("btnupdate").text('Update').attr("disabled", false);
+                    $('#loader').hide();
+                    messageBox("success", Msg);
+                }
+                else if (statuscode == "1" || statuscode == '2') {
+                    $('#loader').hide();
+                    messageBox("error", Msg);
+                }
+
+            },
+            error: function (request, status, error) {
+                _GUID_New();
+                $('#btnupdate').text('Update').prop("disabled", false);;
+                $('#loader').hide();
+
+                var error = "";
+                var errordata = JSON.parse(request.responseText);
+                try {
+                    var i = 0;
+                    while (Object.keys(errordata).length > i) {
+                        var j = 0;
+                        while (errordata[Object.keys(errordata)[i]].length > j) {
+                            error = error + "\r\n  * " + errordata[Object.keys(errordata)[i]][j] + "</br>";
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                    }
+
+                } catch (err) { }
+
+                messageBox("error", error);
+
+            }
+        });
+    });
+
+
+</script>
+

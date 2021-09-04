@@ -1,0 +1,232 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddDepartmentMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+
+
+
+                <!--  <div class="text-rigth">
+                      <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                  </div>
+                    -->
+                <div class="form-container master-panel mt-4">
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4">
+                            <label class="col-form-label ">Company Name<i>*</i></label>
+                        </div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light waves-effect waves-light col-6 " onclick="openCity(event, 'tab1_dept_master')"> Department Master</button>
+                            <button id="tab2_btn" class="tablinks btn waves-effect waves-light btn-outline-light col-6" onclick="openCity(event, 'tab2_dept_master')"> Sub Department Master</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12 mt-4">
+
+                        <div id="tab1_dept_master" class="tabcontent" style="display: block;">
+                            <div class="slider-wrap">
+                                <div class="clear"></div>
+                                <div class="col-md-12">
+                                    <h4>Department Master</h4>
+                                    <hr />
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label ">Department<i>*</i></label>
+                                        <input id="txtdepartment" type="text" class="form-control" autocomplete="off" placeholder="Department Name"  />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label ">Department Code@*Short Name*@<i>*</i></label>
+                                        <input id="txtshortname" type="text" class="form-control" autocomplete="off" placeholder="Department Code" onkeypress="return AlphaNumeric(event);" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label ">Department HOD </label>
+                                        <select id="ddlheadcode" class="form-control">
+                                            <option value="0">--Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class=" mb-0 ">Status</label>
+                                        <div class="clear"></div>
+                                        <div class="form-check-inline ">
+                                            <div class="custom-control custom-radio">
+                                                <input class="custom-control-input" id="is_active" type="radio" tabindex="17" value="1" name="chkstatus">
+                                                <label class="custom-control-label" for="is_active">  Active</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check-inline ">
+                                            <div class="custom-control custom-radio">
+                                                <input class="custom-control-input" id="is_in_active" type="radio" tabindex="18" value="0" name="chkstatus">
+                                                <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                        <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                    </div>
+
+                                </div>
+
+                                
+                                <div class="col-md-12">
+                                    <h4 class="margin-top">Department Master List</h4>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="table-responsive no-margin">
+                                        <table id="tbldepartment" class="table nowrap w-100"></table>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div id="tab2_dept_master" class="tabcontent" style="display: none;">
+
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+
+                                    <div class="col-md-12">
+                                        <h4>Sub Department Master</h4>
+                                        <hr />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Department<i>*</i></label>
+
+                                            <select id="ddl_department" class="form-control">
+                                                <option value="0">--Select--</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Sub Department<i>*</i></label>
+
+                                            <input id="txtsubdeptname_" type="text" maxlength="50" class="form-control" autocomplete="off" placeholder="Sub Department Name" onkeypress="return AlphaNumeric(event);" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Sub Department Code<i>*</i></label>
+
+                                            <input id="txtsubdeptcode_" type="text" autocomplete="off" class="form-control" maxlength="5" placeholder="Sub Department Code" onkeypress="return AlphaNumeric(event);" />
+
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 ">
+
+                                        <div class="form-group">
+                                            <label class=" mb-0 ">Status</label>
+                                            <div class="clear"></div>
+                                            <div class="form-check-inline ">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active_sub_dept" type="radio" value="1" name="chkstatus_sub_dept">
+                                                    <label class="custom-control-label" for="is_active_sub_dept">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline ">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active_sub_dept" type="radio" value="0" name="chkstatus_sub_dept">
+                                                    <label class="custom-control-label" for="is_in_active_sub_dept">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="clear"></div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center">
+
+
+                                            <div class=" btn-group">
+                                                <button type="button" class="btn btn-primary btn-lg" id="btn_sub_dept_save">Save</button>
+                                                <button type="button" class="btn btn-light btn-lg" id="btn_sub_dept_update">Update</button>
+                                                <button type="button" id="btn_sub_dept_reset" class="btn btn-light btn-lg">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <h4 class="margin-top">Sub Department Master List</h4>
+                                        <div class="clear"></div>
+                                        <hr />
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="table-responsive no-margin">
+                                            <table id="tblsubdepartment" class="table nowrap  w-100">
+                                            </table>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <input type="hidden" id="hdnid" />
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/Masters/DepartmentMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

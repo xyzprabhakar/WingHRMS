@@ -1,0 +1,184 @@
+﻿@page
+@{
+    ViewData["Title"] = "KpiKeyAreaMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12">
+
+    <div class="panel ">
+        @*<div>@Html.Partial("PartialLayoutMyTeamTab")</div>*@    
+        <div class="card  mt-4">
+            <div class="card-body">
+                <div class="form-container leave no-top-margin" style="border:none">
+                    <div class="col-md-12">
+                        <h4>Kpi Key Area Master</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Department<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddldepartment" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Working Role<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddl_working_role" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Objective Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="dll_objective_type" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Key Area<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txt_key_area" class="form-control" type="text" autocomplete="off" placeholder="Key Area" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Expected Result<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txt_expected_result" class="form-control" type="text" autocomplete="off" placeholder="Expected Result" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Wtg<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txt_wtg" type="text" class="form-control" autocomplete="off" placeholder="Wtg" maxlength="2" onkeypress="return isNumber(event,this)" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Remarks/Comment</label></div>
+                            <div class="col-md-8">
+                                <textarea id="txtremarks"  class="form-control" autocomplete="off" placeholder="Remarks/Comment" maxlength="1000" onkeypress="return AlphaNumeric(event);"></textarea> 
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12 form-group" id="divb">
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <h4 class="margin-top">Kpi Key Area Master List</h4>
+                    <hr />
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tbl_kpi_key_area_master" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/ePA/JS_KpiKeyAreaMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+                <table id="tbl_criterias" class="table w-100 nowrap"></table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+

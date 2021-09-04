@@ -1,0 +1,274 @@
+﻿
+<style>
+    #ddlemp_chosen {
+        width: 100% !important;
+    }
+</style>
+
+
+
+
+
+<div class="card">
+    <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+        <ul class="metismenu" id="menu2">
+            <li style="max-width: 46px;">
+                <a href="dashboard"><i class="fa fa-home"></i></a>
+            </li>
+            <li>
+                <a href="#" class="has-arrow"><i class="fa fa-wrench"></i>  Setup </a>
+                <ul>
+                    <li class="hrhassub">
+                        @*<a href="SalGroupMaster" class="has-arrow">Create Salary Group</a>*@
+                        <a href="#" class="has-arrow">Salary Group</a>
+                        <ul>
+                            <li><a href="SalGroupMaster">Create Salary Group</a></li>
+                            <li><a href="FormulaComponent">Group Alignment</a></li>
+                        </ul>
+                    </li>
+                    @*<li><a href="Repository">Repository</a></li>*@
+                </ul>
+            </li>
+            <li>
+                <a href="" class="has-arrow"><i class="fas fa-coins"></i>  Payroll Inputs</a>
+                <ul>
+                    <li><a href="SalaryInput">Salary Input</a></li>
+                    <li><a href="LODMaster">L W P</a></li>
+                    <li><a href="OTRateMaster">O T Rate</a></li>
+                    <li><a href="EmployeeIncomeTaxAmount">Income Tax</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="ProcessPayroll" class="hractive"><i class="fa fa-cogs"></i>  Process </a>
+            </li>
+            <li>
+                <a href="#" class="has-arrow"><i class="fa fa-chart-bar"></i>  Reports  </a>
+                <ul>
+                    <li><a href="SalaryInputReport">Salary Input Report</a></li>
+                </ul>
+
+            </li>
+            <li>
+                <a href="#" class="has-arrow"><i class="fa fa-chart-bar"></i> Repayment   </a>
+                <ul>
+                    <li><a href="LoanRepayments">Loan Repayment</a></li>
+                </ul>
+
+            </li>
+
+
+            <li>
+                <a href="#" class="has-arrow"><i class="fa fa-wrench"></i> Payroll Master </a>
+                <ul>
+                    <li>
+                        <a href="#" class="has-arrow"> Fine Master Form-I </a>
+                        <ul>
+                            <li> <a href="RegisterOfFinesFormIMaster"> Fine Master Form-I Master </a></li>
+                            <li><a href="MinimumWagesCentralRulesFORMI">Minimum wages Central Rules form-I </a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="has-arrow">Deduction Form-II </a>
+                        <ul>
+                            <li><a href="RegisterOfDeductionsFormIIMaster">Deduction Form-II Master </a></li>
+                            <li><a href="MinimumWagesCentralRulesFORMII">Minimum wages Central Rules form-II </a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="has-arrow">Advance Form-III </a>
+                        <ul>
+                            <li><a href="RegisterofAdvanceFormIIIMaster">Advance Form-III Master</a></li>
+                            <li><a href="RegisterofAdvanceFormIII">Register of Advance form-III </a></li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#" class="has-arrow">Overtime Form-IV </a>
+                        <ul>
+                            <li> <a href="RegisterofOvertimeFormIVMaster">Overtime Form-IV Master </a></li>
+                            <li><a href="MinimumWagesCentralRulesFORMIV">Register of Overtime Form IV</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li><a href="MinimumWagesCentralRulesFORMV">Register of Muster Roll in Form-V Rule 26(5)</a></li>
+                    <li class="hrhassub">
+                        <a href="#" class="has-arrow">Register of Wages Form X</a>
+                        <ul>
+                            <li><a href="RegisterOfWagesFormXMaster">Form X Master </a></li>
+                            <li><a href="MinimumWagesCentralRulesFORMX">Minimum Wages Central Rules FORM X</a></li>
+                        </ul>
+                    </li>
+
+                    @*<li class="hrhassub">
+                            <a href="RegisterOfWagesFormXMaster">Register of Wages Form X Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                            <ul>
+                                <li><a href="MinimumWagesCentralRulesFORMX">Register of Wages Form X</a></li>
+                            </ul>
+                        </li>*@
+
+
+                    <li>
+                        <a href="#" class="has-arrow">Form XI Master </a>
+                        <ul>
+                            <li><a href="RegisterOfWagesSlipFormXIMaster">Register of Wage Slip Form XI Master</a></li>
+                            <li><a href="MinimumWagesCentralRulesFORMXI">Register of Wage Slip Form XI</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>
+<div class="clearfix"></div>
+
+
+<script>
+
+    
+
+        //$('#menu2').metisMenu();
+
+   
+</script>
+
+
+
+@*<ul class="hrmenu">
+    <li>
+        <a href="dashboard" class="hractive"><i class="fa fa-dashboard"></i> &nbsp; Dashboard </a>
+    </li>
+    <li>
+        <a href="#" class="hractive"><i class="fa fa-wrench"></i> &nbsp; Setup &nbsp;&nbsp;<i class="fas fa-chevron-down"></i></a>
+        <ul>
+            <li class="hrhassub">
+                <a href="LODSetting">Monthly Salary Rule  &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="PayrollMonthCircle">Salary Cycle</a></li>
+                </ul>
+            </li>
+            <li class="hrhassub">
+                <a href="SalGroupMaster">Create Salary Group &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="FormulaComponent">Group Alignment</a></li>
+                </ul>
+            </li>
+            <li><a href="Repository">Repository</a></li>
+            <li><a href="SalaryGroupMapEmp">Map Employee In Salary Group</a></li>
+            <li><a href="SalaryRevision">Employee Salary</a></li>
+
+        </ul>
+    </li>
+    <li>
+        <a href="SalaryInput" class="hractive"><i class="fas fa-coins"></i> &nbsp; Payroll Input &nbsp;&nbsp;<i class="fas fa-chevron-down"></i></a>
+        <ul>
+            <li><a href="LODMaster">L W P</a></li>
+            <li><a href="/Shift/Settings">O T & Comp Off Setting</a></li>
+            <li><a href="OTRateMaster">O T Rate</a></li>
+            <li><a href="EmployeeIncomeTaxAmount">Income Tax</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="ProcessPayroll" class="hractive"><i class="fa fa-cogs"></i> &nbsp; Process </a>
+    </li>
+    <li>
+        <a href="#" class="hractive"><i class="fa fa-chart-bar"></i> &nbsp; Reports  &nbsp;&nbsp;<i class="fas fa-chevron-down"></i> </a>
+        <ul>
+            <li><a href="SalaryInputReport">Salary Input Report</a></li>
+        </ul>
+
+    </li>
+
+
+    <li>
+        <a href="#" class="hractive"><i class="fa fa-wrench"></i> &nbsp; Payroll Muster &nbsp;&nbsp;<i class="fas fa-chevron-down"></i></a>
+        <ul>
+            <li class="hrhassub">
+                <a href="RegisterOfFinesFormIMaster"> Fine Master Form-I Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="MinimumWagesCentralRulesFORMI">Minimum wages Central Rules form-I </a></li>
+                </ul>
+            </li>
+
+            <li class="hrhassub">
+                <a href="RegisterOfDeductionsFormIIMaster">Deduction Form-II Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="MinimumWagesCentralRulesFORMII">Minimum wages Central Rules form-II </a></li>
+                </ul>
+            </li>
+
+            <li class="hrhassub">
+                <a href="RegisterofAdvanceFormIIIMaster">Advance  Form-III Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="RegisterofAdvanceFormIII">Register of Advance form-III </a></li>
+                </ul>
+            </li>
+
+
+            <li class="hrhassub">
+                <a href="RegisterofOvertimeFormIVMaster">Overtime Form-IV Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="MinimumWagesCentralRulesFORMIV">Register of Overtime Form IV</a></li>
+                </ul>
+            </li>
+
+
+            <li><a href="MinimumWagesCentralRulesFORMV">Register of Muster Roll in Form-V Rule 26(5)</a></li>
+            <li class="hrhassub">
+                <a href="RegisterOfWagesFormXMaster">Form X Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="MinimumWagesCentralRulesFORMX">Minimum Wages Central Rules FORM X</a></li>
+                </ul>
+            </li>
+
+            @*<li class="hrhassub">
+                <a href="RegisterOfWagesFormXMaster">Register of Wages Form X Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="MinimumWagesCentralRulesFORMX">Register of Wages Form X</a></li>
+                </ul>
+            </li>*@
+
+
+@*<li class="hrhassub">
+        <a href="RegisterOfWagesSlipFormXIMaster">Register of Wage Slip Form XI Master &nbsp;&nbsp;<i class="fas fa-chevron-right hrrighticon"></i></a>
+        <ul>
+            <li><a href="MinimumWagesCentralRulesFORMXI">Register of Wage Slip Form XI</a></li>
+        </ul>
+    </li>
+    </ul>
+    </li>*@
+
+@*<li>
+        <a href="#" class="hractive"><i class="fas fa-city"></i> &nbsp; Dashboard &nbsp;&nbsp;<i class="fas fa-chevron-down"></i></a>
+        <ul>
+            <li><a href="">Dashboard 2</a></li>
+            <li><a href="">Dashboard 3</a></li>
+            <li><a href="">Dashboard 4</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Company</a></li>
+    <li><a href="#">Leave</a></li>
+    <li><a href="#">Employee</a></li>
+    <li>
+        <a href="#" class="hractive"><i class="fas fa-city"></i> &nbsp; Shift &nbsp;&nbsp;<i class="fas fa-chevron-down"></i></a>
+        <ul>
+            <li class="hrhassub">
+                <a href="">Dashboard 1 <i class="fas fa-chevron-right hrrighticon"></i></a>
+                <ul>
+                    <li><a href="">Sub menu1</a></li>
+                    <li><a href="">Sub menu1</a></li>
+                </ul>
+            </li>
+            <li><a href="">Dashboard 2</a></li>
+            <li><a href="">Dashboard 3</a></li>
+            <li><a href="">Dashboard 4</a></li>
+        </ul>
+    </li>*@
+@*</ul>*@
+
+<div class="clear"></div>

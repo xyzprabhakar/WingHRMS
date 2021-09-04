@@ -1,0 +1,75 @@
+﻿@page
+@{
+    ViewData["Title"] = "GradeAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Grade Allocation</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code <i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Grade<i>*</i></label>
+
+                            <select id="ddlgrade" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">From Date<i>*</i></label>
+                            <input type="text" class="ip-ap form-control" readonly id="allocfromdate" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label class="col-form-label">To Date<i>*</i></label>
+                            <input type="text" class="ip-ap form-control" readonly id="alloctodate" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary waves-effect waves-light" id="btnSaveGradeAllocation">Save</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <!-- form container end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Employee/JsEmployee.js"></script>*@
+<script src="~/apiJS/Employee/JsGradeAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

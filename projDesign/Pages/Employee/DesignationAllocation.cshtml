@@ -1,0 +1,78 @@
+﻿@page
+@{
+    ViewData["Title"] = "DesignationAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="clear"></div>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+
+            <div class="card-body ">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Designation Allocation</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Designation<i>*</i></label>
+
+                            <select id="ddldesignation" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label class="col-form-label">From Date<i>*</i></label>
+
+                            <input type="text" class="ip-ap form-control" readonly id="Desigfromdate" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">To Date<i>*</i></label>
+
+                            <input type="text" class="ip-ap form-control" readonly id="Desigtodate" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-12 text-center">
+                        <hr />
+                        <button class="btn btn-primary waves-effect waves-light" id="btnSaveDesignationAllocation">Save</button>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Employee/JsEmployee.js"></script>*@
+<script src="~/apiJS/Employee/JsDesignationAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

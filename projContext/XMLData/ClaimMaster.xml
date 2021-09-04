@@ -1,0 +1,1418 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ClaimMaster>
+  
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_Gettbl_company_master</name>
+    <id>1</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_Gettbl_company_master</name>
+    <id>2</id>
+    <roleid>2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_Puttbl_company_master</name>
+    <id>3</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_ Posttbl_company_master</name>
+    <id>4</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_Deletetbl_company_master</name>
+    <id>5</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCompanyMasterController_GetLastCompanyId</name>
+    <id>6</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCountryController_Gettbl_country</name>
+    <id>7</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCountryController_Gettbl_country</name>
+    <id>8</id>
+    <roleid>2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_ApiCountryController_GetStateList</name>
+    <id>9</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCountryController_Puttbl_country</name>
+    <id>10</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCountryController_Posttbl_country</name>
+    <id>11</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiCountryController_Deletetbl_country</name>
+    <id>12</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_Gettbl_emp_officaial_sec</name>
+    <id>13</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_Gettbl_emp_officaial_sec</name>
+    <id>14</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_Puttbl_emp_officaial_sec</name>
+    <id>15</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_Posttbl_emp_officaial_sec</name>
+    <id>16</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_CreateEmployee</name>
+    <id>17</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_Deletetbl_emp_officaial_sec</name>
+    <id>18</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeeCode</name>
+    <id>19</id>
+    <roleid>1,2,3,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_AddWeekOff</name>
+    <id>20</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeeWeekOff</name>
+    <id>21</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_EmployeeGradeAllocation</name>
+    <id>22</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeeGradeAllocation</name>
+    <id>23</id>
+    <roleid>1,2,3,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_EmployeeDesignationAllocation</name>
+    <id>24</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_ApiEmployeeController_ GetEmployeeDesignationAllocation
+    </name>
+    <id>25</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_EmployeeManagerAllocation</name>
+    <id>26</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeeManagerAllocation</name>
+    <id>27</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_ApiEmployeeController_EmployeeShiftAllocation</name>
+    <id>28</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeeShiftAllocation</name>
+    <id>29</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_EmployeePersonalDetails</name>
+    <id>30</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEmployeePersonalDetails</name>
+    <id>31</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_ApiEmployeeController_ EmployeeQualification
+    </name>
+    <id>32</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_ApiEmployeeController_ GetEmployeeQualification
+    </name>
+    <id>33</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEditEmployeeQualification</name>
+    <id>34</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_UpdateEmployeeQualification</name>
+    <id>35</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_FamilySection</name>
+    <id>36</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_ApiEmployeeController_ GetFamilySection
+    </name>
+    <id>37</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetEditFamilySection</name>
+    <id>38</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_UpdateFamilySection</name>
+    <id>39</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_ApiEmployeeController_GetAllEmployee</name>
+    <id>40</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiLeaveController_Gettbl_leave_info</name>
+    <id>41</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Gettbl_leave_info</name>
+    <id>42</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Puttbl_leave_info</name>
+    <id>43</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Posttbl_leave_info</name>
+    <id>44</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Deletetbl_leave_info</name>
+    <id>45</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_GetOutdoorLeaveForApproval</name>
+    <id>46</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_GetAttandenceApproval</name>
+    <id>47</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>48</name>
+    <id>ctrl_apiLeaveController_GetCompOffLeaveApproval</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Save_OutdoorLeaveForApproval</name>
+    <id>49</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Save_AttandenceLeaveForApproval</name>
+    <id>50</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLeaveController_Save_CompOffLeaveForApproval</name>
+    <id>51</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLocationMasterController_Gettbl_location_master</name>
+    <id>52</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLocationMasterController_Gettbl_location_master</name>
+    <id>53</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLocationMasterController_Puttbl_location_master</name>
+    <id>54</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLocationMasterController_Posttbl_location_master</name>
+    <id>55</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiLocationMasterController_Deletetbl_location_master</name>
+    <id>56</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetCountryList</name>
+    <id>57</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_apiMastersController_ SaveCountry
+    </name>
+    <id>58</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_UpdateCountry</name>
+    <id>59</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_SaveAndUpdateState</name>
+    <id>60</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_apiMastersController_ GetStateList
+    </name>
+    <id>61</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_SaveAndUpdateCity</name>
+    <id>62</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetCityList</name>
+    <id>63</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name></name>
+    <id>64</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetLocationType</name>
+    <id>65</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Puttbl_country</name>
+    <id>66</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Posttbl_country</name>
+    <id>67</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_sGradeMasterData</name>
+    <id>68</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Update_GradeMaster</name>
+    <id>69</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_CompanyList</name>
+    <id>70</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_EmployeeHeadList</name>
+    <id>71</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_DepartmentByCompany</name>
+    <id>72</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_SubDepartmentByDepartment</name>
+    <id>73</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_SubLocationByDepartment</name>
+    <id>74</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_ShiftList</name>
+    <id>75</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_AllShiftList</name>
+    <id>76</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_GradeMaster</name>
+    <id>77</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_DesignationList</name>
+    <id>78</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_LocationByCompany</name>
+    <id>79</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_ReligionMaster</name>
+    <id>80</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetEmployeeType</name>
+    <id>81</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetFrequencyType</name>
+    <id>82</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiMastersController_GetRole</name>
+    <id>83</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_EmployeeCodeFromEmpMaster</name>
+    <id>84</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiMastersController_Get_EmployeeCodeFromEmpMasterByComp</name>
+    <id>85</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+  
+  <claim>
+    <name>
+      ctrl_apiMastersController_ Get_EmpNameAndCodeByeComp
+    </name>
+    <id>86</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_apiMastersController_Save_MachineMaster
+    </name>
+    <id>87</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_MachineMasterData</name>
+    <id>88</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_MachineMasterDataByCompany</name>
+    <id>89</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Update_MachineMaster</name>
+    <id>90</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Save_CompanyHoliday</name>
+    <id>91</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_CompanyHoliday</name>
+    <id>92</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_CompanyHolidayById</name>
+    <id>93</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Update_CompanyHoliday</name>
+    <id>94</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Save_OutdoorApplicationRequest</name>
+    <id>95</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_OutdoorApplicationRequest</name>
+    <id>96</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>
+      ctrl_apiMastersController_ GetEmployeeCompOffData
+    </name>
+    <id>97</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Save_CompOffApplicationRequest</name>
+    <id>98</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_CompOffApplicationRequest</name>
+    <id>99</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_GetInOrOutTimeByDate</name>
+    <id>100</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Save_AttendanceApplicationRequest</name>
+    <id>101</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_AttendanceApplicationRequest</name>
+    <id>102</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Get_EmployeeDetails</name>
+    <id>103</id>
+    <roleid>1,2,3,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_PresentReport</name>
+    <id>104</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_AbsentReport</name>
+    <id>105</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_LeaveReport</name>
+    <id>106</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_PerformanceIndividual</name>
+    <id>107</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_MispunchReport</name>
+    <id>108</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_ManualPunchReport</name>
+    <id>109</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_LatePunchIn</name>
+    <id>110</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_EarlyPunchOut</name>
+    <id>111</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_LocationByReport</name>
+    <id>112</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_PerformanceDetailReport</name>
+    <id>113</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_PerformanceSummaryReport</name>
+    <id>114</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiMastersController_Gettbl_SubLocation</name>
+    <id>115</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_Gettbl_shift_details</name>
+    <id>116</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_Gettbl_shift_details</name>
+    <id>117</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_Puttbl_shift_details</name>
+    <id>118</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_Posttbl_shift_details</name>
+    <id>119</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_Deletetbl_shift_details</name>
+    <id>120</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_SaveOtRules</name>
+    <id>122</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_SaveOtRules</name>
+    <id>123</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_GetLastOtId</name>
+    <id>124</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_SaveCombOff</name>
+    <id>125</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiShiftController_GetLastCombOffId</name>
+    <id>126</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_SaveAttd</name>
+    <id>127</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_GetMachine</name>
+    <id>128</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+
+  <claim>
+    <name>Post_save_attendance_details</name>
+    <id>129</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_Getatt1</name>
+    <id>130</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_GetAtt2</name>
+    <id>131</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_GetEmployeeMonthalyAtten</name>
+    <id>132</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_GetHolidayList</name>
+    <id>133</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_GetSelectedDateAtten</name>
+    <id>134</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_AttendenceController_EmployeeLeaveCreditAndDebit</name>
+    <id>135</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_MastresController_Save_Location_Master</name>
+    <id>136</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_MastresController_SaveCountry</name>
+    <id>137</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_MastresController_UpdateCountry</name>
+    <id>138</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_MastresController_GetCountryList</name>
+    <id>139</id>
+    <roleid>1,2,4</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_MastresController_GetLocationType</name>
+    <id>140</id>
+    <roleid>1</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryComponentValues</name>
+    <id>141</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Post_Save_SalaryGroupMaster</name>
+    <id>142</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Put_Update_SalaryGroupMaster</name>
+    <id>143</id>
+    <roleid>1,2</roleid>
+  </claim> 
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryGroupMasterData</name>
+    <id>144</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryGroupMasterData</name>
+    <id>145</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryGroupKeyUsed</name>
+    <id>146</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_keyMasterDetails</name>
+    <id>147</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryComponenetDetails</name>
+    <id>148</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryChildComponenetDetails</name>
+    <id>149</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryDetailsbyEmployeeId</name>
+    <id>150</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_SalaryInput</name>
+    <id>151</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryInput</name>
+    <id>152</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_ReimbursementCategoryMaster</name>
+    <id>153</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Update_ReimbursementCategoryMaster</name>
+    <id>154</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimbursementCategoryMaster</name>
+    <id>155</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimbursementCategoryMasterActive</name>
+    <id>156</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Save_ReimbursementGradeLimitMaster</name>
+    <id>157</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Update_ReimbursementGradeLimitMaster</name>
+    <id>158</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimbursementGradeLimitMaster</name>
+    <id>159</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_ReimbursementCategoryLimitMaster</name>
+    <id>160</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Update_ReimbursementCategoryLimitMaster</name>
+    <id>161</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimbursementCategoryLimitMaster</name>
+    <id>162</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_ReimbursementRequest</name>
+    <id>163</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_EmployeeData</name>
+    <id>164</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ProcessedMonthyear</name>
+    <id>165</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_SalaryGroupMapEmp</name>
+    <id>166</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Update_SalaryGroupMapEmp</name>
+    <id>167</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryGroupMapEmpData</name>
+    <id>168</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetSalaryGroupList</name>
+    <id>169</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetFormulaList</name>
+    <id>170</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_FunctionList</name>
+    <id>171</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_KeyMaster</name>
+    <id>172</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_KeyMaster</name>
+    <id>173</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Update_KeyMaster</name>
+    <id>174</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Employee</name>
+    <id>175</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetInterestRate</name>
+    <id>176</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_LoanRequest</name>
+    <id>177</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_LoanRequest</name>
+    <id>178</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_LoanRequest</name>
+    <id>179</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_LoanType_ROI</name>
+    <id>180</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_LoanRequestDetails</name>
+    <id>181</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_SalaryRevisionEmpData</name>
+    <id>182</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_SalaryRevision</name>
+    <id>183</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_EmpLoanData</name>
+    <id>184</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_LoanRequestApproval</name>
+    <id>185</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_OTRateMaster</name>
+    <id>186</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_OTRateMaster</name>
+    <id>187</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Update_OTRateMaster</name>
+    <id>188</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_EmployeeCodeFromEmpMasterByComp</name>
+    <id>189</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_CategaryDetails_byEmpId</name>
+    <id>190</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_Lop_Setting</name>
+    <id>191</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_Lop_setting</name>
+    <id>192</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_Lop_Master</name>
+    <id>193</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Lop_Master</name>
+    <id>194</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_Lop_Master</name>
+    <id>195</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_Payroll_Monthly_Setting</name>
+    <id>196</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Payroll_Monthly_Setting</name>
+    <id>197</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_Payroll_Monthly_Setting</name>
+    <id>198</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimRquestDetail</name>
+    <id>199</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_ReimbursementRequest</name>
+    <id>200</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_LoanRequestMaster</name>
+    <id>201</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_GradeMaster</name>
+    <id>202</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_LoanRequestMaster</name>
+    <id>203</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_LoanRequestMaster</name>
+    <id>204</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_LOP_Setting</name>
+    <id>205</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_ReimRquestDetail</name>
+    <id>206</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Edit_ReimbursementRequest</name>
+    <id>207</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_View_ReimbursementRequestDetail</name>
+    <id>208</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetFunctions</name>
+    <id>209</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetOperator</name>
+    <id>210</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetComponents</name>
+    <id>211</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_CreateFormula</name>
+    <id>212</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetLoanByEmployee</name>
+    <id>213</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_LoanRepayment</name>
+    <id>214</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetLoanPaymentDeatil</name>
+    <id>215</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_EmployeeIncomeTaxAmount</name>
+    <id>216</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_EmployeeIncomeTaxAmount</name>
+    <id>217</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetEmployeeListOfTaxAmount</name>
+    <id>218</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Save_Batch</name>
+    <id>219</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Batch</name>
+    <id>220</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetEmployeeForPayroll</name>
+    <id>221</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_ProcessPayroll</name>
+    <id>222</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_ProcessForFreeze</name>
+    <id>223</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_LockPayrollProcess</name>
+    <id>224</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_GetPayrollStatus</name>
+    <id>225</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_ResetPayrollProcess</name>
+    <id>226</id>
+    <roleid>1,2</roleid>
+  </claim>
+
+  <claim>
+    <name>ctrl_apiPayrollController_Get_FromulaComponent</name>
+    <id>227</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Copied_Component_Fromula</name>
+    <id>228</id>
+    <roleid>1,2</roleid>
+  </claim> 
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Delete_component_Property_Detail</name>
+    <id>229</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Salary_input_Report</name>
+    <id>230</id>
+    <roleid>1,2</roleid>
+  </claim>
+  
+  <claim>
+    <name>ctrl_apiPayrollController_Get_Salary_input_Report_by_monthyear</name>
+    <id>231</id>
+    <roleid>1,2</roleid>
+  </claim> 
+  
+  <!--<claim>
+    <name>ctrl_apiPayrollController_</name>
+    <id>23</id>
+    <roleid>1,2</roleid>
+  </claim> 
+  
+  <claim>
+    <name>ctrl_apiPayrollController_</name>
+    <id>23</id>
+    <roleid>1,2</roleid>
+  </claim>-->
+
+
+  
+</ClaimMaster>

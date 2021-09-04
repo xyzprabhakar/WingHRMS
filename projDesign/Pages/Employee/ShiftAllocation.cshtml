@@ -1,0 +1,79 @@
+﻿@page
+@{
+    ViewData["Title"] = "ShiftAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container no-top-margin" style="">
+                    <div class="col-md-12">
+                        <h4>Shift Allocation</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12"><hr /></div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">Shift<i>*</i></label>
+                            <select id="ddlShift" class="form-control">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">From Date<i>*</i></label>
+                            <input type="text" id="shiftallocfromdate" class="ip-ap form-control" readonly placeholder="To Date" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="visibility:hidden">
+                        <div class="form-group">
+                            <label class="col-form-label">To Date <i>*</i></label>
+                            <input type="text" id="shiftalloctodate" class="ip-ap form-control" readonly placeholder="To Date" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <!-- approve box end -->
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary waves-effect waves-light" id="btnSaveShiftAllocation">Save</button>
+                    </div>
+                    <div class="clear"></div>
+                    <!--  button box end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsShiftAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>

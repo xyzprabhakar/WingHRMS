@@ -1,0 +1,203 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employee Separation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+
+        <div class="card mt-2">
+            <div class="card-body">
+
+                <div class="form-container row master-panel">
+                    <div class="col-md-12">
+                        <h4>My E-Separation Request</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Employee Code<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlemployee" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div id="div_emp_resing_dtl" style="display:none;">
+                        <div class="col-md-12">
+                            <h4>Employee Details</h4>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date of Birth </label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtdob" placeholder="Date of Birth" readonly="readonly" class="form-control bg-light" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Date of Joining</label></div>
+                            <div class="col-md-8">
+                                <input id="txtdoj" class="form-control bg-light" placeholder="Date of Joining" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Department </label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtdept" placeholder="Department" readonly="readonly" class="form-control bg-light" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Designation</label></div>
+                            <div class="col-md-8">
+                                <input id="txtdesignation" class="form-control bg-light" placeholder="Designation" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Grade </label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtgrade" placeholder="Grade" readonly="readonly" class="form-control bg-light" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Location </label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtloc" placeholder="Location" readonly="readonly" class="form-control bg-light" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Current Employee status </label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtempstatus" placeholder="Current Employee Status" readonly="readonly" class="form-control bg-light" />
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-4 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Notice Period<br />(In Month)</label></div>
+                                <div class="col-md-8">
+                                    <input id="txtnoticeperiod_month" class="form-control bg-light" placeholder="Notice Period" readonly="readonly" />
+                                </div>
+                            </div>*@
+
+                        <div class="col-md-4 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Notice Period<br />(In Days)</label></div>
+                            <div class="col-md-8">
+                                <input id="txtnoticeperiod_days" class="form-control bg-light" placeholder="Notice Period" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Resignation Detail</h4>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Resignation Date</label></div>
+                            <div class="col-md-6">
+                                <input id="txtresign_dt" class="form-control ip-ap bg-light" placeholder="Resignation Date" readonly="readonly" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Requested Last Working Date<i>*</i></label></div>
+                            <div class="col-md-6">
+
+                                <input type="text" id="txt_req_reliving_dt" class="form-control ip-ap" placeholder="Effective Date" />
+
+                                @*<input id="" class="form-control" placeholder="Requested Relieving Date" />*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Notice Period Requested (Days)</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_req_notice_" class="form-control bg-light" placeholder="Notice Period Requested (Days)" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Notice Period Different (Days)</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_notice_diff_days" class="form-control bg-light" placeholder="Notice Period Different (Days)" readonly="readonly" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Last Working Date as Per Policy</label></div>
+                            <div class="col-md-6">
+                                <input id="txt_policy_reliving" class="form-control bg-light" placeholder="Relieveing Date as Per Policy" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Reason <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlreason" class="form-control">
+                                    <option value="">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" id="other_reason_div" style="display:none">
+                            <div class="col-md-6"><label class="col-form-label">Other Reason <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtotherreason" placeholder="Reason" class="form-control" onautoComplete="off"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Remarks </label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtremarks" placeholder="Remarks" class="form-control" onautoComplete="off"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group" id="divFUP">
+                            <div class="col-md-6"><label class="col-form-label">Upload Refrence Document <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="file" id="txtfupDoc" accept=".jpg,.jpeg,.png,.pdf" class="form-control" onautoComplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" id="btnreset" class="btn btn-secondary btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdn_policy_notice_total_days" />
+<script src="~/apiJS/View/JsEmpSepration.js"></script>
+
+
+

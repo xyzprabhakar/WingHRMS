@@ -1,0 +1,168 @@
+﻿@page
+@{
+    ViewData["Title"] = "Asset Request";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+<style>
+    input[type="checkbox"][readonly] {
+        pointer-events: none;
+    }
+</style>
+
+
+<div class="col-xl-12">
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel company-master no-top-margin">
+
+                <h4 class=" float-left">My Asset Request</h4>
+                @*<a href="/Payroll/AssetReport" class="btn btn-primary float-right mb-1">View Report</a>
+        <div class="clearfix"></div>*@
+                <div class="col-md-12">
+                    <hr />
+                </div>
+
+                <div class="attendence-inner-panel">
+                    <input type="hidden" id="hdn_totalrows" />
+                    <div class="col-md-12" id="empselectiondiv">
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcompany" class="form-control bg-ligth"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlemployee" class="form-control bg-ligth"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="clearfix"></div>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin mt-4">
+                            <table id="tblassetrqt" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Remarks<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <textarea id="txtremarks" name="txtreamrks" placeholder="Remarks" style="width:800px" class="form-control bg-ligth" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Action<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlaction_type">
+                        <option value="0">--Select--</option>
+                        <option value="1">Approve</option>
+                        <option value="2">Reject</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                <div class="col-md-6">
+                    <textarea id="txtremarks" placeholder="remark/comment.." maxlength="100" style="height:40px;resize:none;"></textarea>
+                </div>
+            </div>*@
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- form container end -->
+            </div>
+
+
+            <input type="hidden" id="hdnid" />
+
+        </div>
+    </div>
+
+</div>
+
+
+@*<script src="~/apiJS/View/JsAssetRequest.js"></script>*@
+<script src="~/apiJS/View/JsAssetReqReplace.js"></script>
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                        width: 88%;
+                    }*/
+
+</style>
+<!-- The Modal -->
+<div id="myAssetModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="width:626px;height:320px">
+        <div class="panel ">
+            <h1>Invalid Details</h1>
+            <hr />
+            <div class="table-responsive no-margin">
+                <table id="tblassetdtl" class="table nowrap w-100"></table>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

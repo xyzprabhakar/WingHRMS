@@ -1,0 +1,144 @@
+﻿@page
+@{
+    ViewData["Title"] = "NoDuesClearance";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+
+                <div class="col-md-12 mt-3">
+                    <h2 class="float-left">No Dues Clearance</h2><br /><hr />
+                </div>
+
+                <div class="form-container leave no-top-margin">
+                  
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tbl_EmpParticulars" class="table w-100 nowrap">
+                                <thead>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+
+    .ui-widget-header {
+        background: #44a2d2 !important;
+        color: #ffffff !important;
+        font-size: large;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="modal_Popup" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+
+                <div class="col-md-12" id="divParticulars">
+                    @*<h1><span id="lbl_mdlDepartment">It Software</span> </h1><hr />
+                            <div>
+                                <h2><label id="lblPartName+itemcount'">Keyboard</label> </h2>
+                                <div class="col-md-6">
+                                    <div class="form-group" id="divOutstanding' + itemCount + '">
+                                        Outstanding :  <input id="rdOutstanding_m' + itemCount + '" type="radio" name="out'+itemCount+'" value="1" class="radio" />&nbsp;&nbsp; Yes
+                                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                                        <input id="rdOutstanding_f' + itemCount + '" type="radio" name="out'+itemCount+'" value="0" class="radio" />&nbsp;&nbsp; No
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" id="divFRemarks' + itemCount + '">
+                                        Remarks :<input id="txtfRemarks' + itemCount + '" type="text" placeholder="Enter Remarks" class="mdi-textbox" />
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@*@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: false,
+                haveToDate: false,
+                haveCompanyData: true,
+                haveStateData: false,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>*@
+
+<script src="~/apiJS/NoDues/JsNoDuesClearance.js?ver=@DateTime.Now.Ticks.ToString()"></script>

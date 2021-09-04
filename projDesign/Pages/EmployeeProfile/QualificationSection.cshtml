@@ -1,0 +1,151 @@
+﻿@page
+@{
+    ViewData["Title"] = "QualificationSection";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<link href="~/css/DisplayOnly.css" rel="stylesheet" />*@
+
+
+<div class="col-xl-12">
+    <div>@Html.Partial("PartialEmpProfileLayout")</div>
+    @*<nav class="payroll-nav is-hoverable shadow-sm bg-white  ">
+            <div class="rounded">
+                <ul class="metismenu " id="menu2">
+                    <li><a href="/EmployeeProfile/OfficialSection">Official Section</a></li>
+                    <li><a href="/EmployeeProfile/ShiftAllocation">Shift Allocation</a></li>
+                    <li><a href="/EmployeeProfile/WeekOff">Week Off</a></li>
+                    <li><a href="/EmployeeProfile/GradeAllocation">Grade Allocation</a></li>
+                    <li><a href="/EmployeeProfile/DesignationAllocation">Designation Allocation</a></li>
+                    <li><a href="/EmployeeProfile/PersonalDetails">Personal Details</a></li>
+                    <li class="active"><a href="/EmployeeProfile/QualificationSection">Qualification Section</a></li>
+                    <li><a href="/EmployeeProfile/FamilySection">Family Section</a></li>
+                    <li><a href="/EmployeeProfile/HealthCard">Health Card</a></li>
+                    <li><a href="/EmployeeProfile/WorkingRoleAllocation">Working Role</a></li>
+
+                </ul>
+            </div>
+        </nav>*@
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="panel">
+                <div class="form-container no-top-margin">
+                    <div class="tabs-container" id="c3" style="display:block;">
+
+                        <div class="addNewQualification">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label ">Company<i>*</i></label>
+                                    <select id="ddlCompany" class="form-control">
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label ">Employee Code<i>*</i></label>
+                                    <select id="ddlEmployeeCode" class="form-control"></select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_board" class="col-form-label">Board/Universty<i>*</i></label>
+                                    <input type="text" id="board_or_university" class="form-control" maxlength="100" placeholder="Board/Universty" onkeypress="return IsAlphabet(event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_school" class="col-form-label">Institute/School<i>*</i></label>
+                                    <input type="text" id="institute_or_school" maxlength="100" class="form-control" placeholder="Institute/School" onkeypress="return IsAlphabet(event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_year" class="col-form-label">Passign Year<i>*</i></label>
+                                    <input type="text" id="passing_year" class="form-control" onkeydown="OnlyNumeric(event);" onkeypress="validate(event)" autocomplete="off" placeholder="Passing year" maxlength="4" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_course" class="col-form-label">Course@*Stream*@<i>*</i></label>
+                                    <input type="text" id="stream" class="form-control" maxlength="50" placeholder="Course" onkeypress="return IsAlphabet(event);" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_edu_type" class="col-form-label">Education Type<i>*</i></label>
+                                    <select id="education_type" class="form-control">
+                                        <option value="">Select Education type</option>
+                                        <option value="1">Regular</option>
+                                        <option value="2">Part-time</option>
+                                        <option value="3">Distance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_edu_level" class="col-form-label">Eduction Level</label>
+                                    <select id="ddleducationlevel" class="form-control"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6"   style="display:none">
+                                <div class="form-group">
+                                    <label id="lbl_marks" class="col-form-label">Marks/Division/CGPA<i>*</i></label>
+                                    <input type="text" class="form-control" id="marks_division_cgpa" placeholder="Marks/Division/CGPA" maxlength="4" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6"   style="display:none">
+                                <div class="form-group">
+                                    <label class="col-form-label">Remark</label>
+                                    <textarea id="remark" class="form-control" placeholder="Remarks" onkeypress="return AlphaNumeric(event);"></textarea>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnSaveQualification">Save</button>
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnUpdateQualification">Update</button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hdnemp_qualification_section_id" />
+
+
+
+                        </div>
+                        <!-- add new qualification box end -->
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div class="table-responsive">
+                            <table id="tblQualification" class="table w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/EmployeeProfile/JsQualificationSection.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

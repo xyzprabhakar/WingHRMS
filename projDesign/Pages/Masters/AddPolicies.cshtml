@@ -1,0 +1,73 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddPolicies";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Add Policies</h4>
+                        <hr />
+                    </div>
+
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="description" class="col-form-label">Policy Name<i>*</i></label>
+                            <input type="text" class="form-control" id="txtPolicies">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label asp-for="description" class="col-form-label">Upload Document<i>*</i></label>
+                            <input type="file" class="form-control" id="txtfupDoc" multiple>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label asp-for="description" class="col-form-label">Remarks<i>*</i></label>
+                            <input type="text" class="form-control" id="txtRemark">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <h4 class="mt-4">Policies List</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblReport" class="table nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Masters/JsAddPolicies.js?ver=@DateTime.Now.Ticks.ToString()"></script>

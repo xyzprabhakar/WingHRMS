@@ -1,0 +1,173 @@
+﻿@page
+@{
+    ViewData["Title"] = "Attendence";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+</style>
+<div class="tab-link">
+    <ul>
+        @*
+        <li><a href="#">Opening</a></li>
+        <li><a href="#">On-boarding</a></li>
+        <li><a href="#">Shift Allocation</a></li>*@
+        <li class="active"><a href="Attendence">Leave & Attendence</a></li>
+        <li><a href="/Payroll/SalarySlips">Salary Slips</a></li>
+        <li><a href="/Leave/LeaveBalance">Balance Leave</a></li>
+        <li><a href="/payroll/LoanRequest">Loan Request</a></li>
+        @*
+        <li><a href="/payroll/ReimbursementRequestMaster">Reimbursement Request</a></li>*@
+        <li><a href="/payroll/AssetRequest">Asset Request</a></li>
+        @*
+        <li><a href="#">Payroll</a></li>
+        <li><a href="#">Salery Slip</a></li>
+        <li><a href="#">Forms</a></li>
+        <li><a href="#">Policies</a></li>
+        <li><a href="#">Directory</a></li>
+        <li><a href="#">Application Tracker</a></li>*@
+    </ul>
+</div>
+<!-- tab link end -->
+<div class="panel attendence-master-panel no-top-margin">
+    <h1>Calendar</h1>
+    <hr />
+    <div class="form-container">
+        <div class="attendence-inner-panel">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <select id="ddlemployeelist" data-placeholder="Employee Name & Code" class="chosen-select select-with">
+                        <option value="0">--Select--</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-12 text-rigth attendence-btn">
+                    <button id="OutdoorApplication" class="button">Outdoor Application</button>
+                    <button id="LeaveApplication" class="button ">Leave Application</button>
+                    <button id="AttendenceApplication" class="button ">Attendance Application</button>
+                </div>
+            </div>
+            <!--search area end-->
+            <div class="col-md-9">
+                <div class="attendence-calendar-view">
+                    <div id='attendancecal'></div>
+                </div>
+                <!-- attendance calender view panle end -->
+
+            </div>
+            <div class="col-md-3">
+                <div class="margin-left">
+                    <div class="attendece-summary-header">
+                        <h3>Attendence Summary</h3>
+                        <p><span id="lblfromdate"></span> to <span id="lbltodate"></span></p>
+                    </div>
+                    <!--header end-->
+                    <div class="table-responsive">
+                        <table class="present-absent-table">
+                            <tr><td>Present</td><td><span id="lblPresent"></span></td></tr>
+                            <tr><td>Absent</td><td><span id="lblAbsent"></span></td></tr>
+                            <tr><td>Late in/ Early Out</td><td><span id="lblLateIn"></span></td></tr>
+                            <tr><td>Leave</td><td><span id="lblLeave"></span></td></tr>
+                            <tr><td>Outdoor</td><td><span id="lblOutdoor"></span></td></tr>
+                            <tr><td>Compoff</td><td><span id="lblCompoff"></span></td></tr>
+                            <tr><td>Weekly off</td><td><span id="lblWeeklyOff"></span></td></tr>
+                            <tr><td>Holidays</td><td><span id="lblHoliday"></span></td></tr>
+                            <tr><td>Half Day</td><td><span id="lblHalfDay"></span></td></tr>
+                        </table>
+                    </div>
+                    <!--table responsive end-->
+                    <div class="color-box-container">
+                        <div class="color blue">Present</div>
+                        <div class="color orange">Absent</div>
+                        <div class="color purple">Leave</div>
+                        <div class="color green">Holiday</div>
+                        <div class="color loworange">Outdoor</div>
+                        <div class="color yellow">Compoff</div>
+                        <div class="color gray">Weekoff</div>
+                        <div class="color pink">Holiday</div>
+
+
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+                <!--margin left end-->
+
+            </div>
+            <div class="clear"></div>
+            <div class="status-view-panel">
+                <div class="col-md-3">
+                    <h3>Current Shift : <span id="cShiftName"></span></h3>
+                    <div class="">
+                        <table class="table-status">
+                            <tr><td>In time</td><td><span id="cInTime"></span></td></tr>
+                            <tr><td>Grace in time</td><td><span id="cGInTime"></span></td></tr>
+                            <tr><td>Out time</td><td><span id="cOutTime"></span></td></tr>
+                            <tr><td>Grace out time</td><td><span id="cGOutTime"></span></td></tr>
+                            <tr><td>Total shift hours</td><td><span id="TShiftHrs"></span></td></tr>
+                            <tr><td>Attendance Status</td><td><span id="AttStatus"></span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <!--col first end-->
+                <div class="col-md-3">
+                    <h3>Selected Date : <span id="SelectDate"></span></h3>
+                    <div id="DivSelectedDate" class="margin-left">
+                        <table class="table-status">
+                            <tr><td>Shift</td><td><span id="SelectSName"></span></td></tr>
+                            <tr><td>Actual time in</td><td><span id="SelectATimeIn"></span></td></tr>
+                            <tr><td>Actual time out</td><td><span id="SelectATimeOut"></span></td></tr>
+                            <tr><td>Total Working Hrs</td><td><span id="SelectATSHrs"></span></td></tr>
+                            @*<tr><td>Actual total shift Hrs</td><td><span id="SelectATSHrs"></span></td></tr>
+        <tr><td>Actual attendance Hrs</td><td><span id="SelectAAHrs"></span></td></tr>*@
+                            <tr><td>Attendance Status</td><td><span id="SelectAStatus"></span></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- col second end-->
+                <div class="col-md-3">
+                    <h3>Balence Leave</h3>
+                    <div class="margin-left">
+                        <table id="tbleavebalance" class="table-status">
+                            <thead>
+                                <tr>
+                                    <th>Leave Name</th>
+                                    <th>Leave Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            @*
+                            <tr><td>Earned Leave</td><td><span id="EarLeave"></span></td></tr>
+                            <tr><td>Casual Leave</td><td><span id="CasualLeave"></span></td></tr>
+                            <tr><td>Sick Leaves</td><td><span id="SickLeave"></span></td></tr>
+                            <tr><td>Comp Off</td><td><span id="CompoffLeave"></span></td></tr>
+                            <tr><td>Leave Without Pay</td><td><span id="LWP"></span></td></tr>*@
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- status view panel end-->
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-12 text-rigth  btn-group">
+                <button class="btn">Next</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- attendence inner panel end-->
+    </div>
+    <!-- form container end -->
+</div>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/PayrollCalender.js?ver=@DateTime.Now.Ticks.ToString()"></script>

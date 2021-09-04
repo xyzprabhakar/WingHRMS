@@ -1,0 +1,216 @@
+﻿@page
+@{
+    ViewData["Title"] = "Minimum Wages Central Rules FORMX";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+
+
+                <div class="panel ">
+                    <h1></h1>
+                    <div class="form-container leave no-top-margin not-res" style="height:700px">
+                        <div class="col-md-12">
+                            <h4>Register of Wages in Form-X, Rule 26(a)</h4><hr />
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlCompany" class="form-control bg-light">
+                                    <option>--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Payroll Month</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlPayrollMonth" class="form-control bg-light">
+                                    <option>--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="div_fileds_for_edit" style="display:none">
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Employee</label></div>
+                                <div class="col-md-6">
+                                    <select id="ddlemp" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Father's / Husband's Name</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_fatherorhusbandname" type="text" class="form-control bg-light" autocomplete="off" placeholder="Father's / Husband's Name" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Designation</label></div>
+                                <div class="col-md-6">
+                                    <select id="ddldesignation" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Basic Minimum Rates of Payable</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_BasicMinimumPayable" type="text" class="form-control" autocomplete="off" placeholder="Basic Minimum Rates of Payable" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">DA Minimum Rates of Payable</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_DAMinimumPayable" type="text" class="form-control" autocomplete="off" placeholder="DA Minimum Rates of Payable" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Basic Rate of Wages Actually Paid</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_BasicRateofWagesActuallyPay" type="text" class="form-control" autocomplete="off" placeholder="Basic Rate of Wages Acutally Paid" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">DA Rate of Wages Acutally Paid</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_DARateofWagesActuallyPay" type="text" class="form-control" autocomplete="off" placeholder="DA Rate of Wages Acutally Paid" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Total Attandance/Unit of Work Done</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_TotalAttandAndUnitofWorkDone" type="text" class="form-control" autocomplete="off" placeholder="Total Attandance/ Unit of Work Done" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Overtime Worked</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_OvertimeWorked" type="text" class="form-control" autocomplete="off" placeholder="Overtime Worked" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Gross Wages Payable</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_GrossWagesPayable" type="text" class="form-control" autocomplete="off" placeholder="Gross Wages Payable" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Employer's Contribution to PF</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_EmployerContributiontoPF" type="text" class="form-control" autocomplete="off" placeholder="Employer's Contribution to PF" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">HR Deduction</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_HRDeduction" type="text" class="form-control" autocomplete="off" placeholder="HR Deduction" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Other Deduction</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_OtherDeduction" type="text" class="form-control" autocomplete="off" placeholder="Other Deduction" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Total Deduction</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_TotalDeduction" type="text" class="form-control" autocomplete="off" placeholder="Total Deduction" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Wages Paid</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_WagesPaid" type="text" class="form-control" autocomplete="off" placeholder="Wages Paid" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Date of Payment</label></div>
+                                <div class="col-md-6">
+                                    <input id="txt_DateofPayment" type="text" class="form-control" autocomplete="off" placeholder="Date of Payment" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Signature or thumb-impression of Employee</label></div>
+                                <div class="col-md-6">
+                                    <input type="file" id="File1" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr />
+                                <div class="form-group text-center">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                    <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                    <input type="hidden" id="form_x_id" />
+                                    <input type="hidden" id="emp_sign_orthump_exp" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnFreeze" style="display:none">Freeze</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnadd" style="display:none">Add</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnresetalldata" style="display:none">Reset All Data</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btndownload" style="display:none">Download PDF</button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <h4 class="margin-top">Register of Wages in Form-X Details</h4>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <div id="div_tblRegisterOfWagesInForm10">
+                                    <table id="tblRegisterOfWagesInForm10" class="table nowrap w-100"></table>
+                                </div>
+                                <div id="div_tblRegisterOfWagesInForm102">
+                                    <table id="tblRegisterOfWagesInForm102" class="table nowrap w-100"></table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/apiJS/Payroll/JsMinimumWagesCentralRulesFORMX.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,109 @@
+﻿@page
+@{
+    ViewData["Title"] = "Question Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        @*<div>@Html.Partial("PartialLayoutMyTeamTab")</div>*@
+        <div class="card mt-4">
+            <div class="card-body">
+
+                <h1>Question Master</h1>
+                <hr />
+                <div class="form-container master-panel">
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddldept" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Working Role<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlwrkrole" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Tab Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddltabmstr" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Answer Type<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlanstype" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">TextBox</option>
+                                <option value="2">DropDown</option>
+                                <option value="3">Yes/No with Remarks</option>
+                                <option value="4">Yes/No without Remarks</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group" id="dsdropdwon">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Data Source</label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtddlds" class="form-control bg-light" placeholder="Data Source" maxlength="300"></textarea>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Question<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtquestion" class="form-control bg-light" maxlength="1000" placeholder="Question?"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Description</label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtdesc" class="form-control bg-light" placeholder="Description" maxlength="1000" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Question Master Details</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblquesmstr" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnquesmstrid" />
+<script src="~/apiJS/ePA/JsQuestionMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

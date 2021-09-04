@@ -1,0 +1,97 @@
+﻿<style>
+    ul.hrmenu {
+        margin-left: 18px;
+        margin-top: 12px;
+        background: #3a87ad;
+        margin-bottom: 9px;
+        transition: 0.3s all;
+    }
+
+        ul.hrmenu li {
+            position: relative;
+            display: inline-block;
+            padding: 11px 21px;
+            transition: 0.3s all;
+            border-right: 1px solid #fff;
+        }
+
+            ul.hrmenu li:hover ul {
+                display: block;
+                transition: 0.3s all;
+                top: 39px;
+            }
+
+            ul.hrmenu li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 13px;
+                transition: 0.3s all;
+            }
+
+                ul.hrmenu li a.hractive {
+                    color: #fff;
+                }
+
+            ul.hrmenu li ul {
+                position: absolute;
+                background: white;
+                z-index: 9;
+                left: 0px;
+                top: 60px;
+                display: none;
+                box-shadow: 0px 1px 9px -7.5px;
+                text-indent: 11px;
+                transition: 0.3s all;
+            }
+
+                ul.hrmenu li ul li {
+                    display: block;
+                    border-bottom: 1px solid #e6e6e6;
+                    font-size: 13px;
+                    text-indent: 0;
+                    background: #3a87ad;
+                    position: relative;
+                    transition: 0.3s all;
+                    width: 205px;
+                }
+
+                    ul.hrmenu li ul li:last-child {
+                        border-bottom: none;
+                    }
+
+                    ul.hrmenu li ul li a {
+                    }
+
+    .hrrighticon {
+        float: right;
+        margin-right: 8px;
+        font-size: 13px;
+        margin-top: 2px;
+    }
+
+    ul.hrmenu li ul li.hrhassub:hover > ul {
+        display: block !important;
+        border-left: 1px solid #fff;
+    }
+
+    ul.hrmenu li ul li > ul {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        display: none !important;
+        transition: 0.3s all;
+        top: 0px !important;
+    }
+</style>
+<div class="col-md-12">
+    <ul class="hrmenu">
+        <li>
+            <a href="LoanRequestMaster" class="hractive"><i class="fas fa-landmark"></i> &nbsp; Loan Configuration </a>           
+        </li>
+        <li>
+            <a href="LoanApprovalSettingMaster" class="hractive"><i class="fas fa-landmark"></i> &nbsp; Loan Approval Setting </a>
+        </li>
+
+     
+    </ul>
+</div>

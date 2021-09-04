@@ -1,0 +1,99 @@
+﻿@page
+@{
+    ViewData["Title"] = "Working Role Component";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>Working Role Component</h1>
+                <hr />
+                <div class="form-container master-panel">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">From Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlfrom_depart" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">From Working Role<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlfrom_wrkrole" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">To Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlto_depart" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">To Working Role<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlto_wrkrole" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Working Role Components</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12" id="detailssdiv">
+                        <div class="col-md-12">
+                            <h4 class=" float-top">KPI Key Area Master</h4>
+                            <hr />
+                        </div>
+                        <div class="table-responsive no-margin">
+                            <table id="tblkpi_keyarea_master" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <h4 class=" float-top">KRA Master Details</h4>
+                            <hr />
+                        </div>
+                        <div class="table-responsive no-margin">
+                            <table id="tblkra_master" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <h4 class=" float-top">Question Master Details</h4>
+                            <hr />
+                        </div>
+                        <div class="table-responsive no-margin">
+                            <table id="tblques_master" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <script src="~/apiJS/ePA/JsWorkingRoleComponent.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        </div>
+    </div>
+</div>

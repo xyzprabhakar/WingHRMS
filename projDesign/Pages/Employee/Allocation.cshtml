@@ -1,0 +1,394 @@
+﻿@page
+@{
+    ViewData["Title"] = "Allocation - Merge Shift and weekoff and Grade, Designation and Manager ";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="form-container no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Company<i>*</i></label>
+                                <select id="ddlCompany" class="form-control bg-light">
+                                    <option>All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Employee Code<i>*</i></label>
+                                <select id="ddlEmployeeCode" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tabShift')">Shift</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tabWeekOff')">WeekOff</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tabGrade')"> Grade</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tabDesignation')">Designation</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tabManagerAllocation')"> Manager Allocation</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div id="tabShift" class="tabcontent" style="display: block;">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">Shift<i>*</i></label>
+                                    <select id="ddlShift" class="form-control">
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">From Date<i>*</i></label>
+                                    <input type="text" id="shiftallocfromdate" class="ip-ap form-control" readonly placeholder="To Date" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" style="margin-top: 13%;"></label>
+                                    <button class="btn btn-primary waves-effect waves-light" id="btnSaveShiftAllocation">Save</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="visibility:hidden">
+                                <div class="form-group">
+                                    <label class="col-form-label">To Date <i>*</i></label>
+                                    <input type="text" id="shiftalloctodate" class="ip-ap form-control" readonly placeholder="To Date" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive no-margin">
+                                    <table id="tblShiftAllocation" class="table nowrap"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <div id="tabWeekOff" class="tabcontent" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">Weekly Off<i>*</i></label>
+                                    <select id="ddlWeekOff" class="form-control">
+                                        @*<option value="0">Select WeekOff</option>*@
+
+                                        <option selected value="2">Dynamic</option>
+                                        <option value="1">Fixed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">Effective FromDate <i>*</i></label>
+                                    <input type="text" id="txtWeekoffEffetctiveFromDt" class="ip-ap form-control" readonly placeholder="From Date" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary waves-effect waves-light" id="btnSaveWeekOff" style=" margin-top: 6.5%;">Save</button>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="table-responsive no-margin" style="visibility:visible:hidden">
+                                <table id="dynamics" class="table nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Days</th>
+                                            <th>1</th>
+                                            <th>2</th>
+                                            <th>3</th>
+                                            <th>4</th>
+                                            <th>5</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkMonday" name="chkMonday" value="0" /> Monday</td>
+                                            <td><input type="checkbox" ID="chkMondayDays1" name="chkMondayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkMondayDays2" name="chkMondayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkMondayDays3" name="chkMondayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkMondayDays4" name="chkMondayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkMondayDays5" name="chkMondayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkTuesday" name="chkTuesday" value="0" /> Tuesday</td>
+                                            <td><input type="checkbox" ID="chkTuesdayDays1" name="chkTuesdayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkTuesdayDays2" name="chkTuesdayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkTuesdayDays3" name="chkTuesdayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkTuesdayDays4" name="chkTuesdayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkTuesdayDays5" name="chkTuesdayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkWednesday" name="chkWednesday" value="0" /> Wednesday</td>
+                                            <td><input type="checkbox" ID="chkWednesdayDays1" name="chkWednesdayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkWednesdayDays2" name="chkWednesdayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkWednesdayDays3" name="chkWednesdayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkWednesdayDays4" name="chkWednesdayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkWednesdayDays5" name="chkWednesdayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkThursday" name="chkThursday" value="0" />  Thursday</td>
+                                            <td><input type="checkbox" ID="chkThursdayDays1" name="chkThursdayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkThursdayDays2" name="chkThursdayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkThursdayDays3" name="chkThursdayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkThursdayDays4" name="chkThursdayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkThursdayDays5" name="chkThursdayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkFriday" name="chkFriday" value="0" /> Friday</td>
+                                            <td><input type="checkbox" ID="chkFridayDays1" name="chkFridayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkFridayDays2" name="chkFridayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkFridayDays3" name="chkFridayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkFridayDays4" name="chkFridayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkFridayDays5" name="chkFridayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkSaturday" name="chkSaturday" value="0" /> Saturday</td>
+                                            <td><input type="checkbox" ID="chkSaturdayDays1" name="chkSaturdayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkSaturdayDays2" name="chkSaturdayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkSaturdayDays3" name="chkSaturdayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkSaturdayDays4" name="chkSaturdayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkSaturdayDays5" name="chkSaturdayDays1" value="5" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox" ID="chkSundayday" name="chkSundayday" value="0" /> Sunday</td>
+                                            <td><input type="checkbox" ID="chkSundayDays1" name="chkSundayDays1" value="1" /></td>
+                                            <td><input type="checkbox" ID="chkSundayDays2" name="chkSundayDays1" value="2" /></td>
+                                            <td><input type="checkbox" ID="chkSundayDays3" name="chkSundayDays1" value="3" /></td>
+                                            <td><input type="checkbox" ID="chkSundayDays4" name="chkSundayDays1" value="4" /></td>
+                                            <td><input type="checkbox" ID="chkSundayDays5" name="chkSundayDays1" value="5" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive no-margin">
+                                    <table id="tblWeekoffAllocation" class="table nowrap"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <div id="tabGrade" class="tabcontent" style="display: none;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Grade<i>*</i></label>
+
+                                    <select id="ddlgrade" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">From Date<i>*</i></label>
+                                    <input type="text" class="ip-ap form-control" readonly id="allocfromdate" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label class="col-form-label">To Date<i>*</i></label>
+                                    <input type="text" class="ip-ap form-control" readonly id="alloctodate" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label class="col-form-label" style="margin-top: 8.5%;"></label>
+                                    <button class="btn btn-primary waves-effect waves-light" id="btnSaveGradeAllocation">Save</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tabDesignation" class="tabcontent" style="display: none;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Designation<i>*</i></label>
+
+                                    <select id="ddldesignation" class="form-control"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label class="col-form-label">From Date<i>*</i></label>
+
+                                    <input type="text" class="ip-ap form-control" readonly id="Desigfromdate" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">To Date<i>*</i></label>
+
+                                    <input type="text" class="ip-ap form-control" readonly id="Desigtodate" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" style="margin-top:8.5%"></label>
+                                    <button class="btn btn-primary waves-effect waves-light" id="btnSaveDesignationAllocation">Save</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="tabManagerAllocation" class="tabcontent" style="display: none;">
+
+                            <div class="col-md-12"><h5>Reporting Manager 1 <i>*</i></h5> <hr /></div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">Manager</label>
+                                    <select id="ddlEmployeeManager1" class="form-control"></select>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox mt-5">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail1" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                        <label class="custom-control-label" for="ManagerAllocNotifybyMail1">Notify by mail<i>*</i></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="radio mt-5 text-right">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="chkmanager1" name="chkmanager1" class="custom-control-input">
+                                        <label class="custom-control-label" for="chkmanager1">Final Approval</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12"><h5>Reporting Manager 2</h5> <hr /></div>
+
+
+
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="col-form-label">Manager</label>
+                                    <select id="ddlEmployeeManager2" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="checkbox mt-5">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail2" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                        <label class="custom-control-label" for="ManagerAllocNotifybyMail2">Notify by mail<i>*</i></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="radio mt-5 text-right">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="chkmanager2" name="chkmanager1" class="custom-control-input">
+                                        <label class="custom-control-label" for="chkmanager2">Final Approval</label>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-3" style="display:none">
+                                <div class="col-md-6 text-center"><label>From Date</label></div>
+                                <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="managerallocfromdate2" /></div>
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="display:none">
+                                <div class="col-md-6 text-center"><label>To Date</label></div>
+                                <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="manageralloctodate2" /></div>
+                            </div>
+
+
+                            <div class="col-md-12"><h5>Reporting Manager 3</h5><hr /></div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">Manager</label>
+                                    <select id="ddlEmployeeManager3" class="form-control"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="checkbox mt-5">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail3" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                        <label class="custom-control-label" for="ManagerAllocNotifybyMail3">Notify by mail<i>*</i></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="radio mt-5 text-right">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="chkmanager3" name="chkmanager1" class="custom-control-input">
+                                        <label class="custom-control-label" for="chkmanager3">Final Approval</label>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="col-md-3 col-sm-3" style="display:none">
+                                <div class="col-md-6 text-center"><label>From Date</label></div>
+                                <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="managerallocfromdate3" /></div>
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="display:none">
+                                <div class="col-md-6 text-center"><label>To Date</label></div>
+                                <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="manageralloctodate3" /></div>
+                            </div>
+
+
+
+                            <div class="col-md-12 text-center ">
+                                <hr />
+                                <button class="btn btn-primary waves-effect waves-light" id="btnSaveManagerAllocation">Save</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Employee/JsShiftAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Employee/JsWeekOffAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Employee/JsGradeAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Employee/JsDesignationAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Employee/JsManagerAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

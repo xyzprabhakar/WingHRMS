@@ -1,0 +1,70 @@
+﻿@page
+@{
+    ViewData["Title"] = "SalaryInputReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+    </style>
+
+<div class="col-xl-12">
+    @Html.Partial("PartialLayout")
+    <div class="panel ">
+        <div class="card ">
+
+            <div class="card-body">
+                <h4>Salary Input Report</h4>
+                <hr />
+                <!--  <div class="text-rigth">
+                    <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                </div>
+                  -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col align-self-center mx-auto">
+                            <div class="w-50">
+
+                                <div class="form-group">
+                                    <label>Payroll Month Year<i>*</i></label>
+                                    <input type="text" readonly="readonly" autocomplete="off" id="txtMonthYear" class="col-lg-6 form-control" />
+                                </div>
+                                
+                                <div class=" btn-group">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnGetData">Get Data</button>
+                                    <button type="button" class="btn btn-light btn-lg" id="btnmonthyrdtl">Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+                <hr />
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tblsalaryinputreport" class="table no-margin">
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
+<input type="hidden" id="hdnmonthyear" />
+<script src="~/src/jquery.table2excel.js"></script>
+<script src="~/apiJS/Payroll/JsSalaryInputReport.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+

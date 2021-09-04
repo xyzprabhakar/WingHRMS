@@ -1,0 +1,91 @@
+﻿@page
+@{
+    ViewData["Title"] = "FinancialYear";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h4>Financial Year</h4>
+                <hr />
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Financial Year Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txtFinancialYearName" class="form-control" type="text" maxlength="10" autocomplete="off" placeholder="Financial Year Name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">From Date<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtfromdate" class="form-control" autocomplete="off" maxlength="10" placeholder="From Date" onkeydown="return false;" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">To Date<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txttodate" class="form-control" autocomplete="off" maxlength="10" placeholder="To Date" onkeydown="return false;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <h4 class=" float-top">Financial Year List</h4>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblfinancial" class="table w-100 nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Financial Year</th>
+                                        <th>From Date</th>
+                                        <th>To Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <input type="hidden" id="hdnid" />
+            <script src="~/apiJS/ePA/ePA_financialyear.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+        </div>
+    </div>
+</div>
+
+

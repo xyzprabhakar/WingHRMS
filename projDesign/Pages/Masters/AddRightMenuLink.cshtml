@@ -1,0 +1,129 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddRightMenuLink";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container">
+                    <div class="col-md-12">
+                        <h4>Add Right Menu Link</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company Name<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Menu Name<i>*</i></label>
+                            <input id="txtMenuName" class="form-control" type="text" onkeypress="return AlphaNumeric(event);" autocomplete="off" placeholder="Menu Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Url<i>*</i></label>
+                            <input id="txtUrl" type="text" class="form-control" autocomplete="off" placeholder="Url" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Icon Url<i>*</i></label>
+                            <input id="txtIconUrl" class="form-control" type="text" autocomplete="off" placeholder="Icon Url" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Sorting Order</label>
+                            <input id="txtsorting_order" class="form-control" type="text" autocomplete="off" placeholder="Sorting Order" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" mb-0 ">Status</label>
+                            <div class="clear"></div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-12 mt-2">
+                    <div class="form-group text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button class="btn btn-primary btn-lg" id="btnReset">Reset</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="clear"></div>
+
+                <div class="col-md-12">
+                    <h4 class="margin-top">Right Menu List</h4>
+
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tbl_menu_list" class="table nowrap W-100 no-margin">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Menu Name</th>
+                                    <th>Icon Url</th>
+                                    <th>Url</th>
+                                    <th>Sorting Order</th>
+                                    <th>Status</th>
+                                    <th>Created On</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+                </div>
+                <input type="hidden" id="hdnid" />
+            </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Masters/JsAddRightMenuLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>

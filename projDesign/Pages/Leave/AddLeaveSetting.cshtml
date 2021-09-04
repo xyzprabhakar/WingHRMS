@@ -1,0 +1,410 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddLeaveSetting";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body">
+
+                <!--  <div class="text-rigth">
+                    <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                </div>
+                  -->
+
+
+                <div class="col-md-12">
+
+                    <h4 class="float-left text-primary">Add Leave Setting</h4>
+                    <a href="/Leave/LeaveSettingDetail" class="addBTN btn btn-primary float-right " title="Add new record">View Leave Setting </a>
+
+                </div>
+                <div class="col-md-12"> <hr /></div>
+                <div class="col-md-12"><h5>Leave info</h5></div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Leave Name<i>*</i></label>
+                        <select id="ddlleavename" class="form-control">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Leave Type <i>*</i></label>
+                        <select id="ddlleavetype" class="form-control">
+                            <option value="0">--Select--</option>
+                            <option value="1">Paid</option>
+                            <option value="2">UnPaid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">From Date<i>*</i></label>
+                        <input type="text" id="txtfromdate" class="ip-ap form-control" autocomplete="off"  placeholder="From Date"  />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">To Date<i>*</i></label>
+                        <input type="text" id="txttodate" class="ip-ap form-control"  autocomplete="off" placeholder="To Date" />
+                    </div>
+                </div>
+
+
+
+                <!--------LEAVE APPLICABILITY-------->
+
+                <div class="col-md-12"><h5>Leave applicability </h5></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Company <i>*</i></label>
+                        <select id="ddlcompany" class="form-control">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Location<i>*</i></label>
+                        <select id="ddllocation" class="form-control">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Department<i>*</i></label>
+                        <select id="ddldepartment" class="form-control">
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Religion<i>*</i></label>
+                        <select id="ddlReligion" class="form-control">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Leave Applicable For<i>*</i></label>
+                        <select id="ddlapplicable" class="form-control">
+                            <option value="0">--Select--</option>
+                            <option value="1">Full Day</option>
+                            <option value="2">Half Day</option>
+                            <option value="3">Short Leave</option>
+                        </select>
+                    </div>
+                </div>
+                @*<div id="Divhhmm" class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>HH:MM<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="iphr" id="txthhmm" />
+                        </div>
+                    </div>*@
+                <div id="DivDayPart" class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Day Part<i>*</i></label>
+                        <select id="ddldaypart" class="form-control">
+                            <option value="0">--Select--</option>
+                            <option value="1">First Half</option>
+                            <option value="2">Second Half</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Applicable All Emp<i>*</i></label>
+                        <select id="ddlemployeetype" class="form-control">
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-----LEAVE CREDIT------>
+                <div class="col-md-12"> <h5>Leave credit</h5></div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Credit frequency<i>*</i></label>
+                        <select id="ddlfrequency" class="form-control">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Number of leave credit<i>*</i></label>
+                        <input type="text" id="txtleavecreditno" class="form-control" maxlength="3" onkeypress="return isNumber(event,this)" />
+                    </div>
+                </div>
+
+                @*<div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Leave credit day<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <input type="text" id="txtleavecreditday" maxlength="2" onkeypress="return isNumberKey(event);" />
+                        </div>
+                    </div>*@
+
+                @*<div class="col-md-6">
+                        <div class="col-md-6 text-rigth"><label>Half day applicable<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlhalfday">
+                                <option value="0">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                @*<div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Apply in advance<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <select id="ddlapplyadvance">
+                                <option value="0">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+
+                        </div>
+                    </div>*@
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">Leave accrue<i>*</i></label>
+                        <select id="ddlleaveaccrue" class="form-control">
+                            <option value="0">--Select--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="DivApplyAdvance" class="col-md-3">
+                    <div class="form-group">
+                        <label class="col-form-label">No. of days prior to leave</label>
+                        <input type="text" id="txtdayspriortoleave" class="form-control" maxlength="2" onkeypress="return isNumberKey(event);" />
+                    </div>
+                </div>
+                <div id="DivMaxLeaveAccure" class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Max. no of leave accrue</label>
+                        <input type="text" id="txtmaxleaveaccure" class="form-control" maxlength="2" onkeypress="return isNumberKey(event);" />
+                    </div>
+                </div>
+                @*<div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Required certification<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <select id="ddlcertification">
+                                <option value="0">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                <div id="DivCertificate" class="col-md-6" style="display:none;">
+                    <div class="form-group">
+                        <label class="col-form-label">Certificate File</label>
+                        <input type="file" class="form-control" id="certificatefile" />
+                    </div>
+                </div>
+                <div id="DivViewFile" class="col-lg-6" style="display:none;">
+                    <div class="form-group">
+                        <label class="col-form-label">View Certificate File</label>
+                        <a href="#" id="viewfile" target="_blank">View File</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h5>Leave rule</h5>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Leave define date<i>*</i></label>
+                        <input type="text" class="ip-ap-leave-setting form-control" id="txtleavedefinedate" onkeydown="return false;" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Number of leave collapsed<i>*</i></label>
+                        <input type="text" id="noofleavecollapsed" class="form-control" maxlength="2" onkeypress="return isNumberKey(event);" />
+                    </div>
+                </div>
+                @*<div class="col-md-6">
+                        <div class="col-md-6 text-center"><label>Maximum negative leave balance<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" maxlength="2" id="txtmaxnegleave" onkeypress="return isNumberKey(event);" />
+                        </div>
+                    </div>*@
+                @*<div class="col-md-6">
+                        <div class="col-md-6 text-rigth"><label>Certificate required<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6"><input type="text" id="txtcertificatedays" maxlength="2" placeholder="" onkeypress="return isNumberKey(event);" /></div>
+                            <div class="col-md-6 text-rigth"><label>days off</label></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>*@
+                @*<div class="col-md-6">
+                        <div class="col-md-6 text-left"><label>Max. leave taken type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <select id="ddlleavetakentype">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">Per Month</option>
+                                    <option value="2">Per Quarter</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Maximum leave can be taken<i>*</i></label>
+                        <input type="text" id="txtmaxleaveperday" class="form-control" maxlength="2" placeholder="" onkeypress="return isNumberKey(event);" />
+                        <span class="text-info">per month</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label">Maximum leave can be taken</label>
+                        <input type="text" class="form-control" id="txtmaxleaveperquarter" maxlength="2" placeholder="" onkeypress="return isNumberKey(event);" />
+                        <span class="text-info">per quarter</span>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <div class="form-group ">
+                        <label class="col-form-label">Can carried forward<i>*</i></label>
+                        <select id="ddlcarriedforward" class="form-control">
+                            <option value="0">--Select--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div id="DivMaxForward" class="col-md-6">
+
+
+                    <div class="form-group">
+                        <label class="col-form-label">if yes maximum carried forward at year end<i>*</i></label>
+
+                        <input type="text" id="txtmaxleaveforward" class="form-control" maxlength="2" placeholder="if yes" onkeypress="return isNumberKey(event);" />
+                    </div>
+
+                </div>
+
+                <div class=" col-md-6 ">
+
+                    <div class="form-group">
+                        <label class=" mb-0 ">Status</label>
+                        <div class="clear"></div>
+                        <div class="form-check-inline ">
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="is_active" type="radio" checked="checked" value="1" name="chkstatus" />
+                                <label class="custom-control-label" for="is_active">  Active</label>
+                            </div>
+                        </div>
+                        <div class="form-check-inline ">
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus" />
+                                <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                @*<div class="col-md-6">
+                        <div class="col-md-6 text-rigth"><label>Sub Location Code</label></div>
+                        <div class="col-md-6">
+                            <input id="txtsublocationcode" type="text" autocomplete="off" maxlength="5" placeholder="Sub Location Code" />
+                        </div>
+                    </div>*@
+
+                <div class="col-md-12">
+                    <div class="form-group text-center">
+
+
+                        <div class=" btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container leave leavesetting no-top-margin">
+        <!-------LEAVE INFO-------->
+        <!-------Encashment-------->
+        @*<h2>Encashment</h2>
+            <div class="col-md-6">
+                <div class="col-md-6"><label>Cashable<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlcashable">
+                        <option value="0">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                </div>
+            </div>*@
+        @*<div id="DivCashebalType" class="col-md-6">
+                <div class="col-md-6 text-rigth"><label>Cashable type</label></div>
+                <div class="col-md-6">
+                    <select id="ddlcahabletype">
+                        <option value="">--Select--</option>
+                        <option value="0">All</option>
+                        <option value="1">On separation</option>
+                        <option value="2">Yearly</option>
+                    </select>
+                </div>
+            </div>*@
+
+        @*<div class="clear"></div>*@
+        @*<div id="DivCashebalDays" class="col-md-6">
+                <div class="col-md-6 text-left"><label>Maximum days cashable</label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtnoofleave" maxlength="2" onkeypress="return isNumberKey(event);" />
+
+                </div>
+            </div>
+            <div id="Divnoofd"><label> no of leave</label></div>
+            <div class="clear"></div>*@
+
+
+
+    </div>
+</div>
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Leave/LeaveSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>

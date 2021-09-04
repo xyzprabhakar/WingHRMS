@@ -1,0 +1,122 @@
+﻿@page
+@{
+    ViewData["Title"] = "UploadAttandance";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Upload Employee Attandance</h4>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <a id="solTitle" href="/wwwroot/UploadFormat/Employee Attandance.xlsx" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label ">Company Name <i>*</i></label>
+                                <select id="ddlCompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label ">Upload Attandance<i>*</i></label>
+                                <input type="file" id="AttandanceeFile" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+               
+                <input type="hidden" id="HFb64" />
+                <script src="~/apiJS/Attendence/JsAttandanceFromExcel.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- Trigger/Open The Modal -->
+                <style>
+
+                                    /* The Modal (background) */
+                                    .modal {
+                                        display: none; /* Hidden by default */
+                                        position: fixed; /* Stay in place */
+                                        z-index: 1; /* Sit on top */
+                                        padding-top: 100px; /* Location of the box */
+                                        left: 0;
+                                        top: 0;
+                                        width: 100%; /* Full width */
+                                        height: 100%; /* Full height */
+                                        overflow: auto; /* Enable scroll if needed */
+                                        background-color: rgb(0,0,0); /* Fallback color */
+                                        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                                    }
+
+                                    /* Modal Content */
+                                    .modal-content {
+                                        background-color: #fefefe;
+                                        margin: auto;
+                                        padding: 10px;
+                                        border: 1px solid #888;
+                                        width: 30%;
+                                    }
+                                    /*.acceptrejectdiv {
+                        width: 88%;
+                    }*/
+
+                </style>
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content" style="width:626px;height:320px">
+                        <div class="panel ">
+                            <h1>Missing/Duplicate Detail in Excel</h1>
+                            <hr />
+                            <div class="table-responsive no-margin">
+                                <table id="tbl_exceldtl" class="table-defoult no-margin"></table>
+                                <div class="clear"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+
+                    var modal = document.getElementById("myModal");
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                </script>
+
+
+

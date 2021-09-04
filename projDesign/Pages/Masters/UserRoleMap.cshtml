@@ -1,0 +1,86 @@
+﻿@page
+@{
+    ViewData["Title"] = "UserRoleMap";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card ">
+            <div class="card-body">
+
+                <div class="form-container master-panel mt-2">
+                    <div class="col-md-12">
+                        <h4>User Role Map</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Role <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlrole" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 form-group" style="text-align:center;display:block;margin-top:16px">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+
+                @*<div class="container">
+            <div class="row">
+                <div class="col align-self-center mx-auto">
+                    <div class="w-50">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>*@
+                <div class="clear"></div>
+                <h4 class="margin-top">User Role List</h4>
+                <hr />
+
+                <div class="clear"></div>
+
+
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tbluserlist" class="table no-margin w-100">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Employee ID</th>
+                                    <th>User Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Masters/UserRoleMap.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

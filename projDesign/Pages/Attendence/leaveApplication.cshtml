@@ -1,0 +1,161 @@
+﻿@page
+@{
+    ViewData["Title"] = "LeaveApplication";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="tab-link">
+    <ul>
+        @*<li><a href="CreateUser">Opening</a></li>
+        <li><a href="OfficaialSection">On-boarding</a></li>
+        <li><a href="ShiftAllocation">Shift Allocation</a></li>*@
+        <li class="active"><a href="Attendence">Leave & Attendence</a></li>
+        @*<li><a href="GradeAllocation">Payroll</a></li>
+        <li><a href="DesignationAllocation">Salery Slip</a></li>
+        <li><a href="ManagerAllocation">Forms</a></li>
+        <li><a href="PersonalDetails">Policies</a></li>
+        <li><a href="QualificationSection">Directory</a></li>
+        <li><a href="FamilySection">Application Tracker</a></li>*@
+    </ul>
+</div>
+<!-- tab link end -->
+<div class="panel attendence-master-panel no-top-margin">
+    <h1>Leave Application</h1>
+    <hr />
+    <div class="form-container">
+        <div class="attendence-inner-panel">
+            <div class="col-md-12 application-select-button">
+                <button id="OutdoorApplication" class="button">Outdoor Application</button>
+                <button id="LeaveApplication" class="button active">Leave Application</button>
+                <button id="AttendenceApplication" class="button ">Attendance Application</button>
+                <button id="CompOffApplication" class="button">CompOff Application</button>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Company<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlCompany">
+                        <option>All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label>Employee Code <i>*</i></label></div>
+                <div class="col-md-6"> <select id="ddlEmployeeCode"></select></div>
+            </div>
+            <div class="form-container leave">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>From Date<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtfromdate" maxlength="10" placeholder="From Date" onkeydown="return false;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>To Date<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txttodate" maxlength="10" placeholder="To Date" onkeydown="return false;" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Leave Type <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlleavetype">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Leave Applicable For<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlapplicable">
+                                <option value="0">--Select--</option>
+                                <option value="1">Full Day</option>
+                                <option value="2">Half Day</option>
+                                <option value="3">HH:MM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="Divhhmm" class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>HH:MM<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="time" id="txthhmm" />
+                        </div>
+                    </div>
+                    <div id="DivDayPart" class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Day Part<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddldaypart">
+                                <option value="0">--Select--</option>
+                                <option value="1">First Half</option>
+                                <option value="2">Second Half</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="DivDayPart" class="col-md-6">
+                        <div class="col-md-3 text-rigth"><label>Remarks<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <textarea type="text" maxlength="100" id="txtremark" placeholder="Remark.." style="height: 24px;resize:none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12  btn-group text-center margin-top-btn">
+                    <button type="button" class="btn" id="btnsave">Save</button>
+                    <button type="button" class="btn" id="btnupdate">Update</button>
+                    <button type="button" id="btnreset" class="btn">Reset</button>
+                </div>
+                <div class="clear"></div>
+                <h2 class="margin-top">Leave Application List</h2>
+                <hr />
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="tblleaveapp" class="table-defoult">
+                            @*<thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Leave Type</th>
+                                    <th>Leave App For</th>
+                                    <th>HH:MM</th>
+                                    <th>Day Part</th>
+                                    <th>Leave Qty.</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th>Remarks</th>
+                                    <th>Applied On</th>
+                                    <th>Status</th>*@
+                                    @*<th></th>
+                                    <th></th>*@
+                                @*</tr>
+                            </thead>
+                            <tbody></tbody>*@
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <hr />
+            <div class="clear"></div>
+            <!-- attendence inner panel end-->
+        </div>
+        <!-- form container end -->
+    </div>
+    <!-- panel end -->
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Leave/LeaveApplication.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+

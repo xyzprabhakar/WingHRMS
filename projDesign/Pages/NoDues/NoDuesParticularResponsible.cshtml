@@ -1,0 +1,87 @@
+﻿@page
+@{
+    ViewData["Title"] = "NoDuesParticularResponsible";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .select2-selection--multiple {
+        height: auto !important;
+        max-height: 90px !important;
+        overflow: auto;
+    }
+</style>
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h2>No Dues Particular Responsible</h2>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Department<i>*</i></label>
+                            <select id="ddldepartment" title="Department" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group my">
+                            <label class="col-form-label ">Employee<i>*</i></label>
+                            <select id="ddlEmployee" multiple title="Employee" style="overflow:scroll; height:auto;" tooltip="Please Select" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">No Dues Particular Responsible</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblReport" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <input type="hidden" id="hdnid" />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/NoDues/JsNoDuesParticularResponsible.js"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+

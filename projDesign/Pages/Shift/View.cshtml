@@ -1,0 +1,53 @@
+﻿@page
+@{
+    ViewData["Title"] = "View All Shift";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel shift-view">
+
+                <h4 class=" float-left">Shift List</h4>
+
+                <a href="/Shift/CreateShift" class="btn btn-primary float-right mb-1">Create Shift</a>
+                <div class="clearfix"></div>
+                <hr />
+
+                
+                <div class="table-responsive shift-view-panel">
+                    <table id="tblShiftMaster" class="table w-100 nowrap">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Shift Name</th>
+                                <th>Shift Short Name</th>
+                                <th>Punch In Time</th>
+                                <th>Punch In Max Time</th>
+                                <th>Punch Out Time</th>
+                                <th>Maximum Working Hours</th>
+                                <th>Grace Time For Late Punch In</th>
+                                @*<th>Grace Time For Late Punch Out</th>*@
+                                <th>Number Of Grace Time Applicable In Month</th>
+                                <th>Is Lunch Punch Applicable</th>
+                                <th>Lunch Punch In Time</th>
+                                <th>Lunch Punch Out Time</th>
+                                
+                                <th>Maximum Lunch Time</th>
+                                <th>Is OT Applicable</th>
+                                <th>Maximum OT Hours</th>
+                                <th>Is Default</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+                @*<script src="~/apiJS/Shift/JsShiftMaster.js"></script>*@
+                <script src="~/apiJS/Shift/JsShift.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+            </div>
+        </div>
+    </div>
+</div>

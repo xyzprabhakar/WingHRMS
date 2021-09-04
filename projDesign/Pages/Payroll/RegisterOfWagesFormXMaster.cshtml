@@ -1,0 +1,171 @@
+﻿@page
+@{
+    ViewData["Title"] = "RegisterOfWagesFormXMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register Of Wages Form X Master</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Basic Minimum rate of Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlMinBaiscPayable" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">DA Minimum rate of Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlMinDAPayable" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Basic Rate of Wages Actually Paid</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlBasicWagesActuallyPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">DA Rate of Wages Actually Paid</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlDAWagesActuallyPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Attandance/ Unit of Work Done</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalAttendAndUnitOfWorkDone" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Overtime Worked</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOvertimeWorked" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Gross Wages Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlGrossWagesPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Employer's Contribution to P.F</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlEmployerPF" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">HR Deduction</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlHRDeduction" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Other Deduction</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOtherDeduction" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Deduction</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalDeduction" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Wages Paid</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlWagesPaid" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date of Payment</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlDateofPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="clear"></div>
+        <div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label>Signature or Thumb-Impression of Employee</label></div>
+            <div class="col-md-6">
+                <input type="file" id="File1" />
+            </div>
+        </div>*@
+
+                    <div class="col-md-12">
+                     
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                 
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Payroll/JsRegisterofWagesFormXMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,117 @@
+﻿@page
+@{
+    ViewData["Title"] = "EmployeeAccount";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Employee Account</h4><hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Bank<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="bank" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Branch<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="branch" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee Account No.<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control bg-light" id="Employeeaccno" maxlength="8" placeholder="Company account no." />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Opening Date<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control bg-light" id="openingdate" maxlength="10" placeholder="Opening Date" onkeydown="return false;" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6" id="checkbtn">
+
+                        <label class=" mr-4 col-form-label">Status<i>*</i></label>
+                        <div class="">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12 mt-2">
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Employee Account List</h4><hr />
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="empmstr" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Bank</th>
+                                        <th>Branch</th>
+                                        <th>Employee Acc no.</th>
+                                        <th>Opening Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                           
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Payroll/EmployeeAccount.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

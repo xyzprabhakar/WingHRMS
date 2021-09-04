@@ -1,0 +1,93 @@
+﻿@page
+@{
+    ViewData["Title"] = "Shift Assignment Detail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h4 class=" float-left">Shift Assignment Details</h4>
+
+                <a href="/Shift/ShiftAllignment" class="btn btn-primary float-right mb-1">Shift Assignment </a>
+                <div class="clearfix"></div>
+                <hr />
+
+                <div class="form-container shift-panel-inner no-top-margin">
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"> <label class="col-form-label">Company <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Location <i></i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddllocation" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Department <i></i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddldept" class="form-control"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">From Date <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="ip-ap form-control" autocomplete="off" id="txtFromDate" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">To Date <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="ip-ap form-control" autocomplete="off" id="txtToDate" />
+                        </div>
+                    </div>  
+                    
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"> <label class="col-form-label">Employee Type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlEmpType" class="form-control">
+                                <option value="1" selected="selected">Active</option>
+                                <option value="0">InActive</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 form-group">
+
+                        <input type="button" id="btnget_detail" class="btn-primary" style="height:40px" value="Get Detail" />
+                    </div>
+                </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_shift_assign_dtl" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Shift/JsShiftAllignmentDetail.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,106 @@
+﻿@page
+@{
+    ViewData["Title"] = "LODSetting";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("PartialLayout")</div>*@
+<div class="col-xl-12">
+    <div class="panel ">
+       
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Monthly Salary Rule</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Month Rule<i>*</i></label></div>
+                        <div class="col-md-6">
+                            @*<div class=" form-inline">
+                                <select id="ddl_lop_setting" class="form-control bg-light ">
+                                    <option value="0">-Please Select-</option>
+                                    <option value="1">Monthly</option>
+                                    <option value="2">Fixed</option>
+                                </select>
+                                <a href="#" onclick="info()"><i class="fa fa-info-circle" title="Click Me"></i></a>
+
+                            </div>*@
+
+                            <div class="input-group">
+                                <select id="ddl_lop_setting" class="form-control">
+                                    <option value="0">-Please Select-</option>
+                                    <option value="1">Monthly</option>
+                                    <option value="2">Fixed</option>
+                                </select>
+                               
+                                <span class="input-group-append">
+                                    <a href="#" onclick="info()" class="btn btn-light notify"><i class="fa  fa-info-circle" title="Click Me"></i></a>
+                                    
+                                </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Monthly Salary Rule Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbllodsetting" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>SNo.</th>
+                                        <th>Company</th>
+                                        <th>LOD Setting</th>
+                                        <th>Created Date</th>
+                                        <th>Modified Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<input type="hidden" id="hdn_lop-setting_id" />
+<script src="~/apiJS/Payroll/LODSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

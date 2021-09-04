@@ -1,0 +1,90 @@
+﻿@page
+@{
+    ViewData["Title"] = "Outdoor Leave Approval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="col-xl-12">
+
+    <div class="row">
+        <div class="col-md-12">
+            @*@Html.Partial("PartialLayoutMyTeamTab");*@
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="panel attendence-master-panel ">
+                        <h1>Outdoor Approval</h1>
+                        <hr />
+                        <div class="form-container">
+                            <div class="attendence-inner-panel">
+
+                                <div class="col-md-12">
+                                    <div class="table-responsive no-margin">
+                                        <table id="tblOutdoorApplication" class="table w-100 nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Employee Code</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Date</th>
+                                                    <th>From Time</th>
+                                                    <th>To Time</th>
+                                                    <th>Requester Remarks</th>
+                                                    <th>My Status</th>
+                                                    <th>Final Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+                                <div id="actiondiv" style="display:none">
+                                    <div class="col-md-12">
+                                        <hr />
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4 text-rigth"><label>Action<i>*</i></label></div>
+                                        <div class="col-md-8">
+                                            <select id="ddlaction_type" class="form-control">
+                                                <option value="0">--Select--</option>
+                                                <option value="1">Approve</option>
+                                                <option value="2">Reject</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-4 text-rigth"><label>Remarks</label></div>
+                                        <div class="col-md-8">
+                                            <textarea id="txtremarks" class="form-control" placeholder="remark/comment.." maxlength="100" style="height:40px;resize:none;"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 mt-4">
+
+                                        <div class="form-group text-center">
+                                            <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- attendence inner panel end-->
+                            </div>
+                            <!-- form container end -->
+                        </div>
+                        <!-- panel end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Leave/JsOutdoorLeaveApproval.js?ver=@DateTime.Now.Ticks.ToString()"></script>

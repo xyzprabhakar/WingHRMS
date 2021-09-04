@@ -1,0 +1,155 @@
+﻿@page
+@{
+    ViewData["Title"] = "LoanRequest";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*@Html.Partial("PartialLayoutMeTab")*@
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+
+    .labledropdown {
+        border: none !important;
+        background-color: #f5f5f5 !important;
+        -webkit-appearance: none;
+        pointer-events: none;
+    }
+</style>
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h1>Loan/Advance Request Form</h1>
+                <hr />
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                            <div class="col-md-8">
+                                <select id="ddlCompany" class="form-control">
+                                    @*<option>--Please Select--</option>*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Employee Code</label></div>
+                            <div class="col-md-8">
+                                <select id="ddlempcode" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+
+                        @*<div class="col-md-6">
+                                <div class="col-md-3 text-rigth"><label>Employee Name<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <input type="text" id="txtFirstName" maxlength="150" readonly="readonly" placeholder="Employee name" />
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6  form-group">
+                            <div class="col-md-4 text-rigth"><label>Loan/Advance<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlloan" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                    <option value="1">Loan</option>
+                                    <option value="2">Advance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Loan/Interest Rate<i>*</i></label></div>
+                            <div class="col-md-8">
+                                @*<select id="ddlrate" readonly="readonly">
+                                        <option value="0">--Please Select--</option>
+                                    </select>*@
+                                <select id="ddlrate" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label for="myalue">Amount<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtloanAmt" class="form-control" maxlength="8" placeholder="Loan Amount" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Tenure (In Month) <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txttenure" class="form-control" maxlength="2" placeholder="Tenure (In month)" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label>Start Date <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txteffectivedt" class="form-control" readonly="readonly" placeholder="Loan Effective Date" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 "><label>Purpose of Loan<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <textarea id="purpose_of_loan" class="form-control" placeholder="Purpose of Loan" maxlength="300"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        @*<div class="col-md-4 text-left"></div>*@
+                        <div class="col-md-12">
+                            <input type="checkbox" name="chkpolicy" id="chkpolicy" style="vertical-align:super" />&nbsp; <label><span style="font-family:Verdana; text-align:justify;">I have read all the provision of company policy on loan/Advance and undertake to comply by them. I authorized the company to recover any outstanding amount under this policy from my salary / full and final settlement as the case may be.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Loan Request Details</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblloanrequest" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnmaxloanamt" />
+<input type="hidden" id="hdnempname" />
+<script src="~/apiJS/View/LoanRequest.js"></script>
+
+<script src="~/Comman/JS/JsSelectAll.js"></script>
+

@@ -1,0 +1,76 @@
+﻿@page
+@{
+    ViewData["Title"] = "CompoffRaiseReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel attendence-master-panel no-top-margin">
+                <h1>Compoff Raise Application</h1>
+                <hr />
+                <div class="form-container">
+                    <div class="attendence-inner-panel">
+
+                        <div class="form-group">
+                            <div id="pnlHeaderData"></div>
+
+                        </div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnGet">Get</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4 class=" float-top">CompOff Raise List</h4>
+                            <hr />
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblcompoffdtl" class="table w-100 nowrap"></table>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+                        <!-- attendence inner panel end-->
+                    </div>
+                    <!-- form container end -->
+                </div>
+                <!-- panel end -->
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: true,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+    <script src="~/apiJS/View/JsCompoffRaiseReport.js"></script>
+
+}
+
+
+
+

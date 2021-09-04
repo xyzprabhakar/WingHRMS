@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabMasters>
+
+ <tabmaster id="1">
+   <orderby>1</orderby>
+   <name>KPI - Objective Setting</name>
+   <description>KPI - Objective Setting</description>
+ </tabmaster>
+        
+<tabmaster id="2">
+    <orderby>2</orderby>
+    <name>KRA Accountabilities</name>
+    <description>KRA - Accountabilities of the Year under Review (based on Job description)</description>
+</tabmaster>
+
+<tabmaster id ="3">
+  <orderby>3</orderby>
+  <name>self-appraisal</name>
+  <description>self-appraisal</description>
+</tabmaster>
+
+ <tabmaster id="4">
+    <orderby>4</orderby>
+    <name>Contribution</name>
+    <description>Major Contribution</description>
+</tabmaster>
+
+<tabmaster id="5">
+    <orderby>5</orderby>
+    <name>Manager's Comment</name>
+    <description>Manager's Comment</description>
+</tabmaster>
+
+<tabmaster id="6">
+    <orderby>6</orderby>
+    <name>Training</name>
+    <description>Training</description>
+  </tabmaster>
+
+<tabmaster id="7">
+    <orderby>7</orderby>
+    <name>Traits</name>
+    <description>Traits</description>
+</tabmaster>
+
+<tabmaster id="8">
+    <orderby>8</orderby>
+    <name>Final Review</name>
+    <description>Final Review</description>
+</tabmaster>
+
+</TabMasters>
+

@@ -1,0 +1,99 @@
+﻿@page
+
+@{
+    ViewData["Title"] = "Salary Group Master ";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("PartialLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Salary Group Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Salary Group<i>*</i></label>
+                            <input type="text" id="txtsalerygroup" maxlength="100" placeholder="Salary Group Name" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Salary<i>*</i></label>
+                            <input type="text" id="txtminrange" width="50" maxlength="10" class="form-control" placeholder="Enter Value" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Description<i>*</i></label>
+                            <textarea id="txtdescription" placeholder="Description" onkeypress="return AlphaNumeric(event);" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Is Active<i>*</i></label>
+                            <select id="ddlActive" class="form-control">
+                                <option value="2">--Please Select--</option>
+                                <option value="1">Active</option>
+                                <option value="0">De-Active</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                    
+                        <div class=" text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+
+                        </div>
+                      
+                    </div>
+
+
+                    <div class="col-md-12">
+
+                        <h4 class="margin-top">Salary Group Details</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblsalgroup" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdgroupid" />
+<script src="~/apiJS/Payroll/JsSalGroupMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+
+
+
+
+
+
+

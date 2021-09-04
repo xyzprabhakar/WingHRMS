@@ -1,0 +1,78 @@
+﻿@page
+@model projDesign.Pages.ePA.QuarterMasterModel
+@{
+    ViewData["Title"] = "QuarterMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*quarter master*@
+<div class="panel ">
+    <h1>Quarter Master</h1>
+    <hr />
+    <div class="form-container leave no-top-margin">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Financial Year<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlfianancial">
+                        <option value="0">--Select--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Quarter Name<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtquarter" maxlength="20" placeholder="Quarter Name" />
+                </div>
+
+            </div><div class="clear"></div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>From Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtfromdate" maxlength="10" placeholder="From Date" onkeydown="return false;" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>To Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txttodate" maxlength="10" placeholder="To Date" onkeydown="return false;" />
+                </div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <hr />
+        <div class="col-md-12  btn-group text-rigth margin-top-btn">
+            <button type="button" class="btn" id="btnsave">Save</button>
+            <button type="button" class="btn" id="btnupdate">Update</button>
+            <button type="button" id="btnreset" class="btn">Reset</button>
+        </div>
+        <div class="clear"></div>
+        <h2 class="margin-top">Quarter Master List</h2>
+
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="tblquartermstr" class="table-defoult">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Financial Year</th>
+                            <th>Quarter Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/ePA/ePA_Quarter.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+

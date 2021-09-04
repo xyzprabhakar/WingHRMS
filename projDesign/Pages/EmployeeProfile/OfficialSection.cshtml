@@ -1,0 +1,309 @@
+﻿@page
+@{
+    ViewData["Title"] = "OfficialSection";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+<div class="col-xl-12">
+    <div>@Html.Partial("PartialEmpProfileLayout")</div>
+    @*<nav class="payroll-nav is-hoverable shadow-sm bg-white  ">
+        <div class="rounded">
+            <ul class="metismenu " id="menu2">
+                <li class="active"><a href="/EmployeeProfile/OfficialSection">Official Section</a></li>
+                <li><a href="/EmployeeProfile/ShiftAllocation">Shift Allocation</a></li>
+                <li><a href="WeekOff">Week Off</a></li>
+                <li><a href="GradeAllocation">Grade Allocation</a></li>
+                <li><a href="DesignationAllocation">Designation Allocation</a></li>*@
+    @*<li><a href="ManagerAllocation">Manager Allocation</a></li>*@
+    @*<li><a href="/EmployeeProfile/PersonalDetails">Personal Details</a></li>
+                    <li><a href="/EmployeeProfile/QualificationSection">Qualification Section</a></li>
+                    <li><a href="/EmployeeProfile/FamilySection">Family Section</a></li>
+                    <li><a href="/EmployeeProfile/HealthCard">Health Card</a></li>
+                    <li><a href="/EmployeeProfile/WorkingRoleAllocation">Working Role</a></li>
+                </ul>
+            </div>
+        </nav>*@
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="panel ">
+                <div class="form-container no-top-margin">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light" disabled>
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Employee Code</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlEmployeeCode" class="form-control bg-light" disabled></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_state" class="col-form-label">State </label></div>
+                        <div class="col-md-8">
+                            <select id="ddlstate" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                            <select id="ddlsublocation" class="form-control" style="display:none">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_location" class="col-form-label">Location</label></div>
+                        <div class="col-md-8">
+                            <select id="ddllocation" class="form-control bg-light" disabled>
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group ">
+                        <div class="col-md-4 "><label id="lbl_department" class="col-form-label">Department</label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" title="Leave Type" class="form-control bg-light" disabled>
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label id="lbl_sub_department" class="col-form-label">Sub Department</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlsubdepartment" title="Leave Type" class="form-control bg-light" disabled>
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label  id="lbl_card_no" class="col-form-label">Card No/Employee No</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtCardNo" placeholder="Card No/Employee No" class="form-control bg-light" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_employee_code" class="col-form-label">Employee Code</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtEmployeeCode" readonly="true" class="form-control bg-light" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_gender" class="col-form-label">Gender</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlgender" title="Gender" class="form-control bg-light" disabled>
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Female</option>
+                                <option value="2">Male</option>
+                                <option value="3">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label id="lbl_salutation"  class="col-form-label">Salutation</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlSalutation" class="form-control bg-light" disabled>
+                                <option value="1">Mr.</option>
+                                <option value="2">Mrs.</option>
+                                <option value="3">Miss.</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label  id="lbl_first_name" class="col-form-label">First Name</label></div>
+                        <div class="col-md-8">
+                            <input type="text" maxlength="50" id="txtFirstName" class="form-control bg-light" placeholder="First Name" disabled />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6 form-group ">
+                        <div class="col-md-4 "><label id="lbl_middle_name" class="col-form-label">Middle Name</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtMiddleName" class="form-control bg-light" placeholder="Middle Name" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_last_name"  class="col-form-label">Last Name</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtLastName" class="form-control bg-light" placeholder="Last Name" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_group_joining_date" class="col-form-label">Group Joining Date</label></div>
+                        <div class="col-md-8">
+                            <input id="txtGroupJoiningDate" type="text" class="ip-ap form-control bg-light" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_date_of_joining"  class="col-form-label">Date of joining</label></div>
+                        <div class="col-md-8">
+                            <input id="txtDateOfJoining" type="text" class="ip-ap form-control bg-light" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label  id="lbl_department_joining_date"  class="col-form-label">Department Joining Date</label></div>
+                        <div class="col-md-8">
+                            <input id="txtDepartmentJoiningDate" type="text" class="ip-ap form-control bg-light" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_dob" class="col-form-label">Date of Birth</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="ip-ap form-control bg-light" readonly id="txtDateOfBirth" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label id="lbl_religion" class="col-form-label">Religion</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlReligion" class="form-control bg-light" disabled></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label id="lbl_marital_status" class="col-form-label">Marital Status</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlMaritalStatus" class="form-control bg-light" disabled>
+                                <option value="0">Select</option>
+                                <option value="1">Married</option>
+                                <option value="2">Single</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label  id="lbl_hr_spoc" class="col-form-label">HR Spoc</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtHrSpoc" class="form-control bg-light" placeholder="HR Spoc" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label  id="lbl_official_email" class="col-form-label">Official Email Id</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtOfficialEmailID" class="form-control bg-light" placeholder="Official Email Id" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label id="lbl_emp_category" class="col-form-label">Employee Category</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlemploymenttype" class="form-control" disabled>
+                                <option value="0" selected>--Please select--</option>
+                                @foreach (var data in Enum.GetValues(typeof(projContext.enmRoleMaster)))
+                                {
+                                    if (((int)data) <= 10 || ((int)data) > 100)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        <option value="@((int)data)">@data</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label id="lbl_notice_period"  class="col-form-label">Notice Period</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtnotice_period" placeholder="Notice Period in Days" disabled autocomplete="off" class="form-control" onkeypress="return isNumberKey(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label id="lbl_employment_type" class="col-form-label">Employment Type</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlemployment_type" class="form-control" disabled>
+                                <option value="0" selected>--Please select--</option>
+                                <option value="1">Full Time</option>
+                                <option value="2">Part Time</option>
+                                <option value="3">Contract</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label id="lbl_confirmation_date" class="col-form-label">Confirmation Date</label></div>
+                        <div class="col-md-8">
+                            <input id="txtconfirmation_date" type="text" class="ip-ap form-control" autocomplete="off" disabled placeholder="Confirmation Date" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"> </div>
+                        <div class=" col-md-8 ">
+                            <input type="checkbox" id="chkOtAllowes" disabled /><label id="lbl_ot_allow"> OT Allowed</label>
+
+                            <input type="checkbox" id="chkCombOff" disabled /><label id="lbl_comp_off" > Comp Off</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label id="lbl_punch_type"  class="col-form-label">Punch Type</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="ip-ap form-control" readonly id="txtpunchtype" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Remarks <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtpunch_remarks" placeholder="Remarks" disabled onkeypress="return AlphaNumeric(event);" autocomplete="off" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label>Mobile Punch From date</label></div>
+            <div class="col-md-6">
+                <input type="text" class="ip-ap" readonly id="txtMobilePunchFromDate" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6 text-center"><label>Mobile Punch To Date</label></div>
+            <div class="col-md-6">
+                <input type="text" class="ip-ap" readonly id="txtMobilePunchToDate" />
+            </div>
+        </div>*@
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"> <label class="col-form-label">Photo Upload</label></div>
+                        <div class="col-md-8">
+                            @*<input type="file" id="File1" />*@
+
+                            <img id="profile_imgg" style="width: 50%;height: 100px;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<input type="hidden" id="HFb64" />
+<input type="hidden" id="hdnEmployee_img" />
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/EmployeeProfile/OfficialSection.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+
+

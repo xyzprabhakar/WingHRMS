@@ -1,0 +1,77 @@
+﻿@page
+@{
+    ViewData["Title"] = "WorkingRoleAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+<div class="col-xl-12">
+    <div>@Html.Partial("PartialEmpProfileLayout")</div>
+    @*<nav class="payroll-nav is-hoverable shadow-sm bg-white  ">
+            <div class="rounded">
+                <ul class="metismenu " id="menu2">
+                    <li><a href="/EmployeeProfile/OfficialSection">Official Section</a></li>
+                    <li><a href="/EmployeeProfile/ShiftAllocation">Shift Allocation</a></li>
+                    <li><a href="/EmployeeProfile/WeekOff">Week Off</a></li>
+                    <li><a href="/EmployeeProfile/GradeAllocation">Grade Allocation</a></li>
+                    <li><a href="/EmployeeProfile/DesignationAllocation">Designation Allocation</a></li>
+                    <li><a href="/EmployeeProfile/PersonalDetails">Personal Details</a></li>
+                    <li><a href="/EmployeeProfile/QualificationSection">Qualification Section</a></li>
+                    <li><a href="/EmployeeProfile/FamilySection">Family Section</a></li>
+                    <li><a href="/EmployeeProfile/HealthCard">Health Card</a></li>
+                    <li class="active"><a href="/EmployeeProfile/WorkingRoleAllocation">Working Role</a></li>
+                </ul>
+            </div>
+        </nav>*@
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="panel ">
+                <div class="form-container master-panel desination-panel no-top-margin">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Company<i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="ddlEmployeeCode" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Working Role<i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="ddl_working_role" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/EmployeeProfile/JsWorkingRoleAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

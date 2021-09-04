@@ -1,0 +1,63 @@
+﻿@page
+@{
+    ViewData["Title"] = "KPI Objective Type";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>KPI Objective</h1>
+                <hr />
+                <div class="form-container master-panel">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control bg-light">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input id="txtname" class="form-control bg-light" type="text" maxlength="500" autocomplete="off" placeholder="Status Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Description<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtdesc" class="form-control bg-light" placeholder="Description" maxlength="1000" autocomplete="off"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">KPI Objective Details</h4>
+                    </div>
+                   
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblkpiobjective" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnobjectiveype" />
+<script src="~/apiJS/ePA/JsKPIObjective.js?ver=@DateTime.Now.Ticks.ToString()"></script>

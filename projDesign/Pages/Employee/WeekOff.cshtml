@@ -1,0 +1,146 @@
+﻿@page
+@{
+    ViewData["Title"] = "WeekOff";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+</div>
+<div class="clear"></div>
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container weekof-panel">
+                    <div class="col-md-12">
+                        <h4>Week Off Allocation</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Weekly Off<i>*</i></label>
+                            <select id="ddlWeekOff" class="form-control">
+                                <option value="0">Select WeekOff</option>
+                                <option value="1">Fixed</option>
+                                <option value="2">Dynamic</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="table-responsive no-margin" style="visibility:visible:hidden">
+                        <table id="dynamics" class="table nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Days</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>4</th>
+                                    <th>5</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkMonday" name="chkMonday" value="0" /> Monday</td>
+                                    <td><input type="checkbox" ID="chkMondayDays1" name="chkMondayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays2" name="chkMondayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays3" name="chkMondayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays4" name="chkMondayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays5" name="chkMondayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkTuesday" name="chkTuesday" value="0" /> Tuesday</td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays1" name="chkTuesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays2" name="chkTuesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays3" name="chkTuesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays4" name="chkTuesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays5" name="chkTuesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkWednesday" name="chkWednesday" value="0" /> Wednesday</td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays1" name="chkWednesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays2" name="chkWednesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays3" name="chkWednesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays4" name="chkWednesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays5" name="chkWednesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkThursday" name="chkThursday" value="0" />  Thursday</td>
+                                    <td><input type="checkbox" ID="chkThursdayDays1" name="chkThursdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays2" name="chkThursdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays3" name="chkThursdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays4" name="chkThursdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays5" name="chkThursdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkFriday" name="chkFriday" value="0" /> Friday</td>
+                                    <td><input type="checkbox" ID="chkFridayDays1" name="chkFridayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays2" name="chkFridayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays3" name="chkFridayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays4" name="chkFridayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays5" name="chkFridayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSaturday" name="chkSaturday" value="0" /> Saturday</td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays1" name="chkSaturdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays2" name="chkSaturdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays3" name="chkSaturdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays4" name="chkSaturdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays5" name="chkSaturdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSundayday" name="chkSundayday" value="0" /> Sunday</td>
+                                    <td><input type="checkbox" ID="chkSundayDays1" name="chkSundayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays2" name="chkSundayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays3" name="chkSundayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays4" name="chkSundayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays5" name="chkSundayDays1" value="5" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <hr />
+                        <button class="btn btn-primary waves-effect waves-light" id="btnSaveWeekOff">Save</button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Employee/JsEmployee.js"></script*@
+<script src="~/apiJS/Employee/JsWeekOffAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

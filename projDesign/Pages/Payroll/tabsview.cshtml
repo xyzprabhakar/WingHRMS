@@ -1,0 +1,464 @@
+﻿@page
+@model projDesign.Pages.Payroll.setup.tabsviewModel
+@{
+    ViewData["Title"] = "tabsview";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .reaonlytest {
+        cursor: not-allowed;
+    }
+</style>
+
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/jquery.scrolling-tabs.css">
+
+
+<div class="tabs-salary-root">
+    <div class="tabs-view">
+      
+        <!-- tabs -->
+
+        <div class="tabs-inside-here">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Jan 2019</a></li>
+                <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Feb 2019</a></li>
+                <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">March 2019</a></li>
+                <li role="presentation"><a href="#tab4" role="tab" data-toggle="tab">Aprial 2019</a></li>
+                <li role="presentation"><a href="#tab5" role="tab" data-toggle="tab">May 2019</a></li>
+                <li role="presentation"><a href="#tab6" role="tab" data-toggle="tab">June 2019</a></li>
+                <li role="presentation"><a href="#tab7" role="tab" data-toggle="tab">July 2019</a></li>
+                <li role="presentation"><a href="#tab8" role="tab" data-toggle="tab">Augest 2019</a></li>
+                <li role="presentation"><a href="#tab9" role="tab" data-toggle="tab">September 2019</a></li>
+                <li role="presentation"><a href="#tab10" role="tab" data-toggle="tab">October 2019</a></li>
+                <li role="presentation"><a href="#tab11" role="tab" data-toggle="tab">November 2019</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="clear"></div>
+
+            @*tabcontent*@
+            
+        </div>
+        <!--/ tabs -->
+
+    </div>
+</div>
+
+
+
+<div class="col-xl-12">
+   
+    <div class="card">
+        <div class="col-md-12">
+            <h4 class="headline">Tabs Views</h4>
+        </div>
+        <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+            <ul class="metismenu " id="menu2">
+               
+            </ul>
+
+        </nav>
+
+    </div>
+    <div class="clearfix"></div>
+
+
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="tab-content">
+                   
+                    <div role="tabpanel" class="tab-pane active" id="tab1">
+                        <div class="tabsControllar">
+                            <button class="btnPrev btn"><i class="fa fa-chevron-circle-left"></i></button>
+                            <button class="btnNext btn"><i class="fa fa-chevron-circle-right"></i></button>
+                        </div>
+                        <div class="typography">
+                            <div class="col-md-12">
+                                <h4>Jan 2019 Payroll</h4>
+                                <p class="tagline">Cutoff from 01 jan 2019 to 31 jan 2019 <i class="fa fa-pencil"></i></p>
+                                <div class="clearfix"></div>
+                                <hr />
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <p>Net Payout</p>
+                                <h5>Rs <span>30,72,321.00</span></h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Gross Pay</td>
+                                        <td>Rs <span>40,77,990.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deductions</td>
+                                        <td>Rs <span>-10,05,665.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Word Days</td>
+                                        <td>Rs <span>31</span></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <p>Employee</p>
+                                <h5>34</h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Addition</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Separation</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Exclusion</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Settlements</td>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <table class="table-tab-button">
+                                    <tr>
+                                        <td>Payroll Inputs:</td>
+                                        <td><button class="readonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employee View Release:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IT Statement Employee View:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payroll:</td>
+                                        <td><button class="reaonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 form-group bottom-sky">
+                                <div class="col-md-6 form-group text-center">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">Payout Pending </h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="btran" style="font-weight:500; margin-top:10px;">Bank Transfer : <span>20</span></div>
+                                        <div class="npay" style="font-weight:500;margin-top:10px;">(Net Pay)</div>
+                                        <div class="bcash" style="font-weight:500;margin-top:10px;">Cash : <spna>3</spna></div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-12 text-left">
+                                        <h3>To Do</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <ul style="list-style: none;">
+                                            <li>Lock Previous Payroll</li>
+                                            <li>New Employee additions</li>
+                                            <li>Employee Separations</li>
+                                            <li>Confirmation Updates</li>
+                                            <li>Employee data updates</li>
+                                            <li>Salary Revisions</li>
+                                            <li>Update One Time Payment</li>
+                                            <li>Update One Time Deductions</li>
+                                            <li>Update any other salary changes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                               
+                              
+                                    <div class="clear"></div>
+                                </div>
+                            <div class="clear"></div>
+
+                        </div>
+
+                    </div>
+                    <!--tab one end-->
+                    <div role="tabpanel" class="tab-pane" id="tab2">
+                        <div class="tabsControllar">
+                            <button class="btnPrev btn"><i class="fa fa-chevron-circle-left"></i></button>
+                            <button class="btnNext btn"><i class="fa fa-chevron-circle-right"></i></button>
+                        </div>
+                        <div class="typography">
+                            <div class="col-md-12">
+                                <h4>Feb 2019 Payroll</h4>
+                                <p class="tagline">Cutoff from 01 jan 2019 to 31 jan 2019 <i class="fa fa-pencil"></i></p>
+                                <div class="clearfix"></div>
+                                <hr />
+                            </div>
+
+
+                            <div class="col-md-6 form-group">
+                                <p>Net Payout</p>
+                                <h5>Rs <span>30,72,321.00</span></h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Gross Pay</td>
+                                        <td>Rs <span>40,77,990.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deductions</td>
+                                        <td>Rs <span>-10,05,665.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Word Days</td>
+                                        <td>Rs <span>31</span></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <p>Employee</p>
+                                <h5>34</h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Addition</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Separation</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Exclusion</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Settlements</td>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6 form-group">
+                                <table class="table-button">
+                                    <tr>
+                                        <td>Payroll Inputs:</td>
+                                        <td><button class="reaonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employee View Release:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IT Statement Employee View:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payroll:</td>
+                                        <td><button class="reaonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 form-group bottom-sky">
+
+                                <div class="col-md-6 form-group text-center">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">Payout Pending </h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="btran" style="font-weight:500; margin-top:10px;">Bank Transfer : <span>20</span></div>
+                                        <div class="npay" style="font-weight:500;margin-top:10px;">(Net Pay)</div>
+                                        <div class="bcash" style="font-weight:500;margin-top:10px;">Cash : <spna>3</spna></div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 form-group">
+
+                                    <div class="col-md-12 text-left">
+                                        <h3>To Do</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <ul style="list-style: none;">
+                                            <li>Lock Previous Payroll</li>
+                                            <li>New Employee additions</li>
+                                            <li>Employee Separations</li>
+                                            <li>Confirmation Updates</li>
+                                            <li>Employee data updates</li>
+                                            <li>Salary Revisions</li>
+                                            <li>Update One Time Payment</li>
+                                            <li>Update One Time Deductions</li>
+                                            <li>Update any other salary changes</li>
+                                        </ul>
+                                    
+                                    </div>
+                                        
+                                </div>
+                                    <div class="clear"></div>
+                                </div>
+                            <div class="clear"></div>
+
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="tab3">
+                        <div class="tabsControllar">
+                            <button class="btnPrev btn"><i class="fa fa-chevron-circle-left"></i></button>
+                            <button class="btnNext btn"><i class="fa fa-chevron-circle-right"></i></button>
+                        </div>
+                        <div class="typography">
+                            <div class="col-md-12">
+                                <h4>March 2019 Payroll</h4>
+                                <p class="tagline">Cutoff from 01 jan 2019 to 31 jan 2019 <i class="fa fa-pencil"></i></p>
+                                <div class="clearfix"></div>
+                                <hr />
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <p>Net Payout</p>
+                                <h5>Rs <span>30,72,321.00</span></h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Gross Pay</td>
+                                        <td>Rs <span>40,77,990.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deductions</td>
+                                        <td>Rs <span>-10,05,665.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Word Days</td>
+                                        <td>Rs <span>31</span></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <p>Employee</p>
+                                <h5>34</h5>
+                                <table class="table">
+                                    <tr>
+                                        <td>Addition</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Separation</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Exclusion</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Settlements</td>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <table class="table-button">
+                                    <tr>
+                                        <td>Payroll Inputs:</td>
+                                        <td><button class="reaonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employee View Release:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IT Statement Employee View:</td>
+                                        <td><button class="reaonly">Release</button><button class="active">Hold</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payroll:</td>
+                                        <td><button class="reaonly">Unlock</button><button class="active">Lock</button></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>
+                            <div class="bottom-sky">
+
+
+                                <div class="col-md-6 form-group text-center">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">Payout Pending </h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="btran" style="font-weight:500; margin-top:10px;">Bank Transfer : <span>20</span></div>
+                                        <div class="npay" style="font-weight:500;margin-top:10px;">(Net Pay)</div>
+                                        <div class="bcash" style="font-weight:500;margin-top:10px;">Cash : <spna>3</spna></div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-12 text-left">
+                                        <h3>To Do</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <ul style="list-style: none;">
+                                            <li>Lock Previous Payroll</li>
+                                            <li>New Employee additions</li>
+                                            <li>Employee Separations</li>
+                                            <li>Confirmation Updates</li>
+                                            <li>Employee data updates</li>
+                                            <li>Salary Revisions</li>
+                                            <li>Update One Time Payment</li>
+                                            <li>Update One Time Deductions</li>
+                                            <li>Update any other salary changes</li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane" id="tab4">Tab 4 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab5">Tab 5 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab6">Tab 2 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab7">Tab 3 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab8">Tab 4 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab9">Tab 5 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab10">Tab 2 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab11">Tab 3 content...</div>
+                    <div role="tabpanel" class="tab-pane" id="tab12">Tab 4 content...</div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.scrolling-tabs.js"></script>
+<script src="~/js/st-demo.js"></script>

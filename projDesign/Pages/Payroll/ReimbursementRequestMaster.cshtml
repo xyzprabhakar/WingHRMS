@@ -1,0 +1,252 @@
+﻿@page
+@{
+    ViewData["Title"] = "Reimbursement Request Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+</style>
+
+<div class="tab-link">
+    <ul></ul>
+</div>
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+              rel="stylesheet">
+        <div class="card">
+            <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+                <ul class="metismenu " id="menu2">
+                    @*<li><a href="#">Opening</a></li>
+                        <li><a href="#">On-boarding</a></li>
+                        <li><a href="#">Shift Allocation</a></li>*@
+                    <li><a href="/Attendence/Attendence">Leave & Attendence</a></li>
+                    <li><a href="/Payroll/SalarySlips">Salary Slips</a></li>
+                    <li><a href="/Leave/LeaveBalance">Balance Leave</a></li>
+                    <li><a href="/payroll/LoanRequest">Loan Request</a></li>
+                    <li class="active"><a href="/payroll/ReimbursementRequestMaster">Reimbursement Request</a></li>
+                    <li><a href="/payroll/AssetRequest">Asset Request</a></li>
+                </ul>
+
+            </nav>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel desination-panel">
+                    <div id="tab1" class="tabcontent" style="display: block;">
+                        <div class="col-md-12">
+                            <h4 class=" float-left">Reimbursement Request Master</h4>
+
+                            <a href="/payroll/reimbursmentrequestreport" class="btn btn-primary float-right mb-1">View Request</a>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company Name<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlCompany" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Employee Name<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlEmployee" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Request Type<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlreqtype" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                    <option value="1">Monthly</option>
+                                    <option value="2">Yearly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Month-Year<i>*</i></label></div>
+                            <div class="col-md-6">
+                                @*  <input type="text" id="txtmonthyear" readonly="readonly" placeholder="Month-Year" />*@
+                                <input type="text" class="only_month_year form-control" readonly autocomplete="off" id="txtMonthYear" />
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Fiscal Year<i>*</i> </label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtfiscal" maxlength="8" class="form-control" placeholder="Fiscal Year" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Request Amount<i>*</i> </label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtreqAmt" maxlength="8" class="form-control" placeholder="Request Amount" readonly="readonly" onkeydown="OnlyNumeric(event);" />
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+
+                            <h4 class="margin-top">Reimbursement Category List</h4>  <hr />
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblCategory" class="table nowrap no-margin w-100">
+                                    <thead>
+                                        <tr>
+                                            @*<th>S.No.</th>*@
+                                            @*<th>Category Id</th>*@
+                                            <th>Category Name</th>
+                                            <th>Bill Date</th>
+                                            <th>Bill Amount</th>
+                                            <th>Request Amount</th>
+                                            <th>Monthly Limit</th>
+                                            <th>Yearly Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                                <input type="button" class="btn btn-secondary btn-lg" value="add" style="width:100px" id="addbtn" />
+                            </div>
+                        </div>
+
+
+                        <div class="clear"></div>
+                        <h2 class="margin-top"></h2>
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+
+
+                                <div class="clear"></div>
+
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnselectedcategory" />
+<input type="hidden" id="hdnCategoryId" /><input type="hidden" id="hdnmonthlylimit" /><input type="hidden" id="hdnyearlylimit" /><input type="hidden" id="hdn_rglm" />
+<script src="~/apiJS/Payroll/JsReimbursementRequest.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+
+
+
+@*<input type="text" autocomplete="off" id="txtMonthYear2" />*@
+<div class="clear"></div>
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="width:600px;height:400px">
+        <div class="table-responsive no-margin">
+            <table id="tblcategoryList" class="table-defoult no-margin">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Category Name</th>
+                        <th>Monthly Limit</th>
+                        <th>Yearly Limit</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    var modal = document.getElementById("myModal");
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+@*<script>
+        $(function () {
+            var date = $('#txtMonthYear2').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+        });
+    </script>*@

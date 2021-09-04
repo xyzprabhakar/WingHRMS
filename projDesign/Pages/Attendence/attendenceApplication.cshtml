@@ -1,0 +1,129 @@
+﻿@page
+@{
+    ViewData["Title"] = "AttendenceApplication";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="tab-link">
+    <ul>
+        @*<li><a href="#">Opening</a></li>
+            <li><a href="#">On-boarding</a></li>
+            <li><a href="#">Shift Allocation</a></li>*@
+        <li class="active"><a href="Attendence">Leave & Attendence</a></li>
+        @*<li><a href="#">Payroll</a></li>
+            <li><a href="#">Salery Slip</a></li>
+            <li><a href="#">Forms</a></li>
+            <li><a href="#">Policies</a></li>
+            <li><a href="#">Directory</a></li>
+            <li><a href="#">Application Tracker</a></li>*@
+    </ul>
+</div>
+<!-- tab link end -->
+<div class="panel attendence-master-panel no-top-margin">
+    <h1>Attendance Application</h1>
+    <hr />
+    <div class="form-container">
+        <div class="attendence-inner-panel">
+            <div class="col-md-12 application-select-button">
+                <button id="OutdoorApplication" class="button">Outdoor Application</button>
+                <button id="LeaveApplication" class="button ">Leave Application</button>
+                <button id="AttendenceApplication" class="button active">Attendance Application</button>
+                <button id="CompOffApplication" class="button">CompOff Application</button>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Company<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlCompany">
+                        <option>All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label>Employee Code <i>*</i></label></div>
+                <div class="col-md-6"> <select id="ddlEmployeeCode"></select></div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-3  text-rigth"><label>Regularize Date <i>*</i></label></div>
+                <div class="col-md-6"> <input type="text" class="ip-ap_2" id="txtRegularizeDate" /></div>
+            </div>
+            <div class="col-md-6 btn-group">
+                <button type="button" class="btn" id="btnGetDetail" style="float: right;margin-right: 43%; margin-top: 1%;">Get Detail</button>
+            </div>
+            <!--table responsive end-->
+            <div class="clear"></div>
+            <div class="col-md-6">
+                <div class="col-md-3  text-rigth"><label>In Time</label></div>
+                <div class="col-md-6"> <label id="lblInTime"></label></div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  "><label>Out Time </label></div>
+                <div class="col-md-6"> <label id="lblOutTime"></label></div>
+            </div>
+            <div class="clear"></div>
+            <br />
+            <div class="col-md-6">
+                <div class="col-md-3  text-rigth"><label>New In Time </label></div>
+                <div class="col-md-6"> <input type="text" class="date_and_time" id="txtInTime" readonly></div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  "><label>New Out Time </label></div>
+                <div class="col-md-6"><input type="text" class="date_and_time" id="txtOutTime" readonly></div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-6">
+
+                <div class="col-md-12">
+                    <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                    <div class="col-md-6"><textarea id="txtRemarks" class="textarea"></textarea></div>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+            <br />
+            <hr />
+            <div class="col-md-9 text-rigth btn-group">
+                <button type="button" class="btn" id="btnsave">Save</button>
+                <button type="button" class="btn" id="btnupdate">Update</button>
+                <button type="button" id="btnreset" class="btn">Reset</button>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <h2 class="margin-top">Outdoor Application List</h2>
+            <div class="col-md-12">
+                <div class="table-responsive no-margin">
+                    <table id="tblAttendanceApplication" class="table-defoult no-margin">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Date</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Remarks</th>
+                                <th>System In Time</th>
+                                <th>System Out Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <!-- attendence inner panel end-->
+        </div>
+        <!-- form container end -->
+    </div>
+    <!-- panel end -->
+</div>
+
+@*<script src="~/js/chosen.jquery.js"></script>
+    <script src="~/js/init.js"></script>*@
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsAttendenceApplication.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,81 @@
+﻿@page
+@{
+    ViewData["Title"] = "NoDuesClearanceReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h2>No Dues Clearance Report</h2>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label ">From Date<i>*</i></label>
+                            <input id="txtFromDate" class="form-control ip-ap" placeholder="From Date" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label ">To Date<i>*</i></label>
+                            <input id="txtToDate" class="form-control ip-ap" placeholder="To Date" />
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label ">Month<i>*</i></label>
+                                <input id="txtMonthYear" type="month" class="form-control" />
+                            </div>
+                        </div>*@
+
+
+
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnGetReport">Get Report</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblReport" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/NoDues/JsNoDuesClearanceReport.js"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+

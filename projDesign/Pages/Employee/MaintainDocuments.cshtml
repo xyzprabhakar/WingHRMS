@@ -1,0 +1,97 @@
+﻿@page
+@{
+    ViewData["Title"] = "MaintainDocument";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Maintain Documents</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control">
+                                <option value="0">-Please Select-</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">             
+                            <label class="col-form-label">Document Type</label>
+                            <select id="ddldoctype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Document Number(eg:- Adhaar or PAN No)</label>
+                            <input type="text" id="txtdocno" placeholder="Document Number" class="form-control" maxlength="50" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Upload Document</label>
+                            <input type="file" id="empdocument" multiple="multiple" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:none">
+                        <div class="form-group">
+                            <label class="col-form-label">Remarks</label>
+                            <input type="text" id="txtremarks" placeholder="Remarks" class="form-control" maxlength="200" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Document's Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblempdocuments" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+ <input type="hidden" id="HFb64" />
+<script src="~/apiJS/Employee/MaintainDocuments.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>

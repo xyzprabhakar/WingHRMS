@@ -1,0 +1,130 @@
+﻿@page
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>
+            @Html.Partial("_PartialEmpLayout")
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="clear"></div>
+
+
+                <div class="container-fluid">
+                    <h5 class="col-md-12 margin-top">Create User/Employee Code</h5>
+
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+
+                        <div class="col-md-auto">
+
+                            <div class="col-md-12  form-group">
+
+                                <div class="col-md-6 form-group">
+                                    <label class="col-form-label">Select Default Company <i>*</i></label>
+                                    <select id="ddlDefaultCompany" required="" class="form-control bg-light">
+                                        <option>--Select--</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-12  form-group">
+                                        <label class="col-form-label">Employee Code <i>*</i></label>
+                                        <input type="text" id="txtEmployeeCode" placeholder="Employee Code" autocomplete="off"  style="text-transform:uppercase" maxlength="10" pattern="^[a-zA-Z0-9]*$" class="form-control" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12  form-group">
+                                <div class="col-md-12 text-center " style="margin-top:0;">
+                                    <button class="btn btn-primary btn-lg" id="nexttabsBTN">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @*<div class="row ">
+
+
+
+
+                            <div class="col-md-12">
+
+
+                                <a id="solTitle" href="#" class="btn btn-success btn-lg text-right float-right" onClick="DownloadEmployeeOfficaialSectionExcelFile();"><i class="fa fa-download"></i> Download Format</a>
+
+                            </div>
+                            <div class="clear"></div>
+
+
+
+
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h5 class="mt-0">Upload</h5>
+                                        <p class="text-muted  font-13 mb-4">
+                                            Upload Employee Official Details
+                                        </p>
+
+                                        <div class="mb-4">
+                                            <form>
+                                                <div class="fallback">
+                                                    <input name="file" type="file" id="QualificationDetailFile">
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button type="button" id="btnsave" class="btn btn-primary waves-effect waves-light">Submit</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->*@
+                </div>
+            </div>
+            <input type="hidden" id="HFb64" />
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsEmployee.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Masters/JsUploadEmployeeDetail.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title align-self-center mt-0">Missing/Duplicate Detail in Excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive ">
+                    <table id="tbl_exceldtl" class="table nowrap w-100"></table>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

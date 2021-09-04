@@ -1,0 +1,82 @@
+﻿@page
+@{
+    ViewData["Title"] = "Salary Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12">
+    <div class="panel">
+
+
+        <div class="card ">
+            <div class="card-body p-2">
+                <div class="form-container  master-panel desination-panel">
+                    <div class="col-md-12">
+                        <h4><span id="lblrpttitle"></span></h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company Name<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Month-Year<i>*</i></label>
+                            <input type="text" readonly="readonly" autocomplete="off" id="txtMonthYear" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary btn-lg" id="btnGetData">Get Data</button>
+                        @*<button type="button" class="btn btn-light btn-lg" id="btnmonthyrdtl">Download</button>*@
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top"><span id="lblrpttitle_"></span></h4>
+                        <div class="clear"></div>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <button type="button" id="btnExport_to_excel" class="btn btn-outline-secondary">Export to Excel</button>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="clearfix"></div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblsalaryinputreport" class="table no-margin"></table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@*<input type="hidden" id="hdnid" />
+    <input type="hidden" id="hdntxtMonthYear" />*@
+
+<script src="~/apiJS/Reports/JsDynamicReport.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<input type="hidden" id="hdnmonthyear" />
+
+@*<script src="~/apiJS/Payroll/JsSalaryInputReport.js"></script>*@

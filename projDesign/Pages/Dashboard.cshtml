@@ -1,0 +1,317 @@
+﻿@page
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+@*@if (User.IsInRole(""))
+    {
+
+    }*@
+<style>
+    #chart-area11 {
+        height: 282px !important;
+        width: 256px !important;
+    }
+</style>
+
+<!-- Page-Title -->
+@*<link href="~/css/marquee.css" rel="stylesheet" />*@
+<div class="col-sm-12">
+    <h4 class="page-title  pb-2">Dashboard</h4>
+</div>
+
+@*<div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h5 class="mt-0 mb-3 col-6" title="Today Attandance Summary">Attendance Summary</h5>
+                    <h5 class="mt-0 mb-3 col-6" style="text-align: right" title="Click here for monthly attandance summary"><a href="/View/Dashboard">Attendance Report</a></h5>
+                </div>
+                <div id="donut-example" class="morris-chart workloed-chart"></div>
+                <ul class="list-unstyled text-center text-muted mb-0">
+                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-purple mr-2"></i>On Leave</li>
+                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-pink mr-2"></i>Present</li>
+                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-light mr-2"></i>Absent</li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+
+<div class="col-md-12 col-xl-7">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <h5 class="mt-0 mb-3 col-4" title="Today Attandance Summary">Employee List</h5>
+                <h5 class="mt-0 mb-3 col-4" style="text-align: right;" title="Click here for Employee Directories"><a href="/View/EmployeeDirectories" style=" color: #44a2d2;">Employee Directories</a></h5>
+                <h5 class="mt-0 mb-3 col-4" style="text-align: right;" title="Click here for monthly attandance summary"><a href="/View/Dashboard" style=" color: #44a2d2;">Attendance Calendar</a></h5>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:270px;">
+                        <table class="table mb-0 employee_listt" id="tblemplistt">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Emp Code</th>
+                                    <th> Name</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-lg-6 col-xl-5">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Events</h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:260px;">
+                        <table class="table mb-0 employee_listt" id="tbleventlist">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Log Entry</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xl-7">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Attendance data last updated date and time</h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:270px;">
+                        <table class="table mb-0 employee_listt" id="tbllogdtl">
+                            <thead>
+                                <tr>
+
+                                    <th>Log Entry</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-lg-6 col-xl-5">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Policies</h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:260px;">
+                        <table class="table mb-0" id="tblPolicies"></table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 col-lg-6 col-xl-7">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Current Openings</h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:260px;">
+                        <table class="table mb-0" id="tblCurrentOpenings"></table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 col-lg-6 col-xl-5">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Coming Birthday</h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:260px;">
+                        <table class="table mb-0 employee_listt" id="tbl_emp_birthdaylist">
+                            <thead>
+                                <tr>
+                                    <th>Profile Pic</th>
+                                    <th>Employee</th>
+                                    <th>Department</th>
+                                    <th>DOB</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="marqueecontainer"></tbody>
+
+                        </table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-lg-6 col-xl-7">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mt-0 pb-3">Coming Anniversary </h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive" style="height:260px;">
+                        <table class="table mb-0 employee_listt" id="tbl_emp_anniversarylist">
+                            <thead>
+                                <tr>
+                                    <th>Profile Pic</th>
+                                    <th>Employee</th>
+                                    <th>Department</th>
+                                    <th>Anniversary Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="marqueecontainer"></tbody>
+
+                        </table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="dashboard" style="display:block">
+
+    <div class="clear"></div>
+
+    <!-- cenyter panel end -->
+    <!-- calender start -->
+    <div class="clear"></div>
+    <div class="centerPanel col-md-12 " style="display:none">
+        <div class="calender-panel box">
+            <p class="navHeading">Event Calendar</p>
+            <hr />
+            <div id='calendar'></div>
+        </div>
+    </div>
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                debugger;
+                var token = localStorage.getItem('Token');
+                if (token == null) {
+                    window.location = '/Login';
+                }
+            });
+        </script>*@
+
+
+    @*<script>
+
+            var modal = document.getElementById("myFirstLoginModal");
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    window.location.href = "/Login";
+
+                    //   modal.style.display = "none";
+                }
+            }
+        </script>*@
+
+    @*<SCRIPT SRC="~/APIJS/REPORTS/Dashboard.js"></SCRIPT>*@
+</div>
+
+<div class="modal " id="myFirstLoginModal" tabindex="-1" role="dialog" aria-labelledby="myFirstLoginModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myFirstLoginModal">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="chngpwdclosepop">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">User ID</label>
+                            <input type="text" class="form-control" id="txtloginuserid_" disabled="disabled" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Old Password<i>*</i></label>
+                            <input type="password" id="txtoldpwd_" class="form-control" placeholder="Old Password" autocomplete="off" />
+                        </div>
+                    </div>
+                    @*<hr />*@
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">New Password<i>*</i></label>
+                            <input type="password" id="txtnewpwd_" class="form-control" placeholder="New Password" autocomplete="off" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Confirm Password<i>*</i></label>
+                            <input type="password" id="txtconfirmpwd_" class="form-control" placeholder="Confirm Password" autocomplete="off" />
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" id="btn_save_pwd">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/JsDashboard.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/Comman/JS/JsNotification.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

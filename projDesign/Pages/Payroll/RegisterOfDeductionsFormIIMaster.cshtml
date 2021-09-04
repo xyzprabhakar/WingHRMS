@@ -1,0 +1,113 @@
+﻿@page
+@{
+    ViewData["Title"] = "RegisterOfDeductionsFormIIMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register Of Deductions for Damages or Loss Form II Master</h4><hr />
+                    </div>
+                  
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcompany" class="form-control bg-light"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Damage or Loss Caused and Date</label></div>
+                            <div class="col-md-6">
+                                <select id="ddldamageloss" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Whether Workman Showed </label></div>
+                            <div class="col-md-6">
+                                <select id="ddlWhetherWorkmanShowed" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Date Of Deduction Imposed </label></div>
+                            <div class="col-md-6">
+                                <select id="ddlDateofDeductionImposed" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Amount of Deduction Imposed</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlAmtofDeductionImposed" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">No of Installment (If Any)</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlnoofInstallment" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                       
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Date On Which Deduction Realised </label></div>
+                            <div class="col-md-6">
+                                <select id="ddlDateOnWhichDeductionRealised" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-6"><label class="col-form-label">Remarks</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlRemarks" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                   
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/apiJS/Payroll/JsRateofDeduction.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

@@ -1,0 +1,218 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddRoasterMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<!-- left panel end -->
+
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+
+            <div class="col-md-12 mt-4">
+                <hr />
+                <div class="tab btn-group btn-block">
+                    <button id="addnew" class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tab1')"> Add New</button>
+                    <button id="detail" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab2')"> Details</button>
+
+                </div>
+            </div>
+
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel desination-panel mt-4">
+
+                    <div class="col-md-12 mt-4">
+
+                        <div id="tab1" class="tabcontent" style="display: block;">
+                            <div class="col-md-12">
+                                <h4 class="margin-top">Shift Roaster Master</h4>
+                                <hr />
+                            </div>
+                            <div class="slider-wrap">
+
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Company <i>*</i></label></div>
+                                    <div class="col-md-8">
+                                        <select id="ddlcompany" class="form-control">
+                                            <option value="0">--Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">From Date<i>*</i></label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtfromdate" class="ip-ap form-control" autocomplete="off" placeholder="From Date" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">To Date <i>*</i></label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txttodate" class="ip-ap form-control" autocomplete="off" placeholder="To Date" />
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-12">
+                                    <h4>Employee And Shift Details</h4>
+                                    <div class="table-responsive no-margin">
+                                        <table id="tblemployee" class="table nowrap w-100">
+                                            @*<thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>Emp. ID</th>
+                                                    <th>Emp Name.</th>*@
+                                            @*<th>Shift</th>*@
+                                            @*</tr>
+                                                </thead>
+                                                <tbody></tbody>*@
+                                        </table>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+
+                                <div class="col-md-12 form-group">
+
+                                    <div class="con">
+                                        <div class="col-md-3 text-rigth"><label class="col-form-label">After Every</label></div>
+                                        <div class="col-md-3"><input id="txtrotationday" type="text" class="form-control" maxlength="2" onkeypress="return isNumberKey(event);" /></div>
+                                        <div class="col-md-3 "><label class="col-form-label padding-left"> Days</label></div>
+                                        <div class="clear"></div>
+                                        <div class="col-md-12  text-rigth shift-tag">
+                                            <h4>Add Shift</h4>
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-4"><label class="col-form-label">Add Shift 1</label></div>
+                                                <div class="col-md-8">
+                                                    <select id="ddlshift1" class="form-control" onchange="AddShiftValidate();" style="width:70%;">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-4"><label class="col-form-label">Add Shift 2</label></div>
+                                                <div class="col-md-8">
+                                                    <select id="ddlshift2" class="form-control" onchange="AddShiftValidate();" style="width:70%;">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-4"><label class="col-form-label">Add Shift 3</label></div>
+                                                <div class="col-md-8">
+                                                    <select id="ddlshift3" class="form-control" onchange="AddShiftValidate();" style="width:70%;">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-4"><label class="col-form-label">Add Shift 4</label></div>
+                                                <div class="col-md-8">
+                                                    <select id="ddlshift4" class="form-control" onchange="AddShiftValidate();" style="width:70%;">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-6 form-group">
+                                                <div class="col-md-4"><label class="col-form-label">Add Shift 5</label></div>
+                                                <div class="col-md-8">
+                                                    <select id="ddlshift5" class="form-control" onchange="AddShiftValidate();" style="width:70%;">
+                                                        <option value="0">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="clear"></div>
+                                            <!-- shift panel end -->
+                                        </div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <!-- con panel end -->
+
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                        <button type="button" id="btnreset" class="btn btn-secondary btn-lg">Reset</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div id="tab2" class="tabcontent" style="display: none;">
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+                                    <div class="col-md-12">
+                                        <h4>Shift Roaster List</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table id="tblroaster" class="table nowrap w-100"></table>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- COMPANY master panel end -->
+<!-- rigth panel end -->
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Shift/AddRoaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

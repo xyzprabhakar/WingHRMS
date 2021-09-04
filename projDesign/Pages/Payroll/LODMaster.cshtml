@@ -1,0 +1,177 @@
+﻿
+@page
+@{
+    ViewData["Title"] = "LODMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>L W P</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3"><label class="col-form-label">Payroll YearMonth<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtpayoutmonth" class="form-control bg-light" readonly="readonly" placeholder="Payout month" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3 text-rigth"></div>
+                        <div class="col-md-6 form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnDetails">Get Details</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbllopmaster" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>SNo.</th>
+                                        <th>Company</th>
+                                        <th>Employee</th>
+                                        <th>Month Year</th>
+                                        <th>Total Days</th>
+                                        <th>Holidays</th>
+                                        <th>Week Off</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Leave</th>
+                                        <th>Total Paid days</th>
+                                        <th>Actual LWP Days</th>
+                                        <th>Final LWP Days</th>
+                                        <th>Created On</th>
+                                        <th>Modified On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    @*<div id="div_updatedtll">
+                        <div class="col-md-12">
+                            <hr />
+                            <h4 class="margin-top">L W P Detail</h4>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcompany" class="form-control bg-light"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" id="monthyearselection">
+                            <div class="col-md-4"><label class="col-form-label">Month and Year<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" name="startDate" id="startDate" class="form-control bg-light" placeholder="Month-Year" readonly="readonly" />
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlemployee" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Acutal L W P (days)<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtactuallop" class="form-control bg-light" placeholder="Actual L W P Days" maxlength="3" readonly="readonly" />
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Final L W P (days)<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtfinallop" class="form-control" placeholder="Final L W P" maxlength="4" onkeypress="return isNumber(event,this)" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Total Days<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txttotlDays" class="form-control bg-light" placeholder="Total Days" readonly="readonly" />
+                                @*<input name="noofdays" id="noofdays" />*@
+                    @*  </div>
+                        </div>
+
+                        @*<div class="clear"></div>
+                            <div class="col-md-12  btn-group text-left margin-top-btn">
+                                <button type="button" class="btn" id="btnDetails">Get Details</button>
+                            </div>*@
+
+                    @*<div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            @*<button type="button" class="btn" id="btnsave">Save</button>*@
+                    @*      <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                                    <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                </div>
+                            </div>
+
+                        </div>*@
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<input type="hidden" id="hdnmonthyear" />
+<input type="hidden" id="hdnlopmasterid" />
+<script src="~/apiJS/Payroll/JsLODMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Payroll/LODMaster.js"></script>*@
+
+
+<div class="modal" id="myLWPModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="margin-top: 3%;"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modal_close" style="margin-top:1%">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="table-responsive container mt-2 mb-2">
+                <div id="div_updatedtll">
+                    @Html.Partial("_Partial_LWPDetail")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

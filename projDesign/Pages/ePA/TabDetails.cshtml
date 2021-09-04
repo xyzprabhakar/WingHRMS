@@ -1,0 +1,84 @@
+﻿@page
+@{
+    ViewData["Title"] = "Tab Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Tab Detail</h4>
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                                <div class="col-md-6"><select id="ddlcompany" class="form-control bg-light"><option value="0">--Please Select--</option></select></div>
+                            </div>
+
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Financial Year<i>*</i></label></div>
+                                <div class="col-md-6"><select id="ddlfiscalyr" class="form-control bg-light"><option value="0">--Please Select--</option></select></div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">EPA Cycle<i>*</i></label></div>
+                                <div class="col-md-6"><select id="ddlepa_cycle" class="form-control bg-light"><option value="0">--Please Select--</option></select></div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4"><label class="col-form-label">Tabs<i>*</i></label></div>
+                                <div class="col-md-6"><select id="ddltabs" class="form-control bg-light"><option value="0">--Please Select--</option></select></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr />
+                                <div class="form-group text-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnget">Get</button>
+                                        <button type="button" class="btn btn-light btn-lg" id="btnreset">Reset</button>
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="col-md-12">
+                    <h4 class="margin-top">Tab Details</h4>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin" id="kradtldiv">
+                        <table id="tblkradtl" class="table nowrap no-margin w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="table-responsive no-margin" id="kpidtldiv">
+                        <table id="tblkpidtl" class="table nowrap no-margin w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="table-responsive no-margin" id="tabdtldiv">
+                        <table id="tbltabdtl" class="table nowrap no-margin w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="table-responsive no-margin" id="finalreviewdiv">
+                        <table id="tblfinaldtl" class="table nowrap no-margin w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/ePA/JsTabDetals.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<input type="hidden" id="hdntabid" />

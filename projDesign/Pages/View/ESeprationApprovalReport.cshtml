@@ -1,0 +1,269 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employee Separation Detail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*@Html.Partial("PartialLayoutMyTeamTab")*@
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container row master-panel">
+                    <div class=" col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblempsepration_rpt" class="table nowrap w-100"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/JsESeprationApprovalReport.js"></script>
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                        width: 88%;
+                    }*/
+
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="width:75%;height: auto;">
+        <div class="panel ">
+            <h1>Employee Separation Detail</h1>
+            <hr />
+            <div class="col-xl-12">
+                <div class="panel ">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="form-container">
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Date of Birth </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtdob" placeholder="Date of Birth" readonly="readonly" class="form-control bg-light" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Date of Joining</label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtdoj" class="form-control" placeholder="Date of Joining" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Department </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtdept" placeholder="Department" class="form-control bg-light" disabled />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Designation</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txtdesignation" class="form-control bg-light" placeholder="Designation" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Grade </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtgrade" placeholder="Grade" class="form-control bg-light" disabled />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Location </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtloc" placeholder="Location" class="form-control bg-light" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Notice Period<br />(In Days)</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txtnoticeperiod_days" class="form-control bg-light" placeholder="Notice Period" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Resignation Date</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txtresign_dt" class="form-control bg-light" placeholder="Resignation Date" disabled />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Requested Relieving Date</label></div>
+                                    <div class="col-md-8">
+
+                                        <input type="text" id="txt_req_reliving_dt" class="form-control" placeholder="Effective Date" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Notice Period Requested (Days)</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txt_req_notice_" class="form-control bg-light" placeholder="Notice Period Requested (Days)" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Notice Period Different (Days)</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txt_notice_diff_days" class="form-control bg-light" placeholder="Notice Period Different (Days)" disabled />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Relieveing Date as Per Policy</label></div>
+                                    <div class="col-md-8">
+                                        <input id="txt_policy_reliving" class="form-control bg-light" placeholder="Relieveing Date as Per Policy" disabled />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Reason </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtreason" class="form-control bg-light" placeholder="Reason" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Remarks </label></div>
+                                    <div class="col-md-8">
+                                        <textarea id="txtremarks" placeholder="Remarks" class="form-control" disabled></textarea>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Final Last Working Date </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtfinal_working_dt" class="form-control bg-light" placeholder="Final Last Working Date" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Is Cancel Request? </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txt_is_cncl" class="form-control bg-light" placeholder="Is Cancel Request?" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Cancellation Remarks </label></div>
+                                    <div class="col-md-8">
+                                        <textarea id="txt_cncl_remarks" placeholder="Cancellation Remarks" class="form-control bg-light" disabled></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Cancellation Date </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txt_cncl_dtl" placeholder="Cancellation Date" class="form-control bg-light" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <div class="col-md-4"><label class="col-form-label">Is Withdrawal </label></div>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txt_withdrawal" class="form-control bg-light" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h4>Approval Histroy</h4><hr />
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="tbl_app_histroy" class="table nowrap w-100"></table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+
+            $("#txtdob").val('');
+            $("#txtdoj").val('');
+            $("#txtdept").val('');
+            $("#txtdesignation").val('');
+            $("#txtgrade").val('');
+            $("#txtloc").val('');
+            $("#txtnoticeperiod_days").val('');
+            $("#txtresign_dt").val('');
+            $("#txt_req_reliving_dt").val('');
+            $("#txt_req_notice_").val('');
+            $("#txt_notice_diff_days").val('');
+            $("#txt_policy_reliving").val('');
+            $("#txtreason").val('');
+            $("#txtremarks").val('');
+            $("#txtfinal_working_dt").val('');
+            $("#txt_is_cncl").val('');
+            $("#txt_cncl_remarks").val('');
+            $("#txt_cncl_dtl").val('');
+
+            if ($.fn.DataTable.isDataTable('#tbl_app_histroy')) {
+                $('#tbl_app_histroy').DataTable().clear().draw();
+            }
+
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+
+
+

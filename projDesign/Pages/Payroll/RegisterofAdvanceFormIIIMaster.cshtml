@@ -1,0 +1,112 @@
+﻿@page
+@{
+    ViewData["Title"] = "RegisterOfDeductionsFormIIIMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register of Advance Form III (PW)</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date of Advance Made</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlAdvanceDate" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Purpose for Which Advance Made</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlpurpose" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label>Rate of Wages</label></div>
+            <div class="col-md-6">
+                <select id="ddlRateOfWages"></select>
+            </div>
+        </div>
+        <div class="clear"></div>*@
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Postpone Granted</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlPostponeGranted" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">No of Installment (If Any)</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlnoofInstallment" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date On Which Total Repaid</label></div>
+                        <div class="col-md-6">
+                            <select id="ddldateoftotalrepaid" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Amount of Advance Made</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlAmtofadvance" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Remarks</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlRemarks" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Payroll/JSRegisterofAdvanceForm3Master.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

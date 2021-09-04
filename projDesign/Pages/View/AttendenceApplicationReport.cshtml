@@ -1,0 +1,118 @@
+﻿@page
+@{
+    ViewData["Title"] = "AttendenceApplicationReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+<!-- tab link end -->
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Attendence Application Report</h4><hr />
+                    </div>
+                    <div class="attendence-inner-panel">
+                        <input type="hidden" id="hdn_totalrows" />
+
+                        <div class="form-group">
+                            <div id="pnlHeaderData"></div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Get</button>
+                                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Attendence Application Detail</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblAttendanceApplication" class="table w-100 nowrap">
+                                @*<thead>
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>Employee Code</th>
+                                            <th>Employee Name</th>
+                                            <th>Department Name</th>
+                                            <th>Designation Name</th>
+                                            <th>Location</th>
+                                            <th>Date</th>
+                                            <th>Shift Name</th>
+                                            <th>Shift In Time</th>
+                                            <th>Shift Out Time</th>
+                                            <th>Actual In Time</th>
+                                            <th>Actual Out Time</th>
+                                            <th>Actual Working Hours</th>
+                                            <th>Actual Status</th>
+                                            <th>In Time</th>
+                                            <th>Out Time</th>
+                                            <th>Worked Hours</th>
+                                            <th>New Status</th>
+                                            <th>Requester Remarks</th>
+                                            <th>Application Status</th>
+                                            <th>Application Date</th>
+                                            <th>Approval Date</th>
+                                            <th>Approved By</th>
+                                            <th>Approver Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>*@
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- form container end -->
+            </div>
+
+
+            <input type="hidden" id="hdnid" />
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: true,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+    <script src="~/apiJS/View/JsAttendenceApplicationReport.js"></script>
+
+}
+
+@*<script src="~/Comman/JS/JsSelectAll.js"></script>
+    <script src="~/apiJS/View/JsApplicationLink.js"></script>*@
+

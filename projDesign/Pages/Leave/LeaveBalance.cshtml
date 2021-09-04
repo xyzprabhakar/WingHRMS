@@ -1,0 +1,101 @@
+﻿@page
+@{
+    ViewData["Title"] = "Leave Balance";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*<style>
+        .fc-event {
+            border: none !important;
+            border-color: none !important;
+            background-color: none !important;
+        }
+
+        .fc-day-grid-event {
+            margin: 1px 1px 0px;
+            padding: 0px 0px;
+        }
+    </style>
+    <div class="tab-link">
+        <ul>
+            <li><a href="/Attendence/Attendence">Leave & Attendence</a></li>
+            <li><a href="/Payroll/SalarySlips">Salary Slips</a></li>
+            <li class="active"><a href="/Leave/LeaveBalance">Balance Leave</a></li>
+            <li><a href="/payroll/LoanRequest">Loan Request</a></li>
+            <li><a href="/payroll/ReimbursementRequestMaster">Reimbursement Request</a></li>
+            <li><a href="/payroll/AssetRequest">Asset Request</a></li>
+        </ul>
+    </div>*@
+<!-- tab link end -->
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="panel">
+                    <h1>Employee Leave Balance</h1>
+                    <hr />
+
+                    <div class="form-container">
+                        <div class="attendence-inner-panel">
+
+                            <div class="form-container leave">
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <div id="pnlHeaderData"></div>
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnsave">Get</button>
+                                        <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                    </div>
+                                </div>
+
+                                <h2 class="margin-top">Employee Leave Balance List</h2>
+                                <hr />
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="tblleavebalance" class="table nowrap w-100"></table>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                            <!-- attendence inner panel end-->
+                        </div>
+                        <!-- form container end -->
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: false,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+    <script src="~/apiJS/Leave/LeaveBalance.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+}

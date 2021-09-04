@@ -1,0 +1,128 @@
+﻿
+<style>
+    #ddlemp_chosen {
+        width: 100% !important;
+    }
+</style>
+<style>
+    b, span {
+        font-size: 13px
+    }
+</style>
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+    .payroll-nav .metismenu a {
+        padding: 14px;
+        text-align: center;
+    }
+</style>
+
+<div class="card">
+    <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+        <ul class="metismenu " id="menu2">
+
+            <li id="li_Present" style="border-right: 1px solid #f2f5f7;">
+                <a href="Present">  Present </a>
+            </li>
+            <li id="li_Absent" style="border-right: 1px solid #f2f5f7;">
+                <a href="Absent"> Absent </a>
+            </li>
+            <li id="li_Attendance" style="border-right: 1px solid #f2f5f7;">
+                <a href="Attendance"> Attendance </a>
+            </li>
+            <li id="li_Mispunch" style="border-right: 1px solid #f2f5f7;">
+                <a href="Mispunch"> Mispunch </a>
+            </li>
+            <li id="li_ManualPunch" style="border-right: 1px solid #f2f5f7;">
+                <a href="ManualPunch">Manual Punch </a>
+            </li>
+            <li id="li_LatePunchIn" style="border-right: 1px solid #f2f5f7;">
+                <a href="LatePunchIn"> Late Punch In </a>
+            </li>
+            <li id="li_EarlyPunchOut" style="border-right: 1px solid #f2f5f7;">
+                <a href="EarlyPunchOut">Early Punch Out </a>
+            </li>
+            <li id="li_LocationBy" style="border-right: 1px solid #f2f5f7;">
+                <a href="LocationBy">Location By</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+<div class="clearfix"></div>
+<div class="clear"></div>
+<div class="dailly-report-panel report-tag no-top-margin " id="dailyreport" style="display:block;">
+
+    <div class="report-form-inner" style=" width: auto;">
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">Company</label>
+                <select id="ddlCompany" class="form-control">
+                    <option value="0">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">State</label>
+                <select id="ddlState" class="form-control">
+                    <option value="0">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">Location</label>
+                <select id="ddllocation" class="form-control">
+                    <option value="0">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">Department</label>
+                <select id="ddldepartment" class="form-control" title="Leave Type">
+                    <option value="0">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">From Date</label>
+                <input type="text" class="ip-ap form-control" autocomplete="off" id="txtFromDate" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="tag-form">
+                <label class="col-form-label">To Date</label>
+                <input type="text" class="ip-ap form-control" autocomplete="off" id="txtToDate" />
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="col-md-12 mt-4">
+        <div class="form-group text-center">
+            <button type="button" class="btn btn-primary btn-lg" id="btnViewDailyReoprt">View Report</button>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Reports/JsReports.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script>
+    $('#dlcheckbox').on('click', function () {
+        $('#monthlyreport').hide();
+        $('#dailyreport').show();
+    });
+    $('#mncheckbox').on('click', function () {
+        $('#monthlyreport').show();
+        $('#dailyreport').hide();
+    });
+</script>

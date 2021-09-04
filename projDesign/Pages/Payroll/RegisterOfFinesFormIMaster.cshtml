@@ -1,0 +1,93 @@
+﻿@page
+@{
+    ViewData["Title"] = "RegisterOfFinesFormIMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register Of Fines Form I Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Nature and date</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlNatureAndDate" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Whether Workman Showed </label></div>
+                        <div class="col-md-6">
+                            <select id="ddlWhetherWorkmanShowed" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Rate of Wages</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlRateOfWages" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date of Fine Imposed </label></div>
+                        <div class="col-md-6">
+                            <select id="ddldateofFineImposed" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Amount of Fine Realised </label></div>
+                        <div class="col-md-6">
+                            <select id="ddlAmtofFineImposed" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                  
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date On Which Fine Realised </label></div>
+                        <div class="col-md-6">
+                            <select id="ddlDateOnWhichFineRealised" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Remarks</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlRemarks" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="clear"></div>
+
+                   
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/Payroll/JsRateofWages.js?ver=@DateTime.Now.Ticks.ToString()"></script>

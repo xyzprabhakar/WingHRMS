@@ -1,0 +1,101 @@
+﻿@page
+@{
+    ViewData["Title"] = "Manual Leaves";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>Manual Add Compoff Credit/Debit</h1>
+                <hr />
+                <div class="form-container leave no-top-margin">
+
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Employee<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlemployee" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Compoff Date<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="ip-ap form-control" id="txtcompoffdate" placeholder="Compoff Date" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Month Year<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="txtmonthyear" readonly="readonly" placeholder="Month Year" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Remarks</label></div>
+                            <div class="col-md-8">
+                                <textarea id="txtremarks" class="form-control" placeholder="Remarks"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12 mt-4">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Manual Compoff Credit/Debit Detail</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblmannualcompoff" class="table w-100 nowrap"></table>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <script src="~/apiJS/Leave/JsMannualCompoff.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        </div>
+    </div>
+</div>

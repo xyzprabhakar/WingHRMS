@@ -1,0 +1,80 @@
+﻿@page
+@{
+    ViewData["Title"] = "CompOffLeaveApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("PartialLayoutMyTeamTab")*@
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    @*<div class="col-md-12">
+                        <h4>CompOff Leave Approval</h4><hr />
+                    </div>*@
+                    <div class="attendence-inner-panel">
+                        <input type="hidden" id="hdn_totalrows" />
+
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <h4 class="margin-top">CompOff Addition Approve/Reject</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblCompOffRaisedApplication" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-12" id="empselectiondiv" style="display:none">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Action<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlaction_type" class="form-control bg-ligth">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">Approve</option>
+                                    <option value="2">Reject</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Remarks<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtremarks" name="txtremarks" placeholder="Remarks" style="width:200px" class="form-control bg-ligth"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+
+                                <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- form container end -->
+            </div>
+
+
+            <input type="hidden" id="hdnid" />
+
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/JsCompoffRaisedApproval.js"></script>
+
+@*<script src="~/apiJS/Attendence/JsApplicationLink.js"></script>*@
+@*<script src="~/apiJS/Leave/JsCompOffLeaveApproval.js"></script>*@

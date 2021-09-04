@@ -1,0 +1,148 @@
+﻿@page
+@{
+    ViewData["Title"] = "Status Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>Status Master</h1>
+                <hr />
+                <div class="form-container master-panel">
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input id="txtstatusname" class="form-control" type="text" maxlength="50" autocomplete="off" placeholder="Status Name" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Description<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtdesc" class="form-control" placeholder="Description" maxlength="500" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3 text-rigth"><label class="col-form-label">Status<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <label class="checkmark-container">
+                                Start
+                                <input id="is_start" type="radio" value="0" name="chkstatus" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkmark-container">
+                                Close
+                                <input id="is_closed" type="radio" value="1" name="chkstatus" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkmark-container">
+                                Middle Level
+                                <input id="is_middlelvl" type="radio" value="2" name="chkstatus" />
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="clear"></div>
+
+
+                    @*<div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label>Display Order<i>*</i></label></div>
+            <div class="col-md-6">
+                <select id="ddldisplayorder">
+                    <option value="0">Please Select</option>
+                    <option value="1">Name</option>
+                    <option value="2">Status</option>
+                    <option value="3">Display For</option>
+                </select>
+            </div>
+        </div>*@
+
+                    @*<div class="col-md-6">
+            <div class="col-md-3 text-rigth"> <label>Employee Head Code<i>*</i></label></div>
+            <div class="col-md-9">
+                <select id="ddlheadcode">
+                    <option value="0">--Select--</option>
+                </select>
+            </div>
+        </div>*@
+                    @*<div class="col-md-6">
+            <div class="col-md-6 text-rigth"><label>Head Name</label></div>
+            <div class="col-md-6">
+                <input id="txtheadname" type="text" autocomplete="off" readonly="readonly" placeholder="Head Name" />
+            </div>
+        </div>*@
+
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3 text-rigth"><label>Display For<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <label class="col-form-label">
+                                Reporting Manager 1(RM1)
+                                <input type="checkbox" id="chkdisplayfor1" name="chkdisplayfor" />
+                                <span class=""></span>
+                            </label>
+                            <label class="col-form-label">
+                                Reporting Manager 2(RM2)
+                                <input type="checkbox" id="chkdisplayfor2" name="chkdisplayfor" />
+                                <span class=""></span>
+                            </label>
+                            <label class="col-form-label">
+                                Reporting Manager 3(RM3)
+                                <input type="checkbox" id="chkdisplayfor3" name="chkdisplayfor" />
+                                <span class=""></span>
+                            </label>
+                            <label class="col-form-label">
+                                User
+                                <input type="checkbox" id="chkdisplayfor4" name="chkdisplayfor" />
+                                <span class=""></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Status Master Details</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblstatusmaster" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnmasterid" />
+            <script src="~/apiJS/ePA/JsStatusMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        </div>
+    </div>
+</div>

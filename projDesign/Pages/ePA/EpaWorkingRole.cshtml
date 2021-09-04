@@ -1,0 +1,132 @@
+﻿@page
+@{
+    ViewData["Title"] = "EpaWorkingRole";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h4>EPA Working Role Master</h4>
+                <hr />
+                <div class="form-container row leave no-top-margin">
+
+                    <div class="col-md-6">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Department<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Working Role Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="working_role_name" placeholder="Working Role Name" maxlength="50" autocomplete="off" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Is Default</label></div>
+                        <div class="col-md-8">
+                            <div class="form-check-inline my-1">
+
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="is_default" type="checkbox" name="is_defaultwrkrole">
+                                        <label class="custom-control-label" for="is_default">     Default Working Role</label>
+                                        <a href="#" onclick="default_working_role_info()" title="Click Me"> <i class="fa fa-info-circle"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Status</label></div>
+                        <div class="col-md-8">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="is_active" checked="checked" value="1" name="chkstatus" class="custom-control-input">
+                                    <label class="custom-control-label" for="is_active">Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="is_in_active" value="0" name="chkstatus" class="custom-control-input">
+                                    <label class="custom-control-label" for="is_in_active">In Active</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+                    <div class="col-md-12 ">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">EPA Working Role List</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblfinancial" class="table w-100 nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Role Name</th>
+                                        <th>Department</th>
+                                        <th>Active</th>
+                                        <th>Is Default</th>
+                                        <th>Created Date</th>
+                                        <th>Modified On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <input type="hidden" id="hdnid" />
+
+                <script src="~/apiJS/ePA/JS_EpaWorkingRole.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,106 @@
+﻿@page
+@{
+    ViewData["Title"] = "Tab Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+           
+               
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4> Tab Master</h4> <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input id="txttabname" class="form-control bg-light" type="text" maxlength="500" autocomplete="off" onkeyup="this.value = this.value.toUpperCase();" placeholder="Tab Name" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Description<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtdesc" class="form-control bg-light" placeholder="Description" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Enable For<i>*</i></label></div>
+                        <div class="col-md-8">
+
+                            <div class="">
+
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="chkdisplayfor1" type="checkbox" name="chkdisplayfor">
+                                        <label class="custom-control-label" for="chkdisplayfor1">   Reporting Manager 1(RM1)</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="chkdisplayfor2" type="checkbox" name="chkdisplayfor">
+                                        <label class="custom-control-label" for="chkdisplayfor2">   Reporting Manager 2(RM2)</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="chkdisplayfor3" type="checkbox" name="chkdisplayfor">
+                                        <label class="custom-control-label" for="chkdisplayfor3">  Reporting Manager 3(RM3)</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" id="chkdisplayfor4" type="checkbox" name="chkdisplayfor">
+                                        <label class="custom-control-label" for="chkdisplayfor4"> User</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Tab Master Details</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbltabmaster" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdntabid" />
+<script src="~/apiJS/ePA/JsTabMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,74 @@
+﻿
+@page
+
+@{
+    ViewData["Title"] = "StatusFlowMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("_PartialLayoutLoan")</div>*@
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h4>Status Flow Master</h4>
+                <hr />
+                <div class="form-container leave no-top-margin keymaster not-res">
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control"> </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Status (Start Only)<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlstatus" class="form-control"></select>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Description<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <textarea id="txtdesc" class="form-control" placeholder="Description" onkeypress="return AlphaNumeric(event);"></textarea>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12  btn-group text-rigth margin-top-btn">
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">Status Flow Details</h4>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblstatusflowmaster" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/ePA/JsStatusFlowMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

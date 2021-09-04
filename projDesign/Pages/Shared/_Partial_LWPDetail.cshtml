@@ -1,0 +1,145 @@
+﻿
+<div class="card">
+    <div class="panel">
+
+        <div class="row" id="div_comp_mont">
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlcompany" class="form-control bg-light"></select>
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group" id="monthyearselection">
+                <div class="col-md-4"><label class="col-form-label">Month and Year<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" name="startDate" id="startDate" class="form-control bg-light" placeholder="Month-Year" readonly="readonly" />
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" id="div_Emp_rem">
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlemployee" class="form-control"></select>
+                </div>
+            </div>
+           
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Holidays (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtholiday" class="form-control bg-light" placeholder="Holidays Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">WeekOff (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtWeekOff" class="form-control bg-light" placeholder="WeekOff Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Present (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtPresent" class="form-control bg-light" placeholder="Present Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Absent (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtAbsent" class="form-control bg-light" placeholder="Absent Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Leave (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtLeave" class="form-control bg-light" placeholder="Leave Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Total Days<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txttotlDays" class="form-control bg-light" placeholder="Total Days" readonly="readonly" />
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Acutal L W P (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtactuallop" class="form-control bg-light" placeholder="Actual L W P Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Final L W P (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtfinallop" class="form-control" placeholder="Final L W P" maxlength="4" onkeypress="return isNumber(event,this)" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Actual Paid (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtActualPaid" class="form-control bg-light" placeholder="Paid Days" maxlength="3" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group" id="divAdditionalPaid">
+                <div class="col-md-4"><label class="col-form-label">Additional Paid (days)<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtAdditionalPaidDays" class="form-control" placeholder="Additional Days" maxlength="4" onkeypress="return isNumber(event,this)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <div class="col-md-4"><label class="col-form-label">Remarks<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="txtRemarks" class="form-control" placeholder="Enter Remarks" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <hr />
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-primary btn-lg" id="btnLOPupdate">Update</button>
+                <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

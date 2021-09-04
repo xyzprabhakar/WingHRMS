@@ -1,0 +1,67 @@
+﻿@page
+@{
+    ViewData["Title"] = "Early Punch Out";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_length {
+        width: 390px;
+        float: left;
+    }
+
+    .dt-buttons btn-group {
+        float: left;
+    }
+
+    .dataTables_filter {
+        width: 250px;
+        float: right;
+    }
+
+    .dataTables_scrollHeadInner {
+        width: 100% !important;
+    }
+
+    /*tblPresentReport_filter*/
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tblEarlyPunchOut").DataTable({
+            "oLanguage": {
+                "sEmptyTable": "No data found !!",
+                "sProcessing": "Processing.."
+            }
+        });
+    });
+</script>
+<div class="col-xl-12">
+    <div>@Html.Partial("_ReportPartialLayout")</div>
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <input type="radio" checked id="rptEarlyPunchOut" name="reportSelect" class="custom-control-input">
+    <div class="report_view display w-100" id="divEarlyPunchOut">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="tblEarlyPunchOut" class="table nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Employee Code</th>
+                            <th>Employee Name</th>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th>In Time</th>
+                            <th>Out Time</th>
+                            <th>Worked Hrs</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- table responsive-->
+    </div>
+</div>
+

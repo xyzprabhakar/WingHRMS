@@ -1,0 +1,947 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Components>
+  <Component>
+    <component_id>1</component_id>
+    <component_name>@NET_PAY</component_name>
+    <datatype>0</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>0</parentid>
+    <is_system_key>1</is_system_key>
+    <property_details>GROSS</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:30:30</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 16:49:38</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>2</component_id>
+    <component_name>@CALCULATION_FIELDS</component_name>
+    <datatype>0</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>0</parentid>
+    <is_system_key>1</is_system_key>
+    <property_details>CALCULATION FIELDS</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-04-26 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>3</component_id>
+    <component_name>@EMPLOYEE_WORKDAYS</component_name>
+    <datatype>0</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>0</parentid>
+    <is_system_key>1</is_system_key>
+    <property_details>EMPLOYEE WORKDAYS</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-04-26 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>25</component_id>
+    <component_name>@INCOME</component_name>
+    <datatype>1</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>1</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>INCOME</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:26:16</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 17:55:20</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>26</component_id>
+    <component_name>@DEDUCT</component_name>
+    <datatype>1</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>1</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>DEDUCTIONS</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 15:34:40</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 13:28:27</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>27</component_id>
+    <component_name>@FULL_INC</component_name>
+    <datatype>1</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>1</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>SALARY MASTER</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:08:38</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>28</component_id>
+    <component_name>@F_BASIC</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL BASIC</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:21:55</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>29</component_id>
+    <component_name>@F_HRA</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL HRA</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:23:01</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:50:40</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>30</component_id>
+    <component_name>@F_CONVEYANCE</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL CONVEYANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:11:14</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>31</component_id>
+    <component_name>@F_DA</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL DA</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 11:48:22</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>32</component_id>
+    <component_name>@BASIC</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>BASIC</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:24:06</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:48:46</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>33</component_id>
+    <component_name>@BASIC_A</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>BASIC ARREARS</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 11:57:27</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:27</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>34</component_id>
+    <component_name>@BASIC_REVERSAL</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>BASIC REVERSAL</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:14:32</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>35</component_id>
+    <component_name>@DA</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>DA</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:15:11</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:52:29</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>36</component_id>
+    <component_name>@HRA</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>HRA</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:29:13</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 13:07:43</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>37</component_id>
+    <component_name>@PF</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>PF</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-23 11:39:39</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>38</component_id>
+    <component_name>@ESI</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>ESI</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:17:13</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 14:43:53</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>39</component_id>
+    <component_name>@INC_TAX</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>INCOME TAX</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:17:40</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>40</component_id>
+    <component_name>@CTC_ITEMS</component_name>
+    <datatype>2</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>2</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CTC ITEMS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:18:45</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>41</component_id>
+    <component_name>@EFFWORKDAYS</component_name>
+    <datatype>3</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>3</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>EMP EFFECTIVE WORKDAYS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:19:17</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>42</component_id>
+    <component_name>@LOP</component_name>
+    <datatype>3</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>3</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>LOP</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:19:45</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>43</component_id>
+    <component_name>@WORKDAYS</component_name>
+    <datatype>3</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>3</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>EMPLOYEE WORKDAYS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:20:21</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>44</component_id>
+    <component_name>@MONTHLY_CTC</component_name>
+    <datatype>40</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>40</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>MONTHLY CTC</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:20:51</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function>fncEmpMonthlyCTC</System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>45</component_id>
+    <component_name>@ANNUAL_CTC</component_name>
+    <datatype>40</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>40</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>ANNUAL CTC</property_details>
+    <created_by>1</created_by>
+    <created_dt>2019-05-13 18:19:57</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>46</component_id>
+    <component_name>@PF_ITEMS</component_name>
+    <datatype>2</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>2</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>PF RELATED ITEMS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:54:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>47</component_id>
+    <component_name>@ESI_ITEMS</component_name>
+    <datatype>2</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>2</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>ESI RELATED ITEMS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 11:55:41</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>48</component_id>
+    <component_name>@CONVEYANCE_A</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CONVEYANCE ARREARS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 12:49:15</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:45:53</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>49</component_id>
+    <component_name>@CON_REVERSAL</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CONVEYANCE REVERSAL</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 12:54:06</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:07</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>50</component_id>
+    <component_name>@SPECIAL_ALLOW</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>SPECIAL ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 12:57:10</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 12:37:16</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>51</component_id>
+    <component_name>@SPECIAL_ALLOW_A</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>SPECIAL ALLOWANCE ARREARS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 12:59:27</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>52</component_id>
+    <component_name>@F_MEDALW</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL MEDICAL ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 13:37:37</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>53</component_id>
+    <component_name>@F_SPECIAL_ALLOW</component_name>
+    <datatype>27</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>27</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FULL SPECIAL ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 13:39:56</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>54</component_id>
+    <component_name>@VPF</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>VPF</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:06:13</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>55</component_id>
+    <component_name>@LOAN</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>LOAN</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:18:16</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>56</component_id>
+    <component_name>@OTH_LOAN</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>OTHER LOAN</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:19:34</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>57</component_id>
+    <component_name>@LAB_WELF</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>LABOUR WELFARE FUND</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:27:42</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>58</component_id>
+    <component_name>@OTHER_DED</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>OTHER DEDUCTION</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:29:22</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>59</component_id>
+    <component_name>@NOTICE_RECOVERY</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>NOTICE RECOVERY</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:30:30</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>60</component_id>
+    <component_name>@SAL_ADV</component_name>
+    <datatype>26</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>SALARY ADVANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:36:48</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 18:30:30</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>61</component_id>
+    <component_name>@BONUS</component_name>
+    <datatype>25</datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>BONUS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-05-03 15:43:24</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:44</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table>0</System_table>
+  </Component>
+  <Component>
+    <component_id>62</component_id>
+    <component_name>@ESIC_EMPLOYER_CONTRIBUTION</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>ESIC EMPLOYER CONTRIBUTION</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 13:35:21</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 13:35:21</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>63</component_id>
+    <component_name>@ESIC_EMPLOYEE_CONTRIBUTION</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>ESIC EMPLOYEE CONTRIBUTION</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 15:59:10</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 15:59:10</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>64</component_id>
+    <component_name>@PF_EMPLOYEE_CONTRIBUTION</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>PF EMPLOYEE CONTRIBUTION</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 16:20:10</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 16:20:10</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>65</component_id>
+    <component_name>@PF_EMPLOYER_CONTRIBUTION</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>PF EMPLOYER CONTRIBUTION</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 16:22:04</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 16:22:04</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>66</component_id>
+    <component_name>@RECOVERY</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>RECOVERY</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 16:47:15</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 16:47:15</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>67</component_id>
+    <component_name>@OTHER_INCOME</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>OTHER INCOME</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 16:48:58</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:14</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>68</component_id>
+    <component_name>@PROFESSIONAL_TAX</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>PROFESSIONAL_TAX</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:21:21</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 17:21:21</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>69</component_id>
+    <component_name>@LABOR_TAX</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>26</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>LABOR_TAX</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:23:00</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 17:23:00</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>70</component_id>
+    <component_name>@GRATUITY</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>GRATUITY</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:25:16</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:07:35</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>71</component_id>
+    <component_name>@OVER_TIME</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>OT (OVER TIME)</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:26:35</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:08:05</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>72</component_id>
+    <component_name>@CHILD_CARE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CHILD CARE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:32:26</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:06</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>73</component_id>
+    <component_name>@TUITION_FEE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>TUITION FEE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:33:23</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:13</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>74</component_id>
+    <component_name>@CHAUFFER_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CHAUFFER ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:38:24</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:45</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>75</component_id>
+    <component_name>@MAINTENANCE_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>MAINTENANCE_ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:48:53</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:52</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>76</component_id>
+    <component_name>@GROOMING_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>GROOMING ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:49:44</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:23</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>77</component_id>
+    <component_name>@MOBILE_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>MOBILE ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:50:27</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:31</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>78</component_id>
+    <component_name>@FUEL_TRAVEL_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>FUEL/TRAVEL ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:51:21</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:04</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>79</component_id>
+    <component_name>@CITY_ALLOWANCE</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>CITY ALLOWANCE</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:52:53</created_dt>
+    <modified_by>0</modified_by>
+    <modified_dt>2019-06-04 17:52:53</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+  <Component>
+    <component_id>80</component_id>
+    <component_name>@LOYALTY_REWARDS</component_name>
+    <datatype></datatype>
+    <defaultvalue>0</defaultvalue>
+    <parentid>25</parentid>
+    <is_system_key>0</is_system_key>
+    <property_details>LOYALTY REWARDS</property_details>
+    <created_by>0</created_by>
+    <created_dt>2019-06-04 17:53:47</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:22</modified_dt>
+    <is_active>1</is_active>
+    <System_function></System_function>
+    <System_table></System_table>
+  </Component>
+</Components>

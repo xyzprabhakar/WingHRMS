@@ -1,0 +1,205 @@
+﻿@page
+@{
+    ViewData["Title"] = "Uan And ESIC Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+<div class="col-xl-12">
+
+    <div>@Html.Partial("PartialEmpProfileLayout")</div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="panel ">
+                <div class="form-container no-top-margin">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light" disabled>
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 "><label class="col-form-label">Employee Code</label></div>
+                        <div class="col-md-8">
+                            <select id="ddlEmployeeCode" class="form-control bg-light" disabled></select>
+                        </div>
+                    </div>
+
+                    <!-- UAN panel Start -->
+                    <div class="col-md-12">
+                        <h4 class="header-title mt-4 card-header mb-4">UAN Details</h4>
+                    </div>
+
+
+
+                    <div class="col-md-6 mt-1">
+                        <div class="col-md-4"><label class="col-form-label">UAN No.</label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtuanno" autocomplete="off" placeholder="UAN No." class="form-control bg-light" disabled />
+                        </div>
+                    </div>
+
+                    <div class=" col-md-6 mt-1">
+                        <div class="col-md-4"><label class="col-form-label">PF Applicable</label> </div>
+                        <div class="col-md-6">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="pf_app_yes" type="radio" value="1" name="chckpfapp" disabled>
+                                    <label class="custom-control-label" for="pf_app_yes">  Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="pf_app_no" type="radio" value="0" name="chckpfapp" disabled>
+                                    <label class="custom-control-label" for="pf_app_no">  No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pfdetails">
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">PF No.</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtpfno" autocomplete="off" placeholder="PF No." class="form-control bg-light" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">PF Group</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlpfgroup" class="form-control bg-light" disabled>
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1" id="pfnoo">
+                            <div class="col-md-4"><label class="col-form-label">PF Ceiling</label></div>
+                            <div class="col-md-6">
+                                <input type="text" autocomplete="off" id="txtpfceiling" placeholder="PF Ceiling" class="form-control bg-light" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-6 mt-1">
+                        <div class="col-md-4"><label class="col-form-label">VPF Applicable</label> </div>
+                        <div class="col-md-6">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="vpf_app_yes" type="radio" value="1" name="chckvpfapp" disabled>
+                                    <label class="custom-control-label" for="vpf_app_yes">  Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="vpf_app_no" type="radio" value="0" name="chckvpfapp" disabled>
+                                    <label class="custom-control-label" for="vpf_app_no">  No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="vpfdetails">
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">VPF Group</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlvpfgroup" class="form-control bg-light" disabled>
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1" id="vpfnoo">
+                            <div class="col-md-4"><label class="col-form-label">VPF Amount</label></div>
+                            <div class="col-md-6">
+                                <input type="text" autocomplete="off" id="txt_vpf_amount" placeholder="VPF Amount" class="form-control bg-light" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-1" style="display:none">
+                        <div class="col-md-4"><label class="col-form-label">Bank Name</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlbankname" class="form-control bg-light" disabled><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mt-1" style="display:none">
+                        <div class="col-md-4"><label class="col-form-label">Bank Account No.</label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtbankaccount" autocomplete="off" placeholder="Bank Account No." class="form-control bg-light" disabled/>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mt-1" style="display:none;">
+                        <div class="col-md-4"><label class="col-form-label">Bank IFSC Code</label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtbankifsc" autocomplete="off" placeholder="Bank IFSC Code" class="form-control bg-light"disabled />
+                        </div>
+                    </div>
+
+                    <div class=" col-md-6 mt-1">
+                        <div class="col-md-4"><label class="col-form-label">EPS Applicable</label> </div>
+                        <div class="col-md-6">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="eps_app_yes" type="radio" value="1" name="chckepsapp" disabled>
+                                    <label class="custom-control-label" for="eps_app_yes">  Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="eps_app_no" type="radio" value="0" name="chckepsapp" disabled>
+                                    <label class="custom-control-label" for="eps_app_no">  No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- UAN panel End -->
+                    <!-- ESIC panel Start -->
+                    <div class="col-md-12">
+                        <h4 class="header-title mt-4 card-header mb-4">ESIC Details</h4>
+                    </div>
+                    <div class=" col-md-6 mt-1">
+                        <div class="col-md-4"><label class="col-form-label">ESIC Applicable</label> </div>
+                        <div class="col-md-6">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="esic_app_yes" type="radio" value="1" name="chckesicapp" disabled>
+                                    <label class="custom-control-label" for="esic_app_yes">  Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="esic_app_no" type="radio" value="0" name="chckesicapp" disabled>
+                                    <label class="custom-control-label" for="esic_app_no">  No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mt-1" id="div_esic">
+                        <div class="col-md-4"><label class="col-form-label">ESIC No.</label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtesicno" autocomplete="off" placeholder="ESIC No." class="form-control bg-light" disabled />
+                        </div>
+                    </div>
+
+
+                    <!-- ESIC panel End -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/apiJS/EmployeeProfile/JsUANESIC Details.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+

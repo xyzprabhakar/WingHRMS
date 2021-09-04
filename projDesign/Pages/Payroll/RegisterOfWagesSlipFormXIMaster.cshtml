@@ -1,0 +1,135 @@
+﻿@page
+@{
+    ViewData["Title"] = "RegisterOfWageSlipFormXIMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register Of Wage Slip Form XI Master</h4>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Basic Rate of Wages Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlBaiscWagesPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">D.A. Rate of Wages Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlDAWagesPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Attandance/ Unit of Work Done</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalAttandOrWorkDone" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Overtime Wages</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOvertimeWages" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Gross Wages Payable</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlGrossWagesPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Deduction</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalDeduction" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Net Wages Paid</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlNetWagesPay" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Pay InCharge</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlPayInCharge" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+
+                    </div>
+
+                  
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="panel ">
+    <h1></h1>
+    <hr />
+    
+</div>
+<script src="~/apiJS/Payroll/JsRegisterOfWagesSlipFormXIMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

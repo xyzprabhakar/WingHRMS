@@ -1,0 +1,111 @@
+﻿@page
+@{
+    ViewData["Title"] = "KT_TaskMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>KT Task Master</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee (Handover By)</label>
+                            <select id="ddlEmployeeCode" class="form-control labledropdown"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label asp-for="machinenumber" class="col-form-label">Task Name<i>*</i></label>
+                            <input id="txtTaskName" type="text" maxlength="500" class="form-control" autocomplete="off" placeholder="Task Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label class="col-form-label">Procedure</label>
+                            <input id="txtprocedure" type="text" class="form-control" autocomplete="off" placeholder="Procedure" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label class="col-form-label">Mode of Handover</label>
+                            <input id="txtModHandover" type="text" class="form-control" autocomplete="off" placeholder="Mode of Handover" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label asp-for="description" class="col-form-label">Team Members (Handover To)<i>*</i></label>
+                            <select multiple="multiple" id="ddlemployeetype" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="DivDayPart" class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Remarks<i>*</i></label>
+                            <textarea type="text" maxlength="100" class="form-control" id="txtremark" placeholder="Remark.." style="resize:none;"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-6 form-inline">
+                        <label class=" col-form-label mr-3">Status</label>
+                        <div class="">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" checked="checked" value="active" name="Status">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="Inactive" name="Status">
+                                    <label class="custom-control-label" for="is_in_active" name="Status">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <h4 class="mt-4">KT Task List</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblKTTask" class="table nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnsno" />
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsKT.js?ver=@DateTime.Now.Ticks.ToString()"></script>

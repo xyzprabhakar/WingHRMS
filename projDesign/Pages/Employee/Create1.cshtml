@@ -1,0 +1,249 @@
+﻿@page
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="panel">
+    <h1>Employee Master</h1>
+    <hr />
+
+    <div class="form-container" style="width:90%;">
+        <div class="formControlar">
+            <div class="col-md-4 bag bag1 active">
+                <h3>Create Employee</h3>
+                <i class="far fa-id-badge"></i>
+            </div>
+            <div class="col-md-4 bag bag2">
+                <h3>Employee Officaial Section </h3>
+                <i class="far fa-id-badge"></i>
+            </div>
+            <div class="col-md-4 bag bag3 ">
+                <h3>Personal</h3>
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="col-md-4 bag bag4">
+                <h3>Qualification</h3>
+                <i class="fas fa-user-graduate"></i>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+        <div class="clear"></div>
+
+        <!-- form controlar end -->
+        <!-- tabs one start -->
+        <div class="tabs-container" id="c1" style="display:block;">
+            <div class="col-md-2 text-rigth">
+                <label>Select Default Company </label>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <select id="ddlDefaultCompany">
+                        <option>All</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-12 text-rigth btn-group">
+                <button class="btn" id="nexttabsBTN">Next</button>
+                @*<button class="btn" id="btnSave">Save</button>*@
+                @* <button class="btn">Reset</button>*@
+            </div>
+        </div>
+
+        <div class="tabs-container" id="c2">
+            <div class="col-md-2 text-rigth">
+                <label>Company </label>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <select id="ddlCompany">
+                        <option>All</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <label>Location</label>
+                </div>
+                <div class="col-md-3">
+                    <select id="ddllocation">
+                        <option>All</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"><label>Department</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <select id="ddldepartment" title="Leave Type">
+                        <option>All</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center"><label>Sub Department</label></div>
+                <div class="col-md-3">
+                    <select id="ddlsubdepartment" title="Leave Type">
+                        <option>All</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-2 text-rigth"> <label>Card No/Employee No</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3"><input type="text" id="txtCardNo" placeholder="Card No/Employee No" /></div>
+           
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Salutation</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <select id="ddlSalutation">
+                        <option value="1">Mr.</option>
+                        <option value="2">Mrs.</option>
+                        <option value="2">Miss.</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center"><label>First Name</label></div>
+                <div class="col-md-3">
+                    <input type="text" id="txtFirstName" placeholder="First Name" />
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-2 text-rigth"> <label>Middle Name</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <input type="text" id="txtMiddleName" placeholder="Middle Name" />
+                </div>
+                <div class="col-md-3 text-center"><label>Last Name</label></div>
+                <div class="col-md-3">
+                    <input type="text" id="txtLastName" placeholder="Last Name" />
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Group Joining Date</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <input id="txtGroupJoiningDate" type="date"  value="2000-01-01"/>
+                </div>
+                <div class="col-md-3 text-center"><label>Date of joining</label></div>
+                <div class="col-md-3">
+                    <input id="txtDateOfJoining" type="date" />
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-2 text-rigth"> <label>Department Joining Date</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <input id="txtDepartmentJoiningDate" type="date" />
+                </div>
+
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Employee Code</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <input type="text" id="txtEmployeeCode" readonly="true" />
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Date of Birth</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <input type="date" id="txtDateOfBirth" />
+                </div>
+                <div class="col-md-3 text-center"><label>Religion</label></div>
+                <div class="col-md-3">
+                    <select id="ddlReligion"></select>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Marital Status</label></div>
+            <div class="col-md-10">
+                <div class="col-md-3">
+                    <select id="ddlMaritalStatus">
+                        <option value="0">Select</option>
+                        <option value="1">Married</option>
+                        <option value="2">Single</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center"><label>HR Spoc</label></div>
+                <div class="col-md-3">
+                    <input type="text" id="txtHrSpoc" placeholder="HR Spoc" />
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-2 text-rigth"> <label>Official Email Id</label></div>
+            <div class="col-md-10">
+                <input type="text" id="txtOfficialEmailID" placeholder="Official Email Id" />
+            </div>
+            <div class="clear"></div>
+            <div class="panelemp">
+                <div class="col-md-2 text-rigth"> <label>Employment Type <i style="color:red;">*</i></label></div>
+                <div class="col-md-10">
+                    <div class="col-md-3">
+                        <select id="ddlemploymenttype"></select>
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-12 margin-top">
+                <div class="col-md-6">
+                    <div class="col-md-6">
+                        <input type="checkbox" id="chkOtAllowes" /><label> OT Allowed</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="checkbox" id="chkCombOff" /><label> Comb Off</label>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-12">
+
+                <div class="col-md-12">
+                    <div class="col-md-2"><label>Mobile Punch From date</label></div>
+                    <div class="col-md-4"><input type="date" id="txtMobilePunchFromDate" /></div>
+                    <div class="col-md-2 text-center"><label>Mobile Punch To Date</label></div>
+                    <div class="col-md-4"><input type="date" id="txtMobilePunchToDate" /></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2"><label>Photo Upload</label></div>
+                    <div class="col-md-4"><input type="file" id="File1" /></div>
+             
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="table-responsive ">
+                
+                <div class="clear"></div>
+                <div class="col-md-12 text-rigth btn-group">
+                    @*<button class="btn" id="prevBtntabs">Prev</button>*@
+                    <button class="btn" id="nexttabsBTN">Next</button>
+                    <button class="btn" id="btnSaveOfficialDetails">Save</button>
+                    @* <button class="btn">Reset</button>*@
+                </div>
+            </div>
+            <input type="hidden" id="HFb64" />
+
+            <!--  tabs one end -->
+
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <script src="~/Comman/JS/JsSelectAll.js"></script>
+    <script src="~/apiJS/Employee/JsEmployee.js"></script>

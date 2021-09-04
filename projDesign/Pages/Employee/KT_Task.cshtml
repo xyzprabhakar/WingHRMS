@@ -1,0 +1,86 @@
+﻿@page
+@{
+    ViewData["Title"] = "KT_Task";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>KT Task Master</h4>
+                        <hr />
+                    </div>
+
+                    <div>
+                        <div class="table-responsive">
+                            <table id="tblkttask_insert" class="table table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Employee (Handover By)</th>
+                                        <th>Task Name</th>
+                                        <th>Procedure</th>
+                                        <th>Mode of Handover</th>
+                                        <th>Team Members (Handover To)</th>
+                                        <th>Remarks</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td> <select id="ddlEmployeeCode" class="form-control"></select></td>
+                                        <td> <input id="txtTaskName" type="text" maxlength="500" class="form-control" autocomplete="off" placeholder="Task Name" /></td>
+                                        <td> <input id="txtprocedure" type="text" class="form-control" autocomplete="off" placeholder="Procedure" /></td>
+                                        <td> <input id="txtModHandover" type="text" class="form-control" autocomplete="off" placeholder="Mode of Handover" /></td>
+                                        <td>
+                                            <select multiple="multiple" id="ddlemployeetype" class="form-control">
+                                                <option value="0">--Select--</option>
+                                            </select>
+                                        </td>
+                                        <td>  <textarea type="text" maxlength="100" class="form-control" id="txtremark" placeholder="Remark.." style="resize:none;"></textarea></td>
+                                        <td><input type="button" id="btnAdd" class="addcell" value="+" /></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class="mt-4">KT Task List</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblKTTask" class="table nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnsno" />
+<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsKT_Task.js?ver=@DateTime.Now.Ticks.ToString()"></script>

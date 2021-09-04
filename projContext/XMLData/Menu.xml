@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menus>
+  <menu>
+    <name>Master</name>
+    <link>0</link>
+    <icon>0</icon>
+    <id>1</id>
+    <parentid>0</parentid>
+  </menu>
+  
+  <menu>
+    <name>CompanyMaster</name>
+    <link>CompanyMaster/View</link>
+    <icon>fas fa-building</icon>
+    <id>2</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>LocationMaster</name>
+    <link>Masters/DetailLocationMaster</link>
+    <icon>fas fa-map-marker-alt</icon>
+    <id>3</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>SubLocationMaster</name>
+    <link>Masters/AddSubLocationMaster</link>
+    <icon>fas fa-map</icon>
+    <id>4</id>
+    <parentid>1</parentid>
+  </menu>
+  <menu>
+    <name>DepartmentMaster</name>
+    <link>Masters/AddDepartmentMaster</link>
+    <icon>fas fa-hospital</icon>
+    <id>5</id>
+    <parentid>1</parentid>
+  </menu>
+
+  <menu>
+    <name>SubDepartmentMaster</name>
+    <link>Masters/AddSubDepartment</link>
+    <icon>fas fa-gopuram</icon>
+    <id>6</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>DesignationMaster</name>
+    <link>Masters/AddDesignationMaster</link>
+    <icon>fas fa-wheelchair</icon>
+    <id>7</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>GradeMaster</name>
+    <link>Masters/AddGradeMaster</link>
+    <icon>fas fa-chalkboard-teacher</icon>
+    <id>8</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>LeaveMaster</name>
+    <link>Masters/AddLeaveType</link>
+    <icon>fas fa-wine-glass</icon>
+    <id>9</id>
+    <parentid>1</parentid>
+  </menu>
+
+  <menu>
+    <name>LeaveSetting</name>
+    <link>Leave/LeaveSettingDetail</link>
+    <icon>0</icon>
+    <id>16</id>
+    <parentid>9</parentid>
+  </menu>
+  
+  <menu>
+    <name>CompanyHolidayMaster</name>
+    <link>Masters/CompanyHoliday</link>
+    <icon>fas fa-clipboard-list</icon>
+    <id>10</id>
+    <parentid>1</parentid>
+  </menu>
+
+  <menu>
+    <name>MachineMaster</name>
+    <link>Masters/MachineMaster</link>
+    <icon>fas fa-digital-tachograph</icon>
+    <id>11</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>UserRoleMaster</name>
+    <link>Masters/UserRoleMap</link>
+    <icon>fas fa-street-view</icon>
+    <id>12</id>
+    <parentid>1</parentid>
+  </menu>
+  
+  <menu>
+    <name>Shift</name>
+    <link>Shift/View</link>
+    <icon>fas fa-user-clock</icon>
+    <id>13</id>
+    <parentid>1</parentid>
+  </menu>
+
+  <menu>
+    <name>Employee</name>
+    <link>Employee/ViewEmployee</link>
+    <icon>fas fa-user-check</icon>
+    <id>14</id>
+    <parentid>1</parentid>
+  </menu>
+
+  <menu>
+    <name>Payroll</name>
+    <link>Payroll/ProcessPayroll</link>
+    <icon>fas fa-coins</icon>
+    <id>15</id>
+    <parentid>1</parentid>
+  </menu> 
+    
+</Menus>

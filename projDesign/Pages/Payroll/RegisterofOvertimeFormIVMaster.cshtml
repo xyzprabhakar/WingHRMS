@@ -1,0 +1,143 @@
+﻿
+@page
+@{
+    ViewData["Title"] = "RegisterOfOvertimeFormIVMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Register Of Overtime Form IV Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date on which Overtime Worked</label></div>
+                        <div class="col-md-6">
+                            <select id="ddldateofOvertime" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Extend of Overtime On each Occasion</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlExtendOvertime" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Overtime worked or production in case of piece workers</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalOvertime" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Normal hour</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlNormalhr" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Normal Rate</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlNormalRate" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Overtime Rate</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOvertimeRate" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Normal Earnings</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlNormalEarning" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Overtime Earnings</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOvertimeEarning" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Total Earnings</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlTotalEarning" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label class="col-form-label">Date on which Overtime Payment made</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlOvertimePaymentDate" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                    
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/apiJS/Payroll/JsRegisterofOvertime4.js?ver=@DateTime.Now.Ticks.ToString()"></script>

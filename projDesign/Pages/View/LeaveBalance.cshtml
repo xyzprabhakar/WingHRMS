@@ -1,0 +1,47 @@
+﻿@page
+@{
+    ViewData["Title"] = "Leave Balance";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+</style>
+
+
+
+
+<div class="col-xl-12">
+    @Html.Partial("PartialLayoutMeTab")
+    <div class="panel ">
+        <div class="card ">
+            <div class="card-body">
+                <h4>Leave Balance</h4>
+                <hr />
+
+                @*<h2 class="margin-top">Designation Master List</h2>*@
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tblleavebalance" class="table nowrap w-100"></table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/LeaveBalance.js"></script>

@@ -1,0 +1,110 @@
+﻿@page
+@{
+    ViewData["Title"] = "CompOffApplication";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="tab-link">
+    <ul>
+        @*<li><a href="#">Opening</a></li>
+        <li><a href="#">On-boarding</a></li>
+        <li><a href="#">Shift Allocation</a></li>*@
+        <li class="active"><a href="Attendence">Leave & Attendence</a></li>
+        @*<li><a href="#">Payroll</a></li>
+        <li><a href="#">Salery Slip</a></li>
+        <li><a href="#">Forms</a></li>
+        <li><a href="#">Policies</a></li>
+        <li><a href="#">Directory</a></li>
+        <li><a href="#">Application Tracker</a></li>*@
+    </ul>
+</div>
+<!-- tab link end -->
+<div class="panel attendence-master-panel no-top-margin">
+    <h1>Compoff Application</h1>
+    <hr />
+    <div class="form-container">
+        <div class="attendence-inner-panel">
+            <div class="col-md-12 application-select-button">
+                <button id="OutdoorApplication" class="button">Outdoor Application</button>
+                <button id="LeaveApplication" class="button ">Leave Application</button>
+                <button id="AttendenceApplication" class="button ">Attendance Application</button>
+                <button id="CompOffApplication" class="button active">CompOff Application</button>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Company<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlCompany">
+                        <option>All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label>Employee Code <i>*</i></label></div>
+                <div class="col-md-6"> <select id="ddlEmployeeCode"></select></div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Against Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlCompOffDate">
+                        <option value="0">Select Date</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label>CompOff Date <i>*</i></label></div>
+                <div class="col-md-6"> <input type="text" class="ip-ap" id="txtCompOffDate" /></div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-6">
+
+                <div class="col-md-12">
+                    <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                    <div class="col-md-6"><textarea id="txtRemarks" class="textarea"></textarea></div>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+
+            <div class="col-md-6 text-rigth btn-group">
+                <button type="button" class="btn" id="btnsave">Save</button>
+                <button type="button" class="btn" id="btnupdate">Update</button>
+                <button type="button" id="btnreset" class="btn">Reset</button>
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <h2 class="margin-top">CompOff Application List</h2>
+            <div class="col-md-12">
+                <div class="table-responsive no-margin">
+                    <table id="tblCompOffApplication" class="table-defoult no-margin">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <!-- attendence inner panel end-->
+        </div>
+        <!-- form container end -->
+    </div>
+    <!-- panel end -->
+</div>
+<script src="~/apiJS/Attendence/JsCompOffApplication.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+

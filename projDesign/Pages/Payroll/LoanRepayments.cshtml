@@ -1,0 +1,95 @@
+﻿@page
+@{
+    ViewData["Title"] = "LoanRepayments";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container  master-panel desination-panel">
+                    <div class="col-md-12">
+                        <h4>Loan Repayments</h4><hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee Code<i>*</i></label></div>
+                        <div class="col-md-6"> <select id="ddlEmployeeCode" class="form-control"></select></div>
+                    </div>
+                  
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan<i>*</i></label></div>
+                        <div class="col-md-6"> <select id="ddlloan" class="form-control"></select></div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label" asp-for="ipaddress">Amount</label></div>
+                        <div class="col-md-7"> <input id="txt_amount" type="text" maxlength="50" class="form-control" autocomplete="off" placeholder="Principal Amount" onkeypress="return isNumber(event,this)" /></div>
+                    </div>
+                    
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Date <i>*</i></label></div>
+                        <div class="col-md-6"> <input type="text" class="ip-ap form-control" id="txtDate" /></div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label" asp-for="ipaddress">Remark</label></div>
+                        <div class="col-md-7"> <input id="txt_remark" type="text" maxlength="50" class="form-control" autocomplete="off" placeholder="Remark" /></div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center" style="margin-top: 1%;">
+                            <button class="btn btn-primary btn-lg" id="btnsave">Submit</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Loan Repayment Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblRepayment" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Date</th>
+                                        <th>Trans Type</th>
+                                        <th>Principal</th>
+                                        <th>Interest Comonent</th>
+                                        <th>Amount</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Payroll/JsLoanRepayments.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

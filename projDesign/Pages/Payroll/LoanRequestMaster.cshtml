@@ -1,0 +1,157 @@
+﻿@page
+@{
+    ViewData["Title"] = "LoanMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+@*<div>@Html.Partial("_PartialLayoutLoan")</div>*@
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+      
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Loan Configuration</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Grade<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlgrade" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-6">
+            <div class="col-md-3 text-rigth"><label>Employee Type<i>*</i></label></div>
+            <div class="col-md-6">
+                <select id="ddlempstatus">
+                    <option value="0">--Please Select--</option>
+                </select>
+            </div>
+        </div>*@
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan Type<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlloantype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="2">Advance</option>
+                                <option value="1">Loan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Max Loan Amount<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtloanamt" class="form-control" maxlength="10" placeholder="Loan Amount" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Rate of Interest in %<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txt_roi" class="form-control" maxlength="4" placeholder="Rate of Interest" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Max Tenure(Month)<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtmaxtenure" class="form-control" maxlength="3" placeholder="Max Tenure" onkeypress="return isNumber(event,this)" />
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Top up Duration (Months)<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtmin_topup_duration" class="form-control" maxlength="3" placeholder="Max Duration" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Salary Multiple<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txt_onsalary" maxlength="3" class="form-control" placeholder="Salary Multiple" onkeypress="return isNumber(event,this)" />
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-12">
+
+        </div>*@
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Loan Master Details</h4>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblloanrequestmaster" class="table nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Company</th>
+                                        <th>Grade</th>
+                                        @*<th>Employee Status</th>*@
+                                        <th>Loan Type</th>
+                                        <th>Loan Amount</th>
+                                        <th>Rate of Interest(ROI)</th>
+                                        <th>Salary Multiple</th>
+                                        <th>Max Tenure</th>
+                                        <th>Minimum Topup Duration</th>
+                                        <th>Created Date</th>
+                                        <th>Updated On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnsnoo" />
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/LoanRequestMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

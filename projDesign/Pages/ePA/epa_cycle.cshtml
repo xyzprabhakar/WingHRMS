@@ -1,0 +1,90 @@
+﻿@page
+@{
+    ViewData["Title"] = "epa_cycle";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel ">
+                <h1>EPA Cycle</h1>
+                <hr />
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Cycle Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="cycle_type" class="form-control">
+                                    <option value="">--Select--</option>
+                                    <option value="0">Monthly</option>
+                                    <option value="1">Quaterly</option>
+                                    <option value="2">Half Yearly</option>
+                                    <option value="3">Yearly</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">From Date<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtfromdate" class="form-control" autocomplete="off" maxlength="10" placeholder="From Date" onkeydown="return false;" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Number Of Day<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" maxlength="3" class="form-control" onkeypress="return isNumber(event,this)" id="txt_number_of_day" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class=" float-top">EPA Cycle List</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblfinancial" class="table w-100 nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Cycle Type</th>
+                                        <th>From Date</th>
+                                        <th>Number Of Day</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnid" />
+            <script src="~/apiJS/ePA/JS_ePA_Cycle.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        </div>
+    </div>
+</div>
+

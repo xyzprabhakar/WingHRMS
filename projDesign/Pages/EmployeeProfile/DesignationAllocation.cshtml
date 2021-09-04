@@ -1,0 +1,80 @@
+﻿@page
+@{
+    ViewData["Title"] = "DesignationAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/DisplayOnly.css" rel="stylesheet" />
+
+<div class="col-xl-12">
+   <div>@Html.Partial("PartialEmpProfileLayout")</div>
+
+    <div class="card mt-3">
+
+
+
+        <div class="card-body ">
+
+             <div class=" container ">
+                <div class=" row">
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3">
+                            <label class="col-form-label">Company</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="ddlCompany" class="form-control" disabled>
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3">
+                            <label class="col-form-label">Employee Code</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="ddlEmployeeCode" class="form-control" disabled></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3">
+                            <label class="col-form-label">Designation</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="ddldesignation" class="form-control" disabled></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group ">
+                        <div class="col-md-3">
+                            <label class="col-form-label">From Date</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="ip-ap form-control"   readonly id="Desigfromdate" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3">
+                            <label class="col-form-label">To Date</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="ip-ap form-control" readonly id="Desigtodate" />
+                        </div>
+                    </div>
+                  
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/EmployeeProfile/JsDesignationAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>

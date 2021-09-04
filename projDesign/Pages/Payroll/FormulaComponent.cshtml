@@ -1,0 +1,104 @@
+﻿@page
+@{
+    ViewData["Title"] = "FormulaComponent";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Copy Formula From One Salary Group to Another Salary Group@*Group Alignment*@@*Formula Component*@</h4>
+                        <hr />
+                    </div>
+                    
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcompany" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+                    
+
+                  
+                        @*<div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>From Grade<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlfromgrade"></select>
+                </div>
+                <div class="clear"></div>
+            </div>*@
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">From Salay Group<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlfromsalaygroup" class="form-control"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">To Salay Group<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddltosalarygroup" class="form-control"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+                 
+
+                    @*<div class="col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>To Grade<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddltograde"></select>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>To Salay Group<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddltosalarygroup"></select>
+                </div>
+            </div>
+        </div>*@
+                    <div class="col-md-12">                        
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+
+                        <h4 class="margin-top">Copy Formula From One Salary Group to Another Salary Group Details@*Group Alignment Details*@@*Formula Component*@</h4> 
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblformulacomponent" class="table nowrap w-100">
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdn_tosalarygoupid" />
+<script src="~/TreePlugin/jstree.min.js"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsCreateFormula.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/apiJS/Payroll/JsFormulaComponent.js?ver=@DateTime.Now.Ticks.ToString()"></script>

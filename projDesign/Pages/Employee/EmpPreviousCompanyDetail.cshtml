@@ -1,0 +1,193 @@
+﻿@page
+@{
+    ViewData["Title"] = "Previus Company Detail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Previous Company Detail</h4><hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control">
+                                <option value="0">-Please Select-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company Name<i>*</i></label>
+                            <input type="text" id="txtprev_comp_name" class="form-control" maxlength="100" autocomplete="off" placeholder="Company Name" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company Address<i>*</i></label>
+                            <textarea id="txtprev_comp_address" class="form-control" autocomplete="off" maxlength="500" placeholder="Company Address" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Date of Joining<i>*</i></label>
+                            <input type="text" class="ip-ap form-control" id="txt_doj" autocomplete="off" placeholder="Date of Joining" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Date of Relieving<i>*</i></label>
+                            <input type="text" class="ip-ap form-control" id="txt_relieve" autocomplete="off" placeholder="Date of Relieving" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Is Relieved<i>*</i></label>
+                            <select id="ddl_is_relieve" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">YES</option>
+                                <option value="2">NO</option>
+                                <option value="3">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Designation<i>*</i></label>
+                            <input type="text" id="txtprev_desig" class="form-control" maxlength="50" autocomplete="off" placeholder="Designation" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Salary<i>*</i></label>
+                            <input type="text" id="txtprev_salary" class="form-control" autocomplete="off" placeholder="Salary" maxlength="10" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Job Type<i>*</i></label>
+                            <select id="ddlpr_jobtype" class="form-control">
+                                <option value="0">--Please select--</option>
+                                <option value="1">Full Time</option>
+                                <option value="2">Part Time</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Relieving Reason<i>*</i></label>
+                            <input type="text" id="txtprev_relieve_reason" autocomplete="off" maxlength="500" class="form-control" placeholder="Relieving Reason" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Reporting To<i>*</i></label>
+                            <select id="ddl_prev_reporting_to" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="HR">HR</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Team Lead">Team Leader (TL)</option>
+                                <option value="Director">Director</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Reporting Name<i>*</i></label>
+                            <input type="text" id="txtprev_rpt_name" class="form-control" maxlength="100" autocomplete="off" placeholder="Reporting Name" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Contact No.<i>*</i></label>
+                            <input type="text" id="txtprev_contact_no" class="form-control" autocomplete="off" placeholder="Contact No" maxlength="10" onkeypress="return isNumberKey(event);" @*onchange="return ValidMobile('txtprev_contact_no');" *@ />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Email ID<i>*</i></label>
+                            <input type="text" id="txtprev_email_id" class="form-control" maxlength="50" autocomplete="off" placeholder="Email ID" onchange="return ValidEmailId('txtprev_email_id');" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Relevant Experience <i>*</i></label>
+                            <input type="text" id="txt_relevant_exp" class="form-control" maxlength="4" autocomplete="off" placeholder="Relevant Experience" onkeypress="return isNumber(event, this);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Total Experience <i>*</i></label>
+                            <input type="text" id="txt_total_exp" class="form-control" maxlength="4" autocomplete="off" placeholder="Total Experience" onkeypress="return isNumber(event, this);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Remarks (Optinal)</label>
+                            <textarea id="txtremarks" placeholder="Remarks" class="form-control" maxlength="500" autocomplete="off" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-secondary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h5 class="margin-top">Previous Company Detail</h5>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_emp_pr_employement_dtl" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Employee/JsEmpPreviousCompanyDetail.js?ver=@DateTime.Now.Ticks.ToString()"></script>

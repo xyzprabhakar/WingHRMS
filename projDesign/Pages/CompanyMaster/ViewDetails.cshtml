@@ -1,0 +1,149 @@
+﻿@page
+@{
+    ViewData["Title"] = "ViewDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="~/Comman/JS/CommanJS.js"></script>
+
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel company-master no-top-margin">
+                <h1>Company Details</h1>
+                <hr />
+
+                <form asp-controller="CompanyMaster" asp-action="Create" method="post">
+                    @*<input name="__RequestVerificationToken" type="hidden" value="CfDJ8NrAkSldwD9CpLR...LongValueHere!" />*@
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-container" style="height: 430px !important;">
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="company_name">Company Name<i>*</i></label></div>
+                            <div class="col-md-6"><input id="txtcompany_name" class="form-control bg-light mb-1 border-none disabled" disabled required="" tabindex="1" autofocus autocomplete="off" type="text" placeholder="Company Name"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"> <label asp-for="company_code">Company Code</label></div>
+                            <div class="col-md-6"><input id="txtcompany_code" class="form-control bg-light mb-1 border-none disabled" disabled autocomplete="off" tabindex="2" type="text" placeholder="Company Code" readonly="readonly"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="prefix_for_employee_code">Prefix For Employee Code<i>*</i></label></div>
+                            <div class="col-md-6"><input id="txtprefix_for_employee_code" class="form-control bg-light mb-1 border-none disabled" disabled tabindex="3" onkeyup="this.value = this.value.toUpperCase();" maxlength="4" autocomplete="off" type="text" placeholder="Prefix for employee code"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="number_of_character_for_employee_code">Number Of Character For Code<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input id="txtnumber_of_character_for_employee_code" tabindex="4" class="form-control bg-light mb-1 border-none disabled" disabled autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text" onkeydown="OnlyNumeric(event);" minlength="1" maxlength="1" placeholder="Number Of Character for code">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="address_line_one">Address Line 1<i>*</i></label></div>
+                            <div class="col-md-6"><textarea id="txtaddress_line_one" class="form-control bg-light mb-1 border-none disabled" disabled autocomplete="off" tabindex="5"></textarea></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="address_line_two">Address Line 2</label></div>
+                            <div class="col-md-6"><textarea id="txtaddress_line_two" class="form-control bg-light mb-1 border-none disabled" disabled autocomplete="off" tabindex="6"></textarea></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="country"> Country <i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcountry" tabindex="7" class="form-control bg-light mb-1 border-none disabled" disabled >
+                                    <option value="">Select Country</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="state">State<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlstate" tabindex="8" class="form-control bg-light mb-1 border-none disabled" disabled >
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="city">City<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlcity" tabindex="9" class="form-control bg-light mb-1 border-none disabled" disabled>
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="pin_code">Pin Code<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input id="txtpin_code" tabindex="10" class="form-control bg-light mb-1 border-none disabled" disabled type="text" onkeydown="OnlyNumeric(event);" autocomplete="off" placeholder="PIN Code" minlength="6" maxlength="6">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="primary_email_id">Email Id (Primary)<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input id="txtprimary_email_id" class="form-control bg-light mb-1 border-none disabled" disabled tabindex="11" type="text" autocomplete="off" maxlength="50" placeholder="Email id (primary) " onchange="return ValidEmailId('primary_email_id');">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="primary_contact_number">Primary Contact No<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input id="txtprimary_contact_number" class="form-control bg-light mb-1 border-none disabled" disabled tabindex="13" onkeydown="OnlyNumeric(event);" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text" autocomplete="off" placeholder="Contact No"  minlength="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="secondary_email_id">Email Id (Secondary)</label></div>
+                            <div class="col-md-6"><input id="txtsecondary_email_id" class="form-control bg-light mb-1 border-none disabled" disabled tabindex="12" type="text" autocomplete="off" placeholder="Email id (Secondary)"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="secondary_contact_number">Secondary Contact No</label></div>
+                            <div class="col-md-6">
+                                <input id="txtsecondary_contact_number" tabindex="14" class="form-control bg-light mb-1 border-none disabled" disabled onkeydown="OnlyNumeric(event);" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text" autocomplete="off" placeholder="Contact No" onkeypress="validate(event)" minlength="10" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6" style="display:none">
+                            <div class="col-md-6 text-rigth"><label asp-for="is_emp_code_manual_genrate">Employee  Code Is Manual</label></div>
+                            <div class="col-md-6">
+                                <label class="checkmark-container">
+                                    <input type="checkbox" id="is_emp_code_manual_genrate" class="form-control bg-light mb-1 border-none disabled" disabled name="is_emp_code_manual_genrate" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="company_website">Website</label></div>
+                            <div class="col-md-6">
+                                <input id="txtcompany_website" type="url" tabindex="15" class="form-control bg-light mb-1  disabled" disabled autocomplete="off" placeholder="Website" onchange="return ValidateURL('txtcompany_website');">
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-6">
+                            <div class="col-md-6 text-rigth"><label asp-for="company_logo">Profile Image</label></div>
+                            <div class="col-md-6">
+
+                                <img id="company_logo" style="width: 50%;height: 100px;" />
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/CompanyMaster/JsCompanyView.js?ver=@DateTime.Now.Ticks.ToString()"></script>

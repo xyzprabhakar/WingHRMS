@@ -1,0 +1,1124 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Componentdetails>
+  <Componentdetail>
+    <sno>1</sno>
+    <component_id>1</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>@BASIC+@SPECIAL_ALLOW+@BASIC_A-@PF_EMPLOYEE_CONTRIBUTION-@ESIC_EMPLOYEE_CONTRIBUTION-@LOAN-@LOP-@OTHER_DED-@RECOVERY+@OTHER_INCOME</formula>
+    <function_calling_order>9</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-04-29 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 16:49:38</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>2</sno>
+    <component_id>2</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>1</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-04-29 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-04-29 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>3</sno>
+    <component_id>3</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-04-29 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-04-29 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>33</sno>
+    <component_id>25</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>0</payment_type>
+    <formula>@BASIC+@HRA+@DA+@SPECIAL_ALLOW+@BONUS-@PF_EMPLOYEE_CONTRIBUTION-@PF_EMPLOYER_CONTRIBUTION-@ESIC_EMPLOYER_CONTRIBUTION-@ESIC_EMPLOYEE_CONTRIBUTION+@OVER_TIME-@PROFESSIONAL_TAX-@LABOR_TAX+@LOYALTY_REWARDS+@CITY_ALLOWANCE+@FUEL_TRAVEL_ALLOWANCE+@MOBILE_ALLOWANCE+@GROOMING_ALLOWANCE+@MAINTENANCE_ALLOWANCE+@CHAUFFER_ALLOWANCE+@TUITION_FEE+@CHILD_CARE+@OVER_TIME</formula>
+    <function_calling_order>8</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 17:55:20</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>34</sno>
+    <component_id>26</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 13:28:27</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>35</sno>
+    <component_id>27</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>36</sno>
+    <component_id>28</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>ROUND(@MONTHLY_CTC*1,1)</formula>
+    <function_calling_order>2</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>37</sno>
+    <component_id>29</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>ROUND(@F_BASIC*.4,0)</formula>
+    <function_calling_order>6</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:50:40</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>38</sno>
+    <component_id>30</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>39</sno>
+    <component_id>31</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>4000</formula>
+    <function_calling_order>7</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>40</sno>
+    <component_id>32</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>@F_BASIC</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:48:46</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>41</sno>
+    <component_id>33</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:27</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>42</sno>
+    <component_id>34</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>43</sno>
+    <component_id>35</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>@F_DA</formula>
+    <function_calling_order>4</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 15:52:29</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>44</sno>
+    <component_id>36</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>0</payment_type>
+    <formula>@F_HRA</formula>
+    <function_calling_order>3</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-25 13:07:43</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>45</sno>
+    <component_id>37</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>IF(1=1,1800,2000)</formula>
+    <function_calling_order>5</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-23 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>46</sno>
+    <component_id>38</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>11</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 14:43:53</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>47</sno>
+    <component_id>39</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>48</sno>
+    <component_id>40</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>49</sno>
+    <component_id>41</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>50</sno>
+    <component_id>42</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>51</sno>
+    <component_id>43</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>0</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>52</sno>
+    <component_id>44</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>ROUND(@ANNUAL_CTC/12,0)</formula>
+    <function_calling_order>6</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>53</sno>
+    <component_id>45</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>1</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-13 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>54</sno>
+    <component_id>46</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>55</sno>
+    <component_id>47</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>56</sno>
+    <component_id>48</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:45:53</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>57</sno>
+    <component_id>49</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:07</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>58</sno>
+    <component_id>50</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>@INCOME-@BASIC-@HRA-@PF</formula>
+    <function_calling_order>11</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 12:37:16</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>59</sno>
+    <component_id>51</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>60</sno>
+    <component_id>52</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>61</sno>
+    <component_id>53</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>3</component_type>
+    <is_salary_comp>1</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>62</sno>
+    <component_id>54</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>63</sno>
+    <component_id>55</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>64</sno>
+    <component_id>56</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>65</sno>
+    <component_id>57</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>66</sno>
+    <component_id>58</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>67</sno>
+    <component_id>59</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>68</sno>
+    <component_id>60</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-05-03 00:00:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>69</sno>
+    <component_id>61</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>8</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>1</is_data_entry_comp>
+    <payment_type>1</payment_type>
+    <formula>0</formula>
+    <function_calling_order>3</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-05-03 00:00:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:46:44</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>70</sno>
+    <component_id>62</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 13:35:21</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 13:35:21</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>71</sno>
+    <component_id>63</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 15:59:10</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 15:59:10</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>72</sno>
+    <component_id>64</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 16:20:10</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 16:20:10</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>73</sno>
+    <component_id>65</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 16:22:04</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 16:22:04</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>74</sno>
+    <component_id>66</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 16:47:15</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 16:47:15</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>75</sno>
+    <component_id>67</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 16:48:58</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:14</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>76</sno>
+    <component_id>68</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>0</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:21:21</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 17:21:21</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>77</sno>
+    <component_id>69</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:23:00</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 17:23:00</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>78</sno>
+    <component_id>70</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>2</payment_type>
+    <formula>0</formula>
+    <function_calling_order>3</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:25:16</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:07:35</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>79</sno>
+    <component_id>71</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:26:35</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:08:05</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>80</sno>
+    <component_id>72</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>0</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:32:26</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:06</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>81</sno>
+    <component_id>73</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>2</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:33:23</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:13</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>82</sno>
+    <component_id>74</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>1</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:38:24</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:45</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>83</sno>
+    <component_id>75</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:48:53</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:52</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>84</sno>
+    <component_id>76</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:49:44</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:23</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>85</sno>
+    <component_id>77</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:50:27</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:30:31</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>86</sno>
+    <component_id>78</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>1</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:51:21</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:04</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>87</sno>
+    <component_id>79</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:52:54</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 17:52:54</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+  <Componentdetail>
+    <sno>88</sno>
+    <component_id>80</component_id>
+    <company_id>1</company_id>
+    <salary_group_id>7</salary_group_id>
+    <component_type>1</component_type>
+    <is_salary_comp>0</is_salary_comp>
+    <is_tds_comp>0</is_tds_comp>
+    <is_data_entry_comp>0</is_data_entry_comp>
+    <payment_type>5</payment_type>
+    <formula>0</formula>
+    <function_calling_order>0</function_calling_order>
+    <is_user_interface>0</is_user_interface>
+    <created_by>1</created_by>
+    <created_dt>2019-06-04 17:53:47</created_dt>
+    <modified_by>1</modified_by>
+    <modified_dt>2019-06-04 18:31:22</modified_dt>
+    <is_active>1</is_active>
+  </Componentdetail>
+</Componentdetails>

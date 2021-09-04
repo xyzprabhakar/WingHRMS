@@ -1,0 +1,101 @@
+﻿@page
+@{
+    ViewData["Title"] = "Shift Assignment";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h4 class=" float-left">Shift Assignment</h4>
+
+                <a href="/Shift/ShiftAllignmentDetail" class="btn btn-primary float-right mb-1">Assignment Detail </a>
+                <div class="clearfix"></div>
+                <hr class="mt-1" />
+
+
+                <div class="form-container shift-panel-inner no-top-margin">
+                    @*<div class="col-md-12">
+                            <div class="col-md-3 form-group"></div>
+                            <div class="form-group col-md-6 ">
+                                <div class="col-md-4"><label class="col-form-label"> Shift </label></div>
+                                <div class="col-md-8">
+                                    <select id="ddlshift" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group"></div>
+                        </div>*@
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control"><option value="">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label"> Location </label></div>
+                        <div class="col-md-8">
+                            <select id="ddllocation" class="form-control"><option value="">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Department </label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" class="form-control"><option value="">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 ">
+                        <div class="col-md-4"><label class="col-form-label"> Shift <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlshift" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Effective Date <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txteffective_dt" class="ip-ap form-control" readonly placeholder="Effective Date" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-left">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsearch">Search</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblempdetail" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 ">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnSave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnUpdate">Update</button>
+                            <button type="button" id="btnReset" class="btn btn-secondary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Shift/JsShiftAllignment.js?ver=@DateTime.Now.Ticks.ToString()"></script>

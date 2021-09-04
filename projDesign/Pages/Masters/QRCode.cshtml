@@ -1,0 +1,54 @@
+﻿@page
+@{
+    ViewData["Title"] = "QR Code";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div id="qrcodeimg">
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $("#loader").show();
+    $(document).ready(function () {
+        GenerateCode();
+        $("#loader").hide();
+    });
+
+    function GenerateCode() {
+
+        var headerss = {};
+        headerss["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headerss["salt"] = $("#hdnsalt").val();
+        $.ajax({
+            url: localStorage.getItem("ApiUrl") + "/apiMasters/GenereateQRCode",
+            type: "POST",
+            contentType: false,
+            //processData: false,
+            dataType: "json",
+            data: {},
+            headers: headerss,
+            success: function (response) {
+                $("#loader").hide();
+                _GUID_New();
+                var res = response;
+                $("#qrcodeimg").html('<img src="data:image/png;base64,' + res.fileContents + '" style="display:block;margin-left:auto;margin-right:auto;width:50%" />');
+            },
+            error: function (err) {
+                $("#loader").hide();
+                _GUID_New();
+                messageBox("error", err.responseText);
+                return false;
+            }
+        });
+    }
+</script>
+
+
+
+
+
+

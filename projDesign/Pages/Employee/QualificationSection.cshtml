@@ -1,0 +1,157 @@
+﻿@page
+@{
+    ViewData["Title"] = "QualificationSection";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body  p-2">
+
+                <div class="form-container no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Qualification Section</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c3" style="display:block;">
+
+                        <div class="addNewQualification">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label ">Company<i>*</i></label>
+                                    <select id="ddlCompany" class="form-control">
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label ">Employee Code<i>*</i></label>
+                                    <select id="ddlEmployeeCode" class="form-control"></select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+
+                            <div class="col-md-6" style="display:none">
+                                <div class="form-group">
+                                    <label class="col-form-label">Title<i>*</i></label>
+                                    <input type="text" id="title" value="Title" class="form-control" placeholder="Title" maxlength="50" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_board" class="col-form-label">Board/Universty<i>*</i></label>
+                                    <input type="text" id="board_or_university" class="form-control" maxlength="100" placeholder="Board/Universty" onkeypress="return IsAlphabet(event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_school" class="col-form-label">Institute/School<i>*</i></label>
+                                    <input type="text" id="institute_or_school" maxlength="100" class="form-control" placeholder="Institute/School" onkeypress="return IsAlphabet(event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_year" class="col-form-label">Passign Year<i>*</i></label>
+                                    <input type="text" id="passing_year" class="form-control" onchange="return ValidNA_INT('passing_year');" autocomplete="off" placeholder="Passing year" maxlength="4" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_course" class="col-form-label">Course@*Stream*@<i>*</i></label>
+                                    <input type="text" id="stream" class="form-control" maxlength="50" placeholder="Course" onkeypress="return AlphaNumeric(event);" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_edu_type" class="col-form-label">Education Type<i>*</i></label>
+                                    <select id="education_type" class="form-control">
+                                        <option value="">Select Education type</option>
+                                        <option value="1">Regular</option>
+                                        <option value="2">Part-time</option>
+                                        <option value="3">Distance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label id="lbl_edu_level" class="col-form-label">Eduction Level<i>*</i></label>
+                                    <select id="ddleducationlevel" class="form-control"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6"  style="display:none">
+                                <div class="form-group">
+                                    <label class="col-form-label">Marks/Division/CGPA<i>*</i></label>
+                                    <input type="text" class="form-control" id="marks_division_cgpa" value="0" placeholder="Marks/Division/CGPA" maxlength="4" />
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-6">
+                                    <div class="col-md-6  text-rigth"><label>Upload Document</label></div>
+                                    <div class="col-md-6"><label><input type="file" id="document_image" /></label></div>
+                                </div>*@
+
+                            <div class="col-md-6" style="display:none">
+                                <div class="form-group">
+                                    <label class="col-form-label">Remark<i>*</i></label>
+                                    <textarea id="remark" class="form-control" placeholder="Remarks" onkeypress="return AlphaNumeric(event);">Qualification</textarea>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnSaveQualification">Save</button>
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnUpdateQualification">Update</button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hdndocument_image" />
+
+
+
+                            <div class="col-md-12">
+                                <hr />
+                                <h5 class="margin-top">Qualification Details</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive no-margin">
+                                    <table id="tblQualification" class="table nowrap"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <!-- add new qualification box end -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="HFb64document_image" />
+<input type="hidden" id="hdndocument_image" />
+<input type="hidden" id="hdnemp_qualification_section_id" />
+
+
+<script src="~/apiJS/Employee/JsQualificationSection.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js"></script>
+

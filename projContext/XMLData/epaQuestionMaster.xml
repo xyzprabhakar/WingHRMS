@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Questions>
+  <Question id="1">
+    <tab_id>1</tab_id>
+    <question_name>Objective Type</question_name>
+    <question_type>1</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Organisation" order_by="1">Organisation</answer>
+      <answer values="Team" order_by="2">Team</answer>
+      <answer values="Self" order_by="3">Self</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="2">
+    <tab_id>1</tab_id>
+    <question_name>Key Area</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="3">
+    <tab_id>1</tab_id>
+    <question_name>Expected Result</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="4">
+    <tab_id>1</tab_id>
+    <question_name>Criteria(1)</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="5">
+    <tab_id>1</tab_id>
+    <question_name>Criteria(2)</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="6">
+    <tab_id>1</tab_id>
+    <question_name>Criteria(3)</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="7">
+    <tab_id>1</tab_id>
+    <question_name>Criteria(4)</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="8">
+    <tab_id>1</tab_id>
+    <question_name>Wtg(%)</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="9">
+    <tab_id>1</tab_id>
+    <question_name>Self</question_name>
+    <question_type>1</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="0" order_by="1">0</answer>
+      <answer values="1" order_by="2">1</answer>
+      <answer values="2" order_by="3">2</answer>
+      <answer values="3" order_by="4">3</answer>
+      <answer values="4" order_by="5">4</answer>
+    </multipleAnswers>
+  </Question>
+  <Question id="10">
+    <tab_id>1</tab_id>
+    <question_name>Agreed</question_name>
+    <question_type>1</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="0" order_by="1">0</answer>
+      <answer values="1" order_by="2">1</answer>
+      <answer values="2" order_by="3">2</answer>
+      <answer values="3" order_by="4">3</answer>
+      <answer values="4" order_by="5">4</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="11">
+    <tab_id>1</tab_id>
+    <question_name>Result</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="12">
+    <tab_id>1</tab_id>
+    <question_name>Score</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="13">
+    <tab_id>1</tab_id>
+    <question_name>Comment</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <!--tab id = 2 starts here-->
+
+  <Question id="14">
+    <tab_id>2</tab_id>
+    <question_name>Description</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+
+  <Question id="15">
+    <tab_id>2</tab_id>
+    <question_name>Factor/ Expected Result</question_name>
+    <question_type>1</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="16">
+    <tab_id>2</tab_id>
+    <question_name>Rating</question_name>
+    <question_type>1</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+
+    <multipleAnswers>
+      <answer values="Outstanding" order_by="1">Outstanding</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Satisfactory" order_by="3">Satisfactory</answer>
+      <answer values="UnSatisfactory" order_by="4">UnSatisfactory</answer>
+    </multipleAnswers>
+  </Question>
+
+  <!--tab id = 3 starts here-->
+
+  <Question id="17">
+    <tab_id>3</tab_id>
+    <question_name>Identify and describe achievements or activities that you feel were exceptional, important or significant for the period under review</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="18">
+    <tab_id>3</tab_id>
+    <question_name>Identify and describe objectives/tasks, which were not achieved to your satisfaction</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="19">
+    <tab_id>3</tab_id>
+    <question_name>Have you encountered any obstacles / restraints or limitations in trying to achieve your objectives?</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="20">
+    <tab_id>3</tab_id>
+    <question_name>Are there any other ways you can increase your effectiveness in achieving your objectives?</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="21">
+    <tab_id>3</tab_id>
+    <question_name>In which areas of your job do you need more support from your manager?</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="22">
+    <tab_id>3</tab_id>
+    <question_name>How competent do you feel in your current role?</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="23">
+    <tab_id>3</tab_id>
+    <question_name>In the next 12-18 months, what are your career intentions? In the longer term what direction do you see your career taking?</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="24">
+    <tab_id>3</tab_id>
+    <question_name>Based on your future aspirations what skills, knowledge and experience will you need to develop to better equip you for the future? (This means looking beyond your current role)</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <!--tab id =4 starts here-->
+
+  <Question id="25">
+    <tab_id>4</tab_id>
+    <question_name>To his/her own developement</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="26">
+    <tab_id>4</tab_id>
+    <question_name>To the team</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="27">
+    <tab_id>4</tab_id>
+    <question_name>To customers ( Internal or external)</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="28">
+    <tab_id>4</tab_id>
+    <question_name>External (Glaze image)</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <!--tab id = 5 starts here-->
+  <Question id="29">
+    <tab_id>5</tab_id>
+    <question_name>Is a new comer to the company ?</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="30">
+    <tab_id>5</tab_id>
+    <question_name>Is a newcomer in a current position ?</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="31">
+    <tab_id>5</tab_id>
+    <question_name>Is returning from a long leave of absence ? (more than 6 months during an year)</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="32">
+    <tab_id>5</tab_id>
+    <question_name>Is in the right position ?</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="33">
+    <tab_id>5</tab_id>
+    <question_name>Is ready for career evolution ?</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="34">
+    <tab_id>5</tab_id>
+    <question_name>Is in a correct position/designation ?</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>1</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <!--tab id = 6 here-->
+
+  <Question id="35">
+    <tab_id>6</tab_id>
+    <question_name>Excel (Basic/ Advance)</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="36">
+    <tab_id>6</tab_id>
+    <question_name>Presentation skills</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="37">
+    <tab_id>6</tab_id>
+    <question_name>Business etiquette</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="38">
+    <tab_id>6</tab_id>
+    <question_name>Time Management</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="39">
+    <tab_id>6</tab_id>
+    <question_name>Mailing etiquette</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="40">
+    <tab_id>6</tab_id>
+    <question_name>Health, Safety and Wellness</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="41">
+    <tab_id>6</tab_id>
+    <question_name>Meeting etiquette</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="42">
+    <tab_id>6</tab_id>
+    <question_name>Emotional intelligence</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="43">
+    <tab_id>6</tab_id>
+    <question_name>Communication and public speaking</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="44">
+    <tab_id>6</tab_id>
+    <question_name>Any Functional Training(Specify)</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="1" order_by="1">1</answer>
+      <answer values="2" order_by="2">2</answer>
+      <answer values="3" order_by="3">3</answer>
+      <answer values="4" order_by="4">4</answer>
+      <answer values="5" order_by="5">5</answer>
+      <answer values="6" order_by="6">6</answer>
+      <answer values="7" order_by="7">7</answer>
+      <answer values="8" order_by="8">8</answer>
+      <answer values="9" order_by="9">9</answer>
+      <answer values="10" order_by="10">10</answer>
+    </multipleAnswers>
+  </Question>
+
+  <!--tab id = 7 here-->
+
+  <Question id="45">
+    <tab_id>7</tab_id>
+    <question_name>Discipline/ Punctuality</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="46">
+    <tab_id>7</tab_id>
+    <question_name>Proactive/ Enthusiastic</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="47">
+    <tab_id>7</tab_id>
+    <question_name>Honesty/ Loyalty</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="48">
+    <tab_id>7</tab_id>
+    <question_name>Openness to learn</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="49">
+    <tab_id>7</tab_id>
+    <question_name>Sensitivity towards others</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="50">
+    <tab_id>7</tab_id>
+    <question_name>Creative/ Innovative</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="51">
+    <tab_id>7</tab_id>
+    <question_name>Taking tasks beyond specific KRA (OCB)</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="52">
+    <tab_id>7</tab_id>
+    <question_name>Adaptable to a situation/ Comfortable to manage adverse situations</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="53">
+    <tab_id>7</tab_id>
+    <question_name>Focused</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="54">
+    <tab_id>7</tab_id>
+    <question_name>Confident</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="55">
+    <tab_id>7</tab_id>
+    <question_name>Respect towards others</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <Question id="56">
+    <tab_id>7</tab_id>
+    <question_name>Team Player</question_name>
+    <question_type>0</question_type>
+    <answer_type>1</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers>
+      <answer values="Excellent" order_by="1">Excellent</answer>
+      <answer values="Good" order_by="2">Good</answer>
+      <answer values="Average" order_by="3">Average</answer>
+      <answer values="Needs Improvement" order_by="4">Needs Improvement</answer>
+      <answer values="Doesn't Exist" order_by="5">Doesn't Exist</answer>
+    </multipleAnswers>
+  </Question>
+
+  <!--tab id = 8 begins here -->
+
+  <Question id="57">
+    <tab_id>8</tab_id>
+    <question_name>Outstanding</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="58">
+    <tab_id>8</tab_id>
+    <question_name>Good</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="59">
+    <tab_id>8</tab_id>
+    <question_name>Standard</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="60">
+    <tab_id>8</tab_id>
+    <question_name>Need Improvement</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="61">
+    <tab_id>8</tab_id>
+    <question_name>Poor</question_name>
+    <question_type>0</question_type>
+    <answer_type>3</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+  <Question id="61">
+    <tab_id>8</tab_id>
+    <question_name>Manager Remark for Employee:</question_name>
+    <question_type>0</question_type>
+    <answer_type>2</answer_type>
+    <have_remarks>0</have_remarks>
+    <multipleAnswers></multipleAnswers>
+  </Question>
+
+</Questions>

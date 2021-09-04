@@ -1,0 +1,125 @@
+﻿@page
+@{
+    ViewData["Title"] = "AssetRequest";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*<style>
+        .fc-event {
+            border: none !important;
+            border-color: none !important;
+            background-color: none !important;
+        }
+
+        .fc-day-grid-event {
+            margin: 1px 1px 0px;
+            padding: 0px 0px;
+        }
+    </style>*@
+<div class="tab-link">
+    <ul>
+        <li><a href="/Attendence/Attendence">Leave & Attendence</a></li>
+        <li><a href="/Payroll/SalarySlips">Salary Slips</a></li>
+        <li><a href="/Leave/LeaveBalance">Balance Leave</a></li>
+        <li><a href="/payroll/LoanRequest">Loan Request</a></li>
+        @*<li><a href="/payroll/ReimbursementRequestMaster">Reimbursement Request</a></li>*@
+        <li class="active"><a href="/payroll/AssetRequest">Asset Request</a></li>
+    </ul>
+</div>
+<!-- tab link end -->
+<div class="col-xl-12">
+    <div class="panel ">
+        @*@Html.Partial("PartialLayoutMyTeamTab")*@
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee Code<i>*</i></label>
+                            <select id="ddlempcode" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Asset Name<i>*</i></label>
+                            <input type="text" id="txtassetname" placeholder="Asset Name" class="form-control" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Description<i>*</i></label>
+                            <textarea id="txtassetdescription" placeholder="Description" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnreset">Reset</button>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4>
+                            Asset Request Details
+                        </h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblassetrqstdtl" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+
+
+                    @*<div class="col-md-12">
+
+                            <div class="col-md-6">
+                                     <div class="col-md-3 text-rigth"><label>Employee Name<i>*</i></label></div>
+                                     <div class="col-md-6">
+                                         <input type="text" id="txtFirstName" maxlength="150" readonly="readonly" placeholder="Employee name" />
+                                     </div>
+                                 </div>
+                        </div>*@
+
+
+                    @*<div class="col-md-12">
+                            <div class="col-md-12 text-right">
+                                <input type="checkbox" name="chkpolicy" id="chkpolicy" style="vertical-align:super" />&nbsp; <label><span style="font-family:Verdana; text-align:justify;">I have read all the provision of company policy on loan/Advance and undertake to comply by them. I authorized the company to recover any outstanding amount under this policy from my salary / full and final settlement as the case may be.</span></label>
+                            </div>
+                        </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Payroll/JsAssetRequest.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+

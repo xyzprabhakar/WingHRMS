@@ -1,0 +1,300 @@
+﻿<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="colmd-12">
+                <h4>Leave</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="tbl_leave_dtl" class="table nowrap w-100 no-margin"></table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="col-md-12">
+                <hr />
+                <div class="form-group text-left">
+                    <button type="button" class="btn btn-primary btn-lg" id="btnLeaveEncash_save">Leave Encashment</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    @*<div class="card">
+            <div class="card-body">
+                <div class="colmd-12">
+                    <h4>Compoff</h4>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="col-form-label">Total Compoff</label>
+                    <input type="text" id="txt_totalcompoff" placeholder="Compoffs" autocomplete="off" disabled class="form-control" />
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label class="col-form-label">Compoff Encash</label>
+                    <input type="text" id="txt_compoffencash" placeholder="Compoff Encash" autocomplete="off" class="form-control" onkeypress="isNumberKey(event, this);" maxlength="5" />
+                </div>
+
+                <div class="clear"></div>
+                <div class="col-md-12">
+                    <hr />
+                    <div class="form-group text-left">
+                        <button type="button" class="btn btn-primary btn-lg" id="btn_compoff_encash">Compoff Encashment</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>*@
+
+    <div class="card">
+        <div class="card-body">
+            <div class="colmd-12">
+                <h4>Attendance & Variable Pay</h4>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="tbl_attendance_dtl" class="table nowrap w-100 no-margin"></table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <hr />
+            </div>
+            <div class="col-md-6 form-group">
+                <label class="col-form-label">Payroll Month</label>
+                <input type="month" id="txtProcessMonthYear" class="form-control" min="2000-01">
+            </div>
+            <div class="col-md-12">
+
+            </div>
+            <div class="col-md-8 form-group mt-8">
+                <label class="col-form-label"></label>
+                <button type="button" class="btn btn-primary btn-lg" style="width:50%;" id="btn_add_attendance">Click to Add Attendance</button>
+            </div>
+            
+            <div class="col-md-8 form-group mt-8">
+                <label class="col-form-label"></label>
+                <button type="button" class="btn btn-primary btn-lg" style="width:50%;" id="btn_add_variablepay">Add Variable Pay</button>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+
+    </div>
+
+
+    @*<div class="card">
+        <div class="card-body">
+            <div class="colmd-12">
+                <h4>Variable Pay</h4>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="col-form-label">Processed MonthYear</label>
+                <input type="month" id="txtProcessMonthYear" class="form-control" min="2000-01">
+            </div>
+            <div class="col-md-4 form-group mt-4">
+                <label class="col-form-label"></label>
+                <button type="button" class="btn btn-primary btn-lg" id="btn_add_variablepay">Add Variable Pay</button>
+            </div>
+            @*<div class="col-md-12">
+            <div class="table-responsive">
+
+            </div>
+        </div>*@ @*
+                <div class="clear"></div>
+            </div>
+        </div>*@
+
+        <div class="card">
+            <div class="card-body">
+                <div class="colmd-12">
+                    <h4>Salary</h4>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="tbl_Salary_pay" class="table nowrap w-100 no-margin"></table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="checkbox">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="noticerecovery_days_app">
+                                <label class="custom-control-label" for="noticerecovery_days_app">Notice Recovery Days Applicable</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group" id="divnotice_days" style="display:none">
+                        <input type="text" id="txtnotice_recovery_day" placeholder="Notice Recovery Days Applicable" class="form-control" maxlength="5" onkeypress="isNumberKey(event,this)" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="checkbox">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="notice_payment_app">
+                                <label class="custom-control-label" for="notice_payment_app">Notice Payment Applicable</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group" id="divnotice_payemnt" style="display:none">
+                        <input type="text" id="txtnotice_payment" placeholder="Notice Payment Applicable" class="form-control" maxlength="5" onkeypress="isNumberKey(event,this)" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label class="col-form-label"></label>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="tblsalary_dtl" class="table nowrap w-100 no-margin"></table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                    <div class="form-group text-left">
+                        <button type="button" class="btn btn-primary btn-lg" id="btnfnf_process">FNF Process</button>
+                    </div>
+                </div>
+
+                <div class="slider-wrap">
+                    <div class="slider" id="slider2">
+
+                        <div class="slider-wrap" style="width: auto; height: auto;">
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="clear"></div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="clearfix"></div>
+    <!-- Trigger/Open The Modal -->
+    @*<style>
+
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 10px;
+                border: 1px solid #888;
+                width: 30%;
+            }
+            /*.acceptrejectdiv {
+                                width: 88%;
+                            }*/
+
+            .ui-datepicker-calendar {
+                display: none;
+            }
+        </style>*@
+    <!-- The Modal -->
+    <div id="myVariableModal" class="modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width:100%;height:80%">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="varModelHeader" style="margin-top: 3%;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modal_close" style="margin-top:1%">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="table-responsive container mt-2 mb-2">
+                    <table id="tbl_variable_pay" class="table nowrap w-100 no-margin"></table>
+                    <div class="clear"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn_SaveVariablePay" class="btn btn-primary btn-lg"> Save </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Attendence Modal-->
+    <div class="modal" id="myAttendenceModal">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content" style="width:100%;height:80%">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attModelHeader" style="margin-top: 3%;"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modal_close" style="margin-top:1%">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="table-responsive container mt-2 mb-2">
+                    <div id="div_updatedtll">
+                        @Html.Partial("_Partial_LWPDetail")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Attendence Modal-->
+
+
+    <script>
+
+
+        var modal = document.getElementById("myVariableModal1");
+        window.onclick = function (event) {
+            if (event.target == modal) {
+
+                $("#txtemp_name").val('');
+                $("#txtmonthyear").val('');
+                $("#ddlelement").empty();
+                $("#txt_variable_amt").val('');
+                $("#txt_variable_remarks").val('');
+
+                modal.style.display = "none";
+            }
+
+        }
+    </script>

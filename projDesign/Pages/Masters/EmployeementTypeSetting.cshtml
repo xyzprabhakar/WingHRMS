@@ -1,0 +1,95 @@
+﻿@page
+@{
+    ViewData["Title"] = "EmployeementTypeSetting";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+               
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Employeement Type</h4>
+                        <hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Grade<i>*</i></label>
+                            <select id="ddlgrade" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">EmployeementType<i>*</i></label>
+                            <select id="ddlemployementtype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Duration(in months)<i>*</i></label>
+                            <input type="text" id="txtNoticePeriod_month" autocomplete="off" maxlength="2" placeholder="Duration (in months)" class="form-control" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Duration(in days)<i>*</i></label>
+                            <input type="text" id="txtNoticePeriod_days" autocomplete="off" maxlength="3" placeholder="Duration (in days)" class="form-control" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Remarks (Optional)</label>
+                            <textarea id="txtremarks" onkeypress="AlphaNumeric(event);" maxlength="200" class="form-control" placeholder="Reamrks"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                        <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                        <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                    </div>
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Employement Type Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblemployeementtypedtl" class="table nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+               
+                <input type="hidden" id="hdntypesetting_id" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+ <script src="~/apiJS/Masters/JsEmployeementTypeSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>

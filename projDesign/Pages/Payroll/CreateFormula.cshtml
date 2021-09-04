@@ -1,0 +1,186 @@
+﻿@page
+@{
+    ViewData["Title"] = "CreateFormula";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .disable {
+        opacity: 0.4;
+    }
+
+        .disable div,
+        .disable textarea {
+            overflow: hidden;
+        }
+</style>
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Create Formula</h4><hr />
+                    </div>
+                    <div id="maindiv">
+                        <div class="col-md-10">
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-5"><label class="col-form-label">Grade<i>*</i></label></div>
+                                <div class="col-md-7">
+                                    <select id="ddlgrade" class="form-control"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4"><label class="col-form-label">Salary Group<i>*</i></label></div>
+                                <div class="col-md-8">
+                                    <select id="ddlsalgroup" class="form-control"><option value="0">--Please Select--</option></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-2">
+                                <label class="col-form-label">Formula<i>*</i></label>
+                                <p class="note">Note : <span>BodMas & others calculation rules apply</span></p>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea id="dropdiv" class="form-control" style="font-size: larger;"></textarea>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="ruleClear btn btn-secondary" id="btn_Clear">Clear Formula</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-10 offset-md-2"> 
+                            <p class="header-title">user define key</p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2 ">
+                            <p class="head">Function</p>
+                            <div class="container-box">
+                                <div id="dragdivfuncation">
+                                    <ul class="child-array">
+                                        <li>+</li>
+                                        <li>-</li>
+                                        <li>=</li>
+                                        <li>*</li>
+                                        <li>%</li>
+                                        <li>></li>
+                                        <li><</li>
+                                        <li>>=</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+
+                            <p class="subHead">Earnings</p>
+                            <div id="dragdivkeyearnings">
+                                <ul class="child-array">
+                                    <li data-value="Basic_Salary_Per_Month">Basic Salary Per Month</li>
+                                    <li data-value="HRA">HRA</li>
+                                    <li data-value="DA">DA</li>
+                                    <li data-value="Spcial_Allowance">Spcial Allowance</li>
+                                    <li data-value="City_Allowance">City Allowance </li>
+                                    <li data-value="Mobile Allowance">Mobile Allowance</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <p class="subHead">Deductions</p>
+                            <div id="dragdivkeydeductions">
+
+                                <ul id="dragdivkeydeductions1" class="child-array">
+                                    <li>PF Employee Contribution</li>
+                                    <li>PF Employer Contribution</li>
+                                    <li>ESIC Employee Contribution</li>
+                                    <li>ESIC Employer Contribution </li>
+                                    <li>Professional Tax </li>
+                                    <li>Labor Tax</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-center">
+                                <div class=" btn-group">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Save" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                <script type="text/javascript">
+                    $(function () {
+                        $("#dragdivkeyearnings li").draggable({
+                            appendTo: "body",
+                            helper: "clone",
+                            cursor: "move",
+                            revert: "invalid"
+                        });
+
+                        $("#dragdivfuncation li").draggable({
+                            appendTo: "body",
+                            helper: "clone",
+                            cursor: "move",
+                            revert: "invalid"
+                        });
+
+                        $("#dragdivkeydeductions li").draggable({
+                            appendTo: "body",
+                            helper: "clone",
+                            cursor: "move",
+                            revert: "invalid"
+                        });
+
+                        initDroppable($("#dropdiv"));
+                        function initDroppable($elements) {
+                            $elements.droppable({
+                                activeClass: "ui-state-default",
+                                hoverClass: "ui-drop-hover",
+                                accept: ":not(.ui-sortable-helper)",
+
+                                over: function (event, ui) {
+                                    var $this = $(this);
+                                },
+                                drop: function (event, ui) {
+                                    var $this = $(this);
+                                    //   alert(ui.draggable.data("value"));
+                                    //alert(ui.draggable.text());
+                                    //if (ui.draggable.text() != '+' && ui.draggable.text() != '-' && ui.draggable.text() != '*' && ui.draggable.text() != '/' && ui.draggable.text() != '%' && ui.draggable.text() != '^' && ui.draggable.text() != '>=' && ui.draggable.text() != '<=' && ui.draggable.text() != '==' && ui.draggable.text() != '!=' && ui.draggable.text() != '&&' && ui.draggable.text() != '||') {
+                                    //    ui.draggable.remove();
+                                    //}
+                                    if ($this.val() == '') {
+                                        $this.val(ui.draggable.data("value"));
+
+                                    } else {
+                                        $this.val($this.val() + "" + ui.draggable.text());
+                                    }
+                                }
+                            });
+                        }
+                    });
+                </script>
+
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/apiJS/Payroll/JsCreateFormula.js?ver=@DateTime.Now.Ticks.ToString()"></script>

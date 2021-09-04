@@ -1,0 +1,125 @@
+﻿@page
+@{
+    ViewData["Title"] = "AddEvent";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+                @*<h1>Add Event</h1>
+                <hr />*@
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Add Event</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company Name<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Event Name<i>*</i></label>
+
+                            <input id="txtEventName" type="text" class="form-control" onkeypress="return AlphaNumeric(event);" autocomplete="off" placeholder="Event Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Event Date<i>*</i></label>
+
+                            <input type="text" id="txtEventDate" class="ip-ap form-control" maxlength="10" placeholder="Effective Date"  autocomplete="off" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Event Time<i>*</i></label>
+
+                            <input type="text" id="txtEventTime" class="iphr form-control" placeholder="Event Time" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Event Place <i>*</i></label>
+
+                            <input id="txtEventPlace" type="text" class="form-control" onkeypress="return AlphaNumeric(event);" autocomplete="off" placeholder="Event Place" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class=" mb-0 ">Status</label>
+                            <div class="clear"></div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="1" name="chkstatus">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline ">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="0" name="chkstatus">
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-12 mt-2">
+                    <div class="form-group text-center">
+                        <div class=" btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnReset" class="btn btn-light btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Event List</h4>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblevent_list" class="table nowrap w-100 no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Event Name</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Place</th>
+                                        <th>Status</th>
+                                        <th>Created On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Masters/JsEvent.js?ver=@DateTime.Now.Ticks.ToString()"></script>

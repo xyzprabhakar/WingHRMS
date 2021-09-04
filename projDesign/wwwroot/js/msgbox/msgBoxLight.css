@@ -1,0 +1,152 @@
+﻿
+
+
+div.msgBox {
+    position: fixed;
+    z-index: 1050;
+    font-family: Verdana;
+    width: 430px;
+    min-height: 160px;
+    color: #00335e;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -moz-box-shadow: 0px -1px 11px 0px #6b6b6b;
+    -webkit-box-shadow: 0px -1px 11px 0px #6b6b6b;
+    box-shadow: 0px -1px 11px 0px #6b6b6b;
+    top: 14% !important;
+}
+
+
+div.msgBoxBackGround {
+    top: 0;
+    left: 0;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.9;
+    z-index: 999;
+}
+div.msgBoxTitle {
+    font-size: 17px;
+    font-weight: 600;
+    color: #3e3f40;
+    border-bottom: 1px solid #c1c4c7;
+    font-family: sans-serif;
+    background-color: #cac8c8;
+    padding: 10px 0px 10px 10px;
+}
+div.msgBoxImage
+{
+   
+    display:inline-block;
+    float:left;
+    height:75px;
+    width:75px;
+}
+    div.msgBoxImage img {
+        /*height:75px;
+    width:75px;*/
+        height: 50px;
+        width: 50px;
+    }
+div.msgBoxContent
+{
+    font-size:10pt;
+    margin:0 3px 6px 3px;
+    display:inline-block;
+    float:left;
+    height:90px;
+    width:319px;
+}
+div.msgBoxContent p
+{
+    padding:0;
+    margin:0;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+    div.msgBoxContent span {
+        display: table-cell;
+        vertical-align: middle;
+        color: #8a432c;
+        font-size: 13px;
+        line-height: 21px;
+    }
+
+/* Content class for IE7*/
+
+div.msgBoxContentIEOld
+{
+    font-size:11pt;
+    margin:0 3px 6px 3px;
+    display:inline-block;
+    float:left;
+    height:90px;
+    width:319px;
+	position: relative;
+}
+div.msgBoxContentIEOld p
+{
+    padding:0;
+    margin:0;
+    position: absolute;
+	top: 50%;
+}
+
+div.msgBoxContentIEOld span 
+{
+    position: relative;
+	top: -50%;
+}
+
+/* Content class for IE7*/
+
+div.msgBoxButtons {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    background-color: #e8e6e2;
+    padding: 4px 0px;
+}
+    div.msgBoxButtons input[type='button'] {
+        cursor: pointer;
+        margin: 2px;
+        background-color: #FF5722;
+        color: #FFFFFF;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 4px;
+        outline: none;
+        border: 0;
+        padding: 6px 27px;
+    }
+
+
+
+
+div.msgBoxInputs
+{
+    margin:0 auto;
+    padding-top:2px;
+    padding-bottom:2px;
+    margin-top:5px;
+    width:195px;
+}
+div.msgInput input[type='text'],div.msgInput input[type='password']
+{
+    padding:4px;
+    border:1px solid #DFDFDF;
+    color:#2f2f2f;
+    width:180px;
+}
+div.msgInput text
+{
+    color:#2f2f2f;
+    font-size:10pt;
+}

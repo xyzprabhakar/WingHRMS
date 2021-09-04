@@ -1,0 +1,77 @@
+﻿@page
+@{
+    ViewData["Title"] = "ClaimMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card ">
+            <div class="card-body">
+                <h4>Add Claim Master</h4>
+                <hr />
+                <!--  <div class="text-rigth">
+                    <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                </div>
+                  -->
+                <div class="container">
+                   
+                    <div class="row">
+                        <div class="col align-self-center mx-auto">
+                            <div class="w-50">
+
+                                <div class="form-group">
+                                    <label>Claim Name</label>
+                                    <input type="text" id="txtclaimname" class="form-control" maxlength="50" onkeydown="return IsAlphabet(this);" />
+                                </div>
+
+                                <div class=" btn-group">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                    <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                    <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+                <hr />
+                <h2 class="margin-top">Claim Master List</h2>
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tblclaim" class="table no-margin nowrap" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Claim Id</th>
+                                    <th>Claim Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Masters/ClaimMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

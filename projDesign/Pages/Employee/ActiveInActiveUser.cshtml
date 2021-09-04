@@ -1,0 +1,49 @@
+﻿@page
+@{
+    ViewData["Title"] = "UnblockUser";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Active/Inactive and Block/Unblock User Login</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label ">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Active/Inactive and Block/Unblock User Login</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblempdetail" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+              
+                </div>
+            </div>
+        </div>
+    </div>
+
+                <input type="hidden" id="hdnchkactivestatus" />
+                <input type="hidden" id="hdnchkloginstatus" />
+                <input type="hidden" id="hdnuserid" />
+                <input type="hidden" id="hdnusername" />
+                <script src="~/apiJS/Employee/JsActiveInActiveUser.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

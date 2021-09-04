@@ -1,0 +1,247 @@
+﻿@page
+@{
+    ViewData["Title"] = "Uan And ESIC Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Uan And ESIC Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlCompany" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Employee Code<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlEmployeeCode" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+
+                        <!-- UAN panel Start -->
+                        <div class="col-md-12">
+                            <h4 class="header-title mt-4 card-header mb-4">UAN Details<i>*</i></h4>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">UAN No.<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtuanno" autocomplete="off" placeholder="UAN No." value="NA" class="form-control" maxlength="12" onkeypress="return AlphaNumeric(event);"  />
+                            </div>
+                        </div>
+
+                        <div class=" col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">PF Applicable</label> </div>
+                            <div class="col-md-6">
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="pf_app_yes" type="radio" value="1" checked name="chckpfapp">
+                                        <label class="custom-control-label" for="pf_app_yes">  Yes</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="pf_app_no" type="radio" value="0" name="chckpfapp">
+                                        <label class="custom-control-label" for="pf_app_no">  No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pfdetails">
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label class="col-form-label">PF No.<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <input type="text" id="txtpfno" autocomplete="off" placeholder="PF No." value="NA" maxlength="30" class="form-control" onkeypress="return AlphaNumeric(event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label class="col-form-label">PF Group<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <select id="ddlpfgroup" class="form-control">
+                                        <option value="0">--Please Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1" id="pfnoo">
+                                <div class="col-md-4"><label class="col-form-label">PF Ceiling<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <input type="text" autocomplete="off" id="txtpfceiling" value="0" placeholder="PF Ceiling" class="form-control" onchange="return ValidNA_INT('txtpfceiling');" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">VPF Applicable</label> </div>
+                            <div class="col-md-6">
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="vpf_app_yes" type="radio" value="1" checked name="chckvpfapp">
+                                        <label class="custom-control-label" for="vpf_app_yes">  Yes</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="vpf_app_no" type="radio" value="0" name="chckvpfapp">
+                                        <label class="custom-control-label" for="vpf_app_no">  No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="vpfdetails">
+                            <div class="col-md-6 mt-1">
+                                <div class="col-md-4"><label class="col-form-label">VPF Group<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <select id="ddlvpfgroup" class="form-control">
+                                        <option value="0">--Please Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1" id="vpfnoo">
+                                <div class="col-md-4"><label class="col-form-label">VPF Amount<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <input type="text" autocomplete="off" id="txt_vpf_amount" maxlength="10" placeholder="VPF Amount" class="form-control" onchange="return ValidNA_INT('txt_vpf_amount');" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1" style="display:none;">
+                            <div class="col-md-4"><label class="col-form-label">Bank Name</label></div>
+                            <div class="col-md-6">
+                                <select id="ddlbankname" class="form-control"><option value="0">--Please Select--</option></select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1" style="display:none;">
+                            <div class="col-md-4"><label class="col-form-label">Bank Account No.</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtbankaccount" autocomplete="off" placeholder="Bank Account No." maxlength="18" class="form-control" onkeypress="return isNumberKey(event);" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1" style="display:none;">
+                            <div class="col-md-4"><label class="col-form-label">Bank IFSC Code</label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtbankifsc" autocomplete="off" placeholder="Bank IFSC Code" maxlength="11" class="form-control" style="text-transform: uppercase;" onkeypress="return AlphaNumeric(event);" />
+                            </div>
+                        </div>
+
+                        <div class=" col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">EPS Applicable<i>*</i></label> </div>
+                            <div class="col-md-6">
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="eps_app_yes" type="radio" value="1" checked name="chckepsapp">
+                                        <label class="custom-control-label" for="eps_app_yes">  Yes</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="eps_app_no" type="radio" value="0" name="chckepsapp">
+                                        <label class="custom-control-label" for="eps_app_no">  No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- UAN panel End -->
+                        <!-- ESIC panel Start -->
+                        <div class="col-md-12">
+                            <h4 class="header-title mt-4 card-header mb-4">ESIC Details</h4>
+                        </div>
+                        <div class=" col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">ESIC Applicable</label> </div>
+                            <div class="col-md-6">
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="esic_app_yes" type="radio" value="1" checked name="chckesicapp">
+                                        <label class="custom-control-label" for="esic_app_yes">  Yes</label>
+                                    </div>
+                                </div>
+                                <div class="form-check-inline my-1">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" id="esic_app_no" type="radio" value="0" name="chckesicapp">
+                                        <label class="custom-control-label" for="esic_app_no">  No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-1" id="div_esic">
+                            <div class="col-md-4"><label class="col-form-label">ESIC No.<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <input type="text" id="txtesicno" autocomplete="off" placeholder="ESIC No." maxlength="12" class="form-control" onkeypress="return AlphaNumeric(event);" />
+                            </div>
+                        </div>
+
+
+                        <!-- ESIC panel End -->
+
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 text-center ">
+                            <hr />
+                            <button class="btn btn-primary waves-effect waves-light" id="btnSavePersonalDetails">Save</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Employee/JsUanDetails.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+<!-- Trigger/Open The Modal -->
+<!-- The Modal -->
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title align-self-center mt-0">Upload Personal Details(In Excel Only)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive ">
+                    <table id="tbl_exceldtl" class="table nowrap w-100"></table>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,177 @@
+﻿@page
+@{
+    ViewData["Title"] = "Salary Input";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<style type="text/css">
+    td.details-control {
+        text-align: center;
+        color: forestgreen;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        text-align: center;
+        color: red;
+    }
+    /*td.details-control {
+        background: url('../assets/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../assets/images/details_close.png') no-repeat center center;
+    }*/
+</style>
+
+<div class="col-xl-12">
+    <div class="panel">
+        @Html.Partial("PartialLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="salery-container form-container salary-input-master-panel">
+                    <div class="col-md-12">
+                        <h4>Payroll Input</h4> <hr />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 @*mt-4" *@>
+                        <hr />
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light col-6 " onclick="openCity(event, 'emp_salaryinput')">Employee Selection</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'all_emp_salaryinput')">Directly Upload</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <!--1st Tab Start-->
+                        <div id="emp_salaryinput" class="tabcontent" style="display: block;">
+                            <div class="slider-wrap">
+                                <div class="clear"></div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4 "><label class="col-form-label">Employee Name</label></div>
+                                    <div class="col-md-8">
+                                        <select id="ddlEmployee" class="form-control">
+                                            <option value="0">---Please Select---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4 "><label class="col-form-label">Processed Monthyear</label></div>
+                                    <div class="col-md-8">
+                                        <select id="ddlMonthyear" class="form-control"><option value="0">---Please Select---</option></select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <hr />
+                                    <div class="table-responsive no-margin">
+                                        <div class="innerContainer">
+
+                                            <table id="tbl_SalaryInput" class="table nowrap w-100"></table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <!--1st Tab END-->
+                        <!--2nd Tab Start-->
+
+                        <div id="all_emp_salaryinput" class="tabcontent" style="display: none;">
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+
+                                    <div class="row ">
+                                        <div class="col-md-12">
+                                            <a id="solTitle" href="#" onClick="DownloadSalaryInputFormat();" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <br />
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Processed Monthyear<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtuplodmonthyear" class="form-control" readonly="readonly" placeholder="Payout month" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Upload(Only Excel)<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="file" id="SalaryInputFile" class="form-control" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <hr />
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary waves-effect waves-light" id="btnuploaddtl">Upload Detail</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--2nd Tab End-->
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" id="HFb64uploaddtl" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@*<script src="~/js/jquery.jqGrid.min.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
+<script src="~/apiJS/Payroll/JsSalaryInputt.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsUploadSalaryInput.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Salary Input(In Excel Only)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="table-responsive container mt-2 mb-2">
+                <table id="tbl_exceldtl" class="table nowrap w-100"></table>
+            </div>
+        </div>
+    </div>
+</div>
+    

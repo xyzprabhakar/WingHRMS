@@ -1,0 +1,96 @@
+﻿@page
+@{
+    ViewData["Title"] = "Asset Master";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Asset Master</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company Name<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Asset<i>*</i></label>
+                            <input id="txtasset" type="text" maxlength="50" class="form-control" autocomplete="off" placeholder="Asset Name" onkeyup="this.value = this.value.toUpperCase();" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Short Name<i>*</i></label>
+                            <input id="txtassetshortname" class="form-control" type="text" maxlength="5" autocomplete="off" onkeyup="this.value = this.value.toUpperCase();" placeholder="Asset Short Name" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Description<i>*</i></label>
+                            <textarea id="txtdesc" class="form-control" placeholder="Description" maxlength="500"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 form-inline">
+                        <label class=" my-1 control-label mr-3">Status<i>*</i></label>
+                        <div class="">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_active" type="radio" value="0" name="chkstatus">
+                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" id="is_in_active" type="radio" value="1" name="chkstatus">
+                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <div class=" btn-group">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4 class="margin-top">Asset Master List</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblasset" class="table nowrap w-100 no-margin"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hdnassetmasterid" />
+<script src="~/apiJS/Masters/JsAssetMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

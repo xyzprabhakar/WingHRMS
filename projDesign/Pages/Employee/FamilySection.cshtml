@@ -1,0 +1,159 @@
+﻿@page
+@{
+    ViewData["Title"] = "FamilySection";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Family Section</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c4" style="display:block;">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Company<i>*</i></label>
+                                <select id="ddlCompany" class="form-control bg-light">
+                                    <option>All</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Employee Code<i>*</i></label>
+                                <select id="ddlEmployeeCode" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_relation" class="col-form-label">Relation</label>
+                                <select id="ddlrelation" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_occupation" class="col-form-label">Occupation</label>
+                                <input type="text" id="occupation" placeholder="Occupation" onkeypress="return IsAlphabet(event);" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_name" class="col-form-label">Name (same as aadhar card)<i>*</i></label>
+                                <input type="text" id="name_as_per_aadhar_card" class="form-control" placeholder="Name (same as aadhar card)" onkeypress="return IsAlphabet(event);" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_aadhar" class="col-form-label">Aadhar Card No.</label>
+                                <input type="text" id="aadhar_card_number" maxlength="12" autocomplete="off" placeholder="Aadhar Card No" class="form-control" onchange="return ValidAdhar('aadhar_card_number');" onkeypress="return isNumberKey(event);" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbldob" class="col-form-label">Date Of Birth (same as aadhar card)</label>
+                                <input type="text" class="ip-ap form-control" readonly id="date_of_birth" placeholder="Date Of Birth" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_gender" class="col-form-label">Gender<i>*</i></label>
+                                <select id="gender" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_dependent" class="col-form-label">Dependent</label>
+                                <select id="dependent" class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Remarks</label>
+                                <textarea id="remark" class="form-control" placeholder="Remarks" onkeypress="return AlphaNumeric(event);"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lbl_nominee" class="col-form-label">Nominee</label>
+                                <select id="is_nominee" class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option selected="selected" value="2">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6" id="divnomineepercentage">
+                            <div class="form-group">
+                                <label class="col-form-label">Nominee Percentage</label>
+                                <input type="text" id="nominee_percentage" class="form-control" onkeydown="OnlyNumeric(event);" maxlength="3" placeholder="Nominee Percentage" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+
+                                <button type="button" class="btn btn-primary btn-lg" id="btnSaveFamilySection">Save</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnUpdateFamilySection">Update</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <h5 class="margin-top">Family Details</h5>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblFamily" class="table nowrap w-100"></table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+                    </div>
+
+                    <input type="hidden" id="HFb64document_image" />
+                    <input type="hidden" id="hdndocument_image" />
+                    <input type="hidden" id="hdnemp_family_section_id" />
+                    <input type="hidden" id="hdnemp_total_percentage" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script src="~/apiJS/Employee/JsFamilySection.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

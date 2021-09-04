@@ -1,0 +1,75 @@
+﻿@page
+@model projDesign.Pages.ePA.EpaStatusModel
+@{
+    ViewData["Title"] = "EpaStatus";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>EpaStatus</h2>
+<div class="panel ">
+    <h1>Epa Status</h1>
+    <hr />
+    <div class="form-container leave no-top-margin">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Status Name<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="StatusName" placeholder="Status Name" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Active<i>*</i></label></div>
+                <div class="col-md-6">
+                    <select id="ddlview">
+                        <option value="0">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Description<i>*</i></label></div>
+                <div class="col-md-9">
+                    <textarea type="text" maxlength="100" id="txtdescription" placeholder="Description.." style="height: 50px;resize:none;"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="clear"></div>
+        <hr />
+        <div class="col-md-12  btn-group text-rigth margin-top-btn">
+            <button type="button" class="btn" id="btnsave">Save</button>
+            <button type="button" class="btn" id="btnupdate">Update</button>
+            <button type="button" id="btnreset" class="btn">Reset</button>
+        </div>
+        <div class="clear"></div>
+        <h2 class="margin-top">Financial Year List</h2>
+
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="EpaStatus" class="table-defoult">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Status Name</th>
+                            <th>Active</th>
+                            <th>Description</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Leave/LeaveApplication.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

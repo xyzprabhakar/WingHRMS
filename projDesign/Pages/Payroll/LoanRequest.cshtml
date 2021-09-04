@@ -1,0 +1,182 @@
+﻿@page
+@{
+    ViewData["Title"] = "LoanRequest";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+
+    #ddlemp_chosen {
+        width: 100% !important;
+    }
+</style>
+
+<!-- tab link end -->
+
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @*<div class="card">
+            <nav class="payroll-nav is-hoverable shadow-sm bg-white rounded ">
+                <ul id="menu2">
+                    <li><a href="/Attendence/Attendence">Leave & Attendence</a></li>
+                    <li><a href="/Payroll/SalarySlips">Salary Slips</a></li>
+                    <li><a href="/Leave/LeaveBalance">Balance Leave</a></li>
+                    <li class="active"><a href="/payroll/LoanRequest">Loan Request</a></li>
+                    <li><a href="/payroll/AssetRequest">Asset Request</a></li>
+                </ul>
+
+            </nav>
+
+        </div>
+        <div class="clearfix"></div>*@
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Loan Request Form</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee Code<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlempcode" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="col-md-6">
+            <div class="col-md-3 text-rigth"><label>Employee Name<i>*</i></label></div>
+            <div class="col-md-6">
+                <input type="text" id="txtFirstName" maxlength="150" readonly="readonly" placeholder="Employee name" />
+            </div>
+        </div>*@
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan/Advance<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlloan" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Loan</option>
+                                <option value="2">Advance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Loan/Interest Rate<i>*</i></label></div>
+                        <div class="col-md-6">
+                            @*<select id="ddlrate" readonly="readonly">
+                    <option value="0">--Please Select--</option>
+                </select>*@
+                            <select id="ddlrate" class="form-control">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label" for="myalue">Amount<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txtloanAmt" maxlength="8" placeholder="Loan Amount" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Tenure (In Month) <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txttenure" maxlength="2" placeholder="Tenure (In month)" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Start Date <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="txteffectivedt" readonly="readonly" placeholder="Loan Effective Date" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Purpose of Loan<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <textarea id="purpose_of_loan" class="form-control" placeholder="Purpose of Loan" maxlength="300"></textarea>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12 form-group">
+                        <div class="">
+
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="chkpolicy" type="checkbox" name="chkpolicy">
+                                    <label class="custom-control-label" for="chkpolicy">   <span style="font-family:Verdana; text-align:justify;">I have read all the provision of company policy on loan/Advance and undertake to comply by them. I authorized the company to recover any outstanding amount under this policy from my salary / full and final settlement as the case may be.</span></label>
+                                </div>
+                            </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Loan Request Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblloanrequest" class="table nowrap w-100"></table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnmaxloanamt" />
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsLoanRequest.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

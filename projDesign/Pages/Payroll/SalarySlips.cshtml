@@ -1,0 +1,72 @@
+﻿@page
+@{
+    ViewData["Title"] = "SalarySlip";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+}
+<style>
+    .fc-event {
+        border: none !important;
+        border-color: none !important;
+        background-color: none !important;
+    }
+
+    .fc-day-grid-event {
+        margin: 1px 1px 0px;
+        padding: 0px 0px;
+    }
+</style>
+
+
+<!-- tab link end -->
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Salaray Slips</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlcompany" class="form-control"><option value="0">--Please Select--</option> </select>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    @*<div class="col-md-6 form-group">
+                        <div class="col-md-3 text-rigth"><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemployee" class="form-control">
+                            </select>
+                        </div>
+                    </div>*@
+
+
+
+                        <div class="col-md-12">
+                            <hr />
+                            <h4 class="margin-top">Salary Slips</h4>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive no-margin">
+                                <table id="tblsalaryslip" class="table nowrap w-100"></table>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="~/apiJS/Payroll/SalarySlip.js?ver=@DateTime.Now.Ticks.ToString()"></script>

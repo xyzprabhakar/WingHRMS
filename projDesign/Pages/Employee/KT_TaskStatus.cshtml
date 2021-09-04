@@ -1,0 +1,79 @@
+﻿@page
+@{
+    ViewData["Title"] = "KT_TaskStatus";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>KT Task Status</h4>
+                        <hr />
+                    </div>
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="description" class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlcompany" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee (Handover By)</label>
+                            <select id="ddlEmployeeCode" class="form-control labledropdown"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Task List</label>
+                            <select id="ddl_task_list" class="form-control labledropdown"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label asp-for="machinenumber" class="col-form-label">Task Status(%)<i>*</i></label>
+                            <input id="txtTaskStatus" type="text" maxlength="3" class="form-control number" autocomplete="off" placeholder="Task Status" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <div class=" btn-group">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <h4 class="mt-4">KT Task Status List</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblKTTaskStatus" class="table nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<input type="hidden" id="hdnsno" />
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Employee/JsKTStatus.js?ver=@DateTime.Now.Ticks.ToString()"></script>

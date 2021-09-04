@@ -1,0 +1,53 @@
+﻿@page
+@{
+    ViewData["Title"] = "View All Company";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-3">
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel">
+
+                <h4 class=" float-left">Company List</h4>
+
+                <a href="/CompanyMaster/Create" class="btn btn-primary float-right mt-1 mb-1">Create Company</a>
+                <div class="clearfix"></div>
+                <hr />
+                <div class="form-container">
+
+                    <div class="table-responsive">
+                        <table id="tblCompanyMaster" class="table dataTable nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Prefix Code</th>
+                                    <th>Number of Character for code</th>
+                                    <th>Address</th>
+                                    <th>Primary Email Id</th>
+                                    <th>Contact</th>
+                                    <th>Website</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                    <th>Modified Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/CompanyMaster/JsCompanyMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>

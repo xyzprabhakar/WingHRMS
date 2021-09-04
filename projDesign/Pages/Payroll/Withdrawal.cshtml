@@ -1,0 +1,169 @@
+﻿@page
+@{
+    ViewData["Title"] = "Withdrawal";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>FNF Withdrawal</h4><hr />
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Company <i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Employee <i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Resignation Date <i>*</i></label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtresign_dt" class="ip-ap form-control" placeholder="Resignation Date" />
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Last Working Date <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txt_last_working_dt" class="ip-ap form-control" placeholder="Last Working Date" />
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Notice Period (Days)<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txt_notice_days" class="form-control" placeholder="Notice Period (Days)" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Salary Process &nbsp;  &nbsp; Type <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlprocesstype" class="form-control">
+                                <option value="0">--Please Select--</option>
+                                <option value="1">Salary Hold for Resign</option>
+                                <option value="2">Salary Process and Hold</option>
+                                <option value="3">Salary Process</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Reason* </label></div>
+                        <div class="col-md-8">
+                            <select id="ddlreason" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 form-group" id="other_reason_div" style="display:none">
+                        <div class="col-md-4"><label class="col-form-label">Other Reason <i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtotherreason" placeholder="Other Reason" maxlength="200" class="form-control" onkeypress="return AlphaNumeric(event);" />
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Withdrawal Type <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlwithdrawaltype" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" id="divotherwithdrawaltype" style="display:none">
+                            <div class="col-md-4"><label class="col-form-label">Other Withdrawal Type <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="txtother_withdrawal" placeholder="Other Withdrawal Type" maxlength="200" onkeypress="return AlphaNumeric(event);" class="form-control" />
+                            </div>
+                        </div>*@
+
+
+                    @*<div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">Gratuity <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="gratuity">
+                                    <label class="custom-control-label" for="gratuity"></label>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="row col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Remarks </label></div>
+                        <div class="col-md-8">
+                            <textarea id="txtremarks" placeholder="Remarks" onkeypress="return AlphaNumeric(event);" maxlength="500" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row col-md-3 form-group">
+                        <div class="col-md-12 text-right" style="margin-left: 20%;">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chkKTReq" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chkKTReq">Is KT Transferred</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row col-md-3 form-group">
+                        <div class="col-md-12 text-left" style="margin-left: 20%;">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chkNoDueRequired" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chkNoDueRequired">Is No Dues Cleared</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h5 class="margin-top">FNF Withdrawal Details</h5>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_withdrawal_dtl" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <input type="hidden" id="hdn_spr_id" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Payroll/JsWithdrawal.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+

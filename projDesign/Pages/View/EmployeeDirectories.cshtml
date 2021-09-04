@@ -1,0 +1,63 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employee Directories";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+@*@if (User.IsInRole(""))
+    {
+
+    }*@
+<style>
+    #chart-area11 {
+        height: 282px !important;
+        width: 256px !important;
+    }
+</style>
+
+<!-- Page-Title -->
+
+<div class="col-sm-12">
+    <h4 class="page-title  pb-2">Employee Directories</h4>
+
+
+</div>
+
+
+
+<div class="col-md-12 col-md-12">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table dataTable nowrap w-100" id="tblemplistt_dir"></table>
+                    </div><!--end table-responsive-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashboard" style="display:block">
+
+    <div class="clear"></div>
+
+    <!-- cenyter panel end -->
+    <!-- calender start -->
+    <div class="clear"></div>
+    <div class="centerPanel col-md-12 " style="display:none">
+        <div class="calender-panel box">
+            <p class="navHeading">Event Calendar</p>
+            <hr />
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/Employee/JsEmployeeDir.js"></script>
+
+
+
+
+

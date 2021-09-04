@@ -1,0 +1,78 @@
+﻿@page
+@{
+    ViewData["Title"] = "HealthCard";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Health Card</h4><hr />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Employee<i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control">
+                                <option value="0">-Please Select-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Upload Health Card</label>
+                            <input type="file" id="File1" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label">Remarks</label>
+                            <textarea id="txtremarks" placeholder="Remarks" class="form-control" onkeypress="return AlphaNumeric(event);"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h5 class="margin-top">Health Card Details</h5>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblhealthcard" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="HFb64" />
+<input type="hidden" id="hdnEmployee_img" />
+<script src="~/apiJS/Employee/JsHealthCard.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,74 @@
+﻿@page
+@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h1>Settings</h1>
+                <hr />
+                <div class="form-container shift-settng">
+                    <div class="attendence-inner-panel">
+                        <div class="setting-panel">
+
+                            <div class="col-md-12 application-select-button">
+                                <button id="OTRules" class="tablinks active btn btn-primary">OT Rules </button>
+                                <button id="CompOffRule" class="tablinks btn btn-primary">Comp Off Rule</button>
+                            </div>
+
+                            <div id="DivOtRule">
+                                <div class="col-md-12">
+                                    <h5>OT RULES (Minimum hour required to get eligible for OT)</h5>
+                                    <hr />
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-6"><label class="col-form-label">Hour And Minutes</label></div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="iphr form-control" id="txtGraceWorkingHour" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnSaveOt">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ot and comb tab end -->
+                            <!-- leave tab end  -->
+                            <div id="DivCombOffRule" style="display:none;">
+                                <div class="col-md-12">
+                                    <h5>COMP OFF RULES (Minimum hour required to get eligible)</h5>
+                                    <hr />
+                                </div>
+
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-6"><label>Minimum working hours</label></div>
+                                    <div class="col-md-3"><input type="text" class="iphr form-control" id="txtMinimumWorkingHours" readonly></div>
+
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-primary btn-lg" id="btnSaveCombOffRules">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- pfsi tab end  -->
+
+
+                        </div>
+                        <!-- setting panel edn -->
+
+                    </div>
+
+                </div>
+                <script src="~/apiJS/Masters/JsCombOffAndOTSetting.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+            </div>
+        </div>
+    </div>
+</div>

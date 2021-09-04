@@ -1,0 +1,98 @@
+﻿@page
+@{
+    ViewData["Title"] = "LeaveApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("PartialLayoutMyTeamTab");*@
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel attendence-master-panel no-top-margin">
+                <h1>Leave Application Approval</h1>
+                <hr />
+                <div class="form-container leavesetting leave">
+                    <div class="attendence-inner-panel">
+                        <div class="form-group">
+                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-6">
+                                <div class="col-md-3 text-rigth"><label>Select Year<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <select id="ddl_year" class="form-control">
+                                        <option value="2021" selected="selected">2021</option>
+                                        <option value="2020">2020</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"> &nbsp;</div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="table-responsive no-margin">
+                                    <table id="tblleaveapp" class="table w-100 nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Employee Code</th>
+                                                <th>Employee Name</th>
+                                                <th>Leave Type</th>
+                                                <th>Duration</th>
+                                                <th>From Date</th>
+                                                <th>To Date</th>
+                                                <th>Leave Quantity</th>
+                                                <th>Requested Date</th>
+                                                <th>Requester Remarks</th>
+                                                <th>My Status</th>
+                                                <th>Final Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="leave_action_div" style="display:none">
+
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-3 text-rigth"><label>Action<i>*</i></label></div>
+                                <div class="col-md-6">
+                                    <select id="ddlaction_type" class="form-control">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">Approve</option>
+                                        <option value="2">Reject</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                                <div class="col-md-6">
+                                    <textarea id="txtremarks" class="form-control" placeholder="remark/comment.." maxlength="100" style="height:40px;resize:none;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+
+                                <div class="form-group text-center">
+                                    <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Leave/LeaveApprove.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>

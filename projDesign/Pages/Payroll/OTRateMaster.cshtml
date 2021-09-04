@@ -1,0 +1,106 @@
+﻿
+
+@page
+@{
+    ViewData["Title"] = "OTRateMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin not-res">
+                    <div class="col-md-12">
+                        <h4>OverTime(OT) Rate Master</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Grade<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlgrade" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemp" class="form-control">
+                                <option value="-1">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">OT Amount<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtamt" class="form-control" maxlength="8" placeholder="OT Amount" onkeydown="OnlyNumeric(event);" />
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">OverTime Rate Details</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblOT" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Company</th>
+                                        <th>Employee</th>
+                                        <th>Grade</th>
+                                        <th>OT Rate</th>
+                                        <th>Created Date</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                           
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Payroll/JSOTRate.js?ver=@DateTime.Now.Ticks.ToString()"></script>

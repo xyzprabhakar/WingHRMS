@@ -1,0 +1,124 @@
+﻿@page
+
+@{
+    ViewData["Title"] = "SalaryGroupMapEmpModel";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("PartialLayout")</div>*@
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+</style>
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+                 
+                <div class="form-container leave no-top-margin not-res">
+                    <div class="col-md-12">
+                        <h4>Map Employee In Salary Group@*Salary Group Map Employee*@</h4>
+                        <hr />
+                    </div>
+
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemp" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Grade<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="hidden" name="ddlgrade" value="" />
+                            <select id="ddlgrade" class="form-control" disabled>
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Salary Group<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlsalgroup" class="form-control">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Effective from <i>*</i></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="txteffdate" readonly="readonly" class="form-control" placeholder="01-Jan-2000" />
+                            @*<input type="text" id="txteffdate" maxlength="10" autocomplete="off" placeholder="Effective Date" onkeydown="return false;" />*@
+                        </div>
+                    </div>
+
+                    @*<div class="clear"></div>
+        <div class="tab-link">
+            <ul id="ul_textbox"></ul>
+        </div>
+        <div class="clear"></div>
+        <hr />
+        <div class="col-md-12">
+            <div class=" btn-group text-rigth margin-top-btn">
+                <button type="button" class="btn" id="btncal">Calculate</button>
+            </div>
+        </div>*@
+
+                    <div class="col-md-12">
+                       
+                        <div class="form-group text-center">
+                           
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4 class="margin-top">Map Employee In Salary Group Details@*Salary Group Map Employee List*@</h4>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblsalgroupmap" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+                <input type="hidden" id="hdnid" />
+                <input type="hidden" id="hdneffectivedt" />
+                <script src="~/apiJS/Payroll/JsSalGroupMapEmp.js?ver=@DateTime.Now.Ticks.ToString()"></script>

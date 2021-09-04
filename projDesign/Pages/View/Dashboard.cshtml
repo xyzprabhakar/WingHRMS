@@ -1,0 +1,498 @@
+﻿@page
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .fc-day-grid-container.fc-scroller {
+        height: auto !important;
+        overflow-y: auto;
+    }
+</style>
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+
+    .ui-widget-header {
+        background: #44a2d2 !important;
+        color: #ffffff !important;
+        font-size: large;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+    #tbl_attendance_details th{
+        font-weight:bold;
+    }
+    #tbl_attendance_details tbody tr td{
+        font-size:15px;
+    }
+</style>
+
+<!-- tab link end -->
+
+
+<div class="col-xl-12 ">
+    <div class="row ">
+        <div class="col-md-12  order-sm-0 ">
+            @*@Html.Partial("PartialLayoutMeTab")*@
+        </div>
+        <div class="col-md-9 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group" style="width: 50%;margin-left: 25%;">
+                        <select id="ddlemployeelist" data-placeholder="Employee Name & Code" class="width-87">
+                            @*<option value="0">--Select--</option>*@
+                        </select>
+                    </div>
+                    <div>
+                        <div id='attendancecal'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body p-2">
+                    <div class="attendece-summary-header">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>In Time</h5>
+
+                                    <p><span id="lbl_my_in_time">00:00</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Out Time</h5>
+                                    @*<p><span id="lblfromdate"></span> to <span id="lbltodate"></span></p>*@
+                                    <p><span id="lbl_my_out_time">00:00</span></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <h5 class="pt-0 text-center">Current Shift : <span id="cShiftName"></span></h5>
+                    <div class="">
+                        <table class="table-striped table mytbsize">
+                            <tr><td>In time</td><td><span id="cInTime"></span></td></tr>
+                            <tr><td>Grace in time</td><td><span id="cGInTime"></span></td></tr>
+                            <tr><td>Out time</td><td><span id="cOutTime"></span></td></tr>
+                            @*<tr><td>Grace out time</td><td><span id="cGOutTime"></span></td></tr>*@
+                            <tr><td>Total shift hours</td><td><span id="TShiftHrs"></span></td></tr>
+                            @*<tr><td>Attendance Status</td><td><span id="AttStatus"></span></td></tr>*@
+                        </table>
+                    </div>
+
+                    <hr />
+
+                    <!--header end-->
+                    <h5 class="pt-0 text-center">Selected Date : <span id="SelectDate"></span></h5>
+                    <div id="DivSelectedDate">
+                        <table class="table-striped table  mytbsize compact">
+                            @*<tr><td>Shift</td><td><span id="SelectSName"></span></td></tr>*@
+                            @*<tr><td>Actual time in</td><td><span id="SelectATimeIn"></span></td></tr>
+                                <tr><td>Actual time out</td><td><span id="SelectATimeOut"></span></td></tr>*@
+                            <tr><td>Total Working Hrs</td><td><span id="SelectATSHrs"></span></td></tr>
+                            @*<tr><td>Actual total shift Hrs</td><td><span id="SelectATSHrs"></span></td></tr>
+                                <tr><td>Actual attendance Hrs</td><td><span id="SelectAAHrs"></span></td></tr>*@
+                            <tr><td>Attendance Status</td><td><span id="SelectAStatus"></span></td></tr>
+                        </table>
+                    </div>
+
+                    <!--table responsive end-->
+                    <div class="color-box-container font-weight-bold">
+                        <div class="color dblock" style="background-color: rgba(10, 207, 151, 0.18);color: #059a70;">Present</div>
+                        <div class="color" style="background-color: rgba(241, 85, 108, 0.18);color: #f1556c;">Absent</div>
+                        <div class="color" style="background-color: rgba(45, 123, 244, 0.18);color: #2d7bf4;">Leave</div>
+                        <div class="color " style="background-color:rgba(234, 175, 4, 0.34); color: #946f04;">Holiday</div>
+                        <div class="color " style="background-color: rgba(119, 126, 221, 0.18);color: #4c5ad6;">Outdoor</div>
+                        <div class="color" style="background-color: rgba(255, 103, 155, 0.18);color: #ff679b;">Compoff</div>
+                        <div class="color gray" style="background: #f1efef;">Weekoff</div>
+                        <div class="color" style="background-color: #f9d9c6;color: #985c38;" title="Half Day Present/Absent">Half Day</div>
+                        @*<div class="color" style="background-color: #f9d9c6;color: #985c38;" title="Half Day Present/Absent">Half Day Absent</div>
+                            <div class="color" style="background-color: #f7d7f7;color: #a750a7;" title="Half Day Present/Leave">Half Day Leave</div>
+                              <div class="color" style="background-color: #9b6ee447;color: #785fa0;" title="Half Day Leave/Absent">Half Day</div>*@
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="div_show_manager">
+                <div class="card">
+                    <div class="card-body p-2">
+                        <div class="box newBox pendingRequest">
+                            <h5 class="navHeading"><i class="fa fa-tasks"></i> Reporting Manager</h5>
+                            <hr />
+                            <div id="div_manager_list" class="col-md-12">
+                                <div class="col-md-6 ">
+                                    <label id="lblmanager1"></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <b><p id="lblmanager1_is_final"></p></b>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="col-md-6 ">
+                                    <label id="lblmanager2"></label>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <b><p id="lblmanager2_is_final"></p></b>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="col-md-6 ">
+                                    <label id="lblmanager3"></label>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <b><p id="lblmanager3_is_final"></p></b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="card">
+                <div class="card-body  pt-2 pb-0">
+
+                    <h5 class="pt-0">Monthly Summary</h5>
+                    <div class="table-responsive">
+                        <table class="table table-small-font table-striped">
+                            <tr><td>Present</td><td><span id="lblPresent"></span></td></tr>
+                            <tr><td>Absent</td><td><span id="lblAbsent"></span></td></tr>
+                            <tr><td>Late in/ Early Out</td><td><span id="lblLateIn"></span></td></tr>
+                            <tr><td>Leave</td><td><span id="lblLeave"></span></td></tr>
+                            <tr><td>Outdoor</td><td><span id="lblOutdoor"></span></td></tr>
+                            <tr><td>Compoff</td><td><span id="lblCompoff"></span></td></tr>
+                            <tr><td>Weekly off</td><td><span id="lblWeeklyOff"></span></td></tr>
+                            <tr><td>Holidays</td><td><span id="lblHoliday"></span></td></tr>
+                            <tr><td>Half Day</td><td><span id="lblHalfDay"></span></td></tr>
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+        @*<div class="col-md-4">
+
+            <div class="card">
+                <div class="card-body  pt-2 pb-0">
+                    <h5 class="pt-0">Current Shift : <span id="cShiftName"></span></h5>
+                    <div class="">
+                        <table class="table-striped table mytbsize">
+                            <tr><td>In time</td><td><span id="cInTime"></span></td></tr>
+                            <tr><td>Grace in time</td><td><span id="cGInTime"></span></td></tr>
+                            <tr><td>Out time</td><td><span id="cOutTime"></span></td></tr>*@
+        @*<tr><td>Grace out time</td><td><span id="cGOutTime"></span></td></tr>*@
+        @*<tr><td>Total shift hours</td><td><span id="TShiftHrs"></span></td></tr>
+                                <tr><td>Attendance Status</td><td><span id="AttStatus"></span></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>*@
+
+
+
+        <div class="col-md-4">
+
+            <div class="card">
+                <div class="card-body p-3 pt-2 pb-0">
+                    <h5 class="pt-0">Balance Leave</h5>
+                    <div>
+                        <table id="tbleavebalance" class="table compact mytbsize table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Leave Name</th>
+                                    <th>Leave Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            @*<tr><td>Earned Leave</td><td><span id="EarLeave"></span></td></tr>
+                                <tr><td>Casual Leave</td><td><span id="CasualLeave"></span></td></tr>
+                                <tr><td>Sick Leaves</td><td><span id="SickLeave"></span></td></tr>
+                                <tr><td>Comp Off</td><td><span id="CompoffLeave"></span></td></tr>
+                                <tr><td>Leave Without Pay</td><td><span id="LWP"></span></td></tr>*@
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div id="div_left_user">
+            <div class="container-fluid">
+                <div class="row">
+
+
+
+                    <div class=" col  " id="div_chart">
+                        <div class="card ">
+                            <div class="card-body">
+
+                                <h5 class="">Attendance Summary</h5>
+                                <hr />
+                                <div class="clearfix"></div>
+                                <div id="donut-user-chart" class="morris-chart workloed-chart"></div>
+                                <ul class="list-unstyled text-center text-muted mb-0">
+                                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-purple mr-2"></i>On Leave</li>
+                                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-pink mr-2"></i>Present</li>
+                                    <li class="list-inline-item font-13"><i class="mdi mdi-album font-16 text-light mr-2"></i>Absent</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="  col" id="divpendingRequest">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="box newBox pendingRequest">
+                                    <h5 class="pt-0"><i class="fa fa-history"></i> Pending Request for Approval</h5>
+                                    <hr />
+
+                                    <a href="/Leave/LeaveApproval" class=" w-100 d-inline-block">
+                                        <span id="lblleaver_rqst" class="btn btn-warning btn-sm col-3 "></span>
+                                        <span class="  col-9 text-right"> Leave Application</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+                                    <a href="/Leave/AttandenceApproval" class=" w-100 d-inline-block mt-3">
+                                        <span id="lblattandance_rqst" class="btn btn-pink btn-sm col-3 dblock float-left"></span>
+                                        <span class=" col-9  float-left">Attendance Application</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+                                    <a href="/Leave/OutdoorLeaveApproval" class=" w-100 d-inline-block mt-3">
+                                        <span id="lbloutdoor_rqst" class="btn btn-info btn-sm col-3 "></span>
+                                        <span class=" col-9 text-right">Outdoor Application</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+                                    <a href="/Leave/CompOffLeaveApproval" class=" w-100 d-inline-block mt-3">
+                                        <span id="lblcompoff_rqst" class="btn btn-purple btn-sm col-3 "></span>
+                                        <span class="col-9 text-right"> Compoff Application</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+                                    <a href="/Payroll/LoanRequestApproval" class=" w-100 d-inline-block mt-3">
+                                        <span id="lblloan_rqst" class="btn btn-primary btn-sm col-3 "></span>
+                                        <span class=" col-9 text-right"> Loan Request</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+                                    <a href="/Payroll/AssetRequestApproval" class=" w-100 d-inline-block mt-3">
+                                        <span id="lblasset_rqst" class="btn btn-success btn-sm col-3 "></span>
+                                        <span class=" col-9 text-right"> Asset Request</span>
+                                    </a>
+
+
+                                    <div class="clear"></div>
+
+
+
+                                    @*<div class="col-md-3 text-center">
+                                            <label style="background-color: #4dd24d;" id="lblreimbursment_rqst"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="/Payroll/reimrequestapproval">Reimbursment Request</a></p>
+                                        </div>
+                                        <div class="clear"></div>*@
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <!--Event Notification End-->
+        </div>
+
+
+        <div id="div_left_user_2">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <!--<div class="  col" id="divpendingRequest">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="box newBox pendingRequest">
+                                            <h5 class="pt-0"><i class="fa fa-history"></i> Pending Request</h5>
+                                            <hr />
+
+                                            <a href="/Leave/LeaveApproval" class=" w-100 d-inline-block">
+                                                <span id="lblleaver_rqst" class="btn btn-warning btn-sm col-3 "></span>
+                                                <span class="  col-9 text-right"> Leave Application</span>
+                                            </a>
+
+                                            <div class="clear"></div>
+
+                                            <a href="/Leave/AttandenceApproval" class=" w-100 d-inline-block mt-3">
+                                                <span id="lblattandance_rqst" class="btn btn-pink btn-sm col-3 dblock float-left"></span>
+                                                <span class=" col-9  float-left">Attendance Application</span>
+                                            </a>
+
+
+                                            <div class="clear"></div>
+
+                                            <a href="/Leave/OutdoorLeaveApproval" class=" w-100 d-inline-block mt-3">
+                                                <span id="lbloutdoor_rqst" class="btn btn-info btn-sm col-3 "></span>
+                                                <span class=" col-9 text-right">Outdoor Application</span>
+                                            </a>
+
+
+                                            <div class="clear"></div>
+
+                                            <a href="/Leave/CompOffLeaveApproval" class=" w-100 d-inline-block mt-3">
+                                                <span id="lblcompoff_rqst" class="btn btn-purple btn-sm col-3 "></span>
+                                                <span class="col-9 text-right"> Compoff Application</span>
+                                            </a>
+
+
+                                            <div class="clear"></div>
+
+                                            <a href="/Payroll/LoanRequestApproval" class=" w-100 d-inline-block mt-3">
+                                                <span id="lblloan_rqst" class="btn btn-primary btn-sm col-3 "></span>
+                                                <span class=" col-9 text-right"> Loan Request</span>
+                                            </a>
+
+
+                                            <div class="clear"></div>
+
+                                            <a href="/Payroll/AssetRequestApproval" class=" w-100 d-inline-block mt-3">
+                                                <span id="lblasset_rqst" class="btn btn-success btn-sm col-3 "></span>
+                                                <span class=" col-9 text-right"> Asset Request</span>
+                                            </a>
+
+
+                                            <div class="clear"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    -->
+
+                    <div class=" col " id="div_show_event_notification">
+                        <div class="card">
+                            <div class="card-body">
+                                Event Notification START
+                                <div class="box newBox pendingRequest">
+                                    <h5 class="navHeading"><i class="fas fa-bullhorn"></i> Events</h5>
+                                    <hr />
+                                    <marquee direction="up" scrollamount="2" class="marqueenotification" onmouseover="this.stop();" onmouseout="this.start();">
+                                        <ul id="notificationlist" class="headNav"></ul>
+                                    </marquee>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="popupopp_attendnce_details" class="modal">
+        <div class="panel" style="padding:5px">
+            <div class="table-responsive no-margin">
+                <div class="form-container master-panel desination-panel">
+                    <table width="100%" id="tbl_attendance_details">
+
+                        <tbody></tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="popupopp_outdoor_details" class="modal">
+        <div class="panel" style="padding:5px">
+            <div class="table-responsive no-margin">
+                <div class="form-container master-panel desination-panel">
+                    <table width="100%" id="tbl_outdoor_details">
+
+                        <tbody></tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+          
+<script>
+    $(document).ready(function () {
+        $("#mainTable").css("width", "10%");
+    });
+</script>
+
+@*<script src="~/apiJS/Attendence/JsApplicationLink.js"></script>*@
+<script src="~/apiJS/View/JsApplicationLink.js"></script>
+<script src="~/apiJS/Employee/PayrollCalender.js"></script>
+

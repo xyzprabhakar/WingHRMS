@@ -1,0 +1,474 @@
+﻿@page
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel report-panel">
+    <h1>Reports</h1>
+    <hr />
+    <div class="form-container">
+        <div class="col-md-12">
+            <div class="report-heading"><h3>Report</h3></div>
+            <div class="report-option-heading">
+                <input type="radio" name="report" checked id="dlcheckbox" /><label>Daily</label>
+                <input type="radio" name="report" id="mncheckbox" /><label>Monthly</label>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="dailly-report-panel report-tag no-top-margin " id="dailyreport" style="display:block;">
+            <h4>Daily Report</h4>
+            <hr />
+            <div class="report-form-inner">
+                <div class="col-md-6">
+                    <div class="tag-form">
+                        <label>Location</label>
+                        <select>
+                            <option>All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="tag-form">
+                        <label>Department</label>
+                        <select>
+                            <option>All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>Form Date</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>To Date</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>Shift</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+            </div>
+            <!--report form inner panel end-->
+            <div class="col-md-6">
+                <div class="report-option-select select-left-panel">
+                    <div class="col-md-12">
+                        <input type="radio" name="selectType" /><label>All Employee</label>
+                        <input type="radio" name="selectType" /><label>Selected Employee</label>
+                    </div>
+                    <div class="clear"></div>
+                    <hr />
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Select</th>
+                                    <th>Employee Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <!-- table responsive end-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="report-option-select select-rigth-panel">
+                    <div class="col-md-12"><h6>Choose Report</h6></div>
+                    <div class="clear"></div>
+                    <hr />
+                    <ul>
+                        <li><input type="radio" name="reportSelect" /><label>Absent Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Performance Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Present Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Manual Punch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Late Punch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Mispunch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Early Punch Out</label></li>
+                    </ul>
+
+
+
+                </div>
+                <!--right select panel end-->
+            </div>
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-12 btn-group text-rigth">
+                <button class="btn">View Report</button>
+            </div>
+            <div class="clear"></div>
+            <div class="report_view">
+                <hr />
+                <div class="col-md-6"><h1>Report Name</h1></div>
+                <div class="col-md-6 text-rigth">
+                    <button class="printbtn">print</button>
+                </div>
+                <div class="clear"></div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Card No</th>
+                                <th>Employee Name</th>
+                                <th>Date</th>
+                                <th>Shift</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Worked Hrs</th>
+                                <th>Late In Hrs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- table responsive-->
+
+
+
+
+
+
+            </div>
+            <div class="clear"></div>
+
+
+
+
+
+
+        </div>
+        <!--daily report panel end-->
+
+        <div class="monthlt-report-panel report-tag" id="monthlyreport">
+            <h4>Monthly Report</h4>
+            <hr />
+            <div class="report-form-inner">
+                <div class="col-md-6">
+                    <div class="tag-form">
+                        <label>Location</label>
+                        <select>
+                            <option>All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="tag-form">
+                        <label>Department</label>
+                        <select>
+                            <option>All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>Form Date</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>To Date</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tag-form">
+                        <label>Shift</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+            </div>
+            <!--report form inner panel end-->
+            <div class="col-md-6">
+                <div class="report-option-select select-left-panel">
+                    <div class="col-md-12">
+                        <input type="radio" name="selectType" /><label>All Employee</label>
+                        <input type="radio" name="selectType" /><label>Selected Employee</label>
+                    </div>
+                    <div class="clear"></div>
+                    <hr />
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Select</th>
+                                    <th>Employee Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox" /></td>
+                                    <td>GC254</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <!-- table responsive end-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="report-option-select select-rigth-panel">
+                    <div class="col-md-12"><h6>Choose Report</h6></div>
+                    <div class="clear"></div>
+                    <hr />
+                    <ul>
+                        <li><input type="radio" name="reportSelect" /><label>Absent Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Performance Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Present Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Manual Punch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Late Punch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Mispunch Report</label></li>
+                        <li><input type="radio" name="reportSelect" /><label>Early Punch Out</label></li>
+                    </ul>
+
+
+
+                </div>
+                <!--right select panel end-->
+            </div>
+            <div class="clear"></div>
+            <div class="clear"></div>
+            <hr />
+            <div class="col-md-12 btn-group text-rigth">
+                <button class="btn">View Report</button>
+            </div>
+            <div class="clear"></div>
+            <div class="report_view">
+                <hr />
+                <div class="col-md-6"><h1>Report Name</h1></div>
+                <div class="col-md-6 text-rigth">
+                    <button class="printbtn">print</button>
+                </div>
+                <div class="clear"></div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Card No</th>
+                                <th>Employee Name</th>
+                                <th>Date</th>
+                                <th>Shift</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Worked Hrs</th>
+                                <th>Late In Hrs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>00875</td>
+                                <td>xyz</td>
+                                <td>12.08.2018</td>
+                                <td>genral</td>
+                                <td>10:00 AM</td>
+                                <td>6:30 PM</td>
+                                <td>8 Hrs</td>
+                                <td>0 Hrs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- table responsive-->
+
+
+
+
+
+
+            </div>
+            <div class="clear"></div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+    <!--form container end-->
+
+</div><!--panel end-->
+
+<script>
+    $('#dlcheckbox').on('click', function () {
+        $('#monthlyreport').hide();
+        $('#dailyreport').show();
+    });
+    $('#mncheckbox').on('click', function () {
+        $('#monthlyreport').show();
+        $('#dailyreport').hide();
+    });
+</script>
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,166 @@
+﻿@page
+@{
+    ViewData["Title"] = "FNFProcess";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12 mt-3">
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel">
+
+                    <div class="col-md-12">
+                        <button id="btnprint" class="btn btn-primary">Print</button>
+                   
+                        <button id="btnemail" class="btn btn-primary">Email to Employee</button>
+                    </div>
+
+                    <div class="form-container" id="rptdtl">
+
+
+                        <div class="col-md-3 form-group">
+                            <img src="#" />
+                        </div>
+                        <div class="col-md-9 form-group">
+                            <div class="col-md-12">
+                                <label class="col-form-label" id="compname">Sakshem IT Solutions</label>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="col-form-label" id="compname">Sakshem IT Solutions</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="empcode" class="col-form-label">Employee Code</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_empcode"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="empname" class="col-form-label">Employee Name</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_empname"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="division" class="col-form-label">Division</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_division"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="zone" class="col-form-label">Zone</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_state"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="locaiton" class="col-form-label">Work Location</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_location"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="department" class="col-form-label">Department</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_dept"></label></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="designation" class="col-form-label">Designation</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_desig"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="grade" class="col-form-label">Grade</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_grade"></label></div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="doj" class="col-form-label">Date of Joining</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_doj"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="pan" class="col-form-label">PAN No.</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_pan"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="pf_account_no" class="col-form-label">PF Account No.</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_pf_account_no"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="esic" class="col-form-label">ESIC No.</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_esic_no"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="uan_no" class="col-form-label">UAN No.</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_uan"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="total_days" class="col-form-label">Total Days</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_state"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="paiddays" class="col-form-label">Paid Days</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_paiddays"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="resign_dt" class="col-form-label">Resignation Date</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_resign_dt"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="relieve_dt" class="col-form-label">Final Relieve</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_final_relieve_dt"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="gross" class="col-form-label">Gross</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_gross"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="encash_days" class="col-form-label">Encashment Days</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_encash_days"></label></div>
+                        </div>
+
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="notice_recovery_days" class="col-form-label">Notice Recovery Days</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_notice_recovery_days"></label></div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label asp-for="notice_pay_days" class="col-form-label">Notice Payment Days</label></div>
+                            <div class="col-md-8"><label class="col-form-label" id="lbl_noticepay_days"></label></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="tblfnfdtl" class="table dataTable nowrap w-100"></table>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 form-group">
+                          <label asp-for="settlement_amt" class="col-form-label">Settlement Amount :</label>
+                            <label asp-for="net_pay" class="col-form-label" id="lblnet_pay"></label>
+                            <label asp-for="net_pay_words" class="col-form-label" id="lbl_net_pay_words"></label>
+                        </div>
+                    </div>
+
+                <div class="col-md-12">
+                    <label class="col-form-label">This is a system generated report and does not require signature or stamp</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

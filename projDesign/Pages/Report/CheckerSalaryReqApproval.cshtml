@@ -1,0 +1,131 @@
+﻿@page
+@{
+    ViewData["Title"] = "CheckerSalaryReqApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+</style>
+
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body ">
+
+                <div class="panel">
+                    <h1>Checker's Salary Request Approval</h1>
+                    <hr />
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tblSalRequest" class="table w-100 nowrap"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div id="leave_action_div" style="display:none">
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3 text-rigth"><label>Action<i>*</i></label></div>
+                            <div class="col-md-6">
+                                <select id="ddlaction_type" class="form-control">
+                                    <option value="2">--Select--</option>
+                                    <option value="1">Approve</option>
+                                    <option value="0">Reject</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3 text-rigth"><label>Remarks</label></div>
+                            <div class="col-md-6">
+                                <textarea id="txtremarks" class="form-control" placeholder="remark/comment.." maxlength="100" style="height:40px;resize:none;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group text-center">
+                                <button type="button" class="btn btn-primary btn-lg" id="BtnSave">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/apiJS/Reports/JsCheckerSalaryReqApproval.js"></script>
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                    width: 88%;
+                }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 80 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="divModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+                <table id="tbl_Report" class="table nowrap w-100 no-margin">
+                    <thead>
+                        <tr>
+                            <th style="background-color:lightskyblue">S#</th>
+                            <th style="background-color:lightskyblue">Salary Item</th>
+                            <th style="background-color:lightskyblue">Current Salary</th>
+                            <th style="background-color:lightskyblue">Revised Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

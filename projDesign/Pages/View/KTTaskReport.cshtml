@@ -1,0 +1,38 @@
+﻿@page
+@{
+    ViewData["Title"] = "KT Task Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@*@Html.Partial("PartialLayoutMyTeamTab")*@
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="col-md-12 mt-3">
+
+                    <h4 class="float-left">KT Task List</h4>
+                  
+
+                </div>
+                <div class="form-container row master-panel">
+                    <div class=" col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tbl_kt_task_list" class="table nowrap w-100"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/View/JsKTTaslReport.js"></script>
+
+ 
+
+
+
+

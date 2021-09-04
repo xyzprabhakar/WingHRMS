@@ -1,0 +1,156 @@
+﻿@page
+@{
+    ViewData["Title"] = "ReimRequestApproveReject";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="panel ">
+    <div class="col-md-12 application-select-button">
+        <button id="OutdoorLeaveApproval" class="button">Outdoor Leave Approval</button>
+        <button id="LeaveApproval" class="button ">Leave Approval</button>
+        <button id="AttandenceApproval" class="button ">Attendance Approval</button>
+        <button id="CompOffLeaveApproval" class="button">CompOff Leave Approval</button>
+        <button id="LoanRequestApproval" class="button">Loan Approval</button>
+    </div>
+    <div class="clear"></div><br />
+    <div class="col-md-12 application-select-button">
+        @*<button id="ReimbursmentApproval" class="button active">Reimbursment Approval</button>*@
+        <button id="AssetRequestApproval" class="button">Asset Request Approval</button>
+    </div>
+
+</div>
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin not-res">
+                    <div class="col-md-12">
+                        <h4>Reimbursment Request Approval/Reject</h4>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <table id="tblreimbrequestapproval" class="table nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Company</th>
+                                        <th>Employee</th>
+                                        <th>Request Type</th>
+                                        <th>Financial Year</th>
+                                        <th>Month Year</th>
+                                        <th>Total Amount</th>
+                                        <th>Created On</th>
+                                        <th>Modified On</th>
+                                        <th>Remarks</th>
+                                        <th>View</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="~/apiJS/Payroll/JsReimbursementRequest.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+@*When click on view than Modal Popup Open*@
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+        width: 88%;
+    }*/
+
+</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="width:600px;height:320px">
+        <div class="panel ">
+            <h1>Reimbursment Request Details</h1>
+            <hr />
+            <div class="table-responsive no-margin">
+                <table id="tblreimb_req_dtl" class="table-defoult no-margin">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Category</th>
+                            <th>Bill Amount</th>
+                            <th>Requested Amount</th>
+                            <th>Bill Date</th>
+                            <th>Created On</th>
+                            <th>Modified On</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/apiJS/Attendence/JsApplicationLink.js"></script>
+
+<script>
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+
+

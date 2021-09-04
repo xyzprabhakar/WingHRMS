@@ -1,0 +1,245 @@
+﻿@page
+@{
+    ViewData["Title"] = "FNFProcess";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .hide_column {
+        display: none;
+    }
+</style>
+
+<div class="col-xl-12">
+
+    <div class="card">
+        <div class="card-body">
+            @Html.Partial("FNFProcess/_PartialFNFProcess")
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-12 mt-4">
+                <div class="tab btn-group btn-block">
+                    @*<button id="tab1_btn" class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tab1asset')"> Asset</button>*@
+                    <button id="tab2_btn" class="tablinks  btn btn-primary text-light  col-6" onclick="openCity(event, 'tab2attendance')"> Attendance</button>
+                    @*<button id="tab3_btn" class="tablinks  btn btn-outline-light  col-6 " onclick="openCity(event, 'tab3Loan')"> Loan</button>*@
+                    @*<button id="tab4_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab4remibursment')"> Reimbursment</button>*@
+                    @*<button id="tab5_btn" class="tablinks  btn btn-outline-light  col-6 " onclick="openCity(event, 'tab5salary')"> Salary</button>*@
+                    <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab6settlement')"> Settlement</button>
+                    <button id="tab7_btn" class="tablinks  btn btn-outline-light  col-6 " onclick="openCity(event, 'tab7report')"> Report</button>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+                <div id="tab1asset" class="tabcontent" style="display: none;">
+                    <div class="slider-wrap">
+                        <div class="clear"></div>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="tbl_asset_request" class="table nowrap w-100 no-margin"></table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        <div class="col-md-12" id="divassetsave" style="display:none">
+                            <hr />
+                            <div class="form-group text-left">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnasset_save">Save</button>
+                                <button type="button" class="btn btn-primary btn-lg" id="btnasset_cncl">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- first tab end -->
+
+                <div id="tab2attendance" class="tabcontent" style="display: block;">
+
+                    <div class="slider-wrap">
+                        <div class="slider" id="slider2">
+                            @Html.Partial("FNFProcess/FNFAttendance")
+                            <div class="slider-wrap" style="width: auto; height: auto;">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="tab3Loan" class="tabcontent" style="display: none;">
+
+                    <div class="slider-wrap">
+                        <div class="slider" id="slider2">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblloan" class="table nowrap w-100 no-margin"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="divloansave" style="display:none">
+                                <hr />
+                                <div class="form-group text-left">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnloan_save">Save</button>
+                                </div>
+                            </div>
+                            <div class="slider-wrap" style="width: auto; height: auto;">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="tab4remibursment" class="tabcontent" style="display: none;">
+
+                    <div class="slider-wrap">
+                        <div class="slider" id="slider2">
+                            @Html.Partial("FNFProcess/Reimbursment");
+                            <div class="slider-wrap" style="width: auto; height: auto;">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="tab5salary" class="tabcontent" style="display: none;">
+                    @*  <div class="row">
+                            <div class="col-md-3 form-group">
+                                <div class="checkbox">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="noticerecovery_days_app">
+                                        <label class="custom-control-label" for="noticerecovery_days_app">Notice Recovery Days Applicable</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 form-group" id="divnotice_days" style="display:none">
+                                <input type="text" id="txtnotice_recovery_day" placeholder="Notice Recovery Days Applicable" class="form-control" maxlength="5" onkeypress="isNumberKey(event,this)" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <div class="checkbox">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="notice_payment_app">
+                                        <label class="custom-control-label" for="notice_payment_app">Notice Payment Applicable</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group" id="divnotice_payemnt" style="display:none">
+                                <input type="text" id="txtnotice_payment" placeholder="Notice Payment Applicable" class="form-control" maxlength="5" onkeypress="isNumberKey(event,this)" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label class="col-form-label"></label>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="tblsalary_dtl" class="table nowrap w-100 no-margin"></table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="form-group text-left">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnfnf_process">FNF Process</button>
+                            </div>
+                        </div>
+
+                        <div class="slider-wrap">
+                            <div class="slider" id="slider2">
+
+                                <div class="slider-wrap" style="width: auto; height: auto;">
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>>*@
+                </div>
+
+                <div id="tab6settlement" class="tabcontent" style="display: none;">
+
+                    <div class="slider-wrap">
+                        <div class="slider" id="slider2">
+                            <div class="col-md-6 form-group">
+                                <label class="col-form-label">Net Amount</label>
+                                <input type="text" id="txtsettlement_net_amt" placeholder="Net Amount" disabled class="form-control" />
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="col-form-label">Settlement Amount</label>
+                                <input type="text" id="txtsettlement_amt" placeholder="Settlement Amount" class="form-control" maxlength="10" onkeypress="isNumber(event,this)" />
+                            </div>
+
+
+                            <div class="col-md-6 form-group">
+                                <label class="col-form-label">Settlement Type <i>*</i></label>
+                                <select id="ddlsettlement_type" class="form-control">
+                                    <option value="0">--Please Select--</option>
+                                    <option value="1">Settled</option>
+                                    <option value="2">Forfeited</option>
+                                    <option value="3">On Hold</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="col-form-label">Settlement Date</label>
+                                <input  id="txtsettlement_dt" class="form-control ip-ap" />
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr />
+                                <div class="form-group text-left">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnsettlement_save">Settlement</button>
+                                </div>
+                            </div>
+
+                            <div class="slider-wrap" style="width: auto; height: auto;">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="tab7report" class="tabcontent" style="display: none;">
+
+                    <div class="slider-wrap">
+                        <div class="slider" id="slider2">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblemptypedtl" class="table nowrap w-100 no-margin"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="slider-wrap" style="width: auto; height: auto;">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script src="~/apiJS/FNFProcess/JsFNFProcess.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/js/jspdf_1_5_3.js"></script>
+
+
+<input type="hidden" id="hdnEmpId" />
+<input type="hidden" id="hdnCompany_id" />
+<input type="hidden" id="hdnSepId" />
+@*<script src="~/apiJS/Payroll/FNFProcess.js"></script>*@
+
+

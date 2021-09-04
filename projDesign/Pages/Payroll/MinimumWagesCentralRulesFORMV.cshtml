@@ -1,0 +1,82 @@
+﻿@page
+@{
+    ViewData["Title"] = "MinimumWagesCentralRulesFORMV";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div>@Html.Partial("PartialLayout")</div>
+        <div class="card mt-3">
+            <div class="card-body">
+
+                
+                  
+                <div class="form-container leave no-top-margin not-res" style="height:700px">
+                    <div class="col-md-12">
+                        <h4>The Register of Muster Roll in Form-V Rule 26(5)</h4><hr />
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Payroll Month</label></div>
+                        <div class="col-md-6">
+                            <select id="ddlPayrollMonth" class="form-control bg-light">
+                                <option>--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label"> Location</label></div>
+                        <div class="col-md-6">
+                            <select id="ddllocation" class="form-control">
+                                <option>--Please Location--</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" style="display:none" id="btndownload">Download PDF</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        @*<hr />*@
+                        <h4 class="margin-top">Register of Fines in Form-V Details</h4>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive no-margin">
+                            <div id="div_tblRegisterOfFimesInForm1">
+                                <table id="tblPerformanceDetail" class="table nowrap w-100"></table>
+                            </div>
+                            <div id="div_tblRegisterOfFimesInForm12">
+                                <table id="tblRegisterOfFimesInForm12" class="table nowrap w-100"></table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+                <script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+                <script src="~/apiJS/Payroll/JsMinimumWagesCentralRulesFORMV.js?ver=@DateTime.Now.Ticks.ToString()"></script>

@@ -1,0 +1,325 @@
+﻿@page
+@{
+    ViewData["Title"] = "CreateShift";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/anypicker/anypicker.css" rel="stylesheet" />
+<link href="~/css/anypicker/anypicker-font.css" rel="stylesheet" />
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="panel">
+                <h4 class=" float-left">Shift Master</h4>
+
+                <a href="/Shift/View" class="btn btn-primary float-right mb-1">View Shift </a>
+                <div class="clearfix"></div>
+                <hr />
+
+                <div class="form-container shift-panel-inner no-top-margin">
+                    <div style="display:none">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4 text-rigth"><label class="col-form-label">Company Name </label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control">
+                                    <option value="0"> All  </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4  text-rigth"><label class="col-form-label"> Location </label></div>
+                            <div class="col-md-8">
+                                <select id="ddllocation" class="form-control" name="ddllocation">
+                                    <option value="0"> All</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group" style="display:none">
+                        <div class="col-md-4 text-rigth"><label class="col-form-label">Hours</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="ip-ap" id="txtDate" style="display:none" />
+                            <input type="text" class="AnyTimePicker" id="txtDate" style="display:none" />
+                            <input type="text" class="iphr form-control" id="iphr" readonly />
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 form-group" style="display:none">
+                        <div class="col-md-4 text-rigth"><label>Department</label></div>
+                        <div class="col-md-8">
+                            <select id="ddldepartment" class="form-control">
+                                <option value="0"> All </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label>Shift Type<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlShiftType" class="form-control">
+                                <option value="0">Select Shift Type</option>
+                                <option value="1">Fixed</option>
+                                <option value="2">Flexible</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label>Shift Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="txtShiftName" placeholder="Shift Name" maxlength="50"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label>Shift Short Name<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtShiftShortName" class="form-control" placeholder="Shift Short Name" maxlength="5" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-rigth"><label>Shift Code</label></div>
+                        <div class="col-md-8">
+                            <input type="text" id="txtshift_code" class="form-control" placeholder="Shift Code" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4 text-left" style="margin-left: 40%;">
+                            <div class="form-check-inline my-1">
+                                <div class="custom-control custom-checkbox my-3">
+                                    <input id="chk_is_default" class="custom-control-input" type="checkbox" />
+                                    <label class="custom-control-label" for="chk_is_default">Is Deafult</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check-inline my-1">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chk_is_ot_applicable" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chk_is_ot_applicable">Monthly</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="PunchBox">
+                        <div class="col-md-6 form-group" id="divPunchInTime">
+                            <div class="col-md-4 text-rigth"><label>Punch In Time<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txtPunchInTime" class="AnyTimePicker form-control" type="text" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group" id="divPunchInMaxTime">
+                            <div class="col-md-4 text-rigth"><label>Punch In Max Time<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txtpunch_in_max_time" class="AnyTimePicker form-control" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" id="divWorkingHours">
+                            <div class="col-md-4 text-rigth"><label>Working hours<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <time datetime="08:00"></time>
+                                <div class="time-left">
+                                    <input type="text" id="txtWorkingHours" class="iphr form-control" style="width:84%; float: left;" placeholder="Working hours" />
+                                </div>
+                                @*<div class="timerigth">
+                                        <a href="#" name="RefTime"> <i class="fa fa-history"></i></a>
+                                    </div>*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group" id="divPunchOutTime">
+                            <div class="col-md-4 text-rigth"><label>Punch Out Time<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input id="txtPunchOutTime" type="text" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <!-- punch box end -->
+                    <div class="col-md-6 form-group col-md-1024">
+                        <div class="col-md-4 text-rigth"><label>Grace Time</label></div>
+                        <div class="col-md-8"><input id="grace_time_for_late_punch" class="iphr form-control" type="text" /></div>
+                    </div>
+                    <div class="col-md-6  form-group col-md-1024">
+                        <div class="col-md-4 text-rigth"><label>Monthly Applicable Grace Time</label></div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="txtnumber_of_grace_time_applicable_in_month" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="2" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12  form-group">
+                        <div class="form-check-inline my-1">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chkLunchPunchApplicable" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chkLunchPunchApplicable">Lunch Punch Applicable</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 applicable-text hideItems lunchtime">
+                            <div class="col-md-3"> <label>Lunch Start Time</label> <input id="txtLunchPunchInTime" type="text" class="AnyTimePicker form-control" /></div>
+                            <div class="col-md-3"> <label>Lunch End Time</label> <input id="txtLunchPunchOutTime" type="text" class="AnyTimePicker form-control" /></div>
+                            <div class="col-md-3"> <label>Maximum Lunch Time</label> <input id="txtmaximum_lunch_time" class="iphr form-control" type="text" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12  form-group">
+                        <div class="form-check-inline my-1">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chkTeaPunch1" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chkTeaPunch1">Tea Punch 1</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 applicable-text hideItems teaTime1">
+                            <div class="col-md-3"> <label>Tea 1 Start Time</label> <input id="txtTeaPunchInTime1" type="text" class="form-control AnyTimePicker" /></div>
+                            <div class="col-md-3"> <label>Tea 1 End Time</label> <input id="txtTeaPunchOutTime1" type="text" class="form-control AnyTimePicker" /></div>
+                            <div class="col-md-3"> <label>Maximum Tea 1 Time</label> <input id="txtmaximum_tea_time_one" type="text" class="iphr form-control" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <div class="form-check-inline my-1">
+                            <div class="custom-control custom-checkbox my-3">
+                                <input id="chkTeaPunch2" class="custom-control-input" type="checkbox" />
+                                <label class="custom-control-label" for="chkTeaPunch2">Tea Punch 2</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 applicable-text hideItems teaTime2">
+                            <div class="col-md-3"> <label>Tea 2 Start Time</label> <input id="txtTeaPunchInTime2" type="text" class="form-control AnyTimePicker" /></div>
+                            <div class="col-md-3"> <label>Tea 2 End Time</label> <input id="txtTeaPunchOutTime2" type="text" class="form-control AnyTimePicker" /></div>
+                            <div class="col-md-3"> <label>Maximum Tea 2 Time</label> <input id="txtmaximum_tea_time_two" type="text" class="iphr form-control" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-6"><label>Min Half Day Working Hour<i>*</i></label></div>
+                        <div class="col-md-4">
+                            @*<input type="text" id="txtmark_as_half_day_for_working_hours_less_than" />*@
+                            <input type="text" id="txtmark_as_half_day_for_working_hours_less_than" class="iphr form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group shift-tag-panel">
+                        <div class="custom-control custom-checkbox my-3">
+                            <input id="chkIsNightShift" class="custom-control-input" type="checkbox" />
+                            <label class="custom-control-label" for="chkIsNightShift">Is Night Shift</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group shift-tag-panel">
+                        <div class="custom-control custom-checkbox my-3">
+                            <input id="chkWeekOff" class="custom-control-input" type="checkbox" />
+                            <label class="custom-control-label" for="chkWeekOff">Weekly Off</label>
+                        </div>
+                    </div>
+                    <div class="table-responsive dyanamicTableToggle ">
+                        <table id="dynamics" style="display:block" class="table w-100 nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Days</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>4</th>
+                                    <th>5</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkMonday" name="chkMonday" value="0" /> Monday</td>
+                                    <td><input type="checkbox" ID="chkMondayDays1" name="chkMondayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays2" name="chkMondayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays3" name="chkMondayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays4" name="chkMondayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkMondayDays5" name="chkMondayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkTuesday" name="chkTuesday" value="0" /> Tuesday</td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays1" name="chkTuesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays2" name="chkTuesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays3" name="chkTuesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays4" name="chkTuesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkTuesdayDays5" name="chkTuesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkWednesday" name="chkWednesday" value="0" /> Wednesday</td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays1" name="chkWednesdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays2" name="chkWednesdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays3" name="chkWednesdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays4" name="chkWednesdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkWednesdayDays5" name="chkWednesdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkThursday" name="chkThursday" value="0" />  Thursday</td>
+                                    <td><input type="checkbox" ID="chkThursdayDays1" name="chkThursdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays2" name="chkThursdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays3" name="chkThursdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays4" name="chkThursdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkThursdayDays5" name="chkThursdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkFriday" name="chkFriday" value="0" /> Friday</td>
+                                    <td><input type="checkbox" ID="chkFridayDays1" name="chkFridayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays2" name="chkFridayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays3" name="chkFridayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays4" name="chkFridayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkFridayDays5" name="chkFridayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSaturday" name="chkSaturday" value="0" /> Saturday</td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays1" name="chkSaturdayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays2" name="chkSaturdayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays3" name="chkSaturdayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays4" name="chkSaturdayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSaturdayDays5" name="chkSaturdayDays1" value="5" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" ID="chkSundayday" name="chkSundayday" value="0" /> Sunday</td>
+                                    <td><input type="checkbox" ID="chkSundayDays1" name="chkSundayDays1" value="1" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays2" name="chkSundayDays1" value="2" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays3" name="chkSundayDays1" value="3" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays4" name="chkSundayDays1" value="4" /></td>
+                                    <td><input type="checkbox" ID="chkSundayDays5" name="chkSundayDays1" value="5" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 mt-4">
+
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnSave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnUpdate">Update</button>
+                            <button type="button" id="btnReset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //  input check enabale
+    $('#chkLunchPunchApplicable').on('click', function () {
+        $('.lunchtime').toggle('slow');
+
+    });
+    $('#chkTeaPunch1').on('click', function () {
+        $('.teaTime1').toggle('slow');
+
+    });
+    $('#chkTeaPunch2').on('click', function () {
+        $('.teaTime2').toggle('slow');
+
+    });
+    $('#chkWeekOff').on('click', function () {
+        $('.dyanamicTableToggle').toggle('slow');
+
+    });
+
+
+
+</script>
+
+<script src="~/apiJS/Shift/JsShift.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+@*<script src="~/js/anypicker/jquery-1.11.1.min.js"></script>
+<script src="~/js/anypicker/anypicker.js"></script>*@
+

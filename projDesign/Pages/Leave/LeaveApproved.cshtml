@@ -1,0 +1,29 @@
+﻿@page
+@{
+    ViewData["Title"] = "Leave Approval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div>@Html.Partial("PartialLayoutMyTeamTab")</div>
+<div class="panel attendence-master-panel no-top-margin">
+    <h1>Leave Approval Applications</h1>
+    <hr />
+    <div class="form-container">
+        <div class="attendence-inner-panel">
+            <div class="col-md-12">
+                <div class="table-responsive no-margin">
+                    <table id="tblleaveapproval" class="table-defoult no-margin"></table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+            <!-- attendence inner panel end-->
+        </div>
+        <!-- form container end -->
+    </div>
+    <!-- panel end -->
+</div>
+
+<script src="~/apiJS/Attendence/JsApplicationLink.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Leave/JsLeaveApproved.js?ver=@DateTime.Now.Ticks.ToString()"></script>

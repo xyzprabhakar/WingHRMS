@@ -1,0 +1,95 @@
+﻿@page
+@{
+    ViewData["Title"] = "EmploymentTypeMaster";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin not-res">
+                    <div class="col-md-12">
+                        <h4>Employment Type</h4><hr />
+                    </div>
+                    <div class="col-md-12">
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Company<i>*</i></label>
+                                <select id="ddlCompany" class="form-control bg-light"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Employee<i>*</i></label>
+                                <select id="ddlEmployeeCode" class="form-control">
+                                    <option value="0">-Please Select-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <hr />
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light  col-6 " onclick="openCity(event, 'tab1emptypeadd')"> Employment Type</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'tab2emptypedtl')"> Employment Type Detail</button>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-4">
+                        <div id="tab1emptypeadd" class="tabcontent" style="display: block;">
+                            <div class="slider-wrap">
+                                <div class="clear"></div>
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="tblemptypemaster" class="table nowrap w-100 no-margin"></table>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+
+                                @*<div class="col-md-12  btn-group text-rigth margin-top-btn">
+                        <button type="button" class="btn" id="btnsave">Save</button>
+                        <button type="button" id="btnreset" class="btn">Reset</button>
+                    </div>*@
+                            </div>
+                        </div>
+                        <!-- first tab end -->
+
+                        <div id="tab2emptypedtl" class="tabcontent" style="display: none;">
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table id="tblemptypedtl" class="table nowrap w-100 no-margin"></table>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                    <div class="slider-wrap" style="width: auto; height: auto;">
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="hdntotaldaysduration" />
+<script src="~/apiJS/Employee/JsEmployeementTypeMaster.js"></script>

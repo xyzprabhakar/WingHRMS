@@ -1,0 +1,57 @@
+﻿@page
+@{
+    ViewData["Title"] = "EmployeeListIncomeTaxAmount";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12 mt-3">
+
+    <div>@Html.Partial("PartialLayout")</div>
+    <div class="card">
+        <div class="card-body">
+
+            <div class="panel">
+
+                <h4 class=" float-left">Employee List Of Income Tax Amount</h4>
+
+                <a href="/Payroll/EmployeeIncomeTaxAmount" class="btn btn-primary float-right mb-1">Add </a>
+
+                <div class="clearfix"></div>
+                <hr />
+                <div class="col-md-12">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-3 text-rigth"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                  
+                </div>
+               
+
+                <div class="table-responsive ">
+
+                    <table id="tbl_get_emp_tax_amt" class="table dataTable nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Employee Name</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/apiJS/Payroll/JsIncomeTaxAmount.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>

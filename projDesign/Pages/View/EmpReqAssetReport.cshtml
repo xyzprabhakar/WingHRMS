@@ -1,0 +1,180 @@
+﻿@page
+@{
+    ViewData["Title"] = "AssetRequestApproval";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>My Asset Report</h4>
+                        <hr />
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div id="pnlHeaderData"></div>
+
+                    </div>
+                    @*<div class="col-md-6 form-group">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Company</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="ddlcompany" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Employee</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="ddlemployee" class="form-control"></select>
+                            </div>
+                        </div>*@
+
+                    <div class="col-md-12" style="display:none;">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"> <label class="col-form-label">Form Date</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="ip-ap form-control" autocomplete="off" id="txtFromDate" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-4"><label class="col-form-label">To Date</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="ip-ap form-control" autocomplete="off" id="txtToDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btn_get_report">Get</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnreset">Reset</button>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12" id="div_report">
+                        <div class="table-responsive no-margin">
+                            <table id="tblassetrequestdtlreport" class="table nowrap w-100"></table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: true,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+
+    <script src="~/apiJS/View/JsEmpReqAssetReport.js"></script>
+    <script>
+
+        var modal = document.getElementById("myModal");
+        window.onclick = function (event) {
+            if (event.target == modal) {
+
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+
+}
+@*<script src="~/apiJS/Attendence/JsApplicationLink.js"></script>*@
+
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /*.acceptrejectdiv {
+                        width: 88%;
+                    }*/
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+        width: 88% !important;
+        left: 80 !important;
+        top: 60 !important;
+    }
+</style>
+<!-- The Modal -->
+<div id="myAssetReqModal" class="modal">
+
+    <!-- Modal content -->
+
+    <div class="panel" style="padding:5px">
+
+        <div class="table-responsive no-margin">
+            <div class="form-container master-panel desination-panel">
+
+
+                <div class="table-responsive">
+                    <table id="tblapprovalhistory" class="table nowrap w-100"></table>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

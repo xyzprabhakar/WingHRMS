@@ -1,0 +1,112 @@
+﻿@page
+@{
+    ViewData["Title"] = "Employee EPAGraph";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<style>
+    .labledropdown {
+        border: none !important;
+        background-color: #f5f5f5 !important;
+        -webkit-appearance: none;
+        pointer-events: none;
+    }
+</style>
+
+
+@Html.Partial("PartialLayoutMeTab")
+
+@*<div>@Html.Partial("PartialLayoutMeTab")</div>*@
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-6">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlcompany" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4"><label class="col-form-label">Employee<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddlemployee" class="form-control bg-light"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btngetdtl">Get Details</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnreset">Reset</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4>Performance Graph</h4>
+                        <hr />
+                    </div>
+
+                    <div id="divgraph" style="display:none">
+                        <div class="col-md-12" style="text-align:right">
+                            <i class="fa fa-circle" style="color:#ffbb44"></i> <label class="col-form-label"> Get Score</label>
+                            <i class="fa fa-circle" style="color:#44a2d2"></i> <label class="col-form-label"> Total Score</label>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div id="emp_epa_line_graph" class="h-100 morris-chart"></div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="col-md-12" id="fianl_reviewdetails">
+            <hr />
+            <div class="col-md-12">
+                <h4>Performance Detail</h4>
+                <hr />
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive no-margin">
+                    <table id="tblperformancedtl" class="table nowrap"></table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>*@
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mt-0">Line Chart</h5>
+                <p class="text-muted font-13 mb-4 d-inline-block text-truncate w-100">
+                    The public API is terribly simple. It's
+                    just one function: Morris.Line (options), where options is an object
+                    containing some of the configuration options.
+                </p>
+
+            </div>
+        </div>
+    </div>*@ <!-- end col -->
+
+
+<script src="~/assets/pages/jquery.morris.init.js"></script>
+<script src="~/assets/plugins/raphael/raphael-min.js"></script>
+
+<script src="~/apiJS/View/JsEPAGraphChart.js"></script>

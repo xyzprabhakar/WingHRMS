@@ -1,0 +1,85 @@
+﻿@page
+@{
+    ViewData["Title"] = "LeaveApplicationReport";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*@Html.Partial("PartialLayoutMeTab")*@
+
+
+
+
+<div class="col-xl-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <!-- tab link end -->
+            <div class="panel attendence-master-panel no-top-margin">
+                <h1>Leave Application</h1>
+                <hr />
+                <div class="form-container">
+                    <div class="attendence-inner-panel">
+
+
+                        <div class="form-container leave">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <div id="pnlHeaderData"></div>
+
+                                </div>
+
+
+                                <div class="form-group text-center">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnsave">Get</button>
+                                    <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                                </div>
+                            </div>
+
+                            <h2 class="margin-top">Leave Application List</h2>
+
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblleaveapp" class="table w-100 nowrap"></table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="clear"></div>
+                        </div>
+                        <!-- attendence inner panel end-->
+                    </div>
+                    <!-- form container end -->
+                </div>
+                <!-- panel end -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pnlHeaderData").HR_HeaderData({
+                // These are the defaults.
+                haveFromDate: true,
+                haveToDate: true,
+                haveCompanyData: true,
+                haveStateData: true,
+                haveLocationData: true,
+                haveDepartmentData: true,
+                haveEmpData: true,
+                haveSelectAll: true,
+                havePleaseSelect: true,
+            });
+
+        });
+    </script>
+    <input type="hidden" id="hdnid" />
+    @*<script src="~/Comman/JS/JsSelectAll.js"></script>*@
+    <script src="~/apiJS/View/LeaveApplicationReport.js"></script>
+}
+
+
+

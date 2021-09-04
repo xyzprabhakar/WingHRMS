@@ -1,0 +1,45 @@
+﻿@page
+@{
+    ViewData["Title"] = "company";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>company</h2>
+<div id="pnlHeaderData"></div>
+
+@section Scripts {
+
+    <script src="~/apiJS/CommonJs.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script>
+        $("#pnlHeaderData").HR_HeaderData({
+            // These are the defaults.
+            haveFromDate: true,
+            haveToDate: true,
+            haveCompanyData: true,
+            haveStateData: true,
+            haveLocationData: true,
+            haveDepartmentData: true,
+            haveEmpData: true,
+            haveSelectAll: true,
+            havePleaseSelect: true,
+        })
+        $("#ddlemployee").trigger("select2:updated");
+        $("#ddlemployee").select2();
+
+            //$("#ddlcompany").trigger("select2:updated");
+            //$("#ddlcompany").select2();
+            //$("#ddlstate").trigger("select2:updated");
+            //$("#ddlstate").select2();
+            //$("#ddllocation").trigger("select2:updated");
+            //$("#ddllocation").select2();
+            //$("#ddldepartment").trigger("select2:updated");
+            //$("#ddldepartment").select2();
+            
+            //$("#ddlcompany", "#ddlstate", "#ddllocation", "#ddldepartment").bind("change", function () {
+            //    HR_EmployeeData(document.getElementById("ddlcompany").value, document.getElementById("ddlstate").value,
+            //        document.getElementById("ddllocation").value, document.getElementById("ddldepartment").value);
+            //})
+
+
+    </script>
+}

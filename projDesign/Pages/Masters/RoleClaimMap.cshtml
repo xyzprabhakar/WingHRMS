@@ -1,0 +1,64 @@
+﻿@page
+@{
+    ViewData["Title"] = "RoleClaimMap";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        <div class="card ">
+            <div class="card-body">
+                <h1>Role And Claim Map</h1>
+                <hr />
+                <!--  <div class="text-rigth">
+                    <a href="/Masters/AddGradeMaster" class="addBTN">Add Grade <span class="fa fa-plus"></span></a>
+                </div>
+                  -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col align-self-center mx-auto">
+                            <div class="w-50">
+
+                                <div class="form-group">
+                                    <label>Role <i>*</i></label>
+                                    <select id="ddlrole" class="form-control">
+                                        <option value="0">--Select--</option>
+                                    </select>
+                                </div>
+                                
+                                <div class=" btn-group">
+                                    <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                                    <button type="button" class="btn btn-light btn-lg" id="btnupdate">Update</button>
+                                    <button type="button" id="btnreset" class="btn btn-light btn-lg">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+                <hr />
+                <h2 class="margin-top">Role Claim List</h2>
+                <div class="col-md-12">
+                    <div class="table-responsive no-margin">
+                        <table id="tblclaimlist" class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Claim Name</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnid" />
+<script src="~/apiJS/Masters/RoleClaimMap.js?ver=@DateTime.Now.Ticks.ToString()"></script>

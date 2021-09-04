@@ -1,0 +1,464 @@
+﻿@page
+@{
+    ViewData["Title"] = "SalaryInput";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+    .ui-datepicker {
+        max-width: 222px;
+    }
+</style>
+<!-- The jQuery library is a prerequisite for all jqSuite products -->
+@*<script src="~/js/jquery.min.js"></script>*@
+<!-- This is the Javascript file of jqGrid -->
+<!-- This is the Javascript file of jqGrid -->
+@*<script type="text/ecmascript" src="../../js/trirand/jquery.jqGrid.min.js"></script>*@
+
+<!-- This is the localization file of the grid controlling messages, labels, etc.
+<!-- We support more than 40 localizations -->
+@*<script type="text/ecmascript" src="../../js/trirand/i18n/grid.locale-en.js"></script>*@
+<script src="~/js/grid.locale-en.js"></script>
+<!-- A link to a jQuery UI ThemeRoller theme, more than 22 built-in and many more custom -->
+@*<link rel="stylesheet" type="text/css" media="screen" href="../../css/jquery-ui.css" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<!-- The link to the CSS that the grid needs -->
+@*<link rel="stylesheet" type="text/css" media="screen" href="../../css/trirand/ui.jqgrid.css" />*@
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+
+
+@*<table id="tree"></table>
+    <div id="pager"></div>
+
+    <script type="text/javascript">
+
+        jQuery(document).ready(function ($) {
+            jQuery('#tree').jqGrid({
+                "url": "http://localhost:51625/Data.json",
+                "colModel": [
+                    {
+                        "name": "category_id",
+                        "index": "accounts.account_id",
+                        "sorttype": "int",
+                        "key": true,
+                        "hidden": true,
+                        "width": 50
+                    }, {
+                        "name": "name",
+                        "index": "name",
+                        "sorttype": "string",
+                        "label": "Name",
+                        "width": 170
+                    }, {
+                        "name": "price",
+                        "index": "price",
+                        "sorttype": "numeric",
+                        "label": "Price",
+                        "width": 90,
+                        "align": "right"
+                    }, {
+                        "name": "qty_onhand",
+                        "index": "qty_onhand",
+                        "sorttype": "int",
+                        "label": "Qty",
+                        "width": 90,
+                        "align": "right"
+                    }, {
+                        "name": "color",
+                        "index": "color",
+                        "sorttype": "string",
+                        "label": "Color",
+                        "width": 100
+                    }, {
+                        "name": "lft",
+                        "hidden": true
+                    }, {
+                        "name": "rgt",
+                        "hidden": true
+                    }, {
+                        "name": "level",
+                        "hidden": true
+                    }, {
+                        "name": "uiicon",
+                        "hidden": true
+                    }
+                ],
+                "width": "780",
+                "hoverrows": false,
+                "viewrecords": false,
+                "gridview": true,
+                "height": "auto",
+                "sortname": "lft",
+                "loadonce": true,
+                "rowNum": 100,
+                "scrollrows": true,
+                // enable tree grid
+                "treeGrid": true,
+                // which column is expandable
+                "ExpandColumn": "name",
+                // datatype
+                "treedatatype": "json",
+                // the model used
+                "treeGridModel": "nested",
+                // configuration of the data coming from server
+                "treeReader": {
+                    "left_field": "lft",
+                    "right_field": "rgt",
+                    "level_field": "level",
+                    "leaf_field": "isLeaf",
+                    "expanded_field": "expanded",
+                    "loaded": "loaded",
+                    "icon_field": "icon"
+                },
+                "sortorder": "asc",
+                "datatype": "json",
+                "pager": "#pager"
+            });
+        });
+
+    </script>*@
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("PartialLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="salery-container form-container salary-input-master-panel">
+                    <div class="col-md-12">
+
+                        <h4>Payroll Input</h4> <hr />
+                        @*<hr class="mb-0" />*@
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-4"><label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-8">
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option value="0">--Please Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 @*mt-4" *@>
+                        <hr />
+                        <div class="tab btn-group btn-block">
+                            <button class="tablinks  btn btn-primary text-light col-6 " onclick="openCity(event, 'emp_salaryinput')">Employee Selection</button>
+                            <button id="tab2_btn" class="tablinks btn btn-outline-light col-6" onclick="openCity(event, 'all_emp_salaryinput')">Directly Upload</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 mt-4">
+                        <div id="emp_salaryinput" class="tabcontent" style="display: block;">
+                            <div class="slider-wrap">
+                                <div class="clear"></div>
+
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4 "><label class="col-form-label">Employee Name</label></div>
+                                    <div class="col-md-8">
+                                        <select id="ddlEmployee" class="form-control">
+                                            <option value="0">--Please Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <div class="col-md-4 "><label class="col-form-label">Processed Monthyear</label></div>
+                                    <div class="col-md-8">
+                                        @*<input type="text" id="txtmonthyear" disabled="disabled" />*@
+                                        <select id="ddlMonthyear" class="form-control"><option value="0">-Please Select-</option></select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-12">
+                                    <hr />
+                                    <div class="table-responsive no-margin">
+                                        <div class="innerContainer">
+
+                                            <table id="jqGrid" class="table nowrap w-100"></table>
+                                            <div id="jqGridPager"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-center" style="visibility:hidden">
+                                    <hr />
+                                    <button class="btn btn-primary waves-effect waves-light">Update Salary</button>
+                                    <button class="btn btn-primary waves-effect waves-light"><i class="fa fa-cog"></i>Process</button>
+                                    <button class="btn btn-primary waves-effect waves-light"><i class="fa fa-history"></i>History</button>
+                                </div>
+
+                                <div class="col-md-12" style="display:none">
+                                    <div class="table-responsive no-margin">
+                                        <table class="saleryinput-info-tbl table nowrap">
+                                            <tr>
+                                                <td>Employee Name</td>
+                                                <td><label id="lblName"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Join date</td>
+                                                <td><label id="lblJoiningDate"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Birth</td>
+                                                <td><label id="lblDOB"></label></td>
+                                            </tr>
+                                            @*<tr>
+                                                <td>Gender</td>
+                                                <td><label id="lblGender"></label></td>
+                                                </tr>*@
+                                            <tr>
+                                                <td>Location </td>
+                                                <td><label id="lblLocation"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Is PF Eligible</td>
+                                                <td><label id="lblIsPFEligible"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Is ESI Eligible</td>
+                                                <td><label id="lblIsESIEligible"></label></td>
+                                            </tr>
+                                            @*<tr>
+                                                <td>Payroll Processed on</td>
+                                                <td><label id="lbljoiningDate"></label></td>
+                                                </tr>*@
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <!-- first tab end -->
+
+                        <div id="all_emp_salaryinput" class="tabcontent" style="display: none;">
+
+                            <div class="slider-wrap">
+                                <div class="slider" id="slider2">
+
+                                    <div class="row ">
+                                        <div class="col-md-12">
+                                            <a id="solTitle" href="#" onClick="DownloadSalaryInputFormat();" class="btn btn-success btn-lg text-right float-right"><i class="fa fa-download"></i> Download Format</a>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <br />
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Processed Monthyear<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtuplodmonthyear" class="form-control" readonly="readonly" placeholder="Payout month" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 form-group">
+                                        <div class="col-md-6"><label class="col-form-label">Upload(Only Excel)<i>*</i></label></div>
+                                        <div class="col-md-6">
+                                            <input type="file" id="SalaryInputFile" class="form-control" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <hr />
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary waves-effect waves-light" id="btnuploaddtl">Upload Detail</button>
+                                        </div>
+                                    </div>
+                                    @*<div class="slider-wrap" style="width: auto; height: auto;">
+                                            <div class="clear"></div>
+                                        </div>*@
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<script type="text/javascript">
+        debugger;
+        $(document).ready(function () {
+            $("#jqGrid").jqGrid({
+                url: 'http://localhost:51625/Data.json',
+                mtype: "GET",
+                datatype: "json",
+                page: 1,
+                colModel: [
+                    { label: 'ID', name: 'CustomerID', key: true, width: 75 },
+                    { label: 'Company Name', name: 'CompanyName', width: 150 },
+                    { label: 'Contact Name', name: 'ContactName', width: 150 },
+                    { label: 'Phone', name: 'Phone', width: 150 },
+                    { label: 'City', name: 'City', width: 150 }
+                ],
+                loadonce: true,
+                width: 780,
+                height: 250,
+                rowNum: 20,
+                subGrid: true, // set the subGrid property to true to show expand buttons for each row
+                subGridRowExpanded: showChildGrid, // javascript function that will take care of showing the child grid
+                //isHasSubGrid: function (rowid) {
+                //    // if custommerid begin with B, do not use subgrid
+                //    var cell = $(this).jqGrid('getCell', rowid, 1);
+                //    //console.log(cell, rowid);
+                //    if (cell && cell.substring(0, 1) === "B") {
+                //        return false;
+                //    }
+                //    return true;
+                //},
+                //subGridOptions: {
+                //    // configure the icons from theme rolloer
+                //    plusicon: "ui-icon-triangle-1-e",
+                //    minusicon: "ui-icon-triangle-1-s",
+                //    openicon: "ui-icon-arrowreturn-1-e"
+                //},
+                pager: "#jqGridPager"
+            });
+        });
+
+        // the event handler on expanding parent row receives two parameters
+        // the ID of the grid tow  and the primary key of the row
+        function showChildGrid(parentRowID, parentRowKey) {
+            debugger;
+            var childGridID = parentRowID + "_table";
+            var childGridPagerID = parentRowID + "_pager";
+
+            // send the parent row primary key to the server so that we know which grid to show
+            var childGridURL = parentRowKey + ".json";
+
+            // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+            $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+
+            $("#" + childGridID).jqGrid({
+                url: childGridURL,
+                mtype: "GET",
+                datatype: "json",
+                page: 1,
+                colModel: [
+                    { label: 'Order ID', name: 'OrderID', key: true, width: 75 },
+                    { label: 'Required Date', name: 'RequiredDate', width: 100 },
+                    { label: 'Ship Name', name: 'ShipName', width: 100 },
+                    { label: 'Ship City', name: 'ShipCity', width: 100 },
+                    { label: 'Freight', name: 'Freight', width: 75 }
+                ],
+                loadonce: true,
+                width: 500,
+                height: '100%',
+                subGrid: true, // set the subGrid property to true to show expand buttons for each row
+                subGridRowExpanded: showThirdLevelChildGrid, // javascript function that will take care of showing the child grid
+                pager: "#" + childGridPagerID
+            });
+
+        }
+        // the event handler on expanding parent row receives two parameters
+        // the ID of the grid tow  and the primary key of the row
+        function showThirdLevelChildGrid(parentRowID, parentRowKey) {
+            debugger;
+            var childGridID = parentRowID + "_table";
+            var childGridPagerID = parentRowID + "_pager";
+
+            // send the parent row primary key to the server so that we know which grid to show
+            var childGridURL = "http://localhost:51625/child3.json";
+
+            // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+            $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+
+            $("#" + childGridID).jqGrid({
+                url: childGridURL,
+                mtype: "GET",
+                datatype: "json",
+                colModel: [
+                    { label: 'Order ID', name: 'OrderID', key: true, width: 75, hidden: true },
+                    { label: 'Product ID', name: 'ProductID', width: 100 },
+                    { label: 'Quantity', name: 'Quantity', width: 100 },
+                    { label: 'Unit Price', name: 'UnitPrice', width: 100 },
+                    {
+                        label: 'Total',
+                        name: 'Total',
+                        width: 100,
+                        sortable: false,
+                        formatter: function (cellValue, options, row) {   // custom calculations at client side
+                            return parseFloat(row.Quantity) * parseFloat(row.UnitPrice);
+                        }
+                    }
+                ],
+                loadonce: true,
+                width: 300,
+                height: '100%',
+                pager: "#" + childGridPagerID
+            });
+
+        }
+
+    </script>*@
+<input type="hidden" id="HFb64uploaddtl" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/jquery.jqGrid.min.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsSalaryInput.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/apiJS/Payroll/JsUploadSalaryInput.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+
+<!-- Trigger/Open The Modal -->
+<style>
+
+    /*.acceptrejectdiv {
+                        width: 88%;
+                    }*/
+
+</style>
+<!-- The Modal -->
+
+
+
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Salary Input(In Excel Only)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="table-responsive container mt-2 mb-2">
+                <table id="tbl_exceldtl" class="table nowrap w-100"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<script>
+
+        var modal = document.getElementById("myModal");
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>*@

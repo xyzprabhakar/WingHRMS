@@ -1,0 +1,137 @@
+﻿
+@page
+@{
+    ViewData["Title"] = "PayrollMonthCircle";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*<div>@Html.Partial("PartialLayout")</div>*@
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+
+
+<div class="col-xl-12">
+    <div class="panel ">
+       
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container leave no-top-margin">
+                    <div class="col-md-12">
+                        <h4>Salary Cycle</h4><hr />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="col-md-3"> <label class="col-form-label">Company<i>*</i></label></div>
+                        <div class="col-md-9">
+                            <select id="ddlcompany" class="form-control bg-light"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="col-md-4"> <label class="col-form-label">From Date<i>*</i></label></div>
+                        <div class="col-md-6">
+                            <select id="ddldate" class="form-control">
+                                <option value="0">--Select Date--</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <div class="col-md-4"><label class="col-form-label">To Date</label></div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control bg-light" id="txttodatee" readonly="readonly" placeholder="To Date" />
+                        </div>
+                    </div>
+
+
+
+
+                    @*<div class="col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Applicable From Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" class="ip-ap" id="txtapplicablefromdate" placeholder="Applicable From Date" />
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-3 text-rigth"><label>Applicable To Date<i>*</i></label></div>
+                <div class="col-md-6">
+                    <input type="text" class="ip-ap" id="txtapplicabletodate" placeholder="Applicable To Date" />
+                </div>
+            </div>
+        </div>*@
+
+                    <div class="clear"></div>
+
+
+
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary btn-lg" id="btnsave">Save</button>
+                            <button type="button" class="btn btn-primary btn-lg" id="btnupdate">Update</button>
+                            <button type="button" id="btnreset" class="btn btn-primary btn-lg">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                        <h4>Salary Cycle Details@*Payroll Month Circle*@</h4>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive ">
+                            <table id="tblpayrollmonthcircle" class="table w-100"></table>
+                           
+                        </div>
+                    </div>
+
+
+                   
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnmonthlyid" />
+<script src="~/apiJS/Payroll/PayrollMonthCirclejs.js?ver=@DateTime.Now.Ticks.ToString()"></script>

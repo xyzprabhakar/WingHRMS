@@ -1,0 +1,167 @@
+﻿@page
+@{
+    ViewData["Title"] = "ManagerAllocation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Manager Allocation</h4><hr />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label class="col-form-label">Company<i>*</i></label>
+                            <select id="ddlCompany" class="form-control bg-light">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label class="col-form-label">Employee Code <i>*</i></label>
+                            <select id="ddlEmployeeCode" class="form-control"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12"><h5>Reporting Manager 1 <i>*</i></h5> <hr /></div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">Manager</label>
+                            <select id="ddlEmployeeManager1" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-2">
+                        <div class="checkbox mt-5">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail1" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                <label class="custom-control-label" for="ManagerAllocNotifybyMail1">Notify by mail<i>*</i></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="radio mt-5 text-right">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="chkmanager1" name="chkmanager1" class="custom-control-input">
+                                <label class="custom-control-label" for="chkmanager1">Final Approval</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12"><h5>Reporting Manager 2</h5> <hr /></div>
+
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label class="col-form-label">Manager</label>
+                            <select id="ddlEmployeeManager2" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="checkbox mt-5">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail2" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                <label class="custom-control-label" for="ManagerAllocNotifybyMail2">Notify by mail<i>*</i></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="radio mt-5 text-right">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="chkmanager2" name="chkmanager1" class="custom-control-input">
+                                <label class="custom-control-label" for="chkmanager2">Final Approval</label>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-3" style="display:none">
+                        <div class="col-md-6 text-center"><label>From Date</label></div>
+                        <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="managerallocfromdate2" /></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="display:none">
+                        <div class="col-md-6 text-center"><label>To Date</label></div>
+                        <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="manageralloctodate2" /></div>
+                    </div>
+
+
+                    <div class="col-md-12"><h5>Reporting Manager 3</h5><hr /></div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-form-label">Manager</label>
+                            <select id="ddlEmployeeManager3" class="form-control"><option value="0">--Please Select--</option></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <div class="checkbox mt-5">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="ManagerAllocNotifybyMail3" checked="" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                <label class="custom-control-label" for="ManagerAllocNotifybyMail3">Notify by mail<i>*</i></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="radio mt-5 text-right">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="chkmanager3" name="chkmanager1" class="custom-control-input">
+                                <label class="custom-control-label" for="chkmanager3">Final Approval</label>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div class="col-md-3 col-sm-3" style="display:none">
+                        <div class="col-md-6 text-center"><label>From Date</label></div>
+                        <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="managerallocfromdate3" /></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="display:none">
+                        <div class="col-md-6 text-center"><label>To Date</label></div>
+                        <div class="col-md-6"><input type="text" class="ip-ap form-control bg-light" value="2019-01-01" readonly id="manageralloctodate3" /></div>
+                    </div>
+
+
+
+                    <div class="col-md-12 text-center ">
+                        <hr />
+                        <button class="btn btn-primary waves-effect waves-light" id="btnSaveManagerAllocation">Save</button>
+                    </div>
+
+
+                    <!-- approve box end-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+@*<script src="~/apiJS/Employee/JsEmployee.js"></script>*@
+<script src="~/apiJS/Employee/JsManagerAllocation.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
