@@ -86,6 +86,11 @@ namespace projContext
 
             //Default Data
             InsertCountryMaster(modelBuilder);
+            InsertCompany(modelBuilder);
+            InsertLocation(modelBuilder);
+            InsertDepartmentMaster(modelBuilder);
+            InsertAppSetting(modelBuilder);
+            InsertBanksMaster(modelBuilder);
         }
 
         public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
