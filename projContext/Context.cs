@@ -5,12 +5,12 @@ using projContext.DB;
 
 namespace projContext
 {
-    public class Context : DbContext
+    public partial class Context : DbContext
     {
         /// <summary>
         /// Devlopment Server
         /// </summary>
-        public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; Use Default Command Timeout For EF=true;Default Command Timeout=600;MaximumPoolsize=5000;Convert Zero Datetime=True;";
+        public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
         /// QA Server
@@ -34,7 +34,7 @@ namespace projContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(_connectionString, opt => opt.CommandTimeout(600));
+                optionsBuilder.UseMySql(_connectionString, opt => opt.CommandTimeout(600));
             }
         }
 
@@ -78,10 +78,14 @@ namespace projContext
             modelBuilder.Entity<tbl_emp_pf_details>().HasIndex(c => new { c.pf_number }).IsUnique().HasFilter("[is_deleted] = 0");
             //SetPayrolldata(modelBuilder);
             //SetRoleMaster(modelBuilder);
-            
-            
+
+
             //SetClaimMaster(modelBuilder);
             //SetClaimRolemaping(modelBuilder);
+
+
+            //Default Data
+            InsertCountryMaster(modelBuilder);
         }
 
         public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
@@ -102,7 +106,7 @@ namespace projContext
         public DbSet<tbl_emp_grade_allocation> tbl_emp_grade_allocation { get; set; }
         public DbSet<tbl_emp_desi_allocation> tbl_emp_desi_allocation { get; set; }
         public DbSet<tbl_emp_officaial_sec> tbl_emp_officaial_sec { get; set; }
-        public     DbSet<tbl_emp_weekoff> tbl_emp_weekoff { get; set; }        
+        public DbSet<tbl_emp_weekoff> tbl_emp_weekoff { get; set; }        
         public DbSet<tbl_emp_family_sec> tbl_emp_family_sec { get; set; }
         public DbSet<tbl_emp_bank_details> tbl_emp_bank_details { get; set; }
         public DbSet<tbl_emp_pan_details> tbl_emp_pan_details { get; set; }

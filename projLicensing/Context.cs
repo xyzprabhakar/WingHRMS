@@ -16,7 +16,7 @@ namespace projLicensing
         string connectionString = "Data Source = 192.168.10.26; port = 3306; Initial Catalog =db_hrms_licensing; User ID = sa; Password = glaze@123;Allow User Variables=True ; Use Default Command Timeout For EF=true;Default Command Timeout=600;MaximumPoolsize=5000;Convert Zero Datetime=True; ";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
         }
         
         public DbSet<tbl_instance> tbl_instance { get; set; }

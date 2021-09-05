@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -35,7 +34,7 @@ namespace projAPI.Classes
                         }
 
                     }
-                    else if (dbUpdateEx.InnerException.InnerException is MySqlException mysqlException)
+                    else if (dbUpdateEx.InnerException.InnerException is SqlException mysqlException)
                     {
                         switch (mysqlException.Number)
                         {
@@ -49,7 +48,7 @@ namespace projAPI.Classes
                         throw new Exception(exception.Message);
                     }
                 }
-                else if (dbUpdateEx.InnerException is MySqlException mysqlException)
+                else if (dbUpdateEx.InnerException is SqlException mysqlException)
                 {
                     switch (mysqlException.Number)
                     {
