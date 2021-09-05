@@ -35,7 +35,6 @@ function HR_EmployeeData(companyId, stateId, locationId, deptId, eleEmployee = n
                         selectOption.value = value._empid;
                         eleEmployee.add(selectOption);
                         counter++;
-
                     }
                 }
             }
