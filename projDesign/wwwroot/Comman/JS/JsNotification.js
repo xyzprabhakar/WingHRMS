@@ -1,89 +1,15 @@
 ﻿$(document).ready(function () {
 
     var company_id = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-    // setInterval(function () {
-
     UpdateNotification(company_id);
-
-    //blink_text();
-
-    //setInterval(blink_text, 1000);
-    //}, 3000);  
-
-    //$(".viewnotification").bind("click", function () {
-
-    //    var modal = document.getElementById("notificationmodall");
-    //    modal.style.display = "block";
-
-    //    $.ajax({
-    //        url: localStorage.getItem("ApiUrl") + "/apiMasters/GetEventNotification/" + company_id,
-    //        type: "GET",
-    //        headers: { 'Authorization': 'Bearer' + localStorage.getItem("Token") },
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        data: "{}",
-    //        success: function (response) {
-    //            var res = response;
-    //            $("#tbleventnotification").DataTable({
-    //                "processing": true, // for show progress bar
-    //                "serverSide": false, // for process server side
-    //                "bDestroy": true,
-    //                "filter": true, // this is for disable filter (search box)
-    //                "orderMulti": false, // for disable multiple column at once
-    //                "scrollX": 200,
-    //                "aaData": response,
-    //                "columnDefs":
-    //                    [],
-
-    //                "columns": [
-    //                   // { "data": null, "title": "SNo.", "autoWidth": true },
-    //                    { "data": "event_name", "name": "event_name", "title": "Event", "autoWidth": true },
-    //                    { "data": "event_place", "name": "event_place", "title": "Event Place", "autoWidth": true },
-    //                    { "data": "event_date_time", "name": "event_date_time", "title": "Date & Time", "autoWidth": true }
-
-
-    //                ],
-    //                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
-    //            });
-    //        },
-    //        error: function (err) {
-    //            alert(err.response.Text);
-    //        }
-
-    //    });
-    //});
-});
-
-
-//function UpdateNotification(company_id) {
-//    $.ajax({
-//        url: localStorage.getItem("ApiUrl") + "/apiMasters/GetEventNotification/" + company_id,
-//        type: "GET",
-//        headers: { 'Authorization': 'Bearer' + localStorage.getItem("Token") },
-//        contentType: "application/json",
-//        dataType: "json",
-//        data: "{}",
-//        success: function (response) {
-//            var res = response;
-//            $("#countNotify").html(response.length);
-//        },
-//        error: function (err) {
-//            alert(err.response.Text);
-//        }
-
-//    });
-//}
-
-
-//function blink_text() {
-//    $('.blink').fadeOut(500);
-//    $('.blink').fadeIn(500);
-//}
-
 
 
 function UpdateNotification(company_id) {
 
+    if (company_id == 0) {
+        company_id = 1;
+    }
+    
     $.ajax({
         url: localStorage.getItem("ApiUrl") + "/apiMasters/GetEventNotification/" + company_id,
         type: "GET",
