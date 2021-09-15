@@ -418,10 +418,11 @@
         $('#user_name').text(user_name_dec);
         $("#login_emp_name").text(login_emp_name_dec);
         var profile_img_path = CryptoJS.AES.decrypt(localStorage.getItem("employee_photo_path"), key, { iv: iv }).toString(CryptoJS.enc.Utf8); //localStorage.getItem('employee_photo_path');
+        
 
-        if (profile_img_path == 'http://192.168.10.129:1011/') {
-            $('#profile_img').attr("src", 'http://192.168.10.129:1010/img/no-profile-photo.jpg');
-            $('#profile_icon').attr("src", 'http://192.168.10.129:1010/img/no-profile-photo.jpg');
+        if (profile_img_path == '' || profile_img_path == null) {
+            $('#profile_img').attr("src", '/img/no-profile-photo.jpg');
+            $('#profile_icon').attr("src", '/img/no-profile-photo.jpg');
         }
         else {
             $('#profile_img').attr("src", profile_img_path.replace("api/", ""));

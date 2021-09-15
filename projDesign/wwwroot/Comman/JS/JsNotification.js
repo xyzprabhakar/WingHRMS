@@ -1,14 +1,8 @@
 ﻿$(document).ready(function () {
-    
-    console.log(localStorage.getItem("user_id"));
-    console.log(localStorage.getItem("sit_id"));
     user_id = CryptoJS.AES.decrypt(localStorage.getItem("user_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-    console.log(user_id)
-
-    console.log(localStorage.getItem("company_id"));
+    
     var company_id = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-    console.log(company_id)
-
+    
     UpdateNotification(company_id);
     function UpdateNotification(company_id) {
 

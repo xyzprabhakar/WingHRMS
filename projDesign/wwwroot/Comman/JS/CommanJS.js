@@ -164,49 +164,7 @@ function BindCompanyList(ControlId, SelectedVal) {
 
 }
 
-//function BindCompanyList(ControlId, SelectedVal) {
-//    ControlId = '#' + ControlId;
-//    var default_company_id = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-//    //var HaveDisplay = JSON.parse(localStorage.getItem('menu_filter_comp_')).findIndex(data => data.text == "Display Company List");
-//    //alert(HaveDisplay);
-//    var HaveDisplay = ISDisplayMenu("Display Company List");
-//    if (HaveDisplay == 0) {
-//        $(ControlId).empty().append($("<option selected='selected'></option>").val(default_company_id).html(localStorage.getItem("company_name")));
-//    }
-//    else {
-//        $.ajax({
-//            type: "GET",
-//            url: apiurl + "apiMasters/Get_CompanyList",
-//            data: {},
-//            contentType: "application/json",
-//            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
-//            dataType: "json",
-//            async: false,
-//            success: function (response) {
-//                var res = response;
-
-//                $(ControlId).empty().append('<option selected="selected" value="0">--Please select--</option>');
-//                $.each(res, function (data, value) {
-//                    $(ControlId).append($("<option></option>").val(value.companyId).html(value.companyName));
-//                })
-
-//                //get and set selected value
-//                if (SelectedVal != '' && SelectedVal != '0' && SelectedVal != 'undefined') {
-//                    $(ControlId).val(SelectedVal);
-//                }
-
-//            },
-//            error: function (err) {
-//                alert(err.responseText);
-
-//            }
-//        });
-//    }
-
-//}
-
 //bind company list
-
 function BindEmployeeList(ControlId, SelectedVal) {
 
     ControlId = '#' + ControlId;
@@ -242,7 +200,6 @@ function BindEmployeeList(ControlId, SelectedVal) {
 }
 
 //bind department by company id 
-
 function BindDepartmentListAll(ControlId, SelectedVal) {
 
     ControlId = '#' + ControlId;
@@ -833,60 +790,6 @@ function BindEmployeeListbyDepartment(ControlId, CompanyId, Department_id, Selec
 }
 
 
-//function BindAllEmployeeByCompany(ControlId, CompanyId, SelectedVal) {
-//    ControlId = '#' + ControlId;
-//    $('#loader').show();
-//    $.ajax({
-//        type: "GET",
-//        url: apiurl + "apiMasters/Get_EmployeeCodeFromEmpMasterByComp/" + CompanyId,
-//        data: {},
-//        async: false,
-//        contentType: "application/json",
-//        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
-//        dataType: "json",
-//        success: function (response) {
-
-//            var res = response;
-//            $('#loader').show();
-
-
-
-//            var HaveDisplayCompList = ISDisplayMenu("Is Company Admin");
-
-//            $(ControlId).empty().append('<option selected="selected" value="0">--All--</option>');
-
-
-//            if (HaveDisplayCompList == 0) {
-//                $.each(res, function (data, value) {
-//                    $(ControlId).append($("<option></option>").val(value.employee_id).html(value.emp_code));
-//                })
-//            }
-
-//            if (res.length > 0) {
-
-//                //get and set selected value
-
-//                if (SelectedVal != '' && SelectedVal != '0' && SelectedVal != 'undefined' && SelectedVal != null) {
-//                    $(ControlId).val(SelectedVal);
-//                    $(ControlId).trigger("select2:updated");
-//                    $(ControlId).select2();
-//                }
-//                $(ControlId).trigger("select2:updated");
-//                $(ControlId).select2();
-//            }
-
-//            $('#loader').hide();
-
-//        },
-//        error: function (err) {
-//            alert(err.responseText);
-//            $('#loader').hide();
-//        }
-//    });
-//}
-
-
-
 //bind employee leave type info
 function BindLeaveTypeInfo(ControlId, SelectedVal) {
     ;
@@ -1190,50 +1093,6 @@ function addZero(i) {
 }
 
 /*-----Image file upload logic-----------*/
-
-//function readFile() {
-//    ;
-
-//    if (this.files && this.files[0]) {
-
-//        var imgsizee = this.files[0].size;
-//        var sizekb = imgsizee / 1024;
-//        sizekb = sizekb.toFixed(0);
-
-//        $('#HFSizeOfPhoto').val(sizekb);
-//        if (sizekb < 10 || sizekb > 100) {
-//            $("#File1").val("");
-//            swal("Photograph Size Validate!", 'The size of the photograph should fall between 20KB to 100KB. Your Photo Size is ' + sizekb + 'kb.', "error");
-//            return false;
-//        }
-//        var ftype = this;
-//        var fileupload = ftype.value;
-//        if (fileupload == '') {
-//            $("#File1").val("");
-//            swal("Photograph Format !", "Photograph only allows file types of PNG, JPG, JPEG. ", "error");
-//            return;
-//        }
-//        else {
-//            var Extension = fileupload.substring(fileupload.indexOf('.') + 1);
-//            if (Extension == "png" || Extension == "jpeg" || Extension == "jpg") {
-
-//            }
-//            else {
-//                $("#File1").val("");
-//                swal("Photograph Format !", "Photograph only allows file types of PNG, JPG, JPEG. ", "error");
-//                return;
-//            }
-//        }
-
-//        var FR = new FileReader();
-//        FR.onload = function (e) {
-//            EL("myImg").src = e.target.result;
-//            EL("HFb64").value = e.target.result;
-
-//        };
-//        FR.readAsDataURL(this.files[0]);
-//    }
-//}
 
 //function EL(id) { return document.getElementById(id); } // Get el by ID helper function
 
@@ -1775,33 +1634,6 @@ function BinddEmployeeCodee(ControlId, CompanyId, SelectedVal) {
     });
 }
 //function ISDisplayMenu(name_of_menu) {
-
-//    var menu_data = JSON.parse(localStorage.getItem('menu_filter_comp_'));
-//    var Index = menu_data.findIndex(data => data.text == name_of_menu);
-
-//    if (Index > -1) {
-//        var menu_id = menu_data[Index].id;
-//        try {
-//            var menu_rights = JSON.parse(localStorage.getItem('dashboardd_role_menu_data')).split(',');
-
-//            var finded = menu_rights.findIndex(data => data == menu_id);
-//            if (finded > -1) {
-//                return 1;
-//            }
-//            else {
-//                return 0;
-//            }
-//        }
-//        catch (ex) {
-//            return 0;
-//        }
-//    }
-//    else {
-//        return 0;
-//    }
-
-//}
-
 
 function _GUID_New() {
     var _login_empid = CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
@@ -2827,185 +2659,6 @@ function BindEmployeeListUnderLoginEmpFromAllComp(ControlId, CompanyId, LoginEmp
 
 }
 
-//function BindEmployeeListUnderLoginEmpFromAllComp(ControlId, CompanyId, LoginEmpID, SelectedVal) {
-
-//    var listapi = localStorage.getItem("ApiUrl");
-//    var default_Company = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-
-//    var key = CryptoJS.enc.Base64.parse("#base64Key#");
-//    var iv = CryptoJS.enc.Base64.parse("#base64IV#");
-
-//    var user_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("user_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-//    // console.log(user_name_dec.toString(CryptoJS.enc.Utf8));
-//    var login_emp_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("login_emp_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-
-//    var login_name_code = login_emp_name_dec + "(" + user_name_dec + ")";
-
-//    ControlId = '#' + ControlId;
-
-
-//    var HaveDisplay = ISDisplayMenu("Display For User");
-//    if (HaveDisplay == 1) {
-//        var is_managerr_dec = CryptoJS.AES.decrypt(localStorage.getItem("is_managerr"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-
-//        if (is_managerr_dec == 'yes') {
-//            $(ControlId).empty().append('<option selected="selected" value="0">--All--</option>');
-//            $(ControlId).append('<option selected="selected" value=' + LoginEmpID + '>' + login_name_code + '</option>');
-//        }
-//        else {
-//            $(ControlId).empty().append('<option selected="selected" value=' + LoginEmpID + '>' + login_name_code + '</option>');
-//        }
-//        //else {
-//        //    $(ControlId).empty().append('<option selected="selected" value="0">--Please Select--</option>');
-//        //}
-
-
-//    }
-//    else {
-//        var _display = ISDisplayMenu("Is Company Admin");
-//        if (_display == 1) {
-//            $(ControlId).empty().append('<option selected="selected" value="0">--All--</option>');
-//        }
-//        else {
-//            $(ControlId).empty().append('<option selected="selected" value="0">--Please Select--</option>');
-//        }
-
-//    }
-
-
-//    var emp_lst_under_login_emp;
-
-//    var lst_ = localStorage.getItem("emp_under_login_emp");
-
-//    if (lst_ != null && lst_ != "" && lst_.length > 0) {
-
-//        emp_lst_under_login_emp = JSON.parse(lst_);
-//    }
-//    else {
-//        $.ajax({
-//            type: "GET",
-//            //url: listapi + "apiMasters/Get_EmployeeHeadList",
-//            url: listapi + "apiEmployee/Get_Employee_Under_LoginEmp_from_all_Company/" + CompanyId + "/" + LoginEmpID,
-//            data: {},
-//            async:false,
-//            contentType: "application/json; charset=utf-8",
-//            dataType: "json",
-//            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
-//            success: function (response) {
-//                var res = response;
-
-//                //if (lst_ == null == lst_ == "" || lst_.length == "0") {
-//                //    localStorage.setItem("emp_under_login_emp", JSON.stringify(res));
-//                //}
-
-
-//                emp_lst_under_login_emp = res;
-
-//            },
-//            error: function (err) {
-//                alert(err.responseText);
-//                $('#loader').hide();
-//            }
-//        });
-
-//    }
-
-
-
-//    if (emp_lst_under_login_emp != undefined && emp_lst_under_login_emp.length > 0) {
-
-//        var selected_data = emp_lst_under_login_emp.filter(p => p.company_id == CompanyId);
-
-//        $.each(selected_data, function (data, value) {
-
-//            $(ControlId).append($("<option></option>").val(value._empid).html(value.emp_name_code));
-//        });
-
-//        //get and set selected value
-//        if (SelectedVal != '' && SelectedVal != '0' && SelectedVal != 'undefined') {
-//            $(ControlId).val(SelectedVal);
-//            $(ControlId).trigger("select2:updated");
-//            $(ControlId).select2();
-
-//        }
-
-//    }
-//    $(ControlId).trigger("select2:updated");
-//    $(ControlId).select2();
-//    $('#loader').hide();
-
-
-//}
-
-
-//function BindEmployeeListUnderLoginEmpFromAllComp_except_all_option(ControlId, CompanyId, LoginEmpID, SelectedVal) {
-
-//    ControlId = "#" + ControlId;
-//    $(ControlId).empty().append('<option selected="selected" value="0">--Please Select--</option>');
-
-
-//    var listapi = localStorage.getItem("ApiUrl");
-//    var default_Company = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-
-//    var emp_lst_under_login_emp;
-
-//    var lst_ = localStorage.getItem("emp_under_login_emp");
-
-//    if (lst_ != null && lst_ != "" && lst_.length > 0 ) {
-
-//        emp_lst_under_login_emp = JSON.parse(lst_);
-//    }
-//    else {
-//        $.ajax({
-//            type: "GET",
-//            url: listapi + "apiEmployee/Get_Employee_Under_LoginEmp_from_all_Company/" + CompanyId + "/" + LoginEmpID,
-//            data: {},
-//            async: false,
-//            contentType: "application/json; charset=utf-8",
-//            dataType: "json",
-//            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
-//            success: function (response) {
-//                var res = response;
-
-
-//                emp_lst_under_login_emp = res;
-
-//            },
-//            error: function (err) {
-//                alert(err.responseText);
-//                $('#loader').hide();
-//            }
-//        });
-
-//    }
-
-
-
-//    if (emp_lst_under_login_emp != undefined && emp_lst_under_login_emp.length > 0) {
-//        emp_lst_under_login_emp = emp_lst_under_login_emp.filter(p => p.company_id == CompanyId);
-
-//        $.each(emp_lst_under_login_emp, function (data, value) {
-
-//            $(ControlId).append($("<option></option>").val(value._empid).html(value.emp_name_code));
-//        });
-
-//        //get and set selected value
-//        if (SelectedVal != '' && SelectedVal != '0' && SelectedVal != 'undefined') {
-//            $(ControlId).val(SelectedVal);
-//            $(ControlId).trigger("select2:updated");
-//            $(ControlId).select2();
-
-//        }
-
-//    }
-//    $(ControlId).trigger("select2:updated");
-//    $(ControlId).select2();
-//    $('#loader').hide();
-
-
-//}
-
-
 
 function BindPaymentMode(ControlId, SelectedVal) {
     ControlId = "#" + ControlId;
@@ -3217,7 +2870,6 @@ function BindWithdrawalType(ControlId, CompanyId, SelectedVal) {
     }
 }
 
-
 function PFNumber(e) {
     var regex = /^[0-9a-zA-Z_\,\/ ]+$/;
     var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
@@ -3228,8 +2880,6 @@ function PFNumber(e) {
     e.preventDefault();
     return false;
 }
-
-
 
 function checkFileExist(url) {
     debugger;
