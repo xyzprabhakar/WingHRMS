@@ -126,27 +126,13 @@ namespace projAPI.Controllers
                         mdl.user_name = ob._tbl_user_master.username;
                         mdl.emp_id = ob._tbl_user_master.employee_id ?? 0;
                         ob.LoadEmpSpecificDetail(mdl);
-                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.Manager))
-                        {
-                            mdl.is_reporting_manager = 1;
-                            ob.LoadEmpDownlineEmployee(mdl);
-                        }
-                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.SectionHead))
-                        {
-                            mdl.is_reporting_manager = 1;
-                            ob.LoadEmpDownlineEmployee(mdl);
-                        }
-                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.TeamLeader))
-                        {
-                            mdl.is_reporting_manager = 1;
-                            ob.LoadEmpDownlineEmployee(mdl);
-                        }
-                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.Management))
-                        {
-                            mdl.is_reporting_manager = 1;
-                            ob.LoadEmpDownlineEmployee(mdl);
-                        }
-                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.Consultant))
+                        if (mdl.employee_role_id.Contains((int)enmRoleMaster.Manager)
+                            || mdl.employee_role_id.Contains((int)enmRoleMaster.SectionHead)
+                            || mdl.employee_role_id.Contains((int)enmRoleMaster.TeamLeader)
+                            || mdl.employee_role_id.Contains((int)enmRoleMaster.Management)
+                            || mdl.employee_role_id.Contains((int)enmRoleMaster.Consultant)
+
+                            )
                         {
                             mdl.is_reporting_manager = 1;
                             ob.LoadEmpDownlineEmployee(mdl);
@@ -167,17 +153,12 @@ namespace projAPI.Controllers
                         ob.LoadCompanyData(mdl);
 
                         mdl.menu_lst = ob.LoadUserMenu(mdl.employee_role_id, mdl.is_hod);
-
-
                         mdl.emp_claim_id = ob._tbl_role_menu_master;
-
                         mdl.emp_company_lst = ob.Get_emp_company_lst(mdl.emp_id, mdl);
-
-
+                        
                         _clsCurrentUser.EmpId = mdl.emp_id;
                         _clsCurrentUser.UserId = mdl.user_id;
                         mdl._under_emp_lst = ob.Get_Emp_dtl_under_login_emp(mdl, _clsEmployeeDetail);
-
                         // start check first time login or not
 
                         if (login.user_name.Trim().ToUpper() == AESEncrytDecry.DecryptStringAES(ob._tbl_user_master.password).Trim().ToUpper())
@@ -192,8 +173,6 @@ namespace projAPI.Controllers
                         // end check first time login 
 
                         mdl.Token = GenerateJSONWebToken(mdl);
-
-
                         //Load the all data
                         mdl.StatusCode = 1;
                         mdl.app_setting = _context.tbl_app_setting.Where(a => a.is_active == 1).Select(a => a.AppSettingValue).FirstOrDefault();

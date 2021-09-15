@@ -46,8 +46,7 @@ function HR_EmployeeData(companyId, stateId, locationId, deptId, eleEmployee = n
 }
 
 
-(function ($) {
-
+(function ($) {    
     var default_Company = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
 
     $.fn.HR_HeaderData = function (options) {
