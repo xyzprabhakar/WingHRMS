@@ -510,7 +510,7 @@ namespace projAPI.Classes
         {
             List<object> emp_comp_lst = new List<object>();
 
-            var data_ = _context.tbl_employee_company_map.Where(x => x.employee_id == emp_idd && x.is_deleted == 0).Select(p => new { p.company_id, p.tbl_company_master.company_name }).ToList();
+            var data_ = _context.tbl_employee_company_map.Where(x => x.employee_id == emp_idd && x.is_deleted == 0).Select(p => new { p.company_id, p.tbl_company_master.company_name,p.is_default }).ToList();
             if (mdl != null)
             {
                 mdl.company_list = data_.Select(p => p.company_id).ToArray();
@@ -525,6 +525,8 @@ namespace projAPI.Classes
                         company_name = data_[i].company_name
                     });
                 }
+                mdl.default_company = data_.Where(P => P.is_default).FirstOrDefault().company_id ?? 1;
+
             }
 
             return emp_comp_lst;
