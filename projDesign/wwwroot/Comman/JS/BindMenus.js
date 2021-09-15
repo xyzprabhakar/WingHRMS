@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    
     var role_menu_list = JSON.parse(localStorage.getItem('_menu_lst'));
     var element = document.getElementById("side-nav");
     BindMenuData(role_menu_list, element,true);

@@ -119,9 +119,6 @@ $(document).ready(function () {
 
 });
 
-
-
-
 function Bind_Right_Menu() {
     //var company_id = localStorage.getItem("company_id");
 

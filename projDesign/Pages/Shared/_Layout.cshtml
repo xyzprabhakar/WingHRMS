@@ -5,9 +5,7 @@
     <title>HRMS - @ViewData["Title"]</title>
 
     <environment names="Development">
-
         <link href="~/css/font-awesome.min.css" rel="stylesheet" />
-
         <!--calendar css-->
         <link href="~/assets/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet" />
         @*<script src="~/js/popup.js"></script>*@
@@ -31,29 +29,14 @@
         <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" />
         <link href="~/assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
         <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
-
         <script src="~/assets/js/jquery.min.js"></script>
-
-
     </environment>
-
-
     <script>
-
         if (localStorage.getItem('Token') == null || localStorage.getItem('ApiUrl') == null) {
             window.location = '/Login';
         }
-
-
-        //if (localStorage.getItem('Token') == null || localStorage.getItem('ApiUrl') == null || CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; }) == null) {
-        //    window.location = '/Login';
-        //}
-
     </script>
     <script src="~/Comman/JS/JsLayout.js?ver=@DateTime.Now.Ticks.ToString()"></script>
-
-
-
 
     <style>
 
@@ -113,10 +96,7 @@
 
                 <li id="metabb"><a href="/view/Dashboard" class="nav-link waves-effect waves-light"><i class="fa fa-user"></i> Me</a></li>
                 <li id="limyteam" style="display:none;"><a href="/Leave/OutdoorLeaveApproval" class="nav-link waves-effect waves-light"><i class="fa fa-users"></i> My Team</a></li>
-                @*<li><a href="#" id="notEnavle"><i class="fa fa-bell-o"></i>Notification<span>4</span></a></li>
-                    <li><a href="#"><i class="fa fa-external-link"></i>Quick Link</a></li>
-                    <li><a href="#"><i class="fa fa-cog"></i>Setting</a></li>*@
-
+                
 
 
                 <li class="dropdown">
@@ -132,7 +112,6 @@
             </ul>
 
             <ul class="list-unstyled topbar-nav mb-0">
-
                 <li>
                     <button class="button-menu-mobile nav-link waves-effect waves-light">
                         <i class="mdi mdi-menu nav-icon"></i>
@@ -284,17 +263,9 @@
     <script src="~/assets/plugins/datatables/buttons.print.min.js"></script>
     <script src="~/assets/plugins/datatables/buttons.colVis.min.js"></script>
     <!-- Responsive examples -->
-
-
-
-
-
     <script src="~/js/popup.js"></script>
     <script src="~/js/aes.js"></script>
-
-
     <script src="~/assets/js/app.js"></script>
-
 
     <script>
         $(function () {
@@ -326,8 +297,6 @@
             e.preventDefault();
             $('.root .left').animate({ width: 'toggle' }, 1050);
         });
-
-
 
 
         // report poup click event
@@ -460,13 +429,10 @@
         }
     </script>
     <!-- Custom jquery -->
-
     <script src="~/apiJS/GlobalEnum.js"></script>
-    <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>
-    @*<script src="~/Comman/JS/JsLayout.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
+    <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>    
     <script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
     <script src="~/src/jquery.table2excel.js"></script>
-
     @RenderSection("Scripts", required: false)
 
 

@@ -1,4 +1,4 @@
-﻿
+﻿//Version 3
 $(document).ready(function () {
 
     //signout();  
@@ -71,30 +71,35 @@ function makeid(flag) {
 
 //END CAPTCHA
 
-$("#CaptchaCode").bind('keyup', function (event) {
-    if (event.keyCode == 13) {
-        event.preventDefault();
-        performLogin();
-    }
-});
-
-$("#txtUsername").bind('keyup', function (event) {
-    if (event.keyCode == 13) {
-        event.preventDefault();
-        document.getElementById("txtPassword").focus();
-    }
-});
-
-$("#txtPassword").bind('keyup', function (event) {
-    if (event.keyCode == 13) {
-        event.preventDefault();
-        document.getElementById("CaptchaCode").focus();
-    }
-});
-
 $('#btnLogin').bind("click", function () {
     performLogin();
 });
+
+$("#CaptchaCode").bind('keydown', function (event) {
+    if (event.key == 'Enter') {        
+        event.preventDefault();
+        performLogin();
+        
+    }
+});
+$("#txtUsername").bind('keydown', function (event) {
+    if (event.key == 'Enter') {        
+        event.preventDefault();
+        document.getElementById("txtPassword").focus();        
+    }
+});
+
+
+
+$("#txtPassword").bind('keydown', function (event) {
+    if (event.key == 'Enter') {        
+        event.preventDefault();
+        document.getElementById("CaptchaCode").focus();
+        
+    }
+});
+
+
 
 function performLogin() {
     var isgauth = 0;
@@ -139,8 +144,6 @@ function performLogin() {
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
         }
-
-
         encryptedpwd = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key2,
             {
                 keySize: 128 / 8,
