@@ -124,6 +124,8 @@
         </div>
     </div>
 </div>
-<script src="~/apiJS/CommonJs.js"></script>
-<script src="~/Comman/JS/CommonJs.js"></script>
-<script src="~/apiJS/Employee/JsEmployeementTypeMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+@section Scripts {
+    <script src="~/apiJS/CommonJs.js"></script>
+    <script src="~/apiJS/Employee/JsEmployeementTypeMaster.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+}
