@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "projContext", "projContext\projContext.csproj", "{C585D3B4-DB42-4B3F-A1F0-F199481DE1B2}"
 EndProject
@@ -10,6 +10,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "projDesign", "projDesign\projDesign.csproj", "{9F1E52D0-E698-484B-B554-A13AE75D60E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "projLicensing", "projLicensing\projLicensing.csproj", "{F9E1227C-1CA7-48FE-9EE6-35040236E292}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schduler", "Schduler", "{08BCC246-A808-4C8B-B4F0-10BB0A03955E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "projDayStatus", "Scheduler\projDayStatus\projDayStatus.csproj", "{C7894DFC-2C49-4C11-8FA5-1ED36566E844}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projAttend_DLL", "Scheduler\projAttend_DLL\projAttend_DLL.csproj", "{08B98707-2304-4235-956E-43E63A2184D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projAttend_Cui_new", "Scheduler\projAttend_Cui_new\projAttend_Cui_new.csproj", "{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projAttend_Gui", "Scheduler\projAttend_Gui\projAttend_Gui.csproj", "{57A9CB1F-9145-4E4F-A9E8-F42E9D468216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,29 +43,33 @@ Global
 		{F9E1227C-1CA7-48FE-9EE6-35040236E292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9E1227C-1CA7-48FE-9EE6-35040236E292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9E1227C-1CA7-48FE-9EE6-35040236E292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7894DFC-2C49-4C11-8FA5-1ED36566E844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7894DFC-2C49-4C11-8FA5-1ED36566E844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7894DFC-2C49-4C11-8FA5-1ED36566E844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7894DFC-2C49-4C11-8FA5-1ED36566E844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B98707-2304-4235-956E-43E63A2184D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B98707-2304-4235-956E-43E63A2184D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B98707-2304-4235-956E-43E63A2184D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B98707-2304-4235-956E-43E63A2184D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57A9CB1F-9145-4E4F-A9E8-F42E9D468216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A9CB1F-9145-4E4F-A9E8-F42E9D468216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A9CB1F-9145-4E4F-A9E8-F42E9D468216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A9CB1F-9145-4E4F-A9E8-F42E9D468216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7894DFC-2C49-4C11-8FA5-1ED36566E844} = {08BCC246-A808-4C8B-B4F0-10BB0A03955E}
+		{08B98707-2304-4235-956E-43E63A2184D2} = {08BCC246-A808-4C8B-B4F0-10BB0A03955E}
+		{F77B8DDA-BAD5-4A44-B19C-FB803DC494D7} = {08BCC246-A808-4C8B-B4F0-10BB0A03955E}
+		{57A9CB1F-9145-4E4F-A9E8-F42E9D468216} = {08BCC246-A808-4C8B-B4F0-10BB0A03955E}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {40C550E1-1150-4B83-9CB2-E79E836F24E7}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://sakshemser:8080/tfs/hrmscollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = projContext\\projContext.csproj
-		SccProjectName1 = projContext
-		SccLocalPath1 = projContext
-		SccProjectUniqueName2 = projAPI\\projAPI.csproj
-		SccProjectName2 = projAPI
-		SccLocalPath2 = projAPI
-		SccProjectUniqueName3 = projDesign\\projDesign.csproj
-		SccProjectName3 = projDesign
-		SccLocalPath3 = projDesign
-		SccProjectUniqueName4 = projLicensing\\projLicensing.csproj
-		SccProjectName4 = projLicensing
-		SccLocalPath4 = projLicensing
 	EndGlobalSection
 EndGlobal
