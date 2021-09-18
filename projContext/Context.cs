@@ -10,12 +10,12 @@ namespace projContext
         /// <summary>
         /// Devlopment Server
         /// </summary>
-        public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        //public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
         /// QA Server
         /// </summary>
-        //public string _connectionString = "Data Source = 192.168.10.6; port = 3306; Initial Catalog = db_hrms_glaze_05_11_20; User ID = sa; Password = glaze@123;Allow User Variables=True ; Use Default Command Timeout For EF=true;Default Command Timeout=600;MaximumPoolsize=5000;Convert Zero Datetime=True;";
+        public string _connectionString = "Data Source = 192.168.10.6; port = 3306; Initial Catalog = db_hrms_glaze_05_11_20; User ID = sa; Password = glaze@123;Allow User Variables=True ; Use Default Command Timeout For EF=true;Default Command Timeout=600;MaximumPoolsize=5000;Convert Zero Datetime=True;";
         //public string _connectionString = "Data Source = 192.168.10.6; port = 3306; Initial Catalog = db_hrms_demo1; User ID = sa; Password = glaze@123;Allow User Variables=True ; Use Default Command Timeout For EF=true;Default Command Timeout=600;MaximumPoolsize=5000;Convert Zero Datetime=True;";
 
         /// <summary>

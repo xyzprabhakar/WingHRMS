@@ -194,11 +194,11 @@ namespace projDayStatus
                                 log.instance_id = InstanceList[Index].instance_id;
                                 log.response = ObjResult_.Content == "" ? ObjResult_.StatusDescription : ObjResult_.Content;
 
-                                RestClient client_err = new RestClient(ApibaseUrl);
-                                var request_err = new RestRequest("/apiLicense/SaveApiLogData", Method.POST);
-                                request_err.AddHeader("cache-control", "no-cache");
-                                request_err.AddJsonBody(log);
-                                IRestResponse ObjErrResult = client_err.Execute(request_err);
+                                //RestClient client_err = new RestClient(ApibaseUrl);
+                                //var request_err = new RestRequest("/apiLicense/SaveApiLogData", Method.POST);
+                                //request_err.AddHeader("cache-control", "no-cache");
+                                //request_err.AddJsonBody(log);
+                                //IRestResponse ObjErrResult = client_err.Execute(request_err);
 
                             }
                         }
@@ -210,11 +210,7 @@ namespace projDayStatus
                         log.instance_id = InstanceList[Index].instance_id;
                         log.response = exx.Message;
 
-                        RestClient client_err = new RestClient(ApibaseUrl);
-                        var request_err = new RestRequest("/apiLicense/SaveApiLogData", Method.POST);
-                        request_err.AddHeader("cache-control", "no-cache");
-                        request_err.AddJsonBody(log);
-                        IRestResponse ObjErrResult = client_err.Execute(request_err);
+                        
                     }
                 }
                 return "Data process successfully !!";
@@ -226,13 +222,7 @@ namespace projDayStatus
                 log.entrydate = DateTime.Now;
                 log.instance_id = "";
                 log.response = ex.Message;
-
-                RestClient client = new RestClient(ApibaseUrl);
-                var request = new RestRequest("/apiLicense/SaveApiLogData", Method.POST);
-                request.AddHeader("cache-control", "no-cache");
-                request.AddJsonBody(log);
-                IRestResponse ObjResult = client.Execute(request);
-
+                
                 return ex.Message;
             }
         }

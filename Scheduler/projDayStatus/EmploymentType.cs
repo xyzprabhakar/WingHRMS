@@ -130,5 +130,95 @@ namespace projDayStatus
             }
 
         }
+
+        public string EmploymentType_Update(List<clsInsatnce> InstanceList)
+        {
+            Api_log log = new Api_log();
+            try
+            {
+                for (int Index = 0; Index < InstanceList.Count; Index++)
+                {
+
+                    if ((InstanceList[Index].organisation == "localhost") || (InstanceList[Index].organisation == "Sakshem IT") || (InstanceList[Index].organisation == "Sakshem IT-test"))
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        tokenizer ObjToken = new tokenizer();
+                        ObjToken.username = InstanceList[Index].superadmin_username;
+                        ObjToken.password = InstanceList[Index].superadmin_password;
+                        ObjToken.ApibaseUrl = InstanceList[Index].api_project_url;
+                        //call login
+                        ObjToken.login_set_tokken();
+
+                        if (!string.IsNullOrEmpty(ObjToken.tokken))
+                        {
+                            //call and get guid
+                            //call api to get instance data for process Attendance Status
+                            RestClient client_guid = new RestClient(ObjToken.ApibaseUrl);
+                            var request_guid = new RestRequest("/Values/GetGUID", Method.GET);
+                            request_guid.AddHeader("cache-control", "no-cache");
+                            request_guid.AddHeader("Content-Type", "application/json");
+                            request_guid.AddParameter("id", ObjToken.emp_id, ParameterType.QueryString);
+                            IRestResponse<List<dynamic>> ObjGuid = client_guid.Execute<List<dynamic>>(request_guid);
+
+                            if (ObjGuid.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                string guid_ = ObjGuid.Data[0].ToString();
+                                //call api for daily attendance status update
+                                RestClient client1 = new RestClient(ObjToken.ApibaseUrl);
+                                client1.AddDefaultHeader("authorization", "Bearer " + ObjToken.tokken);
+                                var request1 = new RestRequest("/apiEmployee/UpdatOfficialEmploymentType", Method.GET);
+                                request1.AddHeader("cache-control", "no-cache");
+                                request1.AddParameter("salt", guid_, ParameterType.HttpHeader);
+
+                                IRestResponse ObjResult_ = client1.Execute(request1);
+                                if (ObjResult_.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+
+                                log.api_type = "Employment Type";
+                                log.entrydate = DateTime.Now;
+                                log.instance_id = InstanceList[Index].instance_id;
+                                log.response = ObjResult_.Content == "" ? ObjResult_.StatusDescription : ObjResult_.Content;
+
+
+                            }
+                        }
+                    }
+                    catch (Exception exx)
+                    {
+                        log.api_type = "Employment Type";
+                        log.entrydate = DateTime.Now;
+                        log.instance_id = InstanceList[Index].instance_id;
+                        log.response = exx.Message;
+
+                    }
+                }
+
+
+                return "Data process successfully !!";
+
+            }
+            catch (Exception ex)
+            {
+                //save error log
+                log.api_type = "Employment Type";
+                log.entrydate = DateTime.Now;
+                log.instance_id = "";
+                log.response = ex.Message;
+
+
+                return ex.Message;
+            }
+
+        }
     }
 }

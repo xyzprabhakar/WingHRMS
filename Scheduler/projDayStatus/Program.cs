@@ -48,7 +48,7 @@ namespace projDayStatus
                 //Update Employment Type
                 Console.WriteLine("--Update Employment Type in official section start--");
                 EmploymentType objemptype = new EmploymentType();
-                string EmpType = objemptype.EmploymentType_Update();
+                string EmpType = objemptype.EmploymentType_Update(InstanceList);
                 Console.WriteLine(EmpType);
                 Console.WriteLine("--Update Employment Type in official section end--");
                 
@@ -56,21 +56,21 @@ namespace projDayStatus
                 //Update Day Status
                 Console.WriteLine("---Update Day Status Start---");
                 InstanceData ObjInstance = new InstanceData();
-                string result = ObjInstance.Update_DayStatus_AllInstance();
+                string result = ObjInstance.Update_DayStatus_AllInstance(InstanceList);
                 Console.WriteLine(result);
                 Console.WriteLine("---Update Day Status End---");
 
                 //Shift Notification
                 Console.WriteLine("--Start Shift Change Notification--");
                 ShiftNotification objshift = new ShiftNotification();
-                string objshift_notification_result = objshift.ShiftAssignmentNotification();
+                string objshift_notification_result = objshift.ShiftAssignmentNotification(InstanceList);
                 Console.WriteLine(objshift_notification_result);
                 Console.WriteLine("--End Shift Change Notification--");
 
                 //Yesterday Absent Notification
                 Console.WriteLine("---Yesterday Absent Notification Start---");
                 AttendanceNotification ObjAtt = new AttendanceNotification();
-                string ObjAttYesterdayResult = ObjAtt.LastDayAbsentNotification();
+                string ObjAttYesterdayResult = ObjAtt.LastDayAbsentNotification(InstanceList);
                 Console.WriteLine(ObjAttYesterdayResult);
                 Console.WriteLine("---Yesterday Absent Notification End---");
 
@@ -78,21 +78,21 @@ namespace projDayStatus
                 //Yesterday Absent Notification
                 Console.WriteLine("---Weekly Attendance Notification Start---");
                 AttendanceNotification objweekatt = new AttendanceNotification();
-                string ObjAttWeeklyResult = objweekatt.WeeklyAttendanceNotification();
+                string ObjAttWeeklyResult = objweekatt.WeeklyAttendanceNotification(InstanceList);
                 Console.WriteLine(ObjAttWeeklyResult);
                 Console.WriteLine("---Weekly Attendance Notification End---");
 
                 //No Dues Clearance Particular Department Wise Entry
                 Console.WriteLine("---Update No Dues Clearance Particular Department Wise Start ---");
                 NoDues ObjNoDues = new NoDues();
-                string NoDuesResult = ObjNoDues.DoDuesEmployeeEntry();
+                string NoDuesResult = ObjNoDues.DoDuesEmployeeEntry(InstanceList);
                 Console.WriteLine(NoDuesResult);
                 Console.WriteLine("---Update No Dues Clearance Particular Department Wise End---");
 
                 //LWP Entry
                 Console.WriteLine("---LWP Entry Start ---");
                 LWP ObjLWP = new LWP();
-                string LWPResult = ObjLWP.LWPEntry();
+                string LWPResult = ObjLWP.LWPEntry(InstanceList);
                 Console.WriteLine(LWPResult);
                 Console.WriteLine("---LWP Entry End---");
 
