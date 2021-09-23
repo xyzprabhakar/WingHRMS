@@ -6,8 +6,6 @@ var login_emp_id;
 $(document).ready(function () {
     setTimeout(function () {
         
-
-
         var token = localStorage.getItem('Token');
 
         if (token == null) {
@@ -22,7 +20,6 @@ $(document).ready(function () {
         $('#divPunchOutTime').hide();
 
         //////////////////////
-
 
         //Get Shift Id 
         GetLastShiftId();
@@ -811,6 +808,8 @@ $(document).ready(function () {
 function GetPunchOutTime() {
     $('#loader').show();
     var txtPunchInTime = $("#txtPunchInTime").val();
+    
+
 
     if (txtPunchInTime == '') {
         alert('Punch in time is required field...!');
@@ -845,9 +844,9 @@ function GetPunchOutTime() {
 
     var PunchOutTime = formatAMPM(punchintime);
     $("#txtPunchOutTime").val(PunchOutTime);
-
-    $("#txtpunch_in_max_time").val(txtPunchInTime);
-
+    if ($("#ddlShiftType").val() != 2) {
+        $("#txtpunch_in_max_time").val(txtPunchInTime);
+    }
     //$("#txtPunchOutTime").val(PunchOutTime);
     $('#loader').hide();
 }
@@ -948,6 +947,9 @@ function Validation() {
     var txtpunch_in_max_time = $("#txtpunch_in_max_time").val();
     var txtmark_as_half_day_for_working_hours_less_than = $("#txtmark_as_half_day_for_working_hours_less_than").val();
 
+    var ddlShiftType= $("#ddlShiftType").val();
+    
+
     if (ddlShiftType == '' || ddlShiftType == "0" || ddlShiftType == "") {
         messageBox("error", "Shift type is required field...!");
         isvalid = false;
@@ -981,7 +983,7 @@ function Validation() {
         $("#txtmark_as_half_day_for_working_hours_less_than").focus();
         isvalid = false;
     }
-    else if (new Date('2000-01-01 ' + txtpunch_in_max_time) < new Date('2000-01-01 ' + txtPunchInTime) || new Date('2000-01-01 ' + txtpunch_in_max_time) > new Date('2000-01-01 ' + txtPunchOutTime)) {
+    else if ((ddlShiftType==1) && (new Date('2000-01-01 ' + txtpunch_in_max_time) < new Date('2000-01-01 ' + txtPunchInTime) || new Date('2000-01-01 ' + txtpunch_in_max_time) > new Date('2000-01-01 ' + txtPunchOutTime)) ){
         messageBox("error", "Punch in maximum time must be greater than punch in time and less than punch out time");
         $("#txtpunch_in_max_time").focus();
         isvalid = false;
