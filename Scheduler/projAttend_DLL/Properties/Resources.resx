@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApiUrl" xml:space="preserve">
-    <value>http://192.168.10.26/</value>
+    <value>http://103.208.201.116:8010/</value>
     <comment>http://eximapi.sakshemithrms.net/,  http://sakshemitAPI.sakshemithrms.net/,https://localhost:44384/</comment>
   </data>
   <data name="companyid" xml:space="preserve">
