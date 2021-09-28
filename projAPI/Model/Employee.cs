@@ -12,7 +12,8 @@ namespace projAPI.Model
 
     public class EmployeeBasicData : EmployeeBasicDataProc
     {
-
+        public string Official_email_id { get; set; }
+        public string official_contact_no { get; set; }
     }
 
     public class EmployeeMaster

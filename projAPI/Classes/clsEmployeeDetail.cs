@@ -417,8 +417,8 @@ namespace projAPI.Classes
                                 email = Convert.ToString(rd["email"]),
                                 desig_name = Convert.ToString(rd["desig_name"]),
                                 emp_img = Convert.ToString(rd["emp_img"]),
-
-
+                                official_contact_no= Convert.ToString(rd["official_contact_no"]),
+                                Official_email_id= Convert.ToString(rd["Official_email_id"]),
                             });
                         }
                         rd.Close();

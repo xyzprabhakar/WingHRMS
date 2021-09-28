@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="api_project_url" xml:space="preserve">
-    <value>localhost</value>
+    <value>http://103.208.201.116:8010/api</value>
   </data>
   <data name="BaseUrl" xml:space="preserve">
-    <value>http://192.168.10.26:1012/api</value>
+    <value>http://103.208.201.116:8010/api</value>
     <comment>http://sakshemitapi.ourhrms.com/api   http://admin.ourhrms.com/api      http://192.168.10.6:1010/api</comment>
   </data>
   <data name="DefaultOrganisation" xml:space="preserve">
@@ -132,9 +132,9 @@
     <comment>http://192.168.10.26:1012/api</comment>
   </data>
   <data name="superadmin_password" xml:space="preserve">
-    <value>glaze@12</value>
+    <value>jnZWe3S+++aQtpmKlibdOA==</value>
   </data>
   <data name="superadmin_username" xml:space="preserve">
-    <value>admin</value>
+    <value>machineadmin</value>
   </data>
 </root>

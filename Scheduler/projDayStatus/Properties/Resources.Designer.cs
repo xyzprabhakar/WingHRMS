@@ -61,7 +61,7 @@ namespace projDayStatus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to localhost.
+        ///   Looks up a localized string similar to http://103.208.201.116:8010/api.
         /// </summary>
         internal static string api_project_url {
             get {
@@ -70,7 +70,7 @@ namespace projDayStatus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://192.168.10.26:1012/api.
+        ///   Looks up a localized string similar to http://103.208.201.116:8010/api.
         /// </summary>
         internal static string BaseUrl {
             get {
@@ -97,7 +97,7 @@ namespace projDayStatus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to glaze@12.
+        ///   Looks up a localized string similar to jnZWe3S+++aQtpmKlibdOA==.
         /// </summary>
         internal static string superadmin_password {
             get {
@@ -106,7 +106,7 @@ namespace projDayStatus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to admin.
+        ///   Looks up a localized string similar to machineadmin.
         /// </summary>
         internal static string superadmin_username {
             get {

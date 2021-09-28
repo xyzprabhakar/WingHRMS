@@ -611,7 +611,9 @@ namespace projAPI.Classes
                     mobileno = p.mobileno,
                     email = p.email,
                     desig_name = p.desig_name,
-                    emp_img = p.emp_img
+                    emp_img = p.emp_img,
+                    official_contact_no=p.official_contact_no,
+                    Official_email_id=p.Official_email_id
                 }));
             ;
 

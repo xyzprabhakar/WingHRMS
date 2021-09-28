@@ -8,6 +8,8 @@
         }
         var emp_role_id1 = CryptoJS.AES.decrypt(localStorage.getItem("emp_role_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
         var company_idd1 = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
+        console.log(emp_role_id1);
+
         BindEmployee_ByCompID_dir(company_idd1, emp_role_id1);
 
     }, 2000);// end timeout
@@ -90,8 +92,10 @@ function BindEmployee_ByCompID_dir(company_idd1, emp_role_id1) {
                     },
                     { "data": "emp_code", "name": "emp_code", "autoWidth": true, "title": "Employee Code" },
                     { "data": "emp_name", "name": "emp_name", "autoWidth": true, "title": "Employee Name" },
+                    { "data": "official_email_id", "name": "official_email_id", "autoWidth": true, "title": "Official Email" },
                     { "data": "email", "name": "email", "autoWidth": true, "title": "Email-Id" },
-                    { "data": "mobileno", "name": "mobileno", "autoWidth": true, "title": "Phone Number" },
+                    { "data": "official_contact_no", "name": "official_contact_no", "autoWidth": true, "title": "Official Number" },
+                    { "data": "mobileno", "name": "mobileno", "autoWidth": true, "title": "Phone Number" },                    
                     { "data": "location_name", "name": "location_name", "autoWidth": true, "title": "Location" },
                     { "data": "dept_name", "name": "dept_name", "autoWidth": true, "title": "Department" },
                     { "data": "desig_name", "name": "desig_name", "autoWidth": true, "title": "Designation" },
@@ -101,7 +105,7 @@ function BindEmployee_ByCompID_dir(company_idd1, emp_role_id1) {
                     $("td:nth-child(1)", nRow).html(iDisplayIndex + 1);
                     return nRow;
                 },
-                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
+                "lengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]]
 
             });
 

@@ -437,6 +437,9 @@ namespace projContext.DB
         [DataType(DataType.EmailAddress, ErrorMessage = "Invalid Email Address")]
         public string official_email_id { get; set; }
 
+        [MaxLength(20)]
+        public string official_contact_no { get; set; } = "0000";
+
         [ForeignKey("tbl_employment_type_master")] // Foreign Key here
         public int? empmnt__id { get; set; }
         public tbl_employment_type_master tbl_employment_type_master { get; set; }

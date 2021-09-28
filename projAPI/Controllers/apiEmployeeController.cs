@@ -18998,7 +18998,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region Get employee directory / Birthday / Anniversary method created by anil kumar on 2 dec 2020 
+        #region Get employee directory / Birthday / Anniversary method 
 
         [Route("Get_Employee_from_all_Company_dir/{companyid}/{emp_id}")]
         [HttpGet]
@@ -19008,21 +19008,19 @@ namespace projAPI.Controllers
             ResponseMsg objresponse = new ResponseMsg();
             try
             {
-
                 var user_dtl = _context.tbl_user_master.Where(x => x.employee_id == _clsCurrentUser.EmpId && x.is_active == 1).FirstOrDefault();
-
                 clsUsersDetails objuser_dtl = new clsUsersDetails(_context, _config, user_dtl.username.Trim().ToUpper(), user_dtl.password.Trim(), 0);
-
                 List<EmployeeList> emplist = objuser_dtl.Get_Emp_dtl_for_dir(_clEmployeeDetail).Distinct().ToList();
-
-                if (_clsCurrentUser.RoleId != null)
-                    if (!(_clsCurrentUser.RoleId.Contains((int)enmRoleMaster.SuperAdmin) || _clsCurrentUser.RoleId.Contains((int)enmRoleMaster.HRAdmin)))
-                        emplist = emplist.Where(x => x.emp_status != (int)EmployeeType.FNF && x.emp_status != (int)EmployeeType.Terminate).Distinct().ToList();
-
-
+                if (_clsCurrentUser.RoleId != null && !(_clsCurrentUser.RoleId.Contains((int)enmRoleMaster.SuperAdmin) || _clsCurrentUser.RoleId.Contains((int)enmRoleMaster.HRAdmin) ||
+                    _clsCurrentUser.RoleId.Contains((int)enmRoleMaster.AttendanceAdmin))
+                    )
+                {                    
+                  emplist.ForEach(p=> {
+                      p.email = "xxxx@xxxx.com";
+                      p.mobileno = "xxxxxxxxxxx";
+                  });
+                }
                 return Ok(emplist);
-
-
             }
             catch (Exception ex)
             {

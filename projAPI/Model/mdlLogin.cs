@@ -177,5 +177,10 @@ namespace projAPI.Model
         public string emp_img { get; set; }
         public string dob { get; set; }
         public string doanv { get; set; }
+        public string official_contact_no { get; set; }
+        public string Official_email_id { get; set; }
+
+
+
     }
 }
