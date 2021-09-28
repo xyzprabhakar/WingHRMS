@@ -19,7 +19,7 @@ namespace projAttend_DLL.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,7 +61,7 @@ namespace projAttend_DLL.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://192.168.10.26/.
+        ///   Looks up a localized string similar to http://103.208.201.116:8010/.
         /// </summary>
         internal static string ApiUrl {
             get {
