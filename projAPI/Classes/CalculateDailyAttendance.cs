@@ -87,6 +87,7 @@ namespace projAPI.Classes
             public byte LeaveType { get; set; }
             public bool IsLWP { get; set; }
             public bool IsShortLeave { get; set; }
+            public bool IsWeekOff { get; set; }
         }
 
         public string _Message = "";
@@ -256,6 +257,8 @@ namespace projAPI.Classes
             _AttendanceData = _context.tbl_attendance_details.Where(p => p.emp_id == _empId && p.punch_time >= _fromDate && p.punch_time <= AttendanceLastDay).ToList();
         }
 
+        
+
         private bool IsLWP(int LeaveRequestId)
         {
             bool IsLWP_ = false;
@@ -266,6 +269,18 @@ namespace projAPI.Classes
                 { IsLWP_ = true; }
             }
             return IsLWP_;
+        }
+
+        private bool IsWeekOff(int LeaveRequestId)
+        {
+            bool IsWeekOff_ = false;
+            var leaveRequest = _context.tbl_leave_request.Where(p => p.leave_request_id == LeaveRequestId).FirstOrDefault();
+            if (leaveRequest != null)
+            {
+                if (_context.tbl_leave_type.Where(p => p.leave_type_id == leaveRequest.leave_type_id && p.leave_type_name == "WeekOff").Count() > 0)
+                { IsWeekOff_ = true; }
+            }
+            return IsWeekOff_;
         }
 
         private void SetShift()
@@ -903,7 +918,11 @@ namespace projAPI.Classes
                         IsShortDayLeave = true;
                     }
                 }
-                
+
+                if (IsWeekOff(_Tdas[Index].leave_request_id ?? 0))
+                {
+                    _Tdas[Index].is_weekly_off = 1;
+                }                
 
                 if (!(_Tdas[Index].is_holiday == 1 || _Tdas[Index].is_comp_off == 1 || _Tdas[Index].is_weekly_off == 1))
                 {

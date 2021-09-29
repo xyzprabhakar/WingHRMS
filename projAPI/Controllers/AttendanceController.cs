@@ -469,9 +469,11 @@ namespace projAPI.Controllers
 
                 //star Get Data according to monthly setting
 
-                int month_circle_to_date = get_payroll_circle != null ? (get_payroll_circle.from_date == 1 ? 31 : get_payroll_circle.from_date - 1) : 30;
+                int month_circle_to_date = get_payroll_circle != null ? (get_payroll_circle.from_date == 1 ? (new DateTime(getyear, getmonth, 1).AddMonths(1).AddDays(-1)).Day : get_payroll_circle.from_date - 1) : 30;
+                DateTime cirle_to_date = new DateTime(getyear, getmonth, get_payroll_circle.from_date);
+                
 
-                DateTime cirle_to_date = Convert.ToDateTime(getyear + "-" + getmonth + "-" + month_circle_to_date);
+                
 
                 var month_circle_atten_summary = AttenList.Where(p => p.attendance_dt.Date >= FromDate.Date && p.attendance_dt.Date <= cirle_to_date.Date);
 
