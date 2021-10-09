@@ -553,6 +553,10 @@ function Validate() {
         errormsg = errormsg + "Please enter leave remarks !! <br/>";
         iserror = true;
     }
+    if (leave_info_id == 9 && leave_applicable_for != 1) {
+        errormsg = errormsg + "Weekoff only applicable for full day <br/>";
+        iserror = true;
+    }
     //if (empid == null || empid == '') {
     //    errormsg = errormsg + "Invalid employee id please login again !! <br/>";
     //    iserror = true;

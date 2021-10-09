@@ -5065,54 +5065,54 @@ namespace projAPI.Controllers
                 var getyear = objattendace_request.from_date.Year;
                 DateTime nowdate = Convert.ToDateTime(getyear + "-" + getmonth + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date : 1));
                 DateTime FromDate = new DateTime();
-                DateTime ToDate = new DateTime();
+                //DateTime ToDate = new DateTime();
 
-                if (objattendace_request.from_date.Date >= nowdate.Date)
-                {
-                    FromDate = nowdate;
+                //if (objattendace_request.from_date.Date >= nowdate.Date)
+                //{
+                //    FromDate = nowdate;
 
-                    DateTime todate_ = nowdate.AddMonths(1);
-                    ToDate = Convert.ToDateTime(todate_.Year.ToString() + "-" + todate_.Month.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
-                }
-                else
-                {
-                    FromDate = Convert.ToDateTime(nowdate.AddMonths(-1).ToString("dd-MMM-yyyy 00:00:00 tt"));
-                    ToDate = Convert.ToDateTime(getyear.ToString() + "-" + getmonth.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
-                }
+                //    DateTime todate_ = nowdate.AddMonths(1);
+                //    ToDate = Convert.ToDateTime(todate_.Year.ToString() + "-" + todate_.Month.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
+                //}
+                //else
+                //{
+                //    FromDate = Convert.ToDateTime(nowdate.AddMonths(-1).ToString("dd-MMM-yyyy 00:00:00 tt"));
+                //    ToDate = Convert.ToDateTime(getyear.ToString() + "-" + getmonth.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
+                //}
 
-                //FromDate = Convert.ToDateTime(nowdate.AddMonths(-1).ToString("dd-MMM-yyyy 00:00:00 tt"));
+                ////FromDate = Convert.ToDateTime(nowdate.AddMonths(-1).ToString("dd-MMM-yyyy 00:00:00 tt"));
 
-                //ToDate = Convert.ToDateTime(getyear.ToString() + "-" + getmonth.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
+                ////ToDate = Convert.ToDateTime(getyear.ToString() + "-" + getmonth.ToString() + "-" + (get_payroll_circle != null ? get_payroll_circle.from_date - 1 : 30));
 
-                //Convert.ToInt32(_config["attandance_regularize_pm"]);
+                ////Convert.ToInt32(_config["attandance_regularize_pm"]);
 
-                DateTime from26thofmonth = new DateTime();
-                DateTime to25thofmonth = new DateTime();
+                //DateTime from26thofmonth = new DateTime();
+                //DateTime to25thofmonth = new DateTime();
 
-                var selectedfromdate = objattendace_request.from_date.Date;
+                //var selectedfromdate = objattendace_request.from_date.Date;
 
-                if (objattendace_request.from_date.Date.Day <= 25)
-                {
-                    var prvmonth = selectedfromdate.AddMonths(-1);
-                    from26thofmonth = Convert.ToDateTime(prvmonth.Year.ToString() + "-" + prvmonth.Month + "-" + "26");
-                    to25thofmonth = Convert.ToDateTime(selectedfromdate.Year.ToString() + "-" + selectedfromdate.Month + "-" + "25");
-                }
-                else
-                {
-                    var nextmonth = selectedfromdate.AddMonths(1);
-                    from26thofmonth = Convert.ToDateTime(selectedfromdate.Year.ToString() + "-" + selectedfromdate.Month + "-" + "26");
-                    to25thofmonth = Convert.ToDateTime(nextmonth.Year.ToString() + "-" + nextmonth.Month + "-" + "25");
-                }
+                //if (objattendace_request.from_date.Date.Day <= 25)
+                //{
+                //    var prvmonth = selectedfromdate.AddMonths(-1);
+                //    from26thofmonth = Convert.ToDateTime(prvmonth.Year.ToString() + "-" + prvmonth.Month + "-" + "26");
+                //    to25thofmonth = Convert.ToDateTime(selectedfromdate.Year.ToString() + "-" + selectedfromdate.Month + "-" + "25");
+                //}
+                //else
+                //{
+                //    var nextmonth = selectedfromdate.AddMonths(1);
+                //    from26thofmonth = Convert.ToDateTime(selectedfromdate.Year.ToString() + "-" + selectedfromdate.Month + "-" + "26");
+                //    to25thofmonth = Convert.ToDateTime(nextmonth.Year.ToString() + "-" + nextmonth.Month + "-" + "25");
+                //}
 
-                // var current_month_att = exist_att_req.Where(x => FromDate.Date <= x.from_date.Date && x.from_date.Date <= ToDate.Date).ToList();
-                var current_month_att = exist_att_req.Where(x => x.from_date.Date >= from26thofmonth && x.from_date.Date <= to25thofmonth).ToList();
+                //// var current_month_att = exist_att_req.Where(x => FromDate.Date <= x.from_date.Date && x.from_date.Date <= ToDate.Date).ToList();
+                //var current_month_att = exist_att_req.Where(x => x.from_date.Date >= from26thofmonth && x.from_date.Date <= to25thofmonth).ToList();
 
-                if (current_month_att.Count >= Convert.ToInt32(_config["attandance_regularize_pm"]))
-                {
-                    objResult.StatusCode = 1;
-                    objResult.Message = "Cannot raise more than " + _config["attandance_regularize_pm"] + " in a month (26th to 25th)";
-                    return Ok(objResult);
-                }
+                //if (current_month_att.Count >= Convert.ToInt32(_config["attandance_regularize_pm"]))
+                //{
+                //    objResult.StatusCode = 1;
+                //    objResult.Message = "Cannot raise more than " + _config["attandance_regularize_pm"] + " in a month (26th to 25th)";
+                //    return Ok(objResult);
+                //}
 
                 //end
 
@@ -5286,19 +5286,8 @@ namespace projAPI.Controllers
                     return Ok(objResult);
                 }
 
-                var attendance_dtl = _context.tbl_daily_attendance.Where(x => _clsCurrentUser.DownlineEmpId.Contains(x.emp_id ?? 0)).Select(p => new
-                {
-                    p.attendance_dt,
-                    p.emp_id,
-                    p.in_time,
-                    p.out_time,
-                    p.shift_in_time,
-                    p.shift_out_time
-                }).ToList();
-
-
                 var result = (from a in _context.tbl_attendace_request
-                              join b in attendance_dtl on new { _date = a.from_date.Date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt.Date, _empidd = b.emp_id } into ej
+                              join b in _context.tbl_daily_attendance on new { _date = a.from_date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt, _empidd = b.emp_id } into ej
                               from d in ej.DefaultIfEmpty()
                               where (_clsCurrentUser.DownlineEmpId.Contains(a.r_e_id ?? 0) && a.is_deleted == 0 && a.is_final_approve == 0)
                               select new
@@ -5315,8 +5304,8 @@ namespace projAPI.Controllers
                                   requester_remarks = a.requester_remarks,
                                   status = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approve" : "Reject") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
                                   requester_id = a.r_e_id,
-                                  system_in_time = d != null ? d.in_time : new DateTime(2000, 01, 01),
-                                  system_out_time = d != null ? d.out_time : new DateTime(2000, 01, 01),
+                                  system_in_time = d.in_time ,//d != null ?  d.in_time : new DateTime(2000, 01, 01),
+                                  system_out_time = d.out_time, //d != null ? d.out_time : new DateTime(2000, 01, 01),
                                   is_approved1 = a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approve" : "Reject",
                                   is_approved2 = a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approve" : "Reject",
                                   is_approved3 = a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approve" : "Reject",
@@ -5346,6 +5335,7 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.AttendanceApplicationReport))]
         public IActionResult Get_AttendanceApplicationRequest([FromBody] LeaveReport objmodel) // 0 for all employee , 1 for selected emp
         {
+            DateTime d_DefaultDt = new DateTime(2000, 1, 1);
             ResponseMsg objResult = new ResponseMsg();
             try
             {
@@ -5364,22 +5354,22 @@ namespace projAPI.Controllers
                 }
 
 
-                var attendance_dtl = _context.tbl_daily_attendance.Where(x => DateTime.Parse(objmodel.from_date).Date <= x.attendance_dt.Date && x.attendance_dt.Date <= DateTime.Parse(objmodel.to_date).Date &&
-                ((_clsCurrentUser.Is_SuperAdmin || _clsCurrentUser.Is_HRAdmin) ? (objmodel.empdtl.Count > 1 ? true : objmodel.empdtl.Contains(x.emp_id ?? 0)) : objmodel.empdtl.Contains(x.emp_id ?? 0))).Select(p => new
-                {
-                    p.attendance_dt,
-                    p.emp_id,
-                    p.in_time,
-                    p.out_time,
-                    p.shift_in_time,
-                    p.shift_out_time,
-                }).ToList();
+                //var attendance_dtl = _context.tbl_daily_attendance.Where(x => DateTime.Parse(objmodel.from_date).Date <= x.attendance_dt.Date && x.attendance_dt.Date <= DateTime.Parse(objmodel.to_date).Date &&
+                //((_clsCurrentUser.Is_SuperAdmin || _clsCurrentUser.Is_HRAdmin) ? (objmodel.empdtl.Count > 1 ? true : objmodel.empdtl.Contains(x.emp_id ?? 0)) : objmodel.empdtl.Contains(x.emp_id ?? 0))).Select(p => new
+                //{
+                //    p.attendance_dt,
+                //    p.emp_id,
+                //    p.in_time,
+                //    p.out_time,
+                //    p.shift_in_time,
+                //    p.shift_out_time,
+                //}).ToList();
 
                 //   var result = _context.tbl_attendace_request.Where(x => DateTime.Parse(objmodel.from_date).Date <= x.from_date.Date && x.from_date.Date <= DateTime.Parse(objmodel.to_date).Date &&
                 //  ((_clsCurrentUser.Is_SuperAdmin || _clsCurrentUser.Is_HRAdmin) ? (objmodel.empdtl.Count > 1 ? true : objmodel.empdtl.Contains(x.r_e_id ?? 0)) : objmodel.empdtl.Contains(x.r_e_id ?? 0))).Select(a => new
 
                 var result = (from a in _context.tbl_attendace_request
-                              join b in attendance_dtl on new { _date = a.from_date.Date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt.Date, _empidd = b.emp_id } into ej
+                              join b in _context.tbl_daily_attendance on new { _date = a.from_date.Date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt.Date, _empidd = b.emp_id } into ej
                               from d in ej.DefaultIfEmpty()
                                   // join d in attendance_dtl on a.r_e_id equals d.emp_id
                               where DateTime.Parse(objmodel.from_date).Date <= a.from_date.Date && a.from_date.Date <= DateTime.Parse(objmodel.to_date).Date &&
@@ -5404,15 +5394,15 @@ namespace projAPI.Controllers
                                   //shift_Name = _context.tbl_shift_master.Where(x => x.shift_id == a.tbl_employee_requester.tbl_emp_shift_allocation.FirstOrDefault().shift_id).FirstOrDefault().tbl_shift_details.FirstOrDefault(z => z.is_deleted == 0).shift_name,
                                   //shift_in_time = _context.tbl_shift_master.Where(x => x.shift_id == a.tbl_employee_requester.tbl_emp_shift_allocation.FirstOrDefault().shift_id).FirstOrDefault().tbl_shift_details.FirstOrDefault(z => z.is_deleted == 0).punch_in_time,
                                   //shift_out_time = _context.tbl_shift_master.Where(x => x.shift_id == a.tbl_employee_requester.tbl_emp_shift_allocation.FirstOrDefault().shift_id).FirstOrDefault().tbl_shift_details.FirstOrDefault(z => z.is_deleted == 0).punch_out_time,
-                                  actual_in_time = d != null ? d.in_time : new DateTime(2000, 01, 01),
-                                  actual_out_time = d != null ? d.out_time : new DateTime(2000, 01, 01),
+                                  actual_in_time = d != null ? d.in_time : d_DefaultDt,
+                                  actual_out_time = d != null ? d.out_time : d_DefaultDt,
                                   actual_working_hour = d != null ? d.out_time.Subtract(d.in_time).TotalHours.ToString() : "0",
                                   //     actual_working_hour = d != null ? Convert.ToInt32(d.out_time.Subtract(d.in_time).TotalHours / 8.5).ToString() + ":" + Convert.ToInt32(d.out_time.Subtract(d.in_time).TotalHours % 8.5).ToString() : "0",
-                                  actual_status = d != null ? d.out_time.Subtract(d.in_time).TotalHours >= 4 ? "Present" : d.out_time.Subtract(d.in_time).TotalHours >= 4 ? "Half Day" : "Absent" : "Absent",
+                                  actual_status = d != null ? d.out_time.Subtract(d.in_time).TotalHours >= 9 ? "Present" : d.out_time.Subtract(d.in_time).TotalHours >= 4.5 ? "Half Day" : "Absent" : "Absent",
                                   in_time = a.manual_in_time,
                                   out_time = a.manual_out_time,
                                   worked_hour = a.manual_out_time.Subtract(a.manual_in_time).TotalHours,
-                                  new_status = a.manual_out_time.Subtract(a.manual_in_time).TotalHours >= 8.5 ? "Present" : a.manual_out_time.Subtract(a.manual_in_time).TotalHours >= 4 ? "Half Day" : "Absent",
+                                  new_status = a.manual_out_time.Subtract(a.manual_in_time).TotalHours >= 9 ? "Present" : a.manual_out_time.Subtract(a.manual_in_time).TotalHours >= 4.5 ? "Half Day" : "Absent",
                                   requester_remarks = a.requester_remarks,
                                   status = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approve" : "Reject") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
                                   applied_on = a.requester_date,
@@ -5434,8 +5424,8 @@ namespace projAPI.Controllers
                                                             a.tem_admin.tbl_emp_officaial_sec.FirstOrDefault(p => p.is_deleted == 0).employee_middle_name,
                                                             a.tem_admin.tbl_emp_officaial_sec.FirstOrDefault(p => p.is_deleted == 0).employee_last_name) : "",
                                   requester_id = a.r_e_id,
-                                  system_in_time = d != null ? d.in_time : new DateTime(2000, 01, 01),
-                                  system_out_time = d != null ? d.out_time : new DateTime(2000, 01, 01),
+                                  system_in_time = d.in_time,
+                                  system_out_time = d.out_time,
                                   is_approved1 = a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approve" : "Reject",
                                   is_approved2 = a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approve" : "Reject",
                                   is_approved3 = a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approve" : "Reject",
