@@ -5276,7 +5276,9 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.AttendanceApplication))]
         public IActionResult Get_AttendanceApplicationByEmpId(int emp_id) // 0 for all employee , 1 for selected emp
         {
-            ResponseMsg objResult = new ResponseMsg();
+
+            
+            ResponseMsg objResult = new ResponseMsg();            
             try
             {
                 if (!_clsCurrentUser.DownlineEmpId.Contains(emp_id))
@@ -5286,33 +5288,44 @@ namespace projAPI.Controllers
                     return Ok(objResult);
                 }
 
-                var result = (from a in _context.tbl_attendace_request
-                              join b in _context.tbl_daily_attendance on new { _date = a.from_date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt, _empidd = b.emp_id } //into ej
-                              //from d in ej.DefaultIfEmpty()
-                              where (_clsCurrentUser.DownlineEmpId.Contains(a.r_e_id ?? 0) && a.is_deleted == 0 && a.is_final_approve == 0)
+
+
+                var result1 = _context.tbl_attendace_request.Where(p => _clsCurrentUser.DownlineEmpId.Contains(p.r_e_id ?? 0) && p.is_deleted == 0 && p.is_final_approve==0).ToList();
+                var allDates = result1.Select(p => p.from_date).Distinct();
+                var result2= _context.tbl_daily_attendance.Where(p => allDates.Contains(p.attendance_dt) && _clsCurrentUser.DownlineEmpId.Contains(p.emp_id ?? 0)).ToList();
+                var result3 = _context.tbl_employee_master.Where(p=> _clsCurrentUser.DownlineEmpId.Contains(p.employee_id)).ToList();
+                var result4 = _context.tbl_emp_officaial_sec.Where(p => _clsCurrentUser.DownlineEmpId.Contains(p.employee_id??0) && p.is_deleted == 0).Select(p=> new {emp_id = p.employee_id??0, Name= p.employee_first_name+" "+p.employee_middle_name+" "+p.employee_last_name}).ToList();
+
+
+                var result = (
+
+                              from t1 in result1
+                              join t2 in result2 on 
+                              new { _date = t1.from_date, _empidd = t1.r_e_id } equals new { _date = t2.attendance_dt, _empidd = t2.emp_id } into ej
+                              from d in ej.DefaultIfEmpty()
+                              join t3 in result3 on t1.r_e_id equals t3.employee_id
+                              join t4 in result4 on t1.r_e_id equals t4.emp_id
                               select new
                               {
-                                  emp_code = a.tbl_employee_requester.emp_code,
-                                  emp_name = string.Format("{0} {1} {2}", a.tbl_employee_requester.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).employee_first_name,
-                                             a.tbl_employee_requester.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).employee_middle_name,
-                                                 a.tbl_employee_requester.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).employee_last_name), //a.tbl_employee_requester.tbl_emp_officaial_sec.Where(b => b.employee_id == a.r_e_id && b.is_deleted == 0 && !string.IsNullOrEmpty(b.employee_first_name)).Select(c => c.employee_first_name).FirstOrDefault(),
-                                  leave_request_id = a.leave_request_id,
-                                  from_date = a.from_date,
-                                  manual_in_time = a.manual_in_time,
-                                  manual_out_time = a.manual_out_time,
-                                  a.r_e_id,
-                                  requester_remarks = a.requester_remarks,
-                                  status = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approve" : "Reject") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
-                                  requester_id = a.r_e_id,
-                                  system_in_time = b.in_time ,//d != null ?  d.in_time : new DateTime(2000, 01, 01),
-                                  system_out_time = b.out_time, //d != null ? d.out_time : new DateTime(2000, 01, 01),
-                                  is_approved1 = a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approve" : "Reject",
-                                  is_approved2 = a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approve" : "Reject",
-                                  is_approved3 = a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approve" : "Reject",
-                                  is_delted = a.is_deleted,
-                                  is_final_approve = a.is_final_approve,
-                                  a.company_id,
-                                  approver_remarks = string.Concat(a.approval1_remarks ?? "", a.approval2_remarks ?? "", a.approval3_remarks ?? "", a.admin_remarks ?? ""),
+                                  emp_code = t3.emp_code,
+                                  emp_name = t4.Name,
+                                  leave_request_id = t1.leave_request_id,
+                                  from_date = t1.from_date,
+                                  manual_in_time = t1.manual_in_time,
+                                  manual_out_time = t1.manual_out_time,
+                                  r_e_id = t1.r_e_id,
+                                  requester_remarks = t1.requester_remarks,
+                                  status = t1.is_deleted == 0 ? (t1.is_final_approve == 0 ? "Pending" : t1.is_final_approve == 1 ? "Approve" : "Reject") : t1.is_deleted == 1 ? "Deleted" : t1.is_deleted == 2 ? "Cancel" : "",
+                                  requester_id = t1.r_e_id,
+                                  system_in_time = d != null ?  d.in_time : new DateTime(2000, 01, 01),
+                                  system_out_time =d != null ? d.out_time : new DateTime(2000, 01, 01),
+                                  is_approved1 = t1.is_approved1 == 0 ? "pending" : t1.is_approved1 == 1 ? "approve" : "reject",
+                                  is_approved2 = t1.is_approved2 == 0 ? "pending" : t1.is_approved2 == 1 ? "approve" : "reject",
+                                  is_approved3 = t1.is_approved3 == 0 ? "pending" : t1.is_approved3 == 1 ? "approve" : "reject",
+                                  is_delted = t1.is_deleted,
+                                  is_final_approve = t1.is_final_approve,
+                                  company_id = t1.company_id,
+                                  approver_remarks = string.Concat(t1.approval1_remarks ?? "", t1.approval2_remarks ?? "", t1.approval3_remarks ?? "", t1.admin_remarks ?? ""),
                               }).ToList();
 
 
@@ -5322,7 +5335,7 @@ namespace projAPI.Controllers
             catch (Exception ex)
             {
                 objResult.StatusCode = 1;
-                objResult.Message = ex.Message;
+                objResult.Message = "Error Occured "+ ex.Message;
                 return Ok(objResult);
             }
         }
