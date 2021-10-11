@@ -5287,8 +5287,8 @@ namespace projAPI.Controllers
                 }
 
                 var result = (from a in _context.tbl_attendace_request
-                              join b in _context.tbl_daily_attendance on new { _date = a.from_date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt, _empidd = b.emp_id } into ej
-                              from d in ej.DefaultIfEmpty()
+                              join b in _context.tbl_daily_attendance on new { _date = a.from_date, _empidd = a.r_e_id } equals new { _date = b.attendance_dt, _empidd = b.emp_id } //into ej
+                              //from d in ej.DefaultIfEmpty()
                               where (_clsCurrentUser.DownlineEmpId.Contains(a.r_e_id ?? 0) && a.is_deleted == 0 && a.is_final_approve == 0)
                               select new
                               {
@@ -5304,8 +5304,8 @@ namespace projAPI.Controllers
                                   requester_remarks = a.requester_remarks,
                                   status = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approve" : "Reject") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
                                   requester_id = a.r_e_id,
-                                  system_in_time = d.in_time ,//d != null ?  d.in_time : new DateTime(2000, 01, 01),
-                                  system_out_time = d.out_time, //d != null ? d.out_time : new DateTime(2000, 01, 01),
+                                  system_in_time = b.in_time ,//d != null ?  d.in_time : new DateTime(2000, 01, 01),
+                                  system_out_time = b.out_time, //d != null ? d.out_time : new DateTime(2000, 01, 01),
                                   is_approved1 = a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approve" : "Reject",
                                   is_approved2 = a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approve" : "Reject",
                                   is_approved3 = a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approve" : "Reject",
@@ -5313,7 +5313,6 @@ namespace projAPI.Controllers
                                   is_final_approve = a.is_final_approve,
                                   a.company_id,
                                   approver_remarks = string.Concat(a.approval1_remarks ?? "", a.approval2_remarks ?? "", a.approval3_remarks ?? "", a.admin_remarks ?? ""),
-
                               }).ToList();
 
 
@@ -10687,11 +10686,18 @@ namespace projAPI.Controllers
                         //Task task = Task.Run();
 
 
-                        Task task = Task.Run(() => obj_ms.ForgotPasswordMail(get_emp_details.official_email_id, password, get_user_password_and_id.username));//.ContinueWith(t => taskremaining--);
-                        task.Wait();
-
-                        objresponse.StatusCode = 0;
-                        objresponse.Message = "Password sent to your registered email address...";
+                        var Status= obj_ms.ForgotPasswordMail(get_emp_details.official_email_id, password, get_user_password_and_id.username);
+                        if (Status)
+                        {
+                            objresponse.StatusCode = 0;
+                            objresponse.Message = "Password sent to your registered email address...";
+                        }
+                        else
+                        {
+                            objresponse.StatusCode = 1;
+                            objresponse.Message = "Error in sending mail, contact ";
+                        }
+                        
                     }
                     else
                     {

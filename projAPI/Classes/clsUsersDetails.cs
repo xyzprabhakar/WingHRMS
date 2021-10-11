@@ -361,7 +361,7 @@ namespace projAPI.Classes
                         mdlLoginOutput.employee_middle_name = tempdata.employee_middle_name;
                         mdlLoginOutput.employee_last_name = tempdata.employee_last_name;
                         mdlLoginOutput.default_company = _tbl_user_master.default_company_id;
-                        mdlLoginOutput.employee_photo_path = Convert.ToString(_config["domain_url"]) + (string.IsNullOrEmpty(tempdata.employee_photo_path) ? "/EmployeeImage/DefaultUser/defaultimage.jpg" : tempdata.employee_photo_path);
+                        mdlLoginOutput.employee_photo_path = Convert.ToString(_config["domain_url"]) + (string.IsNullOrEmpty(tempdata.employee_photo_path) ? "EmployeeImage/DefaultUser/defaultimage.jpg" : tempdata.employee_photo_path);
                         mdlLoginOutput._appSetting_domainn = Convert.ToString(_config["domain_url"]);
                         mdlLoginOutput.is_mobile_access = tempdata.is_mobile_access;
                         mdlLoginOutput.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;

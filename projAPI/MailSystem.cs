@@ -34,7 +34,7 @@ namespace projAPI
 
 
         //Mauil Sending funcation
-        public void SendMail(MailData obj_mail_data)
+        public bool SendMail(MailData obj_mail_data)
         {
             try
             {
@@ -65,15 +65,17 @@ namespace projAPI
                 int port = Convert.ToInt32(_config["email_id_Port"]);
                 string host = _config["email_id_Host"];
                 //client.Connect("smtp.gmail.com", 465, true);
-                client.Connect(host, 465, true);
+                client.Connect(host, port, true);
                 client.Authenticate(_config["email_id_for_send_email"], _config["email_id_password_for_send_email"]);
 
                 client.Send(message);
                 client.Disconnect(true);
                 client.Dispose();
+                return true;
             }
             catch (Exception ex)
             {
+                return false;
 
             }
 
@@ -747,7 +749,7 @@ namespace projAPI
         }
 
         //Forgot password
-        public void ForgotPasswordMail(string email_id, string user_password, string username)
+        public bool ForgotPasswordMail(string email_id, string user_password, string username)
         {
             try
             {
@@ -770,12 +772,12 @@ namespace projAPI
 
                 obj_mail.HtmlBody = sb.ToString();
                 obj_mail.MailSubject = "Login Credential";
-                SendMail(obj_mail);
+                return SendMail(obj_mail);
 
             }
             catch (Exception ex)
             {
-
+                return false;
             }
         }
 
