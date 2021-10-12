@@ -11,8 +11,8 @@ namespace projContext
         /// Devlopment Server
         /// </summary>
         //public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
-        //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms_test; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
-        public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms_test; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
         /// QA Server
