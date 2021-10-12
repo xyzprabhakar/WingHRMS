@@ -1341,5 +1341,24 @@ namespace projContext
 
         }
 
+
+        public void InsertPayrollProcessMaster(ModelBuilder modelBuilder)
+        {
+            List<tblProcessMaster> datas = new List<tblProcessMaster>();
+            datas.Add(new tblProcessMaster { ProcessId = 1, ProcessName = "Frezee Attendance", DisplayOrder = 1, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 2, ProcessName = "Lock Attendance", DisplayOrder = 2, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 3, ProcessName = "HoldRelase Salary", DisplayOrder = 3, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 4, ProcessName = "Calculate Loan", DisplayOrder = 4, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 5, ProcessName = "Calculate TDS", DisplayOrder = 5, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 6, ProcessName = "Calculate Salary", DisplayOrder = 6, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 7, ProcessName = "Freeze Salary", DisplayOrder = 6, IsActive = true });
+            datas.Add(new tblProcessMaster { ProcessId = 8, ProcessName = "Freeze Salary", DisplayOrder = 6, IsActive = true });
+            modelBuilder.Entity<tblProcessMaster>().HasData(datas);
+
+            List<tblDependentProcess> DependentDatas = new List<tblDependentProcess>();
+            DependentDatas.Add(new tblDependentProcess { Id=1,ProcessId = 6, DependentProcessId = 1,  IsActive = true });
+            DependentDatas.Add(new tblDependentProcess { Id=2,ProcessId = 6, DependentProcessId = 2, IsActive = true });
+            modelBuilder.Entity<tblDependentProcess>().HasData(DependentDatas);
+        }
     }
 }
