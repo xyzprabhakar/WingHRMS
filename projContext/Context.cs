@@ -124,6 +124,9 @@ namespace projContext
         public DbSet<tbl_emp_grade_allocation> tbl_emp_grade_allocation { get; set; }
         public DbSet<tbl_emp_desi_allocation> tbl_emp_desi_allocation { get; set; }
         public DbSet<tbl_emp_officaial_sec> tbl_emp_officaial_sec { get; set; }
+        public DbSet<tbl_emp_department_allocation> tbl_emp_department_allocation { get; set; }
+        public DbSet<tbl_emp_location_allocation> tbl_emp_location_allocation { get; set; }
+        public DbSet<tbl_emp_attendance_setting> tbl_emp_attendance_setting { get; set; }
         public DbSet<tbl_emp_weekoff> tbl_emp_weekoff { get; set; }        
         public DbSet<tbl_emp_family_sec> tbl_emp_family_sec { get; set; }
         public DbSet<tbl_emp_bank_details> tbl_emp_bank_details { get; set; }
