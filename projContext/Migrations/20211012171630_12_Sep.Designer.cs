@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext;
 
 namespace projContext.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211012171630_12_Sep")]
+    partial class _12_Sep
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -10422,8 +10424,6 @@ namespace projContext.Migrations
                     b.Property<int>("is_mobile_attendence_access");
 
                     b.Property<byte>("is_ot_allowed");
-
-                    b.Property<bool>("is_sandwiche_applicable");
 
                     b.Property<int>("last_modified_by");
 

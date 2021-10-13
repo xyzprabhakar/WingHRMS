@@ -306,6 +306,14 @@ namespace projContext
         Previous_Leave_Credit_by_System = 100
     }
 
+    public enum enmProcessStatus
+    {
+        Pending=0,
+        Completed=1,
+        Initiated=2,
+        InProcessing=3
+    }
+
 
     public enum enmPaymentMode
     {
@@ -376,6 +384,8 @@ namespace projContext
         public string formula { get; set; }
         public int function_calling_order { get; set; }
     }
+
+    
 
     public enum enmOtherComponent
     {

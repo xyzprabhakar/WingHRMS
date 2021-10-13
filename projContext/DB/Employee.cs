@@ -449,6 +449,7 @@ namespace projContext.DB
         public int is_comb_off_allowed { get; set; }//0 for Default, 1 for yes, 2 for No
         public int is_mobile_access { get; set; }// 1 for yes, 0 for No
         public int is_mobile_attendence_access { get; set; }// 1 for yes, 0 for No
+        public bool is_sandwiche_applicable { get; set; } = false;
 
 
         public DateTime mobile_punch_from_date { get; set; }

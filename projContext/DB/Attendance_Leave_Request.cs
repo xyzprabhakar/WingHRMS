@@ -22,6 +22,8 @@ namespace projContext.DB
         public DateTime entry_date { get; set; }
     }
 
+    
+
     public class tbl_attendance_details
     {
         [Key]
@@ -99,6 +101,40 @@ namespace projContext.DB
         [ForeignKey("tlr")] // Foreign Key here
         public int? leave_request_id { get; set; }
         public tbl_leave_request tlr { get; set; }
+    }
+
+    public class tbl_attendance_summary
+    {
+        [Key]
+        [Column(Order = 1)]
+        [ForeignKey("tbl_employee_master")] // Foreign Key here
+        public int? emp_id { get; set; }
+        public tbl_employee_master tbl_employee_master { get; set; }
+        [Key]
+        [Column(Order = 2)]
+        public int Monthyear { get; set; }
+
+        public double TotalDay { get; set; } = 30;
+        public double Present{ get; set; }
+        public double Leave{ get; set; }
+        public double Holiday { get; set; }
+        public double Absent { get; set; }
+        public double WeekOff { get; set; }
+        public double PaidDay { get; set; }
+
+        
+        public double FinalPresent { get; set; }= 30;
+        public double FinalLeave { get; set; }
+        public double FinalHoliday { get; set; }
+        public double FinalAbsent { get; set; }
+        public double FinalWeekOff { get; set; }
+        public double FinalPaidDay { get; set; }
+
+        public int created_by { get; set; }
+        public DateTime created_date { get; set; }
+        public int modified_by { get; set; }
+        public DateTime modified_date { get; set; }
+
     }
 
 

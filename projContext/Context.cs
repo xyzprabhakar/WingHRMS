@@ -12,6 +12,7 @@ namespace projContext
         /// </summary>
         //public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
         public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms_test; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
         /// QA Server
@@ -43,6 +44,8 @@ namespace projContext
         {
             modelBuilder.Entity<tbl_daily_attendance>()
                 .HasKey(c => new { c.emp_id, c.attendance_dt });
+            modelBuilder.Entity<tbl_attendance_summary>()
+                .HasKey(c => new { c.emp_id, c.Monthyear });
             //Some Unique key Validation 
             modelBuilder.Entity<tbl_employee_master>().HasIndex(c => new { c.emp_code }).IsUnique();
             modelBuilder.Entity<tbl_component_formula_details>().HasOne<tbl_component_master>(s => s.comp_master).WithMany().HasConstraintName("FK_tcpd_component_id");
@@ -100,7 +103,12 @@ namespace projContext
             InsertPayrolldata(modelBuilder);
             InsertRoleClaim(modelBuilder);
             DefaultEmployee(modelBuilder);
+            InsertPayrollProcessMaster(modelBuilder);
         }
+
+        public DbSet<tblProcessMaster> tblProcessMaster { get; set; }
+        public DbSet<tblDependentProcess> tblDependentProcess { get; set; }
+        public DbSet<tblProcessExecution> tblProcessExecution { get; set; }
 
         public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
         public DbSet<tbl_captcha_code_details> tbl_captcha_code_details { get; set; }
@@ -204,6 +212,7 @@ namespace projContext
         public DbSet<tbl_attendance_details_manual> tbl_attendance_details_manual { get; set; }
         public DbSet<tbl_attendance_details> tbl_attendance_details { get; set; }
         public DbSet<tbl_daily_attendance> tbl_daily_attendance { get; set; }
+        public DbSet<tbl_attendance_summary> tbl_attendance_summary { get; set; }
         public DbSet<tbl_comp_off_ledger> tbl_comp_off_ledger { get; set; }
         public DbSet<tbl_leave_ledger> tbl_leave_ledger { get; set; }
         public DbSet<tbl_comp_off_request_master> tbl_comp_off_request_master { get; set; }
