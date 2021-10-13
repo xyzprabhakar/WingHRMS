@@ -197,7 +197,7 @@ namespace projAPI.Classes
                         submission_id = 0,
                         emp_name = string.Format("{0} {1} {2}",p.employee_first_name,p.employee_middle_name,p.employee_last_name),//string.Concat(p.employee_first_name, " ", p.employee_middle_name, " ", p.employee_last_name),
                         emp_code = "",
-                        joining_dt = p.date_of_joining,
+                        //joining_dt = p.date_of_joining,
                         company_id = company_id_,
                         emp_id = p.employee_id,
                         emp_off_id = p.emp_official_section_id,
@@ -205,7 +205,7 @@ namespace projAPI.Classes
                         cycle_id = cycle_id_,
                         cycle_name = cycle_name_,
                         desig_id = null,
-                        department_id = p.department_id,
+                        //department_id = p.department_id,
                         epa_start_date = startdate,
                         epa_end_date = endDate,
                         epa_close_status = 0,
@@ -296,7 +296,7 @@ namespace projAPI.Classes
                     if (empnamecode != null)
                     {
                         p.emp_name = string.Format("{0} {1} {2}", empnamecode.employee_first_name, empnamecode.employee_middle_name, empnamecode.employee_last_name);
-                        p.joining_dt = empnamecode.date_of_joining;
+                       // p.joining_dt = empnamecode.date_of_joining;
                     }
 
                 });
@@ -391,7 +391,7 @@ namespace projAPI.Classes
                 if (emp != null)
                 {
                     p.emp_name = string.Concat(emp.employee_first_name, " ", emp.employee_middle_name, " ", emp.employee_last_name);
-                    p.joining_dt = emp.date_of_joining;
+                    //p.joining_dt = emp.date_of_joining;
                 }
             });
         }

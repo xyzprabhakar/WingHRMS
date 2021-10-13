@@ -1192,6 +1192,9 @@ namespace projAPI
         //E-Sepration Request Mail
         public void EmpSeprationRequestMail(int employee_id, DateTime resign_dt, DateTime final_relieve_dt, int notice_days, int diff_notice_days, DateTime policy_relive_dt, string reason, string req_remarks)
         {
+            throw new NotImplementedException();
+
+#if false
             SetManasgerData(employee_id);
 
             var emp_dtl = _context.tbl_emp_officaial_sec.Where(x => x.employee_id == employee_id && x.is_deleted == 0).Select(p => new
@@ -1257,24 +1260,26 @@ namespace projAPI
             obj_mail.HtmlBody = sb.ToString();
             obj_mail.MailSubject = "E-Sepration Request";
             SendMail(obj_mail);
+
+#endif
         }
 
 
         public void EmpSeprationApprovalMail(List<SeprationMailDetails> sep_dtl)
         {
-
+#if false
             for (int Index = 0; Index < sep_dtl.Count; Index++)
             {
                 SetManasgerData(sep_dtl[Index].emp_id);
                 var emp_dtl = _context.tbl_emp_officaial_sec.Where(x => x.employee_id == sep_dtl[Index].emp_id && x.is_deleted == 0).Select(p => new
                 {
-                    emp_name_code = string.Format("{0} {1} {2} ({3})", p.employee_first_name, p.employee_middle_name, p.employee_last_name, p.tbl_employee_id_details.emp_code),
-                    p.tbl_department_master.department_name,
-                    date_of_joining = p.date_of_joining,
-                    designation = p.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.desig_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_designation_master.designation_name,
-                    grade_ = p.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.grade_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_grade_master.grade_name,
-                    p.official_email_id,
-                    p.tbl_location_master.location_name
+                    //emp_name_code = string.Format("{0} {1} {2} ({3})", p.employee_first_name, p.employee_middle_name, p.employee_last_name, p.tbl_employee_id_details.emp_code),
+                    //p.tbl_department_master.department_name,
+                    //date_of_joining = p.date_of_joining,
+                    //designation = p.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.desig_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_designation_master.designation_name,
+                    //grade_ = p.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.grade_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_grade_master.grade_name,
+                    //p.official_email_id,
+                    //p.tbl_location_master.location_name
                 }).FirstOrDefault();
                 ////here append admin id also
                 //obj_mail.MailSendTo.Add("supriya.kakkar@sakshemit.com");
@@ -1338,24 +1343,24 @@ namespace projAPI
 
             //obj_mail.MailSendTo.Add(emp_dtl.official_email_id);
 
-
+        #endif
         }
 
         public void EmpSeprationCancellationMail(List<SeprationMailDetails> sep_dtl)
         {
-
+#if false
             for (int Index = 0; Index < sep_dtl.Count; Index++)
             {
                 SetManasgerData(sep_dtl[Index].emp_id);
                 var emp_dtl = _context.tbl_emp_officaial_sec.Where(x => x.employee_id == sep_dtl[Index].emp_id && x.is_deleted == 0).Select(p => new
                 {
                     emp_name_code = string.Format("{0} {1} {2} ({3})", p.employee_first_name, p.employee_middle_name, p.employee_last_name, p.tbl_employee_id_details.emp_code),
-                    p.tbl_department_master.department_name,
-                    date_of_joining = p.date_of_joining,
+                    //p.tbl_department_master.department_name,
+                    //date_of_joining = p.date_of_joining,
                     designation = p.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.desig_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_designation_master.designation_name,
                     grade_ = p.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.grade_id != null && q.applicable_from_date.Date <= sep_dtl[Index].resign_dt.Date && sep_dtl[Index].resign_dt.Date <= q.applicable_to_date.Date).tbl_grade_master.grade_name,
                     p.official_email_id,
-                    p.tbl_location_master.location_name,
+                    //p.tbl_location_master.location_name,
                 }).FirstOrDefault();
                 ////here append admin id also
                 //obj_mail.MailSendTo.Add("supriya.kakkar@sakshemit.com");
@@ -1421,9 +1426,9 @@ namespace projAPI
 
             //obj_mail.MailSendTo.Add(emp_dtl.official_email_id);
 
-
+#endif
         }
-         
+
         public void SendMailNoDuesResponsiblePerson(string emailto, string seperation_email,string seperation_name,string seperationempcode)
         {
             var emailtxt = "Dear Sir/Madam,<br>Employee - " + seperation_name + " - " + seperationempcode + " is on notice period. So please clear all dues from your side if emplpoyee have no any dues for all particulars.";

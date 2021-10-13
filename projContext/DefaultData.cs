@@ -1315,15 +1315,9 @@ namespace projContext
             tbl_employment_type_master employment_type = new tbl_employment_type_master()
             {
                 employee_id = 1,
-                is_deleted = 0,
-                duration_days = 1,
+                is_deleted = 0,                
                 created_by = 1,
                 created_date = CurrentDate,
-                actual_duration_days = 1000,
-                actual_duration_end_period = CurrentDate,
-                actual_duration_start_period = CurrentDate,
-                duration_end_period = CurrentDate,
-                duration_start_period = CurrentDate,
                 effective_date = CurrentDate,
                 employment_type = 3,
                 employment_type_id = 1,

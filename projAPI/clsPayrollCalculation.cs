@@ -979,6 +979,8 @@ namespace projAPI
 
         private async Task LoadEmpOfficialSection()
         {
+            throw new NotImplementedException();
+#if false
             using (var context = new Context())
             {
                 var empmaster = context.tbl_employee_master.Where(p => p.employee_id == _EmpID).FirstOrDefault();
@@ -1053,6 +1055,7 @@ namespace projAPI
                     }
                 }
             }
+#endif
         }
 
         private async Task LoadBankDetails()
@@ -1400,7 +1403,7 @@ namespace projAPI
         }
 
 
-        #region *****************Dynamic All Function ************************************
+#region *****************Dynamic All Function ************************************
         public int fncCompanyId_sys()
         {
             return _CompanyId;
@@ -1677,7 +1680,7 @@ namespace projAPI
         {
             return _NoticePaymentDay;
         }
-        #endregion
+#endregion
 
 
     }

@@ -28,6 +28,7 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using System.Text.RegularExpressions;
 
+#if false
 namespace projAPI.Controllers
 {
     //created by : vibhav kant
@@ -822,7 +823,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region-------Designation Master-------
+#region-------Designation Master-------
         //save Designation master
         [Route("Save_DesignationMaster")]
         [HttpPost]
@@ -965,9 +966,9 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-        #endregion
+#endregion
 
-        #region-------Department Master-------
+#region-------Department Master-------
         //save Designation master
         [Route("Save_DepartmentMaster")]
         [HttpPost]
@@ -1230,7 +1231,7 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-        #endregion
+#endregion
 
         //get company list 
         [Route("Get_CompanyList")]
@@ -1285,7 +1286,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region-------Sub Department Master-------
+#region-------Sub Department Master-------
         //save sub department master
         [Route("Save_SubDepartmentMaster")]
         [HttpPost]
@@ -1495,7 +1496,7 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-        #endregion
+#endregion
 
         //get department by company id
         [Route("Get_DepartmentListAll")]
@@ -1725,7 +1726,7 @@ namespace projAPI.Controllers
 
 
 
-        #region ----Leave Type Master----
+#region ----Leave Type Master----
         //save leave type master
         [Route("Save_LeaveTypeMaster")]
         [HttpPost]
@@ -2004,7 +2005,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
 
         //get location by company id for ddl
@@ -2230,6 +2231,8 @@ namespace projAPI.Controllers
         //[Authorize(Policy = "7046")]
         public IActionResult Get_EmployeeCodeFromEmpMasterByComp(int company_id)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 //started by supriya on 03-06-2019
@@ -2271,6 +2274,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -2421,7 +2425,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region get employee/location and holiday list on multiple selection of company made by Anil kumar
+#region get employee/location and holiday list on multiple selection of company made by Anil kumar
         [Route("Get_EmpNameAndCodeByMultiComp")]
         [HttpPost]
         //[Authorize(Policy = "7047")]
@@ -2642,7 +2646,7 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
         //Save Machine Master
         [Route("Save_MachineMaster")]
@@ -2963,7 +2967,7 @@ namespace projAPI.Controllers
                                 // holiday_id
                                 var holiday_id = tbl_holiday_master.holiday_id;
 
-                                #region for multiple company and multiple location
+#region for multiple company and multiple location
                                 //if (objholidayMaster.is_applicable_on_all_comp != 0 && objholidayMaster.is_applicable_on_all_location != 0) //  for all company and all location// added by anil
                                 //{
                                 //    // var companylist = objholidayMaster.company_id_list;
@@ -3045,8 +3049,8 @@ namespace projAPI.Controllers
                                     }
                                     _context.SaveChanges();
                                 }
-                                #endregion
-                                #region for multiple company and multiple employee
+#endregion
+#region for multiple company and multiple employee
                                 //if (objholidayMaster.is_applicable_on_all_comp != 0 && objholidayMaster.is_applicable_on_all_emp != 0) //  for all company and all employee// added by anil
                                 //{
                                 //    // var companylist = objholidayMaster.company_id_list;
@@ -3133,7 +3137,7 @@ namespace projAPI.Controllers
                                     }
                                     _context.SaveChanges();
                                 }
-                                #endregion
+#endregion
 
 
                                 tbl_holiday_mstr_rel_list Holiday_Religion = new tbl_holiday_mstr_rel_list(); // add by Ravi
@@ -3507,7 +3511,7 @@ namespace projAPI.Controllers
                                 var holiday_id = tblholiday_master.holiday_id;
                                 var company_id = objholidayMaster.company_id_list[0].company_id;
 
-                                #region for location save
+#region for location save
                                 if (objholidayMaster.is_applicable_on_all_location == 0) // for selected multiple locaiton// added by anil
                                 {
                                     var locationlist = objholidayMaster.location_id_list;
@@ -3548,8 +3552,8 @@ namespace projAPI.Controllers
                                     _context.tbl_holiday_master_comp_list.AddRange(objlocationlist);
                                     _context.SaveChanges();
                                 }
-                                #endregion
-                                #region for multiple company and multiple employee
+#endregion
+#region for multiple company and multiple employee
 
                                 if (objholidayMaster.is_applicable_on_all_emp == 0) // for selected multiple employee// added by anil
                                 {
@@ -3596,7 +3600,7 @@ namespace projAPI.Controllers
                                     _context.tbl_holiday_master_emp_list.AddRange(objemplist);
                                     _context.SaveChanges();
                                 }
-                                #endregion
+#endregion
 
                                 tbl_holiday_mstr_rel_list tbl_holiday_master_rel = new tbl_holiday_mstr_rel_list();
                                 if (objholidayMaster.is_applicable_on_all_religion > 1)
@@ -3635,7 +3639,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region  Outdoor Application
+#region  Outdoor Application
         //Save Outdoor Application Report
         [Route("Save_OutdoorApplicationRequest")]
         [HttpPost]
@@ -4100,7 +4104,7 @@ namespace projAPI.Controllers
 
                 return Ok(result);
 
-                #region old
+#region old
                 //if (_clsCurrentUser.Is_Hod == 1)
                 //{
                 //    var manager_emp_list = _context.tbl_emp_manager.Where(a => (a.m_one_id == Employee_Id || a.m_two_id == Employee_Id || a.m_three_id == Employee_Id) || (a.m_one_id == _emp_id || a.m_two_id == _emp_id || a.m_three_id == _emp_id) && a.is_deleted == 0).Select(p => p.employee_id).Distinct().ToList();
@@ -4310,7 +4314,7 @@ namespace projAPI.Controllers
                 //        return Ok(result);
 
                 //}
-                #endregion
+#endregion
             }
             catch (Exception ex)
             {
@@ -4457,10 +4461,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
 
-        #region Comp Off Application
+#region Comp Off Application
 
         [Route("GetEmployeeCompOffData/{EmployeeId}")]
         [HttpGet]
@@ -4983,8 +4987,8 @@ namespace projAPI.Controllers
                 return Ok(objresponse);
             }
         }
-        #endregion
-        #region Attendence Application
+#endregion
+#region Attendence Application
         //Save Attendance Application
         [Route("Save_AttendanceApplicationRequest")]
         [HttpPost]
@@ -5514,7 +5518,7 @@ namespace projAPI.Controllers
                 //                    approver_remarks = string.Concat(a.approval1_remarks ?? "", a.approval2_remarks ?? "", a.approval3_remarks ?? "", a.admin_remarks ?? "")
                 //                }).ToList();
 
-                #region old
+#region old
                 //var result = _context.tbl_attendace_request.Join(_context.tbl_daily_attendance, a => new { _date = a.from_date.Date, _empidd = a.r_e_id }, b => new { _date = b.attendance_dt.Date, _empidd = b.emp_id }, (a, b) => new
                 //{
 
@@ -5538,7 +5542,7 @@ namespace projAPI.Controllers
                 //    a.company_id,
                 //    approver_remarks = string.Concat(a.approval1_remarks ?? "", a.approval2_remarks ?? "", a.approval3_remarks ?? "", a.admin_remarks ?? ""),
                 //}).Where(x =>objmodel.from_date.Date <= x.from_date.Date && x.from_date.Date <= objmodel.to_date.Date && objmodel.empdtl.Contains(x.requester_id)).ToList();
-                #endregion
+#endregion
 
                 return Ok(result);
 
@@ -5686,9 +5690,9 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
-        #region  Policy Master
+#region  Policy Master
         //Save Policies
         [Route("Save_Policies")]
         [HttpPost]
@@ -6033,9 +6037,9 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion  Policy Master
+#endregion  Policy Master
 
-        #region Application Setting
+#region Application Setting
 
         //Save ApplicationSetting
         [Route("Save_ApplicationSetting")]
@@ -6232,9 +6236,9 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion  Application Setting
+#endregion  Application Setting
 
-        #region Current openings
+#region Current openings
 
         [Route("Save_Current_Openings")]
         [HttpPost]
@@ -6623,7 +6627,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion  Current openings
+#endregion  Current openings
         [Route("Get_EmployeeDetails/{company_id}")]
         [HttpGet]
         //[Authorize(Policy = "7064")]
@@ -7238,7 +7242,7 @@ namespace projAPI.Controllers
 
         }
 
-        #region ------Claim Master
+#region ------Claim Master
         [Route("SaveClaimMasters")]
         [HttpPost]
         //[Authorize(Policy = "7071")]
@@ -7407,7 +7411,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
         //Late Punch In
         [Route("LatePunchIn")]
         [HttpPost]
@@ -8061,7 +8065,7 @@ namespace projAPI.Controllers
 
 
 
-        #region----role and claim map
+#region----role and claim map
         [Route("GetRoleMaster")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.RoleAllocation))]
@@ -8218,9 +8222,9 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
-        #region---User role mapping
+#region---User role mapping
         //get all employeeuser list
         [Route("GetEmployeeUserList/{roleid}")]
         [HttpGet]
@@ -8302,7 +8306,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region ** STARTED BY SUPRIYA ON 10-08-2019, SAVE ROLE **
+#region ** STARTED BY SUPRIYA ON 10-08-2019, SAVE ROLE **
 
         [Route("SaveUserRoleMapping")]
         [HttpPost]
@@ -8379,14 +8383,14 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPRIYA ON 10-08-2019, SAVE ROLE **
+#endregion ** END BY SUPRIYA ON 10-08-2019, SAVE ROLE **
 
-        #endregion
-
-
+#endregion
 
 
-        #region-------Sub Location Master-------
+
+
+#region-------Sub Location Master-------
         //save sub location master
         [Route("Save_SubLocationMaster")]
         [HttpPost]
@@ -8636,7 +8640,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
 
 
@@ -8677,7 +8681,7 @@ namespace projAPI.Controllers
 
 
 
-        #region *********** Created By : Amarjeet, Created Date : 03-04-2019, Mobile API ****************************************************************
+#region *********** Created By : Amarjeet, Created Date : 03-04-2019, Mobile API ****************************************************************
 
         //UserProfile API
         //[Authorize()]
@@ -8866,7 +8870,7 @@ namespace projAPI.Controllers
                     emp_sep_Detail = _context.tbl_emp_separation.Where(x => x.is_deleted == 0 && x.company_id == company_id && x.emp_id == emp_id).DefaultIfEmpty().FirstOrDefault(),
                 }).ToList();
 
-                #region old
+#region old
                 //var User_Profile_details = _context.tbl_employee_master.OrderByDescending(y => y.employee_id).Where(x => x.is_active == 1 && x.employee_id == emp_id && x.tbl_user_master.FirstOrDefault(z => z.is_active == 1).default_company_id == company_id).Select(p => new
                 //{
                 //    employee_first_name = p.tbl_emp_officaial_sec.OrderByDescending(q => q.emp_official_section_id).FirstOrDefault(q => q.is_deleted == 0 && !string.IsNullOrEmpty(q.employee_first_name)).employee_first_name,
@@ -8918,7 +8922,7 @@ namespace projAPI.Controllers
 
 
                 //}).ToList();
-                #endregion
+#endregion
 
                 if (User_Profile_details.Count() == 0)
                 {
@@ -9077,10 +9081,10 @@ namespace projAPI.Controllers
             return Ok(data.Where(a => day_status.Contains(a.day_status)));
         }
 
-        #endregion **************************************************************************************************************************************
+#endregion **************************************************************************************************************************************
 
 
-        #region ** Start Created by Supriya on 24-05-2019
+#region ** Start Created by Supriya on 24-05-2019
 
         [Route("Get_MenuMaster/{menu_id}")]
         [HttpGet]
@@ -9240,10 +9244,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion **End by Supriya on 25-05-2019
+#endregion **End by Supriya on 25-05-2019
 
 
-        #region Assign Menu Start by Supriya on 25-05-2019
+#region Assign Menu Start by Supriya on 25-05-2019
 
         //[Route("Save_Edit_AssignRoleMenu")]
         //[HttpPost]
@@ -9369,11 +9373,11 @@ namespace projAPI.Controllers
         //        return Ok(ex.Message.ToString());
         //    }
         //}
-        #endregion Assign Menu End by Supriya on 25-05-2019
+#endregion Assign Menu End by Supriya on 25-05-2019
 
 
 
-        #region STARTED BY SUPRIYA ON 17-06-2019
+#region STARTED BY SUPRIYA ON 17-06-2019
         [Route("GetAll_PendingRequetsCount/{employeeid}/{company_id}/{emp_role_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.ApplicationReports))]
@@ -9551,10 +9555,10 @@ namespace projAPI.Controllers
                 return Ok(ex.Message.ToString());
             }
         }
-        #endregion ENDED BY SUPRIYA ON 18-06-2019
+#endregion ENDED BY SUPRIYA ON 18-06-2019
 
 
-        #region STARTED BY SUPRIYA ON 18-06-2019
+#region STARTED BY SUPRIYA ON 18-06-2019
         [Route("Get_Employee_Under_LoginEmp/{employeeid}")]
         [HttpGet]
         //[Authorize(Policy = "7100")] //Only Manager 
@@ -9621,9 +9625,9 @@ namespace projAPI.Controllers
                 return Ok();
             }
         }
-        #endregion END BY SUPRIYA ON 18-06-2019
+#endregion END BY SUPRIYA ON 18-06-2019
 
-        #region ** STARTED BY SUPRIYA ON 24-06-2019 **
+#region ** STARTED BY SUPRIYA ON 24-06-2019 **
 
         [Route("GetRelation")]
         [HttpGet]
@@ -9668,10 +9672,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion ** ENDED BY SUPRIYA ON 24-06-2019 **
+#endregion ** ENDED BY SUPRIYA ON 24-06-2019 **
 
 
-        #region CREATED BY AMARJEET - 19-07-2019 - EVENT 
+#region CREATED BY AMARJEET - 19-07-2019 - EVENT 
 
         [Route("Save_Event")]
         [HttpPost]
@@ -9828,9 +9832,9 @@ namespace projAPI.Controllers
 
 
 
-        #endregion
+#endregion
 
-        #region CREATED BY AMARJEET - 22-07-2019  Right Menu Link
+#region CREATED BY AMARJEET - 22-07-2019  Right Menu Link
 
         [Route("Save_Right_Menu_Link")]
         [HttpPost]
@@ -9948,11 +9952,11 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
 
 
-        #region ** STARTED BY SUPRIYA ON 18-07-2019 **
+#region ** STARTED BY SUPRIYA ON 18-07-2019 **
 
         [Route("GetApproverType")]
         [HttpGet]
@@ -9996,10 +10000,10 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion ** END BY SUPRIYA ON 18-07-2019 **
+#endregion ** END BY SUPRIYA ON 18-07-2019 **
 
 
-        #region ** STARTED BY SUPRIYA ON 24-07-2019**
+#region ** STARTED BY SUPRIYA ON 24-07-2019**
 
         [Route("GetOnlyUserRole")]
         [HttpGet]
@@ -10035,9 +10039,9 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPRIYA ON 24-07-2019
+#endregion ** END BY SUPRIYA ON 24-07-2019
 
-        #region ** STARTED BY SUPRIYA ON 25-07-2019 **
+#region ** STARTED BY SUPRIYA ON 25-07-2019 **
 
         [Route("GetPieChart/{employee_id}")]
         [HttpGet]
@@ -10142,10 +10146,10 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPIRYA ON 25-07-2019 **
+#endregion ** END BY SUPIRYA ON 25-07-2019 **
 
 
-        #region CREATED BY AMARJEET ON 25-07-2019 Get Managers of employee
+#region CREATED BY AMARJEET ON 25-07-2019 Get Managers of employee
 
 
         [HttpGet("GetEmployeeManagers/{employee_id}/{companyid}")]
@@ -10193,10 +10197,10 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-        #endregion
+#endregion
 
 
-        #region ** CREATED BY SUPRIYA ON 29-07-2019 DISPLAY EVENT NOTIFICATION
+#region ** CREATED BY SUPRIYA ON 29-07-2019 DISPLAY EVENT NOTIFICATION
 
 
         [HttpGet("GetEventNotification/{company_id}")]
@@ -10285,9 +10289,9 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion  ** END BY SUPRIYA ON 29-07-2019 
+#endregion  ** END BY SUPRIYA ON 29-07-2019 
 
-        #region ** START BY SUPRIYA ON 31-07-2019
+#region ** START BY SUPRIYA ON 31-07-2019
 
         [HttpGet("GetEmployeeUserListBycompID/{company_id}/{roleid}")]
         [Authorize(Policy = nameof(enmMenuMaster.RoleAllocation))]
@@ -10356,9 +10360,9 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPRIYA ON 31-07-2019
+#endregion ** END BY SUPRIYA ON 31-07-2019
 
-        #region ** STARTED BY SUPRIYA, 09-08-2019
+#region ** STARTED BY SUPRIYA, 09-08-2019
         [Route("BindManagerByCompID/{company_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.Dashboard))]
@@ -10429,7 +10433,7 @@ namespace projAPI.Controllers
                 return Ok(objrespone);
             }
         }
-        #endregion ** END BY SUPRIYA ON 09-08-2019
+#endregion ** END BY SUPRIYA ON 09-08-2019
 
 
         public class MobileImgFile
@@ -10622,7 +10626,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region
+#region
         [HttpPost]
         [Route("ChangeUserPassword")]
 
@@ -10673,7 +10677,7 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion
+#endregion
 
         [Route("ForgotUserPwd/{username}")]
         [HttpPost]
@@ -10734,7 +10738,7 @@ namespace projAPI.Controllers
 
 
 
-        #region ** START BY SUPRIYA ON 20-11-2019**
+#region ** START BY SUPRIYA ON 20-11-2019**
         [Route("AddUpdateDocumentTypeMaster")]
         [HttpPost]
 
@@ -11084,10 +11088,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPIRYA ON 20-11-2019**
+#endregion ** END BY SUPIRYA ON 20-11-2019**
 
 
-        #region **START BY SUPRIYA ON 16-12-2019,COMPOFF RAISED AND APPROVE BEFORE APPLY FOR COMPOFF REQUEST**
+#region **START BY SUPRIYA ON 16-12-2019,COMPOFF RAISED AND APPROVE BEFORE APPLY FOR COMPOFF REQUEST**
         [Route("GetEmployeeCompOffDataForAdd/{emp_id}/{year}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.CompoffCreditApplication))]
@@ -12191,7 +12195,7 @@ namespace projAPI.Controllers
             }
 
         }
-        #endregion **END BY SUPRIYA ON 16-12-2019,COMPOFF RAISED AND APPROVE BEFORE APPLY FOR COMPOFF REQUEST**
+#endregion **END BY SUPRIYA ON 16-12-2019,COMPOFF RAISED AND APPROVE BEFORE APPLY FOR COMPOFF REQUEST**
 
 
 
@@ -12403,7 +12407,7 @@ namespace projAPI.Controllers
         //    }
         //}
 
-        #region **START BY SUPRIYA ON 27-12-2019, GENERATE QR CODE**
+#region **START BY SUPRIYA ON 27-12-2019, GENERATE QR CODE**
         [Route("GenereateQRCode")]
         [HttpPost]
         //[Authorize(Policy = "7140")]
@@ -12438,10 +12442,10 @@ namespace projAPI.Controllers
 
             }
         }
-        #endregion ** END BY SUPRIYA ON 27-12-2019,GENERATE QR CODE**
+#endregion ** END BY SUPRIYA ON 27-12-2019,GENERATE QR CODE**
 
 
-        #region ** START BY SUPRIYA ON 03-01-2020,ASSET MASTER**
+#region ** START BY SUPRIYA ON 03-01-2020,ASSET MASTER**
 
         [Route("Save_AssetMaster")]
         [HttpPost]
@@ -12558,7 +12562,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPRIYA ON 03-01-2020,ASSET MASTER**
+#endregion ** END BY SUPRIYA ON 03-01-2020,ASSET MASTER**
 
 
         //get sub Get_GradeMaster by companyid id
@@ -12660,7 +12664,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region **START BY SUPIRYA ON 10-02-2020, BANK MASTER**
+#region **START BY SUPIRYA ON 10-02-2020, BANK MASTER**
 
 
         [Route("Get_BankMaster/{bank_id}")]
@@ -12812,7 +12816,7 @@ namespace projAPI.Controllers
 
             return Ok(objresponse);
         }
-        #endregion ** END BY SUPRIYA ON 10-02-2020,BANK MASTER**
+#endregion ** END BY SUPRIYA ON 10-02-2020,BANK MASTER**
 
 
         [HttpGet("Get_EducationLevel")]
@@ -13300,3 +13304,4 @@ namespace projAPI.Controllers
         }
     }
 }
+#endif

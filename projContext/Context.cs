@@ -113,10 +113,6 @@ namespace projContext
         public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
         public DbSet<tbl_captcha_code_details> tbl_captcha_code_details { get; set; }
         public DbSet<tbl_user_master> tbl_user_master { get; set; }        
-        public DbSet<tbl_No_dues_particular_master> tbl_No_dues_particular_master { get; set; }
-        public DbSet<tbl_No_dues_particular_responsible> tbl_No_dues_particular_responsible { get; set; }
-        public DbSet<tbl_No_dues_clearance_Department> tbl_No_dues_clearance_Department { get; set; }
-        public DbSet<tbl_No_dues_emp_particular_Clearence_detail> tbl_No_dues_emp_particular_Clearence_detail { get; set; }
         public DbSet<tbl_role_master> tbl_role_master { get; set; }
         public DbSet<tbl_claim_master> tbl_claim_master { get; set; }
         public DbSet<tbl_role_claim_map> tbl_role_claim_map { get; set; }
@@ -138,9 +134,6 @@ namespace projContext
         public DbSet<tbl_emp_personal_sec> tbl_emp_personal_sec { get; set; }
         public DbSet<tbl_emp_qualification_sec> tbl_emp_qualification_sec { get; set; }
         public DbSet<tbl_employment_type_master> tbl_employment_type_master { get; set; }
-        public DbSet<tbl_role_master_log> tbl_role_master_log { get; set; }
-        public DbSet<tbl_claim_master_log> tbl_claim_master_log { get; set; }
-        public DbSet<tbl_employee_company_map_log> tbl_employee_company_map_log { get; set; }
         public DbSet<tbl_company_master> tbl_company_master { get; set; }
         public DbSet<tbl_company_emp_setting> tbl_company_emp_setting { get; set; }
         public DbSet<tbl_company_master_log> tbl_company_master_log { get; set; }
@@ -345,8 +338,7 @@ namespace projContext
 
         public DbSet<tbl_question_master> tbl_question_master { get; set; }
 
-        public DbSet<tbl_epa_submission> tbl_epa_submission { get; set; }
-        //public DbSet<tbl_epa_submission_status_log> tbl_epa_submission_status_log { get; set; }
+        public DbSet<tbl_epa_submission> tbl_epa_submission { get; set; }        
         public DbSet<tbl_epa_kpi_submission> tbl_epa_kpi_submission { get; set; }
         public DbSet<tbl_epa_kpi_criteria_submission> tbl_epa_kpi_criteria_submission { get; set; }
         public DbSet<tbl_epa_kra_submission> tbl_epa_kra_submission { get; set; }
@@ -356,36 +348,19 @@ namespace projContext
         public DbSet<tbl_rpt_title_master> tbl_rpt_title_master { get; set; }
 
         public DbSet<tbl_bank_master> tbl_bank_master { get; set; }
-
         public DbSet<tbl_emp_separation> tbl_emp_separation { get; set; }
         public DbSet<tbl_approved_emp_separation_cancellation> tbl_approved_emp_separation_cancellation { get; set; }
-
         public DbSet<tbl_emp_prev_employement> tbl_emp_prev_employement { get; set; }
-
         public DbSet<tbl_emp_withdrawal> tbl_emp_withdrawal { get; set; }
-
         public DbSet<tbl_emp_fnf_asset> tbl_emp_fnf_asset { get; set; }
-
         public DbSet<tbl_fnf_reimburesment> tbl_fnf_reimburesment { get; set; }
-
         public DbSet<tbl_fnf_leave_encash> tbl_fnf_leave_encash { get; set; }
-
         public DbSet<tbl_fnf_attendance_dtl> tbl_fnf_attendance_dtl { get; set; }
-
         public DbSet<tbl_fnf_component> tbl_fnf_component { get; set; }
-
         public DbSet<tbl_fnf_loan_recover> tbl_fnf_loan_recover { get; set; }
-
         public DbSet<tbl_fnf_master> tbl_fnf_master { get; set; }
 
-        public DbSet<tbl_kt_task_master> tbl_kt_task_master { get; set; }
-
-        public DbSet<tbl_kt_task_emp_details> tbl_kt_task_emp_details { get; set; }
-
-        public DbSet<tbl_kt_status> tbl_kt_status { get; set; }
-
-        public DbSet<tbl_kt_file> tbl_kt_file { get; set; }
-
+        
         
 
         /// <summary>

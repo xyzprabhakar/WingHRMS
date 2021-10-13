@@ -90,6 +90,8 @@ namespace projAPI.Classes
 
         public List<int> ChangeEmployementType()
         {
+            throw new NotImplementedException();
+#if false
             DateTime todaydate = DateTime.Now;
 
             List<mdlChnageEmployementType> _mdc = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.tbl_employee_id_details.is_active == 1).Select(p => new
@@ -126,6 +128,7 @@ namespace projAPI.Classes
             //return for update leaves
             return _mdc.Select(p => p.empid).ToList();
 
+#endif
         }
 
         class mdlChnageEmployementType
@@ -183,7 +186,7 @@ namespace projAPI.Classes
         }
 
 
-        #region *****************   Get the Employee List
+#region *****************   Get the Employee List
 
         public List<EmployeeBasicData> GetEmployeeByPayrollMonthyear(int company_id, int payroll_month_year)
         {
@@ -379,9 +382,9 @@ namespace projAPI.Classes
 
         }
 
-        #endregion
+#endregion
 
-        #region Getemployee list for dir / birthday/ aniversary created by anil on 2 dec 2020
+#region Getemployee list for dir / birthday/ aniversary created by anil on 2 dec 2020
         public List<EmployeeBasicData> GetEmployee_list_dir()
         {
             List<EmployeeBasicData> data = new List<EmployeeBasicData>();
@@ -539,9 +542,9 @@ namespace projAPI.Classes
             return data;
 
         }
-        #endregion
+#endregion
 
-        #region ******************** Save Employee Details Section *******************
+#region ******************** Save Employee Details Section *******************
 
         public KeyValuePair<bool, string> EmpPermissionExists(IEnumerable<string> EmpCodes)
         {
@@ -605,139 +608,139 @@ namespace projAPI.Classes
 
         public bool Save_tbl_emp_officaial_sec(tbl_emp_officaial_sec mdl, byte[] imageBytes, string rootPath)
         {
+            throw new NotImplementedException();
+            //try
+            //{
+            //    var tem = _context.tbl_emp_officaial_sec.Where(p => p.employee_id == mdl.employee_id && p.is_deleted == 0).FirstOrDefault();
+            //    if (tem != null)
+            //    {
+            //        tem.is_deleted = 1;
+            //        tem.last_modified_by = _clsCurrentUser.EmpId;
+            //        tem.last_modified_date = _CurrentDateTime;
+            //        _context.Update(tem);
+            //        _context.SaveChanges();
 
-            try
-            {
-                var tem = _context.tbl_emp_officaial_sec.Where(p => p.employee_id == mdl.employee_id && p.is_deleted == 0).FirstOrDefault();
-                if (tem != null)
-                {
-                    tem.is_deleted = 1;
-                    tem.last_modified_by = _clsCurrentUser.EmpId;
-                    tem.last_modified_date = _CurrentDateTime;
-                    _context.Update(tem);
-                    _context.SaveChanges();
-
-                }
-                if (imageBytes != null)
-                {
-                    try
-                    {
-                        if (!Directory.Exists(rootPath + "/EmployeeImage/EID" + mdl.employee_id + "/"))
-                        {
-                            Directory.CreateDirectory(rootPath + "/EmployeeImage/EID" + mdl.employee_id + "/");
-                        }
+            //    }
+            //    if (imageBytes != null)
+            //    {
+            //        try
+            //        {
+            //            if (!Directory.Exists(rootPath + "/EmployeeImage/EID" + mdl.employee_id + "/"))
+            //            {
+            //                Directory.CreateDirectory(rootPath + "/EmployeeImage/EID" + mdl.employee_id + "/");
+            //            }
 
 
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + "/EmployeeImage/EID" + mdl.employee_id + "/ig_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".jpg");
-                        System.IO.File.WriteAllBytes(path, imageBytes);//save image file
-                                                                       //update file name
-                        mdl.employee_photo_path = "/EmployeeImage/EID" + mdl.employee_id + "/ig_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".jpg";
-                    }
-                    catch (Exception EX)
-                    {
-                        throw new Exception("not able to save image " + EX.Message);
-                    }
-                }
+            //            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + "/EmployeeImage/EID" + mdl.employee_id + "/ig_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".jpg");
+            //            System.IO.File.WriteAllBytes(path, imageBytes);//save image file
+            //                                                           //update file name
+            //            mdl.employee_photo_path = "/EmployeeImage/EID" + mdl.employee_id + "/ig_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".jpg";
+            //        }
+            //        catch (Exception EX)
+            //        {
+            //            throw new Exception("not able to save image " + EX.Message);
+            //        }
+            //    }
 
-                if (string.IsNullOrEmpty(mdl.employee_photo_path))
-                {
-                    if (tem != null)
-                    {
-                        mdl.employee_photo_path = tem.employee_photo_path;
-                        if (mdl.current_employee_type == 0)
-                        {
-                            mdl.current_employee_type = tem.current_employee_type;
-                        }
-                    }
-                    else
-                    {
-                        mdl.current_employee_type = (int)enm_employment_type.Probation;
-                    }
+            //    if (string.IsNullOrEmpty(mdl.employee_photo_path))
+            //    {
+            //        if (tem != null)
+            //        {
+            //            mdl.employee_photo_path = tem.employee_photo_path;
+            //            if (mdl.current_employee_type == 0)
+            //            {
+            //                mdl.current_employee_type = tem.current_employee_type;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            mdl.current_employee_type = (int)enm_employment_type.Probation;
+            //        }
 
-                }
-                if (mdl.location_id == 0)
-                {
-                    mdl.location_id = null;
-                }
-                if (mdl.sub_location_id == 0)
-                {
-                    mdl.sub_location_id = null;
-                }
-                if (mdl.department_id == 0)
-                {
-                    mdl.department_id = null;
-                }
-                if (mdl.sub_dept_id == 0)
-                {
-                    mdl.sub_dept_id = null;
-                }
-                if (mdl.religion_id == 0)
-                {
-                    mdl.religion_id = null;
-                }
-                if (mdl.user_type == 0)
-                {
-                    mdl.user_type = (int)enmRoleMaster.Employee;
-                }
-                mdl.emp_official_section_id = 0;
-                mdl.last_modified_by = mdl.created_by = _clsCurrentUser.UserId;
-                mdl.last_modified_date = mdl.created_date = _CurrentDateTime;
-                mdl.is_deleted = 0;
-                _context.tbl_emp_officaial_sec.Add(mdl);
-                _context.SaveChanges();
-                var user_id = _context.tbl_user_master.Where(p => p.employee_id == mdl.employee_id).FirstOrDefault()?.user_id;
-                Save_tbl_user_role_map(new tbl_user_role_map() { user_id = user_id, role_id = mdl.user_type });
-                if (mdl.emp_father_name != null)
-                {
-                    bool UpdateHusband = false;
-                    if (mdl.gender == 1)
-                    {
-                        if (mdl.marital_status == 1)
-                        {
-                            UpdateHusband = true;
-                        }
-                    }
+            //    }
+            //    if (mdl.location_id == 0)
+            //    {
+            //        mdl.location_id = null;
+            //    }
+            //    if (mdl.sub_location_id == 0)
+            //    {
+            //        mdl.sub_location_id = null;
+            //    }
+            //    if (mdl.department_id == 0)
+            //    {
+            //        mdl.department_id = null;
+            //    }
+            //    if (mdl.sub_dept_id == 0)
+            //    {
+            //        mdl.sub_dept_id = null;
+            //    }
+            //    if (mdl.religion_id == 0)
+            //    {
+            //        mdl.religion_id = null;
+            //    }
+            //    if (mdl.user_type == 0)
+            //    {
+            //        mdl.user_type = (int)enmRoleMaster.Employee;
+            //    }
+            //    mdl.emp_official_section_id = 0;
+            //    mdl.last_modified_by = mdl.created_by = _clsCurrentUser.UserId;
+            //    mdl.last_modified_date = mdl.created_date = _CurrentDateTime;
+            //    mdl.is_deleted = 0;
+            //    _context.tbl_emp_officaial_sec.Add(mdl);
+            //    _context.SaveChanges();
+            //    var user_id = _context.tbl_user_master.Where(p => p.employee_id == mdl.employee_id).FirstOrDefault()?.user_id;
+            //    Save_tbl_user_role_map(new tbl_user_role_map() { user_id = user_id, role_id = mdl.user_type });
+            //    if (mdl.emp_father_name != null)
+            //    {
+            //        bool UpdateHusband = false;
+            //        if (mdl.gender == 1)
+            //        {
+            //            if (mdl.marital_status == 1)
+            //            {
+            //                UpdateHusband = true;
+            //            }
+            //        }
 
-                    var mdlF = UpdateHusband ? _context.tbl_emp_family_sec.Where(p => p.employee_id == mdl.employee_id && p.relation == "Husband" && p.is_deleted == 0).FirstOrDefault()
-                     : _context.tbl_emp_family_sec.Where(p => p.employee_id == mdl.employee_id && p.relation == "Father" && p.is_deleted == 0).FirstOrDefault();
-                    if (mdlF == null)
-                    {
-                        mdlF = new tbl_emp_family_sec()
-                        {
-                            employee_id = mdl.employee_id,
-                            gender = "2",
-                            is_nominee = 1,
-                            dependent = 2,
-                            relation = UpdateHusband ? "Husband" : "Father",
-                            last_modified_by = _clsCurrentUser.EmpId,
-                            last_modified_date = _CurrentDateTime,
-                            created_by = _clsCurrentUser.UserId,
-                            created_date = _CurrentDateTime,
-                            aadhar_card_no = "",
-                            date_of_birth = new DateTime(2000, 1, 1),
-                            nominee_percentage = 0,
-                            document_image = null,
-                            occupation = "Self Employed",
-                            name_as_per_aadhar_card = mdl.emp_father_name,
-                            remark = "",
-                            is_deleted = 0,
+            //        var mdlF = UpdateHusband ? _context.tbl_emp_family_sec.Where(p => p.employee_id == mdl.employee_id && p.relation == "Husband" && p.is_deleted == 0).FirstOrDefault()
+            //         : _context.tbl_emp_family_sec.Where(p => p.employee_id == mdl.employee_id && p.relation == "Father" && p.is_deleted == 0).FirstOrDefault();
+            //        if (mdlF == null)
+            //        {
+            //            mdlF = new tbl_emp_family_sec()
+            //            {
+            //                employee_id = mdl.employee_id,
+            //                gender = "2",
+            //                is_nominee = 1,
+            //                dependent = 2,
+            //                relation = UpdateHusband ? "Husband" : "Father",
+            //                last_modified_by = _clsCurrentUser.EmpId,
+            //                last_modified_date = _CurrentDateTime,
+            //                created_by = _clsCurrentUser.UserId,
+            //                created_date = _CurrentDateTime,
+            //                aadhar_card_no = "",
+            //                date_of_birth = new DateTime(2000, 1, 1),
+            //                nominee_percentage = 0,
+            //                document_image = null,
+            //                occupation = "Self Employed",
+            //                name_as_per_aadhar_card = mdl.emp_father_name,
+            //                remark = "",
+            //                is_deleted = 0,
 
-                        };
-                        _context.tbl_emp_family_sec.Add(mdlF);
-                        _context.SaveChanges();
-                    }
+            //            };
+            //            _context.tbl_emp_family_sec.Add(mdlF);
+            //            _context.SaveChanges();
+            //        }
 
-                }
+            //    }
 
-                return true;
-            }
-            catch (Exception ex)
-            {
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
 
-                ExceptionHandle expt = new ExceptionHandle();
-                expt.EF_ErrorHandler(ex);
-                return false;
-            }
+            //    ExceptionHandle expt = new ExceptionHandle();
+            //    expt.EF_ErrorHandler(ex);
+            //    return false;
+            //}
         }
 
         public bool Save_tbl_user_role_map(tbl_user_role_map mdl)
@@ -761,7 +764,7 @@ namespace projAPI.Classes
 
 
 
-        #endregion
+#endregion
 
 
         public int SaveWeekOffAllocDetailExcel(List<EmployeeOfficaialSection> objdblist)
@@ -770,15 +773,15 @@ namespace projAPI.Classes
             {
                 using (var trans = _context.Database.BeginTransaction())
                 {
-                    for (int i = 0; i < objdblist.Count; i++)
-                    {
-                        tbl_emp_officaial_sec tbl_emp_officaial = (from a in _context.tbl_emp_officaial_sec select a).Where(x => x.employee_id == objdblist[i].employee_id && x.is_deleted == 0).OrderByDescending(x => x.emp_official_section_id).First();
-                        tbl_emp_officaial.is_fixed_weekly_off = objdblist[i].is_fixed_weekly_off;
+                    //for (int i = 0; i < objdblist.Count; i++)
+                    //{
+                    //    tbl_emp_officaial_sec tbl_emp_officaial = (from a in _context.tbl_emp_officaial_sec select a).Where(x => x.employee_id == objdblist[i].employee_id && x.is_deleted == 0).OrderByDescending(x => x.emp_official_section_id).First();
+                    //    tbl_emp_officaial.is_fixed_weekly_off = objdblist[i].is_fixed_weekly_off;
 
-                        _context.tbl_emp_officaial_sec.Attach(tbl_emp_officaial);
-                        _context.Entry(tbl_emp_officaial).State = EntityState.Modified;
-                        _context.SaveChangesAsync();
-                    }
+                    //    _context.tbl_emp_officaial_sec.Attach(tbl_emp_officaial);
+                    //    _context.Entry(tbl_emp_officaial).State = EntityState.Modified;
+                    //    _context.SaveChangesAsync();
+                    //}
 
 
                     trans.Commit();
@@ -802,7 +805,10 @@ namespace projAPI.Classes
 
             List<EmployeeBasicData> getEmpCode = GetEmployeeByPayrollMonthyear(_company_id, month_year);
             List<tbl_payroll_process_status> tpps = _context.tbl_payroll_process_status.Where(a => a.is_deleted == 0 && a.payroll_month_year == month_year && a.company_id == _company_id).ToList();
-            var DepartmentData = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0).Select(p => new { p.employee_id, p.tbl_department_master.department_name }).Distinct().ToList();
+            var DepartmentData = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0).Select(p => new {
+                employee_id = p.employee_id, department_name=""
+                //p.tbl_department_master.department_name 
+            }).Distinct().ToList();
             // var DesignationData1 = _context.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).Where(p => p.applicable_from_date <= PayrollLastdate && p.applicable_to_date >= PayrollLastdate && p.desig_id != null).Distinct().Select(p => new { p.employee_id, p.tbl_designation_master.designation_name }).ToList();
 
             var DesignationData = _context.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).Where(p => p.applicable_from_date <= PayrollLastdate && p.applicable_to_date >= PayrollLastdate && p.desig_id != null)
@@ -1150,7 +1156,7 @@ namespace projAPI.Classes
                     var teos = _context.tbl_emp_officaial_sec.Where(x => x.is_deleted == 0 && objchangeinput.Any(y => y.m_one_id == x.employee_id || y.m_two_id == x.employee_id || y.m_three_id == x.employee_id)).ToList();
                     if (teos.Count > 0)
                     {
-                        teos.ForEach(p => { p.user_type = (int)enmRoleMaster.Manager; p.last_modified_by = _clsCurrentUser.EmpId; p.last_modified_date = DateTime.Now; });
+                       // teos.ForEach(p => { p.user_type = (int)enmRoleMaster.Manager; p.last_modified_by = _clsCurrentUser.EmpId; p.last_modified_date = DateTime.Now; });
                     }
                     _context.tbl_emp_officaial_sec.UpdateRange(teos);
 
@@ -1661,39 +1667,39 @@ namespace projAPI.Classes
 
                         var newOfficalsec = objdblist.Select(p => new tbl_emp_officaial_sec
                         {
-                            is_applicable_for_all_comp = 0,
-                            employee_id = p.emp_id,
-                            location_id = p.location_id,
-                            state_id = p.state_id,
-                            sub_location_id = null,
-                            department_id = p.dept_id,
-                            sub_dept_id = null,
-                            card_number = p.card_number.ToString(),
-                            gender = p.gender_id,
-                            salutation = p.salutation_id.ToString(),
-                            employee_first_name = p.emp_name.Split(" ")[0],
-                            employee_middle_name = p.emp_name.Split(" ").Count() >= 3 ? p.emp_name.Split(" ")[1] : "",
-                            employee_last_name = p.emp_name.Split(" ").Count() == 1 ? "" : p.emp_name.Split(" ").Count() == 2 ? p.emp_name.Split(" ")[1] : p.emp_name.Split(" ").Count() == 3 ? p.emp_name.Split(" ")[2] : (p.emp_name.Split(" ").Count() == 4 ? p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] : (p.emp_name.Split(" ").Count() == 5 ? p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[4] : p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[4] + p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[5])),
-                            emp_father_name = p.father_husband_name,
-                            nationality = p.nationality,
-                            group_joining_date = p.date_of_joining,
-                            date_of_joining = p.date_of_joining,
-                            date_of_birth = p.date_of_birth,
-                            religion_id = 3,
-                            marital_status = Convert.ToByte(p.marital_status_id),
-                            official_email_id = p.email_work,
-                            is_ot_allowed = 0,
-                            is_comb_off_allowed = 1,
-                            current_employee_type = Convert.ToByte(p.employee_status_id),
-                            mobile_punch_from_date = new DateTime(2000, 01, 01),
-                            mobile_punch_to_date = new DateTime(2000, 01, 01),
-                            user_type = (int)enmRoleMaster.Employee,
-                            department_date_of_joining = p.date_of_joining,
-                            punch_type = 0,
+                            //is_applicable_for_all_comp = 0,
+                            //employee_id = p.emp_id,
+                            //location_id = p.location_id,
+                            //state_id = p.state_id,
+                            //sub_location_id = null,
+                            //department_id = p.dept_id,
+                            //sub_dept_id = null,
+                            //card_number = p.card_number.ToString(),
+                            //gender = p.gender_id,
+                            //salutation = p.salutation_id.ToString(),
+                            //employee_first_name = p.emp_name.Split(" ")[0],
+                            //employee_middle_name = p.emp_name.Split(" ").Count() >= 3 ? p.emp_name.Split(" ")[1] : "",
+                            //employee_last_name = p.emp_name.Split(" ").Count() == 1 ? "" : p.emp_name.Split(" ").Count() == 2 ? p.emp_name.Split(" ")[1] : p.emp_name.Split(" ").Count() == 3 ? p.emp_name.Split(" ")[2] : (p.emp_name.Split(" ").Count() == 4 ? p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] : (p.emp_name.Split(" ").Count() == 5 ? p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[4] : p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[4] + p.emp_name.Split(" ")[2] + " " + p.emp_name.Split(" ")[3] + " " + p.emp_name.Split(" ")[5])),
+                            //emp_father_name = p.father_husband_name,
+                            //nationality = p.nationality,
+                            //group_joining_date = p.date_of_joining,
+                            //date_of_joining = p.date_of_joining,
+                            //date_of_birth = p.date_of_birth,
+                            //religion_id = 3,
+                            //marital_status = Convert.ToByte(p.marital_status_id),
+                            //official_email_id = p.email_work,
+                            //is_ot_allowed = 0,
+                            //is_comb_off_allowed = 1,
+                            //current_employee_type = Convert.ToByte(p.employee_status_id),
+                            //mobile_punch_from_date = new DateTime(2000, 01, 01),
+                            //mobile_punch_to_date = new DateTime(2000, 01, 01),
+                            //user_type = (int)enmRoleMaster.Employee,
+                            //department_date_of_joining = p.date_of_joining,
+                            //punch_type = 0,
                             hr_spoc = "",
                             employee_photo_path = "",
-                            last_working_date = p.resignation_date.Date != new DateTime(0001, 01, 01).Date ? p.resignation_date : new DateTime(2000, 01, 01),
-                            is_fixed_weekly_off = 1,
+                            //last_working_date = p.resignation_date.Date != new DateTime(0001, 01, 01).Date ? p.resignation_date : new DateTime(2000, 01, 01),
+                            //is_fixed_weekly_off = 1,
                             is_deleted = 0,
                             created_by = _clsCurrentUser.UserId,
                             created_date = _CurrentDateTime,
@@ -1708,16 +1714,16 @@ namespace projAPI.Classes
                                 p.religion_id = tempdata.religion_id;
                                 p.hr_spoc = tempdata.hr_spoc;
                                 p.employee_photo_path = tempdata.employee_photo_path;
-                                p.is_ot_allowed = tempdata.is_ot_allowed;
-                                p.department_date_of_joining = tempdata.department_date_of_joining;
-                                p.is_comb_off_allowed = tempdata.is_comb_off_allowed;
-                                p.last_working_date = tempdata.last_working_date;
-                                p.punch_type = tempdata.punch_type;
-                                p.is_fixed_weekly_off = tempdata.is_fixed_weekly_off;
-                                p.sub_dept_id = tempdata.sub_dept_id;
-                                p.sub_location_id = tempdata.sub_location_id;
-                                p.is_mobile_access = tempdata.is_mobile_access;
-                                p.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
+                                //p.is_ot_allowed = tempdata.is_ot_allowed;
+                                //p.department_date_of_joining = tempdata.department_date_of_joining;
+                                //p.is_comb_off_allowed = tempdata.is_comb_off_allowed;
+                                //p.last_working_date = tempdata.last_working_date;
+                                //p.punch_type = tempdata.punch_type;
+                                //p.is_fixed_weekly_off = tempdata.is_fixed_weekly_off;
+                                //p.sub_dept_id = tempdata.sub_dept_id;
+                                //p.sub_location_id = tempdata.sub_location_id;
+                                //p.is_mobile_access = tempdata.is_mobile_access;
+                                //p.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
                             }
                         });
                         _context.tbl_emp_officaial_sec.AddRange(newOfficalsec);
@@ -1793,6 +1799,8 @@ namespace projAPI.Classes
                         }
                         _context.tbl_employment_type_master.UpdateRange(existingEmpTypeSec);
 
+
+#if false
                         _context.tbl_employment_type_master.AddRange(objdblist.Where(p => p.employee_status_id == (int)enm_employment_type.Temporary).Select(p => new tbl_employment_type_master()
                         {
                             employee_id = p.emp_id,
@@ -1861,6 +1869,7 @@ namespace projAPI.Classes
                             last_modified_by = _clsCurrentUser.UserId,
                             last_modified_date = _CurrentDateTime,
                         }));
+#endif
                         _context.SaveChanges();
 
 

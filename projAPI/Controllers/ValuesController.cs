@@ -113,6 +113,8 @@ namespace projAPI.Controllers
 
         private void SetUserData()
         {
+            throw new NotImplementedException();
+#if false
             var AllEmp=_context.tbl_employee_master.Where(p => p.is_active == 1).ToList();
             var ExistingCompanyMap=_context.tbl_employee_company_map.Where(p => p.is_deleted == 0).ToList();
             List<tbl_employee_company_map> NewCompanyMap = AllEmp.Select(p => new tbl_employee_company_map
@@ -196,23 +198,23 @@ namespace projAPI.Controllers
                 effective_date = p.date_of_joining,
             }).ToList();
 
-            NewemploymentType.AddRange(AllEmpOfficail.Where(p=>p.current_employee_type==3).Select(p => new tbl_employment_type_master
-            {
-                employee_id = p.employee_id,
-                employment_type = (byte)EmployeeType.Confirmend,
-                duration_days = 0,
-                duration_start_period = DateTime.Now,
-                duration_end_period = new DateTime(2200, 1, 1),
-                actual_duration_days = 0,
-                actual_duration_start_period = DateTime.Now,
-                actual_duration_end_period = new DateTime(2200, 1, 1),
-                is_deleted = 0,
-                created_by = 1,
-                created_date = new DateTime(2200, 1, 1),
-                last_modified_by = 0,
-                last_modified_date = new DateTime(2200, 1, 1),
-                effective_date = p.confirmation_date,
-            }));
+            //NewemploymentType.AddRange(AllEmpOfficail.Where(p=>p.current_employee_type==3).Select(p => new tbl_employment_type_master
+            //{
+            //    employee_id = p.employee_id,
+            //    employment_type = (byte)EmployeeType.Confirmend,
+            //    duration_days = 0,
+            //    duration_start_period = DateTime.Now,
+            //    duration_end_period = new DateTime(2200, 1, 1),
+            //    actual_duration_days = 0,
+            //    actual_duration_start_period = DateTime.Now,
+            //    actual_duration_end_period = new DateTime(2200, 1, 1),
+            //    is_deleted = 0,
+            //    created_by = 1,
+            //    created_date = new DateTime(2200, 1, 1),
+            //    last_modified_by = 0,
+            //    last_modified_date = new DateTime(2200, 1, 1),
+            //    effective_date = p.confirmation_date,
+            //}));
 
             var ExistingemploymentType = _context.tbl_employment_type_master.Where(p => p.is_deleted== 0).ToList();
             for (int i = NewemploymentType.Count - 1; i >= 0; i--)
@@ -228,7 +230,7 @@ namespace projAPI.Controllers
 
             _context.SaveChanges();
 
-
+#endif
 
         }
     }

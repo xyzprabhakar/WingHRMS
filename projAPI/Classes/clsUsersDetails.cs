@@ -363,18 +363,18 @@ namespace projAPI.Classes
                         mdlLoginOutput.default_company = _tbl_user_master.default_company_id;
                         mdlLoginOutput.employee_photo_path = Convert.ToString(_config["domain_url"]) + (string.IsNullOrEmpty(tempdata.employee_photo_path) ? "EmployeeImage/DefaultUser/defaultimage.jpg" : tempdata.employee_photo_path);
                         mdlLoginOutput._appSetting_domainn = Convert.ToString(_config["domain_url"]);
-                        mdlLoginOutput.is_mobile_access = tempdata.is_mobile_access;
-                        mdlLoginOutput.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
-                        mdlLoginOutput.user_Dep_id = tempdata.department_id ?? 0;
-                        if (tempdata.department_id != null)
-                        {
-                            mdlLoginOutput.user_Dep_name = _context.tbl_department_master.Where(x => x.department_id == tempdata.department_id).FirstOrDefault().department_name.Trim();
-                        }
-                        else
-                        {
-                            mdlLoginOutput.user_Dep_name = "";
+                        //mdlLoginOutput.is_mobile_access = tempdata.is_mobile_access;
+                        //mdlLoginOutput.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
+                        //mdlLoginOutput.user_Dep_id = tempdata.department_id ?? 0;
+                        //if (tempdata.department_id != null)
+                        //{
+                        //    mdlLoginOutput.user_Dep_name = _context.tbl_department_master.Where(x => x.department_id == tempdata.department_id).FirstOrDefault().department_name.Trim();
+                        //}
+                        //else
+                        //{
+                        //    mdlLoginOutput.user_Dep_name = "";
 
-                        }
+                        //}
 
                     }
                     // Now Load if Emp is Role

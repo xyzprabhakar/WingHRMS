@@ -2182,7 +2182,7 @@ namespace projAPI
                 sb.Replace("#location#", company_location.location_name);
                 sb.Replace("#branch#", company_location.location_code);
 
-                var emp_off_sec = _context.tbl_emp_officaial_sec.Where(x => x.employee_id == emp_id && x.is_deleted == 0).FirstOrDefault().user_type;
+                var emp_off_sec = 0;// _context.tbl_emp_officaial_sec.Where(x => x.employee_id == emp_id && x.is_deleted == 0).FirstOrDefault().user_type;
                 var emp_category = "";
 
                 sb.Replace("#emp_category#", company_location.location_code);

@@ -577,15 +577,7 @@ namespace projAPI.Controllers
                                 tbl_employment_type_master tbl_employment_type_master = new tbl_employment_type_master();
                                 tbl_employment_type_master.employee_id = employee_id;
                                 tbl_employment_type_master.employment_type = Convert.ToByte(i);
-
-                                tbl_employment_type_master.duration_days = Convert.ToInt32(DurationDays);
-
-                                tbl_employment_type_master.duration_start_period = DurationStartPeriod;
-                                tbl_employment_type_master.duration_end_period = DurationEndPeriod;
-
-                                tbl_employment_type_master.actual_duration_days = Convert.ToInt32(DurationDays);
-                                tbl_employment_type_master.actual_duration_start_period = DurationStartPeriod;
-                                tbl_employment_type_master.actual_duration_end_period = DurationEndPeriod;
+                               
                                 tbl_employment_type_master.is_deleted = 0;
                                 tbl_employment_type_master.created_by = company_master.created_by;
                                 tbl_employment_type_master.created_date = DateTime.Now;
@@ -602,14 +594,7 @@ namespace projAPI.Controllers
                             tbl_employment_type_master10.employee_id = employee_id;
                             tbl_employment_type_master10.employment_type = Convert.ToByte(10);
 
-                            tbl_employment_type_master10.duration_days = Convert.ToInt32(DurationDays);
-
-                            tbl_employment_type_master10.duration_start_period = DurationStartPeriod;
-                            tbl_employment_type_master10.duration_end_period = DurationEndPeriod;
-
-                            tbl_employment_type_master10.actual_duration_days = Convert.ToInt32(DurationDays);
-                            tbl_employment_type_master10.actual_duration_start_period = DurationStartPeriod;
-                            tbl_employment_type_master10.actual_duration_end_period = DurationEndPeriod;
+                           
                             tbl_employment_type_master10.is_deleted = 0;
                             tbl_employment_type_master10.created_by = company_master.created_by; //company_id;
                             tbl_employment_type_master10.created_date = DateTime.Now;
@@ -625,12 +610,7 @@ namespace projAPI.Controllers
                             tbl_employment_type_master objtblemptype_99 = new tbl_employment_type_master();
                             objtblemptype_99.employee_id = employee_id;
                             objtblemptype_99.employment_type = Convert.ToByte(99);
-                            objtblemptype_99.duration_days = Convert.ToInt32(DurationDays);
-                            objtblemptype_99.duration_start_period = DurationStartPeriod;
-                            objtblemptype_99.duration_end_period = DurationEndPeriod;
-                            objtblemptype_99.actual_duration_days = Convert.ToInt32(DurationDays);
-                            objtblemptype_99.actual_duration_start_period = DurationStartPeriod;
-                            objtblemptype_99.actual_duration_end_period = DurationEndPeriod;
+                            
                             objtblemptype_99.is_deleted = 0;
                             objtblemptype_99.created_by = company_master.created_by; //company_id;
                             objtblemptype_99.created_date = DateTime.Now;
@@ -647,14 +627,7 @@ namespace projAPI.Controllers
                             tbl_employment_type_master_.employee_id = employee_id;
                             tbl_employment_type_master_.employment_type = Convert.ToByte(100);
 
-                            tbl_employment_type_master_.duration_days = Convert.ToInt32(DurationDays);
-
-                            tbl_employment_type_master_.duration_start_period = DurationStartPeriod;
-                            tbl_employment_type_master_.duration_end_period = DurationEndPeriod;
-
-                            tbl_employment_type_master_.actual_duration_days = Convert.ToInt32(DurationDays);
-                            tbl_employment_type_master_.actual_duration_start_period = DurationStartPeriod;
-                            tbl_employment_type_master_.actual_duration_end_period = DurationEndPeriod;
+                         
                             tbl_employment_type_master_.is_deleted = 0;
                             tbl_employment_type_master_.created_by = company_master.created_by;//company_id;
                             tbl_employment_type_master_.created_date = DateTime.Now;

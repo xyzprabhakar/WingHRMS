@@ -75,12 +75,12 @@ namespace projAPI.Classes
                 p.employee_middle_name,
                 p.employee_last_name,
                 p.tbl_employee_id_details.emp_code,
-                p.date_of_birth,
-                p.date_of_joining,
-                p.department_id,
-                p.current_employee_type,
-                p.tbl_department_master.department_name,
-                p.tbl_location_master.location_name,
+                //p.date_of_birth,
+                //p.date_of_joining,
+                //p.department_id,
+                //p.current_employee_type,
+                //p.tbl_department_master.department_name,
+                //p.tbl_location_master.location_name,
                 p.tbl_religion_master.religion_name,
             }).ToList();
 
@@ -160,23 +160,23 @@ namespace projAPI.Classes
                 {
                     p.emp_name = string.Format("{0} {1} {2}", data_.employee_first_name, data_.employee_middle_name, data_.employee_last_name);
                     p.emp_code = data_.emp_code;
-                    p.dept_id = data_.department_id ?? 0;
-                    p.dob = data_.date_of_birth;
-                    p.doj = data_.date_of_joining;
-                    p.lcoation = data_.location_name;
-                    p.religion = data_.religion_name;
-                    p.dept_name = data_.department_name;
-                    switch (data_.current_employee_type)
-                    {
-                        case 1: p.emptype = "Temporary"; break;
-                        case 2: p.emptype = "Probation"; break;
-                        case 3: p.emptype = "Confirmed"; break;
-                        case 4: p.emptype = "Contract"; break;
-                        case 10: p.emptype = "Notice"; break;
-                        case 99: p.emptype = "FNF"; break;
-                        case 100: p.emptype = "Terminate"; break;
-                        default: p.emptype = ""; break;
-                    }
+                    //p.dept_id = data_.department_id ?? 0;
+                    //p.dob = data_.date_of_birth;
+                    //p.doj = data_.date_of_joining;
+                    //p.lcoation = data_.location_name;
+                    //p.religion = data_.religion_name;
+                    //p.dept_name = data_.department_name;
+                    //switch (data_.current_employee_type)
+                    //{
+                    //    case 1: p.emptype = "Temporary"; break;
+                    //    case 2: p.emptype = "Probation"; break;
+                    //    case 3: p.emptype = "Confirmed"; break;
+                    //    case 4: p.emptype = "Contract"; break;
+                    //    case 10: p.emptype = "Notice"; break;
+                    //    case 99: p.emptype = "FNF"; break;
+                    //    case 100: p.emptype = "Terminate"; break;
+                    //    default: p.emptype = ""; break;
+                    //}
                 }
 
 

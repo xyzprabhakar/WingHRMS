@@ -36,8 +36,11 @@ namespace projAPI
             public int no_of_days_p { get; set; }
             public string father_name { get; set; }
         }
+        public string TheRegisterOfFinesForm5() { return ""; }
+#if false
         public string TheRegisterOfFinesForm5()
         {
+
             bool allcompany_id = _company_id == 0 ? true : false;
             bool alllocation_id = _location == 0 ? true : false;
 
@@ -309,6 +312,8 @@ namespace projAPI
             return sb.ToString();
 
         }
+#endif
     }
+
 }
 
