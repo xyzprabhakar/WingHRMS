@@ -480,15 +480,18 @@ namespace projContext.DB
        // public int state_id { get; set; }
     }
 
+
+    
+
     public class tbl_emp_weekoff
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int emp_weekoff_id { get; set; }  // primary key  must be public!  
-
         [ForeignKey("tbl_employee_id_details")] // Foreign Key here
         public int? employee_id { get; set; }
         public tbl_employee_master tbl_employee_id_details { get; set; }
+
         public int is_fixed_weekly_off { get; set; } = 1; // If Fixed then set 1, id Dynamic then set 2
         public DateTime effective_from_date { get; set; } = DateTime.Now;
         public int is_deleted { get; set; }
