@@ -253,7 +253,7 @@ namespace projAPI.Classes
                     var emp_desg = emp_desi_allocation.FirstOrDefault(q => q.employee_id == p.emp_id);
                     if (emp_desg != null) { p.desig_id = emp_desg.desig_id; }
                     var emp_manager = emp_managers.FirstOrDefault(q => q.employee_id == p.emp_id);
-                    if (emp_manager != null) { p.rm_id1 = emp_manager.m_one_id; p.rm_id2 = emp_manager.m_two_id; p.rm_id3 = emp_manager.m_three_id; }
+                    if (emp_manager != null) { p.rm_id1 = emp_manager.m_one_id;}
                     if (login_emp_id !=0)
                     {
                         if ((p.rm_id1 == login_emp_id && emp_epa_status.display_for_rm1 == 1) || (p.rm_id2 == login_emp_id && emp_epa_status.display_for_rm2 == 1)

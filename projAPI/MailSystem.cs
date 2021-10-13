@@ -84,6 +84,9 @@ namespace projAPI
         //Get managers
         public void SetManasgerData(int employee_id)
         {
+            throw new NotImplementedException();
+#if false
+
             int m1_eid = 0, m2_eid = 0, m3_eid = 0;
             int[] m_ids = new int[] { m1_eid, m2_eid, m3_eid };
 
@@ -159,6 +162,7 @@ namespace projAPI
             obj_mail.HtmlBody = sb.ToString();
             obj_mail.MailSubject = "Outdoor Application Request";
             SendMail(obj_mail);
+#endif
         }
 
         // For Leave Applicable request
@@ -1343,7 +1347,7 @@ namespace projAPI
 
             //obj_mail.MailSendTo.Add(emp_dtl.official_email_id);
 
-        #endif
+#endif
         }
 
         public void EmpSeprationCancellationMail(List<SeprationMailDetails> sep_dtl)

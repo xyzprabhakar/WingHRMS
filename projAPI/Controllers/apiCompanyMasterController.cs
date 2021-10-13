@@ -687,8 +687,7 @@ namespace projAPI.Controllers
                             #region Save Data in emp_manager
                             tbl_emp_manager emp_manager = new tbl_emp_manager();
                             emp_manager.employee_id = employee_id;
-                            emp_manager.applicable_from_date = DateTime.Now;
-                            emp_manager.applicable_to_date = Convert.ToDateTime("2500-01-01");
+                            emp_manager.applicable_from_date = DateTime.Now;                            
                             emp_manager.is_deleted = 0;
                             //Save data in tbl_emp_managers
                             _context.tbl_emp_manager.Add(emp_manager);

@@ -2637,22 +2637,22 @@ namespace projAPI.Controllers
                                         req.r.a1_e_id = objmodel.a1_e_id;
                                         req.r.approval_date1 = DateTime.Now;
                                     }
-                                    else if (emp_manager.m_two_id == objmodel.a1_e_id)
-                                    {
-                                        req.r.is_approved2 = objmodel.is_approved1;
-                                        req.r.approval2_remarks = objmodel.approval1_remarks;
-                                        req.r.a2_e_id = objmodel.a1_e_id;
-                                        req.r.approval_date2 = DateTime.Now;
-                                    }
-                                    else if (emp_manager.m_three_id == objmodel.a1_e_id)
-                                    {
-                                        req.r.is_approved3 = objmodel.is_approved1;
-                                        req.r.approval3_remarks = objmodel.approval1_remarks;
-                                        req.r.a3_e_id = objmodel.a1_e_id;
-                                        req.r.approval_date3 = DateTime.Now;
-                                    }
+                                    //else if (emp_manager.m_two_id == objmodel.a1_e_id)
+                                    //{
+                                    //    req.r.is_approved2 = objmodel.is_approved1;
+                                    //    req.r.approval2_remarks = objmodel.approval1_remarks;
+                                    //    req.r.a2_e_id = objmodel.a1_e_id;
+                                    //    req.r.approval_date2 = DateTime.Now;
+                                    //}
+                                    //else if (emp_manager.m_three_id == objmodel.a1_e_id)
+                                    //{
+                                    //    req.r.is_approved3 = objmodel.is_approved1;
+                                    //    req.r.approval3_remarks = objmodel.approval1_remarks;
+                                    //    req.r.a3_e_id = objmodel.a1_e_id;
+                                    //    req.r.approval_date3 = DateTime.Now;
+                                    //}
 
-                                    final_app_id = (final_approver == 1 ? emp_manager.m_one_id : final_approver == 2 ? emp_manager.m_two_id : final_approver == 3 ? emp_manager.m_three_id : 0) ?? 0;
+                                    final_app_id = (final_approver == 1 ? emp_manager.m_one_id : 0) ?? 0;
 
                                     //if (final_app_id == objmodel.a1_e_id)
                                     //{
@@ -2791,6 +2791,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.OutdoorApproval))]
         public IActionResult GetOutdoorLeaveForApproval([FromRoute] int LoginEmployeeId)
         {
+            throw new NotImplementedException();
+#if false
 
             try
             {
@@ -2898,6 +2900,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         [Route("GetAttandenceApproval/{LoginEmployeeId}")]
@@ -2906,6 +2909,8 @@ namespace projAPI.Controllers
         public IActionResult GetAttandenceApproval([FromRoute] int LoginEmployeeId)
         {
 
+            throw new NotImplementedException();
+#if false
             try
             {
                 ResponseMsg objResult = new ResponseMsg();
@@ -2954,9 +2959,9 @@ namespace projAPI.Controllers
                         approver_remarks = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? a.approval1_remarks :
                                                 a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? a.approval2_remarks :
                                                 a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? a.approval3_remarks : ""),
-                        my_status = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? (a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approved" : a.is_approved1 == 2 ? "Reject" : "") :
-                                    a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? (a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approved" : a.is_approved2 == 2 ? "Reject" : "") :
-                                    a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? (a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approved" : a.is_approved3 == 2 ? "Reject" : "") : ""),
+                        my_status = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? (a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approved" : a.is_approved1 == 2 ? "Reject" : "") : "",
+                                    //a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? (a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approved" : a.is_approved2 == 2 ? "Reject" : "") :
+                                    //a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? (a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approved" : a.is_approved3 == 2 ? "Reject" : "") : ""),
                         diff = b.out_time.Subtract(b.in_time),
                         diff_time = (Math.Round(b.out_time.Subtract(b.in_time).TotalHours, 2)) >= 0 ? Math.Round(b.out_time.Subtract(b.in_time).TotalHours, 2) : 0,
                         // workinghrs = (TempIndex.system_out_time - TempIndex.system_in_time).TotalHours
@@ -2965,8 +2970,8 @@ namespace projAPI.Controllers
                         a.is_deleted,
                         a.is_final_approve,
                         mgr1 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id,
-                        mgr2 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id,
-                        mgr3 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id,
+                        mgr2 =0,// a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id,
+                        mgr3 =0,// a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id,
                         b.is_freezed,
                         a.company_id,
 
@@ -3020,6 +3025,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -3028,8 +3034,9 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.CompoffApproval))]
         public IActionResult GetCompOffLeaveApproval([FromRoute] int LoginEmployeeId)
         {
+            throw new NotImplementedException();
+#if false
             ResponseMsg objResult = new ResponseMsg();
-
             try
             {
 
@@ -3273,6 +3280,7 @@ namespace projAPI.Controllers
                 objResult.Message = ex.Message;
                 return Ok(objResult);
             }
+#endif
         }
 
 
@@ -3767,22 +3775,7 @@ namespace projAPI.Controllers
                                         req.a1_e_id = objmodel.a1_e_id;
                                         req.approval_date1 = DateTime.Now;
                                     }
-                                    else if (tbl_emp_m.m_two_id == objmodel.a1_e_id)
-                                    {
-                                        req.is_approved2 = objmodel.is_approved1;
-                                        req.approval2_remarks = objmodel.approval1_remarks;
-                                        req.a2_e_id = objmodel.a1_e_id;
-                                        req.approval_date2 = DateTime.Now;
-                                    }
-                                    else if (tbl_emp_m.m_three_id == objmodel.a1_e_id)
-                                    {
-                                        req.is_approved3 = objmodel.is_approved1;
-                                        req.approval3_remarks = objmodel.approval1_remarks;
-                                        req.a3_e_id = objmodel.a1_e_id;
-                                        req.approval_date3 = DateTime.Now;
-                                    }
-
-                                    final_mgr_id = (final_approvel == 1 ? tbl_emp_m.m_one_id : final_approvel == 2 ? tbl_emp_m.m_two_id : final_approvel == 3 ? tbl_emp_m.m_three_id : 0) ?? 0;
+                                    final_mgr_id = (final_approvel == 1 ? tbl_emp_m.m_one_id : 0) ?? 0;
 
                                     if (final_mgr_id == objmodel.a1_e_id)
                                     {
@@ -4247,6 +4240,8 @@ namespace projAPI.Controllers
         [HttpGet]
         public IActionResult GetLeaveApplicationForApproval([FromRoute] int loginempid, int year)
         {
+            throw new NotImplementedException();
+#if false
             Response_Msg objResult = new Response_Msg();
 
             try
@@ -4344,6 +4339,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         //[Route("Save_LeaveApplicationForApprover")]
@@ -4703,7 +4699,7 @@ namespace projAPI.Controllers
 #endif
         }
 
-        #endregion ** END BY SUPRIYA ON 24-07-2019
+#endregion ** END BY SUPRIYA ON 24-07-2019
 
 
 
@@ -4766,7 +4762,7 @@ namespace projAPI.Controllers
 #endif
 
 
-        #region CREATED BY AMARJEET ON 31-07-2019 FOR LEAVE APPROVAL
+#region CREATED BY AMARJEET ON 31-07-2019 FOR LEAVE APPROVAL
 
         [HttpGet("GetLeaveApplicationForAdmin/{company_id}")]
         //[Authorize]
@@ -7413,7 +7409,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 }
 
                 return Ok(1);
-            #region commented
+#region commented
                 //var CurrentMonthData1 = (_context.tbl_leave_ledger.Where(p => p.leave_type_id == leave_type && p.entry_date >= fromdate && p.entry_date < todate && p.e_id == emp_id).
                 //          Select(p => new { p.e_id, p.leave_type_id, p.credit, p.dredit, tmonth= p.transaction_date.Month })).ToList();
 
@@ -7471,7 +7467,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 //  emp_leave_list.Add(Data);
                 //return Ok(Data);
 
-            #endregion
+#endregion
             }
             catch (Exception ex)
             {

@@ -217,23 +217,15 @@ namespace projContext.DB
         [ForeignKey("tbl_employee_master1")] // Foreign Key here
         public int? m_one_id { get; set; }
         public tbl_employee_master tbl_employee_master1 { get; set; }
-        [ForeignKey("tbl_employee_master2")] // Foreign Key here
-        public int? m_two_id { get; set; }
-        public tbl_employee_master tbl_employee_master2 { get; set; }
-        [ForeignKey("tbl_employee_master3")] // Foreign Key here
-        public int? m_three_id { get; set; }
-        public tbl_employee_master tbl_employee_master3 { get; set; }
+        
         [ForeignKey("tem")] // Foreign Key here
         public int? employee_id { get; set; }
         public tbl_employee_master tem { get; set; }
-        public DateTime applicable_from_date { get; set; }
-        public DateTime applicable_to_date { get; set; }
-
+        public DateTime applicable_from_date { get; set; }        
         public int is_deleted { get; set; }
-
-        public byte notify_manager_1 { get; set; }//0 for not Notify ,1 for Notify ...
-        public byte notify_manager_2 { get; set; }//0 for not Notify ,1 for Notify ...
-        public byte notify_manager_3 { get; set; }//0 for not Notify ,1 for Notify ...
+        //public byte notify_manager_1 { get; set; }//0 for not Notify ,1 for Notify ...
+        //public byte notify_manager_2 { get; set; }//0 for not Notify ,1 for Notify ...
+        //public byte notify_manager_3 { get; set; }//0 for not Notify ,1 for Notify ...
 
     }
 

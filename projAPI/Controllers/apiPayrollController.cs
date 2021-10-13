@@ -8210,6 +8210,8 @@ namespace projAPI.Controllers
         //[Authorize(Policy = "8093")]
         public IActionResult Get_ReimRquestDetail([FromRoute] int employee_id, int companyid)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
 
@@ -8278,6 +8280,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message.ToString());
             }
+#endif
         }
 
         [Route("Edit_ReimbursementRequest")]

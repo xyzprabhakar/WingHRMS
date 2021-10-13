@@ -394,7 +394,7 @@ namespace projAPI.Classes
                 {
                     EmpID = _tbl_user_master.employee_id ?? 0;
 
-                    var tempdata = _context.tbl_emp_manager.Where(a => (a.m_one_id == EmpID || a.m_two_id == EmpID || a.m_three_id == EmpID) && a.is_deleted == 0).ToList();
+                    var tempdata = _context.tbl_emp_manager.Where(a => (a.m_one_id == EmpID ) && a.is_deleted == 0).ToList();
                     mdlLoginOutput.manager_emp_list = tempdata.Where(p => p.employee_id != null).Select(p => p.employee_id.Value).Distinct().ToList();
                 }
             }

@@ -960,6 +960,8 @@ namespace projAPI.Classes
 
         public List<EmployeeManager> Get_Emp_manager_dtl(int empid)
         {
+            throw new NotImplementedException();
+#if false
             List<EmployeeManager> emp_mgr = new List<EmployeeManager>();
             try
             {
@@ -1030,6 +1032,7 @@ namespace projAPI.Classes
             }
 
             return emp_mgr;
+#endif
         }
 
 
@@ -1118,6 +1121,8 @@ namespace projAPI.Classes
 
         public int SaveManagerAllocDetailExcel(List<EmployeeManagerAlloc> objdblist)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 using (var trans = _context.Database.BeginTransaction())
@@ -1187,6 +1192,7 @@ namespace projAPI.Classes
                 return 1;
 
             }
+#endif
         }
 
 
