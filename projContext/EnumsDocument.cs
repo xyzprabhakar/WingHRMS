@@ -47,6 +47,7 @@ namespace projContext
         CRM_Tc_Profile = 101,
 
 
+
         [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Profile", Description: "Employee Basic Details", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Employee")]
         HRMS_Employee_Profile = 301,
         [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Attendance", Description: "Attendance Management", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Attendance")]

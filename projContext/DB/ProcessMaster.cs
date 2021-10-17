@@ -15,6 +15,8 @@ namespace projContext.DB
         public string ProcessName { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsActive { get; set; }
+        public enmApplication ApplicationId { get; set; }
+        public enmModule ModuleId { get; set; }
     }
 
     public class tblDependentProcess
