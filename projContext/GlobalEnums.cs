@@ -10,50 +10,7 @@ namespace projContext
 
     
 
-    public static class EnmDescription
-    {
-        public static string GetDescription<T>(this T e) where T : IConvertible
-        {
-            if (e is Enum)
-            {
-                Type type = e.GetType();
-                Array values = System.Enum.GetValues(type);
-
-                foreach (int val in values)
-                {
-                    if (val == e.ToInt32(CultureInfo.InvariantCulture))
-                    {
-                        var memInfo = type.GetMember(type.GetEnumName(val));
-                        var descriptionAttribute = memInfo[0]
-                            .GetCustomAttributes(typeof(DescriptionAttribute), false)
-                            .FirstOrDefault() as DescriptionAttribute;
-
-                        if (descriptionAttribute != null)
-                        {
-                            return descriptionAttribute.Description;
-                        }
-                    }
-                }
-            }
-            return null; // could also return string.Empty
-        }
-
-
-        public static PayrollComponent GetComponentDetails(this enmOtherComponent e)
-        {
-            var type = e.GetType();
-            var name = Enum.GetName(type, e);
-            return (PayrollComponent)type.GetField(name).GetCustomAttributes(typeof(PayrollComponent), false).FirstOrDefault();
-        }
-        public static MenuComponent GetMenuDetails(this enmMenuMaster e)
-        {
-            var type = e.GetType();
-            var name = Enum.GetName(type, e);
-            return (MenuComponent)type.GetField(name).GetCustomAttributes(typeof(MenuComponent), false).FirstOrDefault();
-        }
-
-    }
-
+    
     public enum enmApprovalStatus
     {
         Pending =0,
