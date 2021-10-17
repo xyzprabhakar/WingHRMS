@@ -10,8 +10,26 @@ using System.Threading.Tasks;
 namespace projAPI.Model
 {
 
-    
 
+
+    public class mdlEmployee
+    {
+        public int empId {get;set;}
+        public string empCode{ get; set; }
+        public string empName { get; set; }
+        public int company_id { get; set; }
+        public int state_id { get; set; }
+        public int location_id { get; set; }
+        public int dept_id { get; set; }
+        public int isActive { get; set; }
+        public int empstatus { get; set; }
+        public int depthLevel { get; set; }
+    }
+
+
+
+
+    
 
 
     public class EmployeeBasicData : EmployeeBasicDataProc

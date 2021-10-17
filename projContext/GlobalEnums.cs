@@ -7,6 +7,9 @@ using System.Text;
 
 namespace projContext
 {
+
+    
+
     public static class EnmDescription
     {
         public static string GetDescription<T>(this T e) where T : IConvertible
@@ -49,6 +52,14 @@ namespace projContext
             return (MenuComponent)type.GetField(name).GetCustomAttributes(typeof(MenuComponent), false).FirstOrDefault();
         }
 
+    }
+
+    public enum enmApprovalStatus
+    {
+        Pending =0,
+        Approve = 1,
+        Rejected = 2,
+        InProcessing = 4
     }
 
     public enum enmSchdulerType
