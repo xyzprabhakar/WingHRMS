@@ -25,4 +25,7 @@ namespace projContext.DB
         public DateTime EffectiveToDt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
     }
+
+
+
 }

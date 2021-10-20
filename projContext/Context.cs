@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using projContext.DB;
+using projContext.DB.MLM;
 
 namespace projContext
 {
@@ -108,7 +109,9 @@ namespace projContext
 
         #region ******************* Users *****************
         public DbSet<tbl_user_master> tbl_user_master { get; set; }
+        public DbSet<tblUserProfilePhoto> tblUserProfilePhoto { get; set; }
         public DbSet<tblUserOTPValidation> tblUserOTPValidation { get; set; }
+        public DbSet<tblUserLoginLog> tblUserLoginLog { get; set; }        
         public DbSet<tblUsersApplication> tblUsersApplication { get; set; }
         public DbSet<tbl_role_master> tbl_role_master { get; set; }
         public DbSet<tbl_role_claim_map> tbl_role_claim_map { get; set; }
@@ -121,6 +124,17 @@ namespace projContext
         public DbSet<tblCustomerOrganisation> tblCustomerOrganisation { get; set; }
         #endregion
 
+        #region ******************* Distributer *****************
+        public DbSet<tblDistributorMaster> tblDistributorMaster { get; set; }
+        public DbSet<tblDistributorKycStatus> tblDistributorKycStatus { get; set; }
+        public DbSet<tblDistributorTree> tblDistributorTree { get; set; }
+        public DbSet<tblDistributorAddress> tblDistributorAddress { get; set; }
+        public DbSet<tblDistributorCurrency> tblDistributorCurrency { get; set; }
+        public DbSet<tblDistributorCultureInfo> tblDistributorCultureInfo { get; set; }
+        public DbSet<tblDistributorBanks> tblDistributorBanks { get; set; }
+        public DbSet<tblDistributorPan> tblDistributorPan { get; set; }
+        public DbSet<tblIdentityProof> tblIdentityProof { get; set; }
+        #endregion
 
         public DbSet<tblProcessMaster> tblProcessMaster { get; set; }
         public DbSet<tblDependentProcess> tblDependentProcess { get; set; }

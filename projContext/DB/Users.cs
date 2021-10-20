@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projContext.DB.MLM;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,13 +22,17 @@ namespace projContext.DB
         [MaxLength(16)]
         public string PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
-        [MaxLength(512)]public string password { get; set; }
+        [MaxLength(512)]
+        public string password { get; set; }
         public enmUserType user_type { get; set; }
         public int is_active { get; set; }// this can be Block by admin so the user not able to log in the system
         public int created_by { get; set; }
+        public byte LoginFailCount { get; set; }
+        public DateTime LoginFailCountdt { get; set; } = DateTime.Now;
         public byte is_logged_in { get; set; }
         public byte is_logged_blocked { get; set; }// block log in due to wrong attemp
         public DateTime logged_blocked_dt { get; set; }
+        public DateTime logged_blocked_Enddt { get; set; }
         public DateTime last_logged_dt { get; set; }
         public DateTime created_date { get; set; }
         public int last_modified_by { get; set; }
@@ -37,7 +42,23 @@ namespace projContext.DB
         public tbl_employee_master tbl_employee_id_details { get; set; }
         [ForeignKey("tblCustomerOrganisation")] // Foreign Key here
         public int? CustomerId { get; set; }
-        public tbl_employee_master tblCustomerOrganisation { get; set; }
+        public tblCustomerOrganisation tblCustomerOrganisation { get; set; }
+        [ForeignKey("tblDistributorMaster")] // Foreign Key here
+        public ulong? DistributorId { get; set; }
+        public tblDistributorMaster tblDistributorMaster { get; set; }
+    }
+
+    public class tblUserProfilePhoto:d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public ulong Sno{ get; set; }  // primary key  must be public!    
+        public ulong user_id { get; set; }  // primary key  must be public!    
+        [MaxLength(256)]
+        public string PhotoPath { get; set; }
+        [MaxLength(128)]
+        public string FileName { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class tblUserOTPValidation
@@ -53,6 +74,23 @@ namespace projContext.DB
         public string SecurityStampValue { get; set; }
         public DateTime EffectiveFromDt { get; set; } = DateTime.Now;
         public DateTime EffectiveToDt { get; set; } = DateTime.Now;
+    }
+
+    public class tblUserLoginLog
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public ulong Sno { get; set; }  // primary key  must be public!    
+        public ulong user_id { get; set; }  // primary key  must be public!    
+        [MaxLength(32)]
+        public string IPAddress{ get; set; }
+        [MaxLength(256)]
+        public string DeviceDetails { get; set; }
+        [MaxLength(128)]
+        public bool LoginStatus { get; set; }
+        [MaxLength(128)]
+        public string FromLocation { get; set; }
+        public DateTime LoginDateTime { get; set; }
     }
 
 
