@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext;
 
 namespace projContext.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211020054120_20_oct")]
+    partial class _20_oct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,6 +256,136 @@ namespace projContext.Migrations
                             IsActive = true,
                             ProcessName = "Freeze Salary"
                         });
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_clearance_Department", b =>
+                {
+                    b.Property<int>("pkid_ClearanceDepartment")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int>("department_id");
+
+                    b.Property<int>("fkid_EmpSaperationId");
+
+                    b.Property<int>("is_Cleared");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("modified_by");
+
+                    b.Property<DateTime>("modified_date");
+
+                    b.HasKey("pkid_ClearanceDepartment");
+
+                    b.HasIndex("department_id");
+
+                    b.HasIndex("fkid_EmpSaperationId");
+
+                    b.ToTable("tbl_No_dues_clearance_Department");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_emp_particular_Clearence_detail", b =>
+                {
+                    b.Property<int>("pkid_EmpParticularClearance")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int>("fkid_EmpSaperationId");
+
+                    b.Property<int>("fkid_ParticularId");
+
+                    b.Property<int>("fkid_department_id");
+
+                    b.Property<int>("is_Outstanding");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("modified_by");
+
+                    b.Property<DateTime>("modified_date");
+
+                    b.Property<string>("remarks");
+
+                    b.HasKey("pkid_EmpParticularClearance");
+
+                    b.HasIndex("fkid_EmpSaperationId");
+
+                    b.HasIndex("fkid_ParticularId");
+
+                    b.HasIndex("fkid_department_id");
+
+                    b.ToTable("tbl_No_dues_emp_particular_Clearence_detail");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_particular_master", b =>
+                {
+                    b.Property<int>("pkid_ParticularMaster")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("company_id");
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int>("department_id");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("modified_by");
+
+                    b.Property<DateTime>("modified_date");
+
+                    b.Property<string>("particular_name");
+
+                    b.Property<string>("remarks");
+
+                    b.HasKey("pkid_ParticularMaster");
+
+                    b.HasIndex("company_id");
+
+                    b.HasIndex("department_id");
+
+                    b.ToTable("tbl_No_dues_particular_master");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_particular_responsible", b =>
+                {
+                    b.Property<int>("pkid_ParticularResponsible")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("company_id");
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<int>("department_id");
+
+                    b.Property<int>("emp_id");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("modified_by");
+
+                    b.Property<DateTime>("modified_date");
+
+                    b.HasKey("pkid_ParticularResponsible");
+
+                    b.HasIndex("company_id");
+
+                    b.HasIndex("department_id");
+
+                    b.HasIndex("emp_id");
+
+                    b.ToTable("tbl_No_dues_particular_responsible");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_active_inactive_user_log", b =>
@@ -1763,6 +1895,35 @@ namespace projContext.Migrations
                     b.HasKey("claim_master_id");
 
                     b.ToTable("tbl_claim_master");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_claim_master_log", b =>
+                {
+                    b.Property<int>("claim_master_log_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("approved_by");
+
+                    b.Property<DateTime>("approved_date");
+
+                    b.Property<int?>("claim_master_id");
+
+                    b.Property<string>("claim_master_name")
+                        .HasMaxLength(50);
+
+                    b.Property<byte>("is_approved");
+
+                    b.Property<int>("requested_by");
+
+                    b.Property<DateTime>("requested_date");
+
+                    b.Property<byte>("requested_type");
+
+                    b.HasKey("claim_master_log_id");
+
+                    b.HasIndex("claim_master_id");
+
+                    b.ToTable("tbl_claim_master_log");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_comb_off_log", b =>
@@ -9916,48 +10077,6 @@ namespace projContext.Migrations
                     b.ToTable("tbl_emp_adhar_details");
                 });
 
-            modelBuilder.Entity("projContext.DB.tbl_emp_attendance_setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("MinOtHourReq");
-
-                    b.Property<int>("created_by");
-
-                    b.Property<DateTime>("created_date");
-
-                    b.Property<DateTime>("effective_from_date");
-
-                    b.Property<int?>("employee_id");
-
-                    b.Property<int>("is_comb_off_allowed");
-
-                    b.Property<int>("is_deleted");
-
-                    b.Property<int>("is_mobile_attendence_access");
-
-                    b.Property<byte>("is_ot_allowed");
-
-                    b.Property<bool>("is_sandwiche_applicable");
-
-                    b.Property<DateTime>("mobile_punch_from_date");
-
-                    b.Property<DateTime>("mobile_punch_to_date");
-
-                    b.Property<int>("modifed_by");
-
-                    b.Property<DateTime>("modifed_date");
-
-                    b.Property<byte>("punch_type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("employee_id");
-
-                    b.ToTable("tbl_emp_attendance_setting");
-                });
-
             modelBuilder.Entity("projContext.DB.tbl_emp_bank_details", b =>
                 {
                     b.Property<int>("bank_details_id")
@@ -9999,40 +10118,6 @@ namespace projContext.Migrations
                     b.HasIndex("employee_id");
 
                     b.ToTable("tbl_emp_bank_details");
-                });
-
-            modelBuilder.Entity("projContext.DB.tbl_emp_department_allocation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("created_by");
-
-                    b.Property<DateTime>("created_date");
-
-                    b.Property<int?>("department_id");
-
-                    b.Property<DateTime>("effective_from_date");
-
-                    b.Property<int?>("employee_id");
-
-                    b.Property<int>("is_deleted");
-
-                    b.Property<int>("modifed_by");
-
-                    b.Property<DateTime>("modifed_date");
-
-                    b.Property<int?>("sub_dept_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("department_id");
-
-                    b.HasIndex("employee_id");
-
-                    b.HasIndex("sub_dept_id");
-
-                    b.ToTable("tbl_emp_department_allocation");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_emp_desi_allocation", b =>
@@ -10240,40 +10325,6 @@ namespace projContext.Migrations
                     b.ToTable("tbl_emp_grade_allocation");
                 });
 
-            modelBuilder.Entity("projContext.DB.tbl_emp_location_allocation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("created_by");
-
-                    b.Property<DateTime>("created_date");
-
-                    b.Property<DateTime>("effective_from_date");
-
-                    b.Property<int?>("employee_id");
-
-                    b.Property<int>("is_deleted");
-
-                    b.Property<int?>("location_id");
-
-                    b.Property<int>("modifed_by");
-
-                    b.Property<DateTime>("modifed_date");
-
-                    b.Property<int?>("sub_location_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("employee_id");
-
-                    b.HasIndex("location_id");
-
-                    b.HasIndex("sub_location_id");
-
-                    b.ToTable("tbl_emp_location_allocation");
-                });
-
             modelBuilder.Entity("projContext.DB.tbl_emp_manager", b =>
                 {
                     b.Property<int>("emp_mgr_id")
@@ -10320,49 +10371,91 @@ namespace projContext.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("card_number")
-                        .HasMaxLength(64);
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("confirmation_date");
 
                     b.Property<int>("created_by");
 
                     b.Property<DateTime>("created_date");
 
-                    b.Property<string>("emp_father_name")
-                        .HasMaxLength(32);
+                    b.Property<byte>("current_employee_type");
+
+                    b.Property<DateTime>("date_of_birth");
+
+                    b.Property<DateTime>("date_of_joining");
+
+                    b.Property<DateTime>("department_date_of_joining");
+
+                    b.Property<int?>("department_id");
+
+                    b.Property<string>("emp_father_name");
 
                     b.Property<string>("employee_first_name")
-                        .HasMaxLength(32);
+                        .HasMaxLength(30);
 
                     b.Property<int?>("employee_id");
 
                     b.Property<string>("employee_last_name")
-                        .HasMaxLength(32);
+                        .HasMaxLength(30);
 
                     b.Property<string>("employee_middle_name")
-                        .HasMaxLength(32);
+                        .HasMaxLength(30);
 
                     b.Property<string>("employee_photo_path");
 
+                    b.Property<string>("employement_type");
+
+                    b.Property<int?>("empmnt__id");
+
                     b.Property<int>("gender");
+
+                    b.Property<DateTime>("group_joining_date");
 
                     b.Property<string>("hr_spoc")
                         .HasMaxLength(100);
 
-                    b.Property<byte>("is_deleted");
+                    b.Property<byte>("is_applicable_for_all_comp");
+
+                    b.Property<int>("is_comb_off_allowed");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("is_fixed_weekly_off");
+
+                    b.Property<int>("is_mobile_access");
+
+                    b.Property<int>("is_mobile_attendence_access");
+
+                    b.Property<byte>("is_ot_allowed");
+
+                    b.Property<bool>("is_sandwiche_applicable");
 
                     b.Property<int>("last_modified_by");
 
                     b.Property<DateTime>("last_modified_date");
 
+                    b.Property<DateTime>("last_working_date");
+
+                    b.Property<int?>("location_id");
+
                     b.Property<byte>("marital_status");
 
-                    b.Property<string>("nationality")
-                        .HasMaxLength(32);
+                    b.Property<DateTime>("mobile_punch_from_date");
+
+                    b.Property<DateTime>("mobile_punch_to_date");
+
+                    b.Property<string>("nationality");
+
+                    b.Property<string>("notice_period");
 
                     b.Property<string>("official_contact_no")
                         .HasMaxLength(20);
 
                     b.Property<string>("official_email_id")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
+
+                    b.Property<byte>("punch_type");
 
                     b.Property<int?>("religion_id");
 
@@ -10370,17 +10463,33 @@ namespace projContext.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("salutation")
-                        .HasMaxLength(16);
+                        .HasMaxLength(1);
 
                     b.Property<int?>("state_id");
 
+                    b.Property<int?>("sub_dept_id");
+
+                    b.Property<int?>("sub_location_id");
+
+                    b.Property<int>("user_type");
+
                     b.HasKey("emp_official_section_id");
 
+                    b.HasIndex("department_id");
+
                     b.HasIndex("employee_id");
+
+                    b.HasIndex("empmnt__id");
+
+                    b.HasIndex("location_id");
 
                     b.HasIndex("religion_id");
 
                     b.HasIndex("state_id");
+
+                    b.HasIndex("sub_dept_id");
+
+                    b.HasIndex("sub_location_id");
 
                     b.ToTable("tbl_emp_officaial_sec");
                 });
@@ -10986,7 +11095,8 @@ namespace projContext.Migrations
 
                     b.Property<int?>("employee_id");
 
-                    b.Property<bool>("is_default");
+                    b.Property<bool>("is_default")
+                        .HasColumnType("BIT");
 
                     b.Property<int>("is_deleted");
 
@@ -11015,6 +11125,40 @@ namespace projContext.Migrations
                             last_modified_by = 1,
                             last_modified_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_employee_company_map_log", b =>
+                {
+                    b.Property<int>("sno_log")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("approved_by");
+
+                    b.Property<DateTime>("approved_date");
+
+                    b.Property<int?>("cid");
+
+                    b.Property<int?>("eid");
+
+                    b.Property<byte>("is_approved");
+
+                    b.Property<int?>("mid");
+
+                    b.Property<int>("requested_by");
+
+                    b.Property<DateTime>("requested_date");
+
+                    b.Property<byte>("requested_type");
+
+                    b.HasKey("sno_log");
+
+                    b.HasIndex("cid");
+
+                    b.HasIndex("eid");
+
+                    b.HasIndex("mid");
+
+                    b.ToTable("tbl_employee_company_map_log");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_employee_income_tax_amount", b =>
@@ -11123,9 +11267,21 @@ namespace projContext.Migrations
                     b.Property<int>("employment_type_id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("actual_duration_days");
+
+                    b.Property<DateTime>("actual_duration_end_period");
+
+                    b.Property<DateTime>("actual_duration_start_period");
+
                     b.Property<int>("created_by");
 
                     b.Property<DateTime>("created_date");
+
+                    b.Property<int>("duration_days");
+
+                    b.Property<DateTime>("duration_end_period");
+
+                    b.Property<DateTime>("duration_start_period");
 
                     b.Property<DateTime>("effective_date");
 
@@ -11149,8 +11305,14 @@ namespace projContext.Migrations
                         new
                         {
                             employment_type_id = 1,
+                            actual_duration_days = 1000,
+                            actual_duration_end_period = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            actual_duration_start_period = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             created_by = 1,
                             created_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            duration_days = 1,
+                            duration_end_period = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            duration_start_period = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             effective_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             employee_id = 1,
                             employment_type = (byte)3,
@@ -12491,6 +12653,119 @@ namespace projContext.Migrations
                     b.HasIndex("wrk_role_id");
 
                     b.ToTable("tbl_kra_master");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_file", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ktfile");
+
+                    b.Property<int>("last_modified_by");
+
+                    b.Property<DateTime>("modified_on");
+
+                    b.Property<int>("seperation_id");
+
+                    b.Property<DateTime>("uploadedOn");
+
+                    b.Property<int>("uploaded_by");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_kt_file");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_status", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<int?>("Kt_Master_id");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("created_by");
+
+                    b.Property<int>("last_modified_by");
+
+                    b.Property<DateTime>("modified_on");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Kt_Master_id");
+
+                    b.ToTable("tbl_kt_status");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_task_emp_details", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EmpId");
+
+                    b.Property<int?>("Kt_Master_id");
+
+                    b.Property<DateTime>("created_on");
+
+                    b.Property<int>("is_active");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<DateTime>("modifed_on");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Kt_Master_id");
+
+                    b.ToTable("tbl_kt_task_emp_details");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_task_master", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime>("HandoverDate");
+
+                    b.Property<string>("ModHandover")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Procedure");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Task_Sno");
+
+                    b.Property<int>("created_by");
+
+                    b.Property<int?>("emp_sepration_Id");
+
+                    b.Property<int>("is_active");
+
+                    b.Property<int>("is_deleted");
+
+                    b.Property<int>("last_modified_by");
+
+                    b.Property<DateTime>("modified_on");
+
+                    b.Property<string>("remarks")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("taskName")
+                        .HasMaxLength(500);
+
+                    b.HasKey("id");
+
+                    b.HasIndex("emp_sepration_Id");
+
+                    b.ToTable("tbl_kt_task_master");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_leave_app_emp_type_log", b =>
@@ -18492,6 +18767,34 @@ namespace projContext.Migrations
                             last_modified_date = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             role_name = "NoDuesAdmin"
                         });
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_role_master_log", b =>
+                {
+                    b.Property<int>("role_log_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("approved_by");
+
+                    b.Property<DateTime>("approved_date");
+
+                    b.Property<byte>("is_approved");
+
+                    b.Property<int>("requested_by");
+
+                    b.Property<DateTime>("requested_date");
+
+                    b.Property<byte>("requested_type");
+
+                    b.Property<string>("role_name");
+
+                    b.Property<int?>("user_id");
+
+                    b.HasKey("role_log_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("tbl_role_master_log");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_role_menu_master", b =>
@@ -32942,6 +33245,68 @@ namespace projContext.Migrations
                         .HasForeignKey("emp_id");
                 });
 
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_clearance_Department", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_department_master", "dept_details")
+                        .WithMany()
+                        .HasForeignKey("department_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_emp_separation", "empSepration_details")
+                        .WithMany()
+                        .HasForeignKey("fkid_EmpSaperationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_emp_particular_Clearence_detail", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_emp_separation", "empSepration_details")
+                        .WithMany()
+                        .HasForeignKey("fkid_EmpSaperationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_No_dues_particular_master", "particular_details")
+                        .WithMany()
+                        .HasForeignKey("fkid_ParticularId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_department_master", "dept_details")
+                        .WithMany()
+                        .HasForeignKey("fkid_department_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_particular_master", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_company_master", "comp_details")
+                        .WithMany()
+                        .HasForeignKey("company_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_department_master", "dept_details")
+                        .WithMany()
+                        .HasForeignKey("department_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_No_dues_particular_responsible", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_company_master", "company_details")
+                        .WithMany()
+                        .HasForeignKey("company_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_department_master", "dept_details")
+                        .WithMany()
+                        .HasForeignKey("department_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("projContext.DB.tbl_employee_master", "emp_details")
+                        .WithMany()
+                        .HasForeignKey("emp_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("projContext.DB.tbl_active_inactive_user_log", b =>
                 {
                     b.HasOne("projContext.DB.tbl_user_master", "user_master")
@@ -33079,6 +33444,13 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_state", "tbl_state")
                         .WithMany()
                         .HasForeignKey("state_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_claim_master_log", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_claim_master", "tbl_claim_master")
+                        .WithMany()
+                        .HasForeignKey("claim_master_id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_comb_off_log", b =>
@@ -33271,13 +33643,6 @@ namespace projContext.Migrations
                         .HasForeignKey("employee_id");
                 });
 
-            modelBuilder.Entity("projContext.DB.tbl_emp_attendance_setting", b =>
-                {
-                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_master")
-                        .WithMany()
-                        .HasForeignKey("employee_id");
-                });
-
             modelBuilder.Entity("projContext.DB.tbl_emp_bank_details", b =>
                 {
                     b.HasOne("projContext.DB.tbl_bank_master", "bank_mstr")
@@ -33287,21 +33652,6 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_id_details")
                         .WithMany()
                         .HasForeignKey("employee_id");
-                });
-
-            modelBuilder.Entity("projContext.DB.tbl_emp_department_allocation", b =>
-                {
-                    b.HasOne("projContext.DB.tbl_department_master", "tbl_department_master")
-                        .WithMany()
-                        .HasForeignKey("department_id");
-
-                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_master")
-                        .WithMany()
-                        .HasForeignKey("employee_id");
-
-                    b.HasOne("projContext.DB.tbl_sub_department_master", "tbl_sub_department_master")
-                        .WithMany()
-                        .HasForeignKey("sub_dept_id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_emp_desi_allocation", b =>
@@ -33365,21 +33715,6 @@ namespace projContext.Migrations
                         .HasForeignKey("grade_id");
                 });
 
-            modelBuilder.Entity("projContext.DB.tbl_emp_location_allocation", b =>
-                {
-                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_master")
-                        .WithMany()
-                        .HasForeignKey("employee_id");
-
-                    b.HasOne("projContext.DB.tbl_location_master", "tbl_location_master")
-                        .WithMany()
-                        .HasForeignKey("location_id");
-
-                    b.HasOne("projContext.DB.tbl_sub_location_master", "tbl_sub_location_master")
-                        .WithMany()
-                        .HasForeignKey("sub_location_id");
-                });
-
             modelBuilder.Entity("projContext.DB.tbl_emp_manager", b =>
                 {
                     b.HasOne("projContext.DB.tbl_employee_master", "tem")
@@ -33401,9 +33736,21 @@ namespace projContext.Migrations
 
             modelBuilder.Entity("projContext.DB.tbl_emp_officaial_sec", b =>
                 {
+                    b.HasOne("projContext.DB.tbl_department_master", "tbl_department_master")
+                        .WithMany()
+                        .HasForeignKey("department_id");
+
                     b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_id_details")
                         .WithMany("tbl_emp_officaial_sec")
                         .HasForeignKey("employee_id");
+
+                    b.HasOne("projContext.DB.tbl_employment_type_master", "tbl_employment_type_master")
+                        .WithMany()
+                        .HasForeignKey("empmnt__id");
+
+                    b.HasOne("projContext.DB.tbl_location_master", "tbl_location_master")
+                        .WithMany()
+                        .HasForeignKey("location_id");
 
                     b.HasOne("projContext.DB.tbl_religion_master", "tbl_religion_master")
                         .WithMany()
@@ -33412,6 +33759,14 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_state", "tbl_state")
                         .WithMany()
                         .HasForeignKey("state_id");
+
+                    b.HasOne("projContext.DB.tbl_sub_department_master", "tbl_sub_department_master")
+                        .WithMany()
+                        .HasForeignKey("sub_dept_id");
+
+                    b.HasOne("projContext.DB.tbl_sub_location_master", "tbl_sub_location_master")
+                        .WithMany()
+                        .HasForeignKey("sub_location_id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_emp_pan_details", b =>
@@ -33545,9 +33900,24 @@ namespace projContext.Migrations
                         .WithMany()
                         .HasForeignKey("company_id");
 
-                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_master")
+                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_id_details")
                         .WithMany("tbl_employee_company_map")
                         .HasForeignKey("employee_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_employee_company_map_log", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_company_master", "tbl_company_master")
+                        .WithMany()
+                        .HasForeignKey("cid");
+
+                    b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_id_details")
+                        .WithMany()
+                        .HasForeignKey("eid");
+
+                    b.HasOne("projContext.DB.tbl_employee_company_map", "tbl_employee_company_map")
+                        .WithMany()
+                        .HasForeignKey("mid");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_employee_income_tax_amount", b =>
@@ -33916,6 +34286,27 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_working_role", "work_role")
                         .WithMany()
                         .HasForeignKey("wrk_role_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_status", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_kt_task_master", "kt_task_master")
+                        .WithMany()
+                        .HasForeignKey("Kt_Master_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_task_emp_details", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_kt_task_master", "kt_task_master")
+                        .WithMany()
+                        .HasForeignKey("Kt_Master_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_kt_task_master", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_emp_separation", "emp_separation")
+                        .WithMany()
+                        .HasForeignKey("emp_sepration_Id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_leave_app_emp_type_log", b =>
@@ -34770,6 +35161,13 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_role_master", "tbl_role_master")
                         .WithMany()
                         .HasForeignKey("role_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_role_master_log", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_role_master", "tbl_role_master")
+                        .WithMany()
+                        .HasForeignKey("user_id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_rpt_title_master", b =>

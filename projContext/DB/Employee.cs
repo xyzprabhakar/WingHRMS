@@ -242,6 +242,7 @@ namespace projContext.DB
         [ForeignKey("tbl_grade_master")] // Foreign Key here
         public int? grade_id { get; set; }
         public tbl_grade_master tbl_grade_master { get; set; }
+        public int is_deleted { get; set; } = 0;
     }
 
     public class tbl_emp_desi_allocation
@@ -257,6 +258,7 @@ namespace projContext.DB
         [ForeignKey("tbl_designation_master")] // Foreign Key here
         public int? desig_id { get; set; }
         public tbl_designation_master tbl_designation_master { get; set; }
+        public int is_deleted { get; set; } = 0;
     }
 
     public class tbl_emp_department_allocation
