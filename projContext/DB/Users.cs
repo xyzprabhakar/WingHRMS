@@ -15,6 +15,12 @@ namespace projContext.DB
         public string NormalizedName { get; set; }
         [MaxLength(64)]        
         public string username { get; set; }
+        [MaxLength(256)]
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        [MaxLength(16)]
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
         [MaxLength(512)]public string password { get; set; }
         public enmUserType user_type { get; set; }
         public int is_active { get; set; }// this can be Block by admin so the user not able to log in the system

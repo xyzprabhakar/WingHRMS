@@ -89,24 +89,24 @@ namespace projContext
 
 
             //Default Data
-            InsertCountryMaster(modelBuilder);
-            InsertCompany(modelBuilder);
-            InsertLocation(modelBuilder);
-            InsertDepartmentMaster(modelBuilder);
-            InsertAppSetting(modelBuilder);
-            InsertBanksMaster(modelBuilder);
-            insertDesignation(modelBuilder);
-            InsertDocumentTypemaster(modelBuilder);
-            InsertGradeMaster(modelBuilder);
-            InsertLeaveType(modelBuilder);
-            InsertReligionType(modelBuilder);
-            InsertPayrolldata(modelBuilder);
-            InsertRoleClaim(modelBuilder);
-            DefaultEmployee(modelBuilder);
-            InsertPayrollProcessMaster(modelBuilder);
+            //InsertCountryMaster(modelBuilder);
+            //InsertCompany(modelBuilder);
+            //InsertLocation(modelBuilder);
+            //InsertDepartmentMaster(modelBuilder);
+            //InsertAppSetting(modelBuilder);
+            //InsertBanksMaster(modelBuilder);
+            //insertDesignation(modelBuilder);
+            //InsertDocumentTypemaster(modelBuilder);
+            //InsertGradeMaster(modelBuilder);
+            //InsertLeaveType(modelBuilder);
+            //InsertReligionType(modelBuilder);
+            //InsertPayrolldata(modelBuilder);
+            //InsertRoleClaim(modelBuilder);
+            //DefaultEmployee(modelBuilder);
+            //InsertPayrollProcessMaster(modelBuilder);
         }
 
-        #region ******************* Users Master *****************
+        #region ******************* Users *****************
         public DbSet<tbl_user_master> tbl_user_master { get; set; }
         public DbSet<tblUserOTPValidation> tblUserOTPValidation { get; set; }
         public DbSet<tblUsersApplication> tblUsersApplication { get; set; }
@@ -115,6 +115,10 @@ namespace projContext
         public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
         public DbSet<tbl_user_role_map> tbl_user_role_map { get; set; }
 
+        #endregion
+
+        #region ******************* Customer *****************
+        public DbSet<tblCustomerOrganisation> tblCustomerOrganisation { get; set; }
         #endregion
 
 
