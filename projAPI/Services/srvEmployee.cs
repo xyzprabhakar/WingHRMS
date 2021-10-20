@@ -31,11 +31,7 @@ namespace projAPI.Services
         public List<int> EmpCompany { get { return _EmpCompany; } set { _EmpCompany = value; } }
         public List<int> DownlineEmpId { get { return _DownlineEmpId; } set { _DownlineEmpId = value; } }
 
-        public void LoadRole()
-        {
-            _Role = _context.tbl_user_role_map.Where(p => p.user_id == _UserId).Select(p => p.role_id??0).ToList();
-        }
-
+        
         public void LoadEmpCompany()
         {
             var EmpList=_context.tbl_employee_company_map.Where(p => p.employee_id== _UserId && p.is_deleted==0).ToList();
@@ -47,7 +43,7 @@ namespace projAPI.Services
             }
             if (_Role == null)
             {
-                LoadRole();
+                throw new Exception("Roles not Defined");
             }
             if (_Role.Where(p => p == (int)enmRoleMaster.SuperAdmin || p == (int)enmRoleMaster.HRAdmin).Any())
             {

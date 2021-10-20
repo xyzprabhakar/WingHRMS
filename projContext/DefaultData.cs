@@ -367,36 +367,6 @@ namespace projContext
 
         public void InsertAppSetting(ModelBuilder modelBuilder)
         {
-            List<tbl_app_setting> Masters = new List<tbl_app_setting>();
-
-            Masters.Add(new tbl_app_setting()
-            {
-
-                pkid_setting = 1,
-                AppSettingKey = "attandance_application_freezed_for_Emp",
-                AppSettingKeyDisplay = "EMPLOYEE ATTENDENCE FREEZE",
-                AppSettingValue = "false",
-                is_active = 1,
-                last_modified_by = 1,
-                last_modified_date = CurrentDate,
-                created_by = 1,
-                created_dt = CurrentDate
-            });
-            Masters.Add(new tbl_app_setting()
-            {
-
-                pkid_setting = 2,
-                AppSettingKey = "attandance_application_freezed__for_Admin",
-                AppSettingKeyDisplay = "ADMIN ATTENDENCE FREEZE",
-                AppSettingValue = "false",
-                is_active = 1,
-                last_modified_by = 1,
-                last_modified_date = CurrentDate,
-                created_by = 1,
-                created_dt = CurrentDate
-            });
-            modelBuilder.Entity<tbl_app_setting>().HasData(Masters);
-
             tbl_payroll_month_setting payrollsetting = new tbl_payroll_month_setting()
             {
                 payroll_month_setting_id = 1,
@@ -960,50 +930,50 @@ namespace projContext
             });
 
 
-            foreach (enmOtherComponent _enm in Enum.GetValues(typeof(enmOtherComponent)))
-            {
-                PayrollComponent payrollComponent = _enm.GetComponentDetails();
-                component_Masters.Add(new tbl_component_master()
-                {
-                    component_id = (int)_enm,
-                    component_name = "@" + _enm,
-                    datatype = payrollComponent.datatype.ToString(),
-                    defaultvalue = payrollComponent.defaultvalue,
-                    parentid = payrollComponent.parentid,
-                    is_system_key = payrollComponent.is_system_key,
-                    System_function = payrollComponent.System_function,
-                    System_table = null,
-                    component_type = (int)payrollComponent.ComponentType,
-                    is_salary_comp = payrollComponent.is_salary_comp,
-                    is_tds_comp = 0,
-                    is_data_entry_comp = payrollComponent.is_data_entry_comp,
-                    payment_type = 0,
-                    is_user_interface = payrollComponent.is_user_interface,
-                    is_payslip = payrollComponent.is_payslip,
-                    created_by = 1,
-                    created_dt = new DateTime(2020, 1, 1),
-                    modified_by = 1,
-                    modified_dt = new DateTime(2020, 1, 1),
-                    is_active = 1,
-                    property_details = payrollComponent.component_name
-                });
-                Formula_Details.Add(new tbl_component_formula_details()
-                {
-                    sno = (int)_enm,
-                    component_id = (int)_enm,
-                    company_id = 1,
-                    salary_group_id = 1,
-                    formula = payrollComponent.formula,
-                    function_calling_order = payrollComponent.function_calling_order,
-                    created_by = 1,
-                    created_dt = new DateTime(2020, 1, 1),
-                    deleted_by = 1,
-                    deleted_dt = new DateTime(2020, 1, 1),
-                    is_deleted = 0,
+            //foreach (enmOtherComponent _enm in Enum.GetValues(typeof(enmOtherComponent)))
+            //{
+            //    PayrollComponent payrollComponent = _enm.GetComponentDetails();
+            //    component_Masters.Add(new tbl_component_master()
+            //    {
+            //        component_id = (int)_enm,
+            //        component_name = "@" + _enm,
+            //        datatype = payrollComponent.datatype.ToString(),
+            //        defaultvalue = payrollComponent.defaultvalue,
+            //        parentid = payrollComponent.parentid,
+            //        is_system_key = payrollComponent.is_system_key,
+            //        System_function = payrollComponent.System_function,
+            //        System_table = null,
+            //        component_type = (int)payrollComponent.ComponentType,
+            //        is_salary_comp = payrollComponent.is_salary_comp,
+            //        is_tds_comp = 0,
+            //        is_data_entry_comp = payrollComponent.is_data_entry_comp,
+            //        payment_type = 0,
+            //        is_user_interface = payrollComponent.is_user_interface,
+            //        is_payslip = payrollComponent.is_payslip,
+            //        created_by = 1,
+            //        created_dt = new DateTime(2020, 1, 1),
+            //        modified_by = 1,
+            //        modified_dt = new DateTime(2020, 1, 1),
+            //        is_active = 1,
+            //        property_details = payrollComponent.component_name
+            //    });
+            //    Formula_Details.Add(new tbl_component_formula_details()
+            //    {
+            //        sno = (int)_enm,
+            //        component_id = (int)_enm,
+            //        company_id = 1,
+            //        salary_group_id = 1,
+            //        formula = payrollComponent.formula,
+            //        function_calling_order = payrollComponent.function_calling_order,
+            //        created_by = 1,
+            //        created_dt = new DateTime(2020, 1, 1),
+            //        deleted_by = 1,
+            //        deleted_dt = new DateTime(2020, 1, 1),
+            //        is_deleted = 0,
 
-                });
+            //    });
 
-            }
+            //}
 
 
             modelBuilder.Entity<tbl_component_master>().HasData(component_Masters);
@@ -1207,56 +1177,56 @@ namespace projContext
 
             List<tbl_menu_master> menu_Masters = new List<tbl_menu_master>();
             List<tbl_role_menu_master> trmm = new List<tbl_role_menu_master>();
-            foreach (enmMenuMaster _enm in Enum.GetValues(typeof(enmMenuMaster)))
-            {
-                if (_enm != enmMenuMaster.None)
-                {
-                    MenuComponent menuComponent = _enm.GetMenuDetails();
-                    menu_Masters.Add(new tbl_menu_master()
-                    {
-                        menu_id = _enm,
-                        menu_name = menuComponent.menu_name,
-                        IconUrl = menuComponent.icon,
-                        urll = menuComponent.link,
-                        type = menuComponent.type,
-                        parent_menu_id = (int)menuComponent.parent_menu,
-                        modified_by = 1,
-                        modified_date = new DateTime(2020, 1, 1),
-                        created_by = 1,
-                        created_date = new DateTime(2020, 1, 1),
-                        is_active = 1,
+            //foreach (enmMenuMaster _enm in Enum.GetValues(typeof(enmMenuMaster)))
+            //{
+            //    if (_enm != enmMenuMaster.None)
+            //    {
+            //        MenuComponent menuComponent = _enm.GetMenuDetails();
+            //        menu_Masters.Add(new tbl_menu_master()
+            //        {
+            //            menu_id = _enm,
+            //            menu_name = menuComponent.menu_name,
+            //            IconUrl = menuComponent.icon,
+            //            urll = menuComponent.link,
+            //            type = menuComponent.type,
+            //            parent_menu_id = (int)menuComponent.parent_menu,
+            //            modified_by = 1,
+            //            modified_date = new DateTime(2020, 1, 1),
+            //            created_by = 1,
+            //            created_date = new DateTime(2020, 1, 1),
+            //            is_active = 1,
 
-                    });
+            //        });
 
-                    foreach (var enrole in menuComponent.RoleMaster)
-                    {
+            //        foreach (var enrole in menuComponent.RoleMaster)
+            //        {
 
-                        trmm.Add(new tbl_role_menu_master()
-                        {
-                            modified_by = 1,
-                            modified_date = new DateTime(2020, 1, 1),
-                            created_by = 1,
-                            created_date = new DateTime(2020, 1, 1),
-                            menu_id = _enm,
-                            role_id = enrole,
-                            role_menu_id = (((int)_enm * 100000) + (int)enrole)
-                        });
-                        if (enrole == enmRoleMaster.Manager)
-                        {
-                            trmm.Add(new tbl_role_menu_master()
-                            {
-                                modified_by = 1,
-                                modified_date = new DateTime(2020, 1, 1),
-                                created_by = 1,
-                                created_date = new DateTime(2020, 1, 1),
-                                menu_id = _enm,
-                                role_id = enmRoleMaster.SectionHead,
-                                role_menu_id = (((int)_enm * 100000) + (int)enmRoleMaster.SectionHead)
-                            });
-                        }
-                    }
-                }
-            }
+            //            trmm.Add(new tbl_role_menu_master()
+            //            {
+            //                modified_by = 1,
+            //                modified_date = new DateTime(2020, 1, 1),
+            //                created_by = 1,
+            //                created_date = new DateTime(2020, 1, 1),
+            //                menu_id = _enm,
+            //                role_id = enrole,
+            //                role_menu_id = (((int)_enm * 100000) + (int)enrole)
+            //            });
+            //            if (enrole == enmRoleMaster.Manager)
+            //            {
+            //                trmm.Add(new tbl_role_menu_master()
+            //                {
+            //                    modified_by = 1,
+            //                    modified_date = new DateTime(2020, 1, 1),
+            //                    created_by = 1,
+            //                    created_date = new DateTime(2020, 1, 1),
+            //                    menu_id = _enm,
+            //                    role_id = enmRoleMaster.SectionHead,
+            //                    role_menu_id = (((int)_enm * 100000) + (int)enmRoleMaster.SectionHead)
+            //                });
+            //            }
+            //        }
+            //    }
+            //}
             modelBuilder.Entity<tbl_role_master>().HasData(role_data);
             modelBuilder.Entity<tbl_menu_master>().HasData(menu_Masters);
             modelBuilder.Entity<tbl_role_menu_master>().HasData(trmm);
@@ -1275,8 +1245,7 @@ namespace projContext
                 created_by = 1,
                 last_modified_date = CurrentDate,
                 last_modified_by = 1,
-                created_date = CurrentDate,
-                default_company_id = 1,
+                created_date = CurrentDate,                
                 employee_id = 1,
                 is_active = 1,
                 is_logged_blocked = 0,
@@ -1284,7 +1253,7 @@ namespace projContext
                 last_logged_dt = CurrentDate,
                 logged_blocked_dt = CurrentDate,
                 password = "jnZWe3S+++aQtpmKlibdOA==",
-                user_type = 1,                
+                user_type = enmUserType.Employee,                
             };
 
             tbl_user_role_map userRole = new tbl_user_role_map()

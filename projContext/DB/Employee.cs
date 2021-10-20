@@ -7,130 +7,10 @@ using System.Text;
 
 namespace projContext.DB
 {
-    public class tbl_guid_detail
-    {
-        [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string id { get; set; }
-        public DateTime genration_dt { get; set; }
-        public int genrated_by { get; set; }
-    }
+    
 
-    public class tbl_captcha_code_details
-    {
-        [Key]
-        public string guid { get; set; }
-        public string captcha_code { get; set; }
-        public DateTime genration_dt { get; set; }
-    }
-
-
-    public class tbl_user_master
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int user_id { get; set; }  // primary key  must be public!    
-        [MaxLength(50)]
-        [StringLength(50)]
-        [Display(Description = "username")]
-        [RegularExpression(@"^[a-zA-Z0-9'\s]{1,50}$", ErrorMessage = "Invalid User Name")]
-        public string username { get; set; }
-        [MaxLength(50)]
-        [StringLength(50)]
-        [Display(Description = "password")]
-        [RegularExpression(@"^[a-zA-Z0-9'\s'\@]{1,50}$", ErrorMessage = "Invalid Password")]
-        public string password { get; set; }
-        public byte user_type { get; set; }
-        public int is_active { get; set; }// this can be Block by admin so the user not able to log in the system
-        public int created_by { get; set; }
-        public byte is_logged_in { get; set; }
-        public byte is_logged_blocked { get; set; }// block log in due to wrong attemp
-        public DateTime logged_blocked_dt { get; set; }
-        public DateTime last_logged_dt { get; set; }
-        public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
-        public DateTime last_modified_date { get; set; }
-        public int default_company_id { get; set; }
-        [ForeignKey("tbl_employee_id_details")] // Foreign Key here
-        public int? employee_id { get; set; }
-        public tbl_employee_master tbl_employee_id_details { get; set; }
-
-    }
-
-    public class tbl_role_master
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int role_id { get; set; }  // primary key  must be public!   
-        [MaxLength(50)]
-        [StringLength(50)]
-        [Display(Description = "role_name")]
-        [RegularExpression(@"^[a-zA-Z0-9'\s]{1,50}$", ErrorMessage = "Invalid Role Name")]
-        public string role_name { get; set; }
-        public int is_active { get; set; }
-        public int created_by { get; set; }
-        public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
-        public DateTime last_modified_date { get; set; }
-    }
-
-    public class tbl_claim_master
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int claim_master_id { get; set; }  // primary key  must be public!   
-        [StringLength(100)]
-        [Display(Description = "claim_master_name")]
-        [RegularExpression(@"^[a-zA-Z0-9'\s'\\]{1,100}$", ErrorMessage = "Invalid Claim Master Name")]
-        public string claim_master_name { get; set; }
-        [StringLength(500)]
-        public string description { get; set; }
-        [StringLength(500)]
-        public string method_type { get; set; }
-        public byte is_post { get; set; }
-        public int is_active { get; set; }
-        public int created_by { get; set; }
-        public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
-        public DateTime last_modified_date { get; set; }
-    }
-
-    public class tbl_role_claim_map
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int claim_master_id { get; set; }  // primary key  must be public!   
-        [ForeignKey("tbl_role_master")] // Foreign Key here
-        public int? role_id { get; set; }
-        public tbl_role_master tbl_role_master { get; set; }
-        [ForeignKey("tbl_claim_master")] // Foreign Key here
-        public int? claim_id { get; set; }
-        public tbl_claim_master tbl_claim_master { get; set; }
-        public int is_deleted { get; set; }
-        public int created_by { get; set; }
-        public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
-        public DateTime last_modified_date { get; set; }
-    }
-
-    public class tbl_user_role_map
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int claim_master_id { get; set; }  // primary key  must be public!   
-        [ForeignKey("tbl_role_master")] // Foreign Key here
-        public int? role_id { get; set; }
-        public tbl_role_master tbl_role_master { get; set; }
-        [ForeignKey("tbl_user_master")] // Foreign Key here
-        public int? user_id { get; set; }
-        public tbl_user_master tbl_user_master { get; set; }
-        public int is_deleted { get; set; }
-        public int created_by { get; set; }
-        public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
-        public DateTime last_modified_date { get; set; }
-    }
-
+    
+    
     /// <summary>
     /// Developed By : Amarjeet
     /// Date : 29-11-2018
@@ -156,8 +36,7 @@ namespace projContext.DB
         public ICollection<tbl_emp_family_sec> tbl_emp_family_sec { get; set; }
         public ICollection<tbl_emp_personal_sec> tbl_emp_personal_sec { get; set; }
         public ICollection<tbl_emp_qualification_sec> tbl_emp_qualification_sec { get; set; }
-        public ICollection<tbl_employment_type_master> tbl_employment_type_master { get; set; }
-        public ICollection<tbl_user_master> tbl_user_master { get; set; }
+        public ICollection<tbl_employment_type_master> tbl_employment_type_master { get; set; }        
         [InverseProperty("tem")]
         public ICollection<tbl_emp_manager> tbl_emp_manager { get; set; }
         public ICollection<tbl_emp_shift_allocation> tbl_emp_shift_allocation { get; set; }
@@ -327,17 +206,19 @@ namespace projContext.DB
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        
+        public int Id { get; set; }        
         [ForeignKey("tbl_employee_master")] // Foreign Key here
         public int? employee_id { get; set; }
         public tbl_employee_master tbl_employee_master { get; set; }
-        public DateTime group_joining_date { get; set; } = DateTime.Now;
-        public DateTime date_of_joining { get; set; } = DateTime.Now;
-        public DateTime date_of_birth { get; set; } = DateTime.Now;
-        public DateTime confirmation_date { get; set; }
-        public DateTime last_working_date { get; set; }
-        public bool IsDefault { get; set; }
+        public DateTime? group_joining_date { get; set; } = DateTime.Now;
+        public DateTime? date_of_joining { get; set; } = DateTime.Now;
+        public DateTime? date_of_birth { get; set; } = DateTime.Now;
+        public DateTime? confirmation_date { get; set; }
+        public DateTime? last_working_date { get; set; }        
+        public int DefaultProbationPeriod { get; set; }
+        public int DefaultNoticePeriod { get; set; }
+        public int ActualProbationPeriod { get; set; }
+        public int ActualNoticePeriod { get; set; }
         public byte is_deleted { get; set; }
         public int created_by { get; set; }
         public DateTime created_date { get; set; } = DateTime.Now;
@@ -426,8 +307,7 @@ namespace projContext.DB
         public string official_email_id { get; set; }
         [MaxLength(20)]
         public string official_contact_no { get; set; } = "0000";
-        public string employee_photo_path { get; set; }
-                
+        public string employee_photo_path { get; set; }                
         public byte is_deleted { get; set; }
         public int created_by { get; set; }
         public DateTime created_date { get; set; }
@@ -853,49 +733,7 @@ namespace projContext.DB
     #endregion ** END BY SUPRIYA ON 16-07-2019 ** 
 
 
-    #region **STARTED BY SUPRIYA ON 03-09-2019 **
-    public class tbl_user_login_logs
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int log_id { get; set; }
-        public string login_ip { get; set; }
-        public string user_agent { get; set; }
-        public byte is_wrong_attempt { get; set; }
-        [ForeignKey("user_master")]
-        public int? user_id { get; set; }
-        public tbl_user_master user_master { get; set; }
-        [ForeignKey("emp_master")]
-        public int? emp_id { get; set; }
-        public tbl_employee_master emp_master { get; set; }
-        public DateTime login_date_time { get; set; }
-
-    }
-
-    public class tbl_active_inactive_user_log
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int acinac_user_id { get; set; }
-
-        [ForeignKey("user_master")]
-        public int? user_id { get; set; }
-        public tbl_user_master user_master { get; set; }
-        public byte transaction_type { get; set; }//  1 For Change Password (Self), 2 Password Change by Admin 
-                                                  //  11 Login Block (By Wrong Attempt), 12 -Login block by Admin
-                                                  //   13 User Block by Admin
-                                                  // 21 Login un Blocked by Admin, 22 User Unblocked by Admin
-
-        public string remarks { get; set; }
-        public int is_deleted { get; set; }
-        public DateTime created_on { get; set; }
-        public int created_by { get; set; }
-        public int modified_by { get; set; }
-        public DateTime modified_date { get; set; }
-
-    }
-    #endregion**END BY SUPRIYA ON 03-09-2019 **
-
+    
 
 
     public class tbl_emp_working_role_allocation

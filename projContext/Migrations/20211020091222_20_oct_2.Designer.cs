@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext;
 
 namespace projContext.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211020091222_20_oct_2")]
+    partial class _20_oct_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,53 +278,32 @@ namespace projContext.Migrations
                         });
                 });
 
-            modelBuilder.Entity("projContext.DB.tblUserOTPValidation", b =>
+            modelBuilder.Entity("projContext.DB.tbl_active_inactive_user_log", b =>
                 {
-                    b.Property<ulong>("Sno")
+                    b.Property<int>("acinac_user_id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("EffectiveFromDt");
+                    b.Property<int>("created_by");
 
-                    b.Property<DateTime>("EffectiveToDt");
+                    b.Property<DateTime>("created_on");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasMaxLength(256);
+                    b.Property<int>("is_deleted");
 
-                    b.Property<string>("SecurityStampValue")
-                        .HasMaxLength(32);
+                    b.Property<int>("modified_by");
 
-                    b.Property<ulong>("UserId");
+                    b.Property<DateTime>("modified_date");
 
-                    b.HasKey("Sno");
+                    b.Property<string>("remarks");
 
-                    b.ToTable("tblUserOTPValidation");
-                });
+                    b.Property<byte>("transaction_type");
 
-            modelBuilder.Entity("projContext.DB.tblUsersApplication", b =>
-                {
-                    b.Property<ulong>("Sno")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int?>("user_id");
 
-                    b.Property<int>("Applications");
+                    b.HasKey("acinac_user_id");
 
-                    b.Property<ulong>("CreatedBy");
+                    b.HasIndex("user_id");
 
-                    b.Property<DateTime>("CreatedDt");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<ulong?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDt");
-
-                    b.Property<string>("ModifyRemarks")
-                        .HasMaxLength(128);
-
-                    b.Property<ulong>("UserId");
-
-                    b.HasKey("Sno");
-
-                    b.ToTable("tblUsersApplication");
+                    b.ToTable("tbl_active_inactive_user_log");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_app_setting", b =>
@@ -1263,6 +1244,20 @@ namespace projContext.Migrations
                         });
                 });
 
+            modelBuilder.Entity("projContext.DB.tbl_captcha_code_details", b =>
+                {
+                    b.Property<string>("guid")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("captcha_code");
+
+                    b.Property<DateTime>("genration_dt");
+
+                    b.HasKey("guid");
+
+                    b.ToTable("tbl_captcha_code_details");
+                });
+
             modelBuilder.Entity("projContext.DB.tbl_city", b =>
                 {
                     b.Property<int>("city_id")
@@ -1738,6 +1733,37 @@ namespace projContext.Migrations
                         });
                 });
 
+            modelBuilder.Entity("projContext.DB.tbl_claim_master", b =>
+                {
+                    b.Property<int>("claim_master_id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("claim_master_name")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("created_by");
+
+                    b.Property<DateTime>("created_date");
+
+                    b.Property<string>("description")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("is_active");
+
+                    b.Property<byte>("is_post");
+
+                    b.Property<int>("last_modified_by");
+
+                    b.Property<DateTime>("last_modified_date");
+
+                    b.Property<string>("method_type")
+                        .HasMaxLength(500);
+
+                    b.HasKey("claim_master_id");
+
+                    b.ToTable("tbl_claim_master");
+                });
+
             modelBuilder.Entity("projContext.DB.tbl_comb_off_log", b =>
                 {
                     b.Property<int>("comp_off_rule_log_id")
@@ -2099,6 +2125,74 @@ namespace projContext.Migrations
                             total_emp = 1,
                             user_type = 1
                         });
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_company_master_log", b =>
+                {
+                    b.Property<int>("company_id_log")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("address_line_one")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("address_line_two")
+                        .HasMaxLength(250);
+
+                    b.Property<int>("approved_by");
+
+                    b.Property<DateTime>("approved_date");
+
+                    b.Property<int>("city");
+
+                    b.Property<string>("company_code")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("company_id");
+
+                    b.Property<string>("company_logo");
+
+                    b.Property<string>("company_name")
+                        .IsRequired();
+
+                    b.Property<string>("company_website")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("country");
+
+                    b.Property<byte>("is_approved");
+
+                    b.Property<int>("number_of_character_for_employee_code");
+
+                    b.Property<int>("pin_code");
+
+                    b.Property<string>("prefix_for_employee_code");
+
+                    b.Property<string>("primary_contact_number")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("primary_email_id")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("requested_by");
+
+                    b.Property<DateTime>("requested_date");
+
+                    b.Property<byte>("requested_type");
+
+                    b.Property<string>("secondary_contact_number")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("secondary_email_id")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("state");
+
+                    b.HasKey("company_id_log");
+
+                    b.HasIndex("company_id");
+
+                    b.ToTable("tbl_company_master_log");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_compoff_raise", b =>
@@ -7430,8 +7524,7 @@ namespace projContext.Migrations
             modelBuilder.Entity("projContext.DB.tbl_guid_detail", b =>
                 {
                     b.Property<string>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("genrated_by");
 
@@ -11148,9 +11241,7 @@ namespace projContext.Migrations
                     b.Property<int>("claim_master_id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("DocumentMaster");
-
-                    b.Property<byte>("PermissionType");
+                    b.Property<int?>("claim_id");
 
                     b.Property<int>("created_by");
 
@@ -11165,6 +11256,8 @@ namespace projContext.Migrations
                     b.Property<int?>("role_id");
 
                     b.HasKey("claim_master_id");
+
+                    b.HasIndex("claim_id");
 
                     b.HasIndex("role_id");
 
@@ -11187,7 +11280,7 @@ namespace projContext.Migrations
                     b.Property<DateTime>("last_modified_date");
 
                     b.Property<string>("role_name")
-                        .HasMaxLength(64);
+                        .HasMaxLength(50);
 
                     b.HasKey("role_id");
 
@@ -15026,19 +15119,44 @@ namespace projContext.Migrations
                     b.ToTable("tbl_tax_slab_master");
                 });
 
-            modelBuilder.Entity("projContext.DB.tbl_user_master", b =>
+            modelBuilder.Entity("projContext.DB.tbl_user_login_logs", b =>
                 {
-                    b.Property<ulong>("user_id")
+                    b.Property<int>("log_id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CustomerId");
+                    b.Property<int?>("emp_id");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+                    b.Property<byte>("is_wrong_attempt");
+
+                    b.Property<DateTime>("login_date_time");
+
+                    b.Property<string>("login_ip");
+
+                    b.Property<string>("user_agent");
+
+                    b.Property<int?>("user_id");
+
+                    b.HasKey("log_id");
+
+                    b.HasIndex("emp_id");
+
+                    b.HasIndex("login_date_time");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("tbl_user_login_logs");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_user_master", b =>
+                {
+                    b.Property<int>("user_id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("created_by");
 
                     b.Property<DateTime>("created_date");
+
+                    b.Property<int>("default_company_id");
 
                     b.Property<int?>("employee_id");
 
@@ -15057,16 +15175,14 @@ namespace projContext.Migrations
                     b.Property<DateTime>("logged_blocked_dt");
 
                     b.Property<string>("password")
-                        .HasMaxLength(512);
+                        .HasMaxLength(50);
 
-                    b.Property<int>("user_type");
+                    b.Property<byte>("user_type");
 
                     b.Property<string>("username")
-                        .HasMaxLength(64);
+                        .HasMaxLength(50);
 
                     b.HasKey("user_id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("employee_id");
 
@@ -15075,9 +15191,10 @@ namespace projContext.Migrations
                     b.HasData(
                         new
                         {
-                            user_id = 1ul,
+                            user_id = 1,
                             created_by = 1,
                             created_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            default_company_id = 1,
                             employee_id = 1,
                             is_active = 1,
                             is_logged_blocked = (byte)0,
@@ -15087,7 +15204,7 @@ namespace projContext.Migrations
                             last_modified_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             logged_blocked_dt = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             password = "jnZWe3S+++aQtpmKlibdOA==",
-                            user_type = 2,
+                            user_type = (byte)1,
                             username = "Admin"
                         });
                 });
@@ -15109,7 +15226,7 @@ namespace projContext.Migrations
 
                     b.Property<int?>("role_id");
 
-                    b.Property<ulong?>("user_id");
+                    b.Property<int?>("user_id");
 
                     b.HasKey("claim_master_id");
 
@@ -15129,7 +15246,7 @@ namespace projContext.Migrations
                             last_modified_by = 1,
                             last_modified_date = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             role_id = 1,
-                            user_id = 1ul
+                            user_id = 1
                         });
                 });
 
@@ -17878,6 +17995,13 @@ namespace projContext.Migrations
                         .HasForeignKey("emp_id");
                 });
 
+            modelBuilder.Entity("projContext.DB.tbl_active_inactive_user_log", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_user_master", "user_master")
+                        .WithMany()
+                        .HasForeignKey("user_id");
+                });
+
             modelBuilder.Entity("projContext.DB.tbl_approved_emp_separation_cancellation", b =>
                 {
                     b.HasOne("projContext.DB.tbl_employee_master", "admin_emp")
@@ -18087,6 +18211,13 @@ namespace projContext.Migrations
                     b.HasOne("projContext.DB.tbl_state", "tbl_state")
                         .WithMany()
                         .HasForeignKey("state_id");
+                });
+
+            modelBuilder.Entity("projContext.DB.tbl_company_master_log", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_company_master", "tbl_company_master")
+                        .WithMany()
+                        .HasForeignKey("company_id");
                 });
 
             modelBuilder.Entity("projContext.DB.tbl_compoff_raise", b =>
@@ -19677,6 +19808,10 @@ namespace projContext.Migrations
 
             modelBuilder.Entity("projContext.DB.tbl_role_claim_map", b =>
                 {
+                    b.HasOne("projContext.DB.tbl_claim_master", "tbl_claim_master")
+                        .WithMany()
+                        .HasForeignKey("claim_id");
+
                     b.HasOne("projContext.DB.tbl_role_master", "tbl_role_master")
                         .WithMany()
                         .HasForeignKey("role_id");
@@ -19940,14 +20075,21 @@ namespace projContext.Migrations
                         .HasForeignKey("tax_slab_id");
                 });
 
+            modelBuilder.Entity("projContext.DB.tbl_user_login_logs", b =>
+                {
+                    b.HasOne("projContext.DB.tbl_employee_master", "emp_master")
+                        .WithMany()
+                        .HasForeignKey("emp_id");
+
+                    b.HasOne("projContext.DB.tbl_user_master", "user_master")
+                        .WithMany()
+                        .HasForeignKey("user_id");
+                });
+
             modelBuilder.Entity("projContext.DB.tbl_user_master", b =>
                 {
-                    b.HasOne("projContext.DB.tbl_employee_master", "tblCustomerOrganisation")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("projContext.DB.tbl_employee_master", "tbl_employee_id_details")
-                        .WithMany()
+                        .WithMany("tbl_user_master")
                         .HasForeignKey("employee_id");
                 });
 

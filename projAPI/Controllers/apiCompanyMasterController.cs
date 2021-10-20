@@ -258,37 +258,7 @@ namespace projAPI.Controllers
                                 // await _context.SaveChangesAsync();
 
 
-                                tbl_company_master_log tbl_Company_Master_Log = new tbl_company_master_log();
-
-                                tbl_Company_Master_Log.company_id = id;
-                                tbl_Company_Master_Log.company_name = company_master.company_name;
-                                tbl_Company_Master_Log.company_code = company_master.company_code;
-                                tbl_Company_Master_Log.prefix_for_employee_code = company_master.prefix_for_employee_code;
-                                tbl_Company_Master_Log.number_of_character_for_employee_code = company_master.number_of_character_for_employee_code;
-                                tbl_Company_Master_Log.address_line_one = company_master.address_line_one;
-                                tbl_Company_Master_Log.address_line_two = company_master.address_line_two;
-                                tbl_Company_Master_Log.country = Convert.ToInt32(company_master.country_id);
-                                tbl_Company_Master_Log.state = Convert.ToInt32(company_master.state_id);
-                                tbl_Company_Master_Log.city = Convert.ToInt32(company_master.city_id);
-                                tbl_Company_Master_Log.pin_code = company_master.pin_code;
-                                tbl_Company_Master_Log.primary_email_id = company_master.primary_email_id;
-                                tbl_Company_Master_Log.secondary_email_id = company_master.secondary_email_id;
-                                tbl_Company_Master_Log.primary_contact_number = company_master.primary_contact_number;
-                                tbl_Company_Master_Log.secondary_contact_number = company_master.secondary_contact_number;
-                                tbl_Company_Master_Log.company_website = company_master.company_website;
-                                tbl_Company_Master_Log.company_logo = tbl_com_master.company_logo;
-                                tbl_Company_Master_Log.requested_by = company_master.last_modified_by; ;
-                                tbl_Company_Master_Log.requested_date = DateTime.Now;
-                                tbl_Company_Master_Log.approved_by = company_master.last_modified_by; ;
-                                tbl_Company_Master_Log.approved_date = DateTime.Now;
-                                tbl_Company_Master_Log.is_approved = 1;
-                                tbl_Company_Master_Log.requested_type = 1;
-
-
-                                _context.tbl_company_master_log.Add(tbl_Company_Master_Log);
-                                // await _context.SaveChangesAsync();
-
-
+                                
 
                                 tbl_company_emp_setting tbl_company_emp_setting = (from a in _context.tbl_company_emp_setting select a).Where(x => x.company_id == id && _clsCurrentUser.CompanyId.Contains(x.company_id ?? 0)).FirstOrDefault();
                                 if (tbl_company_emp_setting != null)
@@ -548,13 +518,12 @@ namespace projAPI.Controllers
                             tbl_user_master tbl_user_master = new tbl_user_master();
                             tbl_user_master.username = EmployeeCode;
                             tbl_user_master.password = EmployeeCode;
-                            tbl_user_master.user_type = 1;
+                            //tbl_user_master.user_type = 1;
                             tbl_user_master.is_active = 1;
                             tbl_user_master.created_by = company_master.created_by;//company_id;
                             tbl_user_master.created_date = DateTime.Now;
                             tbl_user_master.last_modified_by = 0; //company_id;
-                            tbl_user_master.last_modified_date = Convert.ToDateTime("01-01-2000");//DateTime.Now;
-                            tbl_user_master.default_company_id = company_id;
+                            tbl_user_master.last_modified_date = Convert.ToDateTime("01-01-2000");//DateTime.Now;                            
                             tbl_user_master.employee_id = employee_id;
 
 
