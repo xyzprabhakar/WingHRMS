@@ -559,7 +559,7 @@ namespace projAPI.Controllers
             try
             {
                 tbl_guid_detail objdtl = new tbl_guid_detail();
-                objdtl.genrated_by = generate_by;
+                //objdtl.genrated_by = generate_by;
                 objdtl.genration_dt = DateTime.Now;
 
                 _context.Entry(objdtl).State = EntityState.Added;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +7,19 @@ using System.Threading.Tasks;
 
 namespace projAPI.Model
 {
+    public class mdlLoginRequest
+    {   
+        public string TempUserId{ get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string CaptchaId { get; set; }
+        public string CaptchaImage { get; set; }
+        public string OrgCode { get; set; }
+        public enmUserType UserType { get; set; }
+    }
+
+    #region
+
     public class mdlcommonReturn
     {
         public int? val1 { get; set; }
@@ -183,4 +197,6 @@ namespace projAPI.Model
 
 
     }
+
+    #endregion
 }

@@ -142,7 +142,10 @@ namespace projContext.DB
         [MaxLength(128)]
         public string id { get; set; }
         public DateTime genration_dt { get; set; }
-        public int genrated_by { get; set; }
+        [MaxLength(256)]
+        public string DeviceId { get; set; }
+        [MaxLength(256)]
+        public string FromIP { get; set; }
     }
 
     public class tbl_user_role_map

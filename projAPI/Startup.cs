@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using projAPI.Classes;
 using projContext;
+using projAPI.Services;
 
 namespace projAPI
 {
@@ -53,6 +54,9 @@ namespace projAPI
 
             //add context
             services.AddDbContext<projContext.Context>();
+            services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
+            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
+
             services.AddScoped<clsCurrentUser>();
             services.AddScoped<clsEmployeeDetail>(ctx => new clsEmployeeDetail(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
             services.AddScoped<clsLeaveCredit>(ctx => new clsLeaveCredit(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<clsCurrentUser>()));
@@ -96,7 +100,14 @@ namespace projAPI
             services.AddHttpContextAccessor();
             //previous code
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            /* The relevant part for Forwarded Headers */
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
 
             //var context = new CustomAssemblyLoadContext();
@@ -111,7 +122,7 @@ namespace projAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

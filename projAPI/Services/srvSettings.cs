@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 using projContext.DB;
 using System.Text;
 using projAPI.Model;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace projAPI.Services
 {
     
     
+
     public interface IsrvSettings
     {
         mdlReturnData GenrateCaptcha(ulong UserId, string TempUserId, string LoginCaptchaExpiryTime);
         string GenrateCharcter(bool IsAlphanumeric, int NumberOfCharcter);
+        string GetClientIP(IHttpContextAccessor httpContext);
+        string GetDeviceDetails(string IP);
         string GetSettings(string SettingGroup, string SettingName);
         mdlReturnData ValidateCaptcha(string SecurityStampValue, string SecurityStamp);
     }
@@ -29,6 +34,36 @@ namespace projAPI.Services
             _context = context;
             _config = config;
         }
+
+        public string GetClientIP(IHttpContextAccessor httpContext)
+        {
+            string ip = Convert.ToString(httpContext.HttpContext.Connection.RemoteIpAddress);
+            if (ip == "::1")
+            {
+                var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+                if (addressList.Length > 1)
+                {
+                    return Convert.ToString(addressList[1]);
+                }
+                else if (addressList.Length > 0)
+                {
+                    return Convert.ToString(addressList[0]);
+                }
+
+                return ip;
+            }
+            else
+            {
+                return ip;
+            }
+        }
+
+        public string GetDeviceDetails(string IP)
+        {
+            return Dns.GetHostEntry(IP).HostName;
+        }
+
+
 
         public string GetSettings(string SettingGroup, string SettingName)
         {

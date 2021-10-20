@@ -8,21 +8,33 @@ using System.Threading.Tasks;
 
 namespace projAPI.Services
 {
-    public class srvUsers
+    
+
+    public interface IsrvUsers
+    {
+        void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
+        string GenrateTempUser(string IP, string DeviceId);
+        bool IsTempUserIDExist(string TempUserID);
+        void SaveLoginLog(ulong UserId, string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation);
+        mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
+    }
+
+    public class srvUsers : IsrvUsers
+
     {
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
         public srvUsers(Context context, IsrvSettings isrvSettings)
         {
             _context = context;
-            _IsrvSettings =isrvSettings;
+            _IsrvSettings = isrvSettings;
         }
-        public mdlReturnData ValidateUser(string UserName,string Password,string OrgCode,enmUserType userType)
+        public mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType)
         {
             int? OrganisationId = null;
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
             if (userType.HasFlag(enmUserType.B2B) || userType.HasFlag(enmUserType.B2C))
-             {
+            {
                 if (string.IsNullOrEmpty(OrgCode))
                 {
                     ReturnData.MessageType = enmMessageType.Error;
@@ -31,14 +43,14 @@ namespace projAPI.Services
                 }
                 else
                 {
-                   var temOrgData= _context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode).FirstOrDefault();
+                    var temOrgData = _context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode).FirstOrDefault();
                     if (temOrgData == null)
                     {
                         ReturnData.MessageType = enmMessageType.Error;
                         ReturnData.Message = "Invalid Organisation Code";
                         return ReturnData;
                     }
-                    if (!temOrgData.IsActive )
+                    if (!temOrgData.IsActive)
                     {
                         ReturnData.MessageType = enmMessageType.Error;
                         ReturnData.Message = "Blocked Organisation";
@@ -46,7 +58,7 @@ namespace projAPI.Services
                     }
                     OrganisationId = temOrgData.CustomerId;
                 }
-             }
+            }
             tbl_user_master tempData = null;
             if (OrganisationId.HasValue)
             {
@@ -105,13 +117,13 @@ namespace projAPI.Services
 
         public void BlockUnblockUser(ulong UserId, byte is_logged_blocked)
         {
-            bool AllowBlockonFail = false;            
-            DateTime CurrentDate = Convert.ToDateTime( DateTime.Now.ToString("dd-MMM-yyyy"));
-            int BlockUserAfterLoginFailAttempets = 10, BlockUserAfterLoginFailAttempetsForTime = 30;            
+            bool AllowBlockonFail = false;
+            DateTime CurrentDate = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
+            int BlockUserAfterLoginFailAttempets = 10, BlockUserAfterLoginFailAttempetsForTime = 30;
             var tempData = _context.tbl_user_master.Where(p => p.user_id == UserId).FirstOrDefault();
             if (tempData == null)
             {
-                return ;
+                return;
             }
             if (is_logged_blocked == 1)
             {
@@ -153,14 +165,32 @@ namespace projAPI.Services
 
         public void SaveLoginLog(ulong UserId, string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation)
         {
-            _context.tblUserLoginLog.Add(new tblUserLoginLog() {
-                user_id=UserId,IPAddress = IPAddress,
-                DeviceDetails= DeviceDetails,
-                LoginStatus= LoginStatus,
-                FromLocation= FromLocation,
-                LoginDateTime =DateTime.Now});
+            _context.tblUserLoginLog.Add(new tblUserLoginLog()
+            {
+                user_id = UserId,
+                IPAddress = IPAddress,
+                DeviceDetails = DeviceDetails,
+                LoginStatus = LoginStatus,
+                FromLocation = FromLocation,
+                LoginDateTime = DateTime.Now
+            });
             _context.SaveChanges();
         }
+
+
+        public string GenrateTempUser(string IP, string DeviceId)
+        {
+            string tempUserID = Guid.NewGuid().ToString();
+            _context.tbl_guid_detail.Add(new tbl_guid_detail() { DeviceId = DeviceId, FromIP = IP, genration_dt = DateTime.Now, id = tempUserID });
+            _context.SaveChanges();
+            return tempUserID;
+        }
+
+        public bool IsTempUserIDExist(string TempUserID)
+        {
+            return _context.tbl_guid_detail.Where(p => p.id == TempUserID && p.genration_dt >= DateTime.Now.AddDays(-30)).Count() > 0 ? true : false;
+        }
+
 
     }
 }
