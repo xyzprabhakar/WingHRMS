@@ -6,14 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using projContext.DB;
 using System.Text;
+using projAPI.Model;
 
 namespace projAPI.Services
 {
     
+    
     public interface IsrvSettings
     {
+        mdlReturnData GenrateCaptcha(ulong UserId, string TempUserId, string LoginCaptchaExpiryTime);
         string GenrateCharcter(bool IsAlphanumeric, int NumberOfCharcter);
         string GetSettings(string SettingGroup, string SettingName);
+        mdlReturnData ValidateCaptcha(string SecurityStampValue, string SecurityStamp);
     }
 
     public class srvSettings : IsrvSettings
@@ -57,7 +61,6 @@ namespace projAPI.Services
             return SettingValue;
         }
 
-
         public string GenrateCharcter(bool IsAlphanumeric, int NumberOfCharcter)
         {
             const string AlphanumericLetters = "2346789ABCDEFGHJKLMNPRTUVWXYZ";
@@ -84,5 +87,44 @@ namespace projAPI.Services
             }
             return sb.ToString();
         }
+
+
+        public mdlReturnData GenrateCaptcha(ulong UserId, string TempUserId, string LoginCaptchaExpiryTime)
+        {
+            mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            int LoginCaptchaExpiry = 30;
+            int.TryParse(GetSettings("Captcha", LoginCaptchaExpiryTime), out LoginCaptchaExpiry);
+            tblUserOTPValidation mdl = new tblUserOTPValidation()
+            {
+                UserId = UserId,
+                TempUserId = TempUserId,
+                EffectiveFromDt = DateTime.Now,
+                EffectiveToDt = DateTime.Now.AddMinutes(LoginCaptchaExpiry),
+                SecurityStamp = Convert.ToString(Guid.NewGuid()),
+                SecurityStampValue = GenrateCharcter(true, 4),
+            };
+            _context.tblUserOTPValidation.Add(mdl);
+            ReturnData.MessageType = enmMessageType.Success;
+            ReturnData.ReturnId = new { EffectiveToDt = mdl.EffectiveToDt.ToString("dd-MMM-yyyy"), SecurityStamp = mdl.SecurityStamp, SecurityStampValue = mdl.SecurityStampValue };
+            return ReturnData;
+        }
+
+        public mdlReturnData ValidateCaptcha(string SecurityStampValue, string SecurityStamp)
+        {
+            mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            var tempResult = _context.tblUserOTPValidation.Where(p => p.SecurityStamp == SecurityStamp && p.SecurityStampValue == SecurityStampValue && p.EffectiveToDt > DateTime.Now).FirstOrDefault();
+            if (tempResult == null)
+            {
+                ReturnData.MessageType = enmMessageType.Error;
+                ReturnData.Message = "Invalid Token";
+            }
+            else
+            {
+                ReturnData.MessageType = enmMessageType.Success;
+                ReturnData.ReturnId = new { UserId = tempResult.UserId, TempUserId = tempResult.TempUserId };
+            }
+            return ReturnData;
+        }
+
     }
 }

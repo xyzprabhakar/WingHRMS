@@ -37,11 +37,12 @@ namespace projContext.DB
     public class tblUserOTPValidation
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [MaxLength(256)]
+        public string SecurityStamp { get; set; }// It is the OTP for Validating Email and Password 
         public ulong Sno { get; set; }
         public ulong UserId { get; set; }
         [MaxLength(256)]
-        public string SecurityStamp { get; set; }// It is the OTP for Validating Email and Password 
+        public string TempUserId { get; set; }// It is the OTP for Validating Email and Password 
         [MaxLength(32)]
         public string SecurityStampValue { get; set; }
         public DateTime EffectiveFromDt { get; set; } = DateTime.Now;

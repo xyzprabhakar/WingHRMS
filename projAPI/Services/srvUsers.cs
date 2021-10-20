@@ -1,4 +1,5 @@
-﻿using projContext;
+﻿using projAPI.Model;
+using projContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,13 @@ namespace projAPI.Services
             _context = context;
             _IsrvSettings =isrvSettings;
         }
-        public bool ValidateUser(string UserName,string Password,int UserType)
+        public mdlReturnData GetUser(string UserName,string Password)
         {
-            return true;
+            throw new NotImplementedException();
+            //return true;
+            //_context.tbl_user_master.Where(p => p.username == UserName && p.password == Password);
         }
+
+
     }
 }
