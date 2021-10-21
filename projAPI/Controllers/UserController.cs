@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using projContext;
+using Microsoft.Extensions.Configuration;
 
 namespace projAPI.Controllers
 {
@@ -64,7 +65,11 @@ namespace projAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public mdlReturnData Login([FromServices] IHttpContextAccessor httpContext, mdlLoginRequest mdlRequest)
+        public mdlReturnData Login([FromServices] IHttpContextAccessor httpContext,
+            [FromServices] IsrvEmployee isrvEmployee,
+            [FromServices] IsrvDistributer isrvDistributer,
+            [FromServices] IConfiguration config,
+            mdlLoginRequest mdlRequest)
         {
             string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
             string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);
@@ -82,10 +87,44 @@ namespace projAPI.Controllers
                 return tempDataValidate;
             }
             if (mdlRequest.UserType.HasFlag( enmUserType.Employee))
-            { 
-                
+            {
+                int EmpId = 0;
+                int.TryParse(tempDataValidate.ReturnId.employee_id,out EmpId);
+                if (!isrvEmployee.IsActiveEmpExistsById(EmpId))
+                {
+                    mdl.Message = "Inactive Employee";
+                    return mdl;
+                }
             }
+            if (mdlRequest.UserType.HasFlag(enmUserType.Consolidator))
+            {
+                ulong DistributorId = 0;
+                ulong.TryParse(tempDataValidate.ReturnId.DistributorId, out DistributorId);
+                if (!isrvDistributer.IsActiveDistributerExistsByNid(DistributorId))
+                {
+                    mdl.Message = "Terminated Distributer";
+                    return mdl;
+                }
+            }
+            string JSONWebToken= _IsrvUsers.GenerateJSONWebToken(config["Jwt:Key"], config["Jwt:Issuer"],
+                tempDataValidate.ReturnId.UserId ?? 0,
+                tempDataValidate.ReturnId.employee_id ?? 0,
+                tempDataValidate.ReturnId.user_type ?? 0,
+                tempDataValidate.ReturnId.CustomerId??0,
+                tempDataValidate.ReturnId.DistributorId??0);
 
+            mdl.MessageType = enmMessageType.Success;
+            mdl.ReturnId =
+                new
+                {
+                    UserId = tempDataValidate.ReturnId.UserId,
+                    NormalizedName = tempDataValidate.ReturnId.NormalizedName,
+                    employee_id = tempDataValidate.ReturnId.employee_id,
+                    user_type = tempDataValidate.ReturnId.user_type,
+                    CustomerId = tempDataValidate.ReturnId.CustomerId,
+                    DistributorId = tempDataValidate.ReturnId.DistributorId,
+                    JSONWebToken= JSONWebToken
+                };
             return mdl;
         }
 

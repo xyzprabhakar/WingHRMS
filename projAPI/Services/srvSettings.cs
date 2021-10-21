@@ -230,7 +230,5 @@ namespace projAPI.Services
             }
         }
 
-
-        public string Encrypte(string)
     }
 }

@@ -1,9 +1,13 @@
-﻿using projAPI.Model;
+﻿using Microsoft.IdentityModel.Tokens;
+using projAPI.Model;
 using projContext;
 using projContext.DB;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace projAPI.Services
@@ -14,6 +18,7 @@ namespace projAPI.Services
     {
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
         string GenrateTempUser(string IP, string DeviceId);
+        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, ulong employee_id, ulong user_type, int CustomerId, ulong DistributorId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
@@ -206,5 +211,25 @@ namespace projAPI.Services
         }
 
 
+        public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,            
+            ulong UserId,ulong employee_id,ulong user_type,int CustomerId,ulong DistributorId)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            List<Claim> _claim = new List<Claim>();
+            _claim.Add(new Claim("__UserId",Convert.ToString(  UserId)));
+            _claim.Add(new Claim("__employee_id", Convert.ToString(employee_id)));
+            _claim.Add(new Claim("__user_type", Convert.ToString(user_type)));
+            _claim.Add(new Claim("__CustomerId", Convert.ToString(CustomerId)));
+            _claim.Add(new Claim("__DistributorId", Convert.ToString(DistributorId)));
+            int TokenExpiryTime = 10080;
+            int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
+            var token = new  JwtSecurityToken(JWTKey,JWTIssuer,_claim,expires: DateTime.Now.AddMinutes( TokenExpiryTime),              
+              signingCredentials: credentials);
+            string Token= new JwtSecurityTokenHandler().WriteToken(token);
+            return Token;
+        }
+
+        
     }
 }
