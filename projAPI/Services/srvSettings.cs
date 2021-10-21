@@ -142,6 +142,7 @@ namespace projAPI.Services
                 SecurityStampValue = GenrateCharcter(true, 4),
             };
             _context.tblUserOTPValidation.Add(mdl);
+            _context.SaveChanges();
             ReturnData.MessageType = enmMessageType.Success;
             ReturnData.ReturnId = new { EffectiveToDt = mdl.EffectiveToDt.ToString("dd-MMM-yyyy"), SecurityStamp = mdl.SecurityStamp, SecurityStampValue = mdl.SecurityStampValue };
             return ReturnData;

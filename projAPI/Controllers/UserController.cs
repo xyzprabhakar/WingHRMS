@@ -73,6 +73,9 @@ namespace projAPI.Controllers
         {
             string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
             string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);
+            
+            int EmpId = 0, CustomerId=0;
+            ulong DistributorId = 0, UserId=0;
 
             mdlReturnData mdl = new mdlReturnData() {MessageType= enmMessageType.Error};
             var tempData=_IsrvSettings.ValidateCaptcha(mdlRequest.CaptchaValue, mdlRequest.CaptchaId);
@@ -80,7 +83,8 @@ namespace projAPI.Controllers
             {
                 return tempData;
             }
-            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, Classes.AESEncrytDecry.EncryptStringAES(mdlRequest.Password),mdlRequest.OrgCode, mdlRequest.UserType);
+            string EncPassword = Classes.AESEncrytDecry.EncryptStringAES(mdlRequest.Password);
+            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, EncPassword, mdlRequest.OrgCode, mdlRequest.UserType);
             if (tempDataValidate.MessageType != enmMessageType.Success)
             {
                 _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, false, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
@@ -88,8 +92,8 @@ namespace projAPI.Controllers
             }
             if (mdlRequest.UserType.HasFlag( enmUserType.Employee))
             {
-                int EmpId = 0;
-                int.TryParse(tempDataValidate.ReturnId.employee_id,out EmpId);
+                
+                int.TryParse(Convert.ToString( tempDataValidate.ReturnId.employee_id),out EmpId);
                 if (!isrvEmployee.IsActiveEmpExistsById(EmpId))
                 {
                     mdl.Message = "Inactive Employee";
@@ -98,31 +102,32 @@ namespace projAPI.Controllers
             }
             if (mdlRequest.UserType.HasFlag(enmUserType.Consolidator))
             {
-                ulong DistributorId = 0;
-                ulong.TryParse(tempDataValidate.ReturnId.DistributorId, out DistributorId);
+                
+                ulong.TryParse(Convert.ToString(tempDataValidate.ReturnId.DistributorId), out DistributorId);
                 if (!isrvDistributer.IsActiveDistributerExistsByNid(DistributorId))
                 {
                     mdl.Message = "Terminated Distributer";
                     return mdl;
                 }
             }
-            string JSONWebToken= _IsrvUsers.GenerateJSONWebToken(config["Jwt:Key"], config["Jwt:Issuer"],
-                tempDataValidate.ReturnId.UserId ?? 0,
-                tempDataValidate.ReturnId.employee_id ?? 0,
-                tempDataValidate.ReturnId.user_type ?? 0,
-                tempDataValidate.ReturnId.CustomerId??0,
-                tempDataValidate.ReturnId.DistributorId??0);
+            ulong.TryParse(Convert.ToString(tempDataValidate.ReturnId.UserId),out UserId);
+            int.TryParse(Convert.ToString(tempDataValidate.ReturnId.CustomerId), out CustomerId);
 
+            string JSONWebToken= _IsrvUsers.GenerateJSONWebToken(config["Jwt:Key"], config["Jwt:Issuer"],
+                UserId ,EmpId,tempDataValidate.ReturnId.user_type,CustomerId,
+                DistributorId);
+
+            _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, true, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
             mdl.MessageType = enmMessageType.Success;
             mdl.ReturnId =
                 new
                 {
-                    UserId = tempDataValidate.ReturnId.UserId,
+                    UserId = UserId,
                     NormalizedName = tempDataValidate.ReturnId.NormalizedName,
-                    employee_id = tempDataValidate.ReturnId.employee_id,
+                    employee_id = EmpId,
                     user_type = tempDataValidate.ReturnId.user_type,
-                    CustomerId = tempDataValidate.ReturnId.CustomerId,
-                    DistributorId = tempDataValidate.ReturnId.DistributorId,
+                    CustomerId = CustomerId,
+                    DistributorId = DistributorId,
                     JSONWebToken= JSONWebToken
                 };
             return mdl;
