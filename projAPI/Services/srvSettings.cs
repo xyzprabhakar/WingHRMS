@@ -9,14 +9,19 @@ using System.Text;
 using projAPI.Model;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace projAPI.Services
 {
     
     
 
+
     public interface IsrvSettings
     {
+        byte[] GenerateImage(int width, int height, string captchaCode);
         mdlReturnData GenrateCaptcha(ulong UserId, string TempUserId, string LoginCaptchaExpiryTime);
         string GenrateCharcter(bool IsAlphanumeric, int NumberOfCharcter);
         string GetClientIP(IHttpContextAccessor httpContext);
@@ -25,7 +30,7 @@ namespace projAPI.Services
         mdlReturnData ValidateCaptcha(string SecurityStampValue, string SecurityStamp);
     }
 
-    public class srvSettings : IsrvSettings
+    public class srvSettings :  IsrvSettings
     {
         private readonly Context _context;
         private readonly IConfiguration _config;
@@ -62,8 +67,6 @@ namespace projAPI.Services
         {
             return Dns.GetHostEntry(IP).HostName;
         }
-
-
 
         public string GetSettings(string SettingGroup, string SettingName)
         {
@@ -135,7 +138,7 @@ namespace projAPI.Services
                 TempUserId = TempUserId,
                 EffectiveFromDt = DateTime.Now,
                 EffectiveToDt = DateTime.Now.AddMinutes(LoginCaptchaExpiry),
-                SecurityStamp = Convert.ToString(Guid.NewGuid()),
+                SecurityStamp = Convert.ToString(Guid.NewGuid()).Replace("-",""),
                 SecurityStampValue = GenrateCharcter(true, 4),
             };
             _context.tblUserOTPValidation.Add(mdl);
@@ -155,11 +158,79 @@ namespace projAPI.Services
             }
             else
             {
+                _context.tblUserOTPValidation.Remove(tempResult);
+                _context.SaveChanges();
                 ReturnData.MessageType = enmMessageType.Success;
                 ReturnData.ReturnId = new { UserId = tempResult.UserId, TempUserId = tempResult.TempUserId };
             }
             return ReturnData;
         }
 
+        public byte[] GenerateImage(int width, int height, string captchaCode)
+        {
+            using (Bitmap baseMap = new Bitmap(width, height))
+            using (Graphics graph = Graphics.FromImage(baseMap))
+            {
+                Random rand = new Random();
+
+                graph.Clear(GetRandomLightColor());
+
+                DrawCaptchaCode();
+                // DrawDisorderLine();
+                // AdjustRippleEffect();
+
+                MemoryStream ms = new MemoryStream();
+                baseMap.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+
+                int GetFontSize(int imageWidth, int captchCodeCount)
+                {
+                    var averageSize = imageWidth / captchCodeCount;
+                    return Convert.ToInt32(averageSize);
+                }
+
+                Color GetRandomDeepColor()
+                {
+                    int redlow = 160, greenLow = 100, blueLow = 160;
+                    return Color.FromArgb(rand.Next(redlow), rand.Next(greenLow), rand.Next(blueLow));
+                }
+
+                Color GetRandomLightColor()
+                {
+                    int low = 180, high = 255;
+
+                    int nRend = rand.Next(high) % (high - low) + low;
+                    int nGreen = rand.Next(high) % (high - low) + low;
+                    int nBlue = rand.Next(high) % (high - low) + low;
+
+                    return Color.FromArgb(nRend, nGreen, nBlue);
+                }
+
+                void DrawCaptchaCode()
+                {
+                    SolidBrush fontBrush = new SolidBrush(Color.Black);
+                    int fontSize = GetFontSize(width, captchaCode.Length);
+                    Font font = new Font(FontFamily.GenericSerif, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+                    for (int i = 0; i < captchaCode.Length; i++)
+                    {
+                        fontBrush.Color = GetRandomDeepColor();
+
+                        int shiftPx = fontSize / 6;
+
+                        float x = i * fontSize + rand.Next(-shiftPx, shiftPx) + rand.Next(-shiftPx, shiftPx);
+                        int maxY = height - fontSize;
+                        if (maxY < 0) maxY = 0;
+                        float y = rand.Next(0, maxY);
+
+                        graph.DrawString(captchaCode[i].ToString(), font, fontBrush, x, y);
+                    }
+                }
+
+
+            }
+        }
+
+
+        public string Encrypte(string)
     }
 }

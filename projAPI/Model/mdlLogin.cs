@@ -7,16 +7,25 @@ using System.Threading.Tasks;
 
 namespace projAPI.Model
 {
+
     public class mdlLoginRequest
-    {   
-        public string TempUserId{ get; set; }
+    {
+        [Required]
+        public string TempUserId { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
         public string CaptchaId { get; set; }
-        public string CaptchaImage { get; set; }
+        public string CaptchaValue { get; set; }
         public string OrgCode { get; set; }
-        public enmUserType UserType { get; set; }
+        public string Longitute { get; set; }
+        public string Latitude { get; set; }
+        public string FromLocation { get; set; }
+        public enmUserType UserType { get; set; } = enmUserType.B2C;
     }
+
 
     #region
 

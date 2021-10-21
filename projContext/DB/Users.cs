@@ -90,6 +90,10 @@ namespace projContext.DB
         public bool LoginStatus { get; set; }
         [MaxLength(128)]
         public string FromLocation { get; set; }
+        [MaxLength(128)]
+        public string Longitude { get; set; }
+        [MaxLength(128)]
+        public string Latitude { get; set; }
         public DateTime LoginDateTime { get; set; }
     }
 

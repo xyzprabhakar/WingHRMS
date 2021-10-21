@@ -32,9 +32,9 @@ namespace projAPI.Services
         public List<int> DownlineEmpId { get { return _DownlineEmpId; } set { _DownlineEmpId = value; } }
 
         
-        public void LoadEmpCompany()
+        public void LoadEmpCompany(int EmpId)
         {
-            var EmpList=_context.tbl_employee_company_map.Where(p => p.employee_id== _UserId && p.is_deleted==0).ToList();
+            var EmpList=_context.tbl_employee_company_map.Where(p => p.employee_id== EmpId && p.is_deleted==0).ToList();
             _EmpCompany=EmpList.Select(p => p.company_id??0).ToList();            
             _DefaultCompany = EmpList.Where(p => p.is_default).FirstOrDefault()?.company_id ?? 0;
             if (_EmpCompany == null)
@@ -148,6 +148,12 @@ namespace projAPI.Services
                 Prefix = string.Concat(res.prefix_for_employee_code, res.current_range.ToString("D"+ (res.number_of_character_for_employee_code<2?2: res.number_of_character_for_employee_code) ));
             }
             return Prefix;
+        }
+
+
+        public bool IsActiveEmpExists(int EmpId)
+        {
+           return _context.tbl_employee_master.Where(p => p.is_active == 1 && p.employee_id== EmpId).Count()>0?true:false;
         }
         
         

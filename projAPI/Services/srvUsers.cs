@@ -15,7 +15,7 @@ namespace projAPI.Services
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
         string GenrateTempUser(string IP, string DeviceId);
         bool IsTempUserIDExist(string TempUserID);
-        void SaveLoginLog(ulong UserId, string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation);
+        void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
     }
 
@@ -24,6 +24,7 @@ namespace projAPI.Services
     {
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
+        public ulong? UserId { get; set; }
         public srvUsers(Context context, IsrvSettings isrvSettings)
         {
             _context = context;
@@ -62,11 +63,11 @@ namespace projAPI.Services
             tbl_user_master tempData = null;
             if (OrganisationId.HasValue)
             {
-                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.CustomerId == OrganisationId).FirstOrDefault();
+                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.CustomerId == OrganisationId  && p.user_type== userType ).FirstOrDefault();
             }
             else
             {
-                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.password == Password).FirstOrDefault();
+                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.password == Password && p.user_type == userType).FirstOrDefault();
             }
             if (tempData == null)
             {
@@ -74,8 +75,14 @@ namespace projAPI.Services
                 ReturnData.Message = "Invalid Username or Password !!";
                 return ReturnData;
             }
-            else if (tempData.password != Password)
+            else
             {
+                this.UserId= tempData.user_id;
+            }
+
+            if (tempData.password != Password)
+            {
+                
                 BlockUnblockUser(tempData.user_id, 1);
                 ReturnData.MessageType = enmMessageType.Error;
                 ReturnData.Message = "Invalid Username or Password !!";
@@ -163,16 +170,23 @@ namespace projAPI.Services
         }
 
 
-        public void SaveLoginLog(ulong UserId, string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation)
+        public void SaveLoginLog( string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation,string Longitude,string Latitude)
         {
+            if (this.UserId == null)
+            {
+                return;
+            }
+
             _context.tblUserLoginLog.Add(new tblUserLoginLog()
             {
-                user_id = UserId,
+                user_id = UserId.Value,
                 IPAddress = IPAddress,
                 DeviceDetails = DeviceDetails,
                 LoginStatus = LoginStatus,
                 FromLocation = FromLocation,
-                LoginDateTime = DateTime.Now
+                LoginDateTime = DateTime.Now,
+                Longitude=Longitude,
+                Latitude=Latitude
             });
             _context.SaveChanges();
         }
@@ -180,7 +194,7 @@ namespace projAPI.Services
 
         public string GenrateTempUser(string IP, string DeviceId)
         {
-            string tempUserID = Guid.NewGuid().ToString();
+            string tempUserID = Guid.NewGuid().ToString().Replace("-","");
             _context.tbl_guid_detail.Add(new tbl_guid_detail() { DeviceId = DeviceId, FromIP = IP, genration_dt = DateTime.Now, id = tempUserID });
             _context.SaveChanges();
             return tempUserID;
