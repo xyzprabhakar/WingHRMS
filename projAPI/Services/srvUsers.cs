@@ -18,7 +18,7 @@ namespace projAPI.Services
     {
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
         string GenrateTempUser(string IP, string DeviceId);
-        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, ulong user_type, int CustomerId, ulong DistributorId);
+        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
@@ -212,7 +212,7 @@ namespace projAPI.Services
 
 
         public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,            
-            ulong UserId,int employee_id,ulong user_type,int CustomerId,ulong DistributorId)
+            ulong UserId,int employee_id, enmUserType user_type,int CustomerId,ulong DistributorId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
