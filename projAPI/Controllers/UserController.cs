@@ -38,11 +38,11 @@ namespace projAPI.Controllers
         }
 
         
-        [Route("GenrateLoginCaptcha")]
+        [Route("GenrateLoginCaptcha/{TempUserId}")]
         public mdlReturnData GenrateLoginCaptcha([FromServices] IHttpContextAccessor httpContext,string TempUserId)
         {
             mdlReturnData mdl = new mdlReturnData();
-            if (string.IsNullOrEmpty(TempUserId))
+            if (string.IsNullOrEmpty(TempUserId) || TempUserId=="0")
             {
                 string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
                 string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);

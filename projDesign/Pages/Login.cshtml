@@ -25,7 +25,6 @@
     <meta name="google-signin-client_id" content="89420726146-tvi3223a5f3vci43q7pepei66ga4aa70.apps.googleusercontent.com">
 
     @* Google Authentication *@
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @*
         <link href="~/css/style.css" rel="stylesheet" />
@@ -35,8 +34,7 @@
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
     <link href="~/assets/css/icons.css" rel="stylesheet" />
-    <script src="~/assets/js/jquery.min.js"></script>
-    <script src="~/js/aes.js"></script>
+    
 
     
 
@@ -79,7 +77,6 @@
                                             <div class="input-group-prepend">
                                                 <img id="img-captcha" src="~/img/default-captcha-img.png" style="float: left;" class="mr-1" />
                                                 <button id="btnimg_captcha_change" class="btn-warning btn"><span class="fas fa-sync"></span></button>
-
                                                 <input type="text" tabindex="3" class="form-control ml-md-1" placeholder="Captcha Code" id="CaptchaCode" asp-for="CaptchaCode" maxlength="4" autocomplete="off" />
                                                 <span asp-validation-for="CaptchaCode" class="text-danger"></span>
                                             </div>
@@ -89,10 +86,8 @@
                                         <div class="pt-1 mb-4">
                                             <button class="btn btn-dark btn-lg btn-block" id="btnLogin" type="button" tabindex="4">Login</button>
                                         </div>
-
-                                        <a class="small text-muted" id="forgotten_password" tabindex="5" href="#">Forgot password?</a>
+                                        <a class="small text-muted" id="forgotten_password" tabindex="5" href="#">Forgot password?</a>                                        
                                         <input type="hidden" id="hdnCcCode" />
-                                        <input type="hidden" id="hdnEmail" />
                                     </form>
 
                                 </div>
@@ -141,34 +136,34 @@
 
 
     <script>
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Live  Api URL
-        //var apiurl = "http://sakshemitapi.ourhrms.com/api/";
+        //var baseUrl= "http://sakshemitapi.ourhrms.com/api/";
         //
 
         //exim API URL
-        //var apiurl = "http://eximapi.sakshemithrms.net/api/";
+        //var baseUrl= "http://eximapi.sakshemithrms.net/api/";
 
         //Qa Api URL
-        //var apiurl = "http://qapi.ourhrms.com/api/";
-        //var apiurl = "http://103.208.201.116:8010/api/";
+        //var baseUrl= "http://qapi.ourhrms.com/api/";
+        //var baseUrl= "http://103.208.201.116:8010/api/";
 
         //IP Api URL
-        // var apiurl = "http://192.168.10.6:1011/api/";
+        // var baseUrl = "http://192.168.10.6:1011/api/";
         //Qa demo Api URL
-        // var apiurl = "http://ouhrmsdemo1.sakshemit.com/api/";
+        // var baseUrl= "http://ouhrmsdemo1.sakshemit.com/api/";
 
         // Localhost
-        // var apiurl = "https://localhost:44384/api/";
-         var apiurl = "http://localhost:51590/api/";
-         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // var baseUrl= "https://localhost:44384/api/";
+        var baseUrl = "http://localhost:51590/api/";
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     </script>
-
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/js/aes.js"></script>
     <!-- The Modal -->
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="~/apiJS/Login.js?ver=@JsVersion.Login" ></script>
+    <script src="~/apiJS/Login.js?ver=@JsVersion.Login"></script>
 
 </body>
 </html>
