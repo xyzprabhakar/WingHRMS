@@ -133,5 +133,10 @@ namespace projAPI.Controllers
             return mdl;
         }
 
+        
+        [Route("GetUserApplication")]
+        public mdlReturnData GetUserApplication()
+        { 
+        }
     }
 }

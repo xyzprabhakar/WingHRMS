@@ -22,6 +22,7 @@ namespace projAPI.Services
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
+        List<Application> GetUserApplication(ulong UserId);
     }
 
     public class srvUsers : IsrvUsers
@@ -230,6 +231,13 @@ namespace projAPI.Services
             return Token;
         }
 
+
+        public List<Application> GetUserApplication(ulong UserId)
+        {   
+           return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+        }
+
         
+
     }
 }
