@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using projContext;
 
 namespace projAPI
 {
     public class AccessRightRequirement : IAuthorizationRequirement
     {
-        public string accessRight;       
+        public enmDocumentMaster accessRight; 
 
-        public AccessRightRequirement(string accessRight)
+        public AccessRightRequirement(enmDocumentMaster accessRight)
         {
-            this.accessRight = accessRight;            
+            this.accessRight = accessRight;
         }
     }
 }

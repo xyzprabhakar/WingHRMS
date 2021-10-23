@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using projContext;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace projAPI.Controllers
 {
@@ -133,10 +134,11 @@ namespace projAPI.Controllers
             return mdl;
         }
 
-        
+        [Authorize(nameof(enmDocumentMaster.Gateway_Holiday_Package_Report)+ nameof(enmDocumentMaster.Gateway_Holiday_Package_Report))]
         [Route("GetUserApplication")]
         public mdlReturnData GetUserApplication()
-        { 
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -73,7 +73,6 @@ namespace projAPI
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
@@ -83,18 +82,13 @@ namespace projAPI
             services.Configure<AppSettings>(Configuration);
 
             //add authorization
-
             //  IEnumerable<string> allAccessRights = new projContext.Context().tbl_claim_master.Select(p => p.claim_master_id.ToString()).Distinct().ToList();
-
-
-
             services.AddAuthorization(options =>
             {
-                foreach (enmMenuMaster _enm in Enum.GetValues(typeof(enmMenuMaster)))
+                foreach (enmDocumentMaster _enm in Enum.GetValues(typeof(enmDocumentMaster)))
                 {
-                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(Convert.ToString(_enm.ToString()))));
+                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm)));
                 }
-
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();
             //services.AddSingleton<IAuthorizationHandler, AccessRightHandler>();

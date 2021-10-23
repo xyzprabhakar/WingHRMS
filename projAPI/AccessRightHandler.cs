@@ -11,10 +11,10 @@ namespace projAPI
 {
     public class AccessRightHandler : AuthorizationHandler<AccessRightRequirement>
     {
-        private readonly projContext.Context _Dbcontext;
+        private readonly Context _Dbcontext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly clsCurrentUser _clsCurrentUser;
-        public AccessRightHandler(projContext.Context Dbcontext, IHttpContextAccessor httpContextAccessor, clsCurrentUser _clsCurrentUser)
+        public AccessRightHandler(Context Dbcontext, IHttpContextAccessor httpContextAccessor, clsCurrentUser _clsCurrentUser)
         {
             _Dbcontext = Dbcontext;
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
@@ -22,11 +22,16 @@ namespace projAPI
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessRightRequirement requirement)
-        {
-            
-            
+        {   
             if (context.User.HasClaim(c => c.Type == requirement.accessRight))
             {
+                _Dbcontext.tbl_role_claim_map.Where(p=>p.claim_master_id== requirement.accessRight)
+
+                var tempData= from t1 in _Dbcontext.tbl_user_role_map
+                join t2 in _Dbcontext.tbl_role_claim_map on t1.claim_master_id equals t2.claim_master_id
+                
+
+                _Dbcontext.tbl_user_role_map.Where()
                 context.Succeed(requirement);
                 var empId = context.User.Claims.FirstOrDefault(c => c.Type == "__emp_id");
                 var userId = context.User.Claims.FirstOrDefault(c => c.Type == "__user_id");
