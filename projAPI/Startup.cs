@@ -54,8 +54,10 @@ namespace projAPI
 
             //add context
             services.AddDbContext<projContext.Context>();
+            
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
             services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
 
@@ -87,7 +89,32 @@ namespace projAPI
             {
                 foreach (enmDocumentMaster _enm in Enum.GetValues(typeof(enmDocumentMaster)))
                 {
-                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm)));
+                    var DocumentType=_enm.GetDocumentDetails().DocumentType;
+                    if (DocumentType.HasFlag(enmDocumentType.Create))
+                    {
+                        options.AddPolicy(_enm.ToString()+ enmDocumentType.Create.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Create)));
+                    }
+                    if (DocumentType.HasFlag(enmDocumentType.Update))
+                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Update.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Update)));
+                    }
+                    if (DocumentType.HasFlag(enmDocumentType.Approval))
+                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Approval.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Approval)));
+                    }
+                    if (DocumentType.HasFlag(enmDocumentType.Delete))
+                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Delete.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Delete)));
+                    }
+                    if (DocumentType.HasFlag(enmDocumentType.Report))
+                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));
+                    }
+                    if (DocumentType.HasFlag(enmDocumentType.DisplayMenu))
+                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
+                    }
+
                 }
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();
@@ -140,7 +167,7 @@ namespace projAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            #region for scheduler
+            #region for schedulerCompanyReport
             //app.UseQuartz();
             app.UseMvc();
             #endregion

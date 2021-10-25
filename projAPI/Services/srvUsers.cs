@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using projAPI.Model;
 using projContext;
 using projContext.DB;
@@ -240,4 +241,37 @@ namespace projAPI.Services
         
 
     }
+
+    public interface IsrvCurrentUser
+    {
+        int CustomerId { get; }
+        ulong DistributorId { get; }
+        int employee_id { get; }
+        enmUserType user_type { get; }
+        ulong UserId { get; }
+    }
+
+    public class srvCurrentUser : IsrvCurrentUser
+    {
+        private ulong _UserId = 0, _DistributorId = 0;
+        private int _employee_id = 0, _CustomerId = 0;
+        private enmUserType _user_type;
+        public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
+        {
+            _user_type = enmUserType.Consolidator;
+            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault().Value, out _UserId);
+            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault().Value, out _DistributorId);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerId").FirstOrDefault().Value, out _CustomerId);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__employee_id").FirstOrDefault().Value, out _employee_id);
+            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__user_type").FirstOrDefault().Value, out _user_type);
+
+        }
+        public ulong UserId { get { return _UserId; } private set { } }
+        public int employee_id { get { return _employee_id; } private set { } }
+        public enmUserType user_type { get { return _user_type; } private set { } }
+        public ulong DistributorId { get { return _DistributorId; } private set { } }
+        public int CustomerId { get { return _CustomerId; } private set { } }
+
+    }
+
 }

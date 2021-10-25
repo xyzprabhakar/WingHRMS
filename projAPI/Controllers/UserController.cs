@@ -19,12 +19,14 @@ namespace projAPI.Controllers
     {
         private readonly IsrvUsers _IsrvUsers;
         private readonly IsrvSettings _IsrvSettings;
-        
-        public UserController(IsrvUsers IsrvUsers, IsrvSettings isrvSettings)
+        private readonly IsrvCurrentUser _IsrvCurrentUser;
+        public UserController(IsrvUsers IsrvUsers, IsrvSettings isrvSettings, IsrvCurrentUser isrvCurrentUser)
         {
             _IsrvUsers = IsrvUsers;
             _IsrvSettings = isrvSettings;
-            
+            _IsrvCurrentUser = isrvCurrentUser;
+
+
         }
 
         [Route("GetTempUser")]
@@ -134,11 +136,13 @@ namespace projAPI.Controllers
             return mdl;
         }
 
-        [Authorize(nameof(enmDocumentMaster.Gateway_Holiday_Package_Report)+ nameof(enmDocumentMaster.Gateway_Holiday_Package_Report))]
+        //[Authorize(nameof(enmDocumentMaster.Emp_Dashboard)+ nameof(enmDocumentType.Report))]
         [Route("GetUserApplication")]
         public mdlReturnData GetUserApplication()
         {
-            throw new NotImplementedException();
+            mdlReturnData mdl = new mdlReturnData() { Message="",MessageType= enmMessageType.Success};
+            mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
+            return mdl;
         }
     }
 }

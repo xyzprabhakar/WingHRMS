@@ -11,7 +11,7 @@ namespace projAPI.Classes
 {
 
     public class clsCurrentUser
-    {
+    {   
         public int EmpId { get; set; }
         public int UserId { get; set; }
         public int Is_Hod { get; set; }
@@ -25,7 +25,6 @@ namespace projAPI.Classes
         public List<int> DownlineEmpId { get; set; }
         public string is_application_freezed { get; set; }
     }
-
 
     public class clsUsersDetails
     {
