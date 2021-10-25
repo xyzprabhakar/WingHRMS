@@ -4,7 +4,7 @@ using System.Text;
 
 namespace projContext.DB
 {
-    class Users
+    public class Users
     {
     }
 }
