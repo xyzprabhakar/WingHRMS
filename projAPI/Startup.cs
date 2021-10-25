@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using projAPI.Classes;
 using projContext;
+using projAPI.Services;
 
 namespace projAPI
 {
@@ -53,6 +54,13 @@ namespace projAPI
 
             //add context
             services.AddDbContext<projContext.Context>();
+            
+            services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
+            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
+            services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
+
             services.AddScoped<clsCurrentUser>();
             services.AddScoped<clsEmployeeDetail>(ctx => new clsEmployeeDetail(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
             services.AddScoped<clsLeaveCredit>(ctx => new clsLeaveCredit(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<clsCurrentUser>()));
@@ -67,7 +75,6 @@ namespace projAPI
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
@@ -77,18 +84,21 @@ namespace projAPI
             services.Configure<AppSettings>(Configuration);
 
             //add authorization
-
             //  IEnumerable<string> allAccessRights = new projContext.Context().tbl_claim_master.Select(p => p.claim_master_id.ToString()).Distinct().ToList();
-
-
-
             services.AddAuthorization(options =>
             {
-                foreach (enmMenuMaster _enm in Enum.GetValues(typeof(enmMenuMaster)))
+                foreach (enmDocumentMaster _enm in Enum.GetValues(typeof(enmDocumentMaster)))
                 {
-                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(Convert.ToString(_enm.ToString()))));
-                }
+                    var DocumentType=_enm.GetDocumentDetails().DocumentType;                    
+                        options.AddPolicy(_enm.ToString()+ enmDocumentType.Create.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Create)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Update.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Update)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Approval.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Approval)));
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Delete.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Delete)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
+                    
 
+                }
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();
             //services.AddSingleton<IAuthorizationHandler, AccessRightHandler>();
@@ -96,7 +106,14 @@ namespace projAPI
             services.AddHttpContextAccessor();
             //previous code
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            /* The relevant part for Forwarded Headers */
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
 
             //var context = new CustomAssemblyLoadContext();
@@ -111,7 +128,7 @@ namespace projAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,7 +150,7 @@ namespace projAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            #region for scheduler
+            #region for schedulerCompanyReport
             //app.UseQuartz();
             app.UseMvc();
             #endregion

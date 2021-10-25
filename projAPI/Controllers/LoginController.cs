@@ -23,6 +23,7 @@ using DocumentFormat.OpenXml.InkML;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -320,28 +321,30 @@ namespace projAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> update_login_user_login_time([FromRoute] int emp_id, int user_id)
         {
-            ResponseMsg objresponse = new ResponseMsg();
-            try
-            {
-                tbl_user_login_logs existdetail = _context.tbl_user_login_logs.Where(x => x.emp_id == emp_id && x.user_id == user_id).OrderByDescending(a => a.login_date_time).FirstOrDefault();
-                if (existdetail != null)
-                {
-                    existdetail.login_date_time = DateTime.Now;
-                    _context.tbl_user_login_logs.Attach(existdetail);
-                    _context.Entry(existdetail).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }
-                objresponse.StatusCode = 0;
-                objresponse.Message = "Successufully Update...!";
+            throw new NotImplementedException();
 
-                return Ok(objresponse);
-            }
-            catch (Exception ex)
-            {
-                objresponse.Message = "Server busy please try again later...!";
-                objresponse.StatusCode = 0;
-                return Ok(objresponse);
-            }
+            //ResponseMsg objresponse = new ResponseMsg();
+            //try
+            //{
+            //    tbl_user_login_logs existdetail = _context.tbl_user_login_logs.Where(x => x.emp_id == emp_id && x.user_id == user_id).OrderByDescending(a => a.login_date_time).FirstOrDefault();
+            //    if (existdetail != null)
+            //    {
+            //        existdetail.login_date_time = DateTime.Now;
+            //        _context.tbl_user_login_logs.Attach(existdetail);
+            //        _context.Entry(existdetail).State = EntityState.Modified;
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    objresponse.StatusCode = 0;
+            //    objresponse.Message = "Successufully Update...!";
+
+            //    return Ok(objresponse);
+            //}
+            //catch (Exception ex)
+            //{
+            //    objresponse.Message = "Server busy please try again later...!";
+            //    objresponse.StatusCode = 0;
+            //    return Ok(objresponse);
+            //}
         }
 
 
@@ -353,16 +356,17 @@ namespace projAPI.Controllers
         [HttpGet]
         public IActionResult GetCaptchaImage(string guid)
         {
-
+            throw new NotImplementedException();
+#if (false)
             projContext.Context db = new projContext.Context();
 
-            var get_captcha_code = db.tbl_captcha_code_details.Where(a => a.genration_dt.Date < DateTime.Now.Date).ToList();
+            //var get_captcha_code = db.tbl_captcha_code_details.Where(a => a.genration_dt.Date < DateTime.Now.Date).ToList();
 
-            if (get_captcha_code != null)
-            {
-                //remove data from captcha code table
-                db.tbl_captcha_code_details.RemoveRange(get_captcha_code);
-            }
+            //if (get_captcha_code != null)
+            //{
+            //    //remove data from captcha code table
+            //    db.tbl_captcha_code_details.RemoveRange(get_captcha_code);
+            //}
 
             int width = 100;
             int height = 36;
@@ -382,7 +386,7 @@ namespace projAPI.Controllers
             /////////////////////////////////
 
             return Ok(new { img = "data:image/jpeg;base64," + Convert.ToBase64String(dt), code = tbl.guid.ToString(), captcha_code = captchaCode });
-
+        #endif
         }
 
         [Route("setformula")]
@@ -575,50 +579,50 @@ namespace projAPI.Controllers
             });
 
 
-            foreach (enmOtherComponent _enm in Enum.GetValues(typeof(enmOtherComponent)))
-            {
-                PayrollComponent payrollComponent = _enm.GetComponentDetails();
-                component_Masters.Add(new tbl_component_master()
-                {
-                    component_id = (int)_enm,
-                    component_name = "@" + _enm,
-                    datatype = payrollComponent.datatype.ToString(),
-                    defaultvalue = payrollComponent.defaultvalue,
-                    parentid = payrollComponent.parentid,
-                    is_system_key = payrollComponent.is_system_key,
-                    System_function = payrollComponent.System_function,
-                    System_table = null,
-                    component_type = (int)payrollComponent.ComponentType,
-                    is_salary_comp = payrollComponent.is_salary_comp,
-                    is_tds_comp = 0,
-                    is_data_entry_comp = payrollComponent.is_data_entry_comp,
-                    payment_type = 0,
-                    is_user_interface = payrollComponent.is_user_interface,
-                    is_payslip = payrollComponent.is_payslip,
-                    created_by = 1,
-                    created_dt = new DateTime(2020, 1, 1),
-                    modified_by = 1,
-                    modified_dt = new DateTime(2020, 1, 1),
-                    is_active = 1,
-                    property_details = payrollComponent.component_name
-                });
-                Formula_Details.Add(new tbl_component_formula_details()
-                {
-                    sno = (int)_enm,
-                    component_id = (int)_enm,
-                    company_id = 1,
-                    salary_group_id = 1,
-                    formula = payrollComponent.formula,
-                    function_calling_order = payrollComponent.function_calling_order,
-                    created_by = 1,
-                    created_dt = new DateTime(2020, 1, 1),
-                    deleted_by = 1,
-                    deleted_dt = new DateTime(2020, 1, 1),
-                    is_deleted = 0,
+            //foreach (enmOtherComponent _enm in Enum.GetValues(typeof(enmOtherComponent)))
+            //{
+            //    PayrollComponent payrollComponent = _enm.GetComponentDetails();
+            //    component_Masters.Add(new tbl_component_master()
+            //    {
+            //        component_id = (int)_enm,
+            //        component_name = "@" + _enm,
+            //        datatype = payrollComponent.datatype.ToString(),
+            //        defaultvalue = payrollComponent.defaultvalue,
+            //        parentid = payrollComponent.parentid,
+            //        is_system_key = payrollComponent.is_system_key,
+            //        System_function = payrollComponent.System_function,
+            //        System_table = null,
+            //        component_type = (int)payrollComponent.ComponentType,
+            //        is_salary_comp = payrollComponent.is_salary_comp,
+            //        is_tds_comp = 0,
+            //        is_data_entry_comp = payrollComponent.is_data_entry_comp,
+            //        payment_type = 0,
+            //        is_user_interface = payrollComponent.is_user_interface,
+            //        is_payslip = payrollComponent.is_payslip,
+            //        created_by = 1,
+            //        created_dt = new DateTime(2020, 1, 1),
+            //        modified_by = 1,
+            //        modified_dt = new DateTime(2020, 1, 1),
+            //        is_active = 1,
+            //        property_details = payrollComponent.component_name
+            //    });
+            //    Formula_Details.Add(new tbl_component_formula_details()
+            //    {
+            //        sno = (int)_enm,
+            //        component_id = (int)_enm,
+            //        company_id = 1,
+            //        salary_group_id = 1,
+            //        formula = payrollComponent.formula,
+            //        function_calling_order = payrollComponent.function_calling_order,
+            //        created_by = 1,
+            //        created_dt = new DateTime(2020, 1, 1),
+            //        deleted_by = 1,
+            //        deleted_dt = new DateTime(2020, 1, 1),
+            //        is_deleted = 0,
 
-                });
+            //    });
 
-            }
+            //}
 
             _context.tbl_component_master.AddRange(component_Masters);
             _context.SaveChanges();
@@ -819,4 +823,6 @@ namespace projAPI.Controllers
         }
 
     }
+
+#endif
 }

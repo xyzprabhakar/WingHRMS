@@ -798,6 +798,8 @@ namespace projAPI.Classes
 
         public List<clsEmployeeListForPayroll> GetEmpPayrollData(int month_year)
         {
+            throw new NotImplementedException();
+#if (false)
             string year = month_year.ToString().Substring(0, 4);
             string month = month_year.ToString().Substring(4, 2);
             DateTime _ApplicableDate = Convert.ToDateTime(year + "-" + month + "-01").AddMonths(1).AddDays(-1);
@@ -854,7 +856,7 @@ namespace projAPI.Classes
 
             return Returndata;
 
-
+#endif
 
         }
 
@@ -1617,13 +1619,13 @@ namespace projAPI.Classes
                                 tbl_user_master tbl_user_master = new tbl_user_master();
                                 tbl_user_master.username = objdblist[i].emp_code.Trim().ToUpper();
                                 tbl_user_master.password = encryemppwd;//EmployeeCode;
-                                tbl_user_master.user_type = 1;
+                                //tbl_user_master.user_type = 1;
                                 tbl_user_master.is_active = objdblist[i].is_active_id;
                                 tbl_user_master.created_by = _clsCurrentUser.UserId;
                                 tbl_user_master.created_date = DateTime.Now;
                                 tbl_user_master.last_modified_by = 0; //user_master.last_modified_by;
                                 tbl_user_master.last_modified_date = Convert.ToDateTime("01-01-2000"); //DateTime.Now;
-                                tbl_user_master.default_company_id = objdblist[i].company_id;
+                                //tbl_user_master.default_company_id = objdblist[i].company_id;
                                 tbl_user_master.employee_id = tem.employee_id;
                                 _context.tbl_user_master.Add(tbl_user_master);
                                 _context.SaveChanges();
@@ -1653,7 +1655,7 @@ namespace projAPI.Classes
                         foreach (var item in existinguserMastersecs)
                         {
                             item.is_active = objdblist.Where(x => x.emp_id == item.employee_id).FirstOrDefault().is_active_id;
-                            item.default_company_id = objdblist.Where(x => x.emp_id == item.employee_id).FirstOrDefault().company_id;
+                            //item.default_company_id = objdblist.Where(x => x.emp_id == item.employee_id).FirstOrDefault().company_id;
                             item.last_modified_by = _clsCurrentUser.UserId;
                             item.last_modified_date = _CurrentDateTime;
                         }

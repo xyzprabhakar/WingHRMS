@@ -964,7 +964,7 @@ namespace projAPI
         {
             using (var context = new Context())
             {
-                _CompanyId = context.tbl_user_master.Where(a => a.employee_id == _EmpID && a.is_active == 1).Select(a => a.default_company_id).FirstOrDefault();
+                _CompanyId = 1;// context.tbl_user_master.Where(a => a.employee_id == _EmpID && a.is_active == 1).Select(a => a.default_company_id).FirstOrDefault();
                 if (_CompanyId > 0)
                 {
                     var tempdata = context.tbl_company_master.FirstOrDefault(a => a.company_id == _CompanyId);

@@ -1064,19 +1064,19 @@ namespace projAPI
                 }
                 else if (asset_approvers[i].approver_role_id != 0 && asset_approvers[i].approver_role_id != null)
                 {
-                    var all_user_id = _context.tbl_user_role_map.Where(x => x.is_deleted == 0 && x.role_id == asset_approvers[i].approver_role_id && x.tbl_user_master.default_company_id == companyid).Select(p => new
-                    {
-                        p.tbl_user_master.employee_id
-                    }).ToList();
+                    //var all_user_id = _context.tbl_user_role_map.Where(x => x.is_deleted == 0 && x.role_id == asset_approvers[i].approver_role_id && x.tbl_user_master.default_company_id == companyid).Select(p => new
+                    //{
+                    //    p.tbl_user_master.employee_id
+                    //}).ToList();
 
-                    for (int j = 0; j < all_user_id.Count; j++)
-                    {
-                        bool _already_exist = approver_id.Contains(all_user_id[j].employee_id ?? 0);
-                        if (!_already_exist)
-                        {
-                            approver_id.Add(all_user_id[j].employee_id ?? 0);
-                        }
-                    }
+                    //for (int j = 0; j < all_user_id.Count; j++)
+                    //{
+                    //    bool _already_exist = approver_id.Contains(all_user_id[j].employee_id ?? 0);
+                    //    if (!_already_exist)
+                    //    {
+                    //        approver_id.Add(all_user_id[j].employee_id ?? 0);
+                    //    }
+                    //}
 
                 }
             }

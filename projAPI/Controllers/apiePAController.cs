@@ -18,6 +18,7 @@ using static projAPI.Model.ePA;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiePAController : ControllerBase
@@ -4342,4 +4343,6 @@ namespace projAPI.Controllers
         }
 
     }
+
+#endif
 }

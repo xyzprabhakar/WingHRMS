@@ -16,6 +16,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if (false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiShiftController : ControllerBase
@@ -938,7 +939,7 @@ namespace projAPI.Controllers
             }
         }
 #if false
-        #region---get employee list/shift master/add roaster master for roaster master
+#region---get employee list/shift master/add roaster master for roaster master
         //created by : vibhav
         //created on : 27 Dec 2018
         [Route("GetEmployeeForRoaster/{companyid}")]
@@ -1289,7 +1290,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 #endif
 
         //Get Last Comb Off id
@@ -1313,7 +1314,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region ** Start by Supriya, on 22-04-2020, Shift Assingment **
+#region ** Start by Supriya, on 22-04-2020, Shift Assingment **
 
 
         [Route("Save_ShiftAllignment")]
@@ -2033,6 +2034,7 @@ namespace projAPI.Controllers
             }
         }
 #endif
-        #endregion ** End by Supriya, on 22-04-2020, Shift Assingment **
+#endregion ** End by Supriya, on 22-04-2020, Shift Assingment **
     }
+#endif
 }

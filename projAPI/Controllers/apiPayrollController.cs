@@ -31,6 +31,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace projAPI.Controllers
 {
+    #if (false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiPayrollController : ControllerBase
@@ -75,7 +76,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region ******************************************* Methods added by Ranjeet **************************************************************
+#region ******************************************* Methods added by Ranjeet **************************************************************
         // Save salary group master
         [Route("Save_SalaryGroupMaster")]
         [HttpPost]
@@ -17833,6 +17834,7 @@ namespace projAPI.Controllers
 #endregion
 
     }
+#endif
 }
 
 

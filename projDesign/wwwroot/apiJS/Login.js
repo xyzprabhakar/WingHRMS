@@ -1,76 +1,35 @@
 ﻿//Version 3
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    //else {
+    //    x.innerHTML = "Geolocation is not supported by this browser.";
+    //}
+}
+
+function showPosition(position) {
+    window.localStorage.setItem("latitude", position.coords.latitude);
+    window.localStorage.setItem("longitude", position.coords.longitude);    
+}
+
 $(document).ready(function () {
-
-    //signout();  
+    resetData();
     resetCaptchaImage();
-    $("#hdnEmail").val('');
-    $(document).bind("contextmenu", function (e) {
-        return false;
-    });
-    $(document).keydown(function (event) {
-        if (event.keyCode == 123) { // Prevent F12
-            return false;
-        } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I
-            return false;
-        }
-    });
-    // localStorage.clear();
-    window.localStorage.removeItem("Token");
-    window.localStorage.removeItem("ApiUrl");
-    window.localStorage.removeItem("emp_id");
-    window.localStorage.removeItem("sit_id");
-    window.localStorage.removeItem("user_name");
-    localStorage.setItem("class", "link1");
-
-    window.localStorage.removeItem("new_compangy_idd");
-    window.localStorage.removeItem("new_emp_id");
-    window.localStorage.removeItem("company_name");
-    window.localStorage.removeItem("emp_role_id");
-    window.localStorage.removeItem("user_id");
-    window.localStorage.removeItem("is_managerr");
-    window.localStorage.removeItem("company_id");
-    window.localStorage.removeItem("login_emp_name");
-    window.localStorage.removeItem("employee_photo_path");
-    window.localStorage.removeItem("_appSetting_domainn");
     //show();
 });
 
-//STAR CAPTCHA
-
-//function show() {
-//  //  document.getElementById('txtcaptchaverification').value = "";
-//    //event.preventDefault(); //stop Reload page
-//    var a, b, c, d;
-//    a = Math.ceil(Math.random() * 10) + '';
-//    var main = document.getElementById('txtautocaptcha');
-//    a = makeid('1');
-//    b = makeid('A');
-//    c = makeid('a');
-//    d = makeid('A');
-//    main.value = a + b + c + d;
-//}
-
-
-function makeid(flag) {
-    var possible;
-    var text = "";
-    if (flag == 1) {
-        possible = "0123456789";
-        text = possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    else if (flag == 'A') {
-        possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        text = possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    else if (flag == 'a') {
-        possible = "abcdefghijklmnopqrstuvwxyz";
-        text = possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
+function resetData()
+{
+    localStorage.removeItem("token");
+    localStorage.removeItem("isReloadAllData");
+    localStorage.removeItem("baseUrl");
+    localStorage.setItem("isReloadAllData", true);
+    localStorage.setItem("baseUrl", baseUrl);
+    getLocation();
 }
-
-//END CAPTCHA
-
 $('#btnLogin').bind("click", function () {
     performLogin();
 });
@@ -88,9 +47,6 @@ $("#txtUsername").bind('keydown', function (event) {
         document.getElementById("txtPassword").focus();        
     }
 });
-
-
-
 $("#txtPassword").bind('keydown', function (event) {
     if (event.key == 'Enter') {        
         event.preventDefault();
@@ -98,30 +54,23 @@ $("#txtPassword").bind('keydown', function (event) {
         
     }
 });
-
-
-
 function performLogin() {
-    var isgauth = 0;
-    var CompanyCode = $("#txtCompanyCode").val();
     var Username = $("#txtUsername").val();
     var Password = $("#txtPassword").val();
     var CaptchaCode = $("#CaptchaCode").val();
     var CcCode = $("#hdnCcCode").val();
-    var email = '';
-    var encryptedpwd = '';
-
+    
     if ($("#hdnEmail").val() == null || $("#hdnEmail").val() == "" || $("#hdnEmail").val() == undefined) {
 
-        var CompanyCode = $("#txtCompanyCode").val();
+        //var CompanyCode = $("#txtCompanyCode").val();
         var Username = $("#txtUsername").val();
         var Password = $("#txtPassword").val();
         var CaptchaCode = $("#CaptchaCode").val();
         var CcCode = $("#hdnCcCode").val();
         $('#btnLogin').attr("disabled", true).html('<i class="fa fa-circle-o-notch fa-spin"></i> Please wait..').css({ backgroundColor: '#d4cdcd' });
         //$(this).css({ backgroundColor: '#d4cdcd' }).text('Processing..').attr('disabled',true);
-        var key2 = CryptoJS.enc.Utf8.parse('8080808080808080');
-        var iv2 = CryptoJS.enc.Utf8.parse('8080808080808080');
+        //var key2 = CryptoJS.enc.Utf8.parse('8080808080808080');
+        //var iv2 = CryptoJS.enc.Utf8.parse('8080808080808080');
 
         if (Username == '') {
             alert('All Fields Are Mandatory...!');
@@ -144,186 +93,59 @@ function performLogin() {
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
         }
-        encryptedpwd = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key2,
-            {
-                keySize: 128 / 8,
-                iv: iv2,
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.Pkcs7
-            });
+        //encryptedpwd = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key2,
+        //    {
+        //        keySize: 128 / 8,
+        //        iv: iv2,
+        //        mode: CryptoJS.mode.CBC,
+        //        padding: CryptoJS.pad.Pkcs7
+        //    });
     }
-    else {
-        email = $("#hdnEmail").val();
-        isgauth = 1;
-    }
-
-
+    //else {
+    //    email = $("#hdnEmail").val();
+    //    isgauth = 1;
+    //}
     var myData = {
-        'user_name': Username,
-        'password': encryptedpwd.toString(),//Password,
-        "emp_id": 1,
-        "emp_name": "hi",
-        "tokken": "sdas",
-        "CaptchaCode": CaptchaCode,
-        "CcCode": CcCode,
-        "Email": email,
-        "isgauth": isgauth
+        'TempUserId': window.localStorage.getItem("tempUserId"),
+        'UserName': Username,//Password,    
+        "Password": Password,
+        "CaptchaId": CcCode ,
+        "CaptchaValue": CaptchaCode,
+        "OrgCode": "ADM",
+        "Longitute": window.localStorage.getItem("longitude"),
+        "Latitude": window.localStorage.getItem("latitude"),
+        "FromLocation": "",
+        "UserType": 2
     };
+    console.log(myData);
 
-    var Obj = JSON.stringify(myData);
+    var apiurl = baseUrl+("User/Login");
     $('#loader').show();
     $.ajax({
-        url: apiurl + "/Login",
+        url: apiurl,
         type: "POST",
-        data: Obj,
+        data: JSON.stringify( myData),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-
-            var statuscode = data.statusCode;
-            var Msg = data.statusMessage;
-            var wrong_attempt = data.wrong_attempt;
-            var Token = data.token;
-            var emp_id = data.emp_id;
-            var user_name = data.user_name;
-            var employee_photo_path = data.employee_photo_path;
-            // get role id
-            var emp_role_idd = data.employee_role_id;
-            var company_idd = data.default_company;
-            var dashboardd_menu_master_data = data.dashboardd_menu_master_data;
-            var dashboardd_role_menu_data = data.dashboardd_role_menu_data;
-            var filter_comp_ = data.filter_comp_;
-            var manager_emp_list = data.manager_emp_list;
-            var is_managerr = manager_emp_list != null && manager_emp_list != "" ? "yes" : "no";
-            var _appSetting_domainn = data._appSetting_domainn;
-            var user_id = data.user_id;
-            var user_Dep_id = data.user_Dep_id;
-            var user_Dep_name = data.user_Dep_name;
-            //add by supriya on 09-07-2019
-            var first_namee = data.employee_first_name != null && data.employee_first_name != "" ? data.employee_first_name : "";
-            var middle_namee = data.employee_middle_name != null && data.employee_middle_name != "" ? data.employee_middle_name : "";
-            var last_namee = data.employee_last_name != null && data.employee_last_name != "" ? data.employee_last_name : "";
-            var full_nameee = first_namee + " " + middle_namee + " " + last_namee;
-            var company_name = data.company_name;
-            var company_logo = data.company_logo;
-            var emp_companies = data.emp_company_lst;
-            var emp_under_login_emp = data._under_emp_lst;
-            //var is_attendence_freezed = data.app_setting;
-            if (data.app_setting_dic != null && data.app_setting_dic != undefined) {
-                var is_attendence_freezed_for_Emp = data.app_setting_dic["attandance_application_freezed_for_Emp"];
-                var is_attendence_freezed_for_Admin = data.app_setting_dic["attandance_application_freezed__for_Admin"];
+            if (data.messageType == 1) {
+                window.localStorage.setItem("userId", data.returnId.userId);
+                window.localStorage.setItem("normalizedName", data.returnId.normalizedName);
+                window.localStorage.setItem("employee_id", data.returnId.employee_id);
+                window.localStorage.setItem("user_type", data.returnId.user_type);
+                window.localStorage.setItem("customerId", data.returnId.customerId);
+                window.localStorage.setItem("distributorId", data.returnId.distributorId);
+                window.localStorage.setItem("token", data.returnId.jsonWebToken);
+                window.location.href = '/Dashboard';
+                alert('Login Sucss');
             }
-
-            if (statuscode == "1") {
-                if (Token == '' || Token == 'undefined') {
-                    alert("you don't have permission to access...!");
-                    $("#txtUsername").val('');
-                    $("#txtPassword").val('');
-                    $("#CaptchaCode").val('');
-                    $(this).css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
-                }
-                else {
-                    var ApiUrl = apiurl;
-                    localStorage.setItem("sit_id", 'AiIsIjgxMjoiODeAiLcI4mcR6IjgwIiJwiNzkioEiI3OSIsEijc4IjoTiNzgiLCI4OCI6Ijg4IiwiMTA3IjoiMTA3IiwiM');
-                    document.cookie = "loginstatus=loggedin";
-                    localStorage.setItem("Token", Token);
-                    localStorage.setItem("ApiUrl", ApiUrl);
-                    localStorage.setItem("IsAttendenceFreezedForEmp", is_attendence_freezed_for_Emp.toLowerCase());
-                    localStorage.setItem("IsAttendenceFreezedForAdmin", is_attendence_freezed_for_Admin.toLowerCase());
-                    localStorage.setItem("is_super_admin", emp_role_idd.includes(1));
-                    var emp_id_enc = CryptoJS.AES.encrypt("'" + emp_id + "'", localStorage.getItem("sit_id"));
-                    var emp_role_id_enc = CryptoJS.AES.encrypt("'" + emp_role_idd + "'", localStorage.getItem("sit_id"));
-                    var user_id_enc = CryptoJS.AES.encrypt("'" + user_id + "'", localStorage.getItem("sit_id"));
-                    var user_Dep_id_enc = CryptoJS.AES.encrypt("'" + user_Dep_id + "'", localStorage.getItem("sit_id"));
-                    var company_idd_enc = CryptoJS.AES.encrypt("'" + company_idd + "'", localStorage.getItem("sit_id"));
-                    var key = CryptoJS.enc.Base64.parse("#base64Key#");
-                    var iv = CryptoJS.enc.Base64.parse("#base64IV#");
-                    var _firsttimelogin = CryptoJS.AES.encrypt("'" + data._firsttimelogin + "'", localStorage.getItem("sit_id"));
-                    var user_name_enc = CryptoJS.AES.encrypt(user_name, key, { iv: iv });
-                    //console.log(user_name_enc.toString());
-                    var full_nameee_enc = CryptoJS.AES.encrypt(full_nameee, key, { iv: iv });
-
-                    var employee_photo_path_enc = CryptoJS.AES.encrypt(employee_photo_path, key, { iv: iv });
-
-                    var _appSetting_domainn_enc = CryptoJS.AES.encrypt(_appSetting_domainn, key, { iv: iv });
-
-                    var is_managerr_enc = CryptoJS.AES.encrypt(is_managerr, key, { iv: iv });
-                    
-                    localStorage.setItem("emp_id", emp_id_enc);
-                    localStorage.setItem("emp_role_id", emp_role_id_enc);
-                    localStorage.setItem("emp_dep_id", emp_role_id_enc);
-                    localStorage.setItem("user_id", user_id_enc);
-                    localStorage.setItem("user_Dep_id", user_Dep_id_enc);
-                    localStorage.setItem("user_Dep_name", user_Dep_name);
-                    localStorage.setItem("company_id", company_idd_enc);
-                    localStorage.setItem("user_name", user_name_enc);
-                    localStorage.setItem("login_emp_name", full_nameee_enc);
-                    localStorage.setItem("employee_photo_path", employee_photo_path_enc);
-                    localStorage.setItem("_appSetting_domainn", _appSetting_domainn_enc);
-                    localStorage.setItem("is_managerr", is_managerr_enc);
-                    localStorage.setItem("company_name", company_name);
-                    localStorage.setItem("company_logo", company_logo);
-                    localStorage.setItem("Is Company Admin", 1);
-                    localStorage.setItem("ISDisplayMenu", 1);
-
-
-
-                    localStorage.setItem("dashboardd_role_menu_data", JSON.stringify(dashboardd_role_menu_data));
-                    //localStorage.setItem("dashboardd_menu_master_data", JSON.stringify(dashboardd_menu_master_data));
-                    localStorage.setItem("menu_filter_comp_", JSON.stringify(filter_comp_));
-
-                    //21-05-2020
-                    localStorage.setItem("emp_companies_lst", JSON.stringify(emp_companies));
-
-                    localStorage.setItem("emp_under_login_emp", JSON.stringify(emp_under_login_emp));
-
-                    localStorage.setItem("_menu_lst", JSON.stringify(data.menu_lst));
-                    //21-05-2020
-
-                    localStorage.setItem("_firsttimelogin", _firsttimelogin);
-
-                    // Delete_previous_Guid();
-                    //if ((emp_role_idd >= 1 && emp_role_idd <= 10) || emp_role_idd >= 101) {
-                    window.location.href = '/Dashboard';
-                    //}
-                    //else {
-                    //    window.location.href = 'view/Dashboard';
-                    //}
-
-                    //if (emp_role_idd ==6) {
-                    //    window.location.href = 'view/Dashboard';
-                    //}
-                    //else {
-                    //    window.location.href = '/Dashboard';
-                    //}
-                }
+            else {
+                alert(data.message);
+                resetCaptchaImage();
             }
-            else if (statuscode == "0") {
-                $('#btnLogin').css({ backgroundColor: '#44a2d2' }).text('Login').attr('disabled', false);
-                if (wrong_attempt > 0) {
-                    alert(Msg + ' Wrong Attempt ' + wrong_attempt);
-                }
-                else {
-                    alert(Msg);
-                }
-                $("#txtCompanyCode").val('');
-                $("#txtPassword").val('');
-                $("#CaptchaCode").val('');
-                $("#txtUsername").val('').focus();
-            }
-            else if (statuscode == "2") {
-                $("#txtCompanyCode").val('');
-                $("#txtPassword").val('');
-                $("#CaptchaCode").val('');
-                $("#txtUsername").val('').focus();
-            }
-            else if (statuscode == "3") {
-                alert(Msg);
-                $("#CaptchaCode").val('').focus();
-                $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
-            }
-            resetCaptchaImage();
+            $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             $('#loader').hide();
+
         },
         error: function (err) {
             $('#loader').hide();
@@ -378,16 +200,16 @@ function getCookie(cname) {
 }
 
 function resetCaptchaImage() {
-
-    var guid = $('#hdnCcCode').val();
-    var apiurl_ = '';
-    if (guid == '') {
-        apiurl_ = apiurl + 'Login/get-captcha-image/0';
+    $('#loader').show();
+    var tempUserId = localStorage.getItem('tempUserId');
+    var baseUrl = localStorage.getItem('baseUrl');
+    var apiurl_ = baseUrl+"user/GenrateLoginCaptcha";
+    if (tempUserId == null || tempUserId == "") {
+        apiurl_ = apiurl_ + "/" + tempUserId;
     }
     else {
-        apiurl_ = apiurl + 'Login/get-captcha-image/' + guid;
+        apiurl_ = apiurl_ + "/0";
     }
-
     $.ajax({
         type: "GET",
         url: apiurl_,
@@ -395,22 +217,27 @@ function resetCaptchaImage() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-
-            var res = response;
-
-            $("#img-captcha").attr("src", res.img);
-            $("#hdnCcCode").val(res.code)
-
+            if (response.messageType == 1) {
+                $("#img-captcha").attr("src", response.returnId.captchaImage);                
+                $("#hdnCcCode").val(response.returnId.captchaId)
+                if (tempUserId == null || tempUserId == "" || tempUserId == "null") {
+                    window.localStorage.setItem("tempUserId", response.returnId.tempUserId);
+                }
+            }
+            else {
+                alert(response.message);
+            }
+            $('#loader').hide();
         },
         error: function (err) {
-           // window.location.href = "/Login";
-           // return false;
-            //alert(err.responseText);
+            $('#loader').hide();
+            alert("someting went wrong please try after some time");
         }
 
     });
 
 }
+
 $('#btnForgotPassword').bind("click", function () {
     var username = $("#txtUsernameForgot").val();
     if (username == "") {

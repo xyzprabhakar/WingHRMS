@@ -13,6 +13,7 @@ using projAPI.Classes;
 
 namespace projAPI.Schedule
 {
+#if(false)
     public class ScheduledJob:IJob
     {
         private readonly IConfiguration configuration;
@@ -91,4 +92,5 @@ namespace projAPI.Schedule
 
         }
     }
+#endif
 }

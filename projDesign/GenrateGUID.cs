@@ -57,7 +57,7 @@ namespace projDesign
             tbl_guid_detail tbl = new tbl_guid_detail();
             string gg= Guid.NewGuid().ToString().Replace("-","");
             tbl.id =gg;
-            tbl.genrated_by = _UserID;
+            //tbl.genrated_by = _UserID;
             tbl.genration_dt = DateTime.Now;
             db.tbl_guid_detail.Add(tbl);
             db.SaveChanges();

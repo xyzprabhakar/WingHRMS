@@ -11,19 +11,19 @@ namespace projContext
     {
         [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-tree", AreaName: "")]
         Gateway = 1,
-        [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-tree", AreaName: "")]
-        B2BGateway = 2,
-        [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-tree", AreaName: "")]
-        B2CGateway = 3,
-        [Application(IsArea: false, DisplayOrder: 1, Name: "CRM", Description: "", Icon: "nav-icon fas fa-tree", AreaName: "")]
+        [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-paper-plane", AreaName: "")]
+        B2CGateway = 2,
+        [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-briefcase", AreaName: "")]
+        B2BGateway = 3,
+        [Application(IsArea: false, DisplayOrder: 1, Name: "CRM", Description: "", Icon: "nav-icon fas fa-bar-chart", AreaName: "")]
         CRM = 10,
-        [Application(IsArea: false, DisplayOrder: 3, Name: "HRMS", Description: "", Icon: "nav-icon fas fa-tree", AreaName: "")]
+        [Application(IsArea: false, DisplayOrder: 3, Name: "HRMS", Description: "", Icon: "nav-icon fas fa-calculator", AreaName: "")]
         HRMS= 11,
-        [Application(IsArea: false, DisplayOrder: 4, Name: "Asset Management", Description: "", Icon: "nav-icon fas fa-tree", AreaName: "")]
+        [Application(IsArea: false, DisplayOrder: 4, Name: "Asset Management", Description: "", Icon: "nav-icon fas fa-mobile", AreaName: "/Asset/Dashboard")]
         AssetManagement = 12,
-        [Application(IsArea: false, DisplayOrder: 5, Name: "Time Sheeting", Description: "", Icon: "nav-icon fas fa-tree", AreaName: "")]
+        [Application(IsArea: false, DisplayOrder: 5, Name: "Time Sheeting", Description: "", Icon: "nav-icon fas fa-calendar", AreaName: "/Task/Dashboard")]
         ETS= 13,
-        [Application(IsArea: false, DisplayOrder: 6, Name: "Warehouse Management", Description: "", Icon: "nav-icon fas fa-tree", AreaName: "")]
+        [Application(IsArea: false, DisplayOrder: 6, Name: "Warehouse Management", Description: "", Icon: "nav-icon fas fa-industry", AreaName: "/WMS/Dashboard")]
         WMS = 14,
     }
 
@@ -373,6 +373,7 @@ namespace projContext
 
     public enum enmDocumentType : byte
     {
+        None = 0,
         Create = 1,
         Update = 2,
         Approval = 4,
@@ -503,6 +504,14 @@ namespace projContext
             var type = e.GetType();
             var name = Enum.GetName(type, e);
             var returnData = (SubModule)type.GetField(name).GetCustomAttributes(typeof(SubModule), false).FirstOrDefault();
+            returnData.Id = (int)e;
+            return returnData;
+        }
+        public static Application GetApplicationDetails(this enmApplication e)
+        {
+            var type = e.GetType();
+            var name = Enum.GetName(type, e);
+            var returnData = (Application)type.GetField(name).GetCustomAttributes(typeof(Application), false).FirstOrDefault();
             returnData.Id = (int)e;
             return returnData;
         }

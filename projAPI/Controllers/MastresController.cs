@@ -17,6 +17,8 @@ using projAPI.Model;
 
 namespace projAPI.Controllers
 {
+
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class MastresController : Controller
@@ -559,7 +561,7 @@ namespace projAPI.Controllers
             try
             {
                 tbl_guid_detail objdtl = new tbl_guid_detail();
-                objdtl.genrated_by = generate_by;
+                //objdtl.genrated_by = generate_by;
                 objdtl.genration_dt = DateTime.Now;
 
                 _context.Entry(objdtl).State = EntityState.Added;
@@ -576,4 +578,6 @@ namespace projAPI.Controllers
 
         
     }
+
+#endif
 }

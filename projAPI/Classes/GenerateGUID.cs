@@ -28,15 +28,16 @@ namespace projAPI.Classes
 
         string _Guid()
         {
-            projContext.Context db = new projContext.Context();
-            tbl_guid_detail tbl = new tbl_guid_detail();
-            string gg = Guid.NewGuid().ToString().Replace("-", "");
-            tbl.id = gg;
-            tbl.genrated_by = _UserID;
-            tbl.genration_dt = DateTime.Now;
-            db.tbl_guid_detail.Add(tbl);
-            db.SaveChanges();
-            return tbl.id.ToString();
+            return "";
+            //projContext.Context db = new projContext.Context();
+            //tbl_guid_detail tbl = new tbl_guid_detail();
+            //string gg = Guid.NewGuid().ToString().Replace("-", "");
+            //tbl.id = gg;
+            //tbl.genrated_by = _UserID;
+            //tbl.genration_dt = DateTime.Now;
+            //db.tbl_guid_detail.Add(tbl);
+            //db.SaveChanges();
+            //return tbl.id.ToString();
         }
     }
 }

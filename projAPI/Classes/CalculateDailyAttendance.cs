@@ -608,7 +608,7 @@ namespace projAPI.Classes
 
         private void SetEmpHoliday()
         {
-            int company_id = _context.tbl_user_master.Where(a => a.is_active == 1 && a.employee_id == _empId).Select(b => b.default_company_id).FirstOrDefault();
+            int company_id = 1;
             List<tbl_holiday_master> Thms = _context.tbl_holiday_master.Where(p => p.is_active == 1 &&
             (p.is_applicable_on_all_emp == 1 ?p.is_applicable_on_all_emp == 1:(p.is_applicable_on_all_emp == 0 && p.tbl_holiday_master_emp_list.Where(q1 => q1.employee_id == _empId && q1.is_deleted == 0).Count() > 0)) &&
             (p.is_applicable_on_all_comp == 1?p.is_applicable_on_all_comp==1:(p.is_applicable_on_all_comp == 0 && p.tbl_holiday_master_comp_list.Where(q3 => q3.company_id == company_id && q3.is_deleted == 0).Count() > 0)) &&
