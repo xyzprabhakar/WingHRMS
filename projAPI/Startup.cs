@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using projAPI.Classes;
 using projContext;
 using projAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace projAPI
 {
@@ -53,8 +54,9 @@ namespace projAPI
             });
 
             //add context
-            services.AddDbContext<projContext.Context>();
-            
+            services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
+            services.AddDbContext<projContext.DB.CRM.Travel.TravelContext>(option => option.UseMySql(Configuration.GetConnectionString("Travel"), opt => opt.CommandTimeout(150)));
+
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
