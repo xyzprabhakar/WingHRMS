@@ -373,6 +373,7 @@ namespace projContext
 
     public enum enmDocumentType : byte
     {
+        None = 0,
         Create = 1,
         Update = 2,
         Approval = 4,

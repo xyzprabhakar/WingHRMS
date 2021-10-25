@@ -136,12 +136,21 @@ namespace projAPI.Controllers
             return mdl;
         }
 
-        [Authorize(Policy =  nameof(enmDocumentMaster.Emp_Dashboard)+(nameof(enmDocumentType.Report)))]
+        [Authorize]
         [Route("GetUserApplication")]
         public mdlReturnData GetUserApplication()
         {
             mdlReturnData mdl = new mdlReturnData() { Message="",MessageType= enmMessageType.Success};
             mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
+            return mdl;
+        }
+
+        [Authorize]
+        [Route("GetUserApplication")]
+        public mdlReturnData GetUserDocuments()
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
+            mdl.ReturnId = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId);
             return mdl;
         }
     }

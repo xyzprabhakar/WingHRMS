@@ -24,10 +24,10 @@ namespace projAPI.Services
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
         List<Application> GetUserApplication(ulong UserId);
+        List<Document> GetUserDocuments(ulong UserId);
     }
 
     public class srvUsers : IsrvUsers
-
     {
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
@@ -236,6 +236,35 @@ namespace projAPI.Services
         public List<Application> GetUserApplication(ulong UserId)
         {   
            return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+        }
+
+        public List<Document> GetUserDocuments(ulong UserId)
+        {
+            List<Document> documents = new List<Document>();
+            var tempData = (from t1 in _context.tbl_role_claim_map
+                           join t2 in _context.tbl_user_role_map on t1.role_id equals t2.role_id
+                           where t1.is_deleted == 0 && t2.user_id == UserId && t2.is_deleted == 0
+                           select new { t1.DocumentMaster, t1.PermissionType}).ToList();
+            documents.AddRange( tempData.Select(p => p.DocumentMaster).Distinct().Select(p => p.GetDocumentDetails()).OrderBy(p=>p.DisplayOrder));
+            documents.ForEach(p =>
+            {
+                enmDocumentType ExistingPermissionType = p.DocumentType;
+                enmDocumentType permissionType= enmDocumentType.None;
+                if (p.DocumentType.HasFlag(enmDocumentType.Create) && tempData.Any(q=>(int)q.DocumentMaster== p.Id && q.PermissionType.HasFlag(enmDocumentType.Create)))                
+                    permissionType = permissionType | enmDocumentType.Create;
+                if (p.DocumentType.HasFlag(enmDocumentType.Update) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Update)))                
+                    permissionType = permissionType | enmDocumentType.Update;
+                if (p.DocumentType.HasFlag(enmDocumentType.Approval) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Approval)))
+                    permissionType = permissionType | enmDocumentType.Approval;
+                if (p.DocumentType.HasFlag(enmDocumentType.Delete) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Delete)))
+                    permissionType = permissionType | enmDocumentType.Delete;
+                if (p.DocumentType.HasFlag(enmDocumentType.Report) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Report)))
+                    permissionType = permissionType | enmDocumentType.Report;
+                if (p.DocumentType.HasFlag(enmDocumentType.DisplayMenu))
+                    permissionType = permissionType | enmDocumentType.DisplayMenu;
+            });
+            documents.RemoveAll(p => !p.DocumentType.HasFlag(enmDocumentType.DisplayMenu));
+            return documents;
         }
 
         
