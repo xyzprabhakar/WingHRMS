@@ -44,10 +44,10 @@ namespace projAPI
             {
                 options.AddPolicy("AllowSpecificOrigin",
                 builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-               // options.AddPolicy("AllowSpecificOrigin",
-            //  builder => builder.WithOrigins("http://192.168.10.6:1010", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-           // builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            //builder => builder.WithOrigins("http://192.168.10.129:1010", "http://192.168.10.129:1016", "http://14.143.182.168:1010", "http://14.143.182.168:1016", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //options.AddPolicy("AllowSpecificOrigin",
+                //builder => builder.WithOrigins("http://192.168.10.6:1010", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //builder => builder.WithOrigins("http://192.168.10.129:1010", "http://192.168.10.129:1016", "http://14.143.182.168:1010", "http://14.143.182.168:1016", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
                 //builder => builder.WithOrigins("http://192.168.10.129:1013").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
             });
@@ -58,14 +58,10 @@ namespace projAPI
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
-            services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
 
-            services.AddScoped<clsCurrentUser>();
-            services.AddScoped<clsEmployeeDetail>(ctx => new clsEmployeeDetail(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
-            services.AddScoped<clsLeaveCredit>(ctx => new clsLeaveCredit(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<clsCurrentUser>()));
-            services.AddScoped<clsCompanyDetails>(ctx => new clsCompanyDetails(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
-
+            
             //add authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

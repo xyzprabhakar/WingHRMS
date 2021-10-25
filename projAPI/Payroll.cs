@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace projAPI
 {
+#if(false)
     public class Payroll
     {
         private readonly Context _context;
@@ -616,5 +617,7 @@ namespace projAPI
 
 
     }
+#endif
+
 }
 

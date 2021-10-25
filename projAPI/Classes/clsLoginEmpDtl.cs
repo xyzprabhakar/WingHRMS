@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class clsLoginEmpDtl
     {
         IConfiguration _config;
@@ -97,4 +98,5 @@ namespace projAPI.Classes
             //}
         }
     }
+#endif
 }

@@ -16,6 +16,7 @@ using projContext.DB;
 
 namespace projAPI
 {
+#if (false)
     public class clsComponentValues
     {
 
@@ -1684,6 +1685,8 @@ namespace projAPI
 
 
     }
+
+#endif
 }
 
 

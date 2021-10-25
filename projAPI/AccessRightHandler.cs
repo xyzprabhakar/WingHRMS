@@ -12,13 +12,12 @@ namespace projAPI
     public class AccessRightHandler : AuthorizationHandler<AccessRightRequirement>
     {
         private readonly Context _Dbcontext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly clsCurrentUser _clsCurrentUser;
-        public AccessRightHandler(Context Dbcontext, IHttpContextAccessor httpContextAccessor, clsCurrentUser _clsCurrentUser)
+        private readonly IHttpContextAccessor _httpContextAccessor;        
+        public AccessRightHandler(Context Dbcontext, IHttpContextAccessor httpContextAccessor)
         {
             _Dbcontext = Dbcontext;
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            this._clsCurrentUser = _clsCurrentUser;
+            
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessRightRequirement requirement)

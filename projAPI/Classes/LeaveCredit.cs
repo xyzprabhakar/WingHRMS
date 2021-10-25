@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
-
+#if(false)
     public class clsLeaveCreditNew
     {
         private readonly DateTime Currentdate;
@@ -1261,6 +1261,6 @@ namespace projAPI.Classes
 #endregion ** END SAVE MANNUAL LEAVE **
 #endif
     }
-
+#endif
 
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace projAPI.Classes
 {
 
+#if(false)
     public class clsCurrentUser
     {   
         public int EmpId { get; set; }
@@ -691,4 +692,6 @@ namespace projAPI.Classes
 #endregion
 
     }
+
+#endif
 }

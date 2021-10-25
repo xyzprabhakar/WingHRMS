@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 namespace projAPI.Classes
 {
 
+#if(false)
     public class KeyArea
     {
         public int key_area_id { get; set; }
@@ -1091,4 +1092,6 @@ namespace projAPI.Classes
 
 
     #endregion
+
+#endif
 }

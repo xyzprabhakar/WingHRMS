@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace projAPI.Classes
+namespace projAPI.Services
 {
-    public class clsLeaveInfo
+    public class srvAirServices
     {
-        public void LeaveInfoSave()
-        {
-        }
+
 
     }
 }

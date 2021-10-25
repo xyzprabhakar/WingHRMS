@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class GenrateGUID
     {
         private int _UserID = 1;
@@ -40,4 +41,5 @@ namespace projAPI.Classes
             //return tbl.id.ToString();
         }
     }
+#endif
 }

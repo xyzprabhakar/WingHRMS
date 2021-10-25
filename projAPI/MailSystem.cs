@@ -20,7 +20,7 @@ namespace projAPI
         private IConfiguration _config;
         public MailSystem(string connectionstring, IConfiguration config)
         {
-            _context = new Context(); //context;
+            _context = null;// new Context(); //context;
             _config = config;
         }
         // public static string AuthenticateId = "noreply@sakshemit.com"; // main email.

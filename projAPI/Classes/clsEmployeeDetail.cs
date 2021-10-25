@@ -15,6 +15,7 @@ using System.IO;
 
 namespace projAPI.Classes
 {
+#if (false)
     public class clsEmployeeDetail
     {
         public int _company_id;
@@ -256,7 +257,7 @@ namespace projAPI.Classes
             List<EmployeeBasicData> data = new List<EmployeeBasicData>();
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(_context._connectionString))
+                using (MySqlConnection connection = new MySqlConnection(_config.GetConnectionString("HRMS")))
                 {
                     using (MySqlCommand cmd = new MySqlCommand("proc_get_emp_data", connection))
                     {
@@ -2246,7 +2247,7 @@ namespace projAPI.Classes
 
 
     }
-
+#endif
 
 
 }

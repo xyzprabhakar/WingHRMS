@@ -104,12 +104,7 @@ namespace projAPI.Controllers
         {
         }
 
-        [HttpGet]
-        [Route("GetGUID")]
-        public string GetGUID(int id)
-        {
-            return new GenrateGUID(id).GetGuid;
-        }
+   
 
         private void SetUserData()
         {

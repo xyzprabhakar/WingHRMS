@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using projAPI.Model;
 using projContext;
 using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace projAPI.Services
 {
@@ -28,11 +29,12 @@ namespace projAPI.Services
 
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
-
-        public srvEmployee(Context context, IsrvSettings isrvSettings)
+        private readonly IConfiguration _config;
+        public srvEmployee(Context context, IsrvSettings isrvSettings,  IConfiguration config)
         {
             _context = context;
             _IsrvSettings = isrvSettings;
+            _config=config;
         }
         private int _EmpId, _UserId, _DefaultCompany;
         private List<int> _Role, _EmpCompany, _DownlineEmpId;
@@ -72,7 +74,7 @@ namespace projAPI.Services
             }
             int ManagerDepth = 1;
             int.TryParse(_IsrvSettings.GetSettings("ReportingManagers", "Depth"), out ManagerDepth);
-            using (var mySqlConnection = new MySqlConnection(_context._connectionString))
+            using (var mySqlConnection = new MySqlConnection(_config.GetConnectionString("HRMS")))
             {
                 MySqlCommand mySqlCommand = new MySqlCommand("proc_emp_down_line");
                 mySqlCommand.Connection = mySqlConnection;

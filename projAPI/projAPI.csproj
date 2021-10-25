@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Air\" />
     <Folder Include="wwwroot\CompanyLogo\Glaze Trading India Pvt Ltd\" />
     <Folder Include="wwwroot\HealthCard\" />
     <Folder Include="wwwroot\KTTask\KTFormat\" />

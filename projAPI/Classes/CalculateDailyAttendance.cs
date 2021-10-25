@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
+#if (false)
+
     public class clsManualAttendance
     {
         private readonly Context _context;
@@ -164,7 +166,7 @@ namespace projAPI.Classes
 
         }
 
-        #region  ********* delete the existing Data ****************
+#region  ********* delete the existing Data ****************
         /// <summary>
         /// delete the eixting data of comp off
         /// </summary>
@@ -184,7 +186,7 @@ namespace projAPI.Classes
         }
 
 
-        #endregion
+#endregion
 
 
         private void BasicSet()
@@ -1220,4 +1222,5 @@ namespace projAPI.Classes
 
 
     }
+#endif
 }

@@ -12,7 +12,7 @@ namespace projContext
         /// Devlopment Server
         /// </summary>
         //public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
-        public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
         //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
@@ -28,21 +28,22 @@ namespace projContext
 
         // public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms_glaze; User ID = root; Password = glaze@123;Allow User Variables=True ; ";
         //string _connectionString = "";
-        public Context() : base()
+        public Context(DbContextOptions<Context> options) : base(options)
         {
-            Database.SetCommandTimeout((int)TimeSpan.FromMinutes(30).TotalSeconds);
+            //Database.SetCommandTimeout((int)TimeSpan.FromMinutes(30).TotalSeconds);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql(_connectionString, opt => opt.CommandTimeout(600));
-            }
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder.UseMySql(_connectionString, opt => opt.CommandTimeout(600));
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<tbl_daily_attendance>()
                 .HasKey(c => new { c.emp_id, c.attendance_dt });
             modelBuilder.Entity<tbl_attendance_summary>()

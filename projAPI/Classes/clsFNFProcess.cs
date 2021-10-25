@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class clsFNFProcess
     {
 
@@ -1171,4 +1172,6 @@ namespace projAPI.Classes
 
         }
     }
+
+#endif
 }
