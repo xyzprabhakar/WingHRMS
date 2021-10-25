@@ -24,6 +24,7 @@ using projAPI.Classes;
 using projContext;
 using projAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using projAPI.Services.Travel;
 
 namespace projAPI
 {
@@ -55,7 +56,7 @@ namespace projAPI
 
             //add context
             services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
-            services.AddDbContext<projContext.DB.CRM.Travel.TravelContext>(option => option.UseMySql(Configuration.GetConnectionString("Travel"), opt => opt.CommandTimeout(150)));
+            
 
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
@@ -63,7 +64,14 @@ namespace projAPI
             services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
 
+
+            #region  ******************************** Travel*******************************
+            services.AddDbContext<projContext.DB.CRM.Travel.TravelContext>(option => option.UseMySql(Configuration.GetConnectionString("Travel"), opt => opt.CommandTimeout(150)));
+            services.AddScoped<IsrvAir>(ctx => new srvAir(ctx.GetRequiredService<projContext.DB.CRM.Travel.TravelContext>()));
+
             
+            #endregion
+
             //add authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
