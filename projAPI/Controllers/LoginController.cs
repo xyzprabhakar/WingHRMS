@@ -23,6 +23,7 @@ using DocumentFormat.OpenXml.InkML;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -822,4 +823,6 @@ namespace projAPI.Controllers
         }
 
     }
+
+#endif
 }

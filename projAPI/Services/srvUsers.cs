@@ -226,7 +226,7 @@ namespace projAPI.Services
             _claim.Add(new Claim("__DistributorId", Convert.ToString(DistributorId)));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
-            var token = new  JwtSecurityToken(JWTKey,JWTIssuer,_claim,expires: DateTime.Now.AddMinutes( TokenExpiryTime),              
+            var token = new  JwtSecurityToken(JWTIssuer, JWTIssuer,_claim,expires: DateTime.Now.AddMinutes( TokenExpiryTime),              
               signingCredentials: credentials);
             string Token= new JwtSecurityTokenHandler().WriteToken(token);
             return Token;
@@ -259,11 +259,11 @@ namespace projAPI.Services
         public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
         {
             _user_type = enmUserType.Consolidator;
-            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault().Value, out _UserId);
-            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault().Value, out _DistributorId);
-            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerId").FirstOrDefault().Value, out _CustomerId);
-            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__employee_id").FirstOrDefault().Value, out _employee_id);
-            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__user_type").FirstOrDefault().Value, out _user_type);
+            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault()?.Value, out _UserId);
+            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault()?.Value, out _DistributorId);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerId").FirstOrDefault()?.Value, out _CustomerId);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__employee_id").FirstOrDefault()?.Value, out _employee_id);
+            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__user_type").FirstOrDefault()?.Value, out _user_type);
 
         }
         public ulong UserId { get { return _UserId; } private set { } }

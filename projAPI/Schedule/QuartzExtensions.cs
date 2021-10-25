@@ -7,6 +7,7 @@ using System;
 
 namespace projAPI.Schedule
 {
+#if (false)
     public static class QuartzExtensions
     {
         public static void AddQuartz(this IServiceCollection services, Type jobType)
@@ -52,4 +53,5 @@ namespace projAPI.Schedule
                 );
         }
     }
+#endif
 }

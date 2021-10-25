@@ -25,10 +25,8 @@ namespace projAPI
         {
             if (context.User.HasClaim(c => c.Type == "__UserId"))
             {
-
-
                 ulong UserId = 0;
-                ulong.TryParse(context.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault().Value,out UserId);
+                ulong.TryParse(context.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault()?.Value,out UserId);
                 if (UserId > 0)
                 {
                     if (_Dbcontext.tbl_user_role_map.Where(p => p.user_id == UserId && p.role_id == 1 && p.is_deleted == 0).Count() > 0)

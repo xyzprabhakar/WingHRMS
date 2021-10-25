@@ -25,6 +25,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiLeaveController : ControllerBase
@@ -7623,4 +7624,6 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
 
 
     }
+
+#endif
 }

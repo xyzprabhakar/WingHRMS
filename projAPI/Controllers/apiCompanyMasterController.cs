@@ -15,6 +15,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+    #if (false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiCompanyMasterController : ControllerBase
@@ -433,7 +434,7 @@ namespace projAPI.Controllers
                             _context.tbl_company_emp_setting.Add(company_sett);
                             await _context.SaveChangesAsync();
 
-                            #region Get Employee Id And Genrate Employee Code 
+#region Get Employee Id And Genrate Employee Code 
                             //Get data from company master
                             var GenrateEmployeeCode = (from a in _context.tbl_company_emp_setting.Where(x => x.is_active == 1 && x.company_id == company_id)
                                                        select new
@@ -475,7 +476,7 @@ namespace projAPI.Controllers
                             //Mail Empaloyee Code
                             string EmployeeCode = myString + emp_id;
 
-                            #endregion
+#endregion
 
                             // tbl_employee_master
                             tbl_employee_master employee_master = new tbl_employee_master();
@@ -494,7 +495,7 @@ namespace projAPI.Controllers
                             await _context.SaveChangesAsync();
 
 
-                            #region update company setting table 
+#region update company setting table 
 
                             // tbl_company_emp_setting
 
@@ -509,12 +510,12 @@ namespace projAPI.Controllers
                             _context.Entry(tbl_company_emp_setting).State = EntityState.Modified;
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
 
                             var employee_id = employee_master.employee_id;
 
-                            #region Save Data In User Master
+#region Save Data In User Master
                             tbl_user_master tbl_user_master = new tbl_user_master();
                             tbl_user_master.username = EmployeeCode;
                             tbl_user_master.password = EmployeeCode;
@@ -531,10 +532,10 @@ namespace projAPI.Controllers
                             _context.tbl_user_master.Add(tbl_user_master);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
 
-                            #region Save Data in Employment Type Master
+#region Save Data in Employment Type Master
 
                             DateTime DurationStartPeriod = Convert.ToDateTime("2018-01-01");
                             DateTime DurationEndPeriod = Convert.ToDateTime("2500-01-01");
@@ -606,10 +607,10 @@ namespace projAPI.Controllers
                             //Save data in tbl_employment_type_master
                             _context.tbl_employment_type_master.Add(tbl_employment_type_master_);
                             await _context.SaveChangesAsync();
-                            #endregion
+#endregion
 
 
-                            #region Save Data In Employee Officaial Sec
+#region Save Data In Employee Officaial Sec
                             // tbl_emp_officaial_sec
                             tbl_emp_officaial_sec emp_officaial_sec = new tbl_emp_officaial_sec();
                             emp_officaial_sec.employee_id = employee_id;
@@ -620,10 +621,10 @@ namespace projAPI.Controllers
                             _context.tbl_emp_officaial_sec.Add(emp_officaial_sec);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
 
-                            #region Save Data in emp company maping 
+#region Save Data in emp company maping 
                             //tbl_employee_company_map
                             tbl_employee_company_map tbl_emp_comp_map = new tbl_employee_company_map();
                             tbl_emp_comp_map.employee_id = employee_id;
@@ -637,10 +638,10 @@ namespace projAPI.Controllers
                             //Save data in tbl_employee_company_map
                             _context.tbl_employee_company_map.Add(tbl_emp_comp_map);
                             await _context.SaveChangesAsync();
-                            #endregion
+#endregion
 
 
-                            #region Save data in emp desig allocation
+#region Save data in emp desig allocation
                             tbl_emp_desi_allocation emp_desi_alloc = new tbl_emp_desi_allocation();
                             emp_desi_alloc.employee_id = employee_id;
                             emp_desi_alloc.applicable_from_date = DateTime.Now;
@@ -650,10 +651,10 @@ namespace projAPI.Controllers
                             _context.tbl_emp_desi_allocation.Add(emp_desi_alloc);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
 
-                            #region Save Data in emp_manager
+#region Save Data in emp_manager
                             tbl_emp_manager emp_manager = new tbl_emp_manager();
                             emp_manager.employee_id = employee_id;
                             emp_manager.applicable_from_date = DateTime.Now;                            
@@ -661,10 +662,10 @@ namespace projAPI.Controllers
                             //Save data in tbl_emp_managers
                             _context.tbl_emp_manager.Add(emp_manager);
                             await _context.SaveChangesAsync();
-                            #endregion
+#endregion
 
 
-                            #region Save Emp Grade Allocation
+#region Save Emp Grade Allocation
                             tbl_emp_grade_allocation emp_grade_allocation = new tbl_emp_grade_allocation();
                             emp_grade_allocation.employee_id = employee_id;
                             emp_grade_allocation.applicable_from_date = DateTime.Now;
@@ -675,10 +676,10 @@ namespace projAPI.Controllers
                             _context.tbl_emp_grade_allocation.Add(emp_grade_allocation);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
 
-                            #region Save Emp Personal Sec
+#region Save Emp Personal Sec
                             tbl_emp_personal_sec emp_personal_sec = new tbl_emp_personal_sec();
                             emp_personal_sec.employee_id = employee_id;
                             emp_personal_sec.blood_group = 0;
@@ -705,7 +706,7 @@ namespace projAPI.Controllers
                             _context.tbl_emp_personal_sec.Add(emp_personal_sec);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+#endregion
 
                             objResult.StatusCode = 1;
                             objResult.Message = "Company Added Successfully...!";
@@ -769,4 +770,5 @@ namespace projAPI.Controllers
 
 
     }
+#endif
 }

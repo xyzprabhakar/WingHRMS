@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class AttendanceController : ControllerBase
@@ -1764,4 +1765,5 @@ namespace projAPI.Controllers
 
 #endregion ** END BY SUPRIYA ON 28-09-2019,SAVE ATTANDACNE FROM EXCEL
     }
+#endif
 }

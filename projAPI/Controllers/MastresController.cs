@@ -17,6 +17,8 @@ using projAPI.Model;
 
 namespace projAPI.Controllers
 {
+
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class MastresController : Controller
@@ -576,4 +578,6 @@ namespace projAPI.Controllers
 
         
     }
+
+#endif
 }

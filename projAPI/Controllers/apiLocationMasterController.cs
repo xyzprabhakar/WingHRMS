@@ -15,6 +15,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiLocationMasterController : ControllerBase
@@ -467,4 +468,6 @@ namespace projAPI.Controllers
 
         #endregion ** END BY SUPRIYA ON 30-07-2019
     }
+
+#endif
 }

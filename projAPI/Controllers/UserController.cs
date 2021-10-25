@@ -136,7 +136,7 @@ namespace projAPI.Controllers
             return mdl;
         }
 
-        //[Authorize(nameof(enmDocumentMaster.Emp_Dashboard)+ nameof(enmDocumentType.Report))]
+        [Authorize(Policy =  nameof(enmDocumentMaster.Emp_Dashboard)+(nameof(enmDocumentType.Report)))]
         [Route("GetUserApplication")]
         public mdlReturnData GetUserApplication()
         {

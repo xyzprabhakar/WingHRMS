@@ -30,6 +30,7 @@ using static projAPI.Model.payroll;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiDynamicReportController : Controller
@@ -113,4 +114,6 @@ namespace projAPI.Controllers
        
 
     }
+
+#endif
 }

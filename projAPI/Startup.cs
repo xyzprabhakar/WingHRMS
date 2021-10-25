@@ -89,31 +89,14 @@ namespace projAPI
             {
                 foreach (enmDocumentMaster _enm in Enum.GetValues(typeof(enmDocumentMaster)))
                 {
-                    var DocumentType=_enm.GetDocumentDetails().DocumentType;
-                    if (DocumentType.HasFlag(enmDocumentType.Create))
-                    {
-                        options.AddPolicy(_enm.ToString()+ enmDocumentType.Create.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Create)));
-                    }
-                    if (DocumentType.HasFlag(enmDocumentType.Update))
-                    {
-                        options.AddPolicy(_enm.ToString() + enmDocumentType.Update.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Update)));
-                    }
-                    if (DocumentType.HasFlag(enmDocumentType.Approval))
-                    {
+                    var DocumentType=_enm.GetDocumentDetails().DocumentType;                    
+                        options.AddPolicy(_enm.ToString()+ enmDocumentType.Create.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Create)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Update.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Update)));                    
                         options.AddPolicy(_enm.ToString() + enmDocumentType.Approval.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Approval)));
-                    }
-                    if (DocumentType.HasFlag(enmDocumentType.Delete))
-                    {
-                        options.AddPolicy(_enm.ToString() + enmDocumentType.Delete.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Delete)));
-                    }
-                    if (DocumentType.HasFlag(enmDocumentType.Report))
-                    {
-                        options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));
-                    }
-                    if (DocumentType.HasFlag(enmDocumentType.DisplayMenu))
-                    {
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Delete.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Delete)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));                    
                         options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
-                    }
+                    
 
                 }
             });
