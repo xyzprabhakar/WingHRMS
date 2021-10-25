@@ -146,7 +146,7 @@ namespace projAPI.Controllers
         }
 
         [Authorize]
-        [Route("GetUserApplication")]
+        [Route("GetUserDocuments")]
         public mdlReturnData GetUserDocuments()
         {
             mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
