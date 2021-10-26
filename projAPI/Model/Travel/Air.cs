@@ -56,7 +56,7 @@ namespace projAPI.Model.Travel
     }
     public class mdlSearchResponse
     {
-        public int ResponseStatus { get; set; }
+        public enmMessageType ResponseStatus { get; set; }
         public mdlError Error { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
         public string TraceId { get; set; }
@@ -95,7 +95,7 @@ namespace projAPI.Model.Travel
         //public string FareBasis { get; set; }
         //public bool IsFreeMeel { get; set; }
         //public double Convenience { get; set; }
-        //public mdlSsrInfo sinfo { get; set; }
+        public mdlSsrInfo sinfo { get; set; }
 
     }
     public class mdlSsrInfo

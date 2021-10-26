@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using projContext;
 using System.IO.Compression;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace projAPI.Model.Travel
 {
@@ -132,12 +133,12 @@ namespace projAPI.Model.Travel
             return mdl;
         }
         public Task<mdlSearchResponse> SearchAsync(mdlSearchRequest request)
-        { 
-
+        {
+            throw new NotImplementedException();
         }
         private SearchqueryWraper SearchRequestMap(mdlSearchRequest request)
         {
-            enmCabinClass enmCabin = request.Segments[0].FlightCabinClass == enmCabinClass.ALLClasses ? enmCabinClass.ECONOMY : request.Segments[0].FlightCabinClass;
+            enmCabinClass enmCabin = request.Segments[0].FlightCabinClass;
             List<Routeinfo> routeinfos = new List<Routeinfo>();
             for (int i = 0; i < request.Segments.Count(); i++)
             {
@@ -195,6 +196,140 @@ namespace projAPI.Model.Travel
             return mdlW;
         }
 
+        private List<mdlSearchResult> SearchResultMap(ONWARD_RETURN_COMBO[] sr, string Traceid)
+        {
+            List<mdlSearchResult> mdls = new List<mdlSearchResult>();
+            mdls.AddRange(sr.Select(p => new mdlSearchResult
+            {
+                ServiceProvider = enmServiceProvider.TripJack,
+                traceid = Traceid,
+
+                Segment = p.sI.Select(q => new mdlSegment
+                {
+                    Airline = new mdlAirline()
+                    {
+                        Code = q.fD?.aI?.code,
+                        Name = q.fD?.aI?.name,
+                        isLcc = q.fD?.aI?.isLcc ?? false,
+                        FlightNumber = q.fD?.fN ?? string.Empty,
+                        OperatingCarrier = q.oB?.code ?? string.Empty,
+                    },
+                    Id = q.id,
+                    ArrivalTime = q.at,
+                    DepartureTime = q.dt,
+                    Duration = q.duration,
+                    Mile = 0,
+                    TripIndicator = q.sN,
+                    Origin = new mdlAirport()
+                    {
+                        AirportCode = q.da?.code ?? string.Empty,
+                        AirportName = q.da?.name ?? string.Empty,
+                        CityCode = q.da?.cityCode ?? string.Empty,
+                        CityName = q.da?.city ?? string.Empty,
+                        CountryCode = q.da?.countryCode ?? string.Empty,
+                        CountryName = q.da?.country ?? string.Empty,
+                        Terminal = q.da?.terminal ?? string.Empty,
+                    },
+                    Destination = new mdlAirport()
+                    {
+                        AirportCode = q.aa?.code ?? string.Empty,
+                        AirportName = q.aa?.name ?? string.Empty,
+                        CityCode = q.aa?.cityCode ?? string.Empty,
+                        CityName = q.aa?.city ?? string.Empty,
+                        CountryCode = q.aa?.countryCode ?? string.Empty,
+                        CountryName = q.aa?.country ?? string.Empty,
+                        Terminal = q.aa?.terminal ?? string.Empty,
+                    },
+                    sinfo = new mdlSsrInfo()
+                    {
+                        MEAL = q?.ssrInfo?.MEAL ?? null,
+                        BAGGAGE = q?.ssrInfo?.BAGGAGE ?? null,
+                        SEAT = q?.ssrInfo?.SEAT ?? null,
+                        EXTRASERVICES = q?.ssrInfo?.EXTRASERVICES ?? null,
+                    }
+
+                }).ToList(),
+                TotalPriceList = p.totalPriceList.Select(q => new mdlTotalpricelist
+                {
+                    fareIdentifier = q.fareIdentifier,
+                    ResultIndex = q.id,
+                    sri = q.sri,
+                    msri = q.msri == null ? new List<string>() : q.msri.ToList(),
+                    ADULT = new mdlPassenger()
+                    {
+                        FareComponent = new mdlFareComponent()
+                        {
+                            BaseFare = q.fd?.ADULT?.fC?.BF ?? 0,
+                            IGST = q.fd?.ADULT?.fC?.IGST ?? 0,
+                            TaxAndFees = q.fd?.ADULT?.fC?.TAF ?? 0,
+                            TotalFare = q.fd?.ADULT?.fC?.TF ?? 0,
+                            NetFare = q.fd?.ADULT?.fC?.TF ?? 0,
+                        },
+                        BaggageInformation = new mdlBaggageInformation()
+                        {
+                            CabinBaggage = q.fd?.ADULT?.bI?.cB ?? string.Empty,
+                            CheckingBaggage = q.fd?.ADULT?.bI?.iB ?? string.Empty
+                        },
+                        CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), q.fd?.ADULT?.cc ?? (nameof(enmCabinClass.ECONOMY)), true),
+                        ClassOfBooking = q.fd?.ADULT?.cB ?? string.Empty,
+                        FareBasis = q.fd?.ADULT?.fB ?? string.Empty,
+                        IsFreeMeel = q.fd?.ADULT?.mi ?? false,
+                        RefundableType = q.fd?.ADULT?.rT ?? 0,
+                        SeatRemaing = q.fd?.ADULT?.sR ?? 0,
+                    },
+                    CHILD = new mdlPassenger()
+                    {
+                        FareComponent = new mdlFareComponent()
+                        {
+                            BaseFare = q.fd?.CHILD?.fC?.BF ?? 0,
+                            IGST = q.fd?.CHILD?.fC?.IGST ?? 0,
+                            TaxAndFees = q.fd?.CHILD?.fC?.TAF ?? 0,
+                            TotalFare = q.fd?.CHILD?.fC?.TF ?? 0,
+                            NetFare = q.fd?.CHILD?.fC?.TF ?? 0,
+                        },
+                        BaggageInformation = new mdlBaggageInformation()
+                        {
+                            CabinBaggage = q.fd?.CHILD?.bI?.cB ?? string.Empty,
+                            CheckingBaggage = q.fd?.CHILD?.bI?.iB ?? string.Empty
+                        },
+                        CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), q.fd?.CHILD?.cc ?? (nameof(enmCabinClass.ECONOMY)), true),
+                        ClassOfBooking = q.fd?.CHILD?.cB ?? string.Empty,
+                        FareBasis = q.fd?.CHILD?.fB ?? string.Empty,
+                        IsFreeMeel = q.fd?.CHILD?.mi ?? false,
+                        RefundableType = q.fd?.CHILD?.rT ?? 0,
+                        SeatRemaing = q.fd?.CHILD?.sR ?? 0,
+                    },
+                    INFANT = new mdlPassenger()
+                    {
+                        FareComponent = new mdlFareComponent()
+                        {
+                            BaseFare = q.fd?.INFANT?.fC?.BF ?? 0,
+                            IGST = q.fd?.INFANT?.fC?.IGST ?? 0,
+                            TaxAndFees = q.fd?.INFANT?.fC?.TAF ?? 0,
+                            TotalFare = q.fd?.INFANT?.fC?.TF ?? 0,
+                            NetFare = q.fd?.INFANT?.fC?.TF ?? 0,
+                        },
+                        BaggageInformation = new mdlBaggageInformation()
+                        {
+                            CabinBaggage = q.fd?.INFANT?.bI?.cB ?? string.Empty,
+                            CheckingBaggage = q.fd?.INFANT?.bI?.iB ?? string.Empty
+                        },
+                        CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), q.fd?.INFANT?.cc ?? (nameof(enmCabinClass.ECONOMY)), true),
+                        ClassOfBooking = q.fd?.INFANT?.cB ?? string.Empty,
+                        FareBasis = q.fd?.INFANT?.fB ?? string.Empty,
+                        IsFreeMeel = q.fd?.INFANT?.mi ?? false,
+                        RefundableType = q.fd?.INFANT?.rT ?? 0,
+                        SeatRemaing = q.fd?.INFANT?.sR ?? 0,
+                    },
+                    FareRule = new mdlFareRuleResponse()
+                    {
+                        FareRule = q.farerule
+                    }
+                }
+                   ).ToList()
+            }));
+            return mdls;
+        }
 
         private async Task<mdlSearchResponse> SearchFromTripJackAsync(mdlSearchRequest request)
         {
@@ -218,7 +353,7 @@ namespace projAPI.Model.Travel
                         {
                             mdlS = new mdlSearchResponse()
                             {
-                                ResponseStatus = 3,
+                                ResponseStatus = enmMessageType.Error,
                                 Error = new mdlError()
                                 {
                                     Code = mdl.status.httpStatus,
@@ -235,8 +370,6 @@ namespace projAPI.Model.Travel
                             {   
                                 Result1.AddRange(SearchResultMap(mdl.searchResult.tripInfos.ONWARD, TraceId));
                             }
-                            
-
                         }
                         if (Result1.Count() > 0)
                         {
@@ -246,7 +379,7 @@ namespace projAPI.Model.Travel
                         {
                             ServiceProvider = enmServiceProvider.TripJack,
                             TraceId = TraceId,
-                            ResponseStatus = 1,
+                            ResponseStatus = enmMessageType.Success,
                             Error = new mdlError()
                             {
                                 Code = 0,
@@ -257,13 +390,13 @@ namespace projAPI.Model.Travel
                             Results = AllResults
                         };
 
-                        await result;
+                        return mdlS;
                     }
                     else
                     {
                         mdlS = new mdlSearchResponse()
                         {
-                            ResponseStatus = 3,
+                            ResponseStatus = enmMessageType.Error,
                             Error = new mdlError()
                             {
                                 Code = mdl.status.httpStatus,
@@ -277,7 +410,7 @@ namespace projAPI.Model.Travel
                 {
                     mdlS = new mdlSearchResponse()
                     {
-                        ResponseStatus = 100,
+                        ResponseStatus = enmMessageType.Error,
                         Error = new mdlError()
                         {
                             Code = 100,
@@ -289,6 +422,67 @@ namespace projAPI.Model.Travel
 
             return mdlS;
         }
+
+
+        private mdlSearchResponse SearchFromDb(mdlSearchRequest request)
+        {
+            mdlSearchResponse mdlSearchResponse = null;
+            DateTime CurrentTime = DateTime.Now;
+            var segment = request.Segments.FirstOrDefault();
+            tblTripJackTravelDetail Data = null;
+            if (request.JourneyType == enmJourneyType.OneWay && segment != null)
+            {
+
+                var tempData = _context.tblFlightSearchRequest_Caching.Where(p => p.ServiceProvider == enmServiceProvider.TripJack && p.ExpiredDt <= DateTime.Now
+                 && p.AdultCount == request.AdultCount && p.ChildCount == request.ChildCount && p.InfantCount == request.InfantCount
+                 && p.FlightCabinClass == segment.FlightCabinClass && p.Destination == segment.Destination && p.Origin == segment.Origin
+                ).OrderByDescending(p => p.ExpiredDt).FirstOrDefault();
+                if (tempData != null)
+                { 
+                    _context.tblFlightSearchResponses_Caching.Where(p=>p.ResponseId== tempData.CachingId).Include(q=>q.tblFlightSearchSegment_Caching).Include(q=>q.tblFlightFare_Caching)
+                }
+
+                Data = _context.tblTripJackTravelDetail.Where(p => p.Origin == request.Segments[0].Origin && p.Destination == request.Segments[0].Destination
+                  && request.AdultCount == p.AdultCount && p.ChildCount == request.ChildCount && p.InfantCount == request.InfantCount && p.CabinClass == request.Segments[0].FlightCabinClass
+                  && p.TravelDate == request.Segments[0].TravelDt
+                  && p.ExpireDt > CurrentTime
+                ).Include(p => p.tblTripJackTravelDetailResult).OrderByDescending(p => p.ExpireDt).FirstOrDefault();
+                if (Data != null)
+                {
+                    List<List<mdlSearchResult>> AllResults = new List<List<mdlSearchResult>>();
+                    var disSegIds = Data.tblTripJackTravelDetailResult.Select(p => p.segmentId).Distinct().OrderBy(p => p);
+                    foreach (var d in disSegIds)
+                    {
+                        AllResults.Add(SearchResultMap(Data.tblTripJackTravelDetailResult.Where(p => p.segmentId == d).Select(p => JsonConvert.DeserializeObject<ONWARD_RETURN_COMBO>(p.JsonData)).ToArray(), Data.TraceId));
+                    }
+
+                    mdlSearchResponse = new mdlSearchResponse()
+                    {
+                        ServiceProvider = enmServiceProvider.TripJack,
+                        TraceId = Data.TraceId.ToString(),
+                        ResponseStatus = 1,
+                        Error = new mdlError()
+                        {
+                            Code = 0,
+                            Message = "-"
+                        },
+                        Origin = Data.Origin,
+                        Destination = Data.Destination,
+                        Results = AllResults
+
+                    };
+
+                }
+            }
+
+
+            return mdlSearchResponse;
+
+
+
+
+        }
+
 
 
         #region ******************** Inner classes **********************

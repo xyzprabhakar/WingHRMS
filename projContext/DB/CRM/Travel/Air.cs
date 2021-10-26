@@ -335,8 +335,8 @@ namespace projContext.DB.CRM.Travel
     public class tblFlightSearchRequest_Caching
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CachingId { get; set; }
+        [MaxLength(64)]
+        public string CachingId { get; set; }
         public enmJourneyType JourneyType { get; set; } = enmJourneyType.OneWay;
         [MaxLength(24)]
         public string Origin { get; set; }
@@ -352,38 +352,25 @@ namespace projContext.DB.CRM.Travel
         public DateTime ExpiredDt { get; set; }
         public bool IsDeleted { get; set; }
 
-        public ICollection<tblFlightSearchResponse_Caching> tblFlightSearchResponse_Caching { get; set; }
-    }
-
-    public class tblFlightSearchResponse_Caching
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ResponseId { get; set; }
-        public enmServiceProvider ServiceProvider { get; set; }
-        [ForeignKey("tblFlightSearchRequest_Caching")] // Foreign Key here
-        public int? CachingId { get; set; }
-        public tblFlightSearchRequest_Caching tblFlightSearchRequest_Caching { get; set; }
-        public double MinmumPrice { get; set; }
         [MaxLength(64)]
         public string ProviderTraceId { get; set; }
+        public enmServiceProvider ServiceProvider { get; set; }
         public ICollection<tblFlightSearchResponses_Caching> tblFlightSearchResponses_Caching { get; set; }
+        
     }
-
+    
     public class tblFlightSearchResponses_Caching
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IndexId { get; set; }
-        [ForeignKey("tblFlightSearchResponse_Caching")] // Foreign Key here
-        public int? ResponseId { get; set; }
-        public tblFlightSearchResponse_Caching tblFlightSearchResponse_Caching { get; set; }
+        [ForeignKey("tblFlightSearchRequest_Caching")] // Foreign Key here
+        [MaxLength(64)]
+        public string ResponseId { get; set; }
+        public tblFlightSearchRequest_Caching tblFlightSearchRequest_Caching { get; set; }
         public ICollection<tblFlightSearchSegment_Caching> tblFlightSearchSegment_Caching { get; set; }
         public ICollection<tblFlightFare_Caching> tblFlightFare_Caching { get; set; }
-
     }
-
-
     public class tblFlightSearchSegment_Caching
     {
         [Key]
@@ -391,15 +378,50 @@ namespace projContext.DB.CRM.Travel
         public int SegmentId { get; set; }
         [ForeignKey("tblFlightSearchResponses_Caching")] // Foreign Key here
         public int? SearchIndexId { get; set; }
-        public tblFlightSearchResponses_Caching tblFlightSearchResponses_Caching { get; set; }
-        public int AirlineId { get; set; }
-        public int OriginAirportId { get; set; }
-        public int DestinationAirportId { get; set; }
+        public tblFlightSearchResponses_Caching tblFlightSearchResponses_Caching { get; set; }        
+        public bool isLcc { get; set; }
+        [MaxLength(32)]
+        public string Code { get; set; }
+        [MaxLength(128)]
+        public string Name { get; set; }
+        [MaxLength(32)]
+        public string FlightNumber { get; set; }
+        [MaxLength(128)]
+        public string OperatingCarrier { get; set; }
+
+        [MaxLength(32)]
+        public string OriginAirportCode { get; set; }
+        [MaxLength(256)]
+        public string OriginAirportName { get; set; }
+        [MaxLength(64)]
+        public string OriginTerminal { get; set; }
+        [MaxLength(64)]
+        public string OriginCityCode { get; set; }
+        [MaxLength(256)]
+        public string OriginCityName { get; set; }
+        [MaxLength(64)]
+        public string OriginCountryCode { get; set; }
+        [MaxLength(256)]
+        public string OriginCountryName { get; set; }
+
+        [MaxLength(32)]
+        public string DestinationAirportCode { get; set; }
+        [MaxLength(256)]
+        public string DestinationAirportName { get; set; }
+        [MaxLength(64)]
+        public string DestinationTerminal { get; set; }
+        [MaxLength(64)]
+        public string DestinationCityCode { get; set; }
+        [MaxLength(256)]
+        public string DestinationCityName { get; set; }
+        [MaxLength(64)]
+        public string DestinationCountryCode { get; set; }
+        [MaxLength(256)]
+        public string DestinationCountryName { get; set; }
+
         public int TripIndicator { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        [MaxLength(30)]
-        public string FlightNumber { get; set; }
         [MaxLength(30)]
         public string AirlineType { get; set; }
         public int Mile { get; set; }
