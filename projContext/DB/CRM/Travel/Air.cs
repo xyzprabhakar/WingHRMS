@@ -444,7 +444,26 @@ namespace projContext.DB.CRM.Travel
         public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public int ClassOfBooking { get; set; }
+        [ForeignKey("tblFlightFareDetail_Caching_Adult")] // Foreign Key here
+        public int? AdultPrice { get; set; }
+        public tblFlightFareDetail_Caching tblFlightFareDetail_Caching_Adult { get; set; }
+        [ForeignKey("tblFlightFareDetail_Caching_Child")] // Foreign Key here
+        public int? ChildPrice { get; set; }
+        public tblFlightFareDetail_Caching tblFlightFareDetail_Caching_Child { get; set; }
+        [ForeignKey("tblFlightFareDetail_Caching_Infant")] // Foreign Key here
+        public int? InfantPrice { get; set; }
+        public tblFlightFareDetail_Caching tblFlightFareDetail_Caching_Infant { get; set; }
 
+
+        public double BaseFare { get; set; }
+        public double CustomerMarkup { get; set; }
+        public double WingMarkup { get; set; }
+        public double Convenience { get; set; }
+        public double TotalFare { get; set; }
+        public double Discount { get; set; }
+        public double PromoCode { get; set; }
+        public double PromoDiscount { get; set; }
+        public double NetFare { get; set; }
 
     }
     public class tblFlightFareDetail_Caching
@@ -452,14 +471,13 @@ namespace projContext.DB.CRM.Travel
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Sno { get; set; }
-        [ForeignKey("tblFlightFare_Caching")] // Foreign Key here
-        public int? FareDetailId { get; set; }
-        public tblFlightFare_Caching tblFlightFare_Caching { get; set; }
 
-        public enmPassengerType PassengerType { get; set; }
+        public double YQTax { get; set; }
         public double BaseFare { get; set; }
         public double Tax { get; set; }
+        public double WingMarkup { get; set; }
         public double TotalFare { get; set; }
+        public double Discount { get; set; }
         public double NetFare { get; set; }
         public string CheckingBaggage { get; set; }
         public string CabinBaggage { get; set; }

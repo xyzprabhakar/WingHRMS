@@ -429,20 +429,65 @@ namespace projAPI.Model.Travel
             mdlSearchResponse mdlSearchResponse = null;
             DateTime CurrentTime = DateTime.Now;
             var segment = request.Segments.FirstOrDefault();
-            tblTripJackTravelDetail Data = null;
-            if (request.JourneyType == enmJourneyType.OneWay && segment != null)
+            if (request.JourneyType != enmJourneyType.OneWay)
             {
-
-                var tempData = _context.tblFlightSearchRequest_Caching.Where(p => p.ServiceProvider == enmServiceProvider.TripJack && p.ExpiredDt <= DateTime.Now
+                return null;
+            }
+            var tempData = _context.tblFlightSearchRequest_Caching.Where(p => p.ServiceProvider == enmServiceProvider.TripJack && p.ExpiredDt <= DateTime.Now
                  && p.AdultCount == request.AdultCount && p.ChildCount == request.ChildCount && p.InfantCount == request.InfantCount
                  && p.FlightCabinClass == segment.FlightCabinClass && p.Destination == segment.Destination && p.Origin == segment.Origin
                 ).OrderByDescending(p => p.ExpiredDt).FirstOrDefault();
-                if (tempData != null)
-                { 
-                    _context.tblFlightSearchResponses_Caching.Where(p=>p.ResponseId== tempData.CachingId).Include(q=>q.tblFlightSearchSegment_Caching).Include(q=>q.tblFlightFare_Caching)
-                }
+            if (tempData == null)
+            {
+                return null;
+            }
+             var  tempDataRes= _context.tblFlightSearchResponses_Caching.Where(p => p.ResponseId == tempData.CachingId).Include(q => q.tblFlightSearchSegment_Caching).Include(q => q.tblFlightFare_Caching).ThenInclude(p=>p.tblFlightFareDetail_Caching).ToList();
+            List<mdlSearchResult> AllResults = new List<mdlSearchResult>();
+            foreach (var tempDataRe in tempDataRes)
+            {
+                mdlSearchResult SearchResult = new mdlSearchResult();
+                SearchResult.Segment = new List<mdlSegment>();
+                SearchResult.TotalPriceList = new List<mdlTotalpricelist>();
+                SearchResult.ServiceProvider = tempData.ServiceProvider;
+                SearchResult.traceid = tempData.ProviderTraceId;
+                SearchResult.Segment.AddRange(tempDataRe.tblFlightSearchSegment_Caching.Select(p => new mdlSegment
+                {
+                    Airline = new mdlAirline() { Code=p.Code, FlightNumber=p.FlightNumber, isLcc=p.isLcc,Name=p.Name,OperatingCarrier=p.OperatingCarrier},
+                    Destination= new mdlAirport() { AirportCode=p.DestinationAirportCode, AirportName=p.DestinationAirportName,
+                    CityCode=p.DestinationCityCode, CityName=p.DestinationCityName, CountryCode=p.DestinationCountryCode, CountryName=p.DestinationCountryName, Terminal=p.DestinationTerminal},
+                     Origin=new mdlAirport() {
+                         AirportCode = p.OriginAirportCode,
+                         AirportName = p.OriginAirportName,
+                         CityCode = p.OriginCityCode,
+                         CityName = p.OriginCityName,
+                         CountryCode = p.OriginCountryCode,
+                         CountryName = p.OriginCountryName,
+                         Terminal = p.OriginTerminal
+                     },
+                     ArrivalTime=p.ArrivalTime,
+                     DepartureTime=p.DepartureTime,
+                     Duration=p.Duration,
+                     Mile=p.Mile,
+                     TripIndicator=p.TripIndicator,
+                    Layover=p.Layover,                    
+                }));
+                SearchResult.TotalPriceList.AddRange(tempDataRe.tblFlightFare_Caching.Select(p=>new mdlTotalpricelist{ 
+                    ADULT=   p.tblFlightFareDetail_Caching.Where(q=>q.PassengerType== enmPassengerType.Adult).FirstOrDefault() 
+                }));
 
-                Data = _context.tblTripJackTravelDetail.Where(p => p.Origin == request.Segments[0].Origin && p.Destination == request.Segments[0].Destination
+
+            }
+            
+
+            if (request.JourneyType == enmJourneyType.OneWay && segment != null)
+            {
+
+                
+                
+                
+                tblFlightSearchResponses_Caching
+
+            Data = _context.tblTripJackTravelDetail.Where(p => p.Origin == request.Segments[0].Origin && p.Destination == request.Segments[0].Destination
                   && request.AdultCount == p.AdultCount && p.ChildCount == request.ChildCount && p.InfantCount == request.InfantCount && p.CabinClass == request.Segments[0].FlightCabinClass
                   && p.TravelDate == request.Segments[0].TravelDt
                   && p.ExpireDt > CurrentTime

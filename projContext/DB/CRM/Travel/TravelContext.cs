@@ -48,8 +48,7 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblFlightDiscountAirline> tblFlightDiscountAirline { get; set; }
 
         #region ************************* Caching **************************
-        public DbSet<tblFlightSearchRequest_Caching> tblFlightSearchRequest_Caching { get; set; }
-        public DbSet<tblFlightSearchResponse_Caching> tblFlightSearchResponse_Caching { get; set; }
+        public DbSet<tblFlightSearchRequest_Caching> tblFlightSearchRequest_Caching { get; set; }        
         public DbSet<tblFlightSearchResponses_Caching> tblFlightSearchResponses_Caching { get; set; }
         public DbSet<tblFlightSearchSegment_Caching> tblFlightSearchSegment_Caching { get; set; }
         public DbSet<tblFlightFare_Caching> tblFlightFare_Caching { get; set; }

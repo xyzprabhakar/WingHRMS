@@ -1,4 +1,5 @@
 ﻿using projContext;
+using projContext.DB.CRM.Travel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -85,7 +86,7 @@ namespace projAPI.Model.Travel
         public DateTime ArrivalTime { get; set; }
         public int Mile { get; set; }
         public int Duration { get; set; }
-
+        public int Layover { get; set; }
         ////extra for tbo
         //public int SeatRemaing { get; set; }
         //public mdlBaggageInformation BaggageInformation { get; set; }
@@ -142,74 +143,97 @@ namespace projAPI.Model.Travel
         public string CountryName { get; set; }
     }
     public class mdlTotalpricelist
-    {
-        public double BaseFare { get; set; }
+    {   
         public string fareIdentifier { get; set; }
+        public double BaseFare { get; set; }
         public double CustomerMarkup { get; set; }
         public double WingMarkup { get; set; }
-        public mdlPassenger ADULT { get; set; }
-        public mdlPassenger CHILD { get; set; }
-        public mdlPassenger INFANT { get; set; }
-
+        public double Convenience { get; set; }
+        public double TotalFare { get; set; }
+        public double Discount { get; set; }
+        public double PromoCode { get; set; }
+        public double PromoDiscount { get; set;}
+        public double NetFare { get; set; }
+        public mdlTotalpriceDetail ADULT { get; set; }
+        public mdlTotalpriceDetail CHILD { get; set; }
+        public mdlTotalpriceDetail INFANT { get; set; }
         public mdlFareRuleResponse FareRule { get; set; }
         public string ResultIndex { get; set; }
         public string sri { get; set; }
         public List<string> msri { get; set; }
-        public double Convenience { get; set; }
-        public double TotalConvenience { get; set; }
-        public double TotalPrice { get; set; }
+        [MaxLength(64)]
+        public string ProviderFareDetailId { get; set; }
+        [MaxLength(64)]
+        public string Identifier { get; set; }//Corepreate, Publish, SME
+        public int SeatRemaning { get; set; }
+        public enmCabinClass CabinClass { get; set; }
+        public int ClassOfBooking { get; set; }
+    }
+
+    public class mdlTotalpriceDetail
+    {
+        public double YQTax { get; set; }
+        public double BaseFare { get; set; }
+        public double Tax { get; set; }
+        public double WingMarkup { get; set; }
+        public double TotalFare { get; set; }
         public double Discount { get; set; }
-        public double NetPrice { get; set; }
-    }
-
-    public class mdlPassenger
-    {
-        public mdlFareComponent FareComponent { get; set; }
-        public mdlAdditionalFareComponent AdditionalFareComponent { get; set; }
-        public int SeatRemaing { get; set; }
-        public mdlBaggageInformation BaggageInformation { get; set; }
-        public int RefundableType { get; set; }//0 Non Refundable,1 - Refundable,2 - Partial Refundable
-        public enmCabinClass CabinClass { get; set; }//ECONOMY,PREMIUM_ECONOMY, BUSINESS,FIRST
-        public string ClassOfBooking { get; set; }
-        public string FareBasis { get; set; }
-        public bool IsFreeMeel { get; set; }
-        public double Convenience { get; set; }
-    }
-
-    public class mdlBaggageInformation
-    {
+        public double NetFare { get; set; }
         public string CheckingBaggage { get; set; }
         public string CabinBaggage { get; set; }
+        public bool IsFreeMeal { get; set; }
+        public byte IsRefundable { get; set; }
     }
 
-    public class mdlFareComponent
-    {
-        public double TaxAndFees { get; set; }
-        public double NetFare { get; set; }
-        public double BaseFare { get; set; }
-        public double TotalFare { get; set; }
-        public double NewTotalFare { get; set; }
-        public double IGST { get; set; }
-        public double NetCommission { get; set; }
-        public double SSRP { get; set; }
-        public double WingMarkup { get; set; }
-        public double WingDiscount { get; set; }
-        //for tbo
-        public string Currency { get; set; }
-        public double Tax { get; set; }
-        public double YQTax { get; set; }
-        public double AdditionalTxnFeePub { get; set; }
-        public double AdditionalTxnFeeOfrd { get; set; }
-        public double OtherCharges { get; set; }
-        public double Discount { get; set; }
-        public double PublishedFare { get; set; }
-        public double OfferedFare { get; set; }
-        public double TdsOnCommission { get; set; }
-        public double TdsOnPLB { get; set; }
-        public double TdsOnIncentive { get; set; }
-        public double ServiceFee { get; set; }
+    //public class mdlPassenger
+    //{
+        
+    //    public mdlFareComponent FareComponent { get; set; }
+    //    public mdlAdditionalFareComponent AdditionalFareComponent { get; set; }
+    //    public int SeatRemaing { get; set; }
+    //    public mdlBaggageInformation BaggageInformation { get; set; }
+    //    public int RefundableType { get; set; }//0 Non Refundable,1 - Refundable,2 - Partial Refundable
+    //    public enmCabinClass CabinClass { get; set; }//ECONOMY,PREMIUM_ECONOMY, BUSINESS,FIRST
+    //    public string ClassOfBooking { get; set; }
+    //    public string FareBasis { get; set; }
+    //    public bool IsFreeMeel { get; set; }
+    //    public double Convenience { get; set; }
+    //}
 
-    }
+    //public class mdlBaggageInformation
+    //{
+    //    public string CheckingBaggage { get; set; }
+    //    public string CabinBaggage { get; set; }
+    //}
+
+    //public class mdlFareComponent
+    //{
+    //    public double TaxAndFees { get; set; }
+    //    public double NetFare { get; set; }
+    //    public double BaseFare { get; set; }
+    //    public double TotalFare { get; set; }
+    //    public double NewTotalFare { get; set; }
+    //    public double IGST { get; set; }
+    //    public double NetCommission { get; set; }
+    //    public double SSRP { get; set; }
+    //    public double WingMarkup { get; set; }
+    //    public double WingDiscount { get; set; }
+    //    //for tbo
+    //    public string Currency { get; set; }
+    //    public double Tax { get; set; }
+    //    public double YQTax { get; set; }
+    //    public double AdditionalTxnFeePub { get; set; }
+    //    public double AdditionalTxnFeeOfrd { get; set; }
+    //    public double OtherCharges { get; set; }
+    //    public double Discount { get; set; }
+    //    public double PublishedFare { get; set; }
+    //    public double OfferedFare { get; set; }
+    //    public double TdsOnCommission { get; set; }
+    //    public double TdsOnPLB { get; set; }
+    //    public double TdsOnIncentive { get; set; }
+    //    public double ServiceFee { get; set; }
+
+    //}
 
     public class mdlSSRP
     {
