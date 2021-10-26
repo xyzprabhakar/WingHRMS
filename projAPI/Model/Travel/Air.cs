@@ -57,6 +57,7 @@ namespace projAPI.Model.Travel
     }
     public class mdlSearchResponse
     {
+        public string WingSearchId { get; set; }
         public enmMessageType ResponseStatus { get; set; }
         public mdlError Error { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
@@ -144,7 +145,6 @@ namespace projAPI.Model.Travel
     }
     public class mdlTotalpricelist
     {   
-        public string fareIdentifier { get; set; }
         public double BaseFare { get; set; }
         public double CustomerMarkup { get; set; }
         public double WingMarkup { get; set; }
@@ -162,12 +162,10 @@ namespace projAPI.Model.Travel
         public string sri { get; set; }
         public List<string> msri { get; set; }
         [MaxLength(64)]
-        public string ProviderFareDetailId { get; set; }
-        [MaxLength(64)]
         public string Identifier { get; set; }//Corepreate, Publish, SME
         public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
-        public int ClassOfBooking { get; set; }
+        public string ClassOfBooking { get; set; }
     }
 
     public class mdlTotalpriceDetail

@@ -69,7 +69,8 @@ namespace projAPI
             services.AddDbContext<projContext.DB.CRM.Travel.TravelContext>(option => option.UseMySql(Configuration.GetConnectionString("Travel"), opt => opt.CommandTimeout(150)));
             services.AddScoped<IsrvAir>(ctx => new srvAir(ctx.GetRequiredService<projContext.DB.CRM.Travel.TravelContext>()));
 
-            
+            services.AddScoped<Services.Travel.Air.ITripJack>(ctx => new Services.Travel.Air.TripJack(ctx.GetRequiredService<projContext.DB.CRM.Travel.TravelContext>(), ctx.GetRequiredService<IConfiguration>()));
+
             #endregion
 
             //add authentication

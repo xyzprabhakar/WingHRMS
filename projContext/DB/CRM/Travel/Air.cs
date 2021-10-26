@@ -437,13 +437,13 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlightSearchResponses_Caching")] // Foreign Key here
         public int? SearchIndexId { get; set; }
         public tblFlightSearchResponses_Caching tblFlightSearchResponses_Caching { get; set; }
-        [MaxLength(64)]
+        [MaxLength(256)]
         public string ProviderFareDetailId { get; set; }
         [MaxLength(64)]
         public string Identifier { get; set; }//Corepreate, Publish, SME
         public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
-        public int ClassOfBooking { get; set; }
+        public string ClassOfBooking { get; set; }
         [ForeignKey("tblFlightFareDetail_Caching_Adult")] // Foreign Key here
         public int? AdultPrice { get; set; }
         public tblFlightFareDetail_Caching tblFlightFareDetail_Caching_Adult { get; set; }
@@ -453,7 +453,6 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlightFareDetail_Caching_Infant")] // Foreign Key here
         public int? InfantPrice { get; set; }
         public tblFlightFareDetail_Caching tblFlightFareDetail_Caching_Infant { get; set; }
-
 
         public double BaseFare { get; set; }
         public double CustomerMarkup { get; set; }

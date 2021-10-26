@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using projContext;
+using projAPI.Model.Travel;
 
 namespace projAPI.Controllers
 {
@@ -28,6 +29,15 @@ namespace projAPI.Controllers
         }
 
         #region ************************ Flight Booking ******************************
+
+        [HttpPost]
+        [Route("SearchFlight")]
+        public async Task<mdlReturnData> SearchFlightAsync([FromServices] Services.Travel.Air.ITripJack tripJack, mdlSearchRequest request)
+        {
+            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdl.ReturnId =await tripJack.SearchAsync( request);
+            return mdl;
+        }
 
         #endregion
 

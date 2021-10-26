@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext.DB.CRM.Travel;
 
 namespace projContext.Migrations.Travel
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20211026180632_26_oct")]
+    partial class _26_oct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -596,7 +598,7 @@ namespace projContext.Migrations.Travel
                     b.Property<double>("PromoDiscount");
 
                     b.Property<string>("ProviderFareDetailId")
-                        .HasMaxLength(256);
+                        .HasMaxLength(64);
 
                     b.Property<int?>("SearchIndexId");
 
