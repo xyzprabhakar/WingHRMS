@@ -613,4 +613,42 @@ namespace projContext.DB.CRM.Travel
         public DateTime? PassportExpiryDate { get; set; }
     }
 
+
+    #region ****************** Flight Setting ******************************
+    public class tblFlightSerivceProvider : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public enmServiceProvider ServiceProvider { get; set; }
+        public bool IsEnabled { get; set; }
+        public DateTime EffectiveFromDate { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
+    public class tblFlightInstantBooking : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public  enmCustomerType CustomerType { get; set; }
+        public bool InstantDomestic { get; set; }
+        public bool InstantNonDomestic { get; set; }        
+        public DateTime EffectiveFromDate { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
+    public class tblFlightSerivceProviderPriority : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public enmServiceProvider ServiceProvider { get; set; }
+        public int priority { get; set; }        
+        public DateTime EffectiveFromDate { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
+    #endregion
+
 }

@@ -80,8 +80,8 @@ namespace projContext
     public enum enmServiceProvider
     {
         None = 0,
-        TBO = 1,
-        TripJack = 2,
+        TripJack = 1,
+        TBO = 2,        
         Kafila = 3
     }
 

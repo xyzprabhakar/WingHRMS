@@ -16,9 +16,9 @@ using System.Threading.Tasks;
 
 namespace projAPI.Services.Travel.Air
 {
-    public interface ITripJack
+    public interface ITripJack : IWingFlight
     {
-        Task<mdlSearchResponse> SearchAsync(mdlSearchRequest request);
+        
     }
 
     public class TripJack : ITripJack
