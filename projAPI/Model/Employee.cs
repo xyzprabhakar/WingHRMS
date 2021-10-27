@@ -24,12 +24,22 @@ namespace projAPI.Model
         public int isActive { get; set; }
         public int empstatus { get; set; }
         public int depthLevel { get; set; }
+        public string companyName { get; set; }
+        public string stateName { get; set; }
+        public string locationName { get; set; }
+        public string deptName { get; set; }
+        public string empStatusName { get; set; }        
+    }
+
+
+    public class mdlEmployeeBasic : mdlEmployee
+    { 
     }
 
 
 
 
-    
+
 
 
     public class EmployeeBasicData : EmployeeBasicDataProc

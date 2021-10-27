@@ -153,5 +153,30 @@ namespace projAPI.Controllers
             mdl.ReturnId = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId);
             return mdl;
         }
+
+        [Authorize]
+        [Route("GetDownlineEmployee")]
+        public mdlReturnData GetDownlineEmployee([FromServices]IsrvEmployee isrvEmployee,
+            DateTime processingDate, bool OnlyActive, bool IsRequiredName
+            )
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.None };
+            try
+            {
+                isrvEmployee.EmpId = _IsrvCurrentUser.employee_id;
+                isrvEmployee.UserId = _IsrvCurrentUser.UserId;
+                isrvEmployee.Role= _IsrvUsers.GetUserRole(_IsrvCurrentUser.UserId);
+                mdl.ReturnId = isrvEmployee.GetDownline(processingDate, OnlyActive, false, IsRequiredName);
+                mdl.MessageType = enmMessageType.Success;
+            }
+            catch (Exception ex)
+            {
+                mdl.MessageType = enmMessageType.Error;
+                mdl.Message = ex.Message;
+            }
+            return mdl;
+        }
+
+
     }
 }

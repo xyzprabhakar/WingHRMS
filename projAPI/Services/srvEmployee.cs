@@ -16,7 +16,7 @@ namespace projAPI.Services
         List<int> EmpCompany { get; set; }
         int EmpId { get; set; }
         List<int> Role { get; set; }
-        int UserId { get; set; }
+        ulong UserId { get; set; }
 
         string GenrateEmpCode(int companyId);
         List<mdlEmployee> GetDownline(DateTime processingDate, bool OnlyActive, bool OnlyConfirmed, bool IsRequiredName);
@@ -36,10 +36,11 @@ namespace projAPI.Services
             _IsrvSettings = isrvSettings;
             _config=config;
         }
-        private int _EmpId, _UserId, _DefaultCompany;
+        private int _EmpId, _DefaultCompany;
+        private ulong _UserId;
         private List<int> _Role, _EmpCompany, _DownlineEmpId;
         public int EmpId { get { return _EmpId; } set { _EmpId = value; } }
-        public int UserId { get { return _UserId; } set { _UserId = value; } }
+        public ulong UserId { get { return _UserId; } set { _UserId = value; } }
         public int DefaultCompany { get { return _DefaultCompany; } set { _DefaultCompany = value; } }
         public List<int> Role { get { return _Role; } set { _Role = value; } }
         public List<int> EmpCompany { get { return _EmpCompany; } set { _EmpCompany = value; } }
@@ -86,7 +87,7 @@ namespace projAPI.Services
                 MySqlParameter currentUserId = new MySqlParameter("_currentUserId", MySqlDbType.Int32);
                 MySqlParameter prcessDate = new MySqlParameter("_prcessDate", MySqlDbType.DateTime);
                 MySqlParameter IsOnlyActive = new MySqlParameter("_IsOnlyActive", MySqlDbType.Bool);
-                MySqlParameter IsOnlyConfirmed = new MySqlParameter("_IsOnlyConfirmed", MySqlDbType.Bool);
+                MySqlParameter paramIsRequiredName = new MySqlParameter("_IsRequiredName", MySqlDbType.Bool);
                 MySqlParameter managerDepth = new MySqlParameter("_managerDepth", MySqlDbType.Int32);
 
                 mySqlCommand.Parameters.Add(proc_type); proc_type.Value = 1;
@@ -96,7 +97,7 @@ namespace projAPI.Services
                 mySqlCommand.Parameters.Add(prcessDate); prcessDate.Value = processingDate.ToString("yyyy-MM-dd HH:mm");
                 mySqlCommand.Parameters.Add(IsOnlyActive); IsOnlyActive.Value = OnlyActive;
                 mySqlCommand.Parameters.Add(managerDepth); managerDepth.Value = ManagerDepth;
-                mySqlCommand.Parameters.Add(IsOnlyConfirmed); IsOnlyConfirmed.Value = OnlyConfirmed;
+                mySqlCommand.Parameters.Add(paramIsRequiredName); paramIsRequiredName.Value = IsRequiredName;
                 mySqlConnection.Open();
 
                 int empId_, company_id_, state_id_, location_id_, dept_id_, isActive_, empstatus_, depthLevel_;
@@ -126,7 +127,12 @@ namespace projAPI.Services
                                 empstatus = empstatus_,
                                 isActive = isActive_,
                                 location_id = location_id_,
-                                state_id = state_id_
+                                state_id = state_id_,
+                                companyName= Convert.ToString(Result["CompanyName"]),
+                                stateName = Convert.ToString(Result["StateName"]),
+                                locationName = Convert.ToString(Result["LocationName"]),
+                                deptName = Convert.ToString(Result["DeptName"]),
+                                empStatusName = Convert.ToString(Result["EmpStatusName"]),
                             });
                         }
                     }

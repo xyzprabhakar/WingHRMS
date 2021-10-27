@@ -17,14 +17,17 @@ namespace projAPI.Services
 
     public interface IsrvUsers
     {
+        ulong? UserId { get; set; }
+
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
-        string GenrateTempUser(string IP, string DeviceId);
         string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
+        string GenrateTempUser(string IP, string DeviceId);
+        List<Application> GetUserApplication(ulong UserId);
+        List<Document> GetUserDocuments(ulong UserId);
+        List<int> GetUserRole(ulong UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
-        List<Application> GetUserApplication(ulong UserId);
-        List<Document> GetUserDocuments(ulong UserId);
     }
 
     public class srvUsers : IsrvUsers
@@ -70,7 +73,7 @@ namespace projAPI.Services
             tbl_user_master tempData = null;
             if (OrganisationId.HasValue)
             {
-                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.CustomerId == OrganisationId  && p.user_type== userType ).FirstOrDefault();
+                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.CustomerId == OrganisationId && p.user_type == userType).FirstOrDefault();
             }
             else
             {
@@ -84,12 +87,12 @@ namespace projAPI.Services
             }
             else
             {
-                this.UserId= tempData.user_id;
+                this.UserId = tempData.user_id;
             }
 
             if (tempData.password != Password)
             {
-                
+
                 BlockUnblockUser(tempData.user_id, 1);
                 ReturnData.MessageType = enmMessageType.Error;
                 ReturnData.Message = "Invalid Username or Password !!";
@@ -177,7 +180,7 @@ namespace projAPI.Services
         }
 
 
-        public void SaveLoginLog( string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation,string Longitude,string Latitude)
+        public void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude)
         {
             if (this.UserId == null)
             {
@@ -192,8 +195,8 @@ namespace projAPI.Services
                 LoginStatus = LoginStatus,
                 FromLocation = FromLocation,
                 LoginDateTime = DateTime.Now,
-                Longitude=Longitude,
-                Latitude=Latitude
+                Longitude = Longitude,
+                Latitude = Latitude
             });
             _context.SaveChanges();
         }
@@ -201,7 +204,7 @@ namespace projAPI.Services
 
         public string GenrateTempUser(string IP, string DeviceId)
         {
-            string tempUserID = Guid.NewGuid().ToString().Replace("-","");
+            string tempUserID = Guid.NewGuid().ToString().Replace("-", "");
             _context.tbl_guid_detail.Add(new tbl_guid_detail() { DeviceId = DeviceId, FromIP = IP, genration_dt = DateTime.Now, id = tempUserID });
             _context.SaveChanges();
             return tempUserID;
@@ -213,46 +216,46 @@ namespace projAPI.Services
         }
 
 
-        public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,            
-            ulong UserId,int employee_id, enmUserType user_type,int CustomerId,ulong DistributorId)
+        public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,
+            ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             List<Claim> _claim = new List<Claim>();
-            _claim.Add(new Claim("__UserId",Convert.ToString(  UserId)));
+            _claim.Add(new Claim("__UserId", Convert.ToString(UserId)));
             _claim.Add(new Claim("__employee_id", Convert.ToString(employee_id)));
             _claim.Add(new Claim("__user_type", Convert.ToString(user_type)));
             _claim.Add(new Claim("__CustomerId", Convert.ToString(CustomerId)));
             _claim.Add(new Claim("__DistributorId", Convert.ToString(DistributorId)));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
-            var token = new  JwtSecurityToken(JWTIssuer, JWTIssuer,_claim,expires: DateTime.Now.AddMinutes( TokenExpiryTime),              
+            var token = new JwtSecurityToken(JWTIssuer, JWTIssuer, _claim, expires: DateTime.Now.AddMinutes(TokenExpiryTime),
               signingCredentials: credentials);
-            string Token= new JwtSecurityTokenHandler().WriteToken(token);
+            string Token = new JwtSecurityTokenHandler().WriteToken(token);
             return Token;
         }
 
 
         public List<Application> GetUserApplication(ulong UserId)
-        {   
-           return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+        {
+            return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
         }
 
         public List<Document> GetUserDocuments(ulong UserId)
         {
             List<Document> documents = new List<Document>();
             var tempData = (from t1 in _context.tbl_role_claim_map
-                           join t2 in _context.tbl_user_role_map on t1.role_id equals t2.role_id
-                           where t1.is_deleted == 0 && t2.user_id == UserId && t2.is_deleted == 0
-                           select new { t1.DocumentMaster, t1.PermissionType}).ToList();
-            documents.AddRange( tempData.Select(p => p.DocumentMaster).Distinct().Select(p => p.GetDocumentDetails()).OrderBy(p=>p.DisplayOrder));
+                            join t2 in _context.tbl_user_role_map on t1.role_id equals t2.role_id
+                            where t1.is_deleted == 0 && t2.user_id == UserId && t2.is_deleted == 0
+                            select new { t1.DocumentMaster, t1.PermissionType }).ToList();
+            documents.AddRange(tempData.Select(p => p.DocumentMaster).Distinct().Select(p => p.GetDocumentDetails()).OrderBy(p => p.DisplayOrder));
             documents.ForEach(p =>
             {
                 enmDocumentType ExistingPermissionType = p.DocumentType;
-                enmDocumentType permissionType= enmDocumentType.None;
-                if (p.DocumentType.HasFlag(enmDocumentType.Create) && tempData.Any(q=>(int)q.DocumentMaster== p.Id && q.PermissionType.HasFlag(enmDocumentType.Create)))                
+                enmDocumentType permissionType = enmDocumentType.None;
+                if (p.DocumentType.HasFlag(enmDocumentType.Create) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Create)))
                     permissionType = permissionType | enmDocumentType.Create;
-                if (p.DocumentType.HasFlag(enmDocumentType.Update) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Update)))                
+                if (p.DocumentType.HasFlag(enmDocumentType.Update) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Update)))
                     permissionType = permissionType | enmDocumentType.Update;
                 if (p.DocumentType.HasFlag(enmDocumentType.Approval) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Approval)))
                     permissionType = permissionType | enmDocumentType.Approval;
@@ -267,7 +270,10 @@ namespace projAPI.Services
             return documents;
         }
 
-        
+        public List<int> GetUserRole(ulong UserId)
+        {
+            return _context.tbl_user_role_map.Where(p => p.user_id == UserId && p.is_deleted == 0).Select(p => p.role_id ?? 0).ToList();
+        }
 
     }
 
