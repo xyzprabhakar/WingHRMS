@@ -16,11 +16,12 @@ namespace projAPI.Model.Travel
         public string To { get; set; }
         public enmJourneyType JourneyType { get; set; }
         public enmCabinClass CabinClass { get; set; }
-        public DateTime? DepartureDt { get; set; }
+        public DateTime DepartureDt { get; set; }
         public DateTime? ReturnDt { get; set; }
         public int AdultCount { get; set; }
         public int ChildCount { get; set; }
         public int InfantCount { get; set; }
+        public bool DirectFlight { get; set; }
     }
 
     public class mdlSearchRequest
@@ -114,7 +115,6 @@ namespace projAPI.Model.Travel
         public string code { get; set; }
         public double amount { get; set; }
         public string desc { get; set; }
-
     }
 
     public class mdlAirline
@@ -166,6 +166,7 @@ namespace projAPI.Model.Travel
         public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public string ClassOfBooking { get; set; }
+        public List<mdlWingFaredetails> ConsolidateFareBreakup { get; set; }
     }
 
     public class mdlTotalpriceDetail
@@ -181,8 +182,15 @@ namespace projAPI.Model.Travel
         public string CabinBaggage { get; set; }
         public bool IsFreeMeal { get; set; }
         public byte IsRefundable { get; set; }
+        public List<mdlWingFaredetails> FareBreakup { get; set; }
     }
 
+    public class mdlWingFaredetails
+    { 
+        public int ID { get; set; }
+        public enmFlighWingCharge type { get; set; }
+        public double amount { get; set; }
+    }
     //public class mdlPassenger
     //{
         
@@ -413,7 +421,8 @@ namespace projAPI.Model.Travel
 
     public class mdlTravellerinfo
     {
-        public string Title { get; set; }
+        public enmGender Gender { get; set; }
+        public enmTitle Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public enmPassengerType passengerType { get; set; }
@@ -432,21 +441,21 @@ namespace projAPI.Model.Travel
         public List<mdlSSRS> ssrMealInfoslist { get; set; }
         public List<mdlSSRS> ssrSeatInfoslist { get; set; }
         public List<mdlSSRS> ssrExtraServiceInfoslist { get; set; }
-        //for tbo
-        public string Gender { get; set; }
-        public string passportNum { get; set; }
-        public string address1 { get; set; }
-        public string address2 { get; set; }
-        public string city { get; set; }
-        public string countrycode { get; set; }
-        public string countryname { get; set; }
-        public string cellcountrycode { get; set; }
-        public string nationality { get; set; }
-        public bool IsLeadPax { get; set; }
-        public string FFAirlineCode { get; set; }
-        public string FFNumber { get; set; }
-        public int PaxType { get; set; }
-        public mdlfare Fare { get; set; }
+        ////for tbo
+        //public string Gender { get; set; }
+        //public string passportNum { get; set; }
+        //public string address1 { get; set; }
+        //public string address2 { get; set; }
+        //public string city { get; set; }
+        //public string countrycode { get; set; }
+        //public string countryname { get; set; }
+        //public string cellcountrycode { get; set; }
+        //public string nationality { get; set; }
+        //public bool IsLeadPax { get; set; }
+        //public string FFAirlineCode { get; set; }
+        //public string FFNumber { get; set; }
+        //public int PaxType { get; set; }
+        //public mdlfare Fare { get; set; }
     }
 
 
@@ -645,6 +654,7 @@ namespace projAPI.Model.Travel
         public bool IsAllFlightClass { get; set; }
         public bool IsAllAirline { get; set; }
         public bool IsAllSegment { get; set; }
+        public bool IsMLMIncentive { get; set; }
         public enmGender Gender { get; set; }
         public double Amount { get; set; }
         public int DayCount { get; set; }

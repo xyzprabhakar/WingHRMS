@@ -91,4 +91,14 @@ namespace projContext
         Child = 2,
         Infant = 3,
     }
+
+    public enum enmFlighWingCharge
+    { 
+        CustomerMarkup=1,
+        WingMarkup=2,
+        Discount=3,
+        Convenience=4,
+        PaymentGateway=5,
+        MLMCharge=6
+    }
 }

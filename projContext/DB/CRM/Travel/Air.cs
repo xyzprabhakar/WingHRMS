@@ -19,7 +19,8 @@ namespace projContext.DB.CRM.Travel
         public bool IsAllPessengerType { get; set; }//Applicable For All Pasenger
         public bool IsAllFlightClass { get; set; }
         public bool IsAllAirline { get; set; }
-        public bool IsAllSegment { get; set; }        
+        public bool IsAllSegment { get; set; }
+        public bool IsMLMIncentive { get; set; }
         public enmGender Gender { get; set; }
         public double Amount { get; set; }
         public int DayCount { get; set; }
@@ -373,7 +374,7 @@ namespace projContext.DB.CRM.Travel
         public tblFlightDiscount tblFlightDiscount { get; set; }
     }
 
-    public class tblFlightDiscountSegment : DbWingAirline
+    public class tblFlightDiscountSegment : DbWingSegment
     {
         [ForeignKey("tblFlightDiscount")] // Foreign Key here
         public override int? ChargeId { get; set; }

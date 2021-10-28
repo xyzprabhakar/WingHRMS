@@ -351,11 +351,6 @@ namespace projContext
     }
 
     
-    
-        
-        
-
-
         public enum enmCustomerType
         {
             Admin = 1,
@@ -374,6 +369,14 @@ namespace projContext
             Female = 2,
             Trans = 4,
         }
+    public enum enmTitle
+    {
+        MR=1,
+        MRS=2,
+        MISS=3,
+        MASTER=4
+    }
+
 
         public enum enmPackageCustomerType
         {

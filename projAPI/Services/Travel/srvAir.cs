@@ -33,7 +33,9 @@ namespace projAPI.Services.Travel
     {
         private readonly TravelContext _travelContext;
         private readonly ITripJack _tripJack;
-          
+        private List<mdlWingMarkup_Air> _WingMarkupOnward, _WingDiscountOnward, _WingConvenienceOnward,
+            _WingMarkupInward, _WingDiscountInward, _WingConvenienceInward;
+
         public srvAir(TravelContext travelContext, ITripJack tripJack)
         {
             _travelContext = travelContext;
@@ -290,7 +292,7 @@ namespace projAPI.Services.Travel
             return returnData;
         }
 
-        public List<mdlWingMarkup_Air> GetWingMarkup(bool AllMarkup,bool OnlyActive,enmCustomerType CustomerType, int customerId,
+        public List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive,bool FilterDateCriteria ,enmCustomerType CustomerType, int customerId,
             DateTime TravelDt,DateTime BookingDate)
         {
             List<mdlWingMarkup_Air> mdl = new List<mdlWingMarkup_Air>();
@@ -303,7 +305,7 @@ namespace projAPI.Services.Travel
                 (( !p.IsAllCustomer) && p.tblFlightMarkupCustomerDetails.Where(q=>q.CustomerId==customerId).Count()>0)
                 ).AsQueryable();
 
-            if (!AllMarkup && OnlyActive)
+            if (OnlyActive && !FilterDateCriteria)
             {
                 returnData = returnData.Where(p => p.IsDeleted).AsQueryable();
             }
@@ -322,7 +324,7 @@ namespace projAPI.Services.Travel
                     );
                 }
             }
-            mdl = returnData.Include(p=>p.tblFlightMarkupAirline)                
+            mdl = returnData
                 .Select(p=>new mdlWingMarkup_Air{
                     Applicability=p.Applicability,
                     IsAllProvider=p.IsAllProvider,
@@ -332,6 +334,7 @@ namespace projAPI.Services.Travel
                     IsAllFlightClass=p.IsAllFlightClass,
                     IsAllAirline=p.IsAllAirline,
                     IsAllSegment=p.IsAllSegment,
+                    IsMLMIncentive=p.IsMLMIncentive,
                     Gender=p.Gender,
                     Amount=p.Amount,
                     DayCount=p.DayCount,
@@ -352,7 +355,7 @@ namespace projAPI.Services.Travel
             return mdl;
 
         }
-        public List<mdlWingMarkup_Air> GetWingDiscount(bool AllMarkup, bool OnlyActive, enmCustomerType CustomerType, int customerId,
+        public List<mdlWingMarkup_Air> GetWingDiscount( bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId,
             DateTime TravelDt, DateTime BookingDate)
         {
             List<mdlWingMarkup_Air> mdl = new List<mdlWingMarkup_Air>();
@@ -365,7 +368,7 @@ namespace projAPI.Services.Travel
                 ((!p.IsAllCustomer) && p.tblFlightDiscountCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0)
                 ).AsQueryable();
 
-            if (!AllMarkup && OnlyActive)
+            if (OnlyActive && !FilterDateCriteria)
             {
                 returnData = returnData.Where(p => p.IsDeleted).AsQueryable();
             }
@@ -384,7 +387,7 @@ namespace projAPI.Services.Travel
                     );
                 }
             }
-            mdl = returnData.Include(p => p.tblFlightMarkupAirline)
+            mdl = returnData
                 .Select(p => new mdlWingMarkup_Air
                 {
                     Applicability = p.Applicability,
@@ -403,17 +406,92 @@ namespace projAPI.Services.Travel
                     BookingFromDt = p.BookingFromDt,
                     BookingToDt = p.BookingToDt,
                     IsDeleted = p.IsDeleted,
-                    ServiceProviders = p.tblFlightMarkupServiceProvider.Select(q => q.ServiceProvider).ToList(),
-                    CustomerTypes = p.tblFlightMarkupCustomerType.Select(q => q.customerType).ToList(),
-                    PassengerType = p.tblFlightMarkupPassengerType.Select(q => q.PassengerType).ToList(),
-                    CustomerIds = p.tblFlightMarkupCustomerDetails.
+                    ServiceProviders = p.tblFlightDiscountServiceProvider.Select(q => q.ServiceProvider).ToList(),
+                    CustomerTypes = p.tblFlightDiscountCustomerType.Select(q => q.customerType).ToList(),
+                    PassengerType = p.tblFlightDiscountPassengerType.Select(q => q.PassengerType).ToList(),
+                    CustomerIds = p.tblFlightDiscountCustomerDetails.
                     Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
                     .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
-                    Segments = p.tblFlightMarkupSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
-                    Airline = p.tblFlightMarkupAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
+                    Segments = p.tblFlightDiscountSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
+                    Airline = p.tblFlightDiscountAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
                 }).ToList();
             return mdl;
 
+        }
+        public List<mdlWingMarkup_Air> GetWingConvenience( bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId,
+            DateTime TravelDt, DateTime BookingDate)
+        {
+            List<mdlWingMarkup_Air> mdl = new List<mdlWingMarkup_Air>();
+
+            IQueryable<tblFlightConvenience> returnData = (CustomerType == enmCustomerType.InHouse && customerId == 0) ?
+                _travelContext.tblFlightConvenience.AsQueryable() :
+                _travelContext.tblFlightConvenience.Where(p =>
+                p.IsAllCustomerType ||
+                ((!p.IsAllCustomerType) && p.tblFlightConvenienceCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
+                ((!p.IsAllCustomer) && p.tblFlightConvenienceCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0)
+                ).AsQueryable();
+
+            if (OnlyActive && !FilterDateCriteria)
+            {
+                returnData = returnData.Where(p => p.IsDeleted).AsQueryable();
+            }
+            else
+            {
+                if (!OnlyActive)
+                {
+                    returnData = returnData.Where(p => p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
+                      && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+                    );
+                }
+                else
+                {
+                    returnData = returnData.Where(p => !p.IsDeleted && p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
+                      && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+                    );
+                }
+            }
+            mdl = returnData
+                .Select(p => new mdlWingMarkup_Air
+                {
+                    Applicability = p.Applicability,
+                    IsAllProvider = p.IsAllProvider,
+                    IsAllCustomerType = p.IsAllCustomerType,
+                    IsAllCustomer = p.IsAllCustomer,
+                    IsAllPessengerType = p.IsAllPessengerType,
+                    IsAllFlightClass = p.IsAllFlightClass,
+                    IsAllAirline = p.IsAllAirline,
+                    IsAllSegment = p.IsAllSegment,
+                    Gender = p.Gender,
+                    Amount = p.Amount,
+                    DayCount = p.DayCount,
+                    TravelFromDt = p.TravelFromDt,
+                    TravelToDt = p.TravelToDt,
+                    BookingFromDt = p.BookingFromDt,
+                    BookingToDt = p.BookingToDt,
+                    IsDeleted = p.IsDeleted,
+                    ServiceProviders = p.tblFlightConvenienceServiceProvider.Select(q => q.ServiceProvider).ToList(),
+                    CustomerTypes = p.tblFlightConvenienceCustomerType.Select(q => q.customerType).ToList(),
+                    PassengerType = p.tblFlightConveniencePassengerType.Select(q => q.PassengerType).ToList(),
+                    CustomerIds = p.tblFlightConvenienceCustomerDetails.
+                    Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
+                    .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
+                    Segments = p.tblFlightConvenienceSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
+                    Airline = p.tblFlightConvenienceAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
+                }).ToList();
+            return mdl;
+
+        }
+
+        public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos,bool IsOnward, enmCustomerType CustomerType,int CustomerId, DateTime bookingDate)
+        {
+            if (IsOnward)
+            {
+                if (_WingMarkupOnward == null)
+                {
+                    _WingMarkupOnward = GetWingMarkup( true,true, CustomerType, CustomerId,searchRequest.DepartureDt, bookingDate);
+                }
+            }
+            
         }
 
         #endregion
@@ -444,11 +522,80 @@ namespace projAPI.Services.Travel
             return null;
         }
 
-        public void FlightSearch(mdlFlightSearchWraper mdl, enmCustomerType customerType)
+        public async Task FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId)
         {
             DateTime CurrentDate = DateTime.Now;
-            var ServiceProviders=GetServiceProvider(CurrentDate,true);            
+            var ServiceProviders=GetServiceProvider(CurrentDate,true).Select(p=>p.ServiceProvider);
+
+            mdlSearchResponse FinalResult =null;            
+            foreach (var sp in ServiceProviders)
+            {
+                IWingFlight tempObj =GetFlightObject(sp);
+                if (tempObj == null)
+                {
+                    continue;
+                }
+
+                List<mdlSegmentRequest> onwardSegments = new List<mdlSegmentRequest>();
+                onwardSegments.Add(new mdlSegmentRequest() 
+                {Destination= mdl.To, Origin= mdl.From, FlightCabinClass= mdl.CabinClass, TravelDt= mdl.DepartureDt });
+                mdlSearchRequest request = new mdlSearchRequest() { 
+                    AdultCount = mdl.AdultCount,
+                    ChildCount = mdl.ChildCount,
+                    InfantCount= mdl.InfantCount,
+                    JourneyType= enmJourneyType.OneWay,
+                    DirectFlight=mdl.DirectFlight,
+                    Segments= onwardSegments,
+                };
+                AppendProvider(await tempObj.SearchAsync(request), true,sp);
+                if (mdl.JourneyType == enmJourneyType.Return && mdl.ReturnDt.HasValue)
+                {
+                    List<mdlSegmentRequest> inwardSegments = new List<mdlSegmentRequest>();
+                    inwardSegments.Add(new mdlSegmentRequest()
+                    { Destination = mdl.From, Origin = mdl.To, FlightCabinClass = mdl.CabinClass, TravelDt = mdl.ReturnDt.Value });
+                    mdlSearchRequest inwardrequest = new mdlSearchRequest()
+                    {
+                        AdultCount = mdl.AdultCount,
+                        ChildCount = mdl.ChildCount,
+                        InfantCount = mdl.InfantCount,
+                        JourneyType = enmJourneyType.OneWay,
+                        DirectFlight = mdl.DirectFlight,
+                        Segments = onwardSegments,
+                    };
+                    AppendProvider(await tempObj.SearchAsync(inwardrequest), false,sp);                    
+                }
+            }
+            void AppendProvider(mdlSearchResponse tempResult,bool IsOnWard, enmServiceProvider spv)
+            {
+                tempResult.Results.FirstOrDefault().ForEach(p => {
+                    p.TotalPriceList.ForEach(q => { q.ResultIndex = string.Concat(spv,'_', tempResult.TraceId,'_', q.ResultIndex); });
+                });
+
+
+                if (FinalResult == null)
+                {
+                    FinalResult = tempResult;
+                }
+                else
+                {
+                    if (IsOnWard)
+                    {
+                        FinalResult.Results[0].AddRange(tempResult.Results.FirstOrDefault());
+                    }
+                    else
+                    {
+                        FinalResult.Results[1].AddRange(tempResult.Results.FirstOrDefault());
+                    }
+                }
+            }
+            
         }
+
+        
+
+
+        
+
 
 
     }
