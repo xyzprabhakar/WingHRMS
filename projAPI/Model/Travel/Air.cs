@@ -648,18 +648,17 @@ namespace projAPI.Model.Travel
         public enmGender Gender { get; set; }
         public double Amount { get; set; }
         public int DayCount { get; set; }
-        public DateTime EffectiveFromDt { get; set; } = DateTime.Now;
-        public DateTime EffectiveToDt { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime TravelFromDt { get; set; } = DateTime.Now;
+        public DateTime TravelToDt { get; set; } = DateTime.Now.AddDays(30);
         public DateTime BookingFromDt { get; set; } = DateTime.Now.AddDays(30);
         public DateTime BookingToDt { get; set; } = DateTime.Now.AddDays(60);
         public bool IsDeleted { get; set; }
         public List<enmServiceProvider> ServiceProviders { get; set; }
         public List<enmCustomerType> CustomerTypes { get; set; }
-        public List<mdlDropDown_Int> CustomerIds { get; set; }        
+        public List<Tuple<int,string>> CustomerIds { get; set; }        
         public List<enmPassengerType> PassengerType { get; set; }
-        public List<mdlDropDown_Int> Airline { get; set; }
-        public List<mdlDropDown_String> Segments { get; set; }
-
+        public List<Tuple<int, string>> Airline { get; set; }
+        public List<Tuple<string, string>> Segments { get; set; }
     }
 
 

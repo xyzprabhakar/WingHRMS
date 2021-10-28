@@ -19,11 +19,12 @@ namespace projContext.DB.CRM.Travel
         public bool IsAllPessengerType { get; set; }//Applicable For All Pasenger
         public bool IsAllFlightClass { get; set; }
         public bool IsAllAirline { get; set; }
+        public bool IsAllSegment { get; set; }        
         public enmGender Gender { get; set; }
         public double Amount { get; set; }
         public int DayCount { get; set; }
-        public DateTime EffectiveFromDt { get; set; }
-        public DateTime EffectiveToDt { get; set; }
+        public DateTime TravelFromDt { get; set; }
+        public DateTime TravelToDt { get; set; }
         public DateTime BookingFromDt { get; set; }
         public DateTime BookingToDt { get; set; }
         public bool IsDeleted { get; set; }
@@ -54,7 +55,10 @@ namespace projContext.DB.CRM.Travel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public virtual int? ChargeId { get; set; }
-        public int CustomerId { get; set; }
+        [ForeignKey("tblCustomerMaster")] // Foreign Key here
+        public  int? CustomerId { get; set; }
+        public tblCustomerOrganisation tblCustomerMaster { get; set; }
+        
 
     }
 
@@ -86,6 +90,16 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblAirline")] // Foreign Key here
         public int? AirlineId { get; set; }
         public tblAirline tblAirline { get; set; }
+    }
+    public class DbWingSegment
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public virtual int? ChargeId { get; set; }
+        public string orign { get; set; }
+        public string destination { get; set; }
+
     }
 
     public class DbWingFare
@@ -182,6 +196,8 @@ namespace projContext.DB.CRM.Travel
         public ICollection<tblFlightMarkupFlightClass> tblFlightMarkupFlightClass { get; set; }
         [InverseProperty("tblFlightMarkupMaster")]
         public ICollection<tblFlightMarkupAirline> tblFlightMarkupAirline { get; set; }
+        [InverseProperty("tblFlightMarkupMaster")]
+        public ICollection<tblFlightMarkupSegment> tblFlightMarkupSegment { get; set; }
     }
 
 
@@ -224,6 +240,13 @@ namespace projContext.DB.CRM.Travel
         public tblFlightMarkupMaster tblFlightMarkupMaster { get; set; }
     }
 
+    public class tblFlightMarkupSegment : DbWingSegment
+    {
+        [ForeignKey("tblFlightMarkupMaster")] // Foreign Key here
+        public override int? ChargeId { get; set; }
+        public tblFlightMarkupMaster tblFlightMarkupMaster { get; set; }
+    }
+
     public class tblFlightConvenience : DbWingCharge
     {
         [InverseProperty("tblFlightConvenience")]
@@ -238,6 +261,8 @@ namespace projContext.DB.CRM.Travel
         public ICollection<tblFlightConvenienceFlightClass> tblFlightConvenienceFlightClass { get; set; }
         [InverseProperty("tblFlightConvenience")]
         public ICollection<tblFlightConvenienceAirline> tblFlightConvenienceAirline { get; set; }
+        [InverseProperty("tblFlightConvenienceSegment")]
+        public ICollection<tblFlightConvenienceSegment> tblFlightConvenienceSegment { get; set; }
     }
 
 
@@ -280,6 +305,12 @@ namespace projContext.DB.CRM.Travel
         public tblFlightConvenience tblFlightConvenience { get; set; }
     }
 
+    public class tblFlightConvenienceSegment : DbWingSegment
+    {
+        [ForeignKey("tblFlightConvenience")] // Foreign Key here
+        public override int? ChargeId { get; set; }
+        public tblFlightConvenience tblFlightConvenience { get; set; }
+    }
 
 
 
@@ -296,7 +327,10 @@ namespace projContext.DB.CRM.Travel
         [InverseProperty("tblFlightDiscount")]
         public ICollection<tblFlightDiscountFlightClass> tblFlightDiscountFlightClass { get; set; }
         [InverseProperty("tblFlightDiscount")]
-        public ICollection<tblFlightDiscountAirline> tblFlightDiscountAirline { get; set; }
+        public ICollection<tblFlightDiscountAirline> tblFlightDiscountAirline { get; set; }        
+        [InverseProperty("tblFlightDiscount")]
+        public ICollection<tblFlightDiscountSegment> tblFlightDiscountSegment { get; set; }
+
     }
 
 
@@ -333,6 +367,13 @@ namespace projContext.DB.CRM.Travel
         public tblFlightDiscount tblFlightDiscount { get; set; }
     }
     public class tblFlightDiscountAirline : DbWingAirline
+    {
+        [ForeignKey("tblFlightDiscount")] // Foreign Key here
+        public override int? ChargeId { get; set; }
+        public tblFlightDiscount tblFlightDiscount { get; set; }
+    }
+
+    public class tblFlightDiscountSegment : DbWingAirline
     {
         [ForeignKey("tblFlightDiscount")] // Foreign Key here
         public override int? ChargeId { get; set; }

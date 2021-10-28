@@ -24,6 +24,7 @@ namespace projContext.DB
         public DateTime EffectiveFromDt { get; set; } = DateTime.Now;
         public DateTime EffectiveToDt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
+        public enmCustomerType CustomerType { get; set; }
     }
 
 
