@@ -631,4 +631,38 @@ namespace projAPI.Model.Travel
 
 
     #endregion
+
+
+    #region *************************** Customer Markup ********************
+    
+    public class mdlWingMarkup_Air 
+    {
+        public enmFlightSearvices Applicability { get; set; }
+        public bool IsAllProvider { get; set; }
+        public bool IsAllCustomerType { get; set; }
+        public bool IsAllCustomer { get; set; }
+        public bool IsAllPessengerType { get; set; }//Applicable For All Pasenger
+        public bool IsAllFlightClass { get; set; }
+        public bool IsAllAirline { get; set; }
+        public bool IsAllSegment { get; set; }
+        public enmGender Gender { get; set; }
+        public double Amount { get; set; }
+        public int DayCount { get; set; }
+        public DateTime EffectiveFromDt { get; set; } = DateTime.Now;
+        public DateTime EffectiveToDt { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime BookingFromDt { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime BookingToDt { get; set; } = DateTime.Now.AddDays(60);
+        public bool IsDeleted { get; set; }
+        public List<enmServiceProvider> ServiceProviders { get; set; }
+        public List<enmCustomerType> CustomerTypes { get; set; }
+        public List<mdlDropDown_Int> CustomerIds { get; set; }        
+        public List<enmPassengerType> PassengerType { get; set; }
+        public List<mdlDropDown_Int> Airline { get; set; }
+        public List<mdlDropDown_String> Segments { get; set; }
+
+    }
+
+
+
+    #endregion
 }

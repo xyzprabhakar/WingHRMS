@@ -12,4 +12,15 @@ namespace projAPI.Model
         public string  Message { get; set; }
         public dynamic ReturnId { get; set; }        
     }
+    public class mdlDropDown_Int
+    {
+        public int Id{ get; set; }
+        public int Code { get; set; }
+        public string Display { get; set; }
+    }
+    public class mdlDropDown_String
+    {
+        public string Id { get; set; }        
+        public string Display { get; set; }
+    }
 }

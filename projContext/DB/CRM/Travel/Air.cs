@@ -154,6 +154,20 @@ namespace projContext.DB.CRM.Travel
 
     #region *************** Markup, Discount, Convenience ***************************
 
+    public class tblFlightCustomerMarkup : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
+        public ulong Nid { get; set; }
+        public double MarkupAmount { get; set; }
+        public DateTime EffectiveFromDt { get; set; }
+        public DateTime EffectiveToDt { get; set; }
+        public bool IsDeleted { get; set; }
+
+    }
+
     public class tblFlightMarkupMaster : DbWingCharge
     {
         [InverseProperty("tblFlightMarkupMaster")]
@@ -651,4 +665,6 @@ namespace projContext.DB.CRM.Travel
 
     #endregion
 
+
+    
 }

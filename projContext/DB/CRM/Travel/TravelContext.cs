@@ -25,6 +25,7 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblAirline> tblAirline { get; set; }
         public DbSet<tblFlightClassOfBooking> tblFlightClassOfBooking { get; set; }
         public DbSet<tblAirport> tblAirport { get; set; }
+        public DbSet<tblFlightCustomerMarkup> tblFlightCustomerMarkup { get; set; }
         public DbSet<tblFlightMarkupMaster> tblFlightMarkupMaster { get; set; }
         public DbSet<tblFlightMarkupServiceProvider> tblFlightMarkupServiceProvider { get; set; }
         public DbSet<tblFlightMarkupCustomerType> tblFlightMarkupCustomerType { get; set; }

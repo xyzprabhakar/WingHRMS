@@ -39,7 +39,7 @@ namespace projAPI.Services.Travel
             _tripJack = tripJack;
         }
 
-        #region *********************** Settingg **************************
+        #region *********************** Setting **************************
 
         public mdlReturnData SetServiceProvider(DateTime EffectiveFromDate,enmServiceProvider ServiceProvider, bool IsEnable, ulong UserId,string Remarks)
         {
@@ -222,6 +222,75 @@ namespace projAPI.Services.Travel
             
             return returnData;
         }
+
+        #endregion
+
+        #region ****************** Get All Markup/Discount/convenience **********************
+        public List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate,int CustomerId, ulong Nid, enmCustomerType CustomerType )
+        {
+            
+            IQueryable<tblFlightCustomerMarkup> returnData = CustomerType== enmCustomerType.MLM?
+                _travelContext.tblFlightCustomerMarkup.Where(p=>p.Nid==Nid).AsQueryable():
+                _travelContext.tblFlightCustomerMarkup.Where(p => p.CustomerId == CustomerId).AsQueryable();
+
+            if (AllMarkup)
+            {
+                returnData.ToList();
+            }
+            else if (AllActiveMarkup)
+            {
+                returnData = returnData.Where(p => !p.IsDeleted);
+            }
+            else
+            {
+                returnData = returnData.Where(p => !p.IsDeleted && p.EffectiveFromDt<= ProcessingDate && p.EffectiveToDt>ProcessingDate);                
+            }
+            return returnData.ToList();
+
+        }
+        public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, ulong UserId, int CustomerId, int Nid, string Remarks)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            tblFlightCustomerMarkup mdl = new tblFlightCustomerMarkup()
+            {
+                CustomerId = CustomerId,
+                EffectiveFromDt = EffectiveFromDt,
+                EffectiveToDt = EffectiveToDt,
+                MarkupAmount = MarkupAmount,
+                ModifyRemarks = Remarks ?? string.Empty,
+                CreatedBy = UserId,
+                ModifiedBy = UserId,
+                CreatedDt = DateTime.Now,
+                ModifiedDt = DateTime.Now,
+                IsDeleted = false,
+            };
+            _travelContext.tblFlightCustomerMarkup.Add(mdl);
+            _travelContext.SaveChanges();
+            returnData.ReturnId = mdl;
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
+        public mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId,string Remarks)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            var TempData=_travelContext.tblFlightCustomerMarkup.Where(p => p.Id == MarkupID).FirstOrDefault();
+            if (TempData == null)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Invalid Markup";
+                return returnData;
+            }
+            TempData.ModifiedBy = UserId;
+            TempData.ModifiedDt = DateTime.Now;
+            TempData.ModifyRemarks = TempData.ModifyRemarks + ", " + (Remarks ?? string.Empty);
+            _travelContext.tblFlightCustomerMarkup.Update(TempData);
+            _travelContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
+
+        public List<int>
+
 
         #endregion
 
