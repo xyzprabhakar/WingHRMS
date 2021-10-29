@@ -368,6 +368,7 @@ namespace projContext
             Male = 1,
             Female = 2,
             Trans = 4,
+            ALL=8
         }
     public enum enmTitle
     {

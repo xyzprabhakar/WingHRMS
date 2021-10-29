@@ -655,9 +655,12 @@ namespace projAPI.Model.Travel
         public bool IsAllAirline { get; set; }
         public bool IsAllSegment { get; set; }
         public bool IsMLMIncentive { get; set; }
+        public enmFlightType FlightType { get; set; }
         public enmGender Gender { get; set; }
+        public bool IsPercentage { get; set; }
+        public double PercentageValue { get; set; }
         public double Amount { get; set; }
-        public int DayCount { get; set; }
+        public double AmountCaping { get; set; }
         public DateTime TravelFromDt { get; set; } = DateTime.Now;
         public DateTime TravelToDt { get; set; } = DateTime.Now.AddDays(30);
         public DateTime BookingFromDt { get; set; } = DateTime.Now.AddDays(30);
@@ -669,6 +672,7 @@ namespace projAPI.Model.Travel
         public List<enmPassengerType> PassengerType { get; set; }
         public List<Tuple<int, string>> Airline { get; set; }
         public List<Tuple<string, string>> Segments { get; set; }
+        public List<enmCabinClass> CabinClass { get; set; }
     }
 
 

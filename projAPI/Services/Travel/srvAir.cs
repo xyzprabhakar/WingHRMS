@@ -335,9 +335,12 @@ namespace projAPI.Services.Travel
                     IsAllAirline=p.IsAllAirline,
                     IsAllSegment=p.IsAllSegment,
                     IsMLMIncentive=p.IsMLMIncentive,
-                    Gender=p.Gender,
+                    FlightType=p.FlightType,
+                    IsPercentage=p.IsPercentage,
+                    Gender =p.Gender,
+                    PercentageValue=p.PercentageValue,
                     Amount=p.Amount,
-                    DayCount=p.DayCount,
+                    AmountCaping=p.AmountCaping,
                     TravelFromDt = p.TravelFromDt,
                     TravelToDt=p.TravelToDt,
                     BookingFromDt= p.BookingFromDt,
@@ -346,6 +349,7 @@ namespace projAPI.Services.Travel
                     ServiceProviders=p.tblFlightMarkupServiceProvider.Select(q=>q.ServiceProvider).ToList(),
                     CustomerTypes=p.tblFlightMarkupCustomerType.Select(q => q.customerType).ToList(),
                     PassengerType= p.tblFlightMarkupPassengerType.Select(q => q.PassengerType).ToList(),
+                    CabinClass= p.tblFlightMarkupFlightClass.Select(q=>q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightMarkupCustomerDetails.
                     Select(q=>new {CustomerId= q.CustomerId??0,CustomerCode= q.tblCustomerMaster.OrganisationCode, CustomerName= q.tblCustomerMaster.OrganisationName }).ToList()
                     .Select(q =>new Tuple<int,string>(q.CustomerId, q.CustomerCode)).ToList(),
@@ -398,9 +402,13 @@ namespace projAPI.Services.Travel
                     IsAllFlightClass = p.IsAllFlightClass,
                     IsAllAirline = p.IsAllAirline,
                     IsAllSegment = p.IsAllSegment,
+                    IsMLMIncentive = p.IsMLMIncentive,
+                    FlightType = p.FlightType,
+                    IsPercentage = p.IsPercentage,
                     Gender = p.Gender,
+                    PercentageValue = p.PercentageValue,
                     Amount = p.Amount,
-                    DayCount = p.DayCount,
+                    AmountCaping = p.AmountCaping,
                     TravelFromDt = p.TravelFromDt,
                     TravelToDt = p.TravelToDt,
                     BookingFromDt = p.BookingFromDt,
@@ -409,6 +417,7 @@ namespace projAPI.Services.Travel
                     ServiceProviders = p.tblFlightDiscountServiceProvider.Select(q => q.ServiceProvider).ToList(),
                     CustomerTypes = p.tblFlightDiscountCustomerType.Select(q => q.customerType).ToList(),
                     PassengerType = p.tblFlightDiscountPassengerType.Select(q => q.PassengerType).ToList(),
+                    CabinClass = p.tblFlightDiscountFlightClass.Select(q => q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightDiscountCustomerDetails.
                     Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
                     .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
@@ -461,9 +470,13 @@ namespace projAPI.Services.Travel
                     IsAllFlightClass = p.IsAllFlightClass,
                     IsAllAirline = p.IsAllAirline,
                     IsAllSegment = p.IsAllSegment,
+                    IsMLMIncentive = p.IsMLMIncentive,
+                    FlightType = p.FlightType,
+                    IsPercentage = p.IsPercentage,
                     Gender = p.Gender,
+                    PercentageValue = p.PercentageValue,
                     Amount = p.Amount,
-                    DayCount = p.DayCount,
+                    AmountCaping = p.AmountCaping,
                     TravelFromDt = p.TravelFromDt,
                     TravelToDt = p.TravelToDt,
                     BookingFromDt = p.BookingFromDt,
@@ -472,6 +485,7 @@ namespace projAPI.Services.Travel
                     ServiceProviders = p.tblFlightConvenienceServiceProvider.Select(q => q.ServiceProvider).ToList(),
                     CustomerTypes = p.tblFlightConvenienceCustomerType.Select(q => q.customerType).ToList(),
                     PassengerType = p.tblFlightConveniencePassengerType.Select(q => q.PassengerType).ToList(),
+                    CabinClass = p.tblFlightConvenienceFlightClass.Select(q => q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightConvenienceCustomerDetails.
                     Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
                     .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
@@ -490,8 +504,73 @@ namespace projAPI.Services.Travel
                 {
                     _WingMarkupOnward = GetWingMarkup( true,true, CustomerType, CustomerId,searchRequest.DepartureDt, bookingDate);
                 }
+                if (_WingDiscountOnward == null)
+                {
+                    _WingDiscountOnward = GetWingDiscount(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                }
+                if (_WingConvenienceOnward == null)
+                {
+                    _WingConvenienceOnward = GetWingConvenience(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                }
+            }
+            if (!IsOnward)
+            {
+                if (_WingMarkupInward == null)
+                {
+                    _WingMarkupInward = GetWingMarkup(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                }
+                if (_WingDiscountInward == null)
+                {
+                    _WingDiscountInward = GetWingDiscount(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                }
+                if (_WingConvenienceInward == null)
+                {
+                    _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                }
             }
             
+            void SetMarkup(ref List<mdlWingMarkup_Air> tempData)
+            {
+                bool IsDirect = true;
+                if (searchResult.Segment.Count() > 0)
+                {
+                    IsDirect = false;
+                }
+                List<string> Airline=searchResult.Segment.Select(p => p.Airline.Code.ToUpper()).ToList();
+                
+                var FirstSegment = searchResult.Segment.FirstOrDefault();
+                var LastSegment = searchResult.Segment.LastOrDefault();
+                if (FirstSegment == null)
+                {
+                    return;
+                }
+                
+                foreach (var pricelist in searchResult.TotalPriceList)
+                {
+                    enmServiceProvider serviceProvider = enmServiceProvider.None;
+                    Enum.TryParse<enmServiceProvider>(pricelist.ResultIndex.Split("_").FirstOrDefault(),out serviceProvider);
+                    if (serviceProvider == enmServiceProvider.None)
+                    {
+                        continue;
+                    }
+
+                    var tempD= tempData.Where(p => (p.IsAllAirline || p.Airline.Where(q => Airline.Contains(q.Item2.ToUpper())).Any())
+                      && (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirect) || (p.FlightType == enmFlightType.Direct && IsDirect))
+                      && (p.IsAllFlightClass || (p.CabinClass.Contains(pricelist.CabinClass)))
+                      && (p.IsAllSegment || p.Segments.Any(q => q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase) &&
+                      q.Item2.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase)))
+                      && (p.IsAllProvider || p.ServiceProviders.Contains(serviceProvider))
+                    ).ToList();
+                    tempD.
+
+
+
+
+
+                }
+                
+            }
+
         }
 
         #endregion

@@ -21,9 +21,12 @@ namespace projContext.DB.CRM.Travel
         public bool IsAllAirline { get; set; }
         public bool IsAllSegment { get; set; }
         public bool IsMLMIncentive { get; set; }
+        public enmFlightType FlightType { get; set; }
         public enmGender Gender { get; set; }
+        public bool IsPercentage { get; set; }
+        public double PercentageValue { get; set; }
         public double Amount { get; set; }
-        public int DayCount { get; set; }
+        public double AmountCaping { get; set; }
         public DateTime TravelFromDt { get; set; }
         public DateTime TravelToDt { get; set; }
         public DateTime BookingFromDt { get; set; }

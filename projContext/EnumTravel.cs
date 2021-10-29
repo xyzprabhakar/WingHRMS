@@ -39,6 +39,14 @@ namespace projContext
         OnExtraService = 32
     }
 
+    public enum enmFlightType
+    { 
+        Direct=1,
+        Connected=2,
+        All=4
+
+    }
+
     public enum enmPreferredDepartureTime
     {
         AnyTime = 1,
