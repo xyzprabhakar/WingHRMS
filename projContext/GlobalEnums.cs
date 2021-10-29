@@ -362,6 +362,7 @@ namespace projContext
   
         public enum enmGender
         {
+            None=0,
             Male = 1,
             Female = 2,
             Trans = 4,

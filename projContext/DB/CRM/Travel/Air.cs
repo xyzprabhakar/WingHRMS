@@ -708,8 +708,35 @@ namespace projContext.DB.CRM.Travel
         public bool IsDeleted { get; set; }
     }
 
+    public class tblFlightBookingAlterMaster : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int AlterId { get; set; }
+        public enmCabinClass CabinClass { get; set; }
+        [MaxLength(64)]
+        public string Identifier { get; set; }
+        public string ClassOfBooking { get; set; }
+        public bool IsDeleted { get; set; }
+        public ICollection<tblFlightBookingAlterDetails> tblFlightBookingAlterDetails { get; set; }
+    }
+    public class tblFlightBookingAlterDetails 
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [ForeignKey("tblFlightBookingAlterMaster")] // Foreign Key here
+        public int? AlterId { get; set; }
+        public tblFlightBookingAlterMaster tblFlightBookingAlterMaster { get; set; }
+        public enmCabinClass CabinClass { get; set; }
+        [MaxLength(64)]
+        public string Identifier { get; set; }
+        public string ClassOfBooking { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
     #endregion
 
 
-    
+
 }

@@ -159,6 +159,7 @@ namespace projAPI.Model.Travel
         public mdlTotalpriceDetail INFANT { get; set; }
         public mdlFareRuleResponse FareRule { get; set; }
         public string ResultIndex { get; set; }
+        public string AlterResultIndex { get; set; }
         public string sri { get; set; }
         public List<string> msri { get; set; }
         [MaxLength(64)]
@@ -190,6 +191,7 @@ namespace projAPI.Model.Travel
         public int ID { get; set; }
         public enmFlighWingCharge type { get; set; }
         public double amount { get; set; }
+        public enmGender OnGender { get; set; }
     }
     //public class mdlPassenger
     //{
@@ -646,6 +648,7 @@ namespace projAPI.Model.Travel
     
     public class mdlWingMarkup_Air 
     {
+        public int Id { get; set; }
         public enmFlightSearvices Applicability { get; set; }
         public bool IsAllProvider { get; set; }
         public bool IsAllCustomerType { get; set; }
@@ -676,6 +679,14 @@ namespace projAPI.Model.Travel
     }
 
 
-
     #endregion
+
+    public class mdlFlightAlter 
+    {
+        public int AlterId { get; set; }
+        public enmCabinClass CabinClass { get; set; }
+        public string Identifier { get; set; }
+        public string ClassOfBooking { get; set; }        
+        public List<Tuple<enmCabinClass, string,string>> AlterDetails { get; set; }
+    }
 }

@@ -32,10 +32,7 @@ namespace projContext
     public enum enmFlightSearvices
     {
         OnTicket = 1,
-        OnPassenger = 2,
-        OnBaggageServices = 4,
-        OnMealServices = 8,
-        OnSeatServices = 16,
+        OnPassenger = 2,        
         OnExtraService = 32
     }
 
@@ -107,6 +104,10 @@ namespace projContext
         Discount=3,
         Convenience=4,
         PaymentGateway=5,
-        MLMCharge=6
+        MLMCharge=6,
+        BaggageServices = 4,
+        MealServices = 8,
+        SeatServices = 16,
     }
+    
 }

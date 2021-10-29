@@ -35,12 +35,16 @@ namespace projAPI.Services.Travel
         private readonly ITripJack _tripJack;
         private List<mdlWingMarkup_Air> _WingMarkupOnward, _WingDiscountOnward, _WingConvenienceOnward,
             _WingMarkupInward, _WingDiscountInward, _WingConvenienceInward;
+        private List<tblFlightCustomerMarkup> _CustomerMarkupOnward, _CustomerMarkupInward;
 
         public srvAir(TravelContext travelContext, ITripJack tripJack)
         {
             _travelContext = travelContext;
             _tripJack = tripJack;
         }
+
+
+
 
         #region *********************** Setting **************************
 
@@ -203,27 +207,79 @@ namespace projAPI.Services.Travel
             return returnData;
         }
 
-        public List<tblFlightInstantBooking> GetInstantBookingSeting(DateTime ProcessDate)
+        public List<tblFlightInstantBooking> GetInstantBookingSeting(bool FilterDate ,DateTime ProcessDate)
         {
             List<tblFlightInstantBooking> returnData = new List<tblFlightInstantBooking>();
             foreach (enmCustomerType ctype in Enum.GetValues(typeof(enmCustomerType)))
             {
-                var sp = _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == ctype && p.EffectiveFromDate <= ProcessDate).OrderByDescending(p => p.EffectiveFromDate).Take(1).FirstOrDefault();
-                if (sp == null)
+                if (FilterDate)
                 {
-                    var tempData = SetInstantBookingSeting(ProcessDate, ctype, true, false,1, string.Empty);
-                    if (tempData.MessageType == enmMessageType.Success)
+                    var sp = _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == ctype && p.EffectiveFromDate <= ProcessDate).OrderByDescending(p => p.EffectiveFromDate).Take(1).FirstOrDefault();
+                    if (sp == null)
                     {
-                        returnData.Add(tempData.ReturnId);
+                        var tempData = SetInstantBookingSeting(ProcessDate, ctype, true, false, 1, string.Empty);
+                        if (tempData.MessageType == enmMessageType.Success)
+                        {
+                            returnData.Add(tempData.ReturnId);
+                        }
+                    }
+                    else
+                    {
+                        returnData.Add(sp);
                     }
                 }
                 else
                 {
-                    returnData.Add(sp);
+                    returnData.AddRange(_travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == ctype ).OrderByDescending(p => p.EffectiveFromDate).Take(20));
                 }
+                
             }
             
             return returnData;
+        }
+
+        public mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl ,ulong UserId,string Remarks)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            //Check is data already Exist if yes then Remove Existing
+            var tempData=_travelContext.tblFlightBookingAlterMaster.Where(p => p.CabinClass == mdl.CabinClass && p.ClassOfBooking== mdl.ClassOfBooking && p.Identifier==mdl.Identifier && !p.IsDeleted).ToList();
+            if (tempData!= null && tempData.Count > 0)
+            {
+                tempData.ForEach(p => { p.IsDeleted = true; p.ModifiedBy = UserId; p.ModifiedDt = DateTime.Now, p.ModifyRemarks = "data alter"; });
+                _travelContext.tblFlightBookingAlterMaster.UpdateRange(tempData);
+            }
+
+            tblFlightBookingAlterMaster mdl1 = new tblFlightBookingAlterMaster()
+            {
+                CreatedBy = UserId,
+                ModifiedBy = UserId,
+                CreatedDt = DateTime.Now,
+                ModifiedDt = DateTime.Now,
+                IsDeleted = false,
+                ModifyRemarks = Remarks ?? String.Empty,
+                CabinClass = mdl.CabinClass ,
+                ClassOfBooking =mdl.ClassOfBooking ,Identifier = mdl.Identifier,
+                tblFlightBookingAlterDetails= mdl.AlterDetails.Select(q=>new tblFlightBookingAlterDetails {CabinClass=q.Item1, Identifier=q.Item2, ClassOfBooking=q.Item3,IsDeleted=false }).ToList()
+            };
+            _travelContext.tblFlightBookingAlterMaster.Add(mdl1);
+            _travelContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = mdl;
+            return returnData;
+        }
+
+        public List<mdlFlightAlter> GetFlightBookingAlterMaster()
+        {
+            return _travelContext.tblFlightBookingAlterMaster.Where(p => !p.IsDeleted).Select(p => new mdlFlightAlter
+            {
+                AlterId = p.AlterId,
+                CabinClass = p.CabinClass,
+                Identifier = p.Identifier,
+                ClassOfBooking = p.ClassOfBooking,
+                AlterDetails = p.tblFlightBookingAlterDetails.Select(q => new Tuple<enmCabinClass, string, string>(q.CabinClass, q.Identifier, q.ClassOfBooking)).ToList()
+
+            }
+            ).ToList();
         }
 
         #endregion
@@ -326,6 +382,7 @@ namespace projAPI.Services.Travel
             }
             mdl = returnData
                 .Select(p=>new mdlWingMarkup_Air{
+                    Id=p.Id,
                     Applicability=p.Applicability,
                     IsAllProvider=p.IsAllProvider,
                     IsAllCustomerType=p.IsAllCustomerType,
@@ -394,6 +451,7 @@ namespace projAPI.Services.Travel
             mdl = returnData
                 .Select(p => new mdlWingMarkup_Air
                 {
+                    Id = p.Id,
                     Applicability = p.Applicability,
                     IsAllProvider = p.IsAllProvider,
                     IsAllCustomerType = p.IsAllCustomerType,
@@ -462,6 +520,7 @@ namespace projAPI.Services.Travel
             mdl = returnData
                 .Select(p => new mdlWingMarkup_Air
                 {
+                    Id = p.Id,
                     Applicability = p.Applicability,
                     IsAllProvider = p.IsAllProvider,
                     IsAllCustomerType = p.IsAllCustomerType,
@@ -496,7 +555,7 @@ namespace projAPI.Services.Travel
 
         }
 
-        public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos,bool IsOnward, enmCustomerType CustomerType,int CustomerId, DateTime bookingDate)
+        public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos,bool IsOnward, enmCustomerType CustomerType,int CustomerId,ulong Nid, DateTime bookingDate)
         {
             if (IsOnward)
             {
@@ -512,24 +571,39 @@ namespace projAPI.Services.Travel
                 {
                     _WingConvenienceOnward = GetWingConvenience(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
                 }
+                if (_CustomerMarkupOnward == null)
+                {
+                    _CustomerMarkupOnward = GetCustomerMarkup(false, false, bookingDate, CustomerId, Nid, CustomerType);
+                }
+
+                SetWingMarkupDiscountConvenience( _WingMarkupOnward, enmFlighWingCharge.WingMarkup);
+                SetWingMarkupDiscountConvenience(_WingDiscountOnward, enmFlighWingCharge.Discount);
+                SetWingMarkupDiscountConvenience(_WingConvenienceOnward, enmFlighWingCharge.Convenience);
+
             }
             if (!IsOnward)
             {
                 if (_WingMarkupInward == null)
                 {
-                    _WingMarkupInward = GetWingMarkup(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                    _WingMarkupInward = GetWingMarkup(true, true, CustomerType, CustomerId, searchRequest.ReturnDt.Value, bookingDate);
                 }
                 if (_WingDiscountInward == null)
                 {
-                    _WingDiscountInward = GetWingDiscount(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                    _WingDiscountInward = GetWingDiscount(true, true, CustomerType, CustomerId, searchRequest.ReturnDt.Value, bookingDate);
                 }
                 if (_WingConvenienceInward == null)
                 {
-                    _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, CustomerId, searchRequest.DepartureDt, bookingDate);
+                    _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, CustomerId, searchRequest.ReturnDt.Value, bookingDate);
                 }
+                if (_CustomerMarkupInward == null)
+                {
+                    _CustomerMarkupInward = GetCustomerMarkup(false, false, bookingDate, CustomerId, Nid, CustomerType);
+                }
+                SetWingMarkupDiscountConvenience( _WingMarkupInward, enmFlighWingCharge.WingMarkup);
+                SetWingMarkupDiscountConvenience( _WingDiscountInward, enmFlighWingCharge.Discount);
+                SetWingMarkupDiscountConvenience(_WingConvenienceInward, enmFlighWingCharge.Convenience);
             }
-            
-            void SetMarkup(ref List<mdlWingMarkup_Air> tempData)
+            void SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, enmFlighWingCharge cType)
             {
                 bool IsDirect = true;
                 if (searchResult.Segment.Count() > 0)
@@ -554,21 +628,93 @@ namespace projAPI.Services.Travel
                         continue;
                     }
 
+
+
                     var tempD= tempData.Where(p => (p.IsAllAirline || p.Airline.Where(q => Airline.Contains(q.Item2.ToUpper())).Any())
                       && (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirect) || (p.FlightType == enmFlightType.Direct && IsDirect))
                       && (p.IsAllFlightClass || (p.CabinClass.Contains(pricelist.CabinClass)))
-                      && (p.IsAllSegment || p.Segments.Any(q => q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase) &&
-                      q.Item2.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase)))
+                      && (p.IsAllSegment ||  
+                      (
+                        (IsOnward && p.Segments.Any(q => q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase) && q.Item2.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase))) ||
+                        (!IsOnward && p.Segments.Any(q => q.Item1.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase) && q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase)))
+                       
+                      ))
                       && (p.IsAllProvider || p.ServiceProviders.Contains(serviceProvider))
                     ).ToList();
-                    tempD.
 
+                    if (pricelist.ADULT.FareBreakup == null)
+                    {
+                        pricelist.ADULT.FareBreakup = new List<mdlWingFaredetails>();
+                    }
+                    if (pricelist.CHILD.FareBreakup == null)
+                    {
+                        pricelist.CHILD.FareBreakup = new List<mdlWingFaredetails>();
+                    }
+                    if (pricelist.INFANT.FareBreakup == null)
+                    {
+                        pricelist.INFANT.FareBreakup = new List<mdlWingFaredetails>();
+                    }
 
+                    pricelist.ADULT.FareBreakup.RemoveAll(p => p.type == cType);
+                    pricelist.CHILD.FareBreakup.RemoveAll(p => p.type == cType);
+                    pricelist.INFANT.FareBreakup.RemoveAll(p => p.type == cType);
+                    pricelist.ConsolidateFareBreakup.RemoveAll(p => p.type == cType);
 
+                    //All markup on Passengertype 
+                    pricelist.ADULT.FareBreakup.AddRange(
+                    tempD.Where(p =>p.Applicability==enmFlightSearvices.OnPassenger && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Adult)) )
+                        .Select(p => new mdlWingFaredetails {ID=p.Id, 
+                            amount=p.IsPercentage? pricelist.ADULT.BaseFare * p.PercentageValue/100.0>p.AmountCaping? p.AmountCaping: pricelist.ADULT.BaseFare * p.PercentageValue / 100.0:p.Amount,
+                           OnGender=p.Gender,
+                           type= cType
+                        }));
+                    pricelist.CHILD.FareBreakup.AddRange(
+                    tempD.Where(p => p.Applicability == enmFlightSearvices.OnPassenger && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Child)) )
+                        .Select(p => new mdlWingFaredetails
+                        {
+                            ID = p.Id,
+                            amount = p.IsPercentage ? pricelist.CHILD.BaseFare * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : pricelist.CHILD.BaseFare * p.PercentageValue / 100.0 : p.Amount,
+                            OnGender = p.Gender,
+                            type = cType
+                        }));
 
+                    pricelist.INFANT.FareBreakup.AddRange(
+                    tempD.Where(p => p.Applicability == enmFlightSearvices.OnPassenger && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)) )
+                        .Select(p => new mdlWingFaredetails
+                        {
+                            ID = p.Id,
+                            amount = p.IsPercentage ? pricelist.INFANT.BaseFare * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : pricelist.INFANT.BaseFare * p.PercentageValue / 100.0 : p.Amount,
+                            OnGender = p.Gender,
+                            type = cType
+                        }));
+                    pricelist.ConsolidateFareBreakup.AddRange(
+                    tempD.Where(p => p.Applicability == enmFlightSearvices.OnTicket && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)))
+                        .Select(p => new mdlWingFaredetails
+                        {
+                            ID = p.Id,
+                            amount = p.IsPercentage ? pricelist.BaseFare * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : pricelist.BaseFare * p.PercentageValue / 100.0 : p.Amount,
+                            OnGender = p.Gender,
+                            type = cType
+                        }));
 
                 }
-                
+
+            }
+            void SetCustomerMarkup(List<tblFlightCustomerMarkup>tempData ,enmFlighWingCharge cType)
+            {
+                foreach (var pricelist in searchResult.TotalPriceList)
+                {
+                    pricelist.ConsolidateFareBreakup.RemoveAll(p => p.type == cType);
+                    pricelist.ConsolidateFareBreakup.AddRange(
+                    tempData
+                        .Select(p => new mdlWingFaredetails
+                        {
+                            ID = p.Id,
+                            amount = p.MarkupAmount,
+                            OnGender =enmGender.None,
+                            type = cType
+                        }));
+                }
             }
 
         }
@@ -601,7 +747,21 @@ namespace projAPI.Services.Travel
             return null;
         }
 
-        public async Task FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId)
+        public void ClearAllCharge()
+        {
+            _WingMarkupOnward = null; _WingDiscountOnward = null; _WingConvenienceOnward = null;
+            _WingMarkupInward = null; _WingDiscountInward = null; _WingConvenienceInward = null;
+            _CustomerMarkupOnward = null; _CustomerMarkupInward = null;
+        }
+
+        public void AlterSeachIndex(List<mdlSearchResult> searchResults)
+        {
+            var AlterData=GetFlightBookingAlterMaster();
+
+
+        }
+
+        public async Task FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId,ulong Nid)
         {
             DateTime CurrentDate = DateTime.Now;
             var ServiceProviders=GetServiceProvider(CurrentDate,true).Select(p=>p.ServiceProvider);
@@ -644,6 +804,7 @@ namespace projAPI.Services.Travel
                     AppendProvider(await tempObj.SearchAsync(inwardrequest), false,sp);                    
                 }
             }
+            ClearAllCharge();
             void AppendProvider(mdlSearchResponse tempResult,bool IsOnWard, enmServiceProvider spv)
             {
                 tempResult.Results.FirstOrDefault().ForEach(p => {
@@ -667,7 +828,11 @@ namespace projAPI.Services.Travel
                     }
                 }
             }
-            
+            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType).Any())
+            { 
+            }
+
+            //GetCharges();
         }
 
         
