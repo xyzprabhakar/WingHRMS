@@ -359,10 +359,7 @@ namespace projContext
             B2C = 4,
             InHouse = 5
         }
-
-
-     
-      
+  
         public enum enmGender
         {
             Male = 1,
