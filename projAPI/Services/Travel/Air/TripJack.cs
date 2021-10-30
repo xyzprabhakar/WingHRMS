@@ -76,7 +76,6 @@ namespace projAPI.Services.Travel.Air
                     mdl.Message = responseMessage;
                 }
 
-
             }
             catch (Exception ex)
             {

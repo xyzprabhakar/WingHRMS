@@ -8,6 +8,9 @@ namespace projContext
 {
     public partial class Context : DbContext
     {
+
+        //add-migration 31_Oct_20211 -Context projContext.Context
+        //update-database -Context projContext.Context
         /// <summary>
         /// Devlopment Server
         /// </summary>

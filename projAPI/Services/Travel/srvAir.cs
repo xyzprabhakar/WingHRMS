@@ -24,9 +24,30 @@ namespace projAPI.Services.Travel
     }
 
 
+    
     public interface IsrvAir
     {
+        void AlterSeachIndex(List<mdlSearchResult> searchResults);
+        void ClearAllCharge();
+        Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid);
         IEnumerable<tblAirport> GetAirport(bool OnlyActive = true, bool IsDomestic = false);
+        void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate);
+        List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate, int CustomerId, ulong Nid, enmCustomerType CustomerType);
+        List<mdlFlightAlter> GetFlightBookingAlterMaster();
+        List<mdlFlightFareFilter> GetFlightFareFilter(bool ApplyCustomerFilter, enmCustomerType CustomerType);
+        List<tblFlightInstantBooking> GetInstantBookingSeting(bool FilterDate, DateTime ProcessDate);
+        List<tblFlightSerivceProvider> GetServiceProvider(DateTime ProcessDate, bool IsOnlyActive);
+        List<tblFlightSerivceProviderPriority> GetServiceProviderPriority(DateTime ProcessDate, bool IsOnlyActive);
+        List<mdlWingMarkup_Air> GetWingConvenience(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
+        List<mdlWingMarkup_Air> GetWingDiscount(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
+        List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
+        mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId, string Remarks);
+        mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, ulong UserId, int CustomerId, int Nid, string Remarks);
+        mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl, ulong UserId);
+        mdlReturnData SetFlightFareFilter(mdlFlightFareFilter mdl, ulong UserId);
+        mdlReturnData SetInstantBookingSeting(DateTime EffectiveFromDate, enmCustomerType CustomerType, bool InstantDomestic, bool InstantNonDomestic, ulong UserId, string Remarks);
+        mdlReturnData SetServiceProvider(DateTime EffectiveFromDate, enmServiceProvider ServiceProvider, bool IsEnable, ulong UserId, string Remarks);
+        mdlReturnData SetServiceProviderPriority(DateTime EffectiveFromDate, enmServiceProvider ServiceProvider, int priority, ulong UserId, string Remarks);
     }
 
     public class srvAir : IsrvAir
@@ -914,7 +935,22 @@ namespace projAPI.Services.Travel
                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare;
                         }
 
-
+                        if (FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup == null)
+                        {
+                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup = new List<mdlWingFaredetails>();
+                        }
+                        if (FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup == null)
+                        {
+                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup = new List<mdlWingFaredetails>();
+                        }
+                        if (FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup == null)
+                        {
+                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup = new List<mdlWingFaredetails>();
+                        }
+                        if (FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup == null)
+                        {
+                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup = new List<mdlWingFaredetails>();
+                        }
                     }
                 }
             }
@@ -928,9 +964,12 @@ namespace projAPI.Services.Travel
                 {
                     for (int k = 0; k < FinalResult.Results[i][j].TotalPriceList.Count; k++)
                     {
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
+
+                        
+                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
                             FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                        
                         FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup =
                              FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
@@ -977,14 +1016,14 @@ namespace projAPI.Services.Travel
 
                         FinalResult.Results[i][j].TotalPriceList[k].CHILD.TotalFare = FinalResult.Results[i][j].TotalPriceList[k].CHILD.TotalFare +
                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
-                           +FinalResult.Results[i][j].TotalPriceList[k].Convenience;
+                           + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
                         FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare = FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare +
                             FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
                             - FinalResult.Results[i][j].TotalPriceList[k].CHILD.Discount + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
 
                         FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare = FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare +
                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
-                            +FinalResult.Results[i][j].TotalPriceList[k].Convenience;
+                            + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
                         FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare = FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare +
                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
                             - FinalResult.Results[i][j].TotalPriceList[k].INFANT.Discount + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
@@ -1029,8 +1068,8 @@ namespace projAPI.Services.Travel
                             FinalResult.Results[i][j].TotalPriceList[k].WingMarkup +
                             FinalResult.Results[i][j].TotalPriceList[k].MLMMarkup +
                             FinalResult.Results[i][j].TotalPriceList[k].CustomerMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].Convenience-
-                            FinalResult.Results[i][j].TotalPriceList[k].Discount-
+                            FinalResult.Results[i][j].TotalPriceList[k].Convenience -
+                            FinalResult.Results[i][j].TotalPriceList[k].Discount -
                             FinalResult.Results[i][j].TotalPriceList[k].PromoDiscount;
 
                     }
@@ -1084,8 +1123,6 @@ namespace projAPI.Services.Travel
                     AppendProvider(await tempObj.SearchAsync(inwardrequest), false, sp);
                 }
             }
-
-            
             if (FinalResult == null)
             {
                 FinalResult = new mdlSearchResponse() { ResponseStatus = enmMessageType.Error, Error = new mdlError() { Code = 100, Message = "No data found" } };
@@ -1097,7 +1134,7 @@ namespace projAPI.Services.Travel
                 FinalResult.Error = new mdlError() { Code = 100, Message = "No data found" };
                 return FinalResult;
             }
-            if (mdl.JourneyType == enmJourneyType.Return || FinalResult.Results.Count() < 2 || (FinalResult.Results[1]?.Count ?? 0) == 0)
+            if (mdl.JourneyType == enmJourneyType.Return && ( FinalResult.Results.Count() < 2 || (FinalResult.Results[1]?.Count ?? 0) == 0))
             {
                 FinalResult.ResponseStatus = enmMessageType.Error;
                 FinalResult.Error = new mdlError() { Code = 100, Message = "No data found in return flight" };
@@ -1184,7 +1221,7 @@ namespace projAPI.Services.Travel
                 {
                     for (int j = 0; j < FinalResult.Results[i].Count; j++)
                     {
-                        for (int j1 = FinalResult.Results[i].Count - 1; j1 >= j; j--)
+                        for (int j1 = FinalResult.Results[i].Count - 1; j1 >= j; j1--)
                         {
                             if (FinalResult.Results[i][j].Segment.Count == FinalResult.Results[i][j1].Segment.Count)
                             {
@@ -1249,31 +1286,27 @@ namespace projAPI.Services.Travel
                                 FinalResult.Results[i][j].TotalPriceList.AddRange(FinalResult.Results[i][j1].TotalPriceList);
                                 FinalResult.Results[i].RemoveAt(j1);
                             }
-                            if (FinalResult.Results[i][j1].TotalPriceList.Count == 0)
+                            else
                             {
                                 FinalResult.Results[i].RemoveAt(j1);
                             }
+                            
                         }
                     MoveNextResult:;
                     }
                 }
-            }            
+            }
             return FinalResult;
 
             //GetCharges();
         }
 
-        
-
-
-        
-
 
 
     }
 
-    
 
 
-    
+
+
 }
