@@ -245,10 +245,9 @@ namespace projAPI.Services.Travel
             var tempData=_travelContext.tblFlightBookingAlterMaster.Where(p => p.CabinClass == mdl.CabinClass && p.ClassOfBooking== mdl.ClassOfBooking && p.Identifier==mdl.Identifier && !p.IsDeleted).ToList();
             if (tempData!= null && tempData.Count > 0)
             {
-                tempData.ForEach(p => { p.IsDeleted = true; p.ModifiedBy = UserId; p.ModifiedDt = DateTime.Now, p.ModifyRemarks = "data alter"; });
+                tempData.ForEach(p => { p.IsDeleted = true; p.ModifiedBy = UserId; p.ModifiedDt = DateTime.Now; p.ModifyRemarks = "data alter"; });
                 _travelContext.tblFlightBookingAlterMaster.UpdateRange(tempData);
             }
-
             tblFlightBookingAlterMaster mdl1 = new tblFlightBookingAlterMaster()
             {
                 CreatedBy = UserId,
@@ -756,8 +755,69 @@ namespace projAPI.Services.Travel
 
         public void AlterSeachIndex(List<mdlSearchResult> searchResults)
         {
-            var AlterData=GetFlightBookingAlterMaster();
+            
 
+            var tempData=GetFlightBookingAlterMaster();
+            foreach (var sr in searchResults)
+            {
+                foreach (var price in sr.TotalPriceList)
+                {
+                    var tempAlter = tempData.Where(p => p.CabinClass == price.CabinClass && p.ClassOfBooking == price.ClassOfBooking && p.Identifier == price.Identifier).FirstOrDefault();
+                    if (tempAlter == null)
+                    {
+                        continue;
+                    }
+                    string ResultIndex = price.ResultIndex;
+                    double MinPrice = price.NetFare;
+                    FindMinimumIndex(sr.Segment, tempAlter.AlterDetails, ref ResultIndex, ref MinPrice);
+                    if (price.NetFare != MinPrice)
+                    {
+                        price.alterPrices = MinPrice;
+                        price.AlterResultIndex = ResultIndex;
+                    }
+
+                }
+
+            }
+
+            void FindMinimumIndex(List<mdlSegment> Segment, List<Tuple<enmCabinClass, string, string>> bookingClass, ref string ResultIndex, ref double MinPrice)
+            {
+                foreach (var innerSr in searchResults)
+                {
+                    if (innerSr.Segment.Count != Segment.Count)
+                    {
+                        continue;
+                    }
+                    for (int i = 0; i < innerSr.Segment.Count; i++)
+                    {
+                        if (string.Equals(innerSr.Segment[i].Airline.Code, Segment[i].Airline.Code, StringComparison.OrdinalIgnoreCase) &&
+                            string.Equals(innerSr.Segment[i].Airline.Name, Segment[i].Airline.Name, StringComparison.OrdinalIgnoreCase) &&
+                            string.Equals(innerSr.Segment[i].Airline.FlightNumber, Segment[i].Airline.FlightNumber, StringComparison.OrdinalIgnoreCase)
+                            )
+                        {
+                            for (int j = 0; j < innerSr.TotalPriceList.Count; j++)
+                            {
+                                if (innerSr.TotalPriceList[j].NetFare < MinPrice && !string.Equals( ResultIndex , innerSr.TotalPriceList[j].ResultIndex,StringComparison.OrdinalIgnoreCase))
+                                {
+                                    bookingClass.Where(q => q.Item1 == innerSr.TotalPriceList[j].CabinClass &&
+                                q.Item2 == innerSr.TotalPriceList[j].Identifier &&
+                                q.Item3 == innerSr.TotalPriceList[j].ClassOfBooking);
+                                }
+                                {
+                                    MinPrice = innerSr.TotalPriceList[j].NetFare;
+                                    ResultIndex = innerSr.TotalPriceList[j].ResultIndex;
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            i = innerSr.Segment.Count;
+                        }
+                    }
+                }
+                
+            }
 
         }
 

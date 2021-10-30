@@ -8,6 +8,7 @@ using projContext.DB;
 using projContext;
 using System.Xml.Linq;
 using projAPI.Classes;
+using System.Runtime.Serialization;
 
 namespace projAPI.Controllers
 {
@@ -24,20 +25,25 @@ namespace projAPI.Controllers
         }
 
         // GET api/values
-        [HttpGet]
+      
         // //[Authorize(Policy = "1")]
         //public ActionResult<IEnumerable<mdlSalaryInputValues>> Get()
         //{
         //    clsComponentValues ob = new clsComponentValues(_context, 1, 201905, 0, 8, "0");
         //    return ob.CalculateComponentValues(); ;
         //}
-        public ActionResult<string> Get()
+        public class mdl {
+            public string Name { get; set; }
+            [IgnoreDataMember]
+            public DateTime DOB{ get; set; }
+        }
+        [HttpGet]
+        public ActionResult<mdl> Get()
         {
-            int v = 0x12;
-            float c = 23.5f;
-            double b = 16.45;
-            decimal a = Convert.ToDecimal(b);
-            return a.ToString();
+
+            mdl ob = new mdl() { DOB = DateTime.Now, Name = "Prabhakaer" };
+
+            return ob;
         }
 
         // GET api/values/5

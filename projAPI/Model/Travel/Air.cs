@@ -1,9 +1,11 @@
-﻿using projContext;
+﻿using Newtonsoft.Json;
+using projContext;
 using projContext.DB.CRM.Travel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace projAPI.Model.Travel
@@ -82,7 +84,6 @@ namespace projAPI.Model.Travel
         public mdlAirline Airline { get; set; }
         public mdlAirport Origin { get; set; }
         public mdlAirport Destination { get; set; }
-
         public int TripIndicator { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
@@ -146,8 +147,10 @@ namespace projAPI.Model.Travel
     public class mdlTotalpricelist
     {   
         public double BaseFare { get; set; }
+        [IgnoreDataMember]
         public double CustomerMarkup { get; set; }
-        public double WingMarkup { get; set; }
+        [IgnoreDataMember]
+        public double WingMarkup { get; set; }        
         public double Convenience { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
@@ -160,6 +163,8 @@ namespace projAPI.Model.Travel
         public mdlFareRuleResponse FareRule { get; set; }
         public string ResultIndex { get; set; }
         public string AlterResultIndex { get; set; }
+        [IgnoreDataMember]
+        public double alterPrices { get; set; }
         public string sri { get; set; }
         public List<string> msri { get; set; }
         [MaxLength(64)]
@@ -167,6 +172,7 @@ namespace projAPI.Model.Travel
         public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public string ClassOfBooking { get; set; }
+        [IgnoreDataMember]
         public List<mdlWingFaredetails> ConsolidateFareBreakup { get; set; }
     }
 
@@ -175,6 +181,7 @@ namespace projAPI.Model.Travel
         public double YQTax { get; set; }
         public double BaseFare { get; set; }
         public double Tax { get; set; }
+        [IgnoreDataMember]
         public double WingMarkup { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
@@ -183,6 +190,7 @@ namespace projAPI.Model.Travel
         public string CabinBaggage { get; set; }
         public bool IsFreeMeal { get; set; }
         public byte IsRefundable { get; set; }
+        [IgnoreDataMember]
         public List<mdlWingFaredetails> FareBreakup { get; set; }
     }
 
