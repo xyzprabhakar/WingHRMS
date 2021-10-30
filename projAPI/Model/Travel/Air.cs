@@ -149,8 +149,9 @@ namespace projAPI.Model.Travel
         public double BaseFare { get; set; }
         [IgnoreDataMember]
         public double CustomerMarkup { get; set; }
-        [IgnoreDataMember]
-        public double WingMarkup { get; set; }        
+        
+        public double WingMarkup { get; set; }
+        public double MLMMarkup { get; set; }
         public double Convenience { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
@@ -183,9 +184,11 @@ namespace projAPI.Model.Travel
         public double Tax { get; set; }
         [IgnoreDataMember]
         public double WingMarkup { get; set; }
+        public double MLMMarkup { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
         public double NetFare { get; set; }
+        public double Convenience { get; set; }
         public string CheckingBaggage { get; set; }
         public string CabinBaggage { get; set; }
         public bool IsFreeMeal { get; set; }
@@ -694,7 +697,17 @@ namespace projAPI.Model.Travel
         public int AlterId { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public string Identifier { get; set; }
-        public string ClassOfBooking { get; set; }        
+        public string ClassOfBooking { get; set; }
+        public string Remarks { get; set; }
         public List<Tuple<enmCabinClass, string,string>> AlterDetails { get; set; }
+    }
+
+    public class mdlFlightFareFilter
+    {
+        public int FilterId { get; set; }
+        public enmCustomerType CustomerType { get; set; }
+        public bool IsEanableAllFare { get; set; }
+        public string Remarks { get; set; }
+        public List<Tuple<string, string>> FilterDetails { get; set; }
     }
 }

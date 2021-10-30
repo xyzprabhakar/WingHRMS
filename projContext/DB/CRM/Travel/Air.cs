@@ -265,7 +265,7 @@ namespace projContext.DB.CRM.Travel
         public ICollection<tblFlightConvenienceFlightClass> tblFlightConvenienceFlightClass { get; set; }
         [InverseProperty("tblFlightConvenience")]
         public ICollection<tblFlightConvenienceAirline> tblFlightConvenienceAirline { get; set; }
-        [InverseProperty("tblFlightConvenienceSegment")]
+        [InverseProperty("tblFlightConvenience")]
         public ICollection<tblFlightConvenienceSegment> tblFlightConvenienceSegment { get; set; }
     }
 
@@ -732,8 +732,33 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(64)]
         public string Identifier { get; set; }
         public string ClassOfBooking { get; set; }
-        public bool IsDeleted { get; set; }
+        
     }
+
+    public class tblFlightFareFilter : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int FilterId { get; set; }
+        public enmCustomerType CustomerType { get; set; }
+        public bool IsEanableAllFare { get; set; }
+        public bool IsDeleted { get; set; }
+        public ICollection<tblFlightFareFilterDetails> tblFlightFareFilterDetails { get; set; }
+    }
+
+    public class tblFlightFareFilterDetails
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [ForeignKey("tblFlightBookingAlterMaster")] // Foreign Key here
+        public int? FilterId { get; set; }
+        public tblFlightBookingAlterMaster tblFlightBookingAlterMaster { get; set; }        
+        [MaxLength(64)]
+        public string Identifier { get; set; }
+        public string ClassOfBooking { get; set; }
+    }
+
 
     #endregion
 

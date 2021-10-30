@@ -71,7 +71,8 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblFlightSerivceProviderPriority> tblFlightSerivceProviderPriority { get; set; }
         public DbSet<tblFlightBookingAlterMaster> tblFlightBookingAlterMaster { get; set; }
         public DbSet<tblFlightBookingAlterDetails> tblFlightBookingAlterDetails { get; set; }
-
+        public DbSet<tblFlightFareFilter> tblFlightFareFilter { get; set; }
+        public DbSet<tblFlightFareFilterDetails> tblFlightFareFilterDetails { get; set; }
         #endregion
 
         #endregion
