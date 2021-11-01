@@ -1183,6 +1183,10 @@ namespace projAPI.Services.Travel
                     }
                     else
                     {
+                        if (FinalResult.Results.Count == 1)
+                        {
+                            FinalResult.Results.Add(new List<mdlSearchResult>());
+                        }
                         FinalResult.Results[1].AddRange(tempResult.Results.FirstOrDefault());
                     }
                 }
