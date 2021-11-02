@@ -143,7 +143,6 @@ namespace projAPI.Services
             return AllDownline;
         }
 
-
         public string GenrateEmpCode(int companyId)
         {
             string Prefix = string.Empty;
@@ -181,11 +180,12 @@ namespace projAPI.Services
             return Prefix;
         }
 
-
         public bool IsActiveEmpExistsById(int EmpId)
         {
             return _context.tbl_employee_master.Where(p => p.is_active == 1 && p.employee_id == EmpId).Count() > 0 ? true : false;
         }
+
+        
 
 
 

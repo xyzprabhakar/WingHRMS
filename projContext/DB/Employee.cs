@@ -265,7 +265,7 @@ namespace projContext.DB
         [MaxLength(64)]
         [Display(Description = "card_number")]        
         public string card_number { get; set; }
-        public int gender { get; set; } // 1 for Female , 2 Male , 3 Other 
+        public enmGender gender { get; set; } // 1 for Female , 2 Male , 3 Other 
 
         [StringLength(16)]
         [Display(Description = "salutation")]
@@ -423,6 +423,7 @@ namespace projContext.DB
         [Display(Description = "pan_card_number")]
         [RegularExpression(@"^[A-Z]{5}[0-9]{4}[A-Z]{1}$", ErrorMessage = "Invalid PAN CARD Number...")]
         public string pan_card_number { get; set; }
+        [MaxLength(254)]
         public string pan_card_image { get; set; }
 
         public byte is_deleted { get; set; }
@@ -436,7 +437,7 @@ namespace projContext.DB
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int pan_details_id { get; set; }
+        public int adhar_details_id { get; set; }
         [ForeignKey("tbl_employee_id_details")] // Foreign Key here
         public int? employee_id { get; set; }
         public tbl_employee_master tbl_employee_id_details { get; set; }
@@ -449,6 +450,7 @@ namespace projContext.DB
         [Display(Description = "aadha_card_number")]
         [RegularExpression(@"^[0-9]{12}$", ErrorMessage = "Invalid Aadhar CARD Number...")]
         public string aadha_card_number { get; set; }
+        [MaxLength(256)]
         public string aadha_card_image { get; set; }
         public byte is_deleted { get; set; }
         public int created_by { get; set; }
@@ -572,7 +574,8 @@ namespace projContext.DB
         [Display(Description = "permanent_address_line_two")]
         [RegularExpression(@"^[a-zA-Z0-9'\s'\#'\-'\/'\.'\,]{1,250}$", ErrorMessage = "Invalid Permanent Address in Address Line Two ((.),(,) and special characters are not allowed)")]
         public string permanent_address_line_two { get; set; }
-        public int permanent_pin_code { get; set; }
+        [MaxLength(12)]
+        public string permanent_pin_code { get; set; }
         public int permanent_city { get; set; }
         public int permanent_state { get; set; }
         public int permanent_country { get; set; }
