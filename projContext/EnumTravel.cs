@@ -58,9 +58,17 @@ namespace projContext
         Pending = 0,
         Booked = 1,
         Cancel = 2,
-        PendingAtPayment = 4,
-
+        Partial=4
     }
+    public enum enmPaymentStatus
+    {
+        Pending=0,
+        Completed = 1,
+        Failed = 2,
+        Initiated = 4,
+        Partial= 8
+    }
+
 
     public enum enmRefundStatus
     {

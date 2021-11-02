@@ -285,7 +285,24 @@ namespace projContext
         [Description("Cash")]
         Cash = 3,
         [Description("Demand Draft")]
-        DemandDraft = 4
+        DemandDraft = 4,
+        [Description("PaymentGateway")]
+        PaymentGateway = 5,
+        [Description("Wallet")]
+        Wallet = 6,
+        [Description("Credit")]
+        Credit = 7,
+        [Description("Loyalty")]
+        Loyalty = 8,
+    }
+
+    public enum enmPaymentSubType
+    {
+        None=0,
+        CreditCard =1,
+        DebitCard = 2,
+        NetBanking = 3,
+        UPI = 4,
     }
 
     public enum enmPayrollReportProperty

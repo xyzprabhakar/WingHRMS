@@ -59,8 +59,10 @@ namespace projContext.DB.CRM.Travel
         #region ************************* Flight Booking **************************
         public DbSet<tblFlightBookingMaster> tblFlightBookingMaster { get; set; }
         public DbSet<tblFlilghtBookingSearchDetails> tblFlilghtBookingSearchDetails { get; set; }
-        public DbSet<tblFlightRefundStatusDetails> tblFlightRefundStatusDetails { get; set; }
-        public DbSet<tblFlightPurchaseDetails> tblFlightPurchaseDetails { get; set; }
+        public DbSet<tblFlightSearchSegment> tblFlightSearchSegment { get; set; }
+        public DbSet<tblFlightFare> tblFlightFare { get; set; }
+        public DbSet<tblFlightFareDetail> tblFlightFareDetail { get; set; }
+        public DbSet<tblFlightRefundStatusDetails> tblFlightRefundStatusDetails { get; set; }        
         public DbSet<tblFlighBookingPassengerDetails> tblFlighBookingPassengerDetails { get; set; }
         public DbSet<tblFlighRefundPassengerDetails> tblFlighRefundPassengerDetails { get; set; }
         #endregion
