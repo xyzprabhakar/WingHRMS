@@ -272,10 +272,16 @@ namespace projAPI.Model.Travel
 
     #region ***************** Fare Quotation **************************
 
+    public class mdlFareQuotRequestWraper
+    {
+        public string TraceId { get; set; }
+        public Tuple< string,string> ResultIndex { get; set; }
+    }
+
     public class mdlFareQuotRequest
     {
         public string TraceId { get; set; }
-        public string[] ResultIndex { get; set; }
+        public string ResultIndex { get; set; }
     }
 
     public class mdlFareQuotResponseWraper
@@ -284,7 +290,7 @@ namespace projAPI.Model.Travel
     }
     public class mdlFareQuotResponse
     {
-        public int ResponseStatus { get; set; }
+        public enmMessageType ResponseStatus { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
         public bool IsPriceChanged { get; set; }
         public mdlError Error { get; set; }

@@ -14,6 +14,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace projAPI.Services.Travel.Air
 {
     public interface ITripJack : IWingFlight
@@ -707,6 +708,165 @@ namespace projAPI.Services.Travel.Air
         }
 
 
+        private FareQuotRequest FareQuoteRequestMap(mdlFareQuotRequest request)
+        {
+            string[] ri = { request.ResultIndex };
+            FareQuotRequest mdl = new FareQuotRequest()
+            {
+                priceIds = ri
+            };
+            return mdl;
+        }
+
+
+        public Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request)
+        {
+            
+            mdlFareQuotResponse mdlS = null;
+            FareQuotResponse mdl = null;
+
+            DateTime DepartureDt = DateTime.Now, ArrivalDt = DateTime.Now;
+
+
+            string tboUrl = _config["TripJack:API:FareQuote"];
+            
+            string jsonString = JsonConvert.SerializeObject(FareQuoteRequestMap(request));
+            var HaveResponse = GetResponse(jsonString, tboUrl);
+            if (HaveResponse.MessageType == enmMessageType.Success)
+            {
+                mdl = (JsonConvert.DeserializeObject<FareQuotResponse>(HaveResponse.Message));
+            }
+
+            if (mdl != null)
+            {
+
+                if (mdl.status.success)//success
+                {
+                    List<List<mdlSearchResult>> AllResults = new List<List<mdlSearchResult>>();
+                    List<mdlSearchResult> Result1 = new List<mdlSearchResult>();
+                    int ServiceProvider = (int)enmServiceProvider.TripJack;
+                    if (mdl.tripInfos != null)
+                    {
+
+                        mdlFareRuleRequest mfr = new mdlFareRuleRequest();
+                        for (int i = 0; i < mdl.tripInfos.FirstOrDefault().totalPriceList.Count(); i++)
+                        {
+                            mfr.id = mdl.tripInfos?.FirstOrDefault()?.totalPriceList[i].id;
+                            mfr.flowType = "REVIEW";
+                            var mfs = FareRuleAsync(mfr);
+                            mdl.tripInfos.FirstOrDefault().totalPriceList[i].farerule = mfs.Result.FareRule;
+                        }
+                        Result1.AddRange(SearchResultMap(mdl.tripInfos, request.TraceId));
+                    }
+                    if (Result1.Count() > 0)
+                    {
+                        AllResults.Add(Result1);
+                    }
+                    DateTime.TryParse(mdl.searchQuery?.routeInfos?.FirstOrDefault()?.travelDate, out DepartureDt);
+                    mdlS = new mdlFareQuotResponse()
+                    {
+
+                        ServiceProvider = enmServiceProvider.TripJack,
+                        TraceId = request.TraceId,
+                        BookingId = ServiceProvider + "_" + mdl.bookingId,
+                        ResponseStatus = 1,
+                        IsPriceChanged = mdl.alerts?.Any(p => p.oldFare != p.newFare) ?? false,
+                        Error = new mdlError()
+                        {
+                            Code = 0,
+                            Message = ""
+                        },
+                        Origin = mdl.searchQuery.routeInfos.FirstOrDefault()?.fromCityOrAirport.code,
+                        Destination = mdl.searchQuery.routeInfos.FirstOrDefault()?.toCityOrAirport.code,
+                        Results = AllResults,
+                        TotalPriceInfo = new mdlTotalPriceInfo()
+                        {
+                            BaseFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.BF ?? 0,
+                            TaxAndFees = mdl.totalPriceInfo?.totalFareDetail?.fC?.TAF ?? 0,
+                            TotalFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.TF ?? 0,
+                        },
+                        SearchQuery = new Models.mdlFlightSearchWraper()
+                        {
+                            AdultCount = mdl.searchQuery?.paxInfo?.ADULT ?? 0,
+                            ChildCount = mdl.searchQuery?.paxInfo?.CHILD ?? 0,
+                            InfantCount = mdl.searchQuery?.paxInfo?.INFANT ?? 0,
+                            CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), mdl.searchQuery?.cabinClass ?? (nameof(enmCabinClass.ECONOMY)), true),
+                            JourneyType = enmJourneyType.OneWay,
+                            DepartureDt = DepartureDt,
+                            From = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.fromCityOrAirport?.code,
+                            To = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.toCityOrAirport?.code
+                        },
+                        FareQuoteCondition = new mdlFareQuoteCondition()
+                        {
+                            dob = new mdlDobCondition()
+                            {
+                                adobr = mdl.conditions?.dob?.adobr ?? false,
+                                cdobr = mdl.conditions?.dob?.cdobr ?? false,
+                                idobr = mdl.conditions?.dob?.idobr ?? false,
+                            },
+                            GstCondition = new mdlGstCondition()
+                            {
+                                IsGstMandatory = mdl.conditions?.gst?.igm ?? false,
+                                IsGstApplicable = mdl.conditions?.gst?.gstappl ?? true,
+                            },
+                            IsHoldApplicable = mdl.conditions?.isBA ?? false,
+                            PassportCondition = new mdlPassportCondition()
+                            {
+                                IsPassportExpiryDate = mdl.conditions?.pcs?.pped ?? false,
+                                isPassportIssueDate = mdl.conditions?.pcs?.pid ?? false,
+                                isPassportRequired = mdl.conditions?.pcs?.pm ?? false,
+                            }
+
+                        }
+
+                    };
+                }
+                else
+                {
+                    mdlS = new mdlFareQuotResponse()
+                    {
+                        ResponseStatus = enmMessageType.Success,
+                        Error = new mdlError()
+                        {
+                            Code = mdl.status.httpStatus,
+                            Message = mdl.errors?.FirstOrDefault()?.message,
+                        }
+                    };
+                }
+
+            }
+            else
+            {
+                if (HaveResponse == null)
+                {
+                    mdlS = new mdlFareQuotResponse()
+                    {
+                        ResponseStatus = enmMessageType.Error,
+                        Error = new mdlError()
+                        {
+                            Code = 100,
+                            Message = "Unable to Process",
+                        }
+                    };
+                }
+                else
+                {
+                    mdlS = new mdlFareQuotResponse()
+                    {
+                        ResponseStatus = enmMessageType.Error,
+                        Error = new mdlError()
+                        {
+                            Code = HaveResponse.Code,
+                            Message = HaveResponse.Message,
+                        }
+                    };
+                }
+            }
+
+            return mdlS;
+        }
+
+
         #region ******************** Inner classes **********************
         #region ****************** Request ******************************
 
@@ -1022,6 +1182,27 @@ namespace projAPI.Services.Travel.Air
             public Afc afC { get; set; }
         }
 
+
+        #endregion
+
+
+
+
+        #region ************************ Fare Quote Classes****************
+        public class FareQuotRequest
+        {
+            public string[] priceIds { get; set; }
+        }
+        public class FareQuotResponse : SearchresultMulticity
+        {
+            public Alert[] alerts { get; set; }
+            public Searchquery searchQuery { get; set; }
+            public string bookingId { get; set; }
+            public Totalpriceinfo totalPriceInfo { get; set; }
+            public Status status { get; set; }
+            public Conditions conditions { get; set; }
+            public Error[] errors { get; set; }
+        }
 
         #endregion
 

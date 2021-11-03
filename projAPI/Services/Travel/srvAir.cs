@@ -15,7 +15,7 @@ namespace projAPI.Services.Travel
     public interface IWingFlight
     {
         Task<mdlSearchResponse> SearchAsync(mdlSearchRequest request);
-        //Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request);
+        Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request);
         //Task<mdlFareRuleResponse> FareRuleAsync(mdlFareRuleRequest request);
         //Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request);
         //Task<mdlFlightCancellationChargeResponse> CancelationChargeAsync(mdlCancellationRequest request);
