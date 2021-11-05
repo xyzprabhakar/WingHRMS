@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext.DB.CRM.Travel;
 
-namespace projContext.Migrations.Travel
+namespace projContext.Migrations.Travel1
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20211105060915_OrganizationMaster")]
+    partial class OrganizationMaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,8 +106,6 @@ namespace projContext.Migrations.Travel
                     b.Property<int>("Sno")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BookingId");
-
                     b.Property<DateTime?>("DOB");
 
                     b.Property<string>("FirstName")
@@ -126,7 +126,11 @@ namespace projContext.Migrations.Travel
                     b.Property<string>("Title")
                         .HasMaxLength(16);
 
+                    b.Property<string>("VisitorId");
+
                     b.HasKey("Sno");
+
+                    b.HasIndex("VisitorId");
 
                     b.ToTable("tblFlighBookingPassengerDetails");
                 });
@@ -302,6 +306,66 @@ namespace projContext.Migrations.Travel
                     b.HasKey("VisitorId");
 
                     b.ToTable("tblFlightBookingMaster");
+                });
+
+            modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightBookingSearchDetails", b =>
+                {
+                    b.Property<string>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(128);
+
+                    b.Property<int>("BookingStatus");
+
+                    b.Property<double>("CardDiscount");
+
+                    b.Property<double>("ConvenienceAmount");
+
+                    b.Property<double>("CustomerMarkupAmount");
+
+                    b.Property<double>("DiscountAmount");
+
+                    b.Property<bool>("HaveRefund");
+
+                    b.Property<double>("IncentiveAmount");
+
+                    b.Property<bool>("IncludeBaggageServices");
+
+                    b.Property<bool>("IncludeMealServices");
+
+                    b.Property<bool>("IncludeSeatServices");
+
+                    b.Property<int>("JourneyType");
+
+                    b.Property<double>("MarkupAmount");
+
+                    b.Property<double>("NetSaleAmount");
+
+                    b.Property<int>("PaymentStatus");
+
+                    b.Property<string>("PromoCode")
+                        .HasMaxLength(128);
+
+                    b.Property<double>("PromoDiscount");
+
+                    b.Property<string>("ProviderBookingId")
+                        .HasMaxLength(128);
+
+                    b.Property<double>("PurchaseAmount");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(25);
+
+                    b.Property<double>("SaleAmount");
+
+                    b.Property<int>("ServiceProvider");
+
+                    b.Property<string>("VisitorId");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("VisitorId");
+
+                    b.ToTable("tblFlightBookingSearchDetails");
                 });
 
             modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightClassOfBooking", b =>
@@ -1283,7 +1347,8 @@ namespace projContext.Migrations.Travel
 
                     b.Property<DateTime>("ArrivalTime");
 
-                    b.Property<string>("BookingId");
+                    b.Property<string>("BookingId")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Code")
                         .HasMaxLength(32);
@@ -1503,66 +1568,6 @@ namespace projContext.Migrations.Travel
                     b.ToTable("tblFlightSerivceProviderPriority");
                 });
 
-            modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlilghtBookingSearchDetails", b =>
-                {
-                    b.Property<string>("BookingId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128);
-
-                    b.Property<int>("BookingStatus");
-
-                    b.Property<double>("CardDiscount");
-
-                    b.Property<double>("ConvenienceAmount");
-
-                    b.Property<double>("CustomerMarkupAmount");
-
-                    b.Property<double>("DiscountAmount");
-
-                    b.Property<bool>("HaveRefund");
-
-                    b.Property<double>("IncentiveAmount");
-
-                    b.Property<bool>("IncludeBaggageServices");
-
-                    b.Property<bool>("IncludeMealServices");
-
-                    b.Property<bool>("IncludeSeatServices");
-
-                    b.Property<int>("JourneyType");
-
-                    b.Property<double>("MarkupAmount");
-
-                    b.Property<double>("NetSaleAmount");
-
-                    b.Property<int>("PaymentStatus");
-
-                    b.Property<string>("PromoCode")
-                        .HasMaxLength(128);
-
-                    b.Property<double>("PromoDiscount");
-
-                    b.Property<string>("ProviderBookingId")
-                        .HasMaxLength(128);
-
-                    b.Property<double>("PurchaseAmount");
-
-                    b.Property<string>("Remarks")
-                        .HasMaxLength(25);
-
-                    b.Property<double>("SaleAmount");
-
-                    b.Property<int>("ServiceProvider");
-
-                    b.Property<string>("VisitorId");
-
-                    b.HasKey("BookingId");
-
-                    b.HasIndex("VisitorId");
-
-                    b.ToTable("tblFlilghtBookingSearchDetails");
-                });
-
             modelBuilder.Entity("projContext.DB.tblCustomerOrganisation", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -1607,11 +1612,25 @@ namespace projContext.Migrations.Travel
                     b.ToTable("tblCustomerOrganisation");
                 });
 
+            modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlighBookingPassengerDetails", b =>
+                {
+                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingMaster", "tblFlightBookingMaster")
+                        .WithMany()
+                        .HasForeignKey("VisitorId");
+                });
+
             modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightBookingAlterDetails", b =>
                 {
                     b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingAlterMaster", "tblFlightBookingAlterMaster")
                         .WithMany("tblFlightBookingAlterDetails")
                         .HasForeignKey("AlterId");
+                });
+
+            modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightBookingSearchDetails", b =>
+                {
+                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingMaster", "tblFlightBookingMaster")
+                        .WithMany()
+                        .HasForeignKey("VisitorId");
                 });
 
             modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightConvenienceAirline", b =>
@@ -1746,7 +1765,7 @@ namespace projContext.Migrations.Travel
                         .WithMany()
                         .HasForeignKey("BookedInfantPrice");
 
-                    b.HasOne("projContext.DB.CRM.Travel.tblFlilghtBookingSearchDetails", "tblFlilghtBookingSearchDetails")
+                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingSearchDetails", "tblFlightBookingSearchDetails")
                         .WithMany()
                         .HasForeignKey("BookingId");
 
@@ -1848,7 +1867,7 @@ namespace projContext.Migrations.Travel
 
             modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightRefundStatusDetails", b =>
                 {
-                    b.HasOne("projContext.DB.CRM.Travel.tblFlilghtBookingSearchDetails", "tblFlilghtBookingSearchDetails")
+                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingSearchDetails", "tblFlightBookingSearchDetails")
                         .WithMany()
                         .HasForeignKey("BookingId");
                 });
@@ -1862,7 +1881,7 @@ namespace projContext.Migrations.Travel
 
             modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlightSearchSegment", b =>
                 {
-                    b.HasOne("projContext.DB.CRM.Travel.tblFlilghtBookingSearchDetails", "tblFlilghtBookingSearchDetails")
+                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingSearchDetails", "tblFlightBookingSearchDetails")
                         .WithMany()
                         .HasForeignKey("BookingId");
                 });
@@ -1872,13 +1891,6 @@ namespace projContext.Migrations.Travel
                     b.HasOne("projContext.DB.CRM.Travel.tblFlightSearchResponses_Caching", "tblFlightSearchResponses_Caching")
                         .WithMany("tblFlightSearchSegment_Caching")
                         .HasForeignKey("SearchIndexId");
-                });
-
-            modelBuilder.Entity("projContext.DB.CRM.Travel.tblFlilghtBookingSearchDetails", b =>
-                {
-                    b.HasOne("projContext.DB.CRM.Travel.tblFlightBookingMaster", "tblFlightBookingMaster")
-                        .WithMany()
-                        .HasForeignKey("VisitorId");
                 });
 #pragma warning restore 612, 618
         }

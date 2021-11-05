@@ -7,7 +7,7 @@ namespace projContext.DB.CRM.Travel
 {
     public class TravelContext : DbContext
     {
-        //add-migration OrganizationMaster -Context projContext.DB.CRM.Travel.TravelContext -o Migrations.Travel
+        //add-migration OrganizationMaster -Context projContext.DB.CRM.Travel.TravelContext -o Migrations.Travel1
         //update-database -Context projContext.DB.CRM.Travel.TravelContext
 
 
@@ -58,7 +58,7 @@ namespace projContext.DB.CRM.Travel
 
         #region ************************* Flight Booking **************************
         public DbSet<tblFlightBookingMaster> tblFlightBookingMaster { get; set; }
-        public DbSet<tblFlilghtBookingSearchDetails> tblFlilghtBookingSearchDetails { get; set; }
+        public DbSet<tblFlightBookingSearchDetails> tblFlightBookingSearchDetails { get; set; }
         public DbSet<tblFlightSearchSegment> tblFlightSearchSegment { get; set; }
         public DbSet<tblFlightFare> tblFlightFare { get; set; }
         public DbSet<tblFlightFareDetail> tblFlightFareDetail { get; set; }

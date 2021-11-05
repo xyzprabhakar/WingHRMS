@@ -589,7 +589,7 @@ namespace projContext.DB.CRM.Travel
         public bool HaveRefund { get; set; }        
     }
 
-    public class tblFlilghtBookingSearchDetails
+    public class tblFlightBookingSearchDetails
     {
         [Key]
         [MaxLength(128)]
@@ -629,8 +629,9 @@ namespace projContext.DB.CRM.Travel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
+        [MaxLength(128)]
         public string BookingId { get; set; }
-        public tblFlilghtBookingSearchDetails tblFlilghtBookingSearchDetails { get; set; }
+        public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
         public bool isLcc { get; set; }
         [MaxLength(32)]
         public string Code { get; set; }
@@ -687,7 +688,7 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlilghtBookingSearchDetails")] // Foreign Key here
         [MaxLength(256)]
         public string BookingId { get; set; }
-        public tblFlilghtBookingSearchDetails tblFlilghtBookingSearchDetails { get; set; }
+        public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
         [MaxLength(256)]
         public string ProviderFareDetailId { get; set; }
         //Purchased by Customer
@@ -764,7 +765,7 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlilghtBookingSearchDetails")] // Foreign Key here
         [MaxLength(128)]
         public string BookingId { get; set; }
-        public tblFlilghtBookingSearchDetails tblFlilghtBookingSearchDetails { get; set; }
+        public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
 
         public enmServiceProvider ServiceProvider { get; set; }
         [MaxLength(256)]

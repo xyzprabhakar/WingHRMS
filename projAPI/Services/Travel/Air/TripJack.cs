@@ -719,7 +719,7 @@ namespace projAPI.Services.Travel.Air
         }
 
 
-        public Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request)
+        public async Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request)
         {
             
             mdlFareQuotResponse mdlS = null;
@@ -753,8 +753,8 @@ namespace projAPI.Services.Travel.Air
                         {
                             mfr.id = mdl.tripInfos?.FirstOrDefault()?.totalPriceList[i].id;
                             mfr.flowType = "REVIEW";
-                            var mfs = FareRuleAsync(mfr);
-                            mdl.tripInfos.FirstOrDefault().totalPriceList[i].farerule = mfs.Result.FareRule;
+                            //var mfs = FareRuleAsync(mfr);
+                            //mdl.tripInfos.FirstOrDefault().totalPriceList[i].farerule = mfs.Result.FareRule;
                         }
                         Result1.AddRange(SearchResultMap(mdl.tripInfos, request.TraceId));
                     }
@@ -769,7 +769,7 @@ namespace projAPI.Services.Travel.Air
                         ServiceProvider = enmServiceProvider.TripJack,
                         TraceId = request.TraceId,
                         BookingId = ServiceProvider + "_" + mdl.bookingId,
-                        ResponseStatus = 1,
+                        ResponseStatus =  enmMessageType.Success,
                         IsPriceChanged = mdl.alerts?.Any(p => p.oldFare != p.newFare) ?? false,
                         Error = new mdlError()
                         {
@@ -785,17 +785,17 @@ namespace projAPI.Services.Travel.Air
                             TaxAndFees = mdl.totalPriceInfo?.totalFareDetail?.fC?.TAF ?? 0,
                             TotalFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.TF ?? 0,
                         },
-                        SearchQuery = new Models.mdlFlightSearchWraper()
-                        {
-                            AdultCount = mdl.searchQuery?.paxInfo?.ADULT ?? 0,
-                            ChildCount = mdl.searchQuery?.paxInfo?.CHILD ?? 0,
-                            InfantCount = mdl.searchQuery?.paxInfo?.INFANT ?? 0,
-                            CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), mdl.searchQuery?.cabinClass ?? (nameof(enmCabinClass.ECONOMY)), true),
-                            JourneyType = enmJourneyType.OneWay,
-                            DepartureDt = DepartureDt,
-                            From = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.fromCityOrAirport?.code,
-                            To = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.toCityOrAirport?.code
-                        },
+                        //SearchQuery = new Models.mdlFlightSearchWraper()
+                        //{
+                        //    AdultCount = mdl.searchQuery?.paxInfo?.ADULT ?? 0,
+                        //    ChildCount = mdl.searchQuery?.paxInfo?.CHILD ?? 0,
+                        //    InfantCount = mdl.searchQuery?.paxInfo?.INFANT ?? 0,
+                        //    CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), mdl.searchQuery?.cabinClass ?? (nameof(enmCabinClass.ECONOMY)), true),
+                        //    JourneyType = enmJourneyType.OneWay,
+                        //    DepartureDt = DepartureDt,
+                        //    From = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.fromCityOrAirport?.code,
+                        //    To = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.toCityOrAirport?.code
+                        //},
                         FareQuoteCondition = new mdlFareQuoteCondition()
                         {
                             dob = new mdlDobCondition()
@@ -856,7 +856,7 @@ namespace projAPI.Services.Travel.Air
                         ResponseStatus = enmMessageType.Error,
                         Error = new mdlError()
                         {
-                            Code = HaveResponse.Code,
+                            Code = 100,
                             Message = HaveResponse.Message,
                         }
                     };
