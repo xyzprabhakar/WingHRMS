@@ -440,6 +440,8 @@ namespace projContext
         RequestAlreadyProcessed,
         [Description("Data not exists !!!")]
         DataNotExists,
+        [Description("Data not Found !!!")]
+        DataNotFound,
         [Description("Concurrency Error !!!")]
         ConcurrencyError,
         [Description("Database Error !!!")]

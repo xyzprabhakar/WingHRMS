@@ -26,10 +26,13 @@ namespace projAPI.Services.Travel
 
 
     
+    
+
     public interface IsrvAir
     {
         void AlterSeachIndex(List<mdlSearchResult> searchResults);
         void ClearAllCharge();
+        Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request);
         Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid);
         IEnumerable<tblAirport> GetAirport(bool OnlyActive = true, bool IsDomestic = false);
         void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate);
@@ -911,7 +914,7 @@ namespace projAPI.Services.Travel
         {
             for (int i = Results.Count - 1; i >= 0; i--)
             {
-                for (int j = 0; j <Results[i].Count; j++)
+                for (int j = 0; j < Results[i].Count; j++)
                 {
                     for (int k = 0; k < Results[i][j].TotalPriceList.Count; k++)
                     {
@@ -968,11 +971,11 @@ namespace projAPI.Services.Travel
                     for (int k = 0; k < Results[i][j].TotalPriceList.Count; k++)
                     {
 
-                        
-                            Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
-                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        
+
+                        Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
+                        Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
+                        Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+
                         Results[i][j].TotalPriceList[k].CHILD.WingMarkup =
                              Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
@@ -1080,8 +1083,6 @@ namespace projAPI.Services.Travel
             }
         }
 
-        
-
 
 
         public async Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid)
@@ -1140,7 +1141,7 @@ namespace projAPI.Services.Travel
                 FinalResult.Error = new mdlError() { Code = 100, Message = "No data found" };
                 return FinalResult;
             }
-            if (mdl.JourneyType == enmJourneyType.Return && ( FinalResult.Results.Count() < 2 || (FinalResult.Results[1]?.Count ?? 0) == 0))
+            if (mdl.JourneyType == enmJourneyType.Return && (FinalResult.Results.Count() < 2 || (FinalResult.Results[1]?.Count ?? 0) == 0))
             {
                 FinalResult.ResponseStatus = enmMessageType.Error;
                 FinalResult.Error = new mdlError() { Code = 100, Message = "No data found in return flight" };
@@ -1286,7 +1287,6 @@ namespace projAPI.Services.Travel
                                             }
                                         }
                                     }
-
                                 }
                             }
 
@@ -1299,7 +1299,7 @@ namespace projAPI.Services.Travel
                             {
                                 FinalResult.Results[i].RemoveAt(j1);
                             }
-                            
+
                         }
                     MoveNextResult:;
                     }
@@ -1310,14 +1310,15 @@ namespace projAPI.Services.Travel
             //GetCharges();
         }
 
-        public async Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
+        public async Task<List< mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
         {
-            List<mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
+            List < mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
             DateTime CurrentDate = DateTime.Now;
             var ServiceProviders = GetServiceProvider(CurrentDate, true).Select(p => p.ServiceProvider);
 
             //mdlSearchResponse FinalResult = null;
-            enmServiceProvider tempServiceProvider = enmServiceProvider.None;
+            enmServiceProvider tempServiceProvider1 = enmServiceProvider.None;
+            enmServiceProvider tempServiceProvider2 = enmServiceProvider.None;
             int FlightPriceVarienceAlert = 100;
             int.TryParse(_config["Setting:FlightPriceVarienceAlert"], out FlightPriceVarienceAlert);
             for (int i = 0; i < request.ResultIndex.Count; i++)
@@ -1327,46 +1328,46 @@ namespace projAPI.Services.Travel
 
                 if (!string.IsNullOrEmpty(request.ResultIndex[i].Item2))
                 {
-                    var temp=request.ResultIndex[i].Item2.Split("_");
-                    Enum.TryParse(  temp.FirstOrDefault(),out tempServiceProvider);
-                    if (tempServiceProvider == enmServiceProvider.None)
+                    var temp = request.ResultIndex[i].Item2.Split("_");
+                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider1);
+                    if (tempServiceProvider1 == enmServiceProvider.None)
                     {
                         throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
                     }
-                    if (!ServiceProviders.Any(p => p == tempServiceProvider))
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider1))
                     {
                         throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
                     }
-                    IWingFlight tempObj = GetFlightObject(tempServiceProvider);
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider1);
                     if (tempObj == null)
                     {
                         throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
                     }
-                    AlterBookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex( request.ResultIndex[i].Item2 )});
+                    AlterBookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item2) });
 
                 }
 
                 if (!string.IsNullOrEmpty(request.ResultIndex[i].Item1))
                 {
                     var temp = request.ResultIndex[i].Item1.Split("_");
-                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider);
-                    if (tempServiceProvider == enmServiceProvider.None)
+                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider2);
+                    if (tempServiceProvider2 == enmServiceProvider.None)
                     {
                         throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
                     }
-                    if (!ServiceProviders.Any(p => p == tempServiceProvider))
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider2))
                     {
                         throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
                     }
-                    IWingFlight tempObj = GetFlightObject(tempServiceProvider);
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider2);
                     if (tempObj == null)
                     {
                         throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
                     }
-                    BookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item1)});
+                    BookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item1) });
 
                 }
-                if (BookingRes == null || BookingRes.ResponseStatus!= enmMessageType.Success)
+                if (BookingRes == null || BookingRes.ResponseStatus != enmMessageType.Success)
                 {
                     throw new Exception("Not able to genrate Quotation");
                 }
@@ -1374,6 +1375,7 @@ namespace projAPI.Services.Travel
                 {
                     throw new Exception("Price has been changed");
                 }
+                
 
                 if (AlterBookingRes != null)
                 {
@@ -1385,34 +1387,53 @@ namespace projAPI.Services.Travel
                     {
                         throw new Exception("Price has been changed.");
                     }
-                    if (BookingRes.TotalPriceInfo.NetFare-  AlterBookingRes.TotalPriceInfo.NetFare< FlightPriceVarienceAlert)
+                    if (BookingRes.TotalPriceInfo.NetFare - AlterBookingRes.TotalPriceInfo.NetFare < FlightPriceVarienceAlert)
                     {
                         throw new Exception("Price has been changed");
                     }
                 }
+                if (BookingRes.Results.Count == 0 || BookingRes.Results[0].Count == 0 || BookingRes.Results[0][0].TotalPriceList.Count == 0)
+                {
+                    throw new Exception("Not able to genrate Quotation.");
+                }
+                BookingRes.PurchaseCabinClass = BookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                BookingRes.PurchaseClassOfBooking= BookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                BookingRes.PurchaseIdentifier= BookingRes.Results[0][0].TotalPriceList[0].Identifier;                
                 ClearAllCharge();
                 SetBasicPrice(BookingRes.Results);
-                SetBasicPriceWithMarkup(BookingRes.Results);                
-                if (AlterBookingRes != null) 
+                SetBasicPriceWithMarkup(BookingRes.Results);
+                if (AlterBookingRes != null)
                 {
                     SetBasicPriceWithMarkup(AlterBookingRes.Results);
                     if (BookingRes.Results.Count == 0 || AlterBookingRes.Results.Count == 0)
                     {
-                        throw new Exception("Invalid Result");
+                        throw new Exception(enmMessage.InvalidData.GetDescription());
                     }
                     if (BookingRes.Results[0].Count == 0 || AlterBookingRes.Results[0].Count == 0)
                     {
-                        throw new Exception("Invalid Result");
+                        throw new Exception( enmMessage.InvalidData.GetDescription());
                     }
                     BookingRes.Results[0][0].Segment = AlterBookingRes.Results[0][0].Segment;
+
+                    if (AlterBookingRes.Results.Count == 0 || AlterBookingRes.Results[0].Count == 0 || AlterBookingRes.Results[0][0].TotalPriceList.Count == 0)
+                    {
+                        throw new Exception("Not able to genrate Quotation.");
+                    }
+                    BookingRes.BookedCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                    BookingRes.BookedClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                    BookingRes.BookedIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
+                    BookingRes.ServiceProvider = AlterBookingRes.ServiceProvider;
                 }
                 mdl.Add(BookingRes);
             }
+
+
+
             string GetOriginalResultIndex(string resultIndex)
             {
-                int FirstIndex=resultIndex.IndexOf('_');
-                int SecondIndex = resultIndex.IndexOf('_', FirstIndex+1);
-                return resultIndex.Substring(SecondIndex+1);
+                int FirstIndex = resultIndex.IndexOf('_');
+                int SecondIndex = resultIndex.IndexOf('_', FirstIndex + 1);
+                return resultIndex.Substring(SecondIndex + 1);
             }
 
             return mdl;

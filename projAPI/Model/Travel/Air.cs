@@ -288,6 +288,7 @@ namespace projAPI.Model.Travel
     }
     public class mdlFareQuotResponse
     {
+        
         public enmMessageType ResponseStatus { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
         public bool IsPriceChanged { get; set; }
@@ -302,6 +303,25 @@ namespace projAPI.Model.Travel
         public mdlFlightSearchWraper SearchQuery { get; set; }
         public mdlFareQuoteCondition FareQuoteCondition { get; set; }
         public string userip { get; set; }
+
+        [IgnoreDataMember]
+        [MaxLength(64)]
+        public string PurchaseIdentifier { get; set; }//Corepreate, Publish, SME        
+        [IgnoreDataMember]
+        public enmCabinClass PurchaseCabinClass { get; set; }
+        [MaxLength(256)]
+        [IgnoreDataMember]
+        public string PurchaseClassOfBooking { get; set; }
+        //Booked by Software
+        [MaxLength(64)]
+        [IgnoreDataMember]
+        public string BookedIdentifier { get; set; }//Corepreate, Publish, SME        
+        [IgnoreDataMember]
+        public enmCabinClass BookedCabinClass { get; set; }
+        [MaxLength(256)]
+        [IgnoreDataMember]
+        public string BookedClassOfBooking { get; set; }
+
 
     }
 

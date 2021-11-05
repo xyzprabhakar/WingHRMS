@@ -559,7 +559,7 @@ namespace projContext.DB.CRM.Travel
         public int AdultCount { get; set; }
         public int ChildCount { get; set; }
         public int InfantCount { get; set; }
-        public int UserId { get; set; }
+        public ulong Nid { get; set; }
         public int OrgId { get; set; }
         public DateTime BookingDate { get; set; }
         [MaxLength(64)]
@@ -597,13 +597,25 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
         public string VisitorId { get; set; }
         public tblFlightBookingMaster tblFlightBookingMaster { get; set; }
+        public int SegmentId { get; set; }
+        //Purchased by Customer
+        [MaxLength(64)]
+        public string PurchaseIdentifier { get; set; }//Corepreate, Publish, SME        
+        public enmCabinClass PurchaseCabinClass { get; set; }
+        [MaxLength(256)]
+        public string PurchaseClassOfBooking { get; set; }
+        //Booked by Software
+        [MaxLength(64)]
+        public string BookedIdentifier { get; set; }//Corepreate, Publish, SME        
+        public enmCabinClass BookedCabinClass { get; set; }
+        [MaxLength(256)]
+        public string BookedClassOfBooking { get; set; }
         [MaxLength(128)]
         public string ProviderBookingId { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
         public bool IncludeBaggageServices { get; set; }
         public bool IncludeMealServices { get; set; }
-        public bool IncludeSeatServices { get; set; }
-        public enmJourneyType JourneyType { get; set; }
+        public bool IncludeSeatServices { get; set; }        
         public double PurchaseAmount { get; set; }//Price at Which wing Purchase the ticket
         public double IncentiveAmount { get; set; }//Incentive that We have to Distribute the Distributors        
         public double MarkupAmount { get; set; }//Wing Markup Amount
@@ -621,6 +633,7 @@ namespace projContext.DB.CRM.Travel
         public bool HaveRefund { get; set; }
         [MaxLength(25)]
         public string Remarks { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public class tblFlightSearchSegment
@@ -632,6 +645,7 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(128)]
         public string BookingId { get; set; }
         public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
+        public string ProviderSegmentId { get; set; }
         public bool isLcc { get; set; }
         [MaxLength(32)]
         public string Code { get; set; }
@@ -690,20 +704,6 @@ namespace projContext.DB.CRM.Travel
         public string BookingId { get; set; }
         public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
         [MaxLength(256)]
-        public string ProviderFareDetailId { get; set; }
-        //Purchased by Customer
-        [MaxLength(64)]
-        public string PurchaseIdentifier { get; set; }//Corepreate, Publish, SME        
-        public enmCabinClass PurchaseCabinClass { get; set; }
-        [MaxLength(256)]
-        public string PurchaseClassOfBooking { get; set; }
-        //Booked by Software
-        [MaxLength(64)]
-        public string BookedIdentifier { get; set; }//Corepreate, Publish, SME        
-        public enmCabinClass BookedCabinClass { get; set; }
-        [MaxLength(256)]
-        public string BookedClassOfBooking { get; set; }
-
         [ForeignKey("tblFlightFareDetail_Adult")] // Foreign Key here
         public int? AdultPrice { get; set; }
         public tblFlightFareDetail tblFlightFareDetail_Adult { get; set; }
@@ -715,15 +715,15 @@ namespace projContext.DB.CRM.Travel
         public tblFlightFareDetail tblFlightFareDetail_Infant { get; set; }
 
 
-        [ForeignKey("tblFlightFareDetail_Adult_Booked")] // Foreign Key here
-        public int? BookedAdultPrice { get; set; }
-        public tblFlightFareDetail tblFlightFareDetail_Adult_Booked { get; set; }
-        [ForeignKey("tblFlightFareDetail_Child_Booked")] // Foreign Key here
-        public int? BookedChildPrice { get; set; }
-        public tblFlightFareDetail tblFlightFareDetail_Child_Booked { get; set; }
-        [ForeignKey("tblFlightFareDetail_Infant_Booked")] // Foreign Key here
-        public int? BookedInfantPrice { get; set; }
-        public tblFlightFareDetail tblFlightFareDetail_Infant_Booked { get; set; }
+        //[ForeignKey("tblFlightFareDetail_Adult_Booked")] // Foreign Key here
+        //public int? BookedAdultPrice { get; set; }
+        //public tblFlightFareDetail tblFlightFareDetail_Adult_Booked { get; set; }
+        //[ForeignKey("tblFlightFareDetail_Child_Booked")] // Foreign Key here
+        //public int? BookedChildPrice { get; set; }
+        //public tblFlightFareDetail tblFlightFareDetail_Child_Booked { get; set; }
+        //[ForeignKey("tblFlightFareDetail_Infant_Booked")] // Foreign Key here
+        //public int? BookedInfantPrice { get; set; }
+        //public tblFlightFareDetail tblFlightFareDetail_Infant_Booked { get; set; }
 
 
         public double BaseFare { get; set; }

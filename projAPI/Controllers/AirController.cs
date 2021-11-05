@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using projContext;
 using projAPI.Model.Travel;
 using projAPI.Services;
+using projAPI.Classes;
 
 namespace projAPI.Controllers
 {
@@ -40,28 +41,13 @@ namespace projAPI.Controllers
         public async Task<mdlReturnData> SearchFlightAsync( mdlFlightSearchWraper request,[FromQuery]string OrgCode)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-            var OrgData=_context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode && p.IsActive).FirstOrDefault();
-            if (OrgData == null)
+            Organisation org = new Organisation();
+            var tempData=org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, OrgCode);
+            if (tempData.MessageType != enmMessageType.Success)
             {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = "Invalid company code";
-                return mdl;
+                return tempData;
             }
-
-            if (!(OrgData.CustomerId == 1 || OrgData.CustomerId == 2))
-            {
-                if (_IsrvCurrentUser.user_type != enmUserType.Employee)
-                {
-                    if (_IsrvCurrentUser.CustomerId != OrgData.CustomerId)
-                    {
-                        mdl.MessageType = enmMessageType.Error;
-                        mdl.Message = "Unauthorize access";
-                        return mdl;
-                    }
-                }
-            }
-
-           var md= await _IsrvAir.FlightSearchAsync(request, OrgData.CustomerType, OrgData.CustomerId, _IsrvCurrentUser.DistributorId);
+            var md= await _IsrvAir.FlightSearchAsync(request, tempData.ReturnId.CustomerType, tempData.ReturnId.CustomerId, _IsrvCurrentUser.DistributorId);
 
             if (md.ResponseStatus == enmMessageType.Success)
             {
@@ -77,6 +63,33 @@ namespace projAPI.Controllers
             return mdl;
         }
 
+
+        [HttpPost]
+        [Route("FareQuote")]
+        public async Task<mdlReturnData> FareQuoteAsync(mdlFareQuotRequestWraper request, [FromQuery] string OrgCode)
+        {
+            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            Organisation org = new Organisation();
+            var tempData = org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, OrgCode);
+            if (tempData.MessageType != enmMessageType.Success)
+            {
+                return tempData;
+            }
+            var md = await _IsrvAir.FareQuoteAsync(request);
+
+            if (md.ResponseStatus == enmMessageType.Success)
+            {
+                mdl.MessageType = enmMessageType.Success;
+                mdl.ReturnId = md;
+            }
+            else
+            {
+                mdl.MessageType = enmMessageType.Error;
+                mdl.Message = md.Error?.Message;
+            }
+
+            return mdl;
+        }
         #endregion
 
     }
