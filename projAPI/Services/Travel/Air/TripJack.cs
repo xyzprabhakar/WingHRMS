@@ -784,6 +784,7 @@ namespace projAPI.Services.Travel.Air
                             BaseFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.BF ?? 0,
                             TaxAndFees = mdl.totalPriceInfo?.totalFareDetail?.fC?.TAF ?? 0,
                             TotalFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.TF ?? 0,
+                            NetFare= mdl.totalPriceInfo?.totalFareDetail?.fC.NF??0
                         },
                         //SearchQuery = new Models.mdlFlightSearchWraper()
                         //{

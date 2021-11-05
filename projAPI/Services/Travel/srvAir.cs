@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using projAPI.Model;
 using projAPI.Model.Travel;
 using projAPI.Services.Travel.Air;
@@ -57,11 +58,12 @@ namespace projAPI.Services.Travel
         private List<mdlWingMarkup_Air> _WingMarkupOnward, _WingDiscountOnward, _WingConvenienceOnward,
             _WingMarkupInward, _WingDiscountInward, _WingConvenienceInward;
         private List<tblFlightCustomerMarkup> _CustomerMarkupOnward, _CustomerMarkupInward;
-
-        public srvAir(TravelContext travelContext, ITripJack tripJack)
+        private readonly IConfiguration _config;
+        public srvAir(IConfiguration config, TravelContext travelContext, ITripJack tripJack)
         {
             _travelContext = travelContext;
             _tripJack = tripJack;
+            _config = config;
         }
 
 
@@ -905,177 +907,181 @@ namespace projAPI.Services.Travel
 
 
 
-        private void SetBasicPrice(ref mdlSearchResponse FinalResult)
+        private void SetBasicPrice(List<List<mdlSearchResult>> Results)
         {
-            for (int i = FinalResult.Results.Count - 1; i >= 0; i--)
+            for (int i = Results.Count - 1; i >= 0; i--)
             {
-                for (int j = 0; j < FinalResult.Results[i].Count; j++)
+                for (int j = 0; j <Results[i].Count; j++)
                 {
-                    for (int k = 0; k < FinalResult.Results[i][j].TotalPriceList.Count; k++)
+                    for (int k = 0; k < Results[i][j].TotalPriceList.Count; k++)
                     {
-                        if (FinalResult.Results[i][j].TotalPriceList[k].BaseFare == 0)
+                        if (Results[i][j].TotalPriceList[k].BaseFare == 0)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].BaseFare =
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.NetFare +
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare +
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare;
+                            Results[i][j].TotalPriceList[k].BaseFare =
+                            Results[i][j].TotalPriceList[k].ADULT.NetFare +
+                            Results[i][j].TotalPriceList[k].CHILD.NetFare +
+                            Results[i][j].TotalPriceList[k].INFANT.NetFare;
                         }
-                        if (FinalResult.Results[i][j].TotalPriceList[k].NetFare == 0)
+                        if (Results[i][j].TotalPriceList[k].NetFare == 0)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].NetFare =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare;
+                            Results[i][j].TotalPriceList[k].NetFare =
+                            Results[i][j].TotalPriceList[k].ADULT.NetFare +
+                            Results[i][j].TotalPriceList[k].CHILD.NetFare +
+                            Results[i][j].TotalPriceList[k].INFANT.NetFare;
                         }
-                        if (FinalResult.Results[i][j].TotalPriceList[k].TotalFare == 0)
+                        if (Results[i][j].TotalPriceList[k].TotalFare == 0)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].TotalFare =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.TotalFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.TotalFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare;
+                            Results[i][j].TotalPriceList[k].TotalFare =
+                            Results[i][j].TotalPriceList[k].ADULT.TotalFare +
+                            Results[i][j].TotalPriceList[k].CHILD.TotalFare +
+                            Results[i][j].TotalPriceList[k].INFANT.TotalFare;
                         }
 
-                        if (FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup == null)
+                        if (Results[i][j].TotalPriceList[k].ADULT.FareBreakup == null)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup = new List<mdlWingFaredetails>();
+                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup = new List<mdlWingFaredetails>();
                         }
-                        if (FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup == null)
+                        if (Results[i][j].TotalPriceList[k].CHILD.FareBreakup == null)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup = new List<mdlWingFaredetails>();
+                            Results[i][j].TotalPriceList[k].CHILD.FareBreakup = new List<mdlWingFaredetails>();
                         }
-                        if (FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup == null)
+                        if (Results[i][j].TotalPriceList[k].INFANT.FareBreakup == null)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup = new List<mdlWingFaredetails>();
+                            Results[i][j].TotalPriceList[k].INFANT.FareBreakup = new List<mdlWingFaredetails>();
                         }
-                        if (FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup == null)
+                        if (Results[i][j].TotalPriceList[k].ConsolidateFareBreakup == null)
                         {
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup = new List<mdlWingFaredetails>();
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup = new List<mdlWingFaredetails>();
                         }
                     }
                 }
             }
         }
-        private void SetBasicPriceWithMarkup(ref mdlSearchResponse FinalResult)
+
+        private void SetBasicPriceWithMarkup(List<List<mdlSearchResult>> Results)
         {
 
-            for (int i = FinalResult.Results.Count - 1; i >= 0; i--)
+            for (int i = Results.Count - 1; i >= 0; i--)
             {
-                for (int j = 0; j < FinalResult.Results[i].Count; j++)
+                for (int j = 0; j < Results[i].Count; j++)
                 {
-                    for (int k = 0; k < FinalResult.Results[i][j].TotalPriceList.Count; k++)
+                    for (int k = 0; k < Results[i][j].TotalPriceList.Count; k++)
                     {
 
                         
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
+                            Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
+                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
                         
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup =
-                             FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
+                        Results[i][j].TotalPriceList[k].CHILD.WingMarkup =
+                             Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.WingMarkup =
-                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].INFANT.WingMarkup =
+                             Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.MLMMarkup =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].ADULT.MLMMarkup =
+                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.MLMMarkup =
-                             FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
+                        Results[i][j].TotalPriceList[k].CHILD.MLMMarkup =
+                             Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.MLMMarkup =
-                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].INFANT.MLMMarkup =
+                             Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.Discount =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].ADULT.Discount =
+                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
                             Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.Discount =
-                             FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
+                        Results[i][j].TotalPriceList[k].CHILD.Discount =
+                             Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.Discount =
-                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].INFANT.Discount =
+                             Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.Convenience =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].ADULT.Convenience =
+                            Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.Convenience =
-                             FinalResult.Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
+                        Results[i][j].TotalPriceList[k].CHILD.Convenience =
+                             Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.Convenience =
-                             FinalResult.Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
+                        Results[i][j].TotalPriceList[k].INFANT.Convenience =
+                             Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.TotalFare = FinalResult.Results[i][j].TotalPriceList[k].ADULT.TotalFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].ADULT.MLMMarkup
-                            + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
-                        FinalResult.Results[i][j].TotalPriceList[k].ADULT.NetFare = FinalResult.Results[i][j].TotalPriceList[k].ADULT.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].ADULT.MLMMarkup
-                            - FinalResult.Results[i][j].TotalPriceList[k].ADULT.Discount + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].ADULT.TotalFare = Results[i][j].TotalPriceList[k].ADULT.TotalFare +
+                            Results[i][j].TotalPriceList[k].ADULT.WingMarkup + Results[i][j].TotalPriceList[k].ADULT.MLMMarkup
+                            + Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].ADULT.NetFare = Results[i][j].TotalPriceList[k].ADULT.NetFare +
+                            Results[i][j].TotalPriceList[k].ADULT.WingMarkup + Results[i][j].TotalPriceList[k].ADULT.MLMMarkup
+                            - Results[i][j].TotalPriceList[k].ADULT.Discount + Results[i][j].TotalPriceList[k].Convenience;
 
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.TotalFare = FinalResult.Results[i][j].TotalPriceList[k].CHILD.TotalFare +
-                           FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
-                           + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
-                        FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare = FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
-                            - FinalResult.Results[i][j].TotalPriceList[k].CHILD.Discount + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].CHILD.TotalFare = Results[i][j].TotalPriceList[k].CHILD.TotalFare +
+                           Results[i][j].TotalPriceList[k].CHILD.WingMarkup + Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
+                           + Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].CHILD.NetFare = Results[i][j].TotalPriceList[k].CHILD.NetFare +
+                            Results[i][j].TotalPriceList[k].CHILD.WingMarkup + Results[i][j].TotalPriceList[k].CHILD.MLMMarkup
+                            - Results[i][j].TotalPriceList[k].CHILD.Discount + Results[i][j].TotalPriceList[k].Convenience;
 
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare = FinalResult.Results[i][j].TotalPriceList[k].INFANT.TotalFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
-                            + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
-                        FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare = FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.WingMarkup + FinalResult.Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
-                            - FinalResult.Results[i][j].TotalPriceList[k].INFANT.Discount + FinalResult.Results[i][j].TotalPriceList[k].Convenience;
-
-
-                        FinalResult.Results[i][j].TotalPriceList[k].BaseFare =
-                            FinalResult.Results[i][j].TotalPriceList[k].ADULT.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].CHILD.NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].INFANT.NetFare;
+                        Results[i][j].TotalPriceList[k].INFANT.TotalFare = Results[i][j].TotalPriceList[k].INFANT.TotalFare +
+                            Results[i][j].TotalPriceList[k].INFANT.WingMarkup + Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
+                            + Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].INFANT.NetFare = Results[i][j].TotalPriceList[k].INFANT.NetFare +
+                            Results[i][j].TotalPriceList[k].INFANT.WingMarkup + Results[i][j].TotalPriceList[k].INFANT.MLMMarkup
+                            - Results[i][j].TotalPriceList[k].INFANT.Discount + Results[i][j].TotalPriceList[k].Convenience;
 
 
-                        FinalResult.Results[i][j].TotalPriceList[k].WingMarkup =
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
+                        Results[i][j].TotalPriceList[k].BaseFare =
+                            Results[i][j].TotalPriceList[k].ADULT.NetFare +
+                            Results[i][j].TotalPriceList[k].CHILD.NetFare +
+                            Results[i][j].TotalPriceList[k].INFANT.NetFare;
+
+
+                        Results[i][j].TotalPriceList[k].WingMarkup =
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].MLMMarkup =
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
+                        Results[i][j].TotalPriceList[k].MLMMarkup =
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].Discount =
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
+                        Results[i][j].TotalPriceList[k].Discount =
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
                             Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].Convenience =
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
+                        Results[i][j].TotalPriceList[k].Convenience =
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].CustomerMarkup =
-                            FinalResult.Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
+                        Results[i][j].TotalPriceList[k].CustomerMarkup =
+                            Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
                             Where(p => p.type == enmFlighWingCharge.CustomerMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
-                        FinalResult.Results[i][j].TotalPriceList[k].TotalFare =
-                            FinalResult.Results[i][j].TotalPriceList[k].TotalFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].WingMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].MLMMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].CustomerMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].Convenience;
+                        Results[i][j].TotalPriceList[k].TotalFare =
+                            Results[i][j].TotalPriceList[k].TotalFare +
+                            Results[i][j].TotalPriceList[k].WingMarkup +
+                            Results[i][j].TotalPriceList[k].MLMMarkup +
+                            Results[i][j].TotalPriceList[k].CustomerMarkup +
+                            Results[i][j].TotalPriceList[k].Convenience;
 
 
-                        FinalResult.Results[i][j].TotalPriceList[k].NetFare =
-                            FinalResult.Results[i][j].TotalPriceList[k].NetFare +
-                            FinalResult.Results[i][j].TotalPriceList[k].WingMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].MLMMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].CustomerMarkup +
-                            FinalResult.Results[i][j].TotalPriceList[k].Convenience -
-                            FinalResult.Results[i][j].TotalPriceList[k].Discount -
-                            FinalResult.Results[i][j].TotalPriceList[k].PromoDiscount;
+                        Results[i][j].TotalPriceList[k].NetFare =
+                            Results[i][j].TotalPriceList[k].NetFare +
+                            Results[i][j].TotalPriceList[k].WingMarkup +
+                            Results[i][j].TotalPriceList[k].MLMMarkup +
+                            Results[i][j].TotalPriceList[k].CustomerMarkup +
+                            Results[i][j].TotalPriceList[k].Convenience -
+                            Results[i][j].TotalPriceList[k].Discount -
+                            Results[i][j].TotalPriceList[k].PromoDiscount;
 
                     }
                 }
             }
         }
+
+        
+
 
 
         public async Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid)
@@ -1140,12 +1146,11 @@ namespace projAPI.Services.Travel
                 FinalResult.Error = new mdlError() { Code = 100, Message = "No data found in return flight" };
                 return FinalResult;
             }
-            SetBasicPrice(ref FinalResult);
+            SetBasicPrice(FinalResult.Results);
             ClearAllCharge();
 
             if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType).Any())
             {
-
                 AlterSeachIndex(FinalResult.Results[0]);
                 if (mdl.JourneyType == enmJourneyType.Return)
                     AlterSeachIndex(FinalResult.Results[0]);
@@ -1162,7 +1167,7 @@ namespace projAPI.Services.Travel
 
             var spPriority = GetServiceProviderPriority(CurrentDate, true);
             RemoveDuplicate();
-            SetBasicPriceWithMarkup(ref FinalResult);
+            SetBasicPriceWithMarkup(FinalResult.Results);
             void AppendProvider(mdlSearchResponse tempResult, bool IsOnWard, enmServiceProvider spv)
             {
                 tempResult.Results.FirstOrDefault().ForEach(p =>
@@ -1305,7 +1310,113 @@ namespace projAPI.Services.Travel
             //GetCharges();
         }
 
+        public async Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
+        {
+            List<mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
+            DateTime CurrentDate = DateTime.Now;
+            var ServiceProviders = GetServiceProvider(CurrentDate, true).Select(p => p.ServiceProvider);
 
+            //mdlSearchResponse FinalResult = null;
+            enmServiceProvider tempServiceProvider = enmServiceProvider.None;
+            int FlightPriceVarienceAlert = 100;
+            int.TryParse(_config["Setting:FlightPriceVarienceAlert"], out FlightPriceVarienceAlert);
+            for (int i = 0; i < request.ResultIndex.Count; i++)
+            {
+                mdlFareQuotResponse BookingRes = null; ;
+                mdlFareQuotResponse AlterBookingRes = null; ;
+
+                if (!string.IsNullOrEmpty(request.ResultIndex[i].Item2))
+                {
+                    var temp=request.ResultIndex[i].Item2.Split("_");
+                    Enum.TryParse(  temp.FirstOrDefault(),out tempServiceProvider);
+                    if (tempServiceProvider == enmServiceProvider.None)
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider))
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider);
+                    if (tempObj == null)
+                    {
+                        throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
+                    }
+                    AlterBookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex( request.ResultIndex[i].Item2 )});
+
+                }
+
+                if (!string.IsNullOrEmpty(request.ResultIndex[i].Item1))
+                {
+                    var temp = request.ResultIndex[i].Item1.Split("_");
+                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider);
+                    if (tempServiceProvider == enmServiceProvider.None)
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider))
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider);
+                    if (tempObj == null)
+                    {
+                        throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
+                    }
+                    BookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item1)});
+
+                }
+                if (BookingRes == null || BookingRes.ResponseStatus!= enmMessageType.Success)
+                {
+                    throw new Exception("Not able to genrate Quotation");
+                }
+                if (BookingRes.IsPriceChanged && AlterBookingRes != null)
+                {
+                    throw new Exception("Price has been changed");
+                }
+
+                if (AlterBookingRes != null)
+                {
+                    if (AlterBookingRes.ResponseStatus != enmMessageType.Success)
+                    {
+                        throw new Exception("Not able to genrate Quotation.");
+                    }
+                    if (AlterBookingRes.IsPriceChanged)
+                    {
+                        throw new Exception("Price has been changed.");
+                    }
+                    if (BookingRes.TotalPriceInfo.NetFare-  AlterBookingRes.TotalPriceInfo.NetFare< FlightPriceVarienceAlert)
+                    {
+                        throw new Exception("Price has been changed");
+                    }
+                }
+                ClearAllCharge();
+                SetBasicPrice(BookingRes.Results);
+                SetBasicPriceWithMarkup(BookingRes.Results);                
+                if (AlterBookingRes != null) 
+                {
+                    SetBasicPriceWithMarkup(AlterBookingRes.Results);
+                    if (BookingRes.Results.Count == 0 || AlterBookingRes.Results.Count == 0)
+                    {
+                        throw new Exception("Invalid Result");
+                    }
+                    if (BookingRes.Results[0].Count == 0 || AlterBookingRes.Results[0].Count == 0)
+                    {
+                        throw new Exception("Invalid Result");
+                    }
+                    BookingRes.Results[0][0].Segment = AlterBookingRes.Results[0][0].Segment;
+                }
+                mdl.Add(BookingRes);
+            }
+            string GetOriginalResultIndex(string resultIndex)
+            {
+                int FirstIndex=resultIndex.IndexOf('_');
+                int SecondIndex = resultIndex.IndexOf('_', FirstIndex+1);
+                return resultIndex.Substring(SecondIndex+1);
+            }
+
+            return mdl;
+        }
 
     }
 

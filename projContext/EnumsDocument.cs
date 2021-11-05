@@ -449,7 +449,11 @@ namespace projContext
         [Description("Only one head office can be created!!!")]
         SingleHeadOfficeException,
         [Description("Invalid Old Password !!!")]
-        InvalidOldPassword
+        InvalidOldPassword,
+        [Description("Invalid Service Provider !!!")]
+        InvalidServiceProvider,
+        [Description("Provider Not Implemeneted !!!")]
+        ProviderNotImplemented
 
     }
 

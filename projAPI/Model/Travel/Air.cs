@@ -108,8 +108,6 @@ namespace projAPI.Model.Travel
         public SsrInformation[] BAGGAGE { get; set; }
         public SsrInformation[] MEAL { get; set; }
         public SsrInformation[] EXTRASERVICES { get; set; }
-
-
     }
     public class SsrInformation
     {
@@ -275,7 +273,7 @@ namespace projAPI.Model.Travel
     public class mdlFareQuotRequestWraper
     {
         public string TraceId { get; set; }
-        public Tuple< string,string> ResultIndex { get; set; }
+        public List< Tuple< string,string>> ResultIndex { get; set; }
     }
 
     public class mdlFareQuotRequest
@@ -316,6 +314,7 @@ namespace projAPI.Model.Travel
         public double convincecharge { get; set; }
         public double discount { get; set; }
         public double insurance { get; set; }
+        public double NetFare { get; set; }
     }
 
     public class mdlFareQuoteCondition
@@ -325,6 +324,8 @@ namespace projAPI.Model.Travel
         public mdlDobCondition dob { get; set; }
         public mdlPassportCondition PassportCondition { get; set; }
         public mdlGstCondition GstCondition { get; set; }
+        public DateTime sct { get; set; }
+        public int st { get; set; }
     }
     public class mdlDobCondition
     {
