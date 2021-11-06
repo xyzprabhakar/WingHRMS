@@ -38,10 +38,12 @@ namespace projAPI.Controllers
             public DateTime DOB{ get; set; }
         }
         [HttpGet]
-        public ActionResult<mdl> Get()
+        public ActionResult<List<Tuple<string,string>>> Get()
         {
-
-            mdl ob = new mdl() { DOB = DateTime.Now, Name = "Prabhakaer" };
+            List<Tuple<string, string>> ob = new List<Tuple<string, string>>();
+            ob.Add(Tuple.Create("Prabhakar", "Kumar"));
+            ob.Add(Tuple.Create("Divakar", "Kumar"));
+            ob.Add(Tuple.Create("Shresht", "Kumar"));
 
             return ob;
         }

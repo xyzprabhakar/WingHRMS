@@ -1320,7 +1320,7 @@ namespace projAPI.Services.Travel
             enmServiceProvider tempServiceProvider1 = enmServiceProvider.None;
             enmServiceProvider tempServiceProvider2 = enmServiceProvider.None;
             int FlightPriceVarienceAlert = 100;
-            int.TryParse(_config["Setting:FlightPriceVarienceAlert"], out FlightPriceVarienceAlert);
+            int.TryParse(_config["Travel:Setting:FlightPriceVarienceAlert"], out FlightPriceVarienceAlert);
             for (int i = 0; i < request.ResultIndex.Count; i++)
             {
                 mdlFareQuotResponse BookingRes = null; ;

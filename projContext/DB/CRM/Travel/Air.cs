@@ -746,6 +746,9 @@ namespace projContext.DB.CRM.Travel
         public double BaseFare { get; set; }
         public double Tax { get; set; }
         public double WingMarkup { get; set; }
+        public double MLMMarkup { get; set; }
+        public double Convenience { get; set; }
+
         public double TotalFare { get; set; }
         public double Discount { get; set; }
         public double NetFare { get; set; }

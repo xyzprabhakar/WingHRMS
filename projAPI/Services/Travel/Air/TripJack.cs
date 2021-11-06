@@ -724,12 +724,8 @@ namespace projAPI.Services.Travel.Air
             
             mdlFareQuotResponse mdlS = null;
             FareQuotResponse mdl = null;
-
             DateTime DepartureDt = DateTime.Now, ArrivalDt = DateTime.Now;
-
-
-            string tboUrl = _config["TripJack:API:FareQuote"];
-            
+            string tboUrl = _config["Travel:TripJack:API:FareQuote"];            
             string jsonString = JsonConvert.SerializeObject(FareQuoteRequestMap(request));
             var HaveResponse = GetResponse(jsonString, tboUrl);
             if (HaveResponse.MessageType == enmMessageType.Success)
@@ -747,7 +743,6 @@ namespace projAPI.Services.Travel.Air
                     int ServiceProvider = (int)enmServiceProvider.TripJack;
                     if (mdl.tripInfos != null)
                     {
-
                         mdlFareRuleRequest mfr = new mdlFareRuleRequest();
                         for (int i = 0; i < mdl.tripInfos.FirstOrDefault().totalPriceList.Count(); i++)
                         {
@@ -786,17 +781,17 @@ namespace projAPI.Services.Travel.Air
                             TotalFare = mdl.totalPriceInfo?.totalFareDetail?.fC?.TF ?? 0,
                             NetFare= mdl.totalPriceInfo?.totalFareDetail?.fC.NF??0
                         },
-                        //SearchQuery = new Models.mdlFlightSearchWraper()
-                        //{
-                        //    AdultCount = mdl.searchQuery?.paxInfo?.ADULT ?? 0,
-                        //    ChildCount = mdl.searchQuery?.paxInfo?.CHILD ?? 0,
-                        //    InfantCount = mdl.searchQuery?.paxInfo?.INFANT ?? 0,
-                        //    CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), mdl.searchQuery?.cabinClass ?? (nameof(enmCabinClass.ECONOMY)), true),
-                        //    JourneyType = enmJourneyType.OneWay,
-                        //    DepartureDt = DepartureDt,
-                        //    From = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.fromCityOrAirport?.code,
-                        //    To = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.toCityOrAirport?.code
-                        //},
+                        SearchQuery = new  mdlFlightSearchWraper()
+                        {
+                            AdultCount = mdl.searchQuery?.paxInfo?.ADULT ?? 0,
+                            ChildCount = mdl.searchQuery?.paxInfo?.CHILD ?? 0,
+                            InfantCount = mdl.searchQuery?.paxInfo?.INFANT ?? 0,
+                            CabinClass = (enmCabinClass)Enum.Parse(typeof(enmCabinClass), mdl.searchQuery?.cabinClass ?? (nameof(enmCabinClass.ECONOMY)), true),
+                            JourneyType = enmJourneyType.OneWay,
+                            DepartureDt = DepartureDt,
+                            From = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.fromCityOrAirport?.code,
+                            To = mdl.searchQuery?.routeInfos?.FirstOrDefault()?.toCityOrAirport?.code
+                        },
                         FareQuoteCondition = new mdlFareQuoteCondition()
                         {
                             dob = new mdlDobCondition()
@@ -830,7 +825,7 @@ namespace projAPI.Services.Travel.Air
                         Error = new mdlError()
                         {
                             Code = mdl.status.httpStatus,
-                            Message = mdl.errors?.FirstOrDefault()?.message,
+                            Message = "Unable to Process",
                         }
                     };
                 }

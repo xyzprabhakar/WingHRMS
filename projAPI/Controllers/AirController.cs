@@ -10,6 +10,7 @@ using projContext;
 using projAPI.Model.Travel;
 using projAPI.Services;
 using projAPI.Classes;
+using projContext.DB.CRM.Travel;
 
 namespace projAPI.Controllers
 {
@@ -20,11 +21,13 @@ namespace projAPI.Controllers
         private readonly IsrvAir _IsrvAir;
         private readonly IsrvCurrentUser _IsrvCurrentUser;
         private readonly Context _context;
-        public AirController(IsrvAir isrvAir, IsrvCurrentUser isrvCurrentUser, Context context)
+        private readonly TravelContext _travelContext;
+        public AirController(IsrvAir isrvAir, IsrvCurrentUser isrvCurrentUser, Context context, TravelContext travelContext)
         {
             _IsrvAir = isrvAir;
             _IsrvCurrentUser = isrvCurrentUser;
             _context = context;
+            _travelContext = travelContext;
         }
         [Route("GetAirport/{onlyActive}/{isDomestic}")]
         public mdlReturnData GetAirport(bool onlyActive, bool isDomestic)
@@ -37,12 +40,12 @@ namespace projAPI.Controllers
         #region ************************ Flight Booking ******************************
 
         [HttpPost]
-        [Route("SearchFlight")]
-        public async Task<mdlReturnData> SearchFlightAsync( mdlFlightSearchWraper request,[FromQuery]string OrgCode)
+        [Route("SearchFlight/{orgCode}")]
+        public async Task<mdlReturnData> SearchFlightAsync( mdlFlightSearchWraper request,string orgCode)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
             Organisation org = new Organisation();
-            var tempData=org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, OrgCode);
+            var tempData=org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, orgCode);
             if (tempData.MessageType != enmMessageType.Success)
             {
                 return tempData;
@@ -65,31 +68,34 @@ namespace projAPI.Controllers
 
 
         [HttpPost]
-        [Route("FareQuote")]
-        public async Task<mdlReturnData> FareQuoteAsync(mdlFareQuotRequestWraper request, [FromQuery] string OrgCode)
+        [Route("FareQuote/{orgCode}/{nid}")]
+        public async Task<mdlReturnData> FareQuoteAsync(mdlFareQuotRequestWraper request,string orgCode,ulong nid)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-            Organisation org = new Organisation();
-            var tempData = org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, OrgCode);
-            if (tempData.MessageType != enmMessageType.Success)
+            try
             {
-                return tempData;
-            }
-            var md = await _IsrvAir.FareQuoteAsync(request);
-
-            if (md.ResponseStatus == enmMessageType.Success)
-            {
-                mdl.MessageType = enmMessageType.Success;
+                Organisation org = new Organisation();
+                var tempData = org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, orgCode);
+                if (tempData.MessageType != enmMessageType.Success)
+                {
+                    return tempData;
+                }
+                var md = await _IsrvAir.FareQuoteAsync(request);
+                Travel travel = new Travel(_travelContext);
+                travel.SetFareQuote(request, _IsrvCurrentUser, md, tempData.ReturnId.CustomerId, nid);
                 mdl.ReturnId = md;
             }
-            else
+            catch(Exception ex)
             {
                 mdl.MessageType = enmMessageType.Error;
-                mdl.Message = md.Error?.Message;
+                mdl.Message = ex.Message;
+                return mdl;
             }
-
+            mdl.MessageType = enmMessageType.Success;            
             return mdl;
         }
+
+
         #endregion
 
     }

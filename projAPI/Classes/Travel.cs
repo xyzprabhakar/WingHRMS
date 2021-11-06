@@ -71,6 +71,16 @@ namespace projAPI.Classes
             _travelContext.SaveChanges();
             VisitorId = Master.VisitorId;
 
+            SetFlightBookingSearchDetails(1);
+            if (response.Count > 1)
+            {
+                SetFlightBookingSearchDetails(2);
+            }
+
+            mdl.Message = "Save Successfully";
+            mdl.MessageType = enmMessageType.Success;
+            return mdl;
+
             void SetFlightBookingSearchDetails(int SegmentId)
             {
                 string BookingId= Guid.NewGuid().ToString();
@@ -104,11 +114,14 @@ namespace projAPI.Classes
                     MarkupAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].WingMarkup,
                     CustomerMarkupAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CustomerMarkup,
                     DiscountAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].Discount,
-                    SaleAmount= response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.NetFare
+                    SaleAmount= response[SegmentId - 1].Results[0][0].TotalPriceList[0].NetFare
                 };
                 mdlSearch.NetSaleAmount = mdlSearch.SaleAmount + mdlSearch.IncentiveAmount + mdlSearch.ConvenienceAmount
                     + mdlSearch.MarkupAmount - mdlSearch.DiscountAmount;
-                _travelContext.tblFlightBookingSearchDetails.Update(tempSerach);
+                if (tempSerach != null)
+                {
+                    _travelContext.tblFlightBookingSearchDetails.Update(tempSerach);
+                }                
                 _travelContext.tblFlightBookingSearchDetails.Add(mdlSearch);
                 
                 foreach(var seg in  response[SegmentId - 1].Results[0][0].Segment)
@@ -145,14 +158,69 @@ namespace projAPI.Classes
                     };
                     _travelContext.tblFlightSearchSegment.Add(fsg);
                 }
-
-
-                tblFlightFare flightFare= new tblFlightFare() {
-                    BookingId= BookingId,
-
-
-                }
-
+                tblFlightFare flightFare = new tblFlightFare()
+                {
+                    BookingId = BookingId,
+                    tblFlightFareDetail_Adult = new tblFlightFareDetail()
+                    {
+                        BaseFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.BaseFare,
+                        TotalFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.TotalFare,
+                        CabinBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.CabinBaggage,
+                        CheckingBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.CheckingBaggage,
+                        Discount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.Discount,
+                        Tax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.Tax,
+                        YQTax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.YQTax,
+                        WingMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.WingMarkup,
+                        NetFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.NetFare,
+                        IsFreeMeal = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.IsFreeMeal,
+                        IsRefundable = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.IsRefundable,
+                        MLMMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.MLMMarkup,
+                        Convenience = response[SegmentId - 1].Results[0][0].TotalPriceList[0].ADULT.Convenience,
+                    },
+                    tblFlightFareDetail_Child = new tblFlightFareDetail()
+                    {
+                        BaseFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.BaseFare,
+                        TotalFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.TotalFare,
+                        CabinBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.CabinBaggage,
+                        CheckingBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.CheckingBaggage,
+                        Discount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.Discount,
+                        Tax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.Tax,
+                        YQTax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.YQTax,
+                        WingMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.WingMarkup,
+                        NetFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.NetFare,
+                        IsFreeMeal = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.IsFreeMeal,
+                        IsRefundable = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.IsRefundable,
+                        MLMMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.MLMMarkup,
+                        Convenience = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CHILD.Convenience,
+                    },
+                    tblFlightFareDetail_Infant = new tblFlightFareDetail()
+                    {
+                        BaseFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.BaseFare,
+                        TotalFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.TotalFare,
+                        CabinBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.CabinBaggage,
+                        CheckingBaggage = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.CheckingBaggage,
+                        Discount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.Discount,
+                        Tax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.Tax,
+                        YQTax = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.YQTax,
+                        WingMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.WingMarkup,
+                        NetFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.NetFare,
+                        IsFreeMeal = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.IsFreeMeal,
+                        IsRefundable = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.IsRefundable,
+                        MLMMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.MLMMarkup,
+                        Convenience = response[SegmentId - 1].Results[0][0].TotalPriceList[0].INFANT.Convenience,
+                    },
+                    CustomerMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CustomerMarkup,
+                    Convenience = response[SegmentId - 1].Results[0][0].TotalPriceList[0].Convenience,
+                    BaseFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].BaseFare,
+                    Discount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].Discount,
+                    PromoCode = response[SegmentId - 1].Results[0][0].TotalPriceList[0].PromoCode,
+                    PromoDiscount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].PromoDiscount,
+                    WingMarkup = response[SegmentId - 1].Results[0][0].TotalPriceList[0].WingMarkup,
+                    NetFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].NetFare,
+                    TotalFare = response[SegmentId - 1].Results[0][0].TotalPriceList[0].TotalFare,
+                };
+                _travelContext.tblFlightFare.Add(flightFare);
+                _travelContext.SaveChanges();
             }
 
 
