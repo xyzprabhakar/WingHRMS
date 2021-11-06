@@ -863,6 +863,118 @@ namespace projAPI.Services.Travel.Air
         }
 
 
+
+        private BookingRequest BookingRequestMap(mdlBookingRequest request)
+        {
+            GstInfo _gstInfo = null;
+            if (request.gstInfo != null)
+            {
+                _gstInfo = new GstInfo()
+                {
+                    address = request.gstInfo.address,
+                    email = request.gstInfo.email,
+                    gstNumber = request.gstInfo.gstNumber,
+                    mobile = request.gstInfo.mobile,
+                    registeredName = request.gstInfo.registeredName,
+                };
+            }
+            PaymentInfos[] paymentInfos = null;
+            if (request.paymentInfos != null)
+            {
+                paymentInfos = request.paymentInfos.Select(p => new PaymentInfos { amount = p.amount }).ToArray();
+            }
+
+            BookingRequest mdl = new BookingRequest()
+            {
+                bookingId = request.BookingId,
+                gstInfo = _gstInfo,
+                deliveryInfo = new Deliveryinfo()
+                {
+                    contacts = request.deliveryInfo?.contacts,
+                    emails = request.deliveryInfo?.emails,
+                },
+                travellerInfo = request.travellerInfo.Select(p => new Travellerinfo
+                {
+                    ti = p.Title.ToString().ToUpper(),
+                    fN = p.FirstName,
+                    lN = p.LastName,
+                    dob = p.dob.HasValue ? p.dob.Value.ToString("yyyy-MM-dd") : null,
+                    eD = p.PassportExpiryDate.ToString("yyyy-MM-dd"),
+                    pid = p.PassportIssueDate.ToString("yyyy-MM-dd"),
+                    pNum = p.pNum,
+                    pt = p.passengerType.ToString().Trim().ToUpper(),
+                    ssrBaggageInfos = p.ssrBaggageInfoslist,
+                    ssrSeatInfos = p.ssrSeatInfoslist,
+                    ssrMealInfos = p.ssrMealInfoslist,
+                    ssrExtraServiceInfos = p.ssrExtraServiceInfoslist,
+
+                }).ToArray(),
+                paymentInfos = paymentInfos
+            };
+            return mdl;
+        }
+        public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request)
+        {
+            mdlBookingResponse mdlS = null;
+            BookingResponse mdl = null;
+            //set the Upper case in pax type
+
+            string tboUrl = _config["Travel:TripJack:API:Book"];
+            string jsonString = JsonConvert.SerializeObject(BookingRequestMap(request));
+            var HaveResponse = GetResponse(jsonString, tboUrl);
+            if (HaveResponse.MessageType == enmMessageType.Success )
+            {
+                mdl = (JsonConvert.DeserializeObject<BookingResponse>(HaveResponse.Message));
+            }
+
+            if (mdl != null)
+            {
+                if (mdl.status.success)//success
+                {
+                    mdlS = new mdlBookingResponse()
+                    {
+                        bookingId = mdl.bookingId,
+                        Error = new mdlError()
+                        {
+                            Code = 0,
+                            Message = ""
+                        },
+                        ResponseStatus = 1,
+
+                    };
+                }
+                else
+                {
+                    mdlS = new mdlBookingResponse()
+                    {
+                        ResponseStatus = 3,
+                        Error = new mdlError()
+                        {
+                            Code = 12,
+                            Message = mdl.errors?.FirstOrDefault()?.message ?? "",
+                        }
+                    };
+                }
+
+            }
+            else
+            {   
+                mdlS = new mdlBookingResponse()
+                {
+                    ResponseStatus = 100,
+                    Error = new mdlError()
+                    {
+                        Code = 100,
+                        Message = HaveResponse.Message,
+                    }
+                };
+            }
+
+            return mdlS;
+        }
+
+
+
         #region ******************** Inner classes **********************
         #region ****************** Request ******************************
 
@@ -1200,6 +1312,69 @@ namespace projAPI.Services.Travel.Air
             public Error[] errors { get; set; }
         }
 
+        #endregion
+
+        #region *****************Booking Request classes *************************
+        public class BookingRequest
+        {
+            public string bookingId { get; set; }
+            public Travellerinfo[] travellerInfo { get; set; }
+            public Deliveryinfo deliveryInfo { get; set; }
+            public GstInfo gstInfo { get; set; }
+            public PaymentInfos[] paymentInfos { get; set; }
+        }
+
+        public class PaymentInfos
+        {
+            public double amount { get; set; }
+        }
+
+        public class Deliveryinfo
+        {
+            public List<string> emails { get; set; }
+            public List<string> contacts { get; set; }
+        }
+
+        public class Travellerinfo
+        {
+            public string ti { get; set; }
+            public string fN { get; set; }
+            public string lN { get; set; }
+            public string pt { get; set; }
+            public string dob { get; set; }
+            public string pNum { get; set; }
+            public string eD { get; set; }
+            public string pid { get; set; }
+            public List<mdlSSRS> ssrBaggageInfos { get; set; }
+            public List<mdlSSRS> ssrMealInfos { get; set; }
+            public List<mdlSSRS> ssrSeatInfos { get; set; }
+            public List<mdlSSRS> ssrExtraServiceInfos { get; set; }
+        }
+
+
+        public class GstInfo
+        {
+            public string gstNumber { get; set; }
+            public string email { get; set; }
+            public string registeredName { get; set; }
+            public string mobile { get; set; }
+            public string address { get; set; }
+        }
+
+        public class SSRS
+        {
+            public string key { get; set; }
+            public string value { get; set; }
+        }
+
+
+        public class BookingResponse
+        {
+            public string bookingId { get; set; }
+            public Status status { get; set; }
+            public Metainfo metaInfo { get; set; }
+            public Error[] errors { get; set; }
+        }
         #endregion
 
         #endregion

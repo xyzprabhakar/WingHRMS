@@ -81,8 +81,7 @@ namespace projAPI.Controllers
                     return tempData;
                 }
                 var md = await _IsrvAir.FareQuoteAsync(request);
-                Travel travel = new Travel(_travelContext);
-                travel.SetFareQuote(request, _IsrvCurrentUser, md, tempData.ReturnId.CustomerId, nid);
+                _IsrvAir.SaveFareQuote(request, _IsrvCurrentUser, md, tempData.ReturnId.CustomerId, nid);
                 mdl.ReturnId = md;
             }
             catch(Exception ex)
