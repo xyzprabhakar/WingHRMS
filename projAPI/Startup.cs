@@ -56,13 +56,18 @@ namespace projAPI
 
             //add context
             services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
+            services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)));
+
             
+            services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
 
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
             services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
+
+
 
 
             #region  ******************************** Travel*******************************

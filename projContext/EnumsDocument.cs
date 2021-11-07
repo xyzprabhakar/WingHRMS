@@ -455,7 +455,9 @@ namespace projContext
         [Description("Invalid Service Provider !!!")]
         InvalidServiceProvider,
         [Description("Provider Not Implemeneted !!!")]
-        ProviderNotImplemented
+        ProviderNotImplemented,
+        [Description("Insufficient Balance !!!")]
+        InsufficientBalance
 
     }
 

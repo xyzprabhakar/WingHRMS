@@ -439,17 +439,18 @@ namespace projAPI.Model.Travel
 
     public class mdlBookingRequest
     {
-        public string TraceId { get; set; }
+        public string VisitorId { get; set; }
         public string TokenId { get; set; }
         public string userip { get; set; }
-        public string resultindex { get; set; }
+        public List<string> resultindex { get; set; }
         public string BookingId { get; set; }
         public bool IsLCC { get; set; }
         public List<mdlTravellerinfo> travellerInfo { get; set; }
         public mdlDeliveryinfo deliveryInfo { get; set; }
         public mdlGstInfo gstInfo { get; set; }
         public List<mdlPaymentInfos> paymentInfos { get; set; }
-
+        public double WalletAmount { get; set; }
+        public double LoyaltyPoint { get; set; }
     }
 
 

@@ -55,10 +55,11 @@ namespace projContext
 
     public enum enmBookingStatus
     {
-        Pending = 0,
+        Pending = 0,  
         Booked = 1,
         Cancel = 2,
-        Partial=4
+        Partial=4,
+        WingBooked = 8
     }
     public enum enmPaymentStatus
     {

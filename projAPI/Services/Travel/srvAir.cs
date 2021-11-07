@@ -18,7 +18,7 @@ namespace projAPI.Services.Travel
         Task<mdlSearchResponse> SearchAsync(mdlSearchRequest request);
         Task<mdlFareQuotResponse> FareQuoteAsync(mdlFareQuotRequest request);
         //Task<mdlFareRuleResponse> FareRuleAsync(mdlFareRuleRequest request);
-        Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request);
+        Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request, enmBookingStatus BookingStatus);
         //Task<mdlFlightCancellationChargeResponse> CancelationChargeAsync(mdlCancellationRequest request);
         //Task<mdlFlightCancellationResponse> CancellationAsync(mdlCancellationRequest request);
         //Task<mdlCancelationDetails> CancelationDetailsAsync(string request);
@@ -1645,6 +1645,40 @@ namespace projAPI.Services.Travel
             }
 
 
+        }
+
+        public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest mdlRq)
+        {
+            mdlBookingResponse mdlRs = new mdlBookingResponse();
+            var Quote=_travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == mdlRq.VisitorId).FirstOrDefault();
+            if (Quote == null)
+            {
+                throw new Exception("Invalid Visitor ID");
+            }
+            else if (Quote.BookingStatus == enmBookingStatus.Pending)
+            {
+                throw new Exception("Wallet Amount");
+            }
+
+
+            var sp = (enmServiceProvider)Convert.ToInt32(mdlRq.BookingId?.Split("_").FirstOrDefault());
+            int index = mdlRq.BookingId?.IndexOf('_') ?? -1;
+            if (index >= 0)
+            {
+                mdlRq.BookingId = mdlRq.BookingId.Substring(index + 1);
+                IWingFlight wingflight = GetFlightObject(sp);
+                //mdlRs = await wingflight.BookingAsync(mdlRq);
+
+                //if (mdlRs.ResponseStatus == 1)
+                //{
+                //    CustomerPassengerDetailSave(mdlRq, enmBookingStatus.Booked, sp, String.Empty);
+                //}
+                //else
+                //{
+                //    CustomerPassengerDetailSave(mdlRq, enmBookingStatus.Failed, sp, mdlRs.Error?.Message);
+                //}
+            }
+            return mdlRs;
         }
     }
 

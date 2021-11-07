@@ -913,7 +913,7 @@ namespace projAPI.Services.Travel.Air
             };
             return mdl;
         }
-        public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request)
+        public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request, enmBookingStatus BookingStatus)
         {
             mdlBookingResponse mdlS = null;
             BookingResponse mdl = null;
