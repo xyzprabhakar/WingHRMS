@@ -584,6 +584,8 @@ namespace projContext.DB.CRM.Travel
         public double GatewayCharge { get; set; }
         public double NetAmount { get; set; }
         public double PaidAmount { get; set; }
+        public double WalletAmount { get; set; }
+        public double LoyaltyAmount { get; set; }
         public enmBookingStatus BookingStatus { get; set; }
         public enmPaymentStatus PaymentStatus { get; set; }
         public bool HaveRefund { get; set; }        

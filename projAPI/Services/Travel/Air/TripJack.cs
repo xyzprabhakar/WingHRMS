@@ -878,12 +878,9 @@ namespace projAPI.Services.Travel.Air
                     registeredName = request.gstInfo.registeredName,
                 };
             }
-            PaymentInfos[] paymentInfos = null;
-            if (request.paymentInfos != null)
-            {
-                paymentInfos = request.paymentInfos.Select(p => new PaymentInfos { amount = p.amount }).ToArray();
-            }
-
+            PaymentInfos pi = new PaymentInfos() { amount = request.NetAmount };
+            PaymentInfos[] paymentInfos = { pi};            
+            
             BookingRequest mdl = new BookingRequest()
             {
                 bookingId = request.BookingId,
@@ -913,6 +910,7 @@ namespace projAPI.Services.Travel.Air
             };
             return mdl;
         }
+        
         public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest request, enmBookingStatus BookingStatus)
         {
             mdlBookingResponse mdlS = null;
@@ -933,13 +931,13 @@ namespace projAPI.Services.Travel.Air
                 {
                     mdlS = new mdlBookingResponse()
                     {
-                        bookingId = mdl.bookingId,
+                        bookingId = mdl.bookingId,                        
                         Error = new mdlError()
                         {
                             Code = 0,
                             Message = ""
                         },
-                        ResponseStatus = 1,
+                        ResponseStatus = enmMessageType.Success,
 
                     };
                 }
@@ -947,7 +945,7 @@ namespace projAPI.Services.Travel.Air
                 {
                     mdlS = new mdlBookingResponse()
                     {
-                        ResponseStatus = 3,
+                        ResponseStatus = enmMessageType.Error,
                         Error = new mdlError()
                         {
                             Code = 12,
@@ -961,7 +959,7 @@ namespace projAPI.Services.Travel.Air
             {   
                 mdlS = new mdlBookingResponse()
                 {
-                    ResponseStatus = 100,
+                    ResponseStatus =  enmMessageType.Error,
                     Error = new mdlError()
                     {
                         Code = 100,

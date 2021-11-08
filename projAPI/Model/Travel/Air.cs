@@ -440,19 +440,18 @@ namespace projAPI.Model.Travel
     public class mdlBookingRequest
     {
         public string VisitorId { get; set; }
-        public string TokenId { get; set; }
-        public string userip { get; set; }
-        public List<string> resultindex { get; set; }
         public string BookingId { get; set; }
-        public bool IsLCC { get; set; }
         public List<mdlTravellerinfo> travellerInfo { get; set; }
         public mdlDeliveryinfo deliveryInfo { get; set; }
         public mdlGstInfo gstInfo { get; set; }
-        public List<mdlPaymentInfos> paymentInfos { get; set; }
+        public double PaidAmount { get; set; }
         public double WalletAmount { get; set; }
         public double LoyaltyPoint { get; set; }
+        public double LoyaltyAmount { get; set; }
+        public double NetAmount { get; set; }
     }
-
+    
+    
 
     public class mdlDeliveryinfo
     {
@@ -549,7 +548,7 @@ namespace projAPI.Model.Travel
         public string PNR { get; set; }
         public mdlError Error { get; set; }
         public mdlMetainfo metaInfo { get; set; }
-        public int ResponseStatus { get; set; }
+        public enmMessageType ResponseStatus { get; set; }
         public mdlStatus status { get; set; }
 
     }

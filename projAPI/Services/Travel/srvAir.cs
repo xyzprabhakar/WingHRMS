@@ -1083,6 +1083,12 @@ namespace projAPI.Services.Travel
         }
 
 
+        public bool IsDomecticFlight(string From, string To)
+        {
+           return _travelContext.tblAirport.Where(p => p.AirportCode == From || p.AirportCode == To && !p.IsDomestic).Count() > 0 ? false : true;
+
+        }
+
 
         public async Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid)
         {
@@ -1149,7 +1155,9 @@ namespace projAPI.Services.Travel
             SetBasicPrice(FinalResult.Results);
             ClearAllCharge();
 
-            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType).Any())
+            bool IsDomectic= IsDomecticFlight(mdl.From,mdl.To);
+
+            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType &&  (( p.InstantDomestic && IsDomectic)|| (p.InstantNonDomestic && !IsDomectic))).Any())
             {
                 AlterSeachIndex(FinalResult.Results[0]);
                 if (mdl.JourneyType == enmJourneyType.Return)
@@ -1374,8 +1382,6 @@ namespace projAPI.Services.Travel
                 {
                     throw new Exception("Price has been changed");
                 }
-
-
                 if (AlterBookingRes != null)
                 {
                     if (AlterBookingRes.ResponseStatus != enmMessageType.Success)
@@ -1512,7 +1518,6 @@ namespace projAPI.Services.Travel
                 }
                 tblFlightBookingSearchDetails mdlSearch = new tblFlightBookingSearchDetails()
                 {
-
                     BookingId = BookingId,
                     VisitorId = VisitorId,
                     SegmentId = SegmentId,
@@ -1647,38 +1652,74 @@ namespace projAPI.Services.Travel
 
         }
 
-        public async Task<mdlBookingResponse> BookingAsync(mdlBookingRequest mdlRq)
+        public async Task<mdlReturnData> BookingAsync(IsrvWallet isrvWallet, mdlBookingRequest mdlRq,
+            int CustomerId, int EmployeeId, ulong Nid, ulong UserId, enmCustomerType customerType)
         {
+            mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
+            DateTime CurrentDate = DateTime.Now;
             mdlBookingResponse mdlRs = new mdlBookingResponse();
             var Quote=_travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == mdlRq.VisitorId).FirstOrDefault();
             if (Quote == null)
             {
                 throw new Exception("Invalid Visitor ID");
             }
-            else if (Quote.BookingStatus == enmBookingStatus.Pending)
+            else if (Quote.BookingStatus != enmBookingStatus.Pending)
             {
-                throw new Exception("Wallet Amount");
+                throw new Exception("Ticket is already booked");
+            }
+            if (mdlRq.WalletAmount > 0)
+            {
+                if (mdlRq.WalletAmount < isrvWallet.GetWalletBalance(CustomerId, Nid, EmployeeId, customerType))
+                {
+                    throw new Exception(enmMessage.InsufficientBalance.GetDescription());
+                }      
+            }
+            
+            var BookingDatas=  _travelContext.tblFlightBookingSearchDetails.Where(p => p.VisitorId == mdlRq.VisitorId && !p.IsDeleted).ToList();
+            bool IsDomectic = IsDomecticFlight(Quote.From, Quote.To);
+            enmBookingStatus BookingStatus = enmBookingStatus.Pending;
+            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType && ((p.InstantDomestic && IsDomectic) || (p.InstantNonDomestic && !IsDomectic))).Any())
+            {
+                BookingStatus = enmBookingStatus.Booked;
+            }
+            else
+            {
+                BookingStatus = enmBookingStatus.Hold;
+            }
+            List<mdlBookingResponse> bres = new List<mdlBookingResponse>();
+
+            foreach (var bd in BookingDatas)
+            {
+
+                IWingFlight wingflight = GetFlightObject(bd.ServiceProvider);
+                mdlBookingRequest br = new mdlBookingRequest()
+                {
+                    VisitorId = mdlRq.VisitorId,
+                    BookingId = mdlRq.BookingId,
+                    travellerInfo = mdlRq.travellerInfo,
+                    deliveryInfo = mdlRq.deliveryInfo,
+                    gstInfo = mdlRq.gstInfo,
+                    NetAmount = bd.PurchaseAmount
+                };
+                
+                bres.Add(await wingflight.BookingAsync(br, BookingStatus));
             }
 
-
-            var sp = (enmServiceProvider)Convert.ToInt32(mdlRq.BookingId?.Split("_").FirstOrDefault());
-            int index = mdlRq.BookingId?.IndexOf('_') ?? -1;
-            if (index >= 0)
+            if (!bres.Any(p => p.ResponseStatus == enmMessageType.Error))
             {
-                mdlRq.BookingId = mdlRq.BookingId.Substring(index + 1);
-                IWingFlight wingflight = GetFlightObject(sp);
-                //mdlRs = await wingflight.BookingAsync(mdlRq);
-
-                //if (mdlRs.ResponseStatus == 1)
-                //{
-                //    CustomerPassengerDetailSave(mdlRq, enmBookingStatus.Booked, sp, String.Empty);
-                //}
-                //else
-                //{
-                //    CustomerPassengerDetailSave(mdlRq, enmBookingStatus.Failed, sp, mdlRs.Error?.Message);
-                //}
+                ReturnData.MessageType = enmMessageType.Success;
             }
-            return mdlRs;
+            else if(bres.All(p => p.ResponseStatus == enmMessageType.Error))
+            {
+                ReturnData.MessageType = enmMessageType.Error;
+            }
+            else if (bres.Any(p => p.ResponseStatus == enmMessageType.Error))
+            {
+                ReturnData.MessageType = enmMessageType.Warning;
+            }
+            ReturnData.ReturnId = bres;
+
+            return ReturnData;
         }
     }
 

@@ -59,7 +59,8 @@ namespace projContext
         Booked = 1,
         Cancel = 2,
         Partial=4,
-        WingBooked = 8
+        WingBooked = 8,
+        Hold=16
     }
     public enum enmPaymentStatus
     {
