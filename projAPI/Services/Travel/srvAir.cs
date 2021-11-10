@@ -1086,7 +1086,6 @@ namespace projAPI.Services.Travel
         public bool IsDomecticFlight(string From, string To)
         {
            return _travelContext.tblAirport.Where(p => p.AirportCode == From || p.AirportCode == To && !p.IsDomestic).Count() > 0 ? false : true;
-
         }
 
 

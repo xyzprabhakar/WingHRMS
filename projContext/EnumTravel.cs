@@ -18,21 +18,15 @@ namespace projContext
         //PremiumBusiness=5,
         FIRST = 6
     }
-    public enum enmMarkupApplicability
+   
+
+    public enum enmFlightSearvices
     {
         OnTicket = 1,
         OnPassenger = 2,
         OnBaggageServices = 4,
         OnMealServices = 8,
         OnSeatServices = 16,
-        OnExtraService = 32
-    }
-
-
-    public enum enmFlightSearvices
-    {
-        OnTicket = 1,
-        OnPassenger = 2,        
         OnExtraService = 32
     }
 

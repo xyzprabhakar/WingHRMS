@@ -59,11 +59,19 @@ namespace projContext.DB.CRM.Travel
         #region ************************* Flight Booking **************************
         public DbSet<tblFlightBookingMaster> tblFlightBookingMaster { get; set; }
         public DbSet<tblFlightBookingSearchDetails> tblFlightBookingSearchDetails { get; set; }
+        public DbSet<tblFlightFareMarkupDetail> tblFlightFareMarkupDetail { get; set; }
+        public DbSet<tblFlightFareMLMMarkup> tblFlightFareMLMMarkup { get; set; }
+        public DbSet<tblFlightFareDiscount> tblFlightFareDiscount { get; set; }
+        public DbSet<tblFlightFareConvenience> tblFlightFareConvenience { get; set; }
         public DbSet<tblFlightSearchSegment> tblFlightSearchSegment { get; set; }
-        public DbSet<tblFlightFare> tblFlightFare { get; set; }
+        public DbSet<tblFlightServices> tblFlightServices { get; set; }
         public DbSet<tblFlightFareDetail> tblFlightFareDetail { get; set; }
-        public DbSet<tblFlightRefundStatusDetails> tblFlightRefundStatusDetails { get; set; }        
+        public DbSet<tblFlightFareDetailMarkupDetail> tblFlightFareDetailMarkupDetail { get; set; }
+        public DbSet<tblFlightFareDetailMLMMarkup> tblFlightFareDetailMLMMarkup { get; set; }
+        public DbSet<tblFlightFareDetailDiscount> tblFlightFareDetailDiscount { get; set; }
+        public DbSet<tblFlightFareDetailConvenience> tblFlightFareDetailConvenience { get; set; }
         public DbSet<tblFlighBookingPassengerDetails> tblFlighBookingPassengerDetails { get; set; }
+        public DbSet<tblFlightRefundStatusDetails> tblFlightRefundStatusDetails { get; set; }        
         public DbSet<tblFlighRefundPassengerDetails> tblFlighRefundPassengerDetails { get; set; }
         #endregion
 
