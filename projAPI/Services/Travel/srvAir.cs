@@ -1444,10 +1444,53 @@ namespace projAPI.Services.Travel
         }
 
 
-        private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(,List<List<mdlSearchResult>> Results)
-        { 
-        }
+        private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
+             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, string VisitorId, int OrgId, ulong Nid,
+             ulong UserId
+             )
+        {
+            DateTime bookingDt = DateTime.Now;
 
+            tblFlightBookingMaster mdl = new tblFlightBookingMaster()
+            {
+                AdultCount = searchWraper?.AdultCount ?? 0,
+                ChildCount = searchWraper?.ChildCount ?? 0,
+                InfantCount = searchWraper?.InfantCount ?? 0,
+                BookingDate = bookingDt,
+                CabinClass = searchWraper?.CabinClass ?? enmCabinClass.ECONOMY,                
+                From = searchWraper?.From ?? string.Empty,
+                To = searchWraper?.To ?? string.Empty,
+                JourneyType = searchWraper?.JourneyType ?? enmJourneyType.OneWay,
+                DepartureDt = searchWraper?.DepartureDt ?? bookingDt,
+                ReturnDt = searchWraper?.ReturnDt,
+                OrgId = OrgId,
+                Nid = Nid,
+                EmailNo = Deliveryinfo.emails.FirstOrDefault(),
+                PhoneNo = Deliveryinfo.contacts.FirstOrDefault(),
+                PaymentMode = Deliveryinfo.PaymentMode,
+                GatewayId = Deliveryinfo.GatewayId,
+                PaymentType = Deliveryinfo.PaymentType,
+                PaymentTransactionNumber = Deliveryinfo.PaymentTransactionNumber,
+                CardNo = Deliveryinfo.CardNo,
+                AccountNumber = Deliveryinfo.AccountNumber,
+                BankName = Deliveryinfo.BankName,
+                IncludeLoaylty = Deliveryinfo.IncludeLoaylty,
+                ConsumedLoyaltyPoint = Deliveryinfo.ConsumedLoyaltyPoint,
+                ConsumedLoyaltyAmount = Deliveryinfo.ConsumedLoyaltyAmount,
+                BookingAmount = Deliveryinfo.BookingAmount,
+                GatewayCharge = Deliveryinfo.GatewayCharge,
+                NetAmount = Deliveryinfo.NetAmount,
+                PaidAmount = Deliveryinfo.PaidAmount,
+                WalletAmount = Deliveryinfo.WalletAmount,
+                LoyaltyAmount = Deliveryinfo.LoyaltyAmount,
+                BookingStatus = Deliveryinfo.BookingStatus,
+                PaymentStatus = enmPaymentStatus.Pending,
+                HaveRefund = Deliveryinfo.HaveRefund,
+                CreatedBy= UserId,
+                ModifiedBy=UserId,CreatedDt=bookingDt, ModifiedDt=bookingDt,VisitorId=VisitorId
+            };
+            
+        }
         public mdlReturnData SaveFareQuote(mdlFareQuotRequestWraper request, IsrvCurrentUser _IsrvCurrentUser, List<mdlFareQuotResponse> response, int OrgId, ulong Nid)
         {
             bool IsUpdate = false;

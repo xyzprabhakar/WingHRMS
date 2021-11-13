@@ -457,6 +457,28 @@ namespace projAPI.Model.Travel
     {
         public List<string> emails { get; set; }
         public List<string> contacts { get; set; }
+
+        
+        
+        public enmPaymentMode PaymentMode { get; set; }
+        public enmPaymentGateway GatewayId { get; set; }
+        public enmPaymentSubType PaymentType { get; set; }        
+        public string PaymentTransactionNumber { get; set; }        
+        public string CardNo { get; set; }
+        public string AccountNumber { get; set; }        
+        public string BankName { get; set; }
+        public bool IncludeLoaylty { get; set; }
+        public int ConsumedLoyaltyPoint { get; set; }
+        public double ConsumedLoyaltyAmount { get; set; }
+        public double BookingAmount { get; set; }
+        public double GatewayCharge { get; set; }
+        public double NetAmount { get; set; }
+        public double PaidAmount { get; set; }
+        public double WalletAmount { get; set; }
+        public double LoyaltyAmount { get; set; }
+        public enmBookingStatus BookingStatus { get; set; }
+        public enmPaymentStatus PaymentStatus { get; set; }
+        public bool HaveRefund { get; set; }
     }
 
     public class mdlTravellerinfo

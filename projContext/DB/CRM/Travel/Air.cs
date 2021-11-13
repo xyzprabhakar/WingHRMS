@@ -588,7 +588,7 @@ namespace projContext.DB.CRM.Travel
         public double LoyaltyAmount { get; set; }
         public enmBookingStatus BookingStatus { get; set; }
         public enmPaymentStatus PaymentStatus { get; set; }
-        public bool HaveRefund { get; set; }        
+        public bool HaveRefund { get; set; } = false;
     }
     public class tblFlightBookingSearchDetails
     {
