@@ -71,7 +71,7 @@ namespace projAPI.Model.Travel
     }
 
     public class mdlSearchResult
-    {
+    {   
         public enmServiceProvider ServiceProvider { get; set; }
         public string traceid { get; set; }
         public List<mdlSegment> Segment { get; set; }
@@ -146,8 +146,7 @@ namespace projAPI.Model.Travel
     {   
         public double BaseFare { get; set; }
         [IgnoreDataMember]
-        public double CustomerMarkup { get; set; }
-        
+        public double CustomerMarkup { get; set; }        
         public double WingMarkup { get; set; }
         public double MLMMarkup { get; set; }
         public double Convenience { get; set; }
@@ -172,7 +171,28 @@ namespace projAPI.Model.Travel
         public enmCabinClass CabinClass { get; set; }
         public string ClassOfBooking { get; set; }
         [IgnoreDataMember]
+        [MaxLength(64)]
+        public string alterIdentifier { get; set; }//Corepreate, Publish, SME        
+        [IgnoreDataMember]
+        public enmCabinClass? alterCabinClass { get; set; }
+        [MaxLength(256)]
+        [IgnoreDataMember]
+        public string alterClassOfBooking { get; set; }
+        [IgnoreDataMember]
         public List<mdlWingFaredetails> ConsolidateFareBreakup { get; set; }
+        public string ProviderBookingId { get; set; }
+        public enmServiceProvider ServiceProvider { get; set; }
+        public bool IncludeBaggageServices { get; set; }
+        public bool IncludeMealServices { get; set; }
+        public bool IncludeSeatServices { get; set; }
+
+        public double PurchaseAmount { get; set; }//Price at Which wing Purchase the ticket
+        public double PassengerIncentiveAmount { get; set; }
+        public double PassengerMarkupAmount { get; set; }
+        public double PassengerDiscountAmount { get; set; }
+        public double PassengerConvenienceAmount { get; set; }
+        public double SaleAmount { get; set; }
+
     }
 
     public class mdlTotalpriceDetail
@@ -303,26 +323,6 @@ namespace projAPI.Model.Travel
         public mdlFlightSearchWraper SearchQuery { get; set; }
         public mdlFareQuoteCondition FareQuoteCondition { get; set; }
         public string userip { get; set; }
-
-        [IgnoreDataMember]
-        [MaxLength(64)]
-        public string PurchaseIdentifier { get; set; }//Corepreate, Publish, SME        
-        [IgnoreDataMember]
-        public enmCabinClass PurchaseCabinClass { get; set; }
-        [MaxLength(256)]
-        [IgnoreDataMember]
-        public string PurchaseClassOfBooking { get; set; }
-        //Booked by Software
-        [MaxLength(64)]
-        [IgnoreDataMember]
-        public string BookedIdentifier { get; set; }//Corepreate, Publish, SME        
-        [IgnoreDataMember]
-        public enmCabinClass BookedCabinClass { get; set; }
-        [MaxLength(256)]
-        [IgnoreDataMember]
-        public string BookedClassOfBooking { get; set; }
-
-
     }
 
     public class mdlTotalPriceInfo

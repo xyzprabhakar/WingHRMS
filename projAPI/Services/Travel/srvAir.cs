@@ -1451,6 +1451,56 @@ namespace projAPI.Services.Travel
         {
             DateTime bookingDt = DateTime.Now;
 
+
+            List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
+            foreach (var result in Results)
+            {
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault()
+                    tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
+                    {
+                        BookingId = Guid.NewGuid().ToString(),
+                        VisitorId = VisitorId,
+                        SegmentId = i + 1,
+                        PurchaseIdentifier = totalPriceList.Identifier,
+                        PurchaseCabinClass = totalPriceList.CabinClass,
+                        PurchaseClassOfBooking = totalPriceList.ClassOfBooking,
+                        BookedIdentifier = totalPriceList.alterIdentifier ?? totalPriceList.Identifier,
+                        BookedCabinClass = totalPriceList.alterCabinClass ?? totalPriceList.CabinClass,
+                        BookedClassOfBooking = totalPriceList.ClassOfBooking,
+                        ProviderBookingId = totalPriceList.ProviderBookingId,
+                        ServiceProvider = totalPriceList.ServiceProvider,
+                        BookingStatus = enmBookingStatus.Pending,
+                        PaymentStatus = enmPaymentStatus.Pending,
+                        ConvenienceAmount = totalPriceList.Convenience,
+                        CustomerMarkupAmount = totalPriceList.CustomerMarkup,
+                        DiscountAmount = totalPriceList.Discount,
+                        HaveRefund = false,
+                        IncentiveAmount = totalPriceList.MLMMarkup,
+                        IncludeBaggageServices = totalPriceList.IncludeBaggageServices,
+                        IncludeMealServices = totalPriceList.IncludeMealServices,
+                        IncludeSeatServices = totalPriceList.IncludeSeatServices,
+                        MarkupAmount = totalPriceList.WingMarkup,
+                        NetSaleAmount = totalPriceList.NetFare,
+                        PurchaseAmount = totalPriceList.PurchaseAmount,
+                        PassengerConvenienceAmount = totalPriceList.PassengerConvenienceAmount,
+                        PassengerMarkupAmount = totalPriceList.PassengerMarkupAmount,
+                        PassengerDiscountAmount = totalPriceList.PassengerDiscountAmount,
+                        PassengerIncentiveAmount = totalPriceList.PassengerIncentiveAmount,
+                        IsDeleted = false,
+                        SaleAmount = totalPriceList.SaleAmount,
+                    };
+                }
+
+                
+            }
+
+            searchDetails.Add(new tblFlightBookingSearchDetails() { 
+                VisitorId= VisitorId,                
+            });
+
             tblFlightBookingMaster mdl = new tblFlightBookingMaster()
             {
                 AdultCount = searchWraper?.AdultCount ?? 0,
@@ -1489,7 +1539,10 @@ namespace projAPI.Services.Travel
                 CreatedBy= UserId,
                 ModifiedBy=UserId,CreatedDt=bookingDt, ModifiedDt=bookingDt,VisitorId=VisitorId
             };
+
             
+
+
         }
         public mdlReturnData SaveFareQuote(mdlFareQuotRequestWraper request, IsrvCurrentUser _IsrvCurrentUser, List<mdlFareQuotResponse> response, int OrgId, ulong Nid)
         {
