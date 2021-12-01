@@ -1451,14 +1451,12 @@ namespace projAPI.Services.Travel
         {
             DateTime bookingDt = DateTime.Now;
 
-
             List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
             foreach (var result in Results)
             {
-
                 for (int i = 0; i < result.Count; i++)
                 {
-                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault()
+                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
                     tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
                     {
                         BookingId = Guid.NewGuid().ToString(),
