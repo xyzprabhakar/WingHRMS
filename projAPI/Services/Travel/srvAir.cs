@@ -429,7 +429,6 @@ namespace projAPI.Services.Travel
             returnData.MessageType = enmMessageType.Success;
             return returnData;
         }
-
         public List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId,
             DateTime TravelDt, DateTime BookingDate)
         {
@@ -1446,11 +1445,29 @@ namespace projAPI.Services.Travel
 
         private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
              mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, string VisitorId, int OrgId, ulong Nid,
-             ulong UserId
+             enmCustomerType CustomerType,ulong UserId
              )
         {
-            DateTime bookingDt = DateTime.Now;
-
+            DateTime bookingDate = DateTime.Now;
+            List<mdlWingMarkup_Air> _WingMarkupInward, _WingMLMMarkupInward, _WingDiscountInward, _WingConvenienceInward ,
+                _WingMarkupOutward, _WingMLMMarkupOutward, _WingDiscountOutward, _WingConvenienceOutward;
+            _WingMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p=>!p.IsMLMIncentive).ToList();
+            _WingMLMMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => p.IsMLMIncentive).ToList();
+            _WingDiscountInward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
+            _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
+            if (searchWraper.JourneyType == enmJourneyType.Return)
+            {
+                _WingMarkupOutward= GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
+                _WingMLMMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => p.IsMLMIncentive).ToList();
+                _WingDiscountOutward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
+                _WingConvenienceOutward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
+            }
+            else
+            {
+                _WingMarkupOutward = new List<mdlWingMarkup_Air>(); _WingMLMMarkupOutward = new List<mdlWingMarkup_Air>(); _WingDiscountOutward = new List<mdlWingMarkup_Air>(); _WingConvenienceOutward = new List<mdlWingMarkup_Air>();
+            }
+            
+            
             List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
             foreach (var result in Results)
             {

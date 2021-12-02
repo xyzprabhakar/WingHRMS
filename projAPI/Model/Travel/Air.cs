@@ -457,9 +457,6 @@ namespace projAPI.Model.Travel
     {
         public List<string> emails { get; set; }
         public List<string> contacts { get; set; }
-
-        
-        
         public enmPaymentMode PaymentMode { get; set; }
         public enmPaymentGateway GatewayId { get; set; }
         public enmPaymentSubType PaymentType { get; set; }        
