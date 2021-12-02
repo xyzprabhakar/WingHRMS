@@ -1449,16 +1449,19 @@ namespace projAPI.Services.Travel
              ulong UserId
              )
         {
+            if (string.IsNullOrEmpty(VisitorId))
+            {
+                VisitorId = Guid.NewGuid().ToString().Replace("-", "");
+            }
             DateTime bookingDt = DateTime.Now;
-
-
             List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
+
+
             foreach (var result in Results)
             {
-
                 for (int i = 0; i < result.Count; i++)
                 {
-                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault()
+                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
                     tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
                     {
                         BookingId = Guid.NewGuid().ToString(),
@@ -1492,14 +1495,12 @@ namespace projAPI.Services.Travel
                         IsDeleted = false,
                         SaleAmount = totalPriceList.SaleAmount,
                     };
+
+
+
+                    searchDetails.Add(sd);
                 }
-
-                
             }
-
-            searchDetails.Add(new tblFlightBookingSearchDetails() { 
-                VisitorId= VisitorId,                
-            });
 
             tblFlightBookingMaster mdl = new tblFlightBookingMaster()
             {
