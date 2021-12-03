@@ -790,6 +790,10 @@ namespace projContext.DB.CRM.Travel
         public string CabinBaggage { get; set; }
         public bool IsFreeMeal { get; set; }
         public byte IsRefundable { get; set; }
+        [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
+        [MaxLength(128)]
+        public string BookingId { get; set; }
+        public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
         [ForeignKey("tblFlighBookingPassengerDetails")] // Foreign Key here
         public int? PassengerDetailId { get; set; }
         public tblFlighBookingPassengerDetails tblFlighBookingPassengerDetails { get; set; }

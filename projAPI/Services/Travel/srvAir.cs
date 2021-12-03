@@ -1449,23 +1449,62 @@ namespace projAPI.Services.Travel
              )
         {
             DateTime bookingDate = DateTime.Now;
-            List<mdlWingMarkup_Air> _WingMarkupInward, _WingMLMMarkupInward, _WingDiscountInward, _WingConvenienceInward ,
+            List<mdlWingMarkup_Air> _WingMarkupInward, _WingMLMMarkupInward, _WingDiscountInward, _WingConvenienceInward,
                 _WingMarkupOutward, _WingMLMMarkupOutward, _WingDiscountOutward, _WingConvenienceOutward;
-            _WingMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p=>!p.IsMLMIncentive).ToList();
-            _WingMLMMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => p.IsMLMIncentive).ToList();
-            _WingDiscountInward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
-            _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
-            if (searchWraper.JourneyType == enmJourneyType.Return)
+            //check Wheather the Ticket is Booked if Ticket is Booked then Don't Remove the Markup and Convenive
+            //else Remove the Markup and Conveince
+            var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();
+            if (ExistingBooking == null)
             {
-                _WingMarkupOutward= GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
-                _WingMLMMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => p.IsMLMIncentive).ToList();
-                _WingDiscountOutward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
-                _WingConvenienceOutward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
+                lclSetVariableMarkup();
             }
             else
             {
-                _WingMarkupOutward = new List<mdlWingMarkup_Air>(); _WingMLMMarkupOutward = new List<mdlWingMarkup_Air>(); _WingDiscountOutward = new List<mdlWingMarkup_Air>(); _WingConvenienceOutward = new List<mdlWingMarkup_Air>();
+                if (ExistingBooking.BookingStatus == enmBookingStatus.Pending)
+                {
+                    lclSetVariableMarkup();
+                }
             }
+            
+            _travelContext.tblFlightFareMarkupDetail.RemoveRange(_travelContext.tblFlightFareMarkupDetail.Where(p=));
+
+            void lclSetVariableMarkup()
+            {
+                _WingMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
+                _WingMLMMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => p.IsMLMIncentive).ToList();
+                _WingDiscountInward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
+                _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
+                if (searchWraper.JourneyType == enmJourneyType.Return)
+                {
+                    _WingMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
+                    _WingMLMMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => p.IsMLMIncentive).ToList();
+                    _WingDiscountOutward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
+                    _WingConvenienceOutward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
+                }
+            }
+
+            void lclGetBooking()
+            { 
+            }
+
+            void RemoveAllMarkup(string BookingId)
+            {
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareMarkupDetail Where BookingId=@p1", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareMLMMarkup Where BookingId=@p1", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDiscount Where BookingId=@p1", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareConvenience Where BookingId=@p1", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailMarkupDetail Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailMLMMarkup Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailDiscount Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailConvenience Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetail Where BookingId=@p1", BookingId);
+
+            }
+
+            
+            
+            
+        
             
             
             List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
