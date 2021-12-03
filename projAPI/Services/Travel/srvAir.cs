@@ -1445,11 +1445,15 @@ namespace projAPI.Services.Travel
 
 
         private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
-             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, string VisitorId, int OrgId, ulong Nid,
+             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo,
+             string VisitorId, int OrgId, ulong Nid,
              ulong UserId
              )
         {
             DateTime bookingDt = DateTime.Now;
+
+
+
 
             List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
             foreach (var result in Results)
