@@ -1501,9 +1501,20 @@ namespace projAPI.Services.Travel
                     {
                         string BookingId = Guid.NewGuid().ToString();
                         List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = new List<tblFlightFareMarkupDetail>();
-                            _WingMarkupInward.Where
+                        var WingMarkup= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i],enmFlighWingCharge.WingMarkup);
+                        FlightFareMarkupDetail.AddRange(
+                        WingMarkup.Where(p => p.Applicability == enmFlightSearvices.OnTicket && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)))
+                            .Select(p => new tblFlightFareMarkupDetail
+                            {   
+                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
+                                BookingId=BookingId,
+                                MarkupId=p.Id                                
+                            }));
+                        _travelContext.tblFlightFareMarkupDetail.AddRange(FlightFareMarkupDetail);
 
-                        var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
+
+
+                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
                         tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
                         {
                             BookingId = BookingId,
@@ -1583,7 +1594,7 @@ namespace projAPI.Services.Travel
             }
 
 
-            void SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, mdlSearchResult searchResult, enmFlighWingCharge cType)
+            List<mdlWingMarkup_Air> SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, mdlSearchResult searchResult, enmFlighWingCharge cType)
             {
                 
                 bool IsDirect = true;
@@ -1597,18 +1608,21 @@ namespace projAPI.Services.Travel
                 var LastSegment = searchResult.Segment.LastOrDefault();
                 if (FirstSegment == null)
                 {
-                    return;
+                    return new List<mdlWingMarkup_Air>();
                 }
-                foreach (var pricelist in searchResult.TotalPriceList)
-                {
-                    enmServiceProvider serviceProvider = searchResult.ServiceProvider;
-                    var tempD = tempData.Where(p => (p.IsAllAirline || p.Airline.Where(q => Airline.Contains(q.Item2.ToUpper())).Any())
-                       && (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirect) || (p.FlightType == enmFlightType.Direct && IsDirect))
-                       && (p.IsAllFlightClass || (p.CabinClass.Contains(pricelist.CabinClass)))
-                       && (p.IsAllSegment || (p.Segments.Any(q => q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase) && q.Item2.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase))))
-                       && (p.IsAllProvider || p.ServiceProviders.Contains(serviceProvider))
-                    ).ToList();
+                var pricelist =searchResult.TotalPriceList.FirstOrDefault();
+                enmServiceProvider serviceProvider = searchResult.ServiceProvider;
+                return tempData.Where(p => (p.IsAllAirline || p.Airline.Where(q => Airline.Contains(q.Item2.ToUpper())).Any())
+                   && (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirect) || (p.FlightType == enmFlightType.Direct && IsDirect))
+                   && (p.IsAllFlightClass || (p.CabinClass.Contains(pricelist.CabinClass)))
+                   && (p.IsAllSegment || (p.Segments.Any(q => q.Item1.Equals(FirstSegment.Origin.AirportCode, StringComparison.OrdinalIgnoreCase) && q.Item2.Equals(LastSegment.Destination.AirportCode, StringComparison.OrdinalIgnoreCase))))
+                   && (p.IsAllProvider || p.ServiceProviders.Contains(serviceProvider))
+                ).ToList();
 
+
+                //foreach (var pricelist in )
+                //{
+                    
                     //if (pricelist.ADULT.FareBreakup == null)
                     //{
                     //    pricelist.ADULT.FareBreakup = new List<mdlWingFaredetails>();
@@ -1666,7 +1680,7 @@ namespace projAPI.Services.Travel
                     //        type = cType
                     //    }));
 
-                }
+               // }
 
             }
 
