@@ -1442,8 +1442,6 @@ namespace projAPI.Services.Travel
              )
         {
             DateTime bookingDate = DateTime.Now;
-            List<mdlWingMarkup_Air> _WingMarkupInward, _WingMLMMarkupInward, _WingDiscountInward, _WingConvenienceInward,
-                _WingMarkupOutward, _WingMLMMarkupOutward, _WingDiscountOutward, _WingConvenienceOutward;
             tblFlightBookingMaster fbm = null;
             
             //check Wheather the Ticket is Booked if Ticket is Booked then Don't Remove the Markup and Convenive
@@ -1464,10 +1462,8 @@ namespace projAPI.Services.Travel
                     Title=q.Title,
                     VisitorId=VisitorId
                 }).ToList();
-
                 
 
-                lclSetVariableMarkup();
                 fbm = new tblFlightBookingMaster() {
                     AdultCount = searchWraper?.AdultCount ?? 0,
                     ChildCount = searchWraper?.ChildCount ?? 0,
@@ -1625,20 +1621,7 @@ namespace projAPI.Services.Travel
                 }
             }            
             
-            void lclSetVariableMarkup()
-            {
-                _WingMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
-                _WingMLMMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => p.IsMLMIncentive).ToList();
-                _WingDiscountInward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
-                _WingConvenienceInward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
-                if (searchWraper.JourneyType == enmJourneyType.Return)
-                {
-                    _WingMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => !p.IsMLMIncentive).ToList();
-                    _WingMLMMarkupOutward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate).Where(p => p.IsMLMIncentive).ToList();
-                    _WingDiscountOutward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
-                    _WingConvenienceOutward = GetWingConvenience(true, true, CustomerType, OrgId, searchWraper.ReturnDt.Value, bookingDate);
-                }
-            }
+            
 
             void RemoveAllMarkup(string BookingId)
             {
