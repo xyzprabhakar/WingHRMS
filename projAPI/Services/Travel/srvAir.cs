@@ -1442,12 +1442,10 @@ namespace projAPI.Services.Travel
              )
         {
             DateTime bookingDate = DateTime.Now;
-            tblFlightBookingMaster fbm = null;
             
             //check Wheather the Ticket is Booked if Ticket is Booked then Don't Remove the Markup and Convenive
             //else Remove the Markup and Conveince
-            var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();
-            
+            var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();            
             if (ExistingBooking == null)
             {
                 List<tblFlighBookingPassengerDetails> PassengerDetails = travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
@@ -1462,9 +1460,7 @@ namespace projAPI.Services.Travel
                     Title=q.Title,
                     VisitorId=VisitorId
                 }).ToList();
-                
-
-                fbm = new tblFlightBookingMaster() {
+                tblFlightBookingMaster fbm = new tblFlightBookingMaster() {
                     AdultCount = searchWraper?.AdultCount ?? 0,
                     ChildCount = searchWraper?.ChildCount ?? 0,
                     InfantCount = searchWraper?.InfantCount ?? 0,
@@ -1516,7 +1512,10 @@ namespace projAPI.Services.Travel
                         List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = new List<tblFlightFareMLMMarkup>();
                         List<tblFlightFareDiscount> FlightFareDiscount = new List<tblFlightFareDiscount>();
                         List<tblFlightFareConvenience> FlightFareConvenience = new List<tblFlightFareConvenience>();
-                        var WingMarkuptemp= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i]);
+                        var WingMarkuptemp=_travelContext.tbl
+                            
+                            
+                            SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i]);
                         var WingMLMMarkuptemp = SetWingMarkupDiscountConvenience(_WingMLMMarkupInward, result[i]);
                         var WingDiscounttemp = SetWingMarkupDiscountConvenience(_WingDiscountInward, result[i]);
                         var WingConveniencetemp = SetWingMarkupDiscountConvenience(_WingConvenienceInward, result[i]);
