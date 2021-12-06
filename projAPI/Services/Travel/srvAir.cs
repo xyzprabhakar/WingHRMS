@@ -1451,6 +1451,7 @@ namespace projAPI.Services.Travel
             DateTime bookingDate = DateTime.Now;
             List<mdlWingMarkup_Air> _WingMarkupInward, _WingMLMMarkupInward, _WingDiscountInward, _WingConvenienceInward ,
                 _WingMarkupOutward, _WingMLMMarkupOutward, _WingDiscountOutward, _WingConvenienceOutward;
+
             _WingMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p=>!p.IsMLMIncentive).ToList();
             _WingMLMMarkupInward = GetWingMarkup(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate).Where(p => p.IsMLMIncentive).ToList();
             _WingDiscountInward = GetWingDiscount(true, true, CustomerType, OrgId, searchWraper.DepartureDt, bookingDate);
