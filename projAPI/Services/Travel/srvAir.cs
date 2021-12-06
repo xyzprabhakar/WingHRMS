@@ -637,6 +637,132 @@ namespace projAPI.Services.Travel
 
         }
 
+
+        List<Tuple<int, double>> GetMarkup(int customerId,enmCustomerType CustomerType, DateTime TravelDt,DateTime bookingDate,
+                bool IsMLM, enmFlightSearvices FlightSearvices, bool IsDirectFlight,
+                List<string> Airline, string FromAirport, string ToAirport, enmServiceProvider ServiceProvider,
+                double BasePrice, enmPassengerType PassengerType, enmTitle Title
+                )
+        {
+            List<Tuple<int, double>> mdl = null;
+            var MasterQuery = _travelContext.tblFlightMarkupMaster.Where(p => !p.IsDeleted && p.IsMLMIncentive == IsMLM &&
+              (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirectFlight) || (p.FlightType == enmFlightType.Direct && IsDirectFlight)) &&
+              p.BookingFromDt <= bookingDate && p.BookingToDt > bookingDate
+              && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+              && (p.IsAllCustomerType ||
+                  ((!p.IsAllCustomerType) && p.tblFlightMarkupCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
+                  ((!p.IsAllCustomer) && p.tblFlightMarkupCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0))
+              && (p.IsAllAirline || p.tblFlightMarkupAirline.Where(q => Airline.Contains(q.tblAirline.Name)).Count() > 0)
+              && (p.IsAllProvider || p.tblFlightMarkupServiceProvider.Where(r => r.ServiceProvider == ServiceProvider).Count() > 0)
+              && (p.IsAllSegment || (p.tblFlightMarkupSegment.Where(r => r.orign == FromAirport && r.destination == ToAirport).Count() > 0))
+            ).Include(p => p.tblFlightMarkupPassengerType).AsQueryable();
+
+            if (FlightSearvices == enmFlightSearvices.OnPassenger)
+            {
+                MasterQuery = MasterQuery.Where(p =>
+                    p.Applicability == enmFlightSearvices.OnPassenger &&
+                    (p.IsAllPessengerType || p.tblFlightMarkupPassengerType.Where(q => q.PassengerType == PassengerType).Count() > 0)
+                    && (p.Gender == enmGender.ALL ||
+                            (p.Gender == enmGender.Male && (Title == enmTitle.MR || Title == enmTitle.MASTER)) ||
+                            (p.Gender == enmGender.Female && (Title == enmTitle.MISS || Title == enmTitle.MRS))
+                        )
+                );
+            }
+            else
+            {
+                MasterQuery = MasterQuery.Where(p => p.Applicability == FlightSearvices);
+            }
+            mdl = MasterQuery.Select(q => new {
+                Id = q.Id,
+                Amount = q.IsPercentage ?
+                (BasePrice * q.PercentageValue / 100.0) > q.AmountCaping ? q.AmountCaping : (BasePrice * q.PercentageValue / 100.0) : q.Amount
+            }).Select(r => new Tuple<int, double>(r.Id, r.Amount)).ToList();
+            return mdl;
+        }
+
+        List<Tuple<int, double>> GetConvenience(int customerId, enmCustomerType CustomerType, DateTime TravelDt, DateTime bookingDate,
+            enmFlightSearvices FlightSearvices, bool IsDirectFlight,
+            List<string> Airline, string FromAirport, string ToAirport, enmServiceProvider ServiceProvider,
+            double BasePrice, enmPassengerType PassengerType, enmTitle Title
+            )
+        {
+            List<Tuple<int, double>> mdl = null;
+            var MasterQuery = _travelContext.tblFlightConvenience.Where(p => !p.IsDeleted && 
+              (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirectFlight) || (p.FlightType == enmFlightType.Direct && IsDirectFlight)) &&
+              p.BookingFromDt <= bookingDate && p.BookingToDt > bookingDate
+              && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+              && (p.IsAllCustomerType ||
+                  ((!p.IsAllCustomerType) && p.tblFlightConvenienceCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
+                  ((!p.IsAllCustomer) && p.tblFlightConvenienceCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0))
+              && (p.IsAllAirline || p.tblFlightConvenienceAirline.Where(q => Airline.Contains(q.tblAirline.Name)).Count() > 0)
+              && (p.IsAllProvider || p.tblFlightConvenienceServiceProvider.Where(r => r.ServiceProvider == ServiceProvider).Count() > 0)
+              && (p.IsAllSegment || (p.tblFlightConvenienceSegment.Where(r => r.orign == FromAirport && r.destination == ToAirport).Count() > 0))
+            ).Include(p => p.tblFlightConveniencePassengerType).AsQueryable();
+
+            if (FlightSearvices == enmFlightSearvices.OnPassenger)
+            {
+                MasterQuery = MasterQuery.Where(p =>
+                    p.Applicability == enmFlightSearvices.OnPassenger &&
+                    (p.IsAllPessengerType || p.tblFlightConveniencePassengerType.Where(q => q.PassengerType == PassengerType).Count() > 0)
+                    && (p.Gender == enmGender.ALL ||
+                            (p.Gender == enmGender.Male && (Title == enmTitle.MR || Title == enmTitle.MASTER)) ||
+                            (p.Gender == enmGender.Female && (Title == enmTitle.MISS || Title == enmTitle.MRS))
+                        )
+                );
+            }
+            else
+            {
+                MasterQuery = MasterQuery.Where(p => p.Applicability == FlightSearvices);
+            }
+            mdl = MasterQuery.Select(q => new {
+                Id = q.Id,
+                Amount = q.IsPercentage ?
+                (BasePrice * q.PercentageValue / 100.0) > q.AmountCaping ? q.AmountCaping : (BasePrice * q.PercentageValue / 100.0) : q.Amount
+            }).Select(r => new Tuple<int, double>(r.Id, r.Amount)).ToList();
+            return mdl;
+        }
+        List<Tuple<int, double>> GetDiscount(int customerId, enmCustomerType CustomerType, DateTime TravelDt, DateTime bookingDate,
+             enmFlightSearvices FlightSearvices, bool IsDirectFlight,
+            List<string> Airline, string FromAirport, string ToAirport, enmServiceProvider ServiceProvider,
+            double BasePrice, enmPassengerType PassengerType, enmTitle Title
+            )
+        {
+            List<Tuple<int, double>> mdl = null;
+            var MasterQuery = _travelContext.tblFlightDiscount.Where(p => !p.IsDeleted && (p.FlightType == enmFlightType.All || (p.FlightType == enmFlightType.Connected && !IsDirectFlight) || (p.FlightType == enmFlightType.Direct && IsDirectFlight)) &&
+              p.BookingFromDt <= bookingDate && p.BookingToDt > bookingDate
+              && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+              && (p.IsAllCustomerType ||
+                  ((!p.IsAllCustomerType) && p.tblFlightDiscountCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
+                  ((!p.IsAllCustomer) && p.tblFlightDiscountCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0))
+              && (p.IsAllAirline || p.tblFlightDiscountAirline.Where(q => Airline.Contains(q.tblAirline.Name)).Count() > 0)
+              && (p.IsAllProvider || p.tblFlightDiscountServiceProvider.Where(r => r.ServiceProvider == ServiceProvider).Count() > 0)
+              && (p.IsAllSegment || (p.tblFlightDiscountSegment.Where(r => r.orign == FromAirport && r.destination == ToAirport).Count() > 0))
+            ).Include(p => p.tblFlightDiscountPassengerType).AsQueryable();
+
+            if (FlightSearvices == enmFlightSearvices.OnPassenger)
+            {
+                MasterQuery = MasterQuery.Where(p =>
+                    p.Applicability == enmFlightSearvices.OnPassenger &&
+                    (p.IsAllPessengerType || p.tblFlightDiscountPassengerType.Where(q => q.PassengerType == PassengerType).Count() > 0)
+                    && (p.Gender == enmGender.ALL ||
+                            (p.Gender == enmGender.Male && (Title == enmTitle.MR || Title == enmTitle.MASTER)) ||
+                            (p.Gender == enmGender.Female && (Title == enmTitle.MISS || Title == enmTitle.MRS))
+                        )
+                );
+            }
+            else
+            {
+                MasterQuery = MasterQuery.Where(p => p.Applicability == FlightSearvices);
+            }
+            mdl = MasterQuery.Select(q => new {
+                Id = q.Id,
+                Amount = q.IsPercentage ?
+                (BasePrice * q.PercentageValue / 100.0) > q.AmountCaping ? q.AmountCaping : (BasePrice * q.PercentageValue / 100.0) : q.Amount
+            }).Select(r => new Tuple<int, double>(r.Id, r.Amount)).ToList();
+            return mdl;
+        }
+
+
         public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate)
         {
             if (IsOnward)
@@ -1442,14 +1568,12 @@ namespace projAPI.Services.Travel
              )
         {
             DateTime bookingDate = DateTime.Now;
-            
+            bool IsDirectFlight = false;
             //check Wheather the Ticket is Booked if Ticket is Booked then Don't Remove the Markup and Convenive
             //else Remove the Markup and Conveince
             var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();            
             if (ExistingBooking == null)
             {
-
-
 
                 List<tblFlighBookingPassengerDetails> PassengerDetails = BookingRequest?.travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
                     DOB= q.dob,
@@ -1465,9 +1589,8 @@ namespace projAPI.Services.Travel
                 }).ToList();
 
                 #region ************** Inward Markup/ Discount/ Convenice
-                _travelContext.tblFli
 
-
+                enmServiceProvider ServiceProvider=enmServiceProvider.None;
                 tblFlightBookingMaster fbm = new tblFlightBookingMaster() {
                     AdultCount = searchWraper?.AdultCount ?? 0,
                     ChildCount = searchWraper?.ChildCount ?? 0,
@@ -1481,27 +1604,27 @@ namespace projAPI.Services.Travel
                     ReturnDt = searchWraper?.ReturnDt,
                     OrgId = OrgId,
                     Nid = Nid,
-                    EmailNo = Deliveryinfo.emails.FirstOrDefault(),
-                    PhoneNo = Deliveryinfo.contacts.FirstOrDefault(),
-                    PaymentMode = Deliveryinfo.PaymentMode,
-                    GatewayId = Deliveryinfo.GatewayId,
-                    PaymentType = Deliveryinfo.PaymentType,
-                    PaymentTransactionNumber = Deliveryinfo.PaymentTransactionNumber,
-                    CardNo = Deliveryinfo.CardNo,
-                    AccountNumber = Deliveryinfo.AccountNumber,
-                    BankName = Deliveryinfo.BankName,
-                    IncludeLoaylty = Deliveryinfo.IncludeLoaylty,
-                    ConsumedLoyaltyPoint = Deliveryinfo.ConsumedLoyaltyPoint,
-                    ConsumedLoyaltyAmount = Deliveryinfo.ConsumedLoyaltyAmount,
-                    BookingAmount = Deliveryinfo.BookingAmount,
-                    GatewayCharge = Deliveryinfo.GatewayCharge,
-                    NetAmount = Deliveryinfo.NetAmount,
-                    PaidAmount = Deliveryinfo.PaidAmount,
-                    WalletAmount = Deliveryinfo.WalletAmount,
-                    LoyaltyAmount = Deliveryinfo.LoyaltyAmount,
-                    BookingStatus = Deliveryinfo.BookingStatus,
+                    EmailNo = BookingRequest?.deliveryInfo?.emails.FirstOrDefault(),
+                    PhoneNo = BookingRequest?.deliveryInfo?.contacts.FirstOrDefault(),
+                    PaymentMode = BookingRequest?.deliveryInfo?.PaymentMode?? enmPaymentMode.PaymentGateway,
+                    GatewayId = BookingRequest?.deliveryInfo?.GatewayId?? enmPaymentGateway.None,
+                    PaymentType = BookingRequest?.deliveryInfo?.PaymentType?? enmPaymentSubType.None,
+                    PaymentTransactionNumber = BookingRequest?.deliveryInfo?.PaymentTransactionNumber,
+                    CardNo = BookingRequest?.deliveryInfo?.CardNo,
+                    AccountNumber = BookingRequest?.deliveryInfo?.AccountNumber,
+                    BankName = BookingRequest?.deliveryInfo?.BankName,
+                    IncludeLoaylty = BookingRequest?.deliveryInfo?.IncludeLoaylty??false,
+                    ConsumedLoyaltyPoint = BookingRequest?.deliveryInfo?.ConsumedLoyaltyPoint??0,
+                    ConsumedLoyaltyAmount = BookingRequest?.deliveryInfo?.ConsumedLoyaltyAmount??0,
+                    BookingAmount = BookingRequest?.deliveryInfo?.BookingAmount??0,
+                    GatewayCharge = BookingRequest?.deliveryInfo?.GatewayCharge??0,
+                    NetAmount = BookingRequest?.deliveryInfo?.NetAmount??0,
+                    PaidAmount = BookingRequest?.deliveryInfo?.PaidAmount??0,
+                    WalletAmount = BookingRequest?.deliveryInfo?.WalletAmount??0,
+                    LoyaltyAmount = BookingRequest?.deliveryInfo?.LoyaltyAmount??0,
+                    BookingStatus = enmBookingStatus.Pending,
                     PaymentStatus = enmPaymentStatus.Pending,
-                    HaveRefund = Deliveryinfo.HaveRefund,
+                    HaveRefund = false,
                     CreatedBy = UserId,
                     ModifiedBy = UserId,
                     CreatedDt = bookingDate,
@@ -1509,118 +1632,180 @@ namespace projAPI.Services.Travel
                     VisitorId = VisitorId                    
                 };
                 _travelContext.tblFlightBookingMaster.Add(fbm);
-                
-                foreach (var result in Results)
+                var Inward = Results.FirstOrDefault();
+                var totalPriceList = Inward.FirstOrDefault()?.TotalPriceList?.FirstOrDefault();
+                if ((Inward.FirstOrDefault()?.Segment?.Count ?? 0) == 1)
                 {
-                    for (int i = 0; i < result.Count; i++)
-                    {
-                        string BookingId = Guid.NewGuid().ToString();
-                        List<tblFlightFareDetail> FlightFareDetails = new List<tblFlightFareDetail>();
-                        List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = new List<tblFlightFareMarkupDetail>();
-                        List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = new List<tblFlightFareMLMMarkup>();
-                        List<tblFlightFareDiscount> FlightFareDiscount = new List<tblFlightFareDiscount>();
-                        List<tblFlightFareConvenience> FlightFareConvenience = new List<tblFlightFareConvenience>();
-                        var WingMarkuptemp=_travelContext.tbl
-                            
-                            
-                            SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i]);
-                        var WingMLMMarkuptemp = SetWingMarkupDiscountConvenience(_WingMLMMarkupInward, result[i]);
-                        var WingDiscounttemp = SetWingMarkupDiscountConvenience(_WingDiscountInward, result[i]);
-                        var WingConveniencetemp = SetWingMarkupDiscountConvenience(_WingConvenienceInward, result[i]);
-
-                        FlightFareMarkupDetail.AddRange(WingMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket )
-                            .Select(p => new tblFlightFareMarkupDetail
-                            {   
-                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
-                                BookingId=BookingId,
-                                MarkupId=p.Id                                
-                            }));
-                        FlightFareMLMMarkup.AddRange( WingMLMMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket)
-                            .Select(p => new tblFlightFareMLMMarkup
-                            {
-                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
-                                BookingId = BookingId,
-                                MLMMarkupId = p.Id
-                            }));
-                        FlightFareDiscount.AddRange(WingDiscounttemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket )
-                            .Select(p => new tblFlightFareDiscount
-                            {
-                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
-                                BookingId = BookingId,
-                                DiscountId = p.Id
-                            }));
-                        FlightFareConvenience.AddRange(WingConveniencetemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket)
-                            .Select(p => new tblFlightFareConvenience
-                            {
-                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
-                                BookingId = BookingId,
-                                ConvenienceId = p.Id
-                            }));
-                        _travelContext.tblFlightFareMarkupDetail.AddRange(FlightFareMarkupDetail);
-                        _travelContext.tblFlightFareMLMMarkup.AddRange(FlightFareMLMMarkup);
-                        _travelContext.tblFlightFareDiscount.AddRange(FlightFareDiscount);
-                        _travelContext.tblFlightFareConvenience.AddRange(FlightFareConvenience);
-
-                        foreach (var traveller in PassengerDetails)
-                        {
-                            string FlightFareDetailId = Guid.NewGuid().ToString();
-                            tblFlightFareDetail FlightFareDetail = new tblFlightFareDetail() {FlightFareDetailId=FlightFareDetailId,BookingId=BookingId };
-                            List<tblFlightFareDetailMarkupDetail> FlightFareDetailMarkupDetail = new List<tblFlightFareDetailMarkupDetail>();
-                            FlightFareDetailMarkupDetail.AddRange(WingMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnPassenger && (p.IsAllPessengerType || p.PassengerType.Contains(traveller.PassengerType)))
-                            .Select(p => new tblFlightFareDetailMarkupDetail
-                            {
-                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.ADULT?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.ADULT.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
-                                FareDetailId = FlightFareDetailId,
-                                MarkupId = p.Id                                
-                            }));
-                        }
-                        
-                        
-
-
-                        var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
-                        tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
-                        {
-                            BookingId = BookingId,
-                            VisitorId = VisitorId,
-                            SegmentId = i + 1,
-                            PurchaseIdentifier = totalPriceList.Identifier,
-                            PurchaseCabinClass = totalPriceList.CabinClass,
-                            PurchaseClassOfBooking = totalPriceList.ClassOfBooking,
-                            BookedIdentifier = totalPriceList.alterIdentifier ?? totalPriceList.Identifier,
-                            BookedCabinClass = totalPriceList.alterCabinClass ?? totalPriceList.CabinClass,
-                            BookedClassOfBooking = totalPriceList.ClassOfBooking,
-                            ProviderBookingId = totalPriceList.ProviderBookingId,
-                            ServiceProvider = totalPriceList.ServiceProvider,
-                            BookingStatus = enmBookingStatus.Pending,
-                            PaymentStatus = enmPaymentStatus.Pending,
-                            ConvenienceAmount = totalPriceList.Convenience,
-                            CustomerMarkupAmount = totalPriceList.CustomerMarkup,
-                            DiscountAmount = totalPriceList.Discount,
-                            HaveRefund = false,
-                            IncentiveAmount = totalPriceList.MLMMarkup,
-                            IncludeBaggageServices = totalPriceList.IncludeBaggageServices,
-                            IncludeMealServices = totalPriceList.IncludeMealServices,
-                            IncludeSeatServices = totalPriceList.IncludeSeatServices,
-                            MarkupAmount = totalPriceList.WingMarkup,
-                            NetSaleAmount = totalPriceList.NetFare,
-                            PurchaseAmount = totalPriceList.PurchaseAmount,
-                            PassengerConvenienceAmount = totalPriceList.PassengerConvenienceAmount,
-                            PassengerMarkupAmount = totalPriceList.PassengerMarkupAmount,
-                            PassengerDiscountAmount = totalPriceList.PassengerDiscountAmount,
-                            PassengerIncentiveAmount = totalPriceList.PassengerIncentiveAmount,
-                            IsDeleted = false,
-                            SaleAmount = totalPriceList.SaleAmount,                            
-                        };
-                    }
+                    IsDirectFlight = true;
                 }
+                ServiceProvider = Inward.FirstOrDefault()?.ServiceProvider??enmServiceProvider.None;
+                List<string>Airline =Inward.FirstOrDefault()?.Segment?.Select(p => p.Airline.Name).Distinct().ToList();                
+                tblFlightBookingSearchDetails InwardSearchDetails = new tblFlightBookingSearchDetails()
+                {
+                    BookingId= Guid.NewGuid().ToString(),                    
+                    VisitorId = VisitorId,
+                    SegmentId = 1 ,
+                    PurchaseIdentifier = totalPriceList?.Identifier,
+                    PurchaseCabinClass = totalPriceList?.CabinClass?? enmCabinClass.ECONOMY,
+                    PurchaseClassOfBooking = totalPriceList?.ClassOfBooking,
+                    BookedIdentifier = totalPriceList?.alterIdentifier ?? totalPriceList.Identifier,
+                    BookedCabinClass = totalPriceList?.alterCabinClass ?? totalPriceList.CabinClass,
+                    BookedClassOfBooking = totalPriceList?.ClassOfBooking,
+                    ProviderBookingId = totalPriceList?.ProviderBookingId,
+                    ServiceProvider = totalPriceList?.ServiceProvider??enmServiceProvider.None,
+                    BookingStatus = enmBookingStatus.Pending,
+                    PaymentStatus = enmPaymentStatus.Pending,
+                    ConvenienceAmount = totalPriceList?.Convenience??0,
+                    CustomerMarkupAmount = totalPriceList?.CustomerMarkup??0,
+                    DiscountAmount = totalPriceList?.Discount??0,
+                    HaveRefund = false,
+                    IncentiveAmount = totalPriceList?.MLMMarkup??0,
+                    IncludeBaggageServices = totalPriceList?.IncludeBaggageServices??false,
+                    IncludeMealServices = totalPriceList?.IncludeMealServices??false,
+                    IncludeSeatServices = totalPriceList?.IncludeSeatServices??false,
+                    MarkupAmount = totalPriceList?.WingMarkup??0,
+                    NetSaleAmount = totalPriceList?.NetFare??0,
+                    PurchaseAmount = totalPriceList?.PurchaseAmount??0,
+                    PassengerConvenienceAmount = totalPriceList?.PassengerConvenienceAmount??0,
+                    PassengerMarkupAmount = totalPriceList?.PassengerMarkupAmount??0,
+                    PassengerDiscountAmount = totalPriceList?.PassengerDiscountAmount??0,
+                    PassengerIncentiveAmount = totalPriceList?.PassengerIncentiveAmount??0,
+                    IsDeleted = false,
+                    SaleAmount = totalPriceList?.SaleAmount??0,
+                };
+                List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = 
+                GetMarkup(OrgId,CustomerType ,searchWraper.DepartureDt,bookingDate,false, enmFlightSearvices.OnTicket, 
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                totalPriceList.BaseFare,enmPassengerType.Adult,enmTitle.MR
+                ).Select(q=>new tblFlightFareMarkupDetail { Amount= q.Item2, BookingId= InwardSearchDetails.BookingId,
+                MarkupId= q.Item1}).ToList();
+                List<tblFlightFareMLMMarkup> FlightFareMLMMarkup =
+                GetMarkup(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, true, enmFlightSearvices.OnTicket,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
+                ).Select(q => new tblFlightFareMLMMarkup
+                {
+                    Amount = q.Item2,
+                    BookingId = InwardSearchDetails.BookingId,
+                    MLMMarkupId = q.Item1
+                }).ToList();
+
+                List<tblFlightFareDiscount> FlightFareDiscount =
+                GetMarkup(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, true, enmFlightSearvices.OnTicket,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
+                ).Select(q => new tblFlightFareDiscount
+                {
+                    Amount = q.Item2,
+                    BookingId = InwardSearchDetails.BookingId,
+                    DiscountId = q.Item1
+                }).ToList();
+
+                List<tblFlightFareConvenience> FlightFareConvenience =
+                GetMarkup(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, true, enmFlightSearvices.OnTicket,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
+                ).Select(q => new tblFlightFareConvenience
+                {
+                    Amount = q.Item2,
+                    BookingId = InwardSearchDetails.BookingId,
+                    ConvenienceId= q.Item1
+                }).ToList();
+
+
+                List<tblFlightFareDetail> tblFlightFareDetails = new List<tblFlightFareDetail>();
+                foreach (var passenger in PassengerDetails)
+                {
+                    double basePrice = 0, YqTax=0, Tax=0;
+                    if (passenger.PassengerType == enmPassengerType.Adult)
+                    {
+                        basePrice = totalPriceList.ADULT.BaseFare;
+                        YqTax = totalPriceList.ADULT.YQTax;
+                        Tax = totalPriceList.ADULT.NetFare - totalPriceList.ADULT.BaseFare;
+
+                    }
+                    else if (passenger.PassengerType == enmPassengerType.Child)
+                    {
+                        basePrice = totalPriceList.CHILD.BaseFare;
+                        YqTax = totalPriceList.CHILD.YQTax;
+                        Tax = totalPriceList.CHILD.NetFare - totalPriceList.CHILD.BaseFare;
+                    }
+                    else if (passenger.PassengerType == enmPassengerType.Infant)
+                    {
+                        basePrice = totalPriceList.INFANT.BaseFare;
+                        YqTax = totalPriceList.INFANT.YQTax;
+                        Tax = totalPriceList.INFANT.NetFare - totalPriceList.INFANT.BaseFare;
+                    }
+                    string FareDetailId = Guid.NewGuid().ToString();
+                    List<tblFlightFareDetailMarkupDetail> tblFlightFareDetailMarkupDetails  = GetMarkup(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, false, enmFlightSearvices.OnPassenger,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                    totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
+                    ).Select(q => new tblFlightFareDetailMarkupDetail
+                    {
+                        Amount = q.Item2,
+                        FareDetailId= FareDetailId,
+                        MarkupId=q.Item1
+                    }).ToList();
+                    List<tblFlightFareDetailMLMMarkup> tblFlightFareDetailMLMMarkup = GetMarkup(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, true, enmFlightSearvices.OnPassenger,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                    totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
+                    ).Select(q => new tblFlightFareDetailMLMMarkup
+                    {
+                        Amount = q.Item2,
+                        FareDetailId = FareDetailId,
+                        MLMMarkupId = q.Item1
+                    }).ToList();
+                    List<tblFlightFareDetailDiscount> tblFlightFareDetailDiscount = GetDiscount(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, enmFlightSearvices.OnPassenger,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                    totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
+                    ).Select(q => new tblFlightFareDetailDiscount
+                    {
+                        Amount = q.Item2,
+                        FareDetailId = FareDetailId,
+                        DiscountId = q.Item1
+                    }).ToList();
+                    List<tblFlightFareDetailConvenience> tblFlightFareDetailConvenience = GetConvenience(OrgId, CustomerType, searchWraper.DepartureDt, bookingDate, enmFlightSearvices.OnPassenger,
+                    IsDirectFlight, Airline, searchWraper.From, searchWraper.To, ServiceProvider,
+                    totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
+                    ).Select(q => new tblFlightFareDetailConvenience
+                    {
+                        Amount = q.Item2,
+                        FareDetailId = FareDetailId,
+                        ConvenienceId= q.Item1
+                    }).ToList();
+
+                    tblFlightFareDetail tblFlightFareDetail = new tblFlightFareDetail()
+                    {
+                        FlightFareDetailId = FareDetailId,
+                        YQTax = YqTax,
+                        BaseFare = basePrice,
+                        Tax = Tax,
+                        WingMarkup = tblFlightFareDetailMarkupDetails.Sum(q => q.Amount),
+                        MLMMarkup = tblFlightFareDetailMLMMarkup.Sum(q => q.Amount),
+                        Convenience = tblFlightFareDetailConvenience.Sum(q => q.Amount),
+                        TotalFare = 0,
+                        Discount = tblFlightFareDetailDiscount.Sum(q => q.Amount),
+                        ServiceChargeAmount = 0,
+                        NetFare = 0,
+                        BookingId = InwardSearchDetails.BookingId,
+                        PassengerDetailId = passenger.PassengerDetailId,
+                        tblFlightFareDetailMarkupDetail= tblFlightFareDetailMarkupDetails,
+                        tblFlightFareDetailMLMMarkup= tblFlightFareDetailMLMMarkup,
+                        tblFlightFareDetailConvenience=tblFlightFareDetailConvenience ,
+                        tblFlightFareDetailDiscount=tblFlightFareDetailDiscount
+                    };
+                    tblFlightFareDetail.TotalFare = tblFlightFareDetail.BaseFare + tblFlightFareDetail.Tax + tblFlightFareDetail.WingMarkup + tblFlightFareDetail.MLMMarkup + tblFlightFareDetail.Convenience;
+                    tblFlightFareDetail.NetFare = tblFlightFareDetail.TotalFare - tblFlightFareDetail.Discount;
+                    tblFlightFareDetails.Add(tblFlightFareDetail);
+
+                }
+
 
             }
             else
             {   
                 if (ExistingBooking.BookingStatus == enmBookingStatus.Pending)
-                {
-                    lclSetVariableMarkup();
+                {   
                     var FlightBookingSearchDetails = _travelContext.tblFlightBookingSearchDetails.Where(q => q.VisitorId == VisitorId).ToList();
                     FlightBookingSearchDetails.ForEach(p => {
                         RemoveAllMarkup(p.BookingId);
@@ -1645,79 +1830,7 @@ namespace projAPI.Services.Travel
             }
 
 
-            void GetMarkup( int customerId,DateTime TravelDt, bool IsMLM, enmFlightSearvices searvices)
-            {
-                List<mdlWingMarkup_Air> mdl = new List<mdlWingMarkup_Air>();
-
-                _travelContext.tblFlightMarkupMaster.Where(p=>!p.IsDeleted &&  p.BookingFromDt<=bookingDate && p.BookingToDt> bookingDate 
-                && p.TravelFromDt<= TravelDt && p.TravelToDt>TravelDt
-                &&
-                )
-
-                IQueryable<tblFlightMarkupMaster> returnData = (CustomerType == enmCustomerType.InHouse && customerId == 0) ?
-                    _travelContext.tblFlightMarkupMaster.AsQueryable() :
-                    _travelContext.tblFlightMarkupMaster.Where(p =>
-                    p.IsAllCustomerType ||
-                    ((!p.IsAllCustomerType) && p.tblFlightMarkupCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
-                    ((!p.IsAllCustomer) && p.tblFlightMarkupCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0)
-                    ).AsQueryable();
-
-                if (OnlyActive && !FilterDateCriteria)
-                {
-                    returnData = returnData.Where(p => p.IsDeleted).AsQueryable();
-                }
-                else
-                {
-                    if (!OnlyActive)
-                    {
-                        returnData = returnData.Where(p => p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
-                          && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
-                        );
-                    }
-                    else
-                    {
-                        returnData = returnData.Where(p => !p.IsDeleted && p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
-                          && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
-                        );
-                    }
-                }
-                mdl = returnData
-                    .Select(p => new mdlWingMarkup_Air
-                    {
-                        Id = p.Id,
-                        Applicability = p.Applicability,
-                        IsAllProvider = p.IsAllProvider,
-                        IsAllCustomerType = p.IsAllCustomerType,
-                        IsAllCustomer = p.IsAllCustomer,
-                        IsAllPessengerType = p.IsAllPessengerType,
-                        IsAllFlightClass = p.IsAllFlightClass,
-                        IsAllAirline = p.IsAllAirline,
-                        IsAllSegment = p.IsAllSegment,
-                        IsMLMIncentive = p.IsMLMIncentive,
-                        FlightType = p.FlightType,
-                        IsPercentage = p.IsPercentage,
-                        Gender = p.Gender,
-                        PercentageValue = p.PercentageValue,
-                        Amount = p.Amount,
-                        AmountCaping = p.AmountCaping,
-                        TravelFromDt = p.TravelFromDt,
-                        TravelToDt = p.TravelToDt,
-                        BookingFromDt = p.BookingFromDt,
-                        BookingToDt = p.BookingToDt,
-                        IsDeleted = p.IsDeleted,
-                        ServiceProviders = p.tblFlightMarkupServiceProvider.Select(q => q.ServiceProvider).ToList(),
-                        CustomerTypes = p.tblFlightMarkupCustomerType.Select(q => q.customerType).ToList(),
-                        PassengerType = p.tblFlightMarkupPassengerType.Select(q => q.PassengerType).ToList(),
-                        CabinClass = p.tblFlightMarkupFlightClass.Select(q => q.CabinClass).ToList(),
-                        CustomerIds = p.tblFlightMarkupCustomerDetails.
-                        Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
-                        .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
-                        Segments = p.tblFlightMarkupSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
-                        Airline = p.tblFlightMarkupAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
-                    }).ToList();
-                return mdl;
-
-            }
+            
 
 
             List<mdlWingMarkup_Air> SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, mdlSearchResult searchResult)

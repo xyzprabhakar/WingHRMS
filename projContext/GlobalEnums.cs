@@ -331,6 +331,7 @@ namespace projContext
 
     public enum enmPaymentGateway
     {
+        None=0,
     }
 
     public enum enmComponentType

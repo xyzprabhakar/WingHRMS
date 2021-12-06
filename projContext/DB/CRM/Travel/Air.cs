@@ -784,12 +784,7 @@ namespace projContext.DB.CRM.Travel
         public double Discount { get; set; }
         public double ServiceChargeAmount { get; set; }
         public double NetFare { get; set; }
-        [MaxLength(256)]
-        public string CheckingBaggage { get; set; }
-        [MaxLength(256)]
-        public string CabinBaggage { get; set; }
-        public bool IsFreeMeal { get; set; }
-        public byte IsRefundable { get; set; }
+        
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
         [MaxLength(128)]
         public string BookingId { get; set; }
@@ -798,6 +793,10 @@ namespace projContext.DB.CRM.Travel
         [ForeignKey("tblFlighBookingPassengerDetails")] // Foreign Key here
         public string PassengerDetailId { get; set; }
         public tblFlighBookingPassengerDetails tblFlighBookingPassengerDetails { get; set; }
+        public ICollection<tblFlightFareDetailMarkupDetail> tblFlightFareDetailMarkupDetail { get; set; }
+        public ICollection<tblFlightFareDetailMLMMarkup> tblFlightFareDetailMLMMarkup { get; set; }
+        public ICollection<tblFlightFareDetailDiscount> tblFlightFareDetailDiscount { get; set; }
+        public ICollection<tblFlightFareDetailConvenience> tblFlightFareDetailConvenience { get; set; }
     }
     public class tblFlightFareDetailMarkupDetail
     {
