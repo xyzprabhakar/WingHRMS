@@ -1437,7 +1437,7 @@ namespace projAPI.Services.Travel
 
 
         private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
-             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, string VisitorId, int OrgId, ulong Nid,
+             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, List<mdlTravellerinfo> travellerInfo, string VisitorId, int OrgId, ulong Nid,
              enmCustomerType CustomerType,ulong UserId
              )
         {
@@ -1503,8 +1503,12 @@ namespace projAPI.Services.Travel
                         List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = new List<tblFlightFareMarkupDetail>();
                         List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = new List<tblFlightFareMLMMarkup>();
                         List<tblFlightFareDiscount> FlightFareDiscount = new List<tblFlightFareDiscount>();
-                        var WingMarkuptemp= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i],enmFlighWingCharge.WingMarkup);
-                        var WingMLMMarkuptemp = SetWingMarkupDiscountConvenience(_WingMLMMarkupInward, result[i], enmFlighWingCharge.WingMarkup);
+                        List<tblFlightFareConvenience> FlightFareConvenience = new List<tblFlightFareConvenience>();
+                        var WingMarkuptemp= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i]);
+                        var WingMLMMarkuptemp = SetWingMarkupDiscountConvenience(_WingMLMMarkupInward, result[i]);
+                        var WingDiscounttemp = SetWingMarkupDiscountConvenience(_WingDiscountInward, result[i]);
+                        var WingConveniencetemp = SetWingMarkupDiscountConvenience(_WingConvenienceInward, result[i]);
+
                         FlightFareMarkupDetail.AddRange(WingMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket )
                             .Select(p => new tblFlightFareMarkupDetail
                             {   
@@ -1512,15 +1516,37 @@ namespace projAPI.Services.Travel
                                 BookingId=BookingId,
                                 MarkupId=p.Id                                
                             }));
-                        FlightFareMLMMarkup.AddRange( WingMLMMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)))
+                        FlightFareMLMMarkup.AddRange( WingMLMMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket)
                             .Select(p => new tblFlightFareMLMMarkup
                             {
                                 Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
                                 BookingId = BookingId,
                                 MLMMarkupId = p.Id
                             }));
+                        FlightFareDiscount.AddRange(WingDiscounttemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket )
+                            .Select(p => new tblFlightFareDiscount
+                            {
+                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
+                                BookingId = BookingId,
+                                DiscountId = p.Id
+                            }));
+                        FlightFareConvenience.AddRange(WingConveniencetemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket)
+                            .Select(p => new tblFlightFareConvenience
+                            {
+                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
+                                BookingId = BookingId,
+                                ConvenienceId = p.Id
+                            }));
                         _travelContext.tblFlightFareMarkupDetail.AddRange(FlightFareMarkupDetail);
                         _travelContext.tblFlightFareMLMMarkup.AddRange(FlightFareMLMMarkup);
+                        _travelContext.tblFlightFareDiscount.AddRange(FlightFareDiscount);
+                        _travelContext.tblFlightFareConvenience.AddRange(FlightFareConvenience);
+                        foreach (var traveller in travellerInfo)
+                        { 
+                        }
+                        
+                        
+
 
                         var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
                         tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
@@ -1602,7 +1628,7 @@ namespace projAPI.Services.Travel
             }
 
 
-            List<mdlWingMarkup_Air> SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, mdlSearchResult searchResult, enmFlighWingCharge cType)
+            List<mdlWingMarkup_Air> SetWingMarkupDiscountConvenience(List<mdlWingMarkup_Air> tempData, mdlSearchResult searchResult)
             {
                 
                 bool IsDirect = true;
