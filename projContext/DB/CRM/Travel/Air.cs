@@ -771,9 +771,9 @@ namespace projContext.DB.CRM.Travel
     }
     public class tblFlightFareDetail
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int FlightFareDetailId {get; set;}
+        [Key]        
+        [MaxLength(25)]
+        public string FlightFareDetailId {get; set;}
         public double YQTax { get; set; }
         public double BaseFare { get; set; }
         public double Tax { get; set; }
@@ -794,20 +794,22 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(128)]
         public string BookingId { get; set; }
         public tblFlightBookingSearchDetails tblFlightBookingSearchDetails { get; set; }
+        [MaxLength(128)]
         [ForeignKey("tblFlighBookingPassengerDetails")] // Foreign Key here
-        public int? PassengerDetailId { get; set; }
+        public string PassengerDetailId { get; set; }
         public tblFlighBookingPassengerDetails tblFlighBookingPassengerDetails { get; set; }
     }
     public class tblFlightFareDetailMarkupDetail
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
+        [MaxLength(25)]
+        public ulong Sno{ get; set; }
         [ForeignKey("tblFlightMarkupMaster")] // Foreign Key here        
         public int? MarkupId { get; set; }
         public tblFlightMarkupMaster tblFlightMarkupMaster { get; set; }
         [ForeignKey("tblFlightFareDetail")] // Foreign Key here        
-        public int? FareDetailId { get; set; }
+        [MaxLength(128)]
+        public string FareDetailId { get; set; }
         public tblFlightFareDetail tblFlightFareDetail { get; set; }
         public double Amount { get; set; }
     }
@@ -815,12 +817,13 @@ namespace projContext.DB.CRM.Travel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
+        public ulong Sno { get; set; }
         [ForeignKey("tblFlightMarkupMaster")] // Foreign Key here        
         public int? MLMMarkupId { get; set; }
         public tblFlightMarkupMaster tblFlightMarkupMaster { get; set; }
         [ForeignKey("tblFlightFareDetail")] // Foreign Key here        
-        public int? FareDetailId { get; set; }
+        [MaxLength(128)]
+        public string FareDetailId { get; set; }
         public tblFlightFareDetail tblFlightFareDetail { get; set; }
         public double Amount { get; set; }
     }
@@ -828,12 +831,12 @@ namespace projContext.DB.CRM.Travel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
+        public ulong Sno { get; set; }
         [ForeignKey("tblFlightDiscount")] // Foreign Key here        
         public int? DiscountId { get; set; }
         public tblFlightDiscount tblFlightDiscount { get; set; }
         [ForeignKey("tblFlightFareDetail")] // Foreign Key here        
-        public int? FareDetailId { get; set; }
+        public string FareDetailId { get; set; }
         public tblFlightFareDetail tblFlightFareDetail { get; set; }
         public double Amount { get; set; }
     }
@@ -841,12 +844,12 @@ namespace projContext.DB.CRM.Travel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
+        public ulong Sno { get; set; }
         [ForeignKey("tblFlightConvenience")] // Foreign Key here        
         public int? ConvenienceId { get; set; }
         public tblFlightConvenience tblFlightConvenience { get; set; }
         [ForeignKey("tblFlightFareDetail")] // Foreign Key here        
-        public int? FareDetailId { get; set; }
+        public string FareDetailId { get; set; }
         public tblFlightFareDetail tblFlightFareDetail { get; set; }
         public double Amount { get; set; }
     }
@@ -871,13 +874,13 @@ namespace projContext.DB.CRM.Travel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
+        [MaxLength(128)]
+        public string PassengerDetailId { get; set; }
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
         public string VisitorId { get; set; }
         public tblFlightBookingMaster tblFlightBookingMaster { get; set; }
-        public enmPassengerType PassengerType { get; set; }
-        [MaxLength(16)]
-        public string Title { get; set; }
+        public enmPassengerType PassengerType { get; set; }        
+        public enmTitle Title { get; set; }
         [MaxLength(64)]
         public string FirstName { get; set; }
         [MaxLength(64)]

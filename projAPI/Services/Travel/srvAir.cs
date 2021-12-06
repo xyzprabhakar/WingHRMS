@@ -1452,6 +1452,21 @@ namespace projAPI.Services.Travel
             
             if (ExistingBooking == null)
             {
+                List<tblFlighBookingPassengerDetails> PassengerDetails = travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
+                    DOB= q.dob,
+                    FirstName=q.FirstName,
+                    LastName=q.LastName,
+                    PassengerDetailId=Guid.NewGuid().ToString(),
+                    PassengerType=q.passengerType,
+                    PassportExpiryDate=q.PassportExpiryDate,
+                    PassportIssueDate=q.PassportIssueDate,
+                    PassportNumber=q.pNum,
+                    Title=q.Title,
+                    VisitorId=VisitorId
+                }).ToList();
+
+                
+
                 lclSetVariableMarkup();
                 fbm = new tblFlightBookingMaster() {
                     AdultCount = searchWraper?.AdultCount ?? 0,
@@ -1500,6 +1515,7 @@ namespace projAPI.Services.Travel
                     for (int i = 0; i < result.Count; i++)
                     {
                         string BookingId = Guid.NewGuid().ToString();
+                        List<tblFlightFareDetail> FlightFareDetails = new List<tblFlightFareDetail>();
                         List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = new List<tblFlightFareMarkupDetail>();
                         List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = new List<tblFlightFareMLMMarkup>();
                         List<tblFlightFareDiscount> FlightFareDiscount = new List<tblFlightFareDiscount>();
@@ -1541,8 +1557,19 @@ namespace projAPI.Services.Travel
                         _travelContext.tblFlightFareMLMMarkup.AddRange(FlightFareMLMMarkup);
                         _travelContext.tblFlightFareDiscount.AddRange(FlightFareDiscount);
                         _travelContext.tblFlightFareConvenience.AddRange(FlightFareConvenience);
-                        foreach (var traveller in travellerInfo)
-                        { 
+
+                        foreach (var traveller in PassengerDetails)
+                        {
+                            string FlightFareDetailId = Guid.NewGuid().ToString();
+                            tblFlightFareDetail FlightFareDetail = new tblFlightFareDetail() {FlightFareDetailId=FlightFareDetailId,BookingId=BookingId };
+                            List<tblFlightFareDetailMarkupDetail> FlightFareDetailMarkupDetail = new List<tblFlightFareDetailMarkupDetail>();
+                            FlightFareDetailMarkupDetail.AddRange(WingMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnPassenger && (p.IsAllPessengerType || p.PassengerType.Contains(traveller.PassengerType)))
+                            .Select(p => new tblFlightFareDetailMarkupDetail
+                            {
+                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.ADULT?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.ADULT.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
+                                FareDetailId = FlightFareDetailId,
+                                MarkupId = p.Id                                
+                            }));
                         }
                         
                         
