@@ -1437,7 +1437,7 @@ namespace projAPI.Services.Travel
 
 
         private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
-             mdlFlightSearchWraper searchWraper, mdlDeliveryinfo Deliveryinfo, List<mdlTravellerinfo> travellerInfo, string VisitorId, int OrgId, ulong Nid,
+             mdlFlightSearchWraper searchWraper, mdlBookingRequest BookingRequest, string VisitorId, int OrgId, ulong Nid,
              enmCustomerType CustomerType,ulong UserId
              )
         {
@@ -1448,7 +1448,10 @@ namespace projAPI.Services.Travel
             var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();            
             if (ExistingBooking == null)
             {
-                List<tblFlighBookingPassengerDetails> PassengerDetails = travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
+
+
+
+                List<tblFlighBookingPassengerDetails> PassengerDetails = BookingRequest?.travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
                     DOB= q.dob,
                     FirstName=q.FirstName,
                     LastName=q.LastName,
@@ -1460,6 +1463,11 @@ namespace projAPI.Services.Travel
                     Title=q.Title,
                     VisitorId=VisitorId
                 }).ToList();
+
+                #region ************** Inward Markup/ Discount/ Convenice
+                _travelContext.tblFli
+
+
                 tblFlightBookingMaster fbm = new tblFlightBookingMaster() {
                     AdultCount = searchWraper?.AdultCount ?? 0,
                     ChildCount = searchWraper?.ChildCount ?? 0,
@@ -1633,6 +1641,81 @@ namespace projAPI.Services.Travel
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailDiscount Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailConvenience Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetail Where BookingId=@p1", BookingId);                
+
+            }
+
+
+            void GetMarkup( int customerId,DateTime TravelDt, bool IsMLM, enmFlightSearvices searvices)
+            {
+                List<mdlWingMarkup_Air> mdl = new List<mdlWingMarkup_Air>();
+
+                _travelContext.tblFlightMarkupMaster.Where(p=>!p.IsDeleted &&  p.BookingFromDt<=bookingDate && p.BookingToDt> bookingDate 
+                && p.TravelFromDt<= TravelDt && p.TravelToDt>TravelDt
+                &&
+                )
+
+                IQueryable<tblFlightMarkupMaster> returnData = (CustomerType == enmCustomerType.InHouse && customerId == 0) ?
+                    _travelContext.tblFlightMarkupMaster.AsQueryable() :
+                    _travelContext.tblFlightMarkupMaster.Where(p =>
+                    p.IsAllCustomerType ||
+                    ((!p.IsAllCustomerType) && p.tblFlightMarkupCustomerType.Where(q => q.customerType == CustomerType).Count() > 0 && p.IsAllCustomer) ||
+                    ((!p.IsAllCustomer) && p.tblFlightMarkupCustomerDetails.Where(q => q.CustomerId == customerId).Count() > 0)
+                    ).AsQueryable();
+
+                if (OnlyActive && !FilterDateCriteria)
+                {
+                    returnData = returnData.Where(p => p.IsDeleted).AsQueryable();
+                }
+                else
+                {
+                    if (!OnlyActive)
+                    {
+                        returnData = returnData.Where(p => p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
+                          && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+                        );
+                    }
+                    else
+                    {
+                        returnData = returnData.Where(p => !p.IsDeleted && p.BookingFromDt <= BookingDate && p.BookingToDt > BookingDate
+                          && p.TravelFromDt <= TravelDt && p.TravelToDt > TravelDt
+                        );
+                    }
+                }
+                mdl = returnData
+                    .Select(p => new mdlWingMarkup_Air
+                    {
+                        Id = p.Id,
+                        Applicability = p.Applicability,
+                        IsAllProvider = p.IsAllProvider,
+                        IsAllCustomerType = p.IsAllCustomerType,
+                        IsAllCustomer = p.IsAllCustomer,
+                        IsAllPessengerType = p.IsAllPessengerType,
+                        IsAllFlightClass = p.IsAllFlightClass,
+                        IsAllAirline = p.IsAllAirline,
+                        IsAllSegment = p.IsAllSegment,
+                        IsMLMIncentive = p.IsMLMIncentive,
+                        FlightType = p.FlightType,
+                        IsPercentage = p.IsPercentage,
+                        Gender = p.Gender,
+                        PercentageValue = p.PercentageValue,
+                        Amount = p.Amount,
+                        AmountCaping = p.AmountCaping,
+                        TravelFromDt = p.TravelFromDt,
+                        TravelToDt = p.TravelToDt,
+                        BookingFromDt = p.BookingFromDt,
+                        BookingToDt = p.BookingToDt,
+                        IsDeleted = p.IsDeleted,
+                        ServiceProviders = p.tblFlightMarkupServiceProvider.Select(q => q.ServiceProvider).ToList(),
+                        CustomerTypes = p.tblFlightMarkupCustomerType.Select(q => q.customerType).ToList(),
+                        PassengerType = p.tblFlightMarkupPassengerType.Select(q => q.PassengerType).ToList(),
+                        CabinClass = p.tblFlightMarkupFlightClass.Select(q => q.CabinClass).ToList(),
+                        CustomerIds = p.tblFlightMarkupCustomerDetails.
+                        Select(q => new { CustomerId = q.CustomerId ?? 0, CustomerCode = q.tblCustomerMaster.OrganisationCode, CustomerName = q.tblCustomerMaster.OrganisationName }).ToList()
+                        .Select(q => new Tuple<int, string>(q.CustomerId, q.CustomerCode)).ToList(),
+                        Segments = p.tblFlightMarkupSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
+                        Airline = p.tblFlightMarkupAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
+                    }).ToList();
+                return mdl;
 
             }
 
