@@ -59,21 +59,19 @@ namespace projAPI.Model.Travel
         public string Message { get; set; }
     }
     public class mdlSearchResponse
-    {
-        public string WingSearchId { get; set; }
+    {   
         public enmMessageType ResponseStatus { get; set; }
-        public mdlError Error { get; set; }
-        public enmServiceProvider ServiceProvider { get; set; }
-        public string TraceId { get; set; }
+        public mdlError Error { get; set; }        
         public string Origin { get; set; }
         public string Destination { get; set; }
         public List<List<mdlSearchResult>> Results { get; set; }
     }
 
     public class mdlSearchResult
-    {   
+    {
+        public string WingSearchId { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
-        public string traceid { get; set; }
+        public string TraceId { get; set; }
         public List<mdlSegment> Segment { get; set; }
         public List<mdlTotalpricelist> TotalPriceList { get; set; }
     }
