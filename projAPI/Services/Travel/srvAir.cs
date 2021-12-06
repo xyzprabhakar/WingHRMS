@@ -1494,27 +1494,35 @@ namespace projAPI.Services.Travel
                     VisitorId = VisitorId                    
                 };
                 _travelContext.tblFlightBookingMaster.Add(fbm);
-                List<tblFlightBookingSearchDetails> searchDetails = new List<tblFlightBookingSearchDetails>();
+                
                 foreach (var result in Results)
                 {
                     for (int i = 0; i < result.Count; i++)
                     {
                         string BookingId = Guid.NewGuid().ToString();
                         List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = new List<tblFlightFareMarkupDetail>();
-                        var WingMarkup= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i],enmFlighWingCharge.WingMarkup);
-                        FlightFareMarkupDetail.AddRange(
-                        WingMarkup.Where(p => p.Applicability == enmFlightSearvices.OnTicket && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)))
+                        List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = new List<tblFlightFareMLMMarkup>();
+                        List<tblFlightFareDiscount> FlightFareDiscount = new List<tblFlightFareDiscount>();
+                        var WingMarkuptemp= SetWingMarkupDiscountConvenience(_WingMarkupInward, result[i],enmFlighWingCharge.WingMarkup);
+                        var WingMLMMarkuptemp = SetWingMarkupDiscountConvenience(_WingMLMMarkupInward, result[i], enmFlighWingCharge.WingMarkup);
+                        FlightFareMarkupDetail.AddRange(WingMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket )
                             .Select(p => new tblFlightFareMarkupDetail
                             {   
                                 Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
                                 BookingId=BookingId,
                                 MarkupId=p.Id                                
                             }));
+                        FlightFareMLMMarkup.AddRange( WingMLMMarkuptemp.Where(p => p.Applicability == enmFlightSearvices.OnTicket && (p.IsAllPessengerType || p.PassengerType.Contains(enmPassengerType.Infant)))
+                            .Select(p => new tblFlightFareMLMMarkup
+                            {
+                                Amount = p.IsPercentage ? (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 > p.AmountCaping ? p.AmountCaping : (result[i].TotalPriceList.FirstOrDefault()?.BaseFare ?? 0) * p.PercentageValue / 100.0 : p.Amount,
+                                BookingId = BookingId,
+                                MLMMarkupId = p.Id
+                            }));
                         _travelContext.tblFlightFareMarkupDetail.AddRange(FlightFareMarkupDetail);
+                        _travelContext.tblFlightFareMLMMarkup.AddRange(FlightFareMLMMarkup);
 
-
-
-                    var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
+                        var totalPriceList = result[i].TotalPriceList.FirstOrDefault();
                         tblFlightBookingSearchDetails sd = new tblFlightBookingSearchDetails()
                         {
                             BookingId = BookingId,
