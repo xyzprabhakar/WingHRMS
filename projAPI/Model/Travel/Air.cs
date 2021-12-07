@@ -78,13 +78,15 @@ namespace projAPI.Model.Travel
 
     public class mdlSegment
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public mdlAirline Airline { get; set; }
         public mdlAirport Origin { get; set; }
         public mdlAirport Destination { get; set; }
         public int TripIndicator { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
+        public int Stops { get; set; }
+        public List<mdlAirport> StopDetail { get; set; }
         public int Mile { get; set; }
         public int Duration { get; set; }
         public int Layover { get; set; }
@@ -100,6 +102,9 @@ namespace projAPI.Model.Travel
         public mdlSsrInfo sinfo { get; set; }
 
     }
+
+
+
     public class mdlSsrInfo
     {
         public SsrInformation[] SEAT { get; set; }
@@ -490,10 +495,6 @@ namespace projAPI.Model.Travel
         public string farebasis { get; set; }
         public DateTime PassportExpiryDate { get; set; }
         public DateTime PassportIssueDate { get; set; }
-        public mdlSSRS Baggage { get; set; }
-        public mdlSSRS ssrMealInfos { get; set; }
-        public mdlSSRS ssrSeatInfos { get; set; }
-        public mdlSSRS ssrExtraServiceInfos { get; set; }
         public List<mdlSSRS> ssrBaggageInfoslist { get; set; }
         public List<mdlSSRS> ssrMealInfoslist { get; set; }
         public List<mdlSSRS> ssrSeatInfoslist { get; set; }

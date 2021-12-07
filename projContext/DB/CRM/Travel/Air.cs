@@ -621,13 +621,15 @@ namespace projContext.DB.CRM.Travel
         public double PassengerIncentiveAmount { get; set; }
         public double IncentiveAmount { get; set; }//Incentive that We have to Distribute the Distributors        
         public double PassengerMarkupAmount { get; set; }
+        public double PassengerServiceMarkupAmount { get; set; }
         public double MarkupAmount { get; set; }//Wing Markup Amount
-        public double PassengerDiscountAmount { get; set; }
-        public double DiscountAmount { get; set; }//Discount Applied by Wing
+        public double PassengerDiscountAmount { get; set; }  
         public double PassengerConvenienceAmount { get; set; }
         public double ConvenienceAmount { get; set; }
         public double SaleAmount { get; set; }
         public double CustomerMarkupAmount { get; set; }
+        public double TotalAmount { get; set; }
+        public double DiscountAmount { get; set; }//Discount Applied by Wing
         public double NetSaleAmount { get; set; }
         public enmBookingStatus BookingStatus { get; set; }
         public enmPaymentStatus PaymentStatus { get; set; }
@@ -694,9 +696,9 @@ namespace projContext.DB.CRM.Travel
     }
     public class tblFlightSearchSegment
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]        
+        [MaxLength(128)]
+        public string Id { get; set; }
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
         [MaxLength(128)]
         public string BookingId { get; set; }
@@ -746,9 +748,35 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(30)]
         public string AirlineType { get; set; }
         public int Mile { get; set; }
+        public int Stops { get; set; }
         public int Duration { get; set; }
         public int Layover { get; set; }        
+        public ICollection<tblFlightSearchSegmentStops> tblFlightSearchSegmentStops { get; set; }
     }
+
+    public class tblFlightSearchSegmentStops
+    {
+        [Key]
+        [MaxLength(128)]
+        public string Id { get; set; }
+        [ForeignKey("tblFlightSearchSegment")] // Foreign Key here
+        [MaxLength(128)]
+        public string FlightSearchSegmentId { get; set; }
+        public tblFlightSearchSegment tblFlightSearchSegment { get; set; }
+        public string AirportCode { get; set; }
+        [MaxLength(256)]
+        public string AirportName { get; set; }
+        [MaxLength(64)]        
+        public string CityCode { get; set; }
+        [MaxLength(256)]
+        public string CityName { get; set; }
+        [MaxLength(64)]
+        public string CountryCode { get; set; }
+        [MaxLength(256)]
+        public string CountryName { get; set; }
+    }
+
+
     public class tblFlightServices
     {
         [Key]
@@ -760,10 +788,13 @@ namespace projContext.DB.CRM.Travel
         public tblFlightSearchSegment tblFlightSearchSegment { get; set; }
         public enmFlightSearvices ServiceType { get; set; }
         [ForeignKey("tblFlighBookingPassengerDetails")] // Foreign Key here
-        public int? PassengerDetailId { get; set; }
+        [MaxLength(128)]
+        public string PassengerDetailId { get; set; }
         public tblFlighBookingPassengerDetails tblFlighBookingPassengerDetails { get; set; }
         [MaxLength(128)]
         public string ServiceCode { get; set; }
+        [MaxLength(128)]
+        public string ServiceKey { get; set; }
         [MaxLength(256)]
         public string ServiceDescription { get; set; }
         public double ServiceChargeAmount { get; set; }
@@ -783,6 +814,7 @@ namespace projContext.DB.CRM.Travel
         public double TotalFare { get; set; }
         public double Discount { get; set; }
         public double ServiceChargeAmount { get; set; }
+        public double ServiceChargeMarkup { get; set; }
         public double NetFare { get; set; }
         
         [ForeignKey("tblFlightBookingMaster")] // Foreign Key here
@@ -797,6 +829,7 @@ namespace projContext.DB.CRM.Travel
         public ICollection<tblFlightFareDetailMLMMarkup> tblFlightFareDetailMLMMarkup { get; set; }
         public ICollection<tblFlightFareDetailDiscount> tblFlightFareDetailDiscount { get; set; }
         public ICollection<tblFlightFareDetailConvenience> tblFlightFareDetailConvenience { get; set; }
+        public ICollection<tblFlightServices> tblFlightServices { get; set; }
     }
     public class tblFlightFareDetailMarkupDetail
     {
@@ -888,8 +921,15 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(64)]
         public string PassportNumber { get; set; }
         public DateTime? PassportIssueDate { get; set; }
-        public DateTime? PassportExpiryDate { get; set; }
-        
+        public DateTime? PassportExpiryDate { get; set; } 
+        [NotMapped]
+        public virtual List<Tuple<string, string, double,string>> PassengerServices_Baggage { get; set;}
+        [NotMapped]
+        public virtual List<Tuple<string, string, double, string>> PassengerServices_Meal { get; set; }
+        [NotMapped]
+        public virtual List<Tuple<string, string, double, string>> PassengerServices_Seat { get; set; }
+        [NotMapped]
+        public virtual List<Tuple<string, string, double, string>> PassengerServices_ExtraService { get; set; }
     }
     public class tblFlighRefundPassengerDetails
     {
