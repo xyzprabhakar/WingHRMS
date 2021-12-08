@@ -219,8 +219,7 @@ namespace projAPI.Services.Travel.Air
             mdls.AddRange(sr.Select(p => new mdlSearchResult
             {
                 ServiceProvider = enmServiceProvider.TripJack,
-                traceid = Traceid,
-
+                TraceId = Traceid,
                 Segment = p.sI.Select(q => new mdlSegment
                 {
                     Airline = new mdlAirline()
@@ -238,6 +237,8 @@ namespace projAPI.Services.Travel.Air
                     Mile = 0,
                     TripIndicator = q.sN,
                     Layover = q.cT,
+                    Stops = q.stops,
+                    StopDetail = q.so?.Select(r => new mdlAirport { AirportCode = r.code, AirportName = r.name, CityCode = r.city, CityName = r.city, CountryCode = r.countryCode, CountryName = r.country })?.ToList(),
                     Origin = new mdlAirport()
                     {
                         AirportCode = q.da?.code ?? string.Empty,
@@ -370,8 +371,6 @@ namespace projAPI.Services.Travel.Air
                         }
                         mdlS = new mdlSearchResponse()
                         {
-                            ServiceProvider = enmServiceProvider.TripJack,
-                            TraceId = TraceId,
                             ResponseStatus = enmMessageType.Success,
                             Error = new mdlError()
                             {
@@ -448,7 +447,7 @@ namespace projAPI.Services.Travel.Air
                 SearchResult.Segment = new List<mdlSegment>();
                 SearchResult.TotalPriceList = new List<mdlTotalpricelist>();
                 SearchResult.ServiceProvider = tempData.ServiceProvider;
-                SearchResult.traceid = tempData.ProviderTraceId;
+                SearchResult.TraceId = tempData.ProviderTraceId;
                 SearchResult.Segment.AddRange(tempDataRe.tblFlightSearchSegment_Caching.Select(p => new mdlSegment
                 {
                     Airline = new mdlAirline() { Code = p.Code, FlightNumber = p.FlightNumber, isLcc = p.isLcc, Name = p.Name, OperatingCarrier = p.OperatingCarrier },
@@ -530,8 +529,6 @@ namespace projAPI.Services.Travel.Air
                     Convenience = p.Convenience,
                     TotalFare = p.TotalFare,
                     Discount = p.Discount,
-                    PromoCode = p.PromoCode,
-                    PromoDiscount = p.PromoDiscount,
                     NetFare = p.NetFare,
                     ResultIndex = p.ProviderFareDetailId,
                     Identifier = p.Identifier,
@@ -546,11 +543,8 @@ namespace projAPI.Services.Travel.Air
             mdl = new mdlSearchResponse()
             {
                 Origin = request.Segments.FirstOrDefault().Origin,
-                Destination = request.Segments.FirstOrDefault().Destination,
-                WingSearchId = tempData.CachingId,
+                Destination = request.Segments.FirstOrDefault().Destination,                
                 ResponseStatus = enmMessageType.Success,
-                ServiceProvider = tempData.ServiceProvider,
-                TraceId = tempData.ProviderTraceId,
                 Results = tempResults
 
             };
@@ -669,8 +663,6 @@ namespace projAPI.Services.Travel.Air
                     Convenience = q.Convenience,
                     TotalFare = q.TotalFare,
                     Discount = q.Discount,
-                    PromoCode = q.PromoCode,
-                    PromoDiscount = q.PromoCode,
                     NetFare = q.NetFare,
 
 
@@ -698,7 +690,7 @@ namespace projAPI.Services.Travel.Air
                 TravelDt = request.Segments.FirstOrDefault().TravelDt,
                 CreatedDt = DateTime.Now,
                 ExpiredDt = DateTime.Now.AddMinutes(ExpiryTime),
-                ProviderTraceId = resoponse.TraceId,
+                ProviderTraceId = resoponse?.Results?.FirstOrDefault()?.FirstOrDefault().TraceId,
                 ServiceProvider = enmServiceProvider.TripJack,
                 tblFlightSearchResponses_Caching = SearchResponses
             };
@@ -1067,7 +1059,7 @@ namespace projAPI.Services.Travel.Air
 
         public class Si
         {
-            public int id { get; set; }
+            public string id { get; set; }
             public Fd fD { get; set; }
             public int stops { get; set; }
             public So[] so { get; set; }
