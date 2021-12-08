@@ -661,9 +661,9 @@ namespace projAPI.Services.Travel
                 {
                     throw new Exception("Not able to genrate Quotation.");
                 }
-                BookingRes.PurchaseCabinClass = BookingRes.Results[0][0].TotalPriceList[0].CabinClass;
-                BookingRes.PurchaseClassOfBooking = BookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
-                BookingRes.PurchaseIdentifier = BookingRes.Results[0][0].TotalPriceList[0].Identifier;
+                //BookingRes.PurchaseCabinClass = BookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                //BookingRes.PurchaseClassOfBooking = BookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                //BookingRes.PurchaseIdentifier = BookingRes.Results[0][0].TotalPriceList[0].Identifier;
                 ClearAllCharge();
                 SetBasicPrice(BookingRes.Results);
                 SetBasicPriceWithMarkup(BookingRes.Results);
@@ -684,9 +684,9 @@ namespace projAPI.Services.Travel
                     {
                         throw new Exception("Not able to genrate Quotation.");
                     }
-                    BookingRes.BookedCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
-                    BookingRes.BookedClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
-                    BookingRes.BookedIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
+                    //BookingRes.BookedCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                    //BookingRes.BookedClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                    //BookingRes.BookedIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
                     BookingRes.ServiceProvider = AlterBookingRes.ServiceProvider;
                 }
                 mdl.Add(BookingRes);
@@ -736,7 +736,7 @@ namespace projAPI.Services.Travel
 
 
 
-                #region ************** Inward Markup/ Discount/ Convenice
+                
                 tblFlightBookingMaster fbm = null;
                 tblFlightBookingSearchDetails InwardSearchDetails = null, ReturnSearchDetails = null;
                 List <tblFlightFareMarkupDetail> FlightFareMarkupDetail = null, ReturnFlightFareMarkupDetail=null;
@@ -1476,7 +1476,7 @@ namespace projAPI.Services.Travel
                 //Set Master Total Value
                 {
 
-                    fbm.BookingAmount =InwardSearchDetails?.SaleAmount??0 + ReturnSearchDetails?.NetSaleAmount??0
+                    fbm.BookingAmount = InwardSearchDetails?.SaleAmount ?? 0 + ReturnSearchDetails?.NetSaleAmount ?? 0;
                 }
 
                 _travelContext.tblFlightBookingMaster.Add(fbm);
@@ -1609,12 +1609,12 @@ namespace projAPI.Services.Travel
                     BookingId = BookingId,
                     VisitorId = VisitorId,
                     SegmentId = SegmentId,
-                    PurchaseIdentifier = response[SegmentId - 1].PurchaseIdentifier,
-                    PurchaseCabinClass = response[SegmentId - 1].PurchaseCabinClass,
-                    PurchaseClassOfBooking = response[SegmentId - 1].PurchaseClassOfBooking,
-                    BookedIdentifier = response[SegmentId - 1].BookedIdentifier,
-                    BookedCabinClass = response[SegmentId - 1].BookedCabinClass,
-                    BookedClassOfBooking = response[SegmentId - 1].BookedClassOfBooking,
+                    //PurchaseIdentifier = response[SegmentId - 1].PurchaseIdentifier,
+                    //PurchaseCabinClass = response[SegmentId - 1].PurchaseCabinClass,
+                    //PurchaseClassOfBooking = response[SegmentId - 1].PurchaseClassOfBooking,
+                    //BookedIdentifier = response[SegmentId - 1].BookedIdentifier,
+                    //BookedCabinClass = response[SegmentId - 1].BookedCabinClass,
+                    //BookedClassOfBooking = response[SegmentId - 1].BookedClassOfBooking,
                     ProviderBookingId = response[SegmentId - 1].BookingId,
                     ServiceProvider = response[SegmentId - 1].ServiceProvider,
                     BookingStatus = enmBookingStatus.Pending,
@@ -1673,7 +1673,7 @@ namespace projAPI.Services.Travel
                     _travelContext.tblFlightSearchSegment.Add(fsg);
                 }
                 
-                _travelContext.tblFlightFare.Add(flightFare);
+                //_travelContext.tblFlightFare.Add(flightFare);
                 _travelContext.SaveChanges();
             }
 
