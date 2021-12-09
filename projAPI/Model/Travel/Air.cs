@@ -282,6 +282,8 @@ namespace projAPI.Model.Travel
     {
         public string TraceId { get; set; }
         public List< Tuple<string,string>> ResultIndex { get; set; }
+        public List<mdlTravellerinfo> travellerInfo { get; set; }
+        public mdlDeliveryinfo deliveryInfo { get; set; }
     }
 
     public class mdlFareQuotRequest

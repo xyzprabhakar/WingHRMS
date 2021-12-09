@@ -26,11 +26,12 @@ namespace projAPI.Services.Travel
     public interface IsrvAir
     {
         void AlterSeachIndex(List<mdlSearchResult> searchResults);
+        Task<mdlReturnData> BookingAsync(IsrvWallet isrvWallet, mdlBookingRequest mdlRq, int CustomerId, int EmployeeId, ulong Nid, ulong UserId, enmCustomerType customerType);
         void ClearAllCharge();
-        Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request);
+        Task<tblFlightBookingMaster> FareQuoteAsync(mdlFareQuotRequestWraper request, enmCustomerType customerType, int CustomerId, ulong Nid, ulong UserId);
         Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid);
         IEnumerable<tblAirport> GetAirport(bool OnlyActive = true, bool IsDomestic = false);
-        void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate);
+        void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate);
         List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate, int CustomerId, ulong Nid, enmCustomerType CustomerType);
         List<mdlFlightAlter> GetFlightBookingAlterMaster();
         List<mdlFlightFareFilter> GetFlightFareFilter(bool ApplyCustomerFilter, enmCustomerType CustomerType);
@@ -40,8 +41,8 @@ namespace projAPI.Services.Travel
         List<mdlWingMarkup_Air> GetWingConvenience(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
         List<mdlWingMarkup_Air> GetWingDiscount(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
         List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId, DateTime TravelDt, DateTime BookingDate);
-        mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId, string Remarks);
-        mdlReturnData SaveFareQuote(mdlFareQuotRequestWraper request, IsrvCurrentUser _IsrvCurrentUser, List<mdlFareQuotResponse> response, int OrgId, ulong Nid);
+        bool IsDomecticFlight(string From, string To);
+        mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId, string Remarks);        
         mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, ulong UserId, int CustomerId, int Nid, string Remarks);
         mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl, ulong UserId);
         mdlReturnData SetFlightFareFilter(mdlFlightFareFilter mdl, ulong UserId);
@@ -50,7 +51,7 @@ namespace projAPI.Services.Travel
         mdlReturnData SetServiceProviderPriority(DateTime EffectiveFromDate, enmServiceProvider ServiceProvider, int priority, ulong UserId, string Remarks);
     }
 
-    public partial class srvAir :  IsrvAir
+    public partial class srvAir : IsrvAir
     {
         private readonly TravelContext _travelContext;
         private readonly ITripJack _tripJack;
@@ -329,7 +330,7 @@ namespace projAPI.Services.Travel
                             Results[i][j].TotalPriceList[k].MLMMarkup +
                             Results[i][j].TotalPriceList[k].CustomerMarkup +
                             Results[i][j].TotalPriceList[k].Convenience -
-                            Results[i][j].TotalPriceList[k].Discount ;
+                            Results[i][j].TotalPriceList[k].Discount;
 
                     }
                 }
@@ -338,7 +339,7 @@ namespace projAPI.Services.Travel
 
         public bool IsDomecticFlight(string From, string To)
         {
-           return _travelContext.tblAirport.Where(p => p.AirportCode == From || p.AirportCode == To && !p.IsDomestic).Count() > 0 ? false : true;
+            return _travelContext.tblAirport.Where(p => p.AirportCode == From || p.AirportCode == To && !p.IsDomestic).Count() > 0 ? false : true;
         }
 
         public async Task<mdlSearchResponse> FlightSearchAsync(mdlFlightSearchWraper mdl, enmCustomerType customerType, int CustomerId, ulong Nid)
@@ -405,9 +406,16 @@ namespace projAPI.Services.Travel
             SetBasicPrice(FinalResult.Results);
             ClearAllCharge();
 
-            bool IsDomectic= IsDomecticFlight(mdl.From,mdl.To);
+            for (int i = 0; i < FinalResult.Results.Count; i++)
+            {
+                FinalResult.Results[i].ForEach(p => { GetCharges(mdl, p, (i == 0 ? true : false), customerType, CustomerId, Nid, CurrentDate); });
+            }
 
-            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType &&  (( p.InstantDomestic && IsDomectic)|| (p.InstantNonDomestic && !IsDomectic))).Any())
+            SetBasicPriceWithMarkup(FinalResult.Results);
+
+            bool IsDomectic = IsDomecticFlight(mdl.From, mdl.To);
+
+            if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType && ((p.InstantDomestic && IsDomectic) || (p.InstantNonDomestic && !IsDomectic))).Any())
             {
                 AlterSeachIndex(FinalResult.Results[0]);
                 if (mdl.JourneyType == enmJourneyType.Return)
@@ -425,12 +433,13 @@ namespace projAPI.Services.Travel
 
             var spPriority = GetServiceProviderPriority(CurrentDate, true);
             RemoveDuplicate();
-            SetBasicPriceWithMarkup(FinalResult.Results);
+
+
             void AppendProvider(mdlSearchResponse tempResult, bool IsOnWard, enmServiceProvider spv)
             {
                 tempResult.Results.FirstOrDefault().ForEach(p =>
                 {
-                    p.TotalPriceList.ForEach(q => { q.ResultIndex = string.Concat(spv, '_',  q.ResultIndex); });
+                    p.TotalPriceList.ForEach(q => { q.ResultIndex = string.Concat(spv, '_', q.ResultIndex); });
                 });
                 if (FinalResult == null)
                 {
@@ -562,7 +571,7 @@ namespace projAPI.Services.Travel
             }
             return FinalResult;
 
-            //GetCharges();
+
         }
 
 #if (false)
@@ -693,11 +702,19 @@ namespace projAPI.Services.Travel
             return mdl;
         }
 #endif
-        public async Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
+        public async Task<tblFlightBookingMaster> FareQuoteAsync(mdlFareQuotRequestWraper request, enmCustomerType customerType, int CustomerId, ulong Nid, ulong UserId)
         {
-            List<mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
+            List<mdlFareQuotResponse> tempMdl = new List<mdlFareQuotResponse>();
+
+            tblFlightBookingMaster mdl = new tblFlightBookingMaster();
             DateTime CurrentDate = DateTime.Now;
             var ServiceProviders = GetServiceProvider(CurrentDate, true).Select(p => p.ServiceProvider);
+
+            var ExistingTbl = _travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == request.TraceId).FirstOrDefault();
+            if (ExistingTbl.BookingStatus != enmBookingStatus.Pending)
+            {
+                throw new Exception("Trace Id is already booked");
+            }
 
             //mdlSearchResponse FinalResult = null;
             enmServiceProvider tempServiceProvider1 = enmServiceProvider.None;
@@ -783,9 +800,9 @@ namespace projAPI.Services.Travel
 
 
 
-                ClearAllCharge();
-                SetBasicPrice(BookingRes.Results);
-                SetBasicPriceWithMarkup(BookingRes.Results);
+                //ClearAllCharge();
+                //SetBasicPrice(BookingRes.Results);
+                //SetBasicPriceWithMarkup(BookingRes.Results);
                 if (AlterBookingRes != null)
                 {
                     SetBasicPriceWithMarkup(AlterBookingRes.Results);
@@ -808,54 +825,81 @@ namespace projAPI.Services.Travel
                     BookingRes.Results[0][0].TotalPriceList[0].alterIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
                     BookingRes.Results[0][0].TotalPriceList[0].alterServiceProvider = AlterBookingRes.ServiceProvider;
                 }
-                mdl.Add(BookingRes);
+                tempMdl.Add(BookingRes);
             }
+
+            List<List<mdlSearchResult>> param1 = new List<List<mdlSearchResult>>();
+            tempMdl.ForEach(q => param1.Add(q.Results.FirstOrDefault()));
+            mdlFlightSearchWraper param2 = new mdlFlightSearchWraper();
+            mdlBookingRequest param3 = new mdlBookingRequest()
+            {
+                deliveryInfo = request.deliveryInfo,
+                travellerInfo = request.travellerInfo
+            };
+            if (tempMdl.Count > 0)
+            {
+                param2.AdultCount = tempMdl[0].SearchQuery?.AdultCount ?? 0;
+                param2.ChildCount = tempMdl[0].SearchQuery?.ChildCount ?? 0;
+                param2.InfantCount = tempMdl[0].SearchQuery?.InfantCount ?? 0;
+                param2.DepartureDt = tempMdl[0].SearchQuery?.DepartureDt ?? CurrentDate;
+                param2.From = tempMdl[0].SearchQuery?.From;
+                param2.To = tempMdl[0].SearchQuery?.To;
+                param2.DirectFlight = tempMdl[0].SearchQuery?.DirectFlight ?? false;
+            }
+            if (tempMdl.Count > 1)
+            {
+                param2.ReturnDt = tempMdl[0].SearchQuery?.DepartureDt ?? CurrentDate;
+            }
+
+
+            mdl = ConvertFareQuoteToFlightBookingMaster(param1, param2, param3, request.TraceId, CustomerId, Nid, customerType, UserId);
+
             string GetOriginalResultIndex(string resultIndex)
             {
                 int FirstIndex = resultIndex.IndexOf('_');
                 //int SecondIndex = resultIndex.IndexOf('_', FirstIndex + 1);
                 return resultIndex.Substring(FirstIndex + 1);
             }
-
             return mdl;
         }
 
 
         private tblFlightBookingMaster ConvertFareQuoteToFlightBookingMaster(List<List<mdlSearchResult>> Results,
              mdlFlightSearchWraper searchWraper, mdlBookingRequest BookingRequest, string VisitorId, int OrgId, ulong Nid,
-             enmCustomerType CustomerType,ulong UserId
+             enmCustomerType CustomerType, ulong UserId
              )
         {
             DateTime bookingDate = DateTime.Now;
             bool IsDirectFlight = false;
             //check Wheather the Ticket is Booked if Ticket is Booked then Don't Remove the Markup and Convenive
             //else Remove the Markup and Conveince
-            var ExistingBooking=_travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();
+            var ExistingBooking = _travelContext.tblFlightBookingMaster.Where(q => q.VisitorId == VisitorId).FirstOrDefault();
             if (ExistingBooking == null)
             {
-                List<tblFlighBookingPassengerDetails> PassengerDetails = BookingRequest?.travellerInfo.Select(q=>new tblFlighBookingPassengerDetails { 
-                    DOB= q.dob,
-                    FirstName=q.FirstName,
-                    LastName=q.LastName,
-                    PassengerDetailId=Guid.NewGuid().ToString(),
-                    PassengerType=q.passengerType,
-                    PassportExpiryDate=q.PassportExpiryDate,
-                    PassportIssueDate=q.PassportIssueDate,
-                    PassportNumber=q.pNum,
-                    Title=q.Title,
-                    VisitorId=VisitorId,
-                    PassengerServices_Baggage= q.ssrBaggageInfoslist.Select(r=>new  Tuple<string, string, double,string>(r.key,r.code,0,r.desc )).ToList(),
-                    PassengerServices_Meal= q.ssrMealInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
-                    PassengerServices_Seat= q.ssrSeatInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
+                List<tblFlighBookingPassengerDetails> PassengerDetails = BookingRequest?.travellerInfo.Select(q => new tblFlighBookingPassengerDetails
+                {
+                    DOB = q.dob,
+                    FirstName = q.FirstName,
+                    LastName = q.LastName,
+                    PassengerDetailId = Guid.NewGuid().ToString(),
+                    PassengerType = q.passengerType,
+                    PassportExpiryDate = q.PassportExpiryDate,
+                    PassportIssueDate = q.PassportIssueDate,
+                    PassportNumber = q.pNum,
+                    Title = q.Title,
+                    VisitorId = VisitorId,
+                    PassengerServices_Baggage = q.ssrBaggageInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
+                    PassengerServices_Meal = q.ssrMealInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
+                    PassengerServices_Seat = q.ssrSeatInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
                     PassengerServices_ExtraService = q.ssrExtraServiceInfoslist.Select(r => new Tuple<string, string, double, string>(r.key, r.code, 0, r.desc)).ToList(),
                 }).ToList();
 
 
 
-                
+
                 tblFlightBookingMaster fbm = null;
                 tblFlightBookingSearchDetails InwardSearchDetails = null, ReturnSearchDetails = null;
-                List <tblFlightFareMarkupDetail> FlightFareMarkupDetail = null, ReturnFlightFareMarkupDetail=null;
+                List<tblFlightFareMarkupDetail> FlightFareMarkupDetail = null, ReturnFlightFareMarkupDetail = null;
                 List<tblFlightFareMLMMarkup> FlightFareMLMMarkup = null, ReturnFlightFareMLMMarkup = null;
                 List<tblFlightFareDiscount> FlightFareDiscount = null, ReturnFlightFareDiscount = null;
                 List<tblFlightFareConvenience> FlightFareConvenience = null, ReturnFlightFareConvenience = null;
@@ -865,7 +909,8 @@ namespace projAPI.Services.Travel
                 //onward
                 {
                     enmServiceProvider ServiceProvider = enmServiceProvider.None;
-                     fbm = new tblFlightBookingMaster() {
+                    fbm = new tblFlightBookingMaster()
+                    {
                         AdultCount = searchWraper?.AdultCount ?? 0,
                         ChildCount = searchWraper?.ChildCount ?? 0,
                         InfantCount = searchWraper?.InfantCount ?? 0,
@@ -905,7 +950,7 @@ namespace projAPI.Services.Travel
                         ModifiedDt = bookingDate,
                         VisitorId = VisitorId
                     };
-                    
+
                     var Inward = Results.FirstOrDefault();
                     var totalPriceList = Inward.FirstOrDefault()?.TotalPriceList?.FirstOrDefault();
                     if ((Inward.FirstOrDefault()?.Segment?.Count ?? 0) == 1)
@@ -1032,7 +1077,7 @@ namespace projAPI.Services.Travel
                             CountryName = q.CountryName,
                             Id = Guid.NewGuid().ToString(),
                         }).ToList()
-                    }).ToList();                    
+                    }).ToList();
                     foreach (var passenger in PassengerDetails)
                     {
                         double basePrice = 0, YqTax = 0, Tax = 0;
@@ -1103,7 +1148,8 @@ namespace projAPI.Services.Travel
                             }).ToList();
                             //bagage and Seat Services
                             {
-                                passenger.PassengerServices_Baggage.ForEach(a => {
+                                passenger.PassengerServices_Baggage.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.BAGGAGE.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1120,9 +1166,10 @@ namespace projAPI.Services.Travel
                                             ServiceDescription = a.Item4
                                         }).ToList());
                                     }
-                                    
+
                                 });
-                                passenger.PassengerServices_Meal.ForEach(a => {
+                                passenger.PassengerServices_Meal.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.MEAL.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1139,9 +1186,10 @@ namespace projAPI.Services.Travel
                                             ServiceDescription = a.Item4
                                         }).ToList());
                                     }
-                                    
+
                                 });
-                                passenger.PassengerServices_Seat.ForEach(a => {
+                                passenger.PassengerServices_Seat.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.SEAT.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1158,9 +1206,10 @@ namespace projAPI.Services.Travel
                                             ServiceDescription = a.Item4
                                         }).ToList());
                                     }
-                                    
+
                                 });
-                                passenger.PassengerServices_ExtraService.ForEach(a => {
+                                passenger.PassengerServices_ExtraService.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.EXTRASERVICES.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1177,26 +1226,26 @@ namespace projAPI.Services.Travel
                                             ServiceDescription = a.Item4
                                         }).ToList());
                                     }
-                                    
+
                                 });
 
                             }
                         }
 
-                        var ServiceChargeAmountList= from c in tblFlightServices
-                                                 group c by new
-                                                 {
-                                                     c.ServiceType,
-                                                     c.ServiceCode,
-                                                     c.ServiceChargeAmount,
-                                                 } into gcs
-                                                 select new 
-                                                 {
-                                                     ServiceType = gcs.Key.ServiceType,
-                                                     ServiceCode = gcs.Key.ServiceCode,
-                                                     ServiceChargeAmount = gcs.Key.ServiceChargeAmount,
-                                                     MarkupAmount = gcs.Sum(p=>p.MarkupAmount),
-                                                 };
+                        var ServiceChargeAmountList = from c in tblFlightServices
+                                                      group c by new
+                                                      {
+                                                          c.ServiceType,
+                                                          c.ServiceCode,
+                                                          c.ServiceChargeAmount,
+                                                      } into gcs
+                                                      select new
+                                                      {
+                                                          ServiceType = gcs.Key.ServiceType,
+                                                          ServiceCode = gcs.Key.ServiceCode,
+                                                          ServiceChargeAmount = gcs.Key.ServiceChargeAmount,
+                                                          MarkupAmount = gcs.Sum(p => p.MarkupAmount),
+                                                      };
 
                         tblFlightFareDetail tblFlightFareDetail = new tblFlightFareDetail()
                         {
@@ -1209,8 +1258,8 @@ namespace projAPI.Services.Travel
                             Convenience = tblFlightFareDetailConvenience.Sum(q => q.Amount),
                             TotalFare = 0,
                             Discount = tblFlightFareDetailDiscount.Sum(q => q.Amount),
-                            ServiceChargeAmount = ServiceChargeAmountList.Sum(p=>p.ServiceChargeAmount),
-                            ServiceChargeMarkup= ServiceChargeAmountList.Sum(p => p.MarkupAmount),
+                            ServiceChargeAmount = ServiceChargeAmountList.Sum(p => p.ServiceChargeAmount),
+                            ServiceChargeMarkup = ServiceChargeAmountList.Sum(p => p.MarkupAmount),
                             NetFare = 0,
                             BookingId = InwardSearchDetails.BookingId,
                             PassengerDetailId = passenger.PassengerDetailId,
@@ -1218,7 +1267,7 @@ namespace projAPI.Services.Travel
                             tblFlightFareDetailMLMMarkup = tblFlightFareDetailMLMMarkup,
                             tblFlightFareDetailConvenience = tblFlightFareDetailConvenience,
                             tblFlightFareDetailDiscount = tblFlightFareDetailDiscount,
-                            tblFlightServices= tblFlightServices,
+                            tblFlightServices = tblFlightServices,
                         };
                         tblFlightFareDetail.TotalFare = tblFlightFareDetail.BaseFare + tblFlightFareDetail.Tax + tblFlightFareDetail.WingMarkup + tblFlightFareDetail.MLMMarkup + tblFlightFareDetail.Convenience
                             + tblFlightFareDetail.ServiceChargeAmount + tblFlightFareDetail.ServiceChargeMarkup;
@@ -1241,18 +1290,18 @@ namespace projAPI.Services.Travel
                     InwardSearchDetails.TotalAmount = InwardSearchDetails.SaleAmount + InwardSearchDetails.CustomerMarkupAmount;
                     InwardSearchDetails.NetSaleAmount = InwardSearchDetails.TotalAmount - InwardSearchDetails.DiscountAmount;
 
-                    
+
 
                 }
 
                 //Return
-                if(searchWraper.JourneyType== enmJourneyType.Return)
+                if (searchWraper.JourneyType == enmJourneyType.Return)
                 {
                     if (Results.Count < 2)
                     {
                         throw new Exception("Return flight not found");
                     }
-                    enmServiceProvider ServiceProvider = enmServiceProvider.None;                    
+                    enmServiceProvider ServiceProvider = enmServiceProvider.None;
                     var Inward = Results.LastOrDefault();
                     var totalPriceList = Inward.FirstOrDefault()?.TotalPriceList?.FirstOrDefault();
                     if ((Inward.FirstOrDefault()?.Segment?.Count ?? 0) == 1)
@@ -1298,7 +1347,7 @@ namespace projAPI.Services.Travel
                     {
                         ReturnFlightFareMarkupDetail =
                         GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, false, enmFlightSearvices.OnTicket,
-                            IsDirectFlight, Airline,  searchWraper.To, searchWraper.From, ServiceProvider,
+                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                         totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
                         ).Select(q => new tblFlightFareMarkupDetail
                         {
@@ -1308,7 +1357,7 @@ namespace projAPI.Services.Travel
                         }).ToList();
                         ReturnFlightFareMLMMarkup =
                        GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, true, enmFlightSearvices.OnTicket,
-                           IsDirectFlight, Airline,  searchWraper.To, searchWraper.From, ServiceProvider,
+                           IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                        totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
                        ).Select(q => new tblFlightFareMLMMarkup
                        {
@@ -1319,7 +1368,7 @@ namespace projAPI.Services.Travel
 
                         ReturnFlightFareDiscount =
                        GetDiscount(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, enmFlightSearvices.OnTicket,
-                           IsDirectFlight, Airline,  searchWraper.To, searchWraper.From, ServiceProvider,
+                           IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                        totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
                        ).Select(q => new tblFlightFareDiscount
                        {
@@ -1329,7 +1378,7 @@ namespace projAPI.Services.Travel
                        }).ToList();
                         ReturnFlightFareConvenience =
                         GetConvenience(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, enmFlightSearvices.OnTicket,
-                            IsDirectFlight, Airline,  searchWraper.To, searchWraper.From, ServiceProvider,
+                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                         totalPriceList.BaseFare, enmPassengerType.Adult, enmTitle.MR
                         ).Select(q => new tblFlightFareConvenience
                         {
@@ -1413,7 +1462,7 @@ namespace projAPI.Services.Travel
                         //Pasenger and Seat markups
                         {
                             tblFlightFareDetailMarkupDetails = GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, false, enmFlightSearvices.OnPassenger,
-                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From,  ServiceProvider,
+                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                             totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
                             ).Select(q => new tblFlightFareDetailMarkupDetail
                             {
@@ -1422,7 +1471,7 @@ namespace projAPI.Services.Travel
                                 MarkupId = q.Item1
                             }).ToList();
                             tblFlightFareDetailMLMMarkup = GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, true, enmFlightSearvices.OnPassenger,
-                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From,  ServiceProvider,
+                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                             totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
                             ).Select(q => new tblFlightFareDetailMLMMarkup
                             {
@@ -1431,7 +1480,7 @@ namespace projAPI.Services.Travel
                                 MLMMarkupId = q.Item1
                             }).ToList();
                             tblFlightFareDetailDiscount = GetDiscount(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, enmFlightSearvices.OnPassenger,
-                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From,  ServiceProvider,
+                            IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                             totalPriceList.BaseFare, passenger.PassengerType, passenger.Title
                             ).Select(q => new tblFlightFareDetailDiscount
                             {
@@ -1450,7 +1499,8 @@ namespace projAPI.Services.Travel
                             }).ToList();
                             //bagage and Seat Services
                             {
-                                passenger.PassengerServices_Baggage.ForEach(a => {
+                                passenger.PassengerServices_Baggage.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.BAGGAGE.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1469,12 +1519,13 @@ namespace projAPI.Services.Travel
                                     }
 
                                 });
-                                passenger.PassengerServices_Meal.ForEach(a => {
+                                passenger.PassengerServices_Meal.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.MEAL.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
                                         tblFlightServices.AddRange(GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, false, enmFlightSearvices.OnMealServices,
-                                        IsDirectFlight, Airline, searchWraper.To, searchWraper.From,  ServiceProvider,
+                                        IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                                         ServiceChargeAmount, passenger.PassengerType, passenger.Title
                                         ).Select(q => new tblFlightServices
                                         {
@@ -1488,12 +1539,13 @@ namespace projAPI.Services.Travel
                                     }
 
                                 });
-                                passenger.PassengerServices_Seat.ForEach(a => {
+                                passenger.PassengerServices_Seat.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.SEAT.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
                                         tblFlightServices.AddRange(GetMarkup(OrgId, CustomerType, searchWraper.ReturnDt.Value, bookingDate, false, enmFlightSearvices.OnMealServices,
-                                        IsDirectFlight, Airline, searchWraper.To, searchWraper.From,  ServiceProvider,
+                                        IsDirectFlight, Airline, searchWraper.To, searchWraper.From, ServiceProvider,
                                         ServiceChargeAmount, passenger.PassengerType, passenger.Title
                                         ).Select(q => new tblFlightServices
                                         {
@@ -1507,7 +1559,8 @@ namespace projAPI.Services.Travel
                                     }
 
                                 });
-                                passenger.PassengerServices_ExtraService.ForEach(a => {
+                                passenger.PassengerServices_ExtraService.ForEach(a =>
+                                {
                                     double ServiceChargeAmount = Inward.FirstOrDefault()?.Segment?.Select(q => new { amount = q.sinfo.EXTRASERVICES.Where(p => p.code == a.Item2).FirstOrDefault().amount }).Select(p => p.amount).FirstOrDefault() ?? 0;
                                     if (ServiceChargeAmount > 0)
                                     {
@@ -1604,7 +1657,7 @@ namespace projAPI.Services.Travel
                 _travelContext.tblFlightFareDiscount.AddRange(FlightFareDiscount);
                 _travelContext.tblFlightFareConvenience.AddRange(FlightFareConvenience);
                 _travelContext.tblFlightFareDetail.AddRange(tblFlightFareDetails);
-                
+
 
                 _travelContext.tblFlightBookingSearchDetails.Add(ReturnSearchDetails);
                 _travelContext.tblFlightSearchSegment.AddRange(tblFlightSearchSegmentReturn);
@@ -1618,18 +1671,19 @@ namespace projAPI.Services.Travel
 
             }
             else
-            {   
+            {
                 if (ExistingBooking.BookingStatus == enmBookingStatus.Pending)
-                {   
+                {
                     var FlightBookingSearchDetails = _travelContext.tblFlightBookingSearchDetails.Where(q => q.VisitorId == VisitorId).ToList();
-                    FlightBookingSearchDetails.ForEach(p => {
+                    FlightBookingSearchDetails.ForEach(p =>
+                    {
                         RemoveAllMarkup(p.BookingId);
                     });
                 }
                 return ExistingBooking;
-            }            
-            
-            
+            }
+
+
 
             void RemoveAllMarkup(string BookingId)
             {
@@ -1641,160 +1695,12 @@ namespace projAPI.Services.Travel
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailMLMMarkup Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailDiscount Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
                 _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetailConvenience Where FareDetailId in ( select FlightFareDetailId from tblFlightFareDetail Where BookingId=@p1)", BookingId);
-                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetail Where BookingId=@p1", BookingId);                
+                _travelContext.Database.ExecuteSqlCommand("delete from tblFlightFareDetail Where BookingId=@p1", BookingId);
 
             }
 
         }
 
-
-        public mdlReturnData SaveFareQuote(mdlFareQuotRequestWraper request, IsrvCurrentUser _IsrvCurrentUser, List<mdlFareQuotResponse> response, int OrgId, ulong Nid)
-        {
-            bool IsUpdate = false;
-            string VisitorId;
-            DateTime BookingDt = DateTime.Now;
-            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.None };
-            if (response == null || response.Count == 0)
-            {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = enmMessage.DataNotFound.GetDescription();
-                return mdl;
-            }
-            var Master = _travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == request.TraceId).FirstOrDefault();
-            var res = response.FirstOrDefault();
-            if (Master == null)
-            {
-                Master = new tblFlightBookingMaster();
-                IsUpdate = false;
-            }
-            else
-            {
-                IsUpdate = true;
-            }
-            Master.AdultCount = res.SearchQuery?.AdultCount ?? 0;
-            Master.ChildCount = res.SearchQuery?.ChildCount ?? 0;
-            Master.InfantCount = res.SearchQuery?.InfantCount ?? 0;
-            Master.BookingDate = BookingDt;
-            Master.CabinClass = res.SearchQuery?.CabinClass ?? enmCabinClass.ECONOMY;
-            Master.BookingStatus = enmBookingStatus.Pending;
-            Master.From = res.SearchQuery?.From ?? string.Empty;
-            Master.To = res.SearchQuery?.To ?? string.Empty;
-            Master.JourneyType = response.Count == 1 ? enmJourneyType.OneWay : response.Count == 2 ? enmJourneyType.Return : enmJourneyType.MultiStop;
-            Master.DepartureDt = res.SearchQuery?.DepartureDt ?? BookingDt;
-            Master.ReturnDt = res.SearchQuery?.ReturnDt;
-            Master.OrgId = OrgId;
-            Master.Nid = Nid;
-            if (!IsUpdate)
-            {
-                Master.VisitorId = request.TraceId;
-                Master.CreatedBy = _IsrvCurrentUser.UserId;
-                Master.CreatedDt = BookingDt;
-                Master.ModifiedBy = _IsrvCurrentUser.UserId;
-                Master.ModifiedDt = BookingDt;
-                _travelContext.tblFlightBookingMaster.Add(Master);
-            }
-            else
-            {
-                Master.ModifiedBy = _IsrvCurrentUser.UserId;
-                Master.ModifiedDt = BookingDt;
-                _travelContext.tblFlightBookingMaster.Update(Master);
-            }
-            _travelContext.SaveChanges();
-            VisitorId = Master.VisitorId;
-
-            SetFlightBookingSearchDetails(1);
-            if (response.Count > 1)
-            {
-                SetFlightBookingSearchDetails(2);
-            }
-
-            mdl.Message = "Save Successfully";
-            mdl.MessageType = enmMessageType.Success;
-            return mdl;
-
-            void SetFlightBookingSearchDetails(int SegmentId)
-            {
-                string BookingId = Guid.NewGuid().ToString();
-                var tempSerach = _travelContext.tblFlightBookingSearchDetails.Where(p => p.SegmentId == SegmentId && p.VisitorId == VisitorId && p.IsDeleted == false).FirstOrDefault();
-                if (tempSerach != null)
-                {
-                    tempSerach.IsDeleted = true;
-                }
-                tblFlightBookingSearchDetails mdlSearch = new tblFlightBookingSearchDetails()
-                {
-                    BookingId = BookingId,
-                    VisitorId = VisitorId,
-                    SegmentId = SegmentId,
-                    //PurchaseIdentifier = response[SegmentId - 1].PurchaseIdentifier,
-                    //PurchaseCabinClass = response[SegmentId - 1].PurchaseCabinClass,
-                    //PurchaseClassOfBooking = response[SegmentId - 1].PurchaseClassOfBooking,
-                    //BookedIdentifier = response[SegmentId - 1].BookedIdentifier,
-                    //BookedCabinClass = response[SegmentId - 1].BookedCabinClass,
-                    //BookedClassOfBooking = response[SegmentId - 1].BookedClassOfBooking,
-                    ProviderBookingId = response[SegmentId - 1].BookingId,
-                    ServiceProvider = response[SegmentId - 1].ServiceProvider,
-                    BookingStatus = enmBookingStatus.Pending,
-                    PaymentStatus = enmPaymentStatus.Pending,
-                    IncludeBaggageServices = false,
-                    IncludeMealServices = false,
-                    IncludeSeatServices = false,
-                    PurchaseAmount = response[SegmentId - 1].TotalPriceInfo?.NetFare ?? 0,
-                    IncentiveAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].MLMMarkup,
-                    ConvenienceAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].Convenience,
-                    MarkupAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].WingMarkup,
-                    CustomerMarkupAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].CustomerMarkup,
-                    DiscountAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].Discount,
-                    SaleAmount = response[SegmentId - 1].Results[0][0].TotalPriceList[0].NetFare
-                };
-                mdlSearch.NetSaleAmount = mdlSearch.SaleAmount + mdlSearch.IncentiveAmount + mdlSearch.ConvenienceAmount
-                    + mdlSearch.MarkupAmount - mdlSearch.DiscountAmount;
-                if (tempSerach != null)
-                {
-                    _travelContext.tblFlightBookingSearchDetails.Update(tempSerach);
-                }
-                _travelContext.tblFlightBookingSearchDetails.Add(mdlSearch);
-
-                foreach (var seg in response[SegmentId - 1].Results[0][0].Segment)
-                {
-                    tblFlightSearchSegment fsg = new tblFlightSearchSegment()
-                    {
-                        ProviderSegmentId = seg.Id.ToString(),
-                        BookingId = BookingId,
-                        isLcc = seg.Airline.isLcc,
-                        Code = seg.Airline.Code,
-                        Name = seg.Airline.Name,
-                        FlightNumber = seg.Airline.FlightNumber,
-                        OperatingCarrier = seg.Airline.OperatingCarrier,
-                        OriginAirportCode = seg.Origin.AirportCode,
-                        OriginAirportName = seg.Origin.AirportName,
-                        OriginTerminal = seg.Origin.Terminal,
-                        OriginCityCode = seg.Origin.CityCode,
-                        OriginCityName = seg.Origin.CityName,
-                        OriginCountryCode = seg.Origin.CountryCode,
-                        OriginCountryName = seg.Origin.CountryName,
-                        DestinationAirportCode = seg.Destination.AirportCode,
-                        DestinationAirportName = seg.Destination.AirportName,
-                        DestinationTerminal = seg.Destination.Terminal,
-                        DestinationCityCode = seg.Destination.CityCode,
-                        DestinationCityName = seg.Destination.CityName,
-                        DestinationCountryCode = seg.Destination.CountryCode,
-                        DestinationCountryName = seg.Destination.CountryName,
-                        TripIndicator = seg.TripIndicator,
-                        DepartureTime = seg.DepartureTime,
-                        ArrivalTime = seg.ArrivalTime,
-                        Mile = seg.Mile,
-                        Duration = seg.Duration,
-                        Layover = seg.Layover,
-                    };
-                    _travelContext.tblFlightSearchSegment.Add(fsg);
-                }
-                
-                //_travelContext.tblFlightFare.Add(flightFare);
-                _travelContext.SaveChanges();
-            }
-
-
-        }
 
         public async Task<mdlReturnData> BookingAsync(IsrvWallet isrvWallet, mdlBookingRequest mdlRq,
             int CustomerId, int EmployeeId, ulong Nid, ulong UserId, enmCustomerType customerType)
@@ -1802,7 +1708,7 @@ namespace projAPI.Services.Travel
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
             DateTime CurrentDate = DateTime.Now;
             mdlBookingResponse mdlRs = new mdlBookingResponse();
-            var Quote=_travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == mdlRq.VisitorId).FirstOrDefault();
+            var Quote = _travelContext.tblFlightBookingMaster.Where(p => p.VisitorId == mdlRq.VisitorId).FirstOrDefault();
             if (Quote == null)
             {
                 throw new Exception("Invalid Visitor ID");
@@ -1816,10 +1722,10 @@ namespace projAPI.Services.Travel
                 if (mdlRq.WalletAmount < isrvWallet.GetWalletBalance(CustomerId, Nid, EmployeeId, customerType))
                 {
                     throw new Exception(enmMessage.InsufficientBalance.GetDescription());
-                }      
+                }
             }
-            
-            var BookingDatas=  _travelContext.tblFlightBookingSearchDetails.Where(p => p.VisitorId == mdlRq.VisitorId && !p.IsDeleted).ToList();
+
+            var BookingDatas = _travelContext.tblFlightBookingSearchDetails.Where(p => p.VisitorId == mdlRq.VisitorId && !p.IsDeleted).ToList();
             bool IsDomectic = IsDomecticFlight(Quote.From, Quote.To);
             enmBookingStatus BookingStatus = enmBookingStatus.Pending;
             if (GetInstantBookingSeting(true, CurrentDate).Where(p => p.CustomerType == customerType && ((p.InstantDomestic && IsDomectic) || (p.InstantNonDomestic && !IsDomectic))).Any())
@@ -1845,7 +1751,7 @@ namespace projAPI.Services.Travel
                     gstInfo = mdlRq.gstInfo,
                     NetAmount = bd.PurchaseAmount
                 };
-                
+
                 bres.Add(await wingflight.BookingAsync(br, BookingStatus));
             }
 
@@ -1853,7 +1759,7 @@ namespace projAPI.Services.Travel
             {
                 ReturnData.MessageType = enmMessageType.Success;
             }
-            else if(bres.All(p => p.ResponseStatus == enmMessageType.Error))
+            else if (bres.All(p => p.ResponseStatus == enmMessageType.Error))
             {
                 ReturnData.MessageType = enmMessageType.Error;
             }

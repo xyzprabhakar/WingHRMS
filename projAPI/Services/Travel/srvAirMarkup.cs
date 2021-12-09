@@ -411,7 +411,7 @@ namespace projAPI.Services.Travel
         }
 
 
-        public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, List<mdlTravellerinfo> travellerinfos, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate)
+        public void GetCharges(mdlFlightSearchWraper searchRequest, mdlSearchResult searchResult, bool IsOnward, enmCustomerType CustomerType, int CustomerId, ulong Nid, DateTime bookingDate)
         {
             if (IsOnward)
             {

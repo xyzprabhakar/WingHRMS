@@ -80,8 +80,7 @@ namespace projAPI.Controllers
                 {
                     return tempData;
                 }
-                var md = await _IsrvAir.FareQuoteAsync(request);
-                _IsrvAir.SaveFareQuote(request, _IsrvCurrentUser, md, tempData.ReturnId.CustomerId, nid);
+                var md = await _IsrvAir.FareQuoteAsync(request, tempData.ReturnId.CustomerType, tempData.ReturnId.CustomerId, _IsrvCurrentUser.DistributorId, _IsrvCurrentUser.UserId);                
                 mdl.ReturnId = md;
             }
             catch(Exception ex)
