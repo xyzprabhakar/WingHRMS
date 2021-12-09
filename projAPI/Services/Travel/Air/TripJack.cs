@@ -32,7 +32,6 @@ namespace projAPI.Services.Travel.Air
             _config = config;
         }
 
-
         private mdlReturnData GetResponse(string requestData, string url)
         {
             mdlReturnData mdl = new mdlReturnData();
