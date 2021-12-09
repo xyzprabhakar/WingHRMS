@@ -226,48 +226,46 @@ namespace projAPI.Services.Travel
                 {
                     for (int k = 0; k < Results[i][j].TotalPriceList.Count; k++)
                     {
-
-
                         Results[i][j].TotalPriceList[k].ADULT.WingMarkup =
                         Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
-                        Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                        Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].CHILD.WingMarkup =
                              Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].INFANT.WingMarkup =
                              Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].ADULT.MLMMarkup =
                             Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].CHILD.MLMMarkup =
                              Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].INFANT.MLMMarkup =
                              Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].ADULT.Discount =
                             Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].CHILD.Discount =
                              Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].INFANT.Discount =
                              Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
                              Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].ADULT.Convenience =
                             Results[i][j].TotalPriceList[k].ADULT.FareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].CHILD.Convenience =
                              Results[i][j].TotalPriceList[k].CHILD.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
                         Results[i][j].TotalPriceList[k].INFANT.Convenience =
                              Results[i][j].TotalPriceList[k].INFANT.FareBreakup.
-                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                             Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].ADULT.TotalFare = Results[i][j].TotalPriceList[k].ADULT.TotalFare +
                             Results[i][j].TotalPriceList[k].ADULT.WingMarkup + Results[i][j].TotalPriceList[k].ADULT.MLMMarkup
@@ -299,23 +297,23 @@ namespace projAPI.Services.Travel
 
                         Results[i][j].TotalPriceList[k].WingMarkup =
                             Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.WingMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].MLMMarkup =
                             Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.MLMCharge && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].Discount =
                             Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.Discount && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].Convenience =
                             Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.Convenience && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].CustomerMarkup =
                             Results[i][j].TotalPriceList[k].ConsolidateFareBreakup.
-                            Where(p => p.type == enmFlighWingCharge.CustomerMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.None)).Sum(p => p.amount);
+                            Where(p => p.type == enmFlighWingCharge.CustomerMarkup && (p.OnGender == enmGender.ALL || p.OnGender == enmGender.Male)).Sum(p => p.amount);
 
                         Results[i][j].TotalPriceList[k].TotalFare =
                             Results[i][j].TotalPriceList[k].TotalFare +
@@ -356,7 +354,6 @@ namespace projAPI.Services.Travel
                 {
                     continue;
                 }
-
                 List<mdlSegmentRequest> onwardSegments = new List<mdlSegmentRequest>();
                 onwardSegments.Add(new mdlSegmentRequest()
                 { Destination = mdl.To, Origin = mdl.From, FlightCabinClass = mdl.CabinClass, TravelDt = mdl.DepartureDt });
@@ -435,8 +432,6 @@ namespace projAPI.Services.Travel
                 {
                     p.TotalPriceList.ForEach(q => { q.ResultIndex = string.Concat(spv, '_',  q.ResultIndex); });
                 });
-
-
                 if (FinalResult == null)
                 {
                     FinalResult = tempResult;
@@ -570,6 +565,7 @@ namespace projAPI.Services.Travel
             //GetCharges();
         }
 
+#if (false)
         public async Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
         {
             List<mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
@@ -627,6 +623,136 @@ namespace projAPI.Services.Travel
                     BookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item1) });
 
                 }
+
+
+
+                if (BookingRes == null || BookingRes.ResponseStatus != enmMessageType.Success)
+                {
+                    throw new Exception("Not able to genrate Quotation");
+                }
+                if (BookingRes.IsPriceChanged && AlterBookingRes != null)
+                {
+                    throw new Exception("Price has been changed");
+                }
+                if (AlterBookingRes != null)
+                {
+                    if (AlterBookingRes.ResponseStatus != enmMessageType.Success)
+                    {
+                        throw new Exception("Not able to genrate Quotation.");
+                    }
+                    if (AlterBookingRes.IsPriceChanged)
+                    {
+                        throw new Exception("Price has been changed.");
+                    }
+                    if (BookingRes.TotalPriceInfo.NetFare - AlterBookingRes.TotalPriceInfo.NetFare < FlightPriceVarienceAlert)
+                    {
+                        throw new Exception("Price has been changed");
+                    }
+                }
+                if (BookingRes.Results.Count == 0 || BookingRes.Results[0].Count == 0 || BookingRes.Results[0][0].TotalPriceList.Count == 0)
+                {
+                    throw new Exception("Not able to genrate Quotation.");
+                }      
+                
+
+
+                ClearAllCharge();
+                SetBasicPrice(BookingRes.Results);
+                SetBasicPriceWithMarkup(BookingRes.Results);
+                if (AlterBookingRes != null)
+                {
+                    SetBasicPriceWithMarkup(AlterBookingRes.Results);
+                    if (BookingRes.Results.Count == 0 || AlterBookingRes.Results.Count == 0)
+                    {
+                        throw new Exception(enmMessage.InvalidData.GetDescription());
+                    }
+                    if (BookingRes.Results[0].Count == 0 || AlterBookingRes.Results[0].Count == 0)
+                    {
+                        throw new Exception(enmMessage.InvalidData.GetDescription());
+                    }
+                    BookingRes.Results[0][0].Segment = AlterBookingRes.Results[0][0].Segment;
+
+                    if (AlterBookingRes.Results.Count == 0 || AlterBookingRes.Results[0].Count == 0 || AlterBookingRes.Results[0][0].TotalPriceList.Count == 0)
+                    {
+                        throw new Exception("Not able to genrate Quotation.");
+                    }
+                    BookingRes.Results[0][0].TotalPriceList[0].alterCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterServiceProvider = AlterBookingRes.ServiceProvider;
+                }
+                mdl.Add(BookingRes);
+            }
+            string GetOriginalResultIndex(string resultIndex)
+            {
+                int FirstIndex = resultIndex.IndexOf('_');
+                //int SecondIndex = resultIndex.IndexOf('_', FirstIndex + 1);
+                return resultIndex.Substring(FirstIndex + 1);
+            }
+
+            return mdl;
+        }
+#endif
+        public async Task<List<mdlFareQuotResponse>> FareQuoteAsync(mdlFareQuotRequestWraper request)
+        {
+            List<mdlFareQuotResponse> mdl = new List<mdlFareQuotResponse>();
+            DateTime CurrentDate = DateTime.Now;
+            var ServiceProviders = GetServiceProvider(CurrentDate, true).Select(p => p.ServiceProvider);
+
+            //mdlSearchResponse FinalResult = null;
+            enmServiceProvider tempServiceProvider1 = enmServiceProvider.None;
+            enmServiceProvider tempServiceProvider2 = enmServiceProvider.None;
+            int FlightPriceVarienceAlert = 100;
+            int.TryParse(_config["Travel:Setting:FlightPriceVarienceAlert"], out FlightPriceVarienceAlert);
+            for (int i = 0; i < request.ResultIndex.Count; i++)
+            {
+                mdlFareQuotResponse BookingRes = null; ;
+                mdlFareQuotResponse AlterBookingRes = null; ;
+
+                if (!string.IsNullOrEmpty(request.ResultIndex[i].Item2))
+                {
+                    var temp = request.ResultIndex[i].Item2.Split("_");
+                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider1);
+                    if (tempServiceProvider1 == enmServiceProvider.None)
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider1))
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider1);
+                    if (tempObj == null)
+                    {
+                        throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
+                    }
+                    AlterBookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item2) });
+
+                }
+
+                if (!string.IsNullOrEmpty(request.ResultIndex[i].Item1))
+                {
+                    var temp = request.ResultIndex[i].Item1.Split("_");
+                    Enum.TryParse(temp.FirstOrDefault(), out tempServiceProvider2);
+                    if (tempServiceProvider2 == enmServiceProvider.None)
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    if (!ServiceProviders.Any(p => p == tempServiceProvider2))
+                    {
+                        throw new Exception(enmMessage.InvalidServiceProvider.GetDescription());
+                    }
+                    IWingFlight tempObj = GetFlightObject(tempServiceProvider2);
+                    if (tempObj == null)
+                    {
+                        throw new Exception(enmMessage.ProviderNotImplemented.GetDescription());
+                    }
+                    BookingRes = await tempObj.FareQuoteAsync(new mdlFareQuotRequest() { TraceId = request.TraceId, ResultIndex = GetOriginalResultIndex(request.ResultIndex[i].Item1) });
+
+                }
+
+
+
                 if (BookingRes == null || BookingRes.ResponseStatus != enmMessageType.Success)
                 {
                     throw new Exception("Not able to genrate Quotation");
@@ -654,9 +780,9 @@ namespace projAPI.Services.Travel
                 {
                     throw new Exception("Not able to genrate Quotation.");
                 }
-                //BookingRes.PurchaseCabinClass = BookingRes.Results[0][0].TotalPriceList[0].CabinClass;
-                //BookingRes.PurchaseClassOfBooking = BookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
-                //BookingRes.PurchaseIdentifier = BookingRes.Results[0][0].TotalPriceList[0].Identifier;
+
+
+
                 ClearAllCharge();
                 SetBasicPrice(BookingRes.Results);
                 SetBasicPriceWithMarkup(BookingRes.Results);
@@ -677,21 +803,18 @@ namespace projAPI.Services.Travel
                     {
                         throw new Exception("Not able to genrate Quotation.");
                     }
-                    //BookingRes.BookedCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
-                    //BookingRes.BookedClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
-                    //BookingRes.BookedIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
-                    BookingRes.ServiceProvider = AlterBookingRes.ServiceProvider;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterCabinClass = AlterBookingRes.Results[0][0].TotalPriceList[0].CabinClass;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterClassOfBooking = AlterBookingRes.Results[0][0].TotalPriceList[0].ClassOfBooking;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterIdentifier = AlterBookingRes.Results[0][0].TotalPriceList[0].Identifier;
+                    BookingRes.Results[0][0].TotalPriceList[0].alterServiceProvider = AlterBookingRes.ServiceProvider;
                 }
                 mdl.Add(BookingRes);
             }
-
-
-
             string GetOriginalResultIndex(string resultIndex)
             {
                 int FirstIndex = resultIndex.IndexOf('_');
-                int SecondIndex = resultIndex.IndexOf('_', FirstIndex + 1);
-                return resultIndex.Substring(SecondIndex + 1);
+                //int SecondIndex = resultIndex.IndexOf('_', FirstIndex + 1);
+                return resultIndex.Substring(FirstIndex + 1);
             }
 
             return mdl;

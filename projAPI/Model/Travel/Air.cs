@@ -148,16 +148,16 @@ namespace projAPI.Model.Travel
         public mdlTotalpriceDetail INFANT { get; set; }
         public mdlFareRuleResponse FareRule { get; set; }
         public string ResultIndex { get; set; }
-        public string AlterResultIndex { get; set; }
         [IgnoreDataMember]
         public double alterPrices { get; set; }
         public string sri { get; set; }
         public List<string> msri { get; set; }
+        public int SeatRemaning { get; set; }
         [MaxLength(64)]
         public string Identifier { get; set; }//Corepreate, Publish, SME
-        public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public string ClassOfBooking { get; set; }
+        public string AlterResultIndex { get; set; }
         [IgnoreDataMember]
         [MaxLength(64)]
         public string alterIdentifier { get; set; }//Corepreate, Publish, SME        
@@ -170,10 +170,10 @@ namespace projAPI.Model.Travel
         public List<mdlWingFaredetails> ConsolidateFareBreakup { get; set; }
         public string ProviderBookingId { get; set; }
         public enmServiceProvider ServiceProvider { get; set; }
+        public enmServiceProvider alterServiceProvider { get; set; }
         public bool IncludeBaggageServices { get; set; }
         public bool IncludeMealServices { get; set; }
         public bool IncludeSeatServices { get; set; }
-
         public double PurchaseAmount { get; set; }//Price at Which wing Purchase the ticket
         public double PassengerIncentiveAmount { get; set; }
         public double PassengerMarkupAmount { get; set; }
@@ -281,7 +281,7 @@ namespace projAPI.Model.Travel
     public class mdlFareQuotRequestWraper
     {
         public string TraceId { get; set; }
-        public List< Tuple< string,string>> ResultIndex { get; set; }
+        public List< Tuple<string,string>> ResultIndex { get; set; }
     }
 
     public class mdlFareQuotRequest
