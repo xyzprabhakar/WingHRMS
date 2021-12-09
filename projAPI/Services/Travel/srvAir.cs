@@ -23,9 +23,6 @@ namespace projAPI.Services.Travel
         //Task<mdlFlightCancellationResponse> CancellationAsync(mdlCancellationRequest request);
         //Task<mdlCancelationDetails> CancelationDetailsAsync(string request);
     }
-
-
-    
     public interface IsrvAir
     {
         void AlterSeachIndex(List<mdlSearchResult> searchResults);
@@ -337,8 +334,7 @@ namespace projAPI.Services.Travel
                             Results[i][j].TotalPriceList[k].MLMMarkup +
                             Results[i][j].TotalPriceList[k].CustomerMarkup +
                             Results[i][j].TotalPriceList[k].Convenience -
-                            Results[i][j].TotalPriceList[k].Discount -
-                            Results[i][j].TotalPriceList[k].PromoDiscount;
+                            Results[i][j].TotalPriceList[k].Discount ;
 
                     }
                 }

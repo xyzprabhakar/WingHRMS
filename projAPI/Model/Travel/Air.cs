@@ -68,8 +68,7 @@ namespace projAPI.Model.Travel
     }
 
     public class mdlSearchResult
-    {
-        public string WingSearchId { get; set; }
+    {   
         public enmServiceProvider ServiceProvider { get; set; }
         public string TraceId { get; set; }
         public List<mdlSegment> Segment { get; set; }
@@ -90,20 +89,8 @@ namespace projAPI.Model.Travel
         public int Mile { get; set; }
         public int Duration { get; set; }
         public int Layover { get; set; }
-        ////extra for tbo
-        //public int SeatRemaing { get; set; }
-        //public mdlBaggageInformation BaggageInformation { get; set; }
-        //public int RefundableType { get; set; }//0 Non Refundable,1 - Refundable,2 - Partial Refundable
-        //public enmCabinClass CabinClass { get; set; }//ECONOMY,PREMIUM_ECONOMY, BUSINESS,FIRST
-        //public string ClassOfBooking { get; set; }
-        //public string FareBasis { get; set; }
-        //public bool IsFreeMeel { get; set; }
-        //public double Convenience { get; set; }
         public mdlSsrInfo sinfo { get; set; }
-
     }
-
-
 
     public class mdlSsrInfo
     {
@@ -155,8 +142,6 @@ namespace projAPI.Model.Travel
         public double Convenience { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
-        public double PromoCode { get; set; }
-        public double PromoDiscount { get; set;}
         public double NetFare { get; set; }
         public mdlTotalpriceDetail ADULT { get; set; }
         public mdlTotalpriceDetail CHILD { get; set; }
