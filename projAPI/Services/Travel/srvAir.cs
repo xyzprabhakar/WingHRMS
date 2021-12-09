@@ -66,9 +66,6 @@ namespace projAPI.Services.Travel
         }
 
 
-
-        
-
         public IEnumerable<tblAirport> GetAirport(bool OnlyActive = true, bool IsDomestic = false)
         {
             var TempData = _travelContext.tblAirport.Where(p => !p.IsDeleted).AsQueryable();
