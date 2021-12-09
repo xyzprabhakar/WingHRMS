@@ -714,7 +714,7 @@ namespace projAPI.Model.Travel
         public bool IsDeleted { get; set; }
         public List<enmServiceProvider> ServiceProviders { get; set; }
         public List<enmCustomerType> CustomerTypes { get; set; }
-        public List<Tuple<int,string>> CustomerIds { get; set; }        
+        public List<Tuple<int?,string>> CustomerIds { get; set; }        
         public List<enmPassengerType> PassengerType { get; set; }
         public List<Tuple<int, string>> Airline { get; set; }
         public List<Tuple<string, string>> Segments { get; set; }

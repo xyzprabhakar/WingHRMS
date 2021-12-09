@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace projContext.Migrations.Travel1
+namespace projContext.Migrations.Travel2
 {
-    public partial class OrganizationMaster : Migration
+    public partial class _9_dec : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -144,7 +144,7 @@ namespace projContext.Migrations.Travel1
                     AdultCount = table.Column<int>(nullable: false),
                     ChildCount = table.Column<int>(nullable: false),
                     InfantCount = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    Nid = table.Column<ulong>(nullable: false),
                     OrgId = table.Column<int>(nullable: false),
                     BookingDate = table.Column<DateTime>(nullable: false),
                     PhoneNo = table.Column<string>(maxLength: 64, nullable: true),
@@ -163,6 +163,8 @@ namespace projContext.Migrations.Travel1
                     GatewayCharge = table.Column<double>(nullable: false),
                     NetAmount = table.Column<double>(nullable: false),
                     PaidAmount = table.Column<double>(nullable: false),
+                    WalletAmount = table.Column<double>(nullable: false),
+                    LoyaltyAmount = table.Column<double>(nullable: false),
                     BookingStatus = table.Column<int>(nullable: false),
                     PaymentStatus = table.Column<int>(nullable: false),
                     HaveRefund = table.Column<bool>(nullable: false)
@@ -285,29 +287,6 @@ namespace projContext.Migrations.Travel1
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblFlightDiscount", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblFlightFareDetail",
-                columns: table => new
-                {
-                    Sno = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    YQTax = table.Column<double>(nullable: false),
-                    BaseFare = table.Column<double>(nullable: false),
-                    Tax = table.Column<double>(nullable: false),
-                    WingMarkup = table.Column<double>(nullable: false),
-                    TotalFare = table.Column<double>(nullable: false),
-                    Discount = table.Column<double>(nullable: false),
-                    NetFare = table.Column<double>(nullable: false),
-                    CheckingBaggage = table.Column<string>(maxLength: 256, nullable: true),
-                    CabinBaggage = table.Column<string>(maxLength: 256, nullable: true),
-                    IsFreeMeal = table.Column<bool>(nullable: false),
-                    IsRefundable = table.Column<byte>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblFlightFareDetail", x => x.Sno);
                 });
 
             migrationBuilder.CreateTable(
@@ -507,11 +486,10 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlighBookingPassengerDetails",
                 columns: table => new
                 {
-                    Sno = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PassengerDetailId = table.Column<string>(maxLength: 128, nullable: false),
                     VisitorId = table.Column<string>(nullable: true),
                     PassengerType = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(maxLength: 16, nullable: true),
+                    Title = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 64, nullable: true),
                     LastName = table.Column<string>(maxLength: 64, nullable: true),
                     DOB = table.Column<DateTime>(nullable: true),
@@ -521,7 +499,7 @@ namespace projContext.Migrations.Travel1
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblFlighBookingPassengerDetails", x => x.Sno);
+                    table.PrimaryKey("PK_tblFlighBookingPassengerDetails", x => x.PassengerDetailId);
                     table.ForeignKey(
                         name: "FK_tblFlighBookingPassengerDetails_tblFlightBookingMaster_Visit~",
                         column: x => x.VisitorId,
@@ -536,27 +514,37 @@ namespace projContext.Migrations.Travel1
                 {
                     BookingId = table.Column<string>(maxLength: 128, nullable: false),
                     VisitorId = table.Column<string>(nullable: true),
+                    SegmentId = table.Column<int>(nullable: false),
+                    PurchaseIdentifier = table.Column<string>(maxLength: 64, nullable: true),
+                    PurchaseCabinClass = table.Column<int>(nullable: false),
+                    PurchaseClassOfBooking = table.Column<string>(maxLength: 256, nullable: true),
+                    BookedIdentifier = table.Column<string>(maxLength: 64, nullable: true),
+                    BookedCabinClass = table.Column<int>(nullable: false),
+                    BookedClassOfBooking = table.Column<string>(maxLength: 256, nullable: true),
                     ProviderBookingId = table.Column<string>(maxLength: 128, nullable: true),
                     ServiceProvider = table.Column<int>(nullable: false),
                     IncludeBaggageServices = table.Column<bool>(nullable: false),
                     IncludeMealServices = table.Column<bool>(nullable: false),
                     IncludeSeatServices = table.Column<bool>(nullable: false),
-                    JourneyType = table.Column<int>(nullable: false),
                     PurchaseAmount = table.Column<double>(nullable: false),
+                    PassengerIncentiveAmount = table.Column<double>(nullable: false),
                     IncentiveAmount = table.Column<double>(nullable: false),
+                    PassengerMarkupAmount = table.Column<double>(nullable: false),
+                    PassengerServiceMarkupAmount = table.Column<double>(nullable: false),
                     MarkupAmount = table.Column<double>(nullable: false),
-                    DiscountAmount = table.Column<double>(nullable: false),
-                    PromoCode = table.Column<string>(maxLength: 128, nullable: true),
-                    PromoDiscount = table.Column<double>(nullable: false),
-                    CardDiscount = table.Column<double>(nullable: false),
+                    PassengerDiscountAmount = table.Column<double>(nullable: false),
+                    PassengerConvenienceAmount = table.Column<double>(nullable: false),
                     ConvenienceAmount = table.Column<double>(nullable: false),
                     SaleAmount = table.Column<double>(nullable: false),
                     CustomerMarkupAmount = table.Column<double>(nullable: false),
+                    TotalAmount = table.Column<double>(nullable: false),
+                    DiscountAmount = table.Column<double>(nullable: false),
                     NetSaleAmount = table.Column<double>(nullable: false),
                     BookingStatus = table.Column<int>(nullable: false),
                     PaymentStatus = table.Column<int>(nullable: false),
                     HaveRefund = table.Column<bool>(nullable: false),
-                    Remarks = table.Column<string>(maxLength: 25, nullable: true)
+                    Remarks = table.Column<string>(maxLength: 25, nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1076,79 +1064,146 @@ namespace projContext.Migrations.Travel1
                 });
 
             migrationBuilder.CreateTable(
-                name: "tblFlightFare",
+                name: "tblFlightFareConvenience",
                 columns: table => new
                 {
-                    FareId = table.Column<int>(nullable: false)
+                    Sno = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    BookingId = table.Column<string>(maxLength: 256, nullable: true),
-                    ProviderFareDetailId = table.Column<string>(maxLength: 256, nullable: true),
-                    PurchaseIdentifier = table.Column<string>(maxLength: 64, nullable: true),
-                    PurchaseCabinClass = table.Column<int>(nullable: false),
-                    PurchaseClassOfBooking = table.Column<string>(maxLength: 256, nullable: true),
-                    BookedIdentifier = table.Column<string>(maxLength: 64, nullable: true),
-                    BookedCabinClass = table.Column<int>(nullable: false),
-                    BookedClassOfBooking = table.Column<string>(maxLength: 256, nullable: true),
-                    AdultPrice = table.Column<int>(nullable: true),
-                    ChildPrice = table.Column<int>(nullable: true),
-                    InfantPrice = table.Column<int>(nullable: true),
-                    BookedAdultPrice = table.Column<int>(nullable: true),
-                    BookedChildPrice = table.Column<int>(nullable: true),
-                    BookedInfantPrice = table.Column<int>(nullable: true),
-                    BaseFare = table.Column<double>(nullable: false),
-                    CustomerMarkup = table.Column<double>(nullable: false),
-                    WingMarkup = table.Column<double>(nullable: false),
-                    Convenience = table.Column<double>(nullable: false),
-                    TotalFare = table.Column<double>(nullable: false),
-                    Discount = table.Column<double>(nullable: false),
-                    PromoCode = table.Column<double>(nullable: false),
-                    PromoDiscount = table.Column<double>(nullable: false),
-                    NetFare = table.Column<double>(nullable: false)
+                    ConvenienceId = table.Column<int>(nullable: true),
+                    BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblFlightFare", x => x.FareId);
+                    table.PrimaryKey("PK_tblFlightFareConvenience", x => x.Sno);
                     table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_AdultPrice",
-                        column: x => x.AdultPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_BookedAdultPrice",
-                        column: x => x.BookedAdultPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_BookedChildPrice",
-                        column: x => x.BookedChildPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_BookedInfantPrice",
-                        column: x => x.BookedInfantPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightBookingSearchDetails_BookingId",
+                        name: "FK_tblFlightFareConvenience_tblFlightBookingSearchDetails_Booki~",
                         column: x => x.BookingId,
                         principalTable: "tblFlightBookingSearchDetails",
                         principalColumn: "BookingId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_ChildPrice",
-                        column: x => x.ChildPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
+                        name: "FK_tblFlightFareConvenience_tblFlightConvenience_ConvenienceId",
+                        column: x => x.ConvenienceId,
+                        principalTable: "tblFlightConvenience",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDetail",
+                columns: table => new
+                {
+                    FlightFareDetailId = table.Column<string>(maxLength: 25, nullable: false),
+                    YQTax = table.Column<double>(nullable: false),
+                    BaseFare = table.Column<double>(nullable: false),
+                    Tax = table.Column<double>(nullable: false),
+                    WingMarkup = table.Column<double>(nullable: false),
+                    MLMMarkup = table.Column<double>(nullable: false),
+                    Convenience = table.Column<double>(nullable: false),
+                    TotalFare = table.Column<double>(nullable: false),
+                    Discount = table.Column<double>(nullable: false),
+                    ServiceChargeAmount = table.Column<double>(nullable: false),
+                    ServiceChargeMarkup = table.Column<double>(nullable: false),
+                    NetFare = table.Column<double>(nullable: false),
+                    BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    PassengerDetailId = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDetail", x => x.FlightFareDetailId);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetail_tblFlightBookingSearchDetails_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "tblFlightBookingSearchDetails",
+                        principalColumn: "BookingId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_tblFlightFare_tblFlightFareDetail_InfantPrice",
-                        column: x => x.InfantPrice,
-                        principalTable: "tblFlightFareDetail",
-                        principalColumn: "Sno",
+                        name: "FK_tblFlightFareDetail_tblFlighBookingPassengerDetails_Passenge~",
+                        column: x => x.PassengerDetailId,
+                        principalTable: "tblFlighBookingPassengerDetails",
+                        principalColumn: "PassengerDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDiscount",
+                columns: table => new
+                {
+                    Sno = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DiscountId = table.Column<int>(nullable: true),
+                    BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDiscount", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDiscount_tblFlightBookingSearchDetails_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "tblFlightBookingSearchDetails",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDiscount_tblFlightDiscount_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "tblFlightDiscount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareMarkupDetail",
+                columns: table => new
+                {
+                    Sno = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MarkupId = table.Column<int>(nullable: true),
+                    BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareMarkupDetail", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareMarkupDetail_tblFlightBookingSearchDetails_Book~",
+                        column: x => x.BookingId,
+                        principalTable: "tblFlightBookingSearchDetails",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareMarkupDetail_tblFlightMarkupMaster_MarkupId",
+                        column: x => x.MarkupId,
+                        principalTable: "tblFlightMarkupMaster",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareMLMMarkup",
+                columns: table => new
+                {
+                    Sno = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MLMMarkupId = table.Column<int>(nullable: true),
+                    BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareMLMMarkup", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareMLMMarkup_tblFlightBookingSearchDetails_Booking~",
+                        column: x => x.BookingId,
+                        principalTable: "tblFlightBookingSearchDetails",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareMLMMarkup_tblFlightMarkupMaster_MLMMarkupId",
+                        column: x => x.MLMMarkupId,
+                        principalTable: "tblFlightMarkupMaster",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1182,9 +1237,9 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlightSearchSegment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(maxLength: 128, nullable: false),
                     BookingId = table.Column<string>(maxLength: 128, nullable: true),
+                    ProviderSegmentId = table.Column<string>(nullable: true),
                     isLcc = table.Column<bool>(nullable: false),
                     Code = table.Column<string>(maxLength: 32, nullable: true),
                     Name = table.Column<string>(maxLength: 128, nullable: true),
@@ -1209,6 +1264,7 @@ namespace projContext.Migrations.Travel1
                     ArrivalTime = table.Column<DateTime>(nullable: false),
                     AirlineType = table.Column<string>(maxLength: 30, nullable: true),
                     Mile = table.Column<int>(nullable: false),
+                    Stops = table.Column<int>(nullable: false),
                     Duration = table.Column<int>(nullable: false),
                     Layover = table.Column<int>(nullable: false)
                 },
@@ -1323,6 +1379,177 @@ namespace projContext.Migrations.Travel1
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDetailConvenience",
+                columns: table => new
+                {
+                    Sno = table.Column<ulong>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ConvenienceId = table.Column<int>(nullable: true),
+                    FareDetailId = table.Column<string>(nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDetailConvenience", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailConvenience_tblFlightConvenience_Convenie~",
+                        column: x => x.ConvenienceId,
+                        principalTable: "tblFlightConvenience",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailConvenience_tblFlightFareDetail_FareDetai~",
+                        column: x => x.FareDetailId,
+                        principalTable: "tblFlightFareDetail",
+                        principalColumn: "FlightFareDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDetailDiscount",
+                columns: table => new
+                {
+                    Sno = table.Column<ulong>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DiscountId = table.Column<int>(nullable: true),
+                    FareDetailId = table.Column<string>(nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDetailDiscount", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailDiscount_tblFlightDiscount_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "tblFlightDiscount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailDiscount_tblFlightFareDetail_FareDetailId",
+                        column: x => x.FareDetailId,
+                        principalTable: "tblFlightFareDetail",
+                        principalColumn: "FlightFareDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDetailMarkupDetail",
+                columns: table => new
+                {
+                    Sno = table.Column<ulong>(maxLength: 25, nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MarkupId = table.Column<int>(nullable: true),
+                    FareDetailId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDetailMarkupDetail", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailMarkupDetail_tblFlightFareDetail_FareDeta~",
+                        column: x => x.FareDetailId,
+                        principalTable: "tblFlightFareDetail",
+                        principalColumn: "FlightFareDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailMarkupDetail_tblFlightMarkupMaster_Markup~",
+                        column: x => x.MarkupId,
+                        principalTable: "tblFlightMarkupMaster",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightFareDetailMLMMarkup",
+                columns: table => new
+                {
+                    Sno = table.Column<ulong>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MLMMarkupId = table.Column<int>(nullable: true),
+                    FareDetailId = table.Column<string>(maxLength: 128, nullable: true),
+                    Amount = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightFareDetailMLMMarkup", x => x.Sno);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailMLMMarkup_tblFlightFareDetail_FareDetailId",
+                        column: x => x.FareDetailId,
+                        principalTable: "tblFlightFareDetail",
+                        principalColumn: "FlightFareDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightFareDetailMLMMarkup_tblFlightMarkupMaster_MLMMarkup~",
+                        column: x => x.MLMMarkupId,
+                        principalTable: "tblFlightMarkupMaster",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightSearchSegmentStops",
+                columns: table => new
+                {
+                    Id = table.Column<string>(maxLength: 128, nullable: false),
+                    FlightSearchSegmentId = table.Column<string>(maxLength: 128, nullable: true),
+                    AirportCode = table.Column<string>(nullable: true),
+                    AirportName = table.Column<string>(maxLength: 256, nullable: true),
+                    CityCode = table.Column<string>(maxLength: 64, nullable: true),
+                    CityName = table.Column<string>(maxLength: 256, nullable: true),
+                    CountryCode = table.Column<string>(maxLength: 64, nullable: true),
+                    CountryName = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightSearchSegmentStops", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblFlightSearchSegmentStops_tblFlightSearchSegment_FlightSea~",
+                        column: x => x.FlightSearchSegmentId,
+                        principalTable: "tblFlightSearchSegment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblFlightServices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FlightSearchSegmentId = table.Column<string>(maxLength: 128, nullable: true),
+                    ServiceType = table.Column<int>(nullable: false),
+                    PassengerDetailId = table.Column<string>(maxLength: 128, nullable: true),
+                    ServiceCode = table.Column<string>(maxLength: 128, nullable: true),
+                    ServiceKey = table.Column<string>(maxLength: 128, nullable: true),
+                    ServiceDescription = table.Column<string>(maxLength: 256, nullable: true),
+                    ServiceChargeAmount = table.Column<double>(nullable: false),
+                    MarkupAmount = table.Column<double>(nullable: false),
+                    tblFlightFareDetailFlightFareDetailId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblFlightServices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblFlightServices_tblFlightSearchSegment_FlightSearchSegment~",
+                        column: x => x.FlightSearchSegmentId,
+                        principalTable: "tblFlightSearchSegment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightServices_tblFlighBookingPassengerDetails_PassengerD~",
+                        column: x => x.PassengerDetailId,
+                        principalTable: "tblFlighBookingPassengerDetails",
+                        principalColumn: "PassengerDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblFlightServices_tblFlightFareDetail_tblFlightFareDetailFli~",
+                        column: x => x.tblFlightFareDetailFlightFareDetailId,
+                        principalTable: "tblFlightFareDetail",
+                        principalColumn: "FlightFareDetailId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_tblFlighBookingPassengerDetails_VisitorId",
                 table: "tblFlighBookingPassengerDetails",
@@ -1429,41 +1656,6 @@ namespace projContext.Migrations.Travel1
                 column: "ChargeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_AdultPrice",
-                table: "tblFlightFare",
-                column: "AdultPrice");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_BookedAdultPrice",
-                table: "tblFlightFare",
-                column: "BookedAdultPrice");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_BookedChildPrice",
-                table: "tblFlightFare",
-                column: "BookedChildPrice");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_BookedInfantPrice",
-                table: "tblFlightFare",
-                column: "BookedInfantPrice");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_BookingId",
-                table: "tblFlightFare",
-                column: "BookingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_ChildPrice",
-                table: "tblFlightFare",
-                column: "ChildPrice");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblFlightFare_InfantPrice",
-                table: "tblFlightFare",
-                column: "InfantPrice");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblFlightFare_Caching_AdultPrice",
                 table: "tblFlightFare_Caching",
                 column: "AdultPrice");
@@ -1484,6 +1676,76 @@ namespace projContext.Migrations.Travel1
                 column: "SearchIndexId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareConvenience_BookingId",
+                table: "tblFlightFareConvenience",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareConvenience_ConvenienceId",
+                table: "tblFlightFareConvenience",
+                column: "ConvenienceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetail_BookingId",
+                table: "tblFlightFareDetail",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetail_PassengerDetailId",
+                table: "tblFlightFareDetail",
+                column: "PassengerDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailConvenience_ConvenienceId",
+                table: "tblFlightFareDetailConvenience",
+                column: "ConvenienceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailConvenience_FareDetailId",
+                table: "tblFlightFareDetailConvenience",
+                column: "FareDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailDiscount_DiscountId",
+                table: "tblFlightFareDetailDiscount",
+                column: "DiscountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailDiscount_FareDetailId",
+                table: "tblFlightFareDetailDiscount",
+                column: "FareDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailMarkupDetail_FareDetailId",
+                table: "tblFlightFareDetailMarkupDetail",
+                column: "FareDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailMarkupDetail_MarkupId",
+                table: "tblFlightFareDetailMarkupDetail",
+                column: "MarkupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailMLMMarkup_FareDetailId",
+                table: "tblFlightFareDetailMLMMarkup",
+                column: "FareDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDetailMLMMarkup_MLMMarkupId",
+                table: "tblFlightFareDetailMLMMarkup",
+                column: "MLMMarkupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDiscount_BookingId",
+                table: "tblFlightFareDiscount",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareDiscount_DiscountId",
+                table: "tblFlightFareDiscount",
+                column: "DiscountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tblFlightFareFilterDetails_FilterId",
                 table: "tblFlightFareFilterDetails",
                 column: "FilterId");
@@ -1492,6 +1754,26 @@ namespace projContext.Migrations.Travel1
                 name: "IX_tblFlightFareFilterDetails_tblFlightFareFilterFilterId",
                 table: "tblFlightFareFilterDetails",
                 column: "tblFlightFareFilterFilterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareMarkupDetail_BookingId",
+                table: "tblFlightFareMarkupDetail",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareMarkupDetail_MarkupId",
+                table: "tblFlightFareMarkupDetail",
+                column: "MarkupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareMLMMarkup_BookingId",
+                table: "tblFlightFareMLMMarkup",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightFareMLMMarkup_MLMMarkupId",
+                table: "tblFlightFareMLMMarkup",
+                column: "MLMMarkupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblFlightMarkupAirline_AirlineId",
@@ -1557,15 +1839,32 @@ namespace projContext.Migrations.Travel1
                 name: "IX_tblFlightSearchSegment_Caching_SearchIndexId",
                 table: "tblFlightSearchSegment_Caching",
                 column: "SearchIndexId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightSearchSegmentStops_FlightSearchSegmentId",
+                table: "tblFlightSearchSegmentStops",
+                column: "FlightSearchSegmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightServices_FlightSearchSegmentId",
+                table: "tblFlightServices",
+                column: "FlightSearchSegmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightServices_PassengerDetailId",
+                table: "tblFlightServices",
+                column: "PassengerDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblFlightServices_tblFlightFareDetailFlightFareDetailId",
+                table: "tblFlightServices",
+                column: "tblFlightFareDetailFlightFareDetailId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "tblAirport");
-
-            migrationBuilder.DropTable(
-                name: "tblFlighBookingPassengerDetails");
 
             migrationBuilder.DropTable(
                 name: "tblFlighRefundPassengerDetails");
@@ -1622,13 +1921,34 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlightDiscountServiceProvider");
 
             migrationBuilder.DropTable(
-                name: "tblFlightFare");
-
-            migrationBuilder.DropTable(
                 name: "tblFlightFare_Caching");
 
             migrationBuilder.DropTable(
+                name: "tblFlightFareConvenience");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetailConvenience");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetailDiscount");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetailMarkupDetail");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetailMLMMarkup");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDiscount");
+
+            migrationBuilder.DropTable(
                 name: "tblFlightFareFilterDetails");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareMarkupDetail");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareMLMMarkup");
 
             migrationBuilder.DropTable(
                 name: "tblFlightInstantBooking");
@@ -1658,10 +1978,10 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlightRefundStatusDetails");
 
             migrationBuilder.DropTable(
-                name: "tblFlightSearchSegment");
+                name: "tblFlightSearchSegment_Caching");
 
             migrationBuilder.DropTable(
-                name: "tblFlightSearchSegment_Caching");
+                name: "tblFlightSearchSegmentStops");
 
             migrationBuilder.DropTable(
                 name: "tblFlightSerivceProvider");
@@ -1670,16 +1990,16 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlightSerivceProviderPriority");
 
             migrationBuilder.DropTable(
+                name: "tblFlightServices");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetail_Caching");
+
+            migrationBuilder.DropTable(
                 name: "tblFlightConvenience");
 
             migrationBuilder.DropTable(
                 name: "tblFlightDiscount");
-
-            migrationBuilder.DropTable(
-                name: "tblFlightFareDetail");
-
-            migrationBuilder.DropTable(
-                name: "tblFlightFareDetail_Caching");
 
             migrationBuilder.DropTable(
                 name: "tblFlightBookingAlterMaster");
@@ -1697,16 +2017,25 @@ namespace projContext.Migrations.Travel1
                 name: "tblFlightMarkupMaster");
 
             migrationBuilder.DropTable(
-                name: "tblFlightBookingSearchDetails");
-
-            migrationBuilder.DropTable(
                 name: "tblFlightSearchResponses_Caching");
 
             migrationBuilder.DropTable(
-                name: "tblFlightBookingMaster");
+                name: "tblFlightSearchSegment");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightFareDetail");
 
             migrationBuilder.DropTable(
                 name: "tblFlightSearchRequest_Caching");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightBookingSearchDetails");
+
+            migrationBuilder.DropTable(
+                name: "tblFlighBookingPassengerDetails");
+
+            migrationBuilder.DropTable(
+                name: "tblFlightBookingMaster");
         }
     }
 }
