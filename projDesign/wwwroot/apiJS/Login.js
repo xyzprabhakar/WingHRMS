@@ -65,16 +65,11 @@ function performLogin() {
         var Password = $("#txtPassword").val();
         var CaptchaCode = $("#CaptchaCode").val();
         var CcCode = $("#hdnCcCode").val();
-        $('#btnLogin').attr("disabled", true).html('<i class="fa fa-circle-o-notch fa-spin"></i> Please wait..').css({ backgroundColor: '#d4cdcd' });
-        //$(this).css({ backgroundColor: '#d4cdcd' }).text('Processing..').attr('disabled',true);
-        //var key2 = CryptoJS.enc.Utf8.parse('8080808080808080');
-        //var iv2 = CryptoJS.enc.Utf8.parse('8080808080808080');
-
+        $('#btnLogin').attr("disabled", true).html('<i class="fa fa-circle-o-notch fa-spin"></i> Please wait..').css({ backgroundColor: '#d4cdcd' });        
         if (Username == '') {
             alert('All Fields Are Mandatory...!');
             $("#txtUsername").focus();
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
-            //$('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
         }
 
@@ -90,19 +85,9 @@ function performLogin() {
             $("#CaptchaCode").focus();
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
-        }
-        //encryptedpwd = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key2,
-        //    {
-        //        keySize: 128 / 8,
-        //        iv: iv2,
-        //        mode: CryptoJS.mode.CBC,
-        //        padding: CryptoJS.pad.Pkcs7
-        //    });
+        }        
     }
-    //else {
-    //    email = $("#hdnEmail").val();
-    //    isgauth = 1;
-    //}
+    
     var myData = {
         'TempUserId': window.localStorage.getItem("tempUserId"),
         'UserName': Username,//Password,    
@@ -134,8 +119,7 @@ function performLogin() {
                 window.localStorage.setItem("customerId", data.returnId.customerId);
                 window.localStorage.setItem("distributorId", data.returnId.distributorId);
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
-                window.location.href = '/Dashboard';
-                alert('Login Sucss');
+                window.location.href = '/index';                
             }
             else {
                 alert(data.message);
@@ -168,8 +152,6 @@ $("#btnimg_captcha_change").bind("click", function () {
 //$("#btnfeedback").bind("click", function () {
 //    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdH72FLZgHi-4dIO5urvUFgVWgVokBzC2AwhwKciO-7DrTeCg/viewform?vc=0&c=0&w=1', '_blank');
 //});
-
-
 // Get the button that opens the modal
 var btn = document.getElementById("forgotten_password");
 // Get the <span> element that closes the modal
