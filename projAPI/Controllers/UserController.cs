@@ -94,8 +94,7 @@ namespace projAPI.Controllers
                 return tempDataValidate;
             }
             if (mdlRequest.UserType.HasFlag( enmUserType.Employee))
-            {
-                
+            {   
                 int.TryParse(Convert.ToString( tempDataValidate.ReturnId.employee_id),out EmpId);
                 if (!isrvEmployee.IsActiveEmpExistsById(EmpId))
                 {

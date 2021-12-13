@@ -143,7 +143,6 @@ namespace projAPI.Services.Travel
 
         }
         //
-
         public mdlReturnData SetInstantBookingSeting(DateTime EffectiveFromDate, enmCustomerType CustomerType, bool InstantDomestic, bool InstantNonDomestic, ulong UserId, string Remarks)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.None };
