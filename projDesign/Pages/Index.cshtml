@@ -1,273 +1,65 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<style>
-    #chart-area11 {
-        height: 282px !important;
-        width: 256px !important;
-    }
-</style>
 
 <!-- Page-Title -->
 <div class="col-sm-12">
-    <h4 class="page-title  pb-2">Dashboard</h4>
-</div>
-
-<div class="col-md-12 col-xl-7">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <h5 class="mt-0 mb-3 col-4" title="Today Attandance Summary">Employee List</h5>
-                <h5 class="mt-0 mb-3 col-4" style="text-align: right;" title="Click here for Employee Directories"><a href="/View/EmployeeDirectories" style=" color: #44a2d2;">Employee Directories</a></h5>
-                <h5 class="mt-0 mb-3 col-4" style="text-align: right;" title="Click here for monthly attandance summary"><a href="/View/Dashboard" style=" color: #44a2d2;">Attendance Calendar</a></h5>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:270px;">
-                        <table class="table mb-0 employee_listt" id="tblemplistt">
-                            <thead>
-                                <tr>
-                                    <th>Company</th>
-                                    <th>Emp Code</th>
-                                    <th> Name</th>
-
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 col-lg-6 col-xl-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Events</h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:260px;">
-                        <table class="table mb-0 employee_listt" id="tbleventlist">
-                            <thead>
-                                <tr>
-                                    <th>Company</th>
-                                    <th>Log Entry</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 col-xl-7">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Attendance data last updated date and time</h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:270px;">
-                        <table class="table mb-0 employee_listt" id="tbllogdtl">
-                            <thead>
-                                <tr>
-                                    <th>Log Entry</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 col-lg-6 col-xl-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Policies</h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:260px;">
-                        <table class="table mb-0" id="tblPolicies"></table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
+    <h4 class="page-title  pb-2">Home</h4>
 </div>
 
 
-<div class="col-md-12 col-lg-6 col-xl-7">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Current Openings</h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:260px;">
-                        <table class="table mb-0" id="tblCurrentOpenings"></table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row" id="divContainerIndex">
+
 </div>
 
 
-<div class="col-md-12 col-lg-6 col-xl-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Coming Birthday</h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:260px;">
-                        <table class="table mb-0 employee_listt" id="tbl_emp_birthdaylist">
-                            <thead>
-                                <tr>
-                                    <th>Profile Pic</th>
-                                    <th>Employee</th>
-                                    <th>Department</th>
-                                    <th>DOB</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="marqueecontainer"></tbody>
-
-                        </table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 col-lg-6 col-xl-7">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="mt-0 pb-3">Coming Anniversary </h5>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive" style="height:260px;">
-                        <table class="table mb-0 employee_listt" id="tbl_emp_anniversarylist">
-                            <thead>
-                                <tr>
-                                    <th>Profile Pic</th>
-                                    <th>Employee</th>
-                                    <th>Department</th>
-                                    <th>Anniversary Date</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="marqueecontainer"></tbody>
-
-                        </table>
-                    </div><!--end table-responsive-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<div class="dashboard" style="display:block">
-
-    <div class="clear"></div>
-
-    <!-- cenyter panel end -->
-    <!-- calender start -->
-    <div class="clear"></div>
-    <div class="centerPanel col-md-12 " style="display:none">
-        <div class="calender-panel box">
-            <p class="navHeading">Event Calendar</p>
-            <hr />
-            <div id='calendar'></div>
-        </div>
-    </div>
-</div>
-
-<div class="modal " id="myFirstLoginModal" tabindex="-1" role="dialog" aria-labelledby="myFirstLoginModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myFirstLoginModal">Change Password</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="chngpwdclosepop">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-form-label">User ID</label>
-                            <input type="text" class="form-control" id="txtloginuserid_" disabled="disabled" />
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-form-label">Old Password<i>*</i></label>
-                            <input type="password" id="txtoldpwd_" class="form-control" placeholder="Old Password" autocomplete="off" />
-                        </div>
-                    </div>
-                    @*<hr />*@
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-form-label">New Password<i>*</i></label>
-                            <input type="password" id="txtnewpwd_" class="form-control" placeholder="New Password" autocomplete="off" />
-                        </div>
-                    </div>
-
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-form-label">Confirm Password<i>*</i></label>
-                            <input type="password" id="txtconfirmpwd_" class="form-control" placeholder="Confirm Password" autocomplete="off" />
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-primary" id="btn_save_pwd">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script src="~/apiJS/GetDbData.js" asp-append-version="true"></script>
-
+@section Scripts {   
 <script>
     $(document).ready(function () {
-        fncSetApplication();
-        fncGetApplication();
+        var openRequest = indexedDB.open("dpbs", 1);
+        openRequest.onupgradeneeded = function (e) {
+            fncCreateAllDb(e);
+        }
+        openRequest.onsuccess = function (e) {
+            var db = e.target.result;
+            let ObjectStore = db.transaction("tblApplicationMaster", "readwrite")
+                .objectStore("tblApplicationMaster");
+            obstore.openCursor().onsuccess = function (event) {
+                var cursor = event.target.result;
+                var HTMLElmet = '';
+                if (cursor) {
+                    if (cursor.value.displayOrder > 0) {
+                        HTMLElmet = HTMLElmet + `<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h3 class="mt-0 mb-3 col-12"  title="${cursor.value.name}"><i class="${cursor.value.icon}"></i> <a class="clsApplicationArray" href="${cursor.value.areaName}" data-application-id="${cursor.value.id}" style=" color: #44a2d2;">${cursor.value.name}</a></h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                            ${cursor.value.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    }
+                    cursor.continue();
+                }
+                document.getElementById("divContainerIndex").innerHTML = HTMLElmet;
+            };
+        }
+        openRequest.onerror = function (e) {
+            console.log(e);
+        }
+        $(document).on("click", ".clsApplicationArray", function () {
+            var applicationId = $(this).getAttribute("data-application-id");
+            localStorage.setItem("currentApplication", applicationId);
+        });
     });
-
 </script>
-
-    @*<script src="~/Comman/JS/JsDashboard.js" asp-append-version="true"></script>
-        <script src="~/Comman/JS/JsNotification.js" asp-append-version="true"></script>*@
 
 
 }

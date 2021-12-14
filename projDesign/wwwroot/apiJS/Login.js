@@ -119,6 +119,9 @@ function performLogin() {
                 window.localStorage.setItem("customerId", data.returnId.customerId);
                 window.localStorage.setItem("distributorId", data.returnId.distributorId);
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
+                window.localStorage.setItem("currentApplication", 0);//Need to set on user click
+                window.localStorage.setItem("refreshData", 1);
+                fncGetRefreshData();
                 window.location.href = '/index';                
             }
             else {

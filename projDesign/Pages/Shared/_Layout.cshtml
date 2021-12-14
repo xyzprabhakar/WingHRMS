@@ -265,6 +265,9 @@
     <script src="~/js/aes.js"></script>
     <script src="~/assets/js/app.js"></script>
 
+    <!-- Set Data in Db -->
+    <script src="~/apiJS/SetDbData.js" asp-append-version="true"></script>
+
     <script>
         $(function () {
             if (typeof (Storage) !== "undefined") {
@@ -382,55 +385,55 @@
             minDate: new Date().fp_incr(-45)
         });
 
-        //$('ul.leftMenu li a.subMenu').on('click', function (e) {
-        //    debugger;
-        //    e.preventDefault();
-        //    let check = $(this).next('ul');
-        //    let icons = check.next('span.fa');
-        //    if (check.hasClass('hasSubmenu')) {
-        //        if (check.is(':visible')) {
-        //            check.slideUp();
-        //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
-        //        }
-        //        else {
-        //            check.slideDown();
-        //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
-        //        }
-        //    }
+                //$('ul.leftMenu li a.subMenu').on('click', function (e) {
+                //    debugger;
+                //    e.preventDefault();
+                //    let check = $(this).next('ul');
+                //    let icons = check.next('span.fa');
+                //    if (check.hasClass('hasSubmenu')) {
+                //        if (check.is(':visible')) {
+                //            check.slideUp();
+                //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
+                //        }
+                //        else {
+                //            check.slideDown();
+                //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
+                //        }
+                //    }
 
-        //});
+                //});
 
 
 
     </script>
     @*<script type="text/javascript">
-        var key = CryptoJS.enc.Base64.parse("#base64Key#");
-        var iv = CryptoJS.enc.Base64.parse("#base64IV#");
+            var key = CryptoJS.enc.Base64.parse("#base64Key#");
+            var iv = CryptoJS.enc.Base64.parse("#base64IV#");
 
-        var user_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("user_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-        var login_emp_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("login_emp_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-
-
-        //var user_name = localStorage.getItem('user_name'); // get user id
-        //var login_emp_namee = localStorage.getItem('login_emp_name');
-        $('#user_name').text(user_name_dec);
-        $("#login_emp_name").text(login_emp_name_dec);
-        var profile_img_path = CryptoJS.AES.decrypt(localStorage.getItem("employee_photo_path"), key, { iv: iv }).toString(CryptoJS.enc.Utf8); //localStorage.getItem('employee_photo_path');
+            var user_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("user_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
+            var login_emp_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("login_emp_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
 
 
-        if (profile_img_path == '' || profile_img_path == null) {
-            $('#profile_img').attr("src", '/img/no-profile-photo.jpg');
-            $('#profile_icon').attr("src", '/img/no-profile-photo.jpg');
-        }
-        else {
-            $('#profile_img').attr("src", profile_img_path.replace("api/", ""));
-            $('#profile_icon').attr("src", profile_img_path.replace("api/", ""));
-        }
-    </script>*@
+            //var user_name = localStorage.getItem('user_name'); // get user id
+            //var login_emp_namee = localStorage.getItem('login_emp_name');
+            $('#user_name').text(user_name_dec);
+            $("#login_emp_name").text(login_emp_name_dec);
+            var profile_img_path = CryptoJS.AES.decrypt(localStorage.getItem("employee_photo_path"), key, { iv: iv }).toString(CryptoJS.enc.Utf8); //localStorage.getItem('employee_photo_path');
+
+
+            if (profile_img_path == '' || profile_img_path == null) {
+                $('#profile_img').attr("src", '/img/no-profile-photo.jpg');
+                $('#profile_icon').attr("src", '/img/no-profile-photo.jpg');
+            }
+            else {
+                $('#profile_img').attr("src", profile_img_path.replace("api/", ""));
+                $('#profile_icon').attr("src", profile_img_path.replace("api/", ""));
+            }
+        </script>*@
     <!-- Custom jquery -->
     @*<script src="~/apiJS/GlobalEnum.js"></script>
-    <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>
-    <script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
+        <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        <script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
     <script src="~/src/jquery.table2excel.js"></script>
     @*<script src="~/Comman/JS/JsLayout.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
     @RenderSection("Scripts", required: false)
