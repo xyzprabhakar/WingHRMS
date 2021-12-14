@@ -25,10 +25,13 @@ function fncGetApplication() {
 function fncSetApplication() {
     var baseUrl = localStorage.getItem("baseUrl");
     var apiurl = baseUrl + ("User/GetUserApplication");
+    var headerss = {};
+    headerss["Authorization"] = 'Bearer ' + localStorage.getItem('token');
     $.ajax({
         url: apiurl,
         type: "POST",
         dataType: 'json',
+        headers: headerss,
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             if (data.messageType == 1) {
