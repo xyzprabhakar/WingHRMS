@@ -57,8 +57,6 @@ namespace projAPI
             //add context
             services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
             services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)));
-
-            
             services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
 
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
