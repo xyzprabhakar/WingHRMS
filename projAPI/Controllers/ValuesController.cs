@@ -9,6 +9,7 @@ using projContext;
 using System.Xml.Linq;
 using projAPI.Classes;
 using System.Runtime.Serialization;
+using projAPI.Services;
 
 namespace projAPI.Controllers
 {
@@ -113,10 +114,17 @@ namespace projAPI.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Route("DefaultApplication")]
-        public void DefaultApplication()
+        public void DefaultApplication([FromServices] IsrvUsers isrvUsers )
         {
+            List<enmApplication> Application = new List<enmApplication>();
+            foreach (var d in Enum.GetValues(typeof(enmApplication)))
+            {
+                Application.Add((enmApplication)d);
+            }
+            isrvUsers.SetUserApplication(1,Application,1);
+
         }
 
 

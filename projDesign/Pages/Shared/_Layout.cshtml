@@ -78,7 +78,8 @@
         <div class="topbar-left">
             <a id="hrms_logo_link">
                 @*<img src="~/Login Page Logos/company logo.png" width="185" height="37" alt="Travolook" title="Travolook" />*@
-                <img src="~/Login Page Logos/company logo.png" width="185" height="50" alt="Travolook" title="Travolook" />
+                @*<img src="~/Login Page Logos/company logo.png" width="185" height="50" alt="Travolook" title="Travolook" />*@
+                DB
             </a>
         </div>
 
@@ -86,28 +87,41 @@
         <nav class="navbar-custom">
 
             <!-- Search input -->
-
-
-            <ul class="list-unstyled topbar-nav float-right mb-0">
-                <li class="hidden-sm">
+            <ul class="list-unstyled topbar-nav float-right mb-0 align-middle">            
+                <li>
                     <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="btn-fullscreen">
-                        <i class="mdi mdi-fullscreen nav-icon"></i>
+                        <i class="mdi mdi-reload nav-icon"> </i> <span class="hidden-sm font-18"> Reload </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="btn-fullscreen">
+                        <i class="mdi mdi-notification-clear-all nav-icon"> </i> <span class="hidden-sm font-18"> Notification </span>
                     </a>
                 </li>
 
-                <li id="metabb"><a href="/view/Dashboard" class="nav-link waves-effect waves-light"><i class="fa fa-user"></i> Me</a></li>
-                <li id="limyteam" style="display:none;"><a href="/Leave/OutdoorLeaveApproval" class="nav-link waves-effect waves-light"><i class="fa fa-users"></i> My Team</a></li>
 
-
-
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" id="dropdownMenuButtonApplication" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <i class="mdi mdi-settings nav-icon"> </i><span class="hidden-sm font-18"> Application </span>  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonApplication">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" id="userpop" data-toggle="dropdown" href="#" role="button"
                        aria-haspopup="false" aria-expanded="false">
                         <img id="profile_icon" src="~/assets/images/users/user-1.jpg" alt="profile-user" class="rounded-circle" />
-                        <span class="ml-1 nav-user-name hidden-sm"> <span id="login_emp_name"></span> <i class="mdi mdi-chevron-down"></i> </span>
+                        <span class="ml-1 nav-user-name hidden-sm font-18"> <span id="login_emp_name"> Prabhakar </span> <i class="mdi mdi-chevron-down"></i> </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" id="ul_right_menu">
-
+                        <a class="dropdown-item" href="#">Change Password</a>
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -118,8 +132,6 @@
                         <i class="mdi mdi-menu nav-icon"></i>
                     </button>
                 </li>
-
-
 
             </ul>
 

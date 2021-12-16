@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
-
+    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -27,6 +27,7 @@ namespace projAPI.Services
         List<int> GetUserRole(ulong UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
+        bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
     }
 
@@ -241,9 +242,24 @@ namespace projAPI.Services
             return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
         }
 
-        public List<Application> SetUserApplication(ulong UserId, List<enmApplication> Applications)
+        public bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy)
         {
-            return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+            DateTime currentDate = DateTime.Now;
+            var ExistingApplication = _context.tblUsersApplication.Where(p => p.UserId == UserId).Select(p => p.Applications).ToList();
+            Applications.RemoveAll(q => ExistingApplication.Contains(q));
+            _context.tblUsersApplication.AddRange(Applications.Select(q => new tblUsersApplication
+            {
+                Applications = q,
+                CreatedBy = CreatedBy,
+                CreatedDt = currentDate,
+                IsActive = true,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = currentDate,
+                ModifyRemarks = string.Empty,
+                UserId = UserId
+            }));
+            _context.SaveChanges();
+            return true;
         }
 
         public List<Document> GetUserDocuments(ulong UserId)
