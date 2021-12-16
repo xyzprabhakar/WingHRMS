@@ -241,6 +241,11 @@ namespace projAPI.Services
             return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
         }
 
+        public List<Application> SetUserApplication(ulong UserId, List<enmApplication> Applications)
+        {
+            return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+        }
+
         public List<Document> GetUserDocuments(ulong UserId)
         {
             List<Document> documents = new List<Document>();

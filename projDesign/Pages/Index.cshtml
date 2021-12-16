@@ -26,7 +26,7 @@
             var db = e.target.result;
             let ObjectStore = db.transaction("tblApplicationMaster", "readwrite")
                 .objectStore("tblApplicationMaster");
-            obstore.openCursor().onsuccess = function (event) {
+            ObjectStore.openCursor().onsuccess = function (event) {
                 var cursor = event.target.result;
                 var HTMLElmet = '';
                 if (cursor) {

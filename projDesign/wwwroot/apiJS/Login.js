@@ -35,8 +35,7 @@ $('#btnLogin').bind("click", function () {
 $("#CaptchaCode").bind('keydown', function (event) {
     if (event.key == 'Enter') {        
         event.preventDefault();
-        performLogin();
-        
+        performLogin();        
     }
 });
 $("#txtUsername").bind('keydown', function (event) {
@@ -48,8 +47,7 @@ $("#txtUsername").bind('keydown', function (event) {
 $("#txtPassword").bind('keydown', function (event) {
     if (event.key == 'Enter') {        
         event.preventDefault();
-        document.getElementById("CaptchaCode").focus();
-        
+        document.getElementById("CaptchaCode").focus();        
     }
 });
 function performLogin() {

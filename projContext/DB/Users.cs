@@ -82,7 +82,7 @@ namespace projContext.DB
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public ulong Sno { get; set; }  // primary key  must be public!    
         public ulong user_id { get; set; }  // primary key  must be public!    
-        [MaxLength(32)]
+        [MaxLength(256)]
         public string IPAddress{ get; set; }
         [MaxLength(256)]
         public string DeviceDetails { get; set; }

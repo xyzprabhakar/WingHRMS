@@ -112,7 +112,16 @@ namespace projAPI.Controllers
         {
         }
 
-   
+
+        [HttpPost]
+        [Route("DefaultApplication")]
+        public void DefaultApplication()
+        {
+        }
+
+
+
+
 
         private void SetUserData()
         {

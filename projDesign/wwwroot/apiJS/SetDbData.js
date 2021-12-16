@@ -4,12 +4,10 @@
 
 function fncGetRefreshData() {
     var refreshData = localStorage.getItem("refreshData");
-    $('#loader').show();
     if (refreshData == 1) {
         fncSetApplication();
     }
-    localStorage.setItem("refreshData", 0);
-    $('#loader').hide();
+    localStorage.setItem("refreshData", 0);    
 }
 function fncCreateAllDb(e) {
     var thisDB = e.target.result;
