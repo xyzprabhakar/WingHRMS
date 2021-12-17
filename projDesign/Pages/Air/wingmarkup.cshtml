@@ -1,0 +1,129 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wing Markup";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Markup Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Customer<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlcustomer" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Service Provider<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlprovider" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Flight Class<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlprovider" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Markup Amount Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlamttype" class="form-control bg-light">
+                                    <option value="Percentage">Percentage</option>
+                                    <option value="Fixed">Fixed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Markup Amount<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="Markup Amount" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Provider<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlprovider" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Applicable Date From<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="aadha_card_name" placeholder="Aadhar Card Name" autocomplete="off" class="form-control" onkeypress="return IsAlphabet(event);" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+
+                            <div class="col-md-4 "><label class="col-form-label">Applicable Date To<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" id="pan_card_number" maxlength="10" autocomplete="off" placeholder="Pan Card Number" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Passanger Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <select id="ddlprovider" class="form-control bg-light">
+                                    <option value="0">--Please Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label class="col-form-label">Gender <i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="gender" id="rdbmale" /> Male
+                                <input type="checkbox" name="gender" id="rdbfemale" /> Female
+
+                            </div>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 text-center ">
+                            <hr />
+                            <button class="btn btn-primary waves-effect waves-light" id="btnSavePersonalDetails">Save</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="HFb64pan_card_name" />
+<input type="hidden" id="HFb64aadha_card_image" />
+<input type="hidden" id="hdnpan_card_image" />
+<input type="hidden" id="hdnaadha_card_image" />
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+

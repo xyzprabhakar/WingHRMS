@@ -1,0 +1,86 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wing Markup";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        @Html.Partial("_PartialEmpLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Instant Booking Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Customer Type<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="Markup Amount" class="form-control" />
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mt-1">
+                            <div class="col-md-4"><label>Effective From Date<i>*</i></label></div>
+                            <div class="col-md-8">
+                                <input type="text" value="12/12/2021" placeholder="Markup Amount" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Is Instant Domsetic</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="chkisenable" checked /> 
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label class="col-form-label">Is Instant Non Domsetic</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="chkisenable" checked /> 
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4"><label class="col-form-label">Remarks</label></div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="Remarks" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 text-center ">
+                            <hr />
+                            <button class="btn btn-primary waves-effect waves-light" id="btnSavePersonalDetails">Save</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Comman/JS/JsSelectAll.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+<script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+
+
+<!-- Trigger/Open The Modal -->
+<!-- The Modal -->
+
+
+
