@@ -1,12 +1,14 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Wing Markup";
+    ViewData["Title"] = "Wing Discount";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="col-xl-12">
     <div class="panel ">
+
         @Html.Partial("_PartialAirLayout")
+
         <div class="card mt-3">
             <div class="card-body">
 
@@ -188,8 +190,16 @@
                                 <input type="text" id="todate" autocomplete="off" placeholder="Applicable Date To" class="form-control ip-ap" />
                             </div>
                         </div>
-
                         <div class="col-md-6 mt-1">
+                            <div class="form-group">
+                                <label class="control-label">Before Day Count </label>
+
+                                <input type="text" class="form-control" value="0" name="daycount" id="daycount" />
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
                             <div class="form-group">
                                 <label class="control-label">Gender: <i>*</i></label>
                                 <br />

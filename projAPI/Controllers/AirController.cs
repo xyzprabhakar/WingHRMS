@@ -97,7 +97,7 @@ namespace projAPI.Controllers
         #region **********settings*********
         //service provider management start
         [HttpPost]
-        [Route("air/settings/setserviceprovider")]
+        [Route("settings/setserviceprovider/{EffectiveFromDate}/{ServiceProvider}/{IsEnable}/{UserId}/{Remarks}")]
         public mdlReturnData setserviceprovider(DateTime EffectiveFromDate, enmServiceProvider ServiceProvider, bool IsEnable, ulong UserId, string Remarks)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -119,7 +119,7 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("air/settings/getserviceprovider")]
+        [Route("settings/getserviceprovider")]
         public List<tblFlightSerivceProvider> getserviceprovider(DateTime ProcessDate, bool IsOnlyActive)
         {
            try
@@ -140,7 +140,7 @@ namespace projAPI.Controllers
 
         //instant booking management start
         [HttpPost]
-        [Route("air/settings/SetInstantBookingSetting")]
+        [Route("settings/SetInstantBookingSetting")]
         public mdlReturnData SetInstantBookingSetting(DateTime EffectiveFromDate, enmCustomerType CustomerType, bool InstantDomestic, bool InstantNonDomestic, ulong UserId, string Remarks)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };

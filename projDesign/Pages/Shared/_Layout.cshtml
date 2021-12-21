@@ -31,11 +31,11 @@
         <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
         
     </environment>
-    <script>
+    @*<script>
         if (localStorage.getItem('token') == null || localStorage.getItem('baseUrl') == null) {
             window.location = '/Login';
         }
-    </script>
+    </script>*@
     
 
     <style>
@@ -333,7 +333,8 @@
             e.preventDefault();
             $('.userLoginPanel').toggle();
         });
-
+        $(".select2").select2();
+          
         $(".ip-ap").flatpickr({
             dateFormat: "d-M-Y",
         });

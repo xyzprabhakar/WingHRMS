@@ -1,13 +1,13 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Wing Markup";
+    ViewData["Title"] = "Instant booking setting";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="col-xl-12">
     <div class="panel ">
 
-        @Html.Partial("_PartialEmpLayout")
+        @Html.Partial("_PartialAirLayout")
 
         <div class="card mt-3">
             <div class="card-body">
@@ -18,44 +18,56 @@
                     </div>
 
                     <div class="tabs-container" id="c2" style="display:block;">
+                        <div class="row">
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="col-form-label">Customer Type<i>*</i></label>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="input-group-addon input-group-addon-custom">
+                                                <input id="cboxIsAllCustomerType" class="ace ace-switch" type="checkbox">
+                                                ALL
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select id="ddlcustomertype" class="form-control select2" multiple>
+                                                <option value="0">--Please Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="col-md-6">
-                            <div class="col-md-4"><label class="col-form-label">Customer Type<i>*</i></label></div>
-                            <div class="col-md-8">
-                                <input type="text" placeholder="Markup Amount" class="form-control" />
                             </div>
 
-                        </div>
-
-                        <div class="col-md-6 mt-1">
-                            <div class="col-md-4"><label>Effective From Date<i>*</i></label></div>
-                            <div class="col-md-8">
-                                <input type="text" value="12/12/2021" placeholder="Markup Amount" class="form-control" />
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label>Effective From Date<i>*</i></label>
+                                
+                                    <input type="text" value="12/12/2021" placeholder="Markup Amount" class="form-control ip-ap" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="col-form-label">Is Instant Domsetic</label>
+                               
+                                    <input type="checkbox" name="chkisdomestic" checked />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="col-form-label">Is Instant Non Domsetic</label>
+                              
+                                    <input type="checkbox" name="chkisnondomestic" checked />
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <div class="form-group">
+                                <label class="col-form-label">Remarks</label>
+                               
+                                    <input type="text" placeholder="Remarks" class="form-control" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="col-md-4">
-                                <label class="col-form-label">Is Instant Domsetic</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="checkbox" name="chkisenable" checked /> 
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="col-md-4">
-                                <label class="col-form-label">Is Instant Non Domsetic</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="checkbox" name="chkisenable" checked /> 
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="col-md-4"><label class="col-form-label">Remarks</label></div>
-                            <div class="col-md-8">
-                                <input type="text" placeholder="Remarks" class="form-control" />
-                            </div>
-                        </div>
-
                         <div class="clearfix"></div>
                         <div class="col-md-12 text-center ">
                             <hr />
