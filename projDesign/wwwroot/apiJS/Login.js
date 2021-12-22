@@ -98,8 +98,7 @@ function performLogin() {
         "FromLocation": "",
         "UserType": 2
     };
-    console.log(myData);
-
+    
     var apiurl = baseUrl+("User/Login");
     $('#loader').show();
     $.ajax({
@@ -119,6 +118,7 @@ function performLogin() {
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
                 window.localStorage.setItem("currentApplication", 0);//Need to set on user click
                 window.localStorage.setItem("refreshData", 1);
+                window.localStorage.setItem("dBVersion", 2);
                 fncGetRefreshData();
                 window.location.href = '/index';                
             }

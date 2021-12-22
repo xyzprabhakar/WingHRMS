@@ -145,11 +145,27 @@ namespace projAPI.Controllers
         }
 
         [Authorize]
-        [Route("GetUserDocuments")]
-        public mdlReturnData GetUserDocuments()
+        [Route("GetUserDocuments/{OnlyDisplayMenu}/{IncludeApplication}/{IncludeModule}/{IncludeSubModule}")]
+        public mdlReturnData GetUserDocuments(bool OnlyDisplayMenu, bool IncludeApplication, bool IncludeModule, bool IncludeSubModule)
         {
             mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
-            mdl.ReturnId = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId);
+            List<Document> documents = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId, OnlyDisplayMenu).OrderBy(p=>p.DisplayOrder).ToList();
+            List<Module> modules = new List<Module>();
+            List<SubModule> submodules = new List<SubModule>();
+            List<Application> applications = new List<Application>();
+            if (IncludeModule)
+            {
+                modules = documents.Where(p => p.EnmModule.HasValue).Select(p => p.EnmModule).Distinct().Select(p => p.Value.GetModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+            if (IncludeModule)
+            {
+                submodules = documents.Where(p => p.EnmSubModule.HasValue).Select(p => p.EnmSubModule).Distinct().Select(p => p.Value.GetSubModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+            if (IncludeApplication)
+            {
+                applications = documents.Where(p => p.EnmApplication.HasValue).Select(p => p.EnmApplication).Distinct().Select(p => p.Value.GetApplicationDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+            mdl.ReturnId=new { document= documents, module = modules ,submodule=submodules, application = applications };
             return mdl;
         }
 

@@ -36,12 +36,6 @@ namespace projAPI.Model
     { 
     }
 
-
-
-
-
-
-
     public class EmployeeBasicData : EmployeeBasicDataProc
     {
         public string Official_email_id { get; set; }

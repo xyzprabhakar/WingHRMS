@@ -23,7 +23,7 @@ namespace projAPI.Services
         string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
         string GenrateTempUser(string IP, string DeviceId);
         List<Application> GetUserApplication(ulong UserId);
-        List<Document> GetUserDocuments(ulong UserId);
+        List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
         List<int> GetUserRole(ulong UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
@@ -262,7 +262,7 @@ namespace projAPI.Services
             return true;
         }
 
-        public List<Document> GetUserDocuments(ulong UserId)
+        public List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu)
         {
             List<Document> documents = new List<Document>();
             var tempData = (from t1 in _context.tbl_role_claim_map
@@ -287,7 +287,10 @@ namespace projAPI.Services
                 if (p.DocumentType.HasFlag(enmDocumentType.DisplayMenu))
                     permissionType = permissionType | enmDocumentType.DisplayMenu;
             });
-            documents.RemoveAll(p => !p.DocumentType.HasFlag(enmDocumentType.DisplayMenu));
+            if (OnlyDisplayMenu)
+            {
+                documents.RemoveAll(p => !p.DocumentType.HasFlag(enmDocumentType.DisplayMenu));
+            }
             return documents;
         }
 
