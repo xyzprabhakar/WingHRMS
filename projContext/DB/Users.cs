@@ -134,9 +134,9 @@ namespace projContext.DB
         public enmDocumentMaster DocumentMaster { get; set; }
         public enmDocumentType PermissionType { get; set; }
         public int is_deleted { get; set; }
-        public int created_by { get; set; }
+        public ulong created_by { get; set; }
         public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
+        public ulong last_modified_by { get; set; }
         public DateTime last_modified_date { get; set; }
     }
 
@@ -163,10 +163,11 @@ namespace projContext.DB
         [ForeignKey("tbl_user_master")] // Foreign Key here
         public ulong? user_id { get; set; }
         public tbl_user_master tbl_user_master { get; set; }
+        public bool IsActive { get; set; }
         public int is_deleted { get; set; }
-        public int created_by { get; set; }
+        public ulong created_by { get; set; }
         public DateTime created_date { get; set; }
-        public int last_modified_by { get; set; }
+        public ulong last_modified_by { get; set; }
         public DateTime last_modified_date { get; set; }
     }
 

@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using projAPI.Classes;
 using System.Runtime.Serialization;
 using projAPI.Services;
+using projAPI.Model;
 
 namespace projAPI.Controllers
 {
@@ -124,7 +125,31 @@ namespace projAPI.Controllers
                 Application.Add((enmApplication)d);
             }
             isrvUsers.SetUserApplication(1,Application,1);
+        }
 
+
+        [HttpGet]
+        [Route("DefaultDocuments")]
+        public void DefaultDocument([FromServices] IsrvUsers isrvUsers)
+        {
+            DateTime dt = DateTime.Now;
+            var defaultRole = _context.tbl_role_master.Where(p => p.role_name == "SuperAdmin").FirstOrDefault();
+            if (defaultRole == null)
+            {
+                defaultRole = new tbl_role_master() { role_name = "SuperAdmin", created_by = 1, created_date = dt, is_active = 1, last_modified_by = 1, last_modified_date = dt };
+                _context.tbl_role_master.Add(defaultRole);
+                _context.SaveChanges();
+            }
+            //role Claim
+            //role Claim
+
+            List<mdlRoleDocument> document = new List<mdlRoleDocument>();
+            foreach (var d in Enum.GetValues(typeof(enmDocumentMaster)))
+            {
+                var edm = (enmDocumentMaster)d;
+                document.Add(new mdlRoleDocument() { documentId=edm,PermissionType =edm.GetDocumentDetails().DocumentType } );
+            }
+            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.role_id, roleDocument= document }, 1);
         }
 
 

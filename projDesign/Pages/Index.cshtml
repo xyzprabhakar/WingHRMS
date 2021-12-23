@@ -17,8 +17,9 @@
 
 @section Scripts {   
 <script>
-    $(document).ready(function () {        
-        var openRequest = indexedDB.open("dpbs", 1);
+    $(document).ready(function () {
+        var dBVersion = localStorage.getItem("dBVersion");
+        var openRequest = indexedDB.open("dpbs", dBVersion );
         openRequest.onupgradeneeded = function (e) {
             fncCreateAllDb(e);
         }

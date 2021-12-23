@@ -165,9 +165,13 @@ namespace projAPI.Controllers
             {
                 applications = documents.Where(p => p.EnmApplication.HasValue).Select(p => p.EnmApplication).Distinct().Select(p => p.Value.GetApplicationDetails()).OrderBy(p => p.DisplayOrder).ToList();
             }
-            mdl.ReturnId=new { document= documents, module = modules ,submodule=submodules, application = applications };
+            mdl.ReturnId=new { _document= documents, _module = modules ,_submodule=submodules, _application = applications };
             return mdl;
         }
+
+
+
+        
 
         [Authorize]
         [Route("GetDownlineEmployee")]

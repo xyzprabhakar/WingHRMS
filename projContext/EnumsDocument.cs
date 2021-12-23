@@ -29,59 +29,69 @@ namespace projContext
 
     public enum enmModule : int
     {
-        [Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
-        Gateway_Profile = 1,
-        [Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Booking", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Booking")]
-        Gateway_Booking = 2,
-        [Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Incentive", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Incentive")]
-        Gateway_Incentive = 3,
-        [Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Promotion", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Promotion")]
-        Gateway_Promotion = 4,
-        [Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Team", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Team")]
-        Gateway_Team = 5,
-        [Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Setting", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Setting")]
-        Gateway_Setting = 6,
+
+        [Module( false, DisplayOrder: 0, Name: "Organisation", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
+        Organisation = 1,
+        [Module(false, DisplayOrder: 0, Name: "Authentication ", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
+        Authentication = 2,
 
 
-        [Module(EnmApplication: enmApplication.CRM, IsArea: false, DisplayOrder: 0, Name: "Profile", Description: "TC, bank, Pan, address contact etc", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Wing")]
-        CRM_Tc_Profile = 101,
+        //[Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
+        //Gateway_Profile = 1,
+        //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Booking", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Booking")]
+        //Gateway_Booking = 2,
+        //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Incentive", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Incentive")]
+        //Gateway_Incentive = 3,
+        //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Promotion", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Promotion")]
+        //Gateway_Promotion = 4,
+        //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Team", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Team")]
+        //Gateway_Team = 5,
+        //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Setting", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Setting")]
+        //Gateway_Setting = 6,
+
+
+        //[Module(EnmApplication: enmApplication.CRM, IsArea: false, DisplayOrder: 0, Name: "Profile", Description: "TC, bank, Pan, address contact etc", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Wing")]
+        //CRM_Tc_Profile = 101,
 
 
 
-        [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Profile", Description: "Employee Basic Details", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Employee")]
-        HRMS_Employee_Profile = 301,
-        [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Attendance", Description: "Attendance Management", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Attendance")]
-        HRMS_AttendanceManagement = 302,
-        [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Payroll", Description: "Attendance Management", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Payroll")]
-        HRMS_PayrollManagement = 303,
-        [Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "ExitManagement", Description: "Employee Basic Details", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "ExitManagement")]
-        HRMS_ExitManagement = 304,
+        //[Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Profile", Description: "Employee Basic Details", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Employee")]
+        //HRMS_Employee_Profile = 301,
+        //[Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Attendance", Description: "Attendance Management", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Attendance")]
+        //HRMS_AttendanceManagement = 302,
+        //[Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "Payroll", Description: "Attendance Management", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Payroll")]
+        //HRMS_PayrollManagement = 303,
+        //[Module(EnmApplication: enmApplication.HRMS, IsArea: false, DisplayOrder: 0, Name: "ExitManagement", Description: "Employee Basic Details", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "ExitManagement")]
+        //HRMS_ExitManagement = 304,
     }
 
     public enum enmSubModule : int
     {
-        [SubModule(EnmModule: enmModule.Gateway_Profile, DisplayOrder: 1, Name: "Personal", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
-        Gateway_Personal_Profile = 1,
+        [SubModule(EnmModule: enmModule.Authentication, DisplayOrder: 1, Name: "Org Auth", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        Organisation_Authentication = 1,
 
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Wallet", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-file", CntrlName: "Wallet")]
-        Gateway_Incentive_wallet = 2,
+        //[SubModule(EnmModule: enmModule.Gateway_Profile, DisplayOrder: 1, Name: "Personal", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        //Gateway_Personal_Profile = 1,
 
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "KYC", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "Wing")]
-        CRM_TcProfile_kyc = 11,
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Bank", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-landmark", CntrlName: "Wing")]
-        CRM_TcProfile_Bank = 12,
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Pan", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-file-signature", CntrlName: "Wing")]
-        CRM_TcProfile_Pan = 13,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Wallet", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-file", CntrlName: "Wallet")]
+        //Gateway_Incentive_wallet = 2,
 
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "TC", Description: "TC ", Icon: "nav-icon fas fa-file-signature", CntrlName: "Wing")]
-        CRM_TcProfile_TC = 17,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "KYC", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "Wing")]
+        //CRM_TcProfile_kyc = 11,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Bank", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-landmark", CntrlName: "Wing")]
+        //CRM_TcProfile_Bank = 12,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Pan", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-file-signature", CntrlName: "Wing")]
+        //CRM_TcProfile_Pan = 13,
 
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Address", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-id-card", CntrlName: "Wing")]
-        CRM_TcProfile_Address = 14,
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Contact", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fa fa-phone", CntrlName: "Wing")]
-        CRM_TcProfile_contact = 15,
-        [SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Email", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fa fa-phone", CntrlName: "Wing")]
-        CRM_TcProfile_Email = 16,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "TC", Description: "TC ", Icon: "nav-icon fas fa-file-signature", CntrlName: "Wing")]
+        //CRM_TcProfile_TC = 17,
+
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Address", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fas fa-id-card", CntrlName: "Wing")]
+        //CRM_TcProfile_Address = 14,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Contact", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fa fa-phone", CntrlName: "Wing")]
+        //CRM_TcProfile_contact = 15,
+        //[SubModule(EnmModule: enmModule.Gateway_Incentive, DisplayOrder: 2, Name: "Email", Description: "Add Wallet Money,See Ledger", Icon: "nav-icon fa fa-phone", CntrlName: "Wing")]
+        //CRM_TcProfile_Email = 16,
 
 
 
@@ -90,8 +100,28 @@ namespace projContext
     public enum enmDocumentMaster : int
     {
 
-        [Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
-        Gateway_Dashboard = 1,
+        [Document( enmDocumentType.Report|enmDocumentType.DisplayMenu , 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Index")]
+        Dashboard = 1,
+        [Document(EnmModule: enmModule.Organisation,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu, 
+            DisplayOrder: 1,Name: "Organisation",Description: "Dashboard the Orgasnisation Details",Icon: "far fa-circle nav-icon",ActionName:"/Base/Organisation")]
+        Organisation= 2,
+        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Base/Company")]        
+        Company= 3,
+        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Base/Zone")]        
+        Zone = 4,
+        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
+        Location = 5,
+
+        [Document(EnmModule: enmModule.Organisation, EnmSubModule:enmSubModule.Organisation_Authentication ,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Org Permission", Description: "Organisation Permission", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
+        Org_Permission= 6,
+        [Document(EnmModule: enmModule.Organisation, EnmSubModule: enmSubModule.Organisation_Authentication, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "User Permission", Description: "User Permission", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
+        User_Permission = 7,
+
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
         //Gateway_Dashboard = 1,
         //[Document(enmDocumentType.Report, 1, "Notification", "Notifications", "far fa-circle nav-icon", "Notifications")]

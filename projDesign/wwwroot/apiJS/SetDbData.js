@@ -50,29 +50,29 @@ function fncSetApplication() {
                     let ObjectStoreApplication = db.transaction("tblApplicationMaster", "readwrite").objectStore("tblApplicationMaster");
                     let ApplicationReqSuccess = ObjectStoreApplication.clear();
                     ApplicationReqSuccess.onsuccess = function (event) {
-                        for (var i in data.returnId.application) {
-                            ObjectStoreApplication.add(data.returnId.application[i]);
+                        for (var i in data.returnId._application) {
+                            ObjectStoreApplication.add(data.returnId._application[i]);
                         }                        
                     };
                     let ObjectStoreModule = db.transaction("tblModuleMaster", "readwrite").objectStore("tblModuleMaster");
                     let ModuleReqSuccess = ObjectStoreModule.clear();
                     ModuleReqSuccess.onsuccess = function (event) {
-                        for (var i in data.returnId.module) {
-                            ObjectStoreModule.add(data.returnId.module[i]);
+                        for (var i in data.returnId._module) {
+                            ObjectStoreModule.add(data.returnId._module[i]);
                         }
                     };
                     let ObjectStoreSubModule = db.transaction("tblSubModuleMaster", "readwrite").objectStore("tblSubModuleMaster");
                     let SubModuleReqSuccess = ObjectStoreSubModule .clear();
                     SubModuleReqSuccess .onsuccess = function (event) {
-                        for (var i in data.returnId.module) {
-                            ObjectStoreSubModule .add(data.returnId.module[i]);
+                        for (var i in data.returnId._submodule) {
+                            ObjectStoreSubModule.add(data.returnId._submodule[i]);
                         }
                     };
                     let ObjectStoreDocument = db.transaction("tblDocumentMaster", "readwrite").objectStore("tblDocumentMaster");
                     let DocumentReqSuccess = ObjectStoreDocument.clear();
                     DocumentReqSuccess.onsuccess = function (event) {
-                        for (var i in data.returnId.module) {
-                            ObjectStoreDocument.add(data.returnId.module[i]);
+                        for (var i in data.returnId._document) {
+                            ObjectStoreDocument.add(data.returnId._document[i]);
                         }
                     };
                 }

@@ -15,6 +15,7 @@ namespace projAPI.Services
 {
     
     
+    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -27,7 +28,9 @@ namespace projAPI.Services
         List<int> GetUserRole(ulong UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
+        bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
         bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
+        bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
         mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
     }
 
@@ -262,6 +265,7 @@ namespace projAPI.Services
             return true;
         }
 
+        #region Document
         public List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu)
         {
             List<Document> documents = new List<Document>();
@@ -293,11 +297,77 @@ namespace projAPI.Services
             }
             return documents;
         }
+        public bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy)
+        {
+            DateTime dateTime = DateTime.Now;
+            var tempData = _context.tbl_role_claim_map.Where(q => q.role_id == roleDocument.roleId && q.is_deleted == 0).ToList();
+            tempData.ForEach(q => { q.is_deleted = 1; q.last_modified_by = CreatedBy; q.last_modified_date = dateTime; });
+            _context.tbl_role_claim_map.UpdateRange(tempData);
+            _context.tbl_role_claim_map.AddRange(roleDocument.roleDocument.Select(p => new tbl_role_claim_map
+            {
+                role_id = roleDocument.roleId,
+                created_by = CreatedBy,
+                created_date = dateTime,
+                last_modified_by = CreatedBy,
+                last_modified_date = dateTime,
+                DocumentMaster = p.documentId,
+                is_deleted = 0,
+                PermissionType = p.PermissionType
+            }));
+            _context.SaveChanges();
+            return true;
+        }
+        #endregion
 
+        #region UserRole
         public List<int> GetUserRole(ulong UserId)
         {
             return _context.tbl_user_role_map.Where(p => p.user_id == UserId && p.is_deleted == 0).Select(p => p.role_id ?? 0).ToList();
         }
+        public bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy)
+        {
+            DateTime dateTime = DateTime.Now;
+            List<tbl_user_role_map> TobeAdded = new List<tbl_user_role_map>();
+            List<tbl_user_role_map> TobeUpdate = new List<tbl_user_role_map>();
+            //Get Existsing Role
+            var tempData = _context.tbl_user_role_map.Where(p => p.user_id == userRoles.userMaster.userId && p.is_deleted == 0).ToList();
+            userRoles.userRoles.ForEach(q =>
+            {
+                var innerTemp = tempData.FirstOrDefault(p => p.role_id == q.roleMaster.roleId);
+                if (innerTemp == null)
+                {
+                    TobeAdded.Add(new tbl_user_role_map()
+                    {
+                        role_id = q.roleMaster.roleId,
+                        IsActive = q.isActive,
+                        created_by = CreatedBy,
+                        last_modified_by = CreatedBy,
+                        created_date = dateTime,
+                        last_modified_date = dateTime,
+                        is_deleted = 0,
+                        user_id = userRoles.userMaster.userId
+
+                    });
+                }
+                else
+                {
+                    if (q.isActive != innerTemp.IsActive)
+                    {
+                        innerTemp.IsActive = q.isActive;
+                        innerTemp.last_modified_by = CreatedBy;
+                        innerTemp.last_modified_date = dateTime;
+                        TobeUpdate.Add(innerTemp);
+                    }
+                }
+
+
+            });
+            _context.tbl_user_role_map.AddRange(TobeAdded);
+            _context.tbl_user_role_map.UpdateRange(TobeAdded);
+            _context.SaveChanges();
+            return true;
+        }
+        #endregion
 
     }
 

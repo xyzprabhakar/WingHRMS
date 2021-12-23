@@ -6,7 +6,17 @@
     initActiveMenu();
 })
 
-function BindMenuData(datas,parentElement,tobeadded) {
+function BindMenuData() {
+    let applicationId = localStorage.getItem("currentApplication");
+    if (applicationId == null) {
+        applicationId = 0;
+    }
+    
+    
+
+}
+
+function BindMenuDataOld(datas,parentElement,tobeadded) {
     for (var i = 0; i < datas.length; i++) {
         
         var itemLi = document.createElement("li");
