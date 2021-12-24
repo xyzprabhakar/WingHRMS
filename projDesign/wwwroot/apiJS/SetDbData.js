@@ -1,9 +1,4 @@
-﻿
-var db = null;
-var baseUrl=null; 
-var dBVersion = null;
-var token = null;
-var openRequest =null;
+﻿var db, baseUrl, dBVersion, token, openRequest;
 
 var Apidatas = [{
     id:1, name:"Authentication", url: "User/GetUserDocuments/false/true/true/true", methodType: "GET", isloaded:false,postdata:null,
@@ -39,62 +34,72 @@ onmessage = function (e) {
     }
 };
 
-function LoadDataInDB(Apidata, ApidataPosition) {
+ function LoadDataInDB(Apidata, ApidataPosition) {
     console.log( baseUrl)
     let apiurl = baseUrl + Apidata.url;
-    let headerss = {};
-    headerss["Authorization"] = 'Bearer ' + token;
-    headerss["Content-Type"] = "application/json; charset=utf-8";
-    fetch(apiurl, {
-        method: Apidata.methodType,        
-        headers: headerss,
-        body: Apidata.postdata
-    }).then(response => response.json())
-        .then(data =>
-        {
+    let headerss = new Headers();
+    headerss.append("Authorization", 'Bearer ' + token);
+    headerss.append("Content-Type", "application/json; charset=utf-8");
+    //headerss["Authorization"] = 'Bearer ' + token;
+    //headerss["Content-Type"] = "application/json; charset=utf-8";
+    //headerss["Access-Control-Allow-Origin"] = "*";
+     fetch(apiurl, {
+         method: Apidata.methodType,
+         headers: headerss,
+         body: Apidata.postdata
+     }).then(response => response.json())
+         .then(data => {
+            
             if (data.messageType == 1) {
                 
-
                 for (var index in Apidata.tables) {
-
+                    
                     let tablename_ = Apidata.tables[index].tableName;
                     let keyname_ = Apidata.tables[index].keyName;
-                    
-                    let ObjectStore = db.transaction(tablename_ , "readwrite")
-                        .objectStore(tablename_ );
-                    let ReqSuccess = ObjectStore.clear();
-
-                    ReqSuccess.onsuccess = function (event) {
-                        
-                        if (keyname_ == "") {
-                            for (var j in data) {
-                                ObjectStore.add(data.returnId[j]);
-                            }
-                        }
-                        else 
-                        {   
-                            let tempdata = data.returnId[keyname_];                            
-                            for (var j in tempdata) {
-                                ObjectStore.add(tempdata[j]);
-                            }
-                        }
-                        
-                    };
+                    SaveinDb(keyname_, tablename_, data.returnId, Apidatas, ApidataPosition);
                 }
-                Apidatas[ApidataPosition].isloaded = true;
-                postMessage("Loaded " + Apidata.name);
-
-                //Check wheather the All the data has been download
-                //then display ready leaded message
-
-                if (Apidatas.find(checkIsNotCompleted) === undefined ) {                    
-                    postMessage("Done");
-                }
-                function checkIsNotCompleted(Apidatas) {
-                    return !Apidatas.isloaded ;
-                }
+                
             }
         });
+}
+
+
+
+async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
+    let ObjectStore = db.transaction(Tablename, "readwrite")
+        .objectStore(Tablename);
+    let ReqSuccess = await ObjectStore.clear();
+    ReqSuccess.onsuccess = async function (event) {
+        console.log(KeyName)
+        if (KeyName == "") {
+            for (var j in returnId) {
+                await ObjectStore.add(returnId[j]);
+                isAllDataDownloaded();
+            }
+            
+        }
+        else {
+            let tempdata = returnId[KeyName];
+            console.log(JSON.stringify(tempdata));
+            console.log(ObjectStore.name);
+            for (var j in tempdata) {
+                await ObjectStore.add(tempdata[j]);
+                isAllDataDownloaded();
+            }
+            
+        }
+    }
+    function isAllDataDownloaded()
+    {
+        postMessage("Loaded " + Apidatas[i].name);
+        Apidatas[i].isloaded = true;
+        if (Apidatas.find(checkIsNotCompleted) === undefined) {
+            postMessage("Done");
+        }
+        function checkIsNotCompleted(Apidatas) {
+            return !Apidatas.isloaded;
+        }
+    }
 }
 
 function fncCreateAllDb(e) {

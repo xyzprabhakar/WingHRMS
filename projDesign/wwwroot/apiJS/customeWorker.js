@@ -7,6 +7,7 @@ if (localStorage.getItem("refreshData") == 1) {
 
 function startstopWorker() {    
     if (document.getElementById("lblDataStatus").innerHTML.trim() == "Reload") {
+        stopWorker();
         document.getElementById("lblDataStatus").innerHTML = "Reloading..";
         startWorker();
     }
@@ -67,8 +68,8 @@ function startWorker() {
             }
             w.onmessage = function (event) {
                 if (event.data == "Done") {
-                    document.getElementById("lblDataStatus").innerHTML = "Done";
-                    stopWorker();
+                    document.getElementById("lblDataStatus").innerHTML = "Reload";
+                    //stopWorker();
                 }
                 else {
                     document.getElementById("lblDataStatus").innerHTML = event.data;

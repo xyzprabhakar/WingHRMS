@@ -196,9 +196,6 @@ namespace projAPI.Controllers
         }
 
 
-
-        
-
         [Authorize]
         [Route("GetDownlineEmployee")]
         public mdlReturnData GetDownlineEmployee([FromServices]IsrvEmployee isrvEmployee,
