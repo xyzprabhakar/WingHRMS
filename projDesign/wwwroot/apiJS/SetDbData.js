@@ -25,12 +25,33 @@ function fncCreateAllDb(e) {
     if (!thisDB.objectStoreNames.contains("tblDocumentMaster")) {
         thisDB.createObjectStore("tblDocumentMaster", { keyPath: "id" });
     }
+    if (!thisDB.objectStoreNames.contains("tblMenuMaster")) {
+        thisDB.createObjectStore("tblMenuMaster", { keyPath: "applicationId" });
+    }
+
+    //create index coresponding to tables
+    var tx = e.target.transaction;
+    let tblModuleMaster_store = tx.objectStore("tblModuleMaster");
+    if (!tblModuleMaster_store.indexNames.contains("enmApplication")) {
+        tblModuleMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
+    }
+    let tblSubModuleMaster_store = tx.objectStore("tblSubModuleMaster");
+    if (!tblSubModuleMaster_store.indexNames.contains("enmModule")) {
+        tblSubModuleMaster_store.createIndex("enmModule", "enmModule", { unique: false });
+    }
+    let tblDocumentMaster_store = tx.objectStore("tblDocumentMaster");
+    if (!tblDocumentMaster_store.indexNames.contains("enmModule")) {
+        tblDocumentMaster_store.createIndex("enmModule", "enmModule", { unique: false });
+    }
+    if (!tblDocumentMaster_store.indexNames.contains("enmApplication")) {
+        tblDocumentMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
+    }
 }
 
 function fncSetApplication() {
     var baseUrl = localStorage.getItem("baseUrl");
     var dBVersion= localStorage.getItem("dBVersion");
-    var apiurl = baseUrl + ("User/GetUserDocuments/true/true/true/true");
+    var apiurl = baseUrl + ("User/GetUserDocuments/false/true/true/true");
     var headerss = {};
     headerss["Authorization"] = 'Bearer ' + localStorage.getItem('token');
     $.ajax({
@@ -73,6 +94,14 @@ function fncSetApplication() {
                     DocumentReqSuccess.onsuccess = function (event) {
                         for (var i in data.returnId._document) {
                             ObjectStoreDocument.add(data.returnId._document[i]);
+                        }
+                    };
+
+                    let ObjectStoreMenu = db.transaction("tblMenuMaster", "readwrite").objectStore("tblMenuMaster");
+                    let MenuReqSuccess = ObjectStoreMenu.clear();
+                    MenuReqSuccess.onsuccess = function (event) {
+                        for (var i in data.returnId._muenuList) {
+                            ObjectStoreMenu.add(data.returnId._muenuList[i]);
                         }
                     };
                 }

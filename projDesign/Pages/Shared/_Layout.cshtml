@@ -87,7 +87,7 @@
         <nav class="navbar-custom">
 
             <!-- Search input -->
-            <ul class="list-unstyled topbar-nav float-right mb-0 align-middle">            
+            <ul class="list-unstyled topbar-nav float-right mb-0 align-middle">
                 <li>
                     <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="btn-fullscreen">
                         <i class="mdi mdi-reload nav-icon"> </i> <span class="hidden-sm font-18"> Reload </span>
@@ -103,7 +103,7 @@
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" id="dropdownMenuButtonApplication" data-toggle="dropdown" href="#" role="button"
                        aria-haspopup="false" aria-expanded="false">
-                        <i class="mdi mdi-settings nav-icon"> </i><span class="hidden-sm font-18"> Application </span>  
+                        <i class="mdi mdi-settings nav-icon"> </i><span class="hidden-sm font-18"> Application </span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonApplication">
                         <a class="dropdown-item" href="#">Action</a>
@@ -279,7 +279,7 @@
 
     <!-- Set Data in Db -->
     <script src="~/apiJS/SetDbData.js" asp-append-version="true"></script>
-
+    <script src="~/Comman/JS/BindMenus.js" asp-append-version="true"></script>
     <script>
         $(function () {
             if (typeof (Storage) !== "undefined") {
@@ -334,7 +334,7 @@
             $('.userLoginPanel').toggle();
         });
         $(".select2").select2();
-          
+
         $(".ip-ap").flatpickr({
             dateFormat: "d-M-Y",
         });
@@ -398,23 +398,23 @@
             minDate: new Date().fp_incr(-45)
         });
 
-                //$('ul.leftMenu li a.subMenu').on('click', function (e) {
-                //    debugger;
-                //    e.preventDefault();
-                //    let check = $(this).next('ul');
-                //    let icons = check.next('span.fa');
-                //    if (check.hasClass('hasSubmenu')) {
-                //        if (check.is(':visible')) {
-                //            check.slideUp();
-                //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
-                //        }
-                //        else {
-                //            check.slideDown();
-                //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
-                //        }
-                //    }
+                        //$('ul.leftMenu li a.subMenu').on('click', function (e) {
+                        //    debugger;
+                        //    e.preventDefault();
+                        //    let check = $(this).next('ul');
+                        //    let icons = check.next('span.fa');
+                        //    if (check.hasClass('hasSubmenu')) {
+                        //        if (check.is(':visible')) {
+                        //            check.slideUp();
+                        //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
+                        //        }
+                        //        else {
+                        //            check.slideDown();
+                        //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
+                        //        }
+                        //    }
 
-                //});
+                        //});
 
 
 

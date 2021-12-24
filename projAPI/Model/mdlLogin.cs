@@ -26,6 +26,22 @@ namespace projAPI.Model
         public enmUserType UserType { get; set; } = enmUserType.B2C;
     }
 
+    public class mdlMenuWraper
+    {
+        public int applicationId { get; set; }
+        public List<mdlMenu> menuData { get;set;}
+    }
+
+    public class mdlMenu
+    {
+        public int id { get; set; }
+        public string text { get; set; }
+        public string urll { get; set; }
+        public string icon_url { get; set; }
+        public int sortingorder { get; set; }
+        public List<mdlMenu>children { get; set; }
+    }
+
 
     #region
 

@@ -100,19 +100,19 @@ namespace projContext
     public enum enmDocumentMaster : int
     {
 
-        [Document( enmDocumentType.Report|enmDocumentType.DisplayMenu , 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Index")]
+        [Document( enmDocumentType.Report|enmDocumentType.DisplayMenu , 0, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Index")]
         Dashboard = 1,
         [Document(EnmModule: enmModule.Organisation,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu, 
             DisplayOrder: 1,Name: "Organisation",Description: "Dashboard the Orgasnisation Details",Icon: "far fa-circle nav-icon",ActionName:"/Base/Organisation")]
         Organisation= 2,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Base/Company")]        
+            DisplayOrder: 2, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Base/Company")]        
         Company= 3,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Base/Zone")]        
+            DisplayOrder: 3, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Base/Zone")]        
         Zone = 4,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
+            DisplayOrder: 4, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
         Location = 5,
 
         [Document(EnmModule: enmModule.Organisation, EnmSubModule:enmSubModule.Organisation_Authentication ,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
