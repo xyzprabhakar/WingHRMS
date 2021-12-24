@@ -1,12 +1,9 @@
 ﻿
 var db = null;
-var baseUrl; 
-var dBVersion;
-var token;
-var openRequest = indexedDB.open("dpbs", dBVersion);
-
-
-
+var baseUrl=null; 
+var dBVersion = null;
+var token = null;
+var openRequest =null;
 
 var Apidatas = [{
     id:1, name:"Authentication", url: "User/GetUserDocuments/false/true/true/true", methodType: "GET", isloaded:false,postdata:null,
@@ -23,26 +20,27 @@ var Apidatas = [{
 onmessage = function (e) {
     baseUrl = e.data.baseUrl_;
     dBVersion= e.data.dBVersion_;
-    token= e.data.token_;
-    // the passed-in data is available via e.data
+    token = e.data.token_;
+    if (e.data.startDownload_ == 1) {
+        openRequest = indexedDB.open("dpbs", dBVersion);
+        openRequest.onupgradeneeded = function (e) {
+            fncCreateAllDb(e);
+        }
+        openRequest.onsuccess = function (e) {
+            db = e.target.result;
+            for (let i in Apidatas) {
+                Apidatas[i].isloaded = false;
+            }
+            for (let i in Apidatas) {                
+                LoadDataInDB(Apidatas[i], i);
+            }
+        }
+
+    }
 };
 
-
-openRequest.onupgradeneeded = function (e) {
-    fncCreateAllDb(e);
-}
-
-openRequest.onsuccess = function (e) {
-    db = e.target.result;    
-    for (let i in Apidatas) {
-        Apidatas[i].isloaded=false;
-    }
-    for (let i in Apidatas) {
-        LoadDataInDB(Apidatas[i], i);
-    }
-}
-
 function LoadDataInDB(Apidata, ApidataPosition) {
+    console.log( baseUrl)
     let apiurl = baseUrl + Apidata.url;
     let headerss = {};
     headerss["Authorization"] = 'Bearer ' + token;
@@ -80,9 +78,7 @@ function LoadDataInDB(Apidata, ApidataPosition) {
                                 ObjectStore.add(tempdata[j]);
                             }
                         }
-                        ObjectStore = null;
-                        ReqSuccess = null;
-                       
+                        
                     };
                 }
                 Apidatas[ApidataPosition].isloaded = true;
@@ -91,8 +87,7 @@ function LoadDataInDB(Apidata, ApidataPosition) {
                 //Check wheather the All the data has been download
                 //then display ready leaded message
 
-                if (Apidatas.find(checkIsNotCompleted) === undefined ) {
-                    console.log(Apidatas.find(checkIsNotCompleted));
+                if (Apidatas.find(checkIsNotCompleted) === undefined ) {                    
                     postMessage("Done");
                 }
                 function checkIsNotCompleted(Apidatas) {
@@ -101,7 +96,6 @@ function LoadDataInDB(Apidata, ApidataPosition) {
             }
         });
 }
-
 
 function fncCreateAllDb(e) {
     var thisDB = e.target.result;

@@ -14,10 +14,14 @@ $(document).ready(function () {
         var db = e.target.result;
         let ObjectStore = db.transaction("tblMenuMaster", "readwrite")
             .objectStore("tblMenuMaster").get(parseInt( applicationId)).onsuccess = function (event) {
-                var element = document.getElementById("side-nav");                
-                BindMenuData(event.target.result.menuData, element, true);
-                $("#side-nav").metisMenu();
-                initActiveMenu();
+                var element = document.getElementById("side-nav");
+                if (event.target.result !== undefined) {
+                    console.log(event.target.result.menuData);
+                    BindMenuData(event.target.result.menuData, element, true);
+                    $("#side-nav").metisMenu();
+                    initActiveMenu();
+                }
+                
             };
         openRequest.onerror = function (e) {
             console.log(e);

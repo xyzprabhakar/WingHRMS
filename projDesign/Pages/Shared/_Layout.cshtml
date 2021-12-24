@@ -31,11 +31,29 @@
         <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
         
     </environment>
-    @*<script>
-        if (localStorage.getItem('token') == null || localStorage.getItem('baseUrl') == null) {
+    <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return null;
+        }
+        if (this.getCookie("userId") == null) {
             window.location = '/Login';
         }
-    </script>*@
+        //if (localStorage.getItem('token') == null || localStorage.getItem('baseUrl') == null) {
+        //    window.location = '/Login';
+        //}
+    </script>
     
 
     <style>
@@ -279,7 +297,8 @@
 
     <!-- Set Data in Db -->
     <script src="~/apiJS/customeWorker.js" asp-append-version="true"></script>    
-    <script src="~/Comman/JS/BindMenus.js" asp-append-version="true"></script>
+    @*<script src="~/Comman/JS/BindMenus.js" asp-append-version="true"></script>*@
+
     <script>
         $(function () {
             if (typeof (Storage) !== "undefined") {

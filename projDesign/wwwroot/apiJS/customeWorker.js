@@ -1,7 +1,8 @@
 ﻿//Load all data in index DB
 var w;
 if (localStorage.getItem("refreshData") == 1) {
-    startWorker();    
+    startWorker();
+    localStorage.setItem("refreshData", 0);
 }
 
 function startstopWorker() {    
@@ -15,11 +16,50 @@ function startstopWorker() {
     }
 }
 
+function fncCreateAllDb(e) {
+    var thisDB = e.target.result;
+    if (!thisDB.objectStoreNames.contains("tblApplicationMaster")) {
+        thisDB.createObjectStore("tblApplicationMaster", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblModuleMaster")) {
+        thisDB.createObjectStore("tblModuleMaster", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblSubModuleMaster")) {
+        thisDB.createObjectStore("tblSubModuleMaster", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblDocumentMaster")) {
+        thisDB.createObjectStore("tblDocumentMaster", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblMenuMaster")) {
+        thisDB.createObjectStore("tblMenuMaster", { keyPath: "applicationId" });
+    }
+
+    //create index coresponding to tables
+    var tx = e.target.transaction;
+    let tblModuleMaster_store = tx.objectStore("tblModuleMaster");
+    if (!tblModuleMaster_store.indexNames.contains("enmApplication")) {
+        tblModuleMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
+    }
+    let tblSubModuleMaster_store = tx.objectStore("tblSubModuleMaster");
+    if (!tblSubModuleMaster_store.indexNames.contains("enmModule")) {
+        tblSubModuleMaster_store.createIndex("enmModule", "enmModule", { unique: false });
+    }
+    let tblDocumentMaster_store = tx.objectStore("tblDocumentMaster");
+    if (!tblDocumentMaster_store.indexNames.contains("enmModule")) {
+        tblDocumentMaster_store.createIndex("enmModule", "enmModule", { unique: false });
+    }
+    if (!tblDocumentMaster_store.indexNames.contains("enmApplication")) {
+        tblDocumentMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
+    }
+}
+
+
 function startWorker() {
     var baseUrl = localStorage.getItem("baseUrl");
     var dBVersion = localStorage.getItem("dBVersion");
     var token = localStorage.getItem('token');
-    var workerData = { baseUrl_: baseUrl, dBVersion_: dBVersion, token_: token };
+    
+    var workerData = { baseUrl_: baseUrl, dBVersion_: dBVersion, token_: token, startDownload_:1 };
     if (typeof (Worker) !== "undefined") {
         if (typeof (w) == "undefined") {
             w = new Worker("/apiJS/SetDbData.js");
@@ -27,7 +67,7 @@ function startWorker() {
             }
             w.onmessage = function (event) {
                 if (event.data == "Done") {
-                    document.getElementById("lblDataStatus").innerHTML = "Reload";
+                    document.getElementById("lblDataStatus").innerHTML = "Done";
                     stopWorker();
                 }
                 else {
