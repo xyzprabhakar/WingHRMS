@@ -8,7 +8,17 @@ using System.Text;
 namespace projContext
 {
 
-    
+
+    public enum enmLocationType
+    {
+        HeadOffice=1,
+        Branch = 2,
+        Warehouse = 3,
+        Factory= 4,
+        RetailStore = 5,
+        Franchisees = 6,
+    }
+
 
     
     public enum enmApprovalStatus

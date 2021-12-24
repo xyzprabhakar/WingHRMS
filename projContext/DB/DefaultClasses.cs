@@ -35,4 +35,70 @@ namespace projContext.DB
         public ulong? ApprovedBy { get; set; }
         public DateTime? ApprovedDt { get; set; }
     }
+
+
+    public class d_Address 
+    {
+        [MaxLength(254)]
+        public string OfficeAddress { get; set; }
+        [MaxLength(254)]
+        public string Locality { get; set; }
+        [MaxLength(254)]
+        public string City { get; set; }
+        [MaxLength(32)]
+        public string Pincode { get; set; }
+        public int StateId { get; set; }
+        public int  CountryId { get; set; }
+    }
+    public class d_Address_with_Modify_by :d_ModifiedBy
+    {
+        [MaxLength(254)]
+        public string OfficeAddress { get; set; }
+        [MaxLength(254)]
+        public string Locality { get; set; }
+        [MaxLength(254)]
+        public string City { get; set; }
+        [MaxLength(32)]
+        public string Pincode { get; set; }
+        public int StateId { get; set; }
+        public int CountryId { get; set; }
+    }
+
+    public class d_Contact : d_ModifiedBy
+    {
+        [MaxLength(254)]
+        public string Email { get; set; }
+        [MaxLength(254)]
+        public string AlternateEmail { get; set; }
+        [MaxLength(16)]
+        public string ContactNo { get; set; }
+        [MaxLength(16)]
+        public string AlternateContactNo { get; set; }
+    }
+
+    public class d_Contact_With_Address : d_Address
+    {
+        [MaxLength(254)]
+        public string Email { get; set; }
+        [MaxLength(254)]
+        public string AlternateEmail { get; set; }
+        [MaxLength(16)]
+        public string ContactNo { get; set; }
+        [MaxLength(16)]
+        public string AlternateContactNo { get; set; }
+    }
+    public class d_Contact_With_Address_With_Modify_by : d_Address_with_Modify_by
+    {
+        [MaxLength(254)]
+        public string Email { get; set; }
+        [MaxLength(254)]
+        public string AlternateEmail { get; set; }
+        [MaxLength(16)]
+        public string ContactNo { get; set; }
+        [MaxLength(16)]
+        public string AlternateContactNo { get; set; }
+    }
+
+
+
 }
