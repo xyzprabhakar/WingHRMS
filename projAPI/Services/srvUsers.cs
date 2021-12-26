@@ -16,6 +16,9 @@ namespace projAPI.Services
     
     
     
+
+
+
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -23,9 +26,11 @@ namespace projAPI.Services
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
         string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
         string GenrateTempUser(string IP, string DeviceId);
+        mdlCommonReturnUlong GetUser(ulong? UserId);
         List<Application> GetUserApplication(ulong UserId);
         List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
         List<int> GetUserRole(ulong UserId);
+        List<mdlCommonReturnUlong> GetUsers(ulong[] UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
@@ -44,6 +49,25 @@ namespace projAPI.Services
             _context = context;
             _IsrvSettings = isrvSettings;
         }
+
+
+        public mdlCommonReturnUlong GetUser(ulong? UserId)
+        {
+            if (UserId > 0)
+            {
+                return new mdlCommonReturnUlong();
+            }
+            else
+            {
+                return new mdlCommonReturnUlong();
+            }
+
+        }
+        public List<mdlCommonReturnUlong> GetUsers(ulong[] UserId)
+        {
+            return new List<mdlCommonReturnUlong>();
+        }
+
         public mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType)
         {
             int? OrganisationId = null;

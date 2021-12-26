@@ -13,7 +13,7 @@ namespace projContext.DB.Masters
         public int OrgId { get; set; }
         [MaxLength(254)]
         public string Name { get; set; }
-        public string Logo { get; set; }
+        public string Logo { get; set; }        
     }
 
     public class tblCompanyMaster : d_Contact_With_Address_With_Modify_by

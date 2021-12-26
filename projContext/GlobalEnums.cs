@@ -19,6 +19,19 @@ namespace projContext
         Franchisees = 6,
     }
 
+    public enum enmFileType
+    {
+        ImageJPG=1,
+        ImageICO=2,
+        ImagePNG = 3,
+        ImageBMP = 4,
+        FileXLS = 5,
+        FileXLSX = 6,
+        FileDOC = 7,
+        FileDOCX = 8,
+        FilePDF=9
+    }
+
 
     
     public enum enmApprovalStatus

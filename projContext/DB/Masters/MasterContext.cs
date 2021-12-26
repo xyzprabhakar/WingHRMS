@@ -20,5 +20,15 @@ namespace projContext.DB.Masters
         public DbSet<tblZoneMaster> tblZoneMaster { get; set; }
         public DbSet<tblLocationMaster> tblLocationMaster { get; set; }
         #endregion
+
+        #region ********************** Masters **************************
+
+        public DbSet<tblCountry> tblCountry { get; set; }
+        public DbSet<tblState> tblState { get; set; }
+        public DbSet<tblBankMaster> tblBankMaster { get; set; }
+        public DbSet<tblCurrency> tblCurrency { get; set; }        
+        #endregion
+
+        public DbSet<tblFileMaster> tblFileMaster { get; set; }
     }
 }

@@ -49,10 +49,7 @@
         }
         if (this.getCookie("userId") == null) {
             window.location = '/Login';
-        }
-        //if (localStorage.getItem('token') == null || localStorage.getItem('baseUrl') == null) {
-        //    window.location = '/Login';
-        //}
+        }        
     </script>
     
 
@@ -239,6 +236,7 @@
 
     <!--Plugins-->
     <script src="~/assets/js/jquery.min.js"></script>
+
     <!----date picker-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="~/calender/JqCalender/jquery-ui.js"></script>
@@ -253,15 +251,13 @@
     <link href="~/datetimepickers/css/anypicker-font.css" rel="stylesheet" />
     <link href="~/datetimepickers/css/anypicker.css" rel="stylesheet" />
     <script src="~/datetimepickers/js/jquery-1.11.1.min.js"></script>
+    <!--Jquery Validation-->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
     <script src="~/datetimepickers/js/anypicker.js"></script>
     <!---Added for message box---->
     <script src="~/js/msgbox/jquery.msgBox.js"></script>
-
-
-    @*<script src="~/js/jquery.jqGrid.min.js"></script>*@
-
     <script src="~/flatpickers/flatpickr.min.js"></script>
-
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/metisMenu.min.js"></script>
     <script src="~/assets/js/waves.min.js"></script>
@@ -280,7 +276,6 @@
     <!-- Required datatable js -->
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Buttons examples For Datatable buttons-->
     <script src="~/assets/plugins/datatables/dataTables.buttons.min.js"></script>
     <script src="~/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
@@ -294,9 +289,8 @@
     <script src="~/js/popup.js"></script>
     <script src="~/js/aes.js"></script>
     <script src="~/assets/js/app.js"></script>
-
     <!-- Set Data in Db -->
-    <script src="~/apiJS/customeWorker.js" asp-append-version="true"></script>    
+    <script src="~/apiJS/customeWorker.js" asp-append-version="true"></script>
     <script src="~/Comman/JS/BindMenus.js" asp-append-version="true"></script>
 
     <script>
@@ -417,23 +411,23 @@
             minDate: new Date().fp_incr(-45)
         });
 
-                            //$('ul.leftMenu li a.subMenu').on('click', function (e) {
-                            //    debugger;
-                            //    e.preventDefault();
-                            //    let check = $(this).next('ul');
-                            //    let icons = check.next('span.fa');
-                            //    if (check.hasClass('hasSubmenu')) {
-                            //        if (check.is(':visible')) {
-                            //            check.slideUp();
-                            //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
-                            //        }
-                            //        else {
-                            //            check.slideDown();
-                            //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
-                            //        }
-                            //    }
+                                                //$('ul.leftMenu li a.subMenu').on('click', function (e) {
+                                                //    debugger;
+                                                //    e.preventDefault();
+                                                //    let check = $(this).next('ul');
+                                                //    let icons = check.next('span.fa');
+                                                //    if (check.hasClass('hasSubmenu')) {
+                                                //        if (check.is(':visible')) {
+                                                //            check.slideUp();
+                                                //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
+                                                //        }
+                                                //        else {
+                                                //            check.slideDown();
+                                                //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
+                                                //        }
+                                                //    }
 
-                            //});
+                                                //});
 
 
 

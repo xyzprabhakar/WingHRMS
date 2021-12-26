@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace projAPI.Model
 {
+
+
+
+#if (false)
+
     public class clsLocationMaster
     {
         public int location_id { get; set; }
@@ -307,5 +312,7 @@ namespace projAPI.Model
         public List<emp_id_list> emp_id_listd { get; set; }
 
         public string emp_id_list { get; set; }
-    }    
+    }   
+    
+#endif
 }

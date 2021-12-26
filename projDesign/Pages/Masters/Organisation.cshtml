@@ -1,0 +1,182 @@
+﻿@page
+@{
+    ViewData["PageId"] = "0";
+    ViewData["Title"] = "Organisation";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <form id="frmOrganisation" method="post" action="">
+                    <div class="form-container master-panel">
+                        <div class="col-md-12">
+                            <h4> @ViewBag.Title </h4>
+                            <hr />
+                        </div>
+
+                        <input type="hidden" id="OrganisationId" name="OrganisationId" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtOrganisation">
+                                    <label class="col-form-label" for="txtOrganisation">Organisation</label>
+                                    <input type="text" id="txtOrganisation" name="txtOrganisation"
+                                           maxlength="128" autocomplete="off"
+                                           class="form-control" placeholder="Name" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtAddress">
+                                    <label class="col-form-label" for="txtAddress">Address</label>
+                                    <input type="text" id="txtAddress" name="txtAddress"
+                                           maxlength="128" autocomplete="off"
+                                           class="form-control" placeholder="Address" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtLocality">
+                                    <label class="col-form-label" for="txtLocality">Locality</label>
+                                    <input type="text" id="txtLocality" name="txtLocality"
+                                           maxlength="128" autocomplete="off"
+                                           class="form-control" placeholder="Locality" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" for="">
+                                    <label class="col-form-label" for="txtCity">City</label>
+                                    <input type="text" id="txtCity" name="txtCity"
+                                           maxlength="32" autocomplete="off"
+                                           class="form-control" placeholder="City" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="ddlcountry">Country Name</label>
+                                    <select id="ddlcountry" name="ddlcountry" class="form-control select2" required >                                       
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="ddlstate">State Name</label>
+                                    <select id="ddlstate" name="ddlstate" class="form-control select2" required>                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtPinCode">
+                                    <label class="col-form-label" for="txtPinCode">Pincode</label>
+                                    <input type="text" id="txtPinCode" name="txtPinCode"
+                                           maxlength="16" autocomplete="off"
+                                           class="form-control" placeholder="Pincode" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtEmail">
+                                    <label class="col-form-label" for="txtEmail">Email</label>
+                                    <input type="email" id="txtEmail" name="txtEmail"
+                                           maxlength="128" autocomplete="off"
+                                           class="form-control" placeholder="Email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtAlternateEmail">
+                                    <label class="col-form-label" for="txtAlternateEmail">Alternate Email</label>
+                                    <input type="text" id="txtAlternateEmail" name="txtAlternateEmail"
+                                           maxlength="128" autocomplete="off"
+                                           class="form-control" placeholder="Alternate Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtContact">
+                                    <label class="col-form-label" for="txtContact">Contact</label>
+                                    <input type="tel" id="txtContact" name="txtContact"
+                                           maxlength="16" autocomplete="off"
+                                           class="form-control" placeholder="Contact" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtAlternateContact">
+                                    <label class="col-form-label" for="txtAlternateContact">Alternate Contact</label>
+                                    <input type="tel" id="txtAlternateContact" name="txtAlternateContact"
+                                           maxlength="16" autocomplete="off"
+                                           class="form-control" placeholder="Alternate Contact">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" for="txtRemarks">
+                                <label class="col-form-label" for="txtRemarks">Remarks</label>
+                                <textarea type="tel" id="txtRemarks" name="txtRemarks" cols="5"
+                                          maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
+                            </textarea>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary btn-lg" value="Update">
+                                <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Load Data
+
+            //bind Country and States
+            $("#frmOrganisation").validate({
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function () { alert("Submitted!") }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+    </script>
+}
+        
+

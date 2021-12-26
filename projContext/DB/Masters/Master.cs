@@ -11,7 +11,7 @@ namespace projContext.DB.Masters
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Countryid { get; set; }  // primary key  must be public!
+        public int CountryId { get; set; }  // primary key  must be public!
         [MaxLength(10)]        
         public string Code { get; set; }
         [MaxLength(100)]        
@@ -31,6 +31,7 @@ namespace projContext.DB.Masters
         public string Code { get; set; }
         [MaxLength(200)]        
         public string Name { get; set; }
+        public bool IsActive { get; set; }
         [ForeignKey("tblCountry")]
         public int? CountryId { get; set; }
         public tblCountry tblCountry { get; set; }
@@ -59,78 +60,4 @@ namespace projContext.DB.Masters
         public bool IsActive { get; set; }
     }
 
-    public class tblTaxMaster : d_ModifiedBy
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TaxId { get; set; }
-        [MaxLength(128)]
-        public string Name { get; set; }
-        public double TaxPercentage { get; set; }
-        public bool IsActive { get; set; }
-    }
-
-
-    public class tblUserIdentity
-    {
-        [Key]
-        public int CountryId { get; set; }
-        public int UserCounter { get; set; }
-        [Timestamp]
-        [ConcurrencyCheck]
-        public byte[] RowVersion { get; set; }
-    }
-
-    public class tblDispatchIdentity
-    {
-        [Key]
-        public int FiscalYearID { get; set; }
-        public int DispatchCounter { get; set; }
-        [Timestamp]
-        [ConcurrencyCheck]
-        public byte[] RowVersion { get; set; }
-    }
-
-
-    public class tblBookingIdentity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
-        public int CountryId { get; set; }
-        public int YearId { get; set; }
-        public int WeekId { get; set; }
-        public enmBookingType BookingType { get; set; }
-        public int ProductCounter { get; set; }
-        [Timestamp]
-        [ConcurrencyCheck]
-        public byte[] RowVersion { get; set; }
-    }
-
-    public class tblInvoiceIdentity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
-        public int CountryId { get; set; }
-        public int YearId { get; set; }
-        public int MonthId { get; set; }
-        public int InvoiceCounter { get; set; }
-        [Timestamp]
-        [ConcurrencyCheck]
-        public byte[] RowVersion { get; set; }
-    }
-    public class tblPaymentRequestIdentity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Sno { get; set; }
-        public int CountryId { get; set; }
-        public int YearId { get; set; }
-        public int MonthId { get; set; }
-        public int PaymentCounter { get; set; }
-        [Timestamp]
-        [ConcurrencyCheck]
-        public byte[] RowVersion { get; set; }
-    }
 }

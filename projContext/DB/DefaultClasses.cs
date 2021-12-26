@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace projContext.DB
@@ -9,13 +10,17 @@ namespace projContext.DB
     {
         public ulong CreatedBy { get; set; }
         public DateTime CreatedDt { get; set; } = DateTime.Now;
+        [NotMapped]
+        public string CreatedByName { get; set; }
     }
     public class d_ModifiedBy : d_CreatedBy
     {
         [MaxLength(128)]
         public string ModifyRemarks { get; set; }
         public ulong? ModifiedBy { get; set; }
-        public DateTime? ModifiedDt { get; set; }
+        public DateTime? ModifiedDt { get; set; } = DateTime.Now;
+        [NotMapped]
+        public string ModifiedByName { get; set; }
     }
 
     public class d_RequestedBy
@@ -49,6 +54,10 @@ namespace projContext.DB
         public string Pincode { get; set; }
         public int StateId { get; set; }
         public int  CountryId { get; set; }
+        [NotMapped]
+        public string StateName { get; set; }
+        [NotMapped]
+        public string CountryName { get; set; }
     }
     public class d_Address_with_Modify_by :d_ModifiedBy
     {
@@ -59,9 +68,13 @@ namespace projContext.DB
         [MaxLength(254)]
         public string City { get; set; }
         [MaxLength(32)]
-        public string Pincode { get; set; }
+        public string Pincode { get; set; }        
         public int StateId { get; set; }
         public int CountryId { get; set; }
+        [NotMapped]
+        public string StateName { get; set; }
+        [NotMapped]
+        public string CountryName { get; set; }
     }
 
     public class d_Contact : d_ModifiedBy

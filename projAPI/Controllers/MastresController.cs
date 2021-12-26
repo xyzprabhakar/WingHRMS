@@ -14,6 +14,8 @@ using System.ComponentModel;
 using static projContext.CommonClass;
 using Microsoft.AspNetCore.Authorization;
 using projAPI.Model;
+using projContext.DB.Masters;
+using projAPI.Services;
 
 namespace projAPI.Controllers
 {
@@ -21,6 +23,57 @@ namespace projAPI.Controllers
     [ApiController]
     public class MastresController : Controller
     {
+        private readonly MasterContext _masterContext;
+        private readonly IsrvMasters _srvMasters;
+        public MastresController([FromServices] IsrvMasters srvMasters ,MasterContext mc)
+        {
+            _srvMasters = srvMasters;
+            _masterContext = mc;
+        }
+
+        public mdlReturnData GetOrganisation([FromServices] IsrvUsers srvUsers,
+            bool IncludeCountryState, bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            var tempData=_masterContext.tblOrganisation.FirstOrDefault();
+            if (tempData == null)
+            {
+                tempData = new tblOrganisation();                
+            }
+            if (IncludeCountryState)
+            {
+                tempData.StateName = _srvMasters.GetState(tempData.StateId)?.Name;
+                tempData.CountryName = _srvMasters.GetCountry(tempData.CountryId)?.Name;
+            }
+            if (IncludeUsername)
+            {
+                tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = tempData;
+            return returnData;
+        }
+
+        public mdlReturnData SetOrganisation()
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            return returnData;
+        }
+
+        public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            var AllCountry=_masterContext.tblCountry.ToList();
+            if (IncludeUsername)
+            {
+                var tempUserIds=AllCountry.Select(p => p.ModifiedBy??0).Distinct().ToArray();
+                var AllUsers=srvUsers.GetUsers(tempUserIds);
+                AllCountry.ForEach(p => { p.Name = AllUsers.Where(q => q.Id == p.ModifiedBy).FirstOrDefault()?.Name; });
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = AllCountry;
+            return returnData;
+        }
 
     }
 
