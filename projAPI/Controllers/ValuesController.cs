@@ -11,6 +11,8 @@ using projAPI.Classes;
 using System.Runtime.Serialization;
 using projAPI.Services;
 using projAPI.Model;
+using projContext.DB.Masters;
+using System.IO;
 
 namespace projAPI.Controllers
 {
@@ -152,8 +154,73 @@ namespace projAPI.Controllers
             isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.role_id, roleDocument= document }, 1);
         }
 
+        [HttpGet]
+        [Route("SetCountryState")]
+        public bool SetCountryState([FromServices]MasterContext masterContext )
+        {
+            DateTime currentDt = DateTime.Now; 
+            List<tblCountry> countrys = new List<tblCountry>();
+            var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState","countries.csv");
+            int Id = 0;
+            int CountryId = 0;
+            using (var rd = new StreamReader(file))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0;
+                    int.TryParse(splits[0], out Id);
+                    if (Id> 0)
+                    {
+                        countrys.Add(new tblCountry()
+                        {
+                            CountryId = Id,
+                            Code = splits[3],
+                            Name = splits[1],
+                            ContactPrefix = splits[2],
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt
+                        });
+                    }
+                    
+                    
+                }
+            }
+            masterContext.tblCountry.AddRange(countrys);
 
-
+            List<tblState> States = new List<tblState>();
+            var file1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState", "states.csv");
+            using (var rd = new StreamReader(file1))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0; CountryId=0;
+                    int.TryParse(splits[0], out Id);
+                    int.TryParse(splits[2], out CountryId);
+                    if (Id > 0 && CountryId>0)
+                    {
+                        States.Add(new tblState()
+                        {
+                            StateId = Id,
+                            Code = splits[4],
+                            Name = splits[1],
+                            CountryId = CountryId,
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt
+                        });
+                    }
+                    
+                }
+            }
+            masterContext.tblState.AddRange(States);
+            masterContext.SaveChanges();
+            return true;
+        }
 
 
         private void SetUserData()
