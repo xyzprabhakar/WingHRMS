@@ -10,7 +10,11 @@ var Apidatas = [{
             { tableName: "tblDocumentMaster", keyName:"_document" },
             { tableName: "tblMenuMaster", keyName:"_muenuList" },
         ]
-}]
+
+},
+    { id: 2, name: "Country", url: "Mastres/GetCountry/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblCountry", keyName: "" }] },
+    { id: 3, name: "State", url: "Mastres/GetState/0/true/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblState", keyName: "" }] }
+]
 
 onmessage = function (e) {
     baseUrl = e.data.baseUrl_;
@@ -120,6 +124,13 @@ function fncCreateAllDb(e) {
         thisDB.createObjectStore("tblMenuMaster", { keyPath: "applicationId" });
     }
 
+    if (!thisDB.objectStoreNames.contains("tblCountry")) {
+        thisDB.createObjectStore("tblCountry", { keyPath: "countryId" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblState")) {
+        thisDB.createObjectStore("tblState", { keyPath: "stateId" });
+    }
+
     //create index coresponding to tables
     var tx = e.target.transaction;
     let tblModuleMaster_store = tx.objectStore("tblModuleMaster");
@@ -136,6 +147,10 @@ function fncCreateAllDb(e) {
     }
     if (!tblDocumentMaster_store.indexNames.contains("enmApplication")) {
         tblDocumentMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
+    }
+    let tblSubModuleMaster_store = tx.objectStore("tblState");
+    if (!tblSubModuleMaster_store.indexNames.contains("countryId")) {
+        tblSubModuleMaster_store.createIndex("countryId ", "countryId ", { unique: false });
     }
 }
 

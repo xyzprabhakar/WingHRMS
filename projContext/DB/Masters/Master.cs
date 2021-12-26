@@ -26,7 +26,7 @@ namespace projContext.DB.Masters
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int StaeId { get; set; }  // primary key  must be public!
+        public int StateId { get; set; }  // primary key  must be public!
         [MaxLength(10)]
         public string Code { get; set; }
         [MaxLength(200)]        

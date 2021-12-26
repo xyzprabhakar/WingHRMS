@@ -21,6 +21,7 @@ namespace projAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MastresController : Controller
     {
         private readonly MasterContext _masterContext;
@@ -59,7 +60,8 @@ namespace projAPI.Controllers
             mdlReturnData returnData = new mdlReturnData();
             return returnData;
         }
-
+        [AllowAnonymous]
+        [Route("GetCountry/{IncludeUsername}")]
         public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)
         {
             mdlReturnData returnData = new mdlReturnData();
@@ -71,7 +73,30 @@ namespace projAPI.Controllers
                 AllCountry.ForEach(p => { p.Name = AllUsers.Where(q => q.Id == p.ModifiedBy).FirstOrDefault()?.Name; });
             }
             returnData.MessageType = enmMessageType.Success;
-            returnData.ReturnId = AllCountry;
+            returnData.ReturnId = AllCountry.OrderBy(p=>p.Name);
+            return returnData;
+        }
+        [Route("GetState/{CountryId}/{AllStates}/{IncludeUsername}")]
+        public mdlReturnData GetState([FromServices] IsrvUsers srvUsers,int CountryId,bool AllStates,  bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            List<tblState> State = new List<tblState>();
+            if (AllStates)
+            {
+                State.AddRange(_masterContext.tblState);
+            }
+            else
+            {
+                State.AddRange(_masterContext.tblState.Where(p=>p.CountryId==CountryId));
+            }
+            if (IncludeUsername)
+            {
+                var tempUserIds = State.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var AllUsers = srvUsers.GetUsers(tempUserIds);
+                State.ForEach(p => { p.Name = AllUsers.Where(q => q.Id == p.ModifiedBy).FirstOrDefault()?.Name; });
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = State.OrderBy(p=>p.Name);
             return returnData;
         }
 

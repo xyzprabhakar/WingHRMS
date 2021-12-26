@@ -30,8 +30,8 @@ namespace projAPI.Services
             {
                 return new mdlCommonReturn();
             }
-            return _masterContext.tblState.Where(q => q.StaeId == StateId).Select(p => new mdlCommonReturn()
-            { Id = p.StaeId, Code = p.Code, Name = p.Name }).FirstOrDefault();
+            return _masterContext.tblState.Where(q => q.StateId == StateId).Select(p => new mdlCommonReturn()
+            { Id = p.StateId, Code = p.Code, Name = p.Name }).FirstOrDefault();
         }
         public List<mdlCommonReturn> GetStates(int CountryId)
         {
@@ -41,13 +41,13 @@ namespace projAPI.Services
             }
             return _masterContext.tblState.Where(q => q.CountryId == CountryId)
                 .Select(p => new mdlCommonReturn()
-                { Id = p.StaeId, Code = p.Code, Name = p.Name }).ToList();
+                { Id = p.StateId, Code = p.Code, Name = p.Name }).ToList();
         }
         public List<mdlCommonReturn> GetStates(int[] StateId)
         {
-            return _masterContext.tblState.Where(q => StateId.Contains(q.StaeId))
+            return _masterContext.tblState.Where(q => StateId.Contains(q.StateId))
                 .Select(p => new mdlCommonReturn()
-                { Id = p.StaeId, Code = p.Code, Name = p.Name }).ToList();
+                { Id = p.StateId, Code = p.Code, Name = p.Name }).ToList();
         }
 
         public mdlCommonReturn GetCountry(int CountryId)

@@ -9,7 +9,7 @@ namespace projContext.DB.Masters
     {
         //add-migration 31_Oct_20211 -Context projContext.DB.Masters.MasterContext
         //update-database -Context projContext.DB.Masters.MasterContext
-        public MasterContext(DbContextOptions<Context> options) : base(options)
+        public MasterContext(DbContextOptions<MasterContext> options) : base(options)
         {
             
         }
