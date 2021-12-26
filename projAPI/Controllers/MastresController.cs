@@ -40,7 +40,7 @@ namespace projAPI.Controllers
             var tempData=_masterContext.tblOrganisation.FirstOrDefault();
             if (tempData == null)
             {
-                tempData = new tblOrganisation();                
+                tempData = new tblOrganisation() {Name="Testing",CountryId=101,StateId=4021 };                
             }
             if (IncludeCountryState)
             {

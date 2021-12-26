@@ -35,8 +35,10 @@
             db.close();
         };
 
+        var date = new Date();
+        console.log("Country " + date.toLocaleString());
         if (!(stateInputName == "" || stateInputName === undefined || stateInputName == null)) {
-            $('#' + CountryInputName).on('change', function () {
+            $('#' + CountryInputName).on('change paste', function () {
                 BindState(CountryInputName, $('#' + CountryInputName).val(), stateInputName, stateId)
             });
         }
@@ -44,7 +46,7 @@
 
 }
 function BindState(CountryInputName, countryId, stateInputName, stateId) {
-
+    
     if (!(stateInputName == "" || stateInputName === undefined || stateInputName == null)) {
         if (!(countryId > 0)) {
             countryId = $('#' + CountryInputName).val();
@@ -57,9 +59,9 @@ function BindState(CountryInputName, countryId, stateInputName, stateId) {
             var db = e.target.result;
             let ObjectStoreState = db.transaction("tblState", "readwrite")
                 .objectStore("tblState");
-            var keyRangeValue = IDBKeyRange.only(parseInt(countryId));            
             var getAllRequest = ObjectStoreState.index("countryId").getAll(parseInt(countryId));
             getAllRequest.onsuccess = function () {
+                console.log(stateId);
                 for (var i in getAllRequest.result) {
 
                     if (getAllRequest.result[i].stateId == stateId) {
@@ -80,6 +82,8 @@ function BindState(CountryInputName, countryId, stateInputName, stateId) {
                     }
                 }
                 db.close();
+                var date = new Date();
+                console.log("State " + date.toLocaleString());
             }
         }
 
