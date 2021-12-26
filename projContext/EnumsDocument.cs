@@ -103,7 +103,7 @@ namespace projContext
         [Document( enmDocumentType.Report|enmDocumentType.DisplayMenu , 0, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Index")]
         Dashboard = 1,
         [Document(EnmModule: enmModule.Organisation,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu, 
-            DisplayOrder: 1,Name: "Organisation",Description: "Dashboard the Orgasnisation Details",Icon: "far fa-circle nav-icon",ActionName:"/Base/Organisation")]
+            DisplayOrder: 1,Name: "Organisation",Description: "Dashboard the Orgasnisation Details",Icon: "far fa-circle nav-icon",ActionName:"/Masters/Org/Organisation")]
         Organisation= 2,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 2, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Base/Company")]        

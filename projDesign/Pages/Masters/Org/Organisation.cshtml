@@ -15,7 +15,7 @@
                             <hr />
                         </div>
 
-                        <input type="hidden" id="OrganisationId" name="OrganisationId" />
+                        <input type="hidden" id="lblOrganisationId" name="OrganisationId" />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group" for="txtOrganisation">
@@ -61,7 +61,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-form-label" for="ddlcountry">Country Name</label>
-                                    <select id="ddlcountry" name="ddlcountry" class="form-control select2" required >                                       
+                                    <select id="ddlcountry" name="ddlcountry" class="form-control select2" required>
+                                        <option value=""> -- Please Select --</option>
                                     </select>
                                 </div>
                             </div>
@@ -71,7 +72,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-form-label" for="ddlstate">State Name</label>
-                                    <select id="ddlstate" name="ddlstate" class="form-control select2" required>                                        
+                                    <select id="ddlstate" name="ddlstate" class="form-control select2" required>
+                                        <option value=""> -- Please Select --</option>
                                     </select>
                                 </div>
                             </div>
@@ -150,11 +152,45 @@
 </div>
 
 @section Scripts {
+    <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            let apiurl = localStorage.getItem('baseUrl') +"Masters/GetOrganisation/false/false" ;
+            let token= localStorage.getItem('token');
+            let headerss = new Headers();
+            let lblcountryId = 0;
+            let lblstateId = 0;
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            fetch(apiurl, {
+                method: "GET",
+                headers: headerss,                
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.messageType == 1) {
+                        $("#lblOrganisationId").val(data.returnId.orgId);
+                        $("#txtOrganisation").val(data.returnId.name);
+                        $("#txtAddress").val(data.returnId.address);
+                        $("#txtLocality").val(data.returnId.locality);
+                        $("#txtCity").val(data.returnId.city);
+                        lblcountryId = data.returnId.countryId;
+                        lblstateId = data.returnId.stateId;
+                        $("#ddlcountry").val(lblcountryId);
+                        $("#ddlstate").val(lblstateId);
+                        $("#txtEmail").val(data.returnId.email);
+                        $("#txtAlternateEmail").val(data.returnId.alternateEmail);
+                        $("#txtContact").val(data.returnId.contact);
+                        $("#txtAlternateContact").val(data.returnId.alternateContact);
+                        $("#txtRemarks").val(data.returnId.remarks);
+                    }
+                    else {
+                        alert("Some Error");
+                    }
+                });
             //Load Data
-            BindCountryState("ddlcountry", 0, "ddlstate", 0);
+            BindCountryState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
             //bind Country and States
             $("#frmOrganisation").validate({
                 errorPlacement: function (error, element) {

@@ -22,16 +22,17 @@ namespace projAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MastresController : Controller
+    public class MastersController : Controller
     {
         private readonly MasterContext _masterContext;
         private readonly IsrvMasters _srvMasters;
-        public MastresController([FromServices] IsrvMasters srvMasters ,MasterContext mc)
+        public MastersController([FromServices] IsrvMasters srvMasters ,MasterContext mc)
         {
             _srvMasters = srvMasters;
             _masterContext = mc;
         }
-
+        [HttpGet]
+        [Route("GetOrganisation/{IncludeCountryState}/{IncludeUsername}")]
         public mdlReturnData GetOrganisation([FromServices] IsrvUsers srvUsers,
             bool IncludeCountryState, bool IncludeUsername)
         {
@@ -55,6 +56,9 @@ namespace projAPI.Controllers
             return returnData;
         }
 
+        [HttpPost]
+        [Route("SetOrganisation")]
+        [Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]
         public mdlReturnData SetOrganisation()
         {
             mdlReturnData returnData = new mdlReturnData();
@@ -76,6 +80,7 @@ namespace projAPI.Controllers
             returnData.ReturnId = AllCountry.OrderBy(p=>p.Name);
             return returnData;
         }
+        [AllowAnonymous]
         [Route("GetState/{CountryId}/{AllStates}/{IncludeUsername}")]
         public mdlReturnData GetState([FromServices] IsrvUsers srvUsers,int CountryId,bool AllStates,  bool IncludeUsername)
         {

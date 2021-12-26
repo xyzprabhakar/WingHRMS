@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\apiJS\CommonJs.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\apiJS\Attendence\JsApplicationLink.js" />
     <None Include="wwwroot\apiJS\Attendence\JsAttendenceApplication.js" />
     <None Include="wwwroot\apiJS\Attendence\JsCompOffApplication.js" />

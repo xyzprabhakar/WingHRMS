@@ -12,8 +12,8 @@ var Apidatas = [{
         ]
 
 },
-    { id: 2, name: "Country", url: "Mastres/GetCountry/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblCountry", keyName: "" }] },
-    { id: 3, name: "State", url: "Mastres/GetState/0/true/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblState", keyName: "" }] }
+    { id: 2, name: "Country", url: "Masters/GetCountry/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblCountry", keyName: "" }] },
+    { id: 3, name: "State", url: "Masters/GetState/0/true/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblState", keyName: "" }] }
 ]
 
 onmessage = function (e) {
@@ -39,7 +39,6 @@ onmessage = function (e) {
 };
 
  function LoadDataInDB(Apidata, ApidataPosition) {
-    console.log( baseUrl)
     let apiurl = baseUrl + Apidata.url;
     let headerss = new Headers();
     headerss.append("Authorization", 'Bearer ' + token);
@@ -67,14 +66,12 @@ onmessage = function (e) {
         });
 }
 
-
-
 async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
     let ObjectStore = db.transaction(Tablename, "readwrite")
         .objectStore(Tablename);
     let ReqSuccess = await ObjectStore.clear();
     ReqSuccess.onsuccess = async function (event) {
-        console.log(KeyName)
+        
         if (KeyName == "") {
             for (var j in returnId) {
                 await ObjectStore.add(returnId[j]);
@@ -84,8 +81,6 @@ async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
         }
         else {
             let tempdata = returnId[KeyName];
-            console.log(JSON.stringify(tempdata));
-            console.log(ObjectStore.name);
             for (var j in tempdata) {
                 await ObjectStore.add(tempdata[j]);
                 isAllDataDownloaded();
@@ -148,9 +143,9 @@ function fncCreateAllDb(e) {
     if (!tblDocumentMaster_store.indexNames.contains("enmApplication")) {
         tblDocumentMaster_store.createIndex("enmApplication", "enmApplication", { unique: false });
     }
-    let tblSubModuleMaster_store = tx.objectStore("tblState");
-    if (!tblSubModuleMaster_store.indexNames.contains("countryId")) {
-        tblSubModuleMaster_store.createIndex("countryId ", "countryId ", { unique: false });
+    let tblState_store = tx.objectStore("tblState");
+    if (!tblState_store.indexNames.contains("countryId")) {
+        tblState_store.createIndex("countryId", "countryId", { unique: false });
     }
 }
 

@@ -121,6 +121,8 @@ namespace projAPI.Controllers
         [Route("DefaultApplication")]
         public void DefaultApplication([FromServices] IsrvUsers isrvUsers )
         {
+            return;
+
             List<enmApplication> Application = new List<enmApplication>();
             foreach (var d in Enum.GetValues(typeof(enmApplication)))
             {
@@ -134,6 +136,7 @@ namespace projAPI.Controllers
         [Route("DefaultDocuments")]
         public void DefaultDocument([FromServices] IsrvUsers isrvUsers)
         {
+            return;
             DateTime dt = DateTime.Now;
             var defaultRole = _context.tbl_role_master.Where(p => p.role_name == "SuperAdmin").FirstOrDefault();
             if (defaultRole == null)
@@ -158,6 +161,7 @@ namespace projAPI.Controllers
         [Route("SetCountryState")]
         public bool SetCountryState([FromServices]MasterContext masterContext )
         {
+            return false;
             DateTime currentDt = DateTime.Now; 
             List<tblCountry> countrys = new List<tblCountry>();
             var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState","countries.csv");
@@ -176,19 +180,20 @@ namespace projAPI.Controllers
                         {
                             CountryId = Id,
                             Code = splits[3],
-                            Name = splits[1],
-                            ContactPrefix = splits[2],
+                            Name = splits[1].Replace("\"", ""),
+                            ContactPrefix = splits[4],
                             CreatedBy = 1,
                             ModifiedBy = 1,
                             CreatedDt = currentDt,
-                            ModifiedDt = currentDt
+                            ModifiedDt = currentDt,
+                            IsActive = true
                         });
                     }
                     
                     
                 }
             }
-            masterContext.tblCountry.AddRange(countrys);
+            masterContext.tblCountry.UpdateRange(countrys);
 
             List<tblState> States = new List<tblState>();
             var file1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState", "states.csv");
@@ -206,13 +211,15 @@ namespace projAPI.Controllers
                         {
                             StateId = Id,
                             Code = splits[4],
-                            Name = splits[1],
+                            Name = splits[1].Replace("\"", ""),
                             CountryId = CountryId,
                             CreatedBy = 1,
                             ModifiedBy = 1,
                             CreatedDt = currentDt,
-                            ModifiedDt = currentDt
-                        });
+                            ModifiedDt = currentDt,
+                            IsActive = true
+
+                        }); ;
                     }
                     
                 }

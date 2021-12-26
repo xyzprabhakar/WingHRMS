@@ -16,7 +16,6 @@ $(document).ready(function () {
             .objectStore("tblMenuMaster").get(parseInt( applicationId)).onsuccess = function (event) {
                 var element = document.getElementById("side-nav");
                 if (event.target.result !== undefined) {
-                    console.log(event.target.result.menuData);
                     BindMenuData(event.target.result.menuData, element, true);
                     $("#side-nav").metisMenu();
                     initActiveMenu();
@@ -49,7 +48,7 @@ function BindMenuData(datas,parentElement,tobeadded) {
         
         itemA.appendChild(itemSpan);
         if (datas[i].children == null || datas[i].children.length == 0) {
-            itemA.href ="/"+ datas[i].urll;
+            itemA.href =""+ datas[i].urll;
         }
         else {
             itemA.href = "javascript: void(0);";            

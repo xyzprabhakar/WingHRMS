@@ -118,7 +118,7 @@ function performLogin() {
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
                 window.localStorage.setItem("currentApplication", 0);//Need to set on user click
                 window.localStorage.setItem("refreshData", 1);
-                window.localStorage.setItem("dBVersion", 3);
+                window.localStorage.setItem("dBVersion", 5);
                 document.cookie = `userId=${data.returnId.userId}`;
                 window.location.href = '/index';    
             }
