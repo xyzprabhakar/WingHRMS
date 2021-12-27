@@ -182,6 +182,8 @@
         $(document).ready(function () {
             //bindcountry
             $('#loader').show();
+            const inputElement = document.getElementById("File1");
+            inputElement.addEventListener("change", handleFiles, false);
             var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
             let apiurl = localStorage.getItem('baseUrl') +"Masters/GetOrganisation/false/false" ;
@@ -211,15 +213,22 @@
                         
                         lblcountryId = data.returnId.countryId;
                         lblstateId = data.returnId.stateId;
-                        $("#ddlcountry").val(lblcountryId);
-                        $("#ddlcountry").trigger('change');
+                        if (lblcountryId > 0) {
+                            $("#ddlcountry").val(lblcountryId);
+                            $("#ddlcountry").trigger('change');
+                            BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                        }
                         $("#txtPinCode").val(data.returnId.pinCode);
-                        BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
                         $("#txtEmail").val(data.returnId.email);
                         $("#txtAlternateEmail").val(data.returnId.alternateEmail);
                         $("#txtContact").val(data.returnId.contact);
                         $("#txtAlternateContact").val(data.returnId.alternateContact);
                         $("#txtRemarks").val(data.returnId.remarks);
+                        if (!(data.returnId.logoImage == null && data.returnId.logoImage == '' && data.returnId.logoImage === undefined))
+                        {
+                            var img = document.getElementById("imgLogoImage");
+                            img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
+                        }
                         $('#loader').hide();
                     }
                     else {
@@ -231,8 +240,8 @@
                     messageBox("error", error.message);
                 });
 
-            const inputElement = document.getElementById("File1");
-            inputElement.addEventListener("change", handleFiles, false);
+            
+            
             function handleFiles() {
                 const fileList = this.files; 
                 for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
@@ -249,7 +258,7 @@
                         messageBox("error", 'Only Icon file can be uploaded');
                         return false;
                     }
-                    $('#lblImgFile').val( file);
+                    selectedFile=file;
                     var img = document.getElementById("imgLogoImage");
                     img.file = file;
                     const reader = new FileReader();
@@ -270,31 +279,60 @@
                     }
                 },
                 submitHandler: function () {
+                    
                     let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetOrganisation"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
-                    Postheaderss.append("Content-Type", "application/json");
-                    var submitdata = {
-                        OrgId:$("#lblOrganisationId").val(),                        
-                        Name:$("#txtOrganisation").val(),
-                        Address:$("#txtAddress").val(),
-                        Locality:$("#txtLocality").val(),
-                        City:$("#txtCity").val(),
-                        State:$("#ddlstate").val(),
-                        Country:$("#ddlcountry").val(),
-                        PinCode:$("#txtPinCode").val(),
-                        Email:$("#txtEmail").val(),
-                        AlternateEmail:$("#txtAlternateEmail").val(),
-                        Contact:$("#txtContact").val(),
-                        AlternateContact:$("#txtAlternateContact").val(),
-                        Remarks:$("#txtRemarks").val(),
-                        LogoImage:$("#File1").val(),
-                        ImageType:"image/x-icon",
-                    };
+                    alert(selectedFile);
+                    $("#lblOrganisationId").val()
+
+                    
+                    var formdata = new FormData();
+                        formdata.append("LogoImageFile", selectedFile);
+                        formdata.append("OrgId",$("#lblOrganisationId").val());
+                        formdata.append("Name",$("#txtOrganisation").val());
+                        formdata.append("Address",$("#txtAddress").val());
+                        formdata.append("Locality",$("#txtLocality").val());
+                        formdata.append("City",$("#txtCity").val());
+                        formdata.append("State",$("#ddlstate").val());
+                        formdata.append("Country",$("#ddlcountry").val());
+                        formdata.append("PinCode",$("#txtPinCode").val());
+                        formdata.append("Email",$("#txtEmail").val());
+                        formdata.append("AlternateEmail",$("#txtAlternateEmail").val());
+                        formdata.append("Contact",$("#txtContact").val());
+                        formdata.append("AlternateContact",$("#txtAlternateContact").val());
+                        formdata.append("Remarks",$("#txtRemarks").val());
+                    formdata.append("LogoImageType", $("#lblImgFile").val());
+                    formdata.append("ImageType", "image/x-icon");
+
+                    
+                    ////JSON.stringify(formdata);
+                    //var submitdata = JSON.stringify ({
+                    //    "OrgId":$("#lblOrganisationId").val(),                        
+                    //    "Name":$("#txtOrganisation").val(),
+                    //    "Address":$("#txtAddress").val(),
+                    //    "Locality":$("#txtLocality").val(),
+                    //    "City":$("#txtCity").val(),
+                    //    "State":$("#ddlstate").val(),
+                    //    "Country":$("#ddlcountry").val(),
+                    //    "PinCode":$("#txtPinCode").val(),
+                    //    "Email":$("#txtEmail").val(),
+                    //    "AlternateEmail":$("#txtAlternateEmail").val(),
+                    //    "Contact":$("#txtContact").val(),
+                    //    "AlternateContact":$("#txtAlternateContact").val(),
+                    //    "Remarks":$("#txtRemarks").val(),
+                    //    "LogoImage": $("#lblImgFile").val(),
+                    //    "ImageType":"image/x-icon",
+                    //});
+                    //alert( console.log(JSON.stringify(submitdata)));
+                   
+                   
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,
-                        body: submitdata,
+                        body: formdata,
+                        //body: submitdata,
+                        redirect: 'follow'
                         
                     }).then(response => {
                         if (response.ok) {
@@ -316,7 +354,6 @@
                         $('#loader').hide();
                         messageBox("error", error.message);
                     });
-
                     
                 }
             });

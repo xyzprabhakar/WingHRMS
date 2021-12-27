@@ -15,9 +15,9 @@ namespace projContext.DB.Masters
         public string Name { get; set; }
         public string Logo { get; set; }
         [NotMapped]
-        public byte[] LogoImage { get; set; }
+        public string LogoImage { get; set; }//base 64
         [NotMapped]
-        public string ImageType { get; set; }
+        public string LogoImageType { get; set; }
     }
 
     public class tblCompanyMaster : d_Contact_With_Address_With_Modify_by

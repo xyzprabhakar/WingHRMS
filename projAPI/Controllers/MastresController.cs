@@ -25,10 +25,13 @@ namespace projAPI.Controllers
     public class MastersController : Controller
     {
         private readonly MasterContext _masterContext;
+        private readonly IsrvCurrentUser _srvCurrentUser;
+        
         private readonly IsrvMasters _srvMasters;
-        public MastersController([FromServices] IsrvMasters srvMasters ,MasterContext mc)
+        public MastersController([FromServices] IsrvMasters srvMasters ,IsrvCurrentUser isrvCurrentUser, MasterContext mc)
         {
             _srvMasters = srvMasters;
+            _srvCurrentUser = isrvCurrentUser;
             _masterContext = mc;
         }
         [HttpGet]
@@ -37,10 +40,10 @@ namespace projAPI.Controllers
             bool IncludeCountryState, bool IncludeUsername)
         {   
             mdlReturnData returnData = new mdlReturnData();
-            var tempData=_masterContext.tblOrganisation.FirstOrDefault();
+            var tempData = _masterContext.tblOrganisation.FirstOrDefault();
             if (tempData == null)
             {
-                tempData = new tblOrganisation() {Name="Testing",CountryId=101,StateId=4021 };                
+                tempData = new tblOrganisation();
             }
             if (IncludeCountryState)
             {
@@ -51,6 +54,16 @@ namespace projAPI.Controllers
             {
                 tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
             }
+            if (tempData.Logo != null)
+            {
+                var tempImages=_srvMasters.GetImage(tempData.Logo);
+                if (tempImages != null)
+                {
+                    tempData.LogoImage =Convert.ToBase64String( tempImages.File);
+                    tempData.LogoImageType = tempImages.FileType.GetDescription();
+                }
+            }
+
             returnData.MessageType = enmMessageType.Success;
             returnData.ReturnId = tempData;
             return returnData;
@@ -58,10 +71,27 @@ namespace projAPI.Controllers
         [HttpPost]
         [Route("SetOrganisation")]
         //[Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
-        public mdlReturnData SetOrganisation([FromBody]tblOrganisation mdl,IFormFile Filees)
-        {
+        public mdlReturnData SetOrganisation([FromForm]tblOrganisationWraper mdl)
+         {
             mdlReturnData returnData = new mdlReturnData();
+            string FileName = null;
+            if (!(mdl.LogoImageFile == null))
+            {
+                FileName =_srvMasters.SetImage(mdl.LogoImageFile,enmFileType.ImageICO, _srvCurrentUser.UserId);
+            }
+            mdl.Logo = FileName;
+            if (mdl.OrgId == 0)
+            {
+                _masterContext.tblOrganisation.Add(mdl);
+            }
+            else
+            {
+                _masterContext.tblOrganisation.Update(mdl);
+            }
             
+            _masterContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            returnData.Message = "Save successfully";
             return returnData;
         }
         [AllowAnonymous]

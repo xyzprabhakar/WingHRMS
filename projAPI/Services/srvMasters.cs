@@ -4,17 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using projContext;
 
 namespace projAPI.Services
 {
     
+
     public interface IsrvMasters
     {
         mdlCommonReturn GetCountry(int CountryId);
         List<mdlCommonReturn> GetCountry(int[] CountryIds);
+        tblFileMaster GetImage(string FileId);
+        List<tblFileMaster> GetImages(string[] FileIds);
         mdlCommonReturn GetState(int StateId);
         List<mdlCommonReturn> GetStates(int CountryId);
         List<mdlCommonReturn> GetStates(int[] StateId);
+        string SetImage(IFormFile fromFile, enmFileType mimeType, ulong userId);
     }
 
     public class srvMasters : IsrvMasters
@@ -26,7 +33,7 @@ namespace projAPI.Services
         }
         public mdlCommonReturn GetState(int StateId)
         {
-            if (StateId==0)
+            if (StateId == 0)
             {
                 return new mdlCommonReturn();
             }
@@ -64,11 +71,44 @@ namespace projAPI.Services
                 { Id = p.CountryId, Code = p.Code, Name = p.Name }).ToList();
         }
 
-        public String GetImage(string imageId )
+        public tblFileMaster GetImage(string FileId)
         {
-            return "";
-          // var _masterContext.tblFileMaster.Where(p => p.FileId == imageId).FirstOrDefault();
-                
+            return _masterContext.tblFileMaster.Where(p => p.FileId == FileId).FirstOrDefault();
+        }
+        public List<tblFileMaster> GetImages(string[] FileIds)
+        {
+            return _masterContext.tblFileMaster.Where(p => FileIds.Contains(p.FileId)).ToList();
+        }
+        public string SetImage(IFormFile fromFile, enmFileType mimeType, ulong userId)
+        {
+            string FileName = null;
+            DateTime dateTime = DateTime.Now;
+            if (fromFile == null)
+            {
+                if (fromFile.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        fromFile.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        //string s = Convert.ToBase64String(fileBytes);
+                        // act on the Base64 data
+                        FileName = Guid.NewGuid().ToString().Replace("-", "");
+                        _masterContext.tblFileMaster.Add(new tblFileMaster()
+                        {
+                            FileId = FileName,
+                            File = fileBytes,
+                            CreatedBy = userId,
+                            CreatedDt = dateTime,
+                            ModifiedBy = userId,
+                            ModifiedDt = dateTime,
+                            FileType = mimeType
+                        });
+                        _masterContext.SaveChanges();
+                    }
+                }
+            }
+            return FileName;
         }
 
 

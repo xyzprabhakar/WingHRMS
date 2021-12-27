@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using projContext.DB.Masters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace projAPI.Model
 {
-
+    public class tblOrganisationWraper : tblOrganisation
+    {
+        public IFormFile LogoImageFile { get; set; }        
+    }
 
 
 #if (false)
