@@ -18,7 +18,7 @@
                                     <hr />
                                 </div>
 
-                                <input type="hidden" id="lblOrganisationId" name="OrganisationId" />
+                                <input type="hidden" id="lblOrganisationId" name="OrganisationId" value="1" />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group" for="txtOrganisation">
@@ -147,13 +147,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-md-2">
-                                        <img id="imgLogoImage" class="mt-sm-4" src="~/images/dbImages50.png" />
+                                        <img id="imgLogoImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
+                                        <input type="hidden" id="lblImgFile">
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <label asp-for="company_logo" class="col-form-label">Logo</label>
-                                            <input id="File1" type="file" class="form-control">
-                                            <label id="lbl_file_name"></label>
+                                            <input id="File1" type="file"  accept="image/x-icon"  class="form-control">                                            
                                         </div>
                                     </div>
 
@@ -178,10 +178,11 @@
 @section Scripts {
     <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
     <script type="text/javascript">
-
+        
         $(document).ready(function () {
             //bindcountry
-            
+            $('#loader').show();
+            var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
             let apiurl = localStorage.getItem('baseUrl') +"Masters/GetOrganisation/false/false" ;
             let token= localStorage.getItem('token');
@@ -192,32 +193,72 @@
             headerss.append("Content-Type", "application/json; charset=utf-8");
             fetch(apiurl, {
                 method: "GET",
-                headers: headerss,                
-            }).then(response => response.json())
-                .then(data => {
+                headers: headerss,
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.statusText);
+                }
+            }).then(data => {
+
                     if (data.messageType == 1) {
                         $("#lblOrganisationId").val(data.returnId.orgId);
                         $("#txtOrganisation").val(data.returnId.name);
                         $("#txtAddress").val(data.returnId.address);
                         $("#txtLocality").val(data.returnId.locality);
                         $("#txtCity").val(data.returnId.city);
-                        lblcountryId = data.returnId.countryId;                        
+                        
+                        lblcountryId = data.returnId.countryId;
                         lblstateId = data.returnId.stateId;
                         $("#ddlcountry").val(lblcountryId);
                         $("#ddlcountry").trigger('change');
+                        $("#txtPinCode").val(data.returnId.pinCode);
                         BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
                         $("#txtEmail").val(data.returnId.email);
                         $("#txtAlternateEmail").val(data.returnId.alternateEmail);
                         $("#txtContact").val(data.returnId.contact);
                         $("#txtAlternateContact").val(data.returnId.alternateContact);
                         $("#txtRemarks").val(data.returnId.remarks);
+                        $('#loader').hide();
                     }
                     else {
-                        alert("Some Error");
+                        $('#loader').hide();
+                        messageBox("error", data.message );
                     }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
                 });
-            
-            
+
+            const inputElement = document.getElementById("File1");
+            inputElement.addEventListener("change", handleFiles, false);
+            function handleFiles() {
+                const fileList = this.files; 
+                for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+                    const file = fileList[i];
+                    var imgsizee = this.files[i].size;
+                    var sizekb = imgsizee / 1024;
+                    sizekb = sizekb.toFixed(0);
+                    if (sizekb < 10 || sizekb > 500) {
+                        $("#File1").val("");
+                        messageBox("error", 'The size of the photograph should fall between 10KB to 500KB. Your Photo Size is ' + sizekb + 'kb.');                        
+                        return false;
+                    }
+                    if (!(file.type == 'image/x-icon')) {
+                        messageBox("error", 'Only Icon file can be uploaded');
+                        return false;
+                    }
+                    $('#lblImgFile').val( file);
+                    var img = document.getElementById("imgLogoImage");
+                    img.file = file;
+                    const reader = new FileReader();
+                    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result; }; })(img);
+                    reader.readAsDataURL(file);
+                }
+            }
+
+                
             //bind Country and States
             $("#frmOrganisation").validate({
                 errorPlacement: function (error, element) {
@@ -228,7 +269,56 @@
                         error.insertAfter(element);
                     }
                 },
-                submitHandler: function () { alert("Submitted!") }
+                submitHandler: function () {
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetOrganisation"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("Content-Type", "application/json");
+                    var submitdata = {
+                        OrgId:$("#lblOrganisationId").val(),                        
+                        Name:$("#txtOrganisation").val(),
+                        Address:$("#txtAddress").val(),
+                        Locality:$("#txtLocality").val(),
+                        City:$("#txtCity").val(),
+                        State:$("#ddlstate").val(),
+                        Country:$("#ddlcountry").val(),
+                        PinCode:$("#txtPinCode").val(),
+                        Email:$("#txtEmail").val(),
+                        AlternateEmail:$("#txtAlternateEmail").val(),
+                        Contact:$("#txtContact").val(),
+                        AlternateContact:$("#txtAlternateContact").val(),
+                        Remarks:$("#txtRemarks").val(),
+                        LogoImage:$("#File1").val(),
+                        ImageType:"image/x-icon",
+                    };
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: submitdata,
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+
+                    
+                }
             });
             $('#clearform').on('click', function () {
                 var form = $("#frmOrganisation");

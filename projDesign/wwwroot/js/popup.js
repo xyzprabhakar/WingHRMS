@@ -10,10 +10,6 @@ $(function(){
         else{$('table#dynamics').hide();}
     });
 
-
-
-
-
     // tabs function
     var get=2;
     
@@ -57,10 +53,10 @@ function messageBox(messageType , text)
     //    $('.message-pop').removeClass('bg-red').removeClass('bg-green').addClass('bg-yeallow');
     //    $('.message-pop span').removeClass('fa-check').removeClass('fa-times').addClass('fa-exclamation-triangle').addClass('color-yeallow');
     //}
-    msgBoxImagePath = "../js/msgbox/images/"; 
+    msgBoxImagePath = "/js/msgbox/images/"; 
     if (messageType == 'error') {
         $.msgBox({
-            title: "Please Correct Following Information !!",
+            title: "Error",
             content: text,
             type: "error"
         });
@@ -81,7 +77,7 @@ function messageBox(messageType , text)
     }
     else if (messageType == 'success') {
         $.msgBox({
-            title: "Information !!",
+            title: "success !!",
             content: text,
             type: "success"
         });

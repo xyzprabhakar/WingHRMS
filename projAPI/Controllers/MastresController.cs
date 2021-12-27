@@ -35,7 +35,7 @@ namespace projAPI.Controllers
         [Route("GetOrganisation/{IncludeCountryState}/{IncludeUsername}")]
         public mdlReturnData GetOrganisation([FromServices] IsrvUsers srvUsers,
             bool IncludeCountryState, bool IncludeUsername)
-        {
+        {   
             mdlReturnData returnData = new mdlReturnData();
             var tempData=_masterContext.tblOrganisation.FirstOrDefault();
             if (tempData == null)
@@ -55,13 +55,13 @@ namespace projAPI.Controllers
             returnData.ReturnId = tempData;
             return returnData;
         }
-
         [HttpPost]
         [Route("SetOrganisation")]
-        [Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]
-        public mdlReturnData SetOrganisation()
+        //[Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
+        public mdlReturnData SetOrganisation([FromBody]tblOrganisation mdl,IFormFile Filees)
         {
             mdlReturnData returnData = new mdlReturnData();
+            
             return returnData;
         }
         [AllowAnonymous]

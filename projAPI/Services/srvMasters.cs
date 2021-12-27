@@ -64,6 +64,13 @@ namespace projAPI.Services
                 { Id = p.CountryId, Code = p.Code, Name = p.Name }).ToList();
         }
 
+        public String GetImage(string imageId )
+        {
+            return "";
+          // var _masterContext.tblFileMaster.Where(p => p.FileId == imageId).FirstOrDefault();
+                
+        }
+
 
     }
 }

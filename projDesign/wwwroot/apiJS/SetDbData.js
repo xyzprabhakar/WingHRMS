@@ -50,20 +50,21 @@ onmessage = function (e) {
          method: Apidata.methodType,
          headers: headerss,
          body: Apidata.postdata
-     }).then(response => response.json())
-         .then(data => {
-            
+     }).then(response => {
+         if (response.ok) {
+             return response.json();
+         } else {
+             throw new Error(response.statusText);
+         }
+     }).then(data => {
             if (data.messageType == 1) {
-                
                 for (var index in Apidata.tables) {
-                    
                     let tablename_ = Apidata.tables[index].tableName;
                     let keyname_ = Apidata.tables[index].keyName;
                     SaveinDb(keyname_, tablename_, data.returnId, Apidatas, ApidataPosition);
                 }
-                
-            }
-        });
+         }
+     }).catch((error) => { console.log(error) });
 }
 
 async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
