@@ -207,7 +207,7 @@
                     if (data.messageType == 1) {
                         $("#lblOrganisationId").val(data.returnId.orgId);
                         $("#txtOrganisation").val(data.returnId.name);
-                        $("#txtAddress").val(data.returnId.address);
+                        $("#txtAddress").val(data.returnId.officeAddress);
                         $("#txtLocality").val(data.returnId.locality);
                         $("#txtCity").val(data.returnId.city);
                         
@@ -218,13 +218,13 @@
                             $("#ddlcountry").trigger('change');
                             BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
                         }
-                        $("#txtPinCode").val(data.returnId.pinCode);
+                        $("#txtPinCode").val(data.returnId.pincode);
                         $("#txtEmail").val(data.returnId.email);
                         $("#txtAlternateEmail").val(data.returnId.alternateEmail);
-                        $("#txtContact").val(data.returnId.contact);
-                        $("#txtAlternateContact").val(data.returnId.alternateContact);
-                        $("#txtRemarks").val(data.returnId.remarks);
-                        if (!(data.returnId.logoImage == null && data.returnId.logoImage == '' && data.returnId.logoImage === undefined))
+                        $("#txtContact").val(data.returnId.contactNo);
+                        $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined))
                         {
                             var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
@@ -291,17 +291,17 @@
                         formdata.append("LogoImageFile", selectedFile);
                         formdata.append("OrgId",$("#lblOrganisationId").val());
                         formdata.append("Name",$("#txtOrganisation").val());
-                        formdata.append("Address",$("#txtAddress").val());
+                        formdata.append("OfficeAddress",$("#txtAddress").val());
                         formdata.append("Locality",$("#txtLocality").val());
                         formdata.append("City",$("#txtCity").val());
-                        formdata.append("State",$("#ddlstate").val());
-                        formdata.append("Country",$("#ddlcountry").val());
-                        formdata.append("PinCode",$("#txtPinCode").val());
+                        formdata.append("StateId",$("#ddlstate").val());
+                        formdata.append("CountryId",$("#ddlcountry").val());
+                        formdata.append("Pincode",$("#txtPinCode").val());
                         formdata.append("Email",$("#txtEmail").val());
                         formdata.append("AlternateEmail",$("#txtAlternateEmail").val());
-                        formdata.append("Contact",$("#txtContact").val());
-                        formdata.append("AlternateContact",$("#txtAlternateContact").val());
-                        formdata.append("Remarks",$("#txtRemarks").val());
+                        formdata.append("ContactNo",$("#txtContact").val());
+                        formdata.append("AlternateContactNo",$("#txtAlternateContact").val());
+                    formdata.append("ModifyRemarks",$("#txtRemarks").val());
                     formdata.append("LogoImageType", $("#lblImgFile").val());
                     formdata.append("ImageType", "image/x-icon");
 

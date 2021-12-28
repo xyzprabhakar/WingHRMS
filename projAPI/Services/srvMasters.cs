@@ -83,7 +83,7 @@ namespace projAPI.Services
         {
             string FileName = null;
             DateTime dateTime = DateTime.Now;
-            if (fromFile == null)
+            if (fromFile != null)
             {
                 if (fromFile.Length > 0)
                 {

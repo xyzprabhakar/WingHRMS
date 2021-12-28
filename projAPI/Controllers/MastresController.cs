@@ -72,7 +72,7 @@ namespace projAPI.Controllers
         [Route("SetOrganisation")]
         //[Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
         public mdlReturnData SetOrganisation([FromForm]tblOrganisationWraper mdl)
-         {
+         {  
             mdlReturnData returnData = new mdlReturnData();
             string FileName = null;
             if (!(mdl.LogoImageFile == null))
@@ -80,15 +80,18 @@ namespace projAPI.Controllers
                 FileName =_srvMasters.SetImage(mdl.LogoImageFile,enmFileType.ImageICO, _srvCurrentUser.UserId);
             }
             mdl.Logo = FileName;
+            mdl.ModifiedBy = _srvCurrentUser.UserId;
+            mdl.ModifiedDt = DateTime.Now;
             if (mdl.OrgId == 0)
             {
                 _masterContext.tblOrganisation.Add(mdl);
+                mdl.CreatedBy = mdl.ModifiedBy.Value;
+                mdl.CreatedDt = mdl.ModifiedDt.Value;
             }
             else
             {
                 _masterContext.tblOrganisation.Update(mdl);
             }
-            
             _masterContext.SaveChanges();
             returnData.MessageType = enmMessageType.Success;
             returnData.Message = "Save successfully";
