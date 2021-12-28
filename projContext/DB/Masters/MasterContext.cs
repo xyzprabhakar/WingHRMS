@@ -30,5 +30,20 @@ namespace projContext.DB.Masters
         #endregion
 
         public DbSet<tblFileMaster> tblFileMaster { get; set; }
+
+        #region ******************* Users *************************
+        public DbSet<tblUsersMaster> tblUsersMaster { get; set; }
+        public DbSet<tblRoleMaster> tblRoleMaster { get; set; }
+        public DbSet<tblRoleClaim> tblRoleClaim { get; set; }
+        public DbSet<tblUserClaim> tblUserClaim { get; set; }
+        public DbSet<tblUserAllClaim> tblUserAllClaim { get; set; }
+        public DbSet<tblUserOTP> tblUserOTP { get; set; }
+        public DbSet<tblUserLoginLog> tblUserLoginLog { get; set; }
+        public DbSet<tblUserOrganisationPermission> tblUserOrganisationPermission { get; set; }
+        public DbSet<tblUserCompanyPermission> tblUserCompanyPermission { get; set; }
+        public DbSet<tblUserZonePermission> tblUserZonePermission { get; set; }
+        public DbSet<tblUserLocationPermission> tblUserLocationPermission { get; set; }
+        public DbSet<tblUserAllLocationPermission> tblUserAllLocationPermission { get; set; }
+        #endregion
     }
 }

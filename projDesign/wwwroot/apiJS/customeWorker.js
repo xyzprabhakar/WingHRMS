@@ -1,4 +1,6 @@
-﻿//Load all data in index DB
+﻿
+
+//Load all data in index DB
 var w;
 if (localStorage.getItem("refreshData") == 1) {
     startWorker();

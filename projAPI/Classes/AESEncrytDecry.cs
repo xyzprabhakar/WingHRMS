@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace projAPI.Classes
                     // Create the streams used for decryption.  
                     using (var msDecrypt = new MemoryStream(cipherText))
                     {
-                      using( var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
 
                             using (var srDecrypt = new StreamReader(csDecrypt))
@@ -91,7 +92,7 @@ namespace projAPI.Classes
             var keybytes = Encoding.UTF8.GetBytes("8080808080808080");
             var iv = Encoding.UTF8.GetBytes("8080808080808080");
 
-            var encryptdata= Convert.ToBase64String(EncryptStringToBytes(cipherText, keybytes, iv));
+            var encryptdata = Convert.ToBase64String(EncryptStringToBytes(cipherText, keybytes, iv));
 
             return string.Format(encryptdata);
         }
@@ -137,7 +138,7 @@ namespace projAPI.Classes
                             swEncrypt.Write(plainText);
                         }
                         encrypted = msEncrypt.ToArray();
-                        
+
                     }
                 }
             }
@@ -147,5 +148,38 @@ namespace projAPI.Classes
         }
 
 
+        public static string EncodeString(string OrginalText)
+        {
+            return OrginalText.Replace("<", "%3C").Replace(">", "%3E");
+        }
+        public static string DecodeString(string OrginalText)
+        {
+            return OrginalText.Replace("%3C", "<").Replace("%3E", ">");
+        }
+
+        public static void EncodeAllProperties<T>(T ob) 
+        {
+            Type type = typeof(T);
+            PropertyInfo[] props = type.GetProperties();
+            foreach (var property in props)
+            {
+                if (property.PropertyType == typeof(string))
+                {   
+                    property.SetValue(ob, EncodeString(Convert.ToString( property.GetValue(ob))));
+                }
+            }
+        }
+        public static void DecodeAllProperties<T>(T ob)
+        {
+            Type type = typeof(T);
+            PropertyInfo[] props = type.GetProperties();
+            foreach (var property in props)
+            {
+                if (property.PropertyType == typeof(string))
+                {
+                    property.SetValue(ob, DecodeString(Convert.ToString(property.GetValue(ob))));
+                }
+            }
+        }
     }
 }

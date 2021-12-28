@@ -63,7 +63,6 @@ namespace projAPI.Controllers
                     tempData.LogoImageType = tempImages.FileType.GetDescription();
                 }
             }
-
             returnData.MessageType = enmMessageType.Success;
             returnData.ReturnId = tempData;
             return returnData;

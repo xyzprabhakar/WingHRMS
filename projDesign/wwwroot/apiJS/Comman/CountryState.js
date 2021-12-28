@@ -35,8 +35,7 @@
             db.close();
         };
 
-        var date = new Date();
-        console.log("Country " + date.toLocaleString());
+        var date = new Date();        
         if (!(stateInputName == "" || stateInputName === undefined || stateInputName == null)) {
             $('#' + CountryInputName).on('change paste', function () {
                 BindState(CountryInputName, $('#' + CountryInputName).val(), stateInputName, stateId)
@@ -61,7 +60,7 @@ function BindState(CountryInputName, countryId, stateInputName, stateId) {
                 .objectStore("tblState");
             var getAllRequest = ObjectStoreState.index("countryId").getAll(parseInt(countryId));
             getAllRequest.onsuccess = function () {
-                console.log(stateId);
+                
                 for (var i in getAllRequest.result) {
 
                     if (getAllRequest.result[i].stateId == stateId) {
@@ -83,7 +82,7 @@ function BindState(CountryInputName, countryId, stateInputName, stateId) {
                 }
                 db.close();
                 var date = new Date();
-                console.log("State " + date.toLocaleString());
+                
             }
         }
 
