@@ -7,8 +7,8 @@ namespace projContext.DB.CRM
 {
     public class CrmContext : DbContext
     {
-        //add-migration CrmMaster -Context projContext.DB.CRM.CrmContext -o Migrations.CRM
-        //update-database -Context projContext.DB.CRM.CrmContext
+        //add-migration -s projApi CrmMaster -Context projContext.DB.CRM.CrmContext -o Migrations.CRM
+        //update-database -s projApi -Context projContext.DB.CRM.CrmContext
 
         public CrmContext(DbContextOptions<CrmContext> options) : base(options)
         {
@@ -18,6 +18,10 @@ namespace projContext.DB.CRM
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        #region ******************************* Customer Setting ***************************
+        public DbSet<tblCustomerMaster> tblCustomerMaster { get; set; }
+        #endregion
 
         #region ******************************* Customer Setting ***************************
         public DbSet<tblCustomerIPFilter> tblCustomerIPFilter { get; set; }

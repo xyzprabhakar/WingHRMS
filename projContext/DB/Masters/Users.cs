@@ -30,7 +30,10 @@ namespace projContext.DB.Masters
         public byte is_logged_blocked { get; set; }//block log in due to wrong attemp
         public DateTime logged_blocked_dt { get; set; }
         public DateTime logged_blocked_Enddt { get; set; }
-        public ulong  Id { get; set; }//Either Employee ID, Either Customer ID, Either Distributer ID
+        public int? VendorId { get; set; }
+        public int? EmpId { get; set; }
+        public int? CustomerId { get; set; }
+        public ulong? DistributorId { get; set; }//Either Employee ID, Either Customer ID, Either Distributer ID
         [ForeignKey("tblOrganisation")] // Foreign Key here
         public int? OrgId { get; set; }
         public tblOrganisation tblOrganisation { get; set; }

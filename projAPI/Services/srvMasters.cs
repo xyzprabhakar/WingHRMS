@@ -12,12 +12,14 @@ namespace projAPI.Services
 {
     
 
+    
     public interface IsrvMasters
     {
         mdlCommonReturn GetCountry(int CountryId);
         List<mdlCommonReturn> GetCountry(int[] CountryIds);
         tblFileMaster GetImage(string FileId);
         List<tblFileMaster> GetImages(string[] FileIds);
+        mdlCommonReturn GetOrganisation(string OrgCode);
         mdlCommonReturn GetState(int StateId);
         List<mdlCommonReturn> GetStates(int CountryId);
         List<mdlCommonReturn> GetStates(int[] StateId);
@@ -114,14 +116,14 @@ namespace projAPI.Services
             return FileName;
         }
 
-        public mdlCommonReturn GetOrganisation(string OrgCode )
+        public mdlCommonReturn GetOrganisation(string OrgCode)
         {
-            if (string.IsNullOrEmpty( OrgCode ))
+            if (string.IsNullOrEmpty(OrgCode))
             {
-                return new mdlCommonReturn();
+                return null;
             }
-            return _masterContext.tblOrganisation.Where(q => q.Code == OrgCode ).Select(p => new mdlCommonReturn()
-            { Id = p.OrgId, Code = p.Code, Name = p.Name }).FirstOrDefault();
+            return _masterContext.tblOrganisation.Where(q => q.Code == OrgCode).Select(p => new mdlCommonReturn()
+            { Id = p.OrgId, Code = p.Code, Name = p.Name,IsActive=p.IsActive}).FirstOrDefault();
         }
 
 

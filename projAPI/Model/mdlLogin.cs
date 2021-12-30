@@ -20,6 +20,7 @@ namespace projAPI.Model
         public string CaptchaId { get; set; }
         public string CaptchaValue { get; set; }
         public string OrgCode { get; set; }
+        public string CustomerCode { get; set; }
         public string Longitute { get; set; }
         public string Latitude { get; set; }
         public string FromLocation { get; set; }

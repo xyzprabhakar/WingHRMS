@@ -29,7 +29,7 @@ namespace projAPI.Classes
             }
             if (!(OrgData.CustomerId == 1 || OrgData.CustomerId == 2))
             {
-                if (_IsrvCurrentUser.user_type != enmUserType.Employee)
+                if (_IsrvCurrentUser.UserType != enmUserType.Employee)
                 {
                     if (_IsrvCurrentUser.CustomerId != OrgData.CustomerId)
                     {

@@ -11,6 +11,7 @@ namespace projAPI.Model
     {
         public mdlUserMaster userMaster { get; set; }
         public List<mdlUserRoles> userRoles { get; set; }
+        public List<mdlRoleDocument> userClaim { get; set; }
     }
     public class mdlUserRoles
     {
@@ -31,6 +32,7 @@ namespace projAPI.Model
         public string userName{ get; set; }
         public string email { get; set; }
         public string phoneNumber { get; set; }
+        
     }
     public class mdlRoleDocument
     { 

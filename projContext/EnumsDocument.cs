@@ -461,6 +461,12 @@ namespace projContext
         public string Name { get; set; }
         public string ActionName { get; set; }
         public string Icon { get; set; }
+        public bool HaveCreate { get { return DocumentType.HasFlag(enmDocumentType.Create); } }
+        public bool HaveUpdate { get { return DocumentType.HasFlag(enmDocumentType.Update); } }
+        public bool HaveApproval { get { return DocumentType.HasFlag(enmDocumentType.Approval); } }
+        public bool HaveDelete { get { return DocumentType.HasFlag(enmDocumentType.Delete); } }
+        public bool HaveReport { get { return DocumentType.HasFlag(enmDocumentType.Report); } }
+        public bool HaveDisplayMenu { get { return DocumentType.HasFlag(enmDocumentType.DisplayMenu); } }
     }
 
 

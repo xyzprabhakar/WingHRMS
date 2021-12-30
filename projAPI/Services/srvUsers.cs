@@ -16,12 +16,14 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
+    
+    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
 
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
-        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
+        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int CustomerId, int EmployeeId, int VendorId, ulong DistributorId, enmUserType userType, enmCustomerType CustomerType);
         string GenrateTempUser(string IP, string DeviceId);
         mdlCommonReturnUlong GetUser(ulong? UserId);
         List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
@@ -32,8 +34,9 @@ namespace projAPI.Services
         bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
         void SetTempOrganisation(ulong UserId);
         void SetTempRoleClaim(ulong UserId);
+        bool SetUserDocument(ulong UserId, List<mdlRoleDocument> usrClaim, ulong CreatedBy);
         bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
-        mdlReturnData ValidateUser(string UserName, string Password, int orgId, ulong Customer_Vendor_Id, enmUserType userType);
+        mdlReturnData ValidateUser(string UserName, string Password, int orgId, int CustomerId, int VendorId, enmUserType userType);
     }
 
     public class srvUsers : IsrvUsers
@@ -65,16 +68,19 @@ namespace projAPI.Services
         }
 
         public mdlReturnData ValidateUser(string UserName,
-            string Password, int orgId, ulong Customer_Vendor_Id, enmUserType userType)
+            string Password, int orgId, int CustomerId, int VendorId, enmUserType userType)
         {
-            int? OrganisationId = null;
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
             tblUsersMaster tempData = null;
             IQueryable<tblUsersMaster> Query = _masterContext.tblUsersMaster.Where(p => p.UserName == UserName && p.OrgId == orgId && p.UserType == userType).AsQueryable();
 
-            if (userType.HasFlag(enmUserType.Customer) || userType.HasFlag(enmUserType.Vendor))
+            if (userType.HasFlag(enmUserType.Customer))
             {
-                Query = Query.Where(q => q.Id == Customer_Vendor_Id);
+                Query = Query.Where(q => q.CustomerId == CustomerId);
+            }
+            if (userType.HasFlag(enmUserType.Vendor))
+            {
+                Query = Query.Where(q => q.VendorId == VendorId);
             }
             tempData = Query.FirstOrDefault();
             if (tempData == null)
@@ -113,13 +119,18 @@ namespace projAPI.Services
                     return ReturnData;
                 }
             }
+            SetTempRoleClaim(tempData.UserId);
+            SetTempOrganisation(tempData.UserId);
             ReturnData.MessageType = enmMessageType.Success;
             ReturnData.Message = "Validate Successfully";
             ReturnData.ReturnId = new
             {
                 UserId = tempData.UserId,
                 NormalizedName = tempData.NormalizedName,
-                Id = tempData.Id,
+                VendorId = tempData.VendorId,
+                EmpId = tempData.EmpId,
+                DistributorId = tempData.DistributorId,
+                CustomerId = tempData.CustomerId,
                 UserType = tempData.UserType,
                 OrgId = tempData.OrgId
             };
@@ -212,16 +223,23 @@ namespace projAPI.Services
 
 
         public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,
-            ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId)
+            ulong UserId, int CustomerId,
+            int EmployeeId, int VendorId, ulong DistributorId
+            , enmUserType userType, enmCustomerType CustomerType
+
+            )
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             List<Claim> _claim = new List<Claim>();
             _claim.Add(new Claim("__UserId", Convert.ToString(UserId)));
-            _claim.Add(new Claim("__employee_id", Convert.ToString(employee_id)));
-            _claim.Add(new Claim("__user_type", Convert.ToString(user_type)));
             _claim.Add(new Claim("__CustomerId", Convert.ToString(CustomerId)));
+            _claim.Add(new Claim("__EmployeeId", Convert.ToString(EmployeeId)));
+            _claim.Add(new Claim("__VendorId", Convert.ToString(VendorId)));
             _claim.Add(new Claim("__DistributorId", Convert.ToString(DistributorId)));
+            _claim.Add(new Claim("__UserType", Convert.ToString(userType)));
+            _claim.Add(new Claim("__CustomerType", Convert.ToString(CustomerType)));
+
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
             var token = new JwtSecurityToken(JWTIssuer, JWTIssuer, _claim, expires: DateTime.Now.AddMinutes(TokenExpiryTime),
@@ -229,33 +247,6 @@ namespace projAPI.Services
             string Token = new JwtSecurityTokenHandler().WriteToken(token);
             return Token;
         }
-
-
-        //public List<Application> GetUserApplication(ulong UserId)
-        //{
-        //    return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
-        //}
-
-        //public bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy)
-        //{
-        //    DateTime currentDate = DateTime.Now;
-        //    var ExistingApplication = _context.tblUsersApplication.Where(p => p.UserId == UserId).Select(p => p.Applications).ToList();
-        //    Applications.RemoveAll(q => ExistingApplication.Contains(q));
-        //    _context.tblUsersApplication.AddRange(Applications.Select(q => new tblUsersApplication
-        //    {
-        //        Applications = q,
-        //        CreatedBy = CreatedBy,
-        //        CreatedDt = currentDate,
-        //        IsActive = true,
-        //        ModifiedBy = CreatedBy,
-        //        ModifiedDt = currentDate,
-        //        ModifyRemarks = string.Empty,
-        //        UserId = UserId
-        //    }));
-        //    _context.SaveChanges();
-        //    return true;
-        //}
-
         #region Document
 
         public void SetTempRoleClaim(ulong UserId)
@@ -292,53 +283,200 @@ namespace projAPI.Services
 
         public List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu)
         {
+            List<tblUserAllClaim> alluserClaims = _masterContext.tblUserAllClaim.Where(p => p.UserId == UserId).ToList();
+            var tempData = alluserClaims.Select(p => p.DocumentMaster).Distinct();
             List<Document> documents = new List<Document>();
-            var tempData = (from t1 in _context.tbl_role_claim_map
-                            join t2 in _context.tbl_user_role_map on t1.role_id equals t2.role_id
-                            where t1.is_deleted == 0 && t2.user_id == UserId && t2.is_deleted == 0
-                            select new { t1.DocumentMaster, t1.PermissionType }).ToList();
-            documents.AddRange(tempData.Select(p => p.DocumentMaster).Distinct().Select(p => p.GetDocumentDetails()).OrderBy(p => p.DisplayOrder));
-            documents.ForEach(p =>
+            foreach (var d in tempData)
             {
-                enmDocumentType ExistingPermissionType = p.DocumentType;
                 enmDocumentType permissionType = enmDocumentType.None;
-                if (p.DocumentType.HasFlag(enmDocumentType.Create) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Create)))
+                Document doc = d.GetDocumentDetails();
+                if (doc.HaveCreate && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Create))
+                {
                     permissionType = permissionType | enmDocumentType.Create;
-                if (p.DocumentType.HasFlag(enmDocumentType.Update) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Update)))
+                }
+                if (doc.HaveUpdate && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Update))
+                {
                     permissionType = permissionType | enmDocumentType.Update;
-                if (p.DocumentType.HasFlag(enmDocumentType.Approval) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Approval)))
-                    permissionType = permissionType | enmDocumentType.Approval;
-                if (p.DocumentType.HasFlag(enmDocumentType.Delete) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Delete)))
-                    permissionType = permissionType | enmDocumentType.Delete;
-                if (p.DocumentType.HasFlag(enmDocumentType.Report) && tempData.Any(q => (int)q.DocumentMaster == p.Id && q.PermissionType.HasFlag(enmDocumentType.Report)))
-                    permissionType = permissionType | enmDocumentType.Report;
-                if (p.DocumentType.HasFlag(enmDocumentType.DisplayMenu))
-                    permissionType = permissionType | enmDocumentType.DisplayMenu;
-            });
+                }
+                if (doc.HaveApproval && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Approval))
+                {
+                    permissionType = permissionType | enmDocumentType.Update;
+                }
+                if (doc.HaveDelete && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Delete))
+                {
+                    permissionType = permissionType | enmDocumentType.Update;
+                }
+                if (doc.HaveReport && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Report))
+                {
+                    permissionType = permissionType | enmDocumentType.Update;
+                }
+                if (doc.HaveDisplayMenu && alluserClaims.Any(p => p.PermissionType == enmDocumentType.DisplayMenu))
+                {
+                    permissionType = permissionType | enmDocumentType.Update;
+                }
+                doc.DocumentType = permissionType;
+                documents.Add(doc);
+            }
+
             if (OnlyDisplayMenu)
             {
-                documents.RemoveAll(p => !p.DocumentType.HasFlag(enmDocumentType.DisplayMenu));
+                documents.RemoveAll(q => !q.HaveDisplayMenu);
             }
             return documents;
         }
         public bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy)
         {
             DateTime dateTime = DateTime.Now;
-            var tempData = _context.tbl_role_claim_map.Where(q => q.role_id == roleDocument.roleId && q.is_deleted == 0).ToList();
-            tempData.ForEach(q => { q.is_deleted = 1; q.last_modified_by = CreatedBy; q.last_modified_date = dateTime; });
-            _context.tbl_role_claim_map.UpdateRange(tempData);
-            _context.tbl_role_claim_map.AddRange(roleDocument.roleDocument.Select(p => new tbl_role_claim_map
+            var tempData = _masterContext.tblRoleClaim.Where(q => q.RoleId == roleDocument.roleId && !q.IsDeleted).ToList();
+            tempData.ForEach(q => { q.IsDeleted = true; q.ModifiedBy = CreatedBy; q.ModifiedDt = dateTime; });
+            _masterContext.tblRoleClaim.UpdateRange(tempData);
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.Create)).Select(p => new tblRoleClaim
             {
-                role_id = roleDocument.roleId,
-                created_by = CreatedBy,
-                created_date = dateTime,
-                last_modified_by = CreatedBy,
-                last_modified_date = dateTime,
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
                 DocumentMaster = p.documentId,
-                is_deleted = 0,
-                PermissionType = p.PermissionType
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Create
             }));
-            _context.SaveChanges();
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.Update)).Select(p => new tblRoleClaim
+            {
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Update
+            }));
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.Delete)).Select(p => new tblRoleClaim
+            {
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Delete
+            }));
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.Approval)).Select(p => new tblRoleClaim
+            {
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Approval
+            }));
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.Report)).Select(p => new tblRoleClaim
+            {
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Report
+            }));
+            _masterContext.tblRoleClaim.AddRange(roleDocument.roleDocument.Where(p => p.PermissionType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new tblRoleClaim
+            {
+                RoleId = roleDocument.roleId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.DisplayMenu
+            }));
+            _masterContext.SaveChanges();
+            return true;
+        }
+        public bool SetUserDocument(ulong UserId, List<mdlRoleDocument> usrClaim, ulong CreatedBy)
+        {
+            DateTime dateTime = DateTime.Now;
+            var tempData = _masterContext.tblUserClaim.Where(q => q.UserId == UserId && !q.IsDeleted).ToList();
+            tempData.ForEach(q => { q.IsDeleted = true; q.ModifiedBy = CreatedBy; q.ModifiedDt = dateTime; });
+            _masterContext.tblUserClaim.UpdateRange(tempData);
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.Create)).Select(p => new tblUserClaim
+            {
+                UserId = UserId,
+                CreatedBy = CreatedBy,
+                CreatedDt = dateTime,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = dateTime,
+                DocumentMaster = p.documentId,
+                IsDeleted = false,
+                PermissionType = enmDocumentType.Create
+            }));
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.Update))
+                .Select(p => new tblUserClaim
+                {
+                    UserId = UserId,
+                    CreatedBy = CreatedBy,
+                    CreatedDt = dateTime,
+                    ModifiedBy = CreatedBy,
+                    ModifiedDt = dateTime,
+                    DocumentMaster = p.documentId,
+                    IsDeleted = false,
+                    PermissionType = enmDocumentType.Update
+                }));
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.Delete))
+                .Select(p => new tblUserClaim
+                {
+                    UserId = UserId,
+                    CreatedBy = CreatedBy,
+                    CreatedDt = dateTime,
+                    ModifiedBy = CreatedBy,
+                    ModifiedDt = dateTime,
+                    DocumentMaster = p.documentId,
+                    IsDeleted = false,
+                    PermissionType = enmDocumentType.Delete
+                }));
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.Approval))
+                .Select(p => new tblUserClaim
+                {
+                    UserId = UserId,
+                    CreatedBy = CreatedBy,
+                    CreatedDt = dateTime,
+                    ModifiedBy = CreatedBy,
+                    ModifiedDt = dateTime,
+                    DocumentMaster = p.documentId,
+                    IsDeleted = false,
+                    PermissionType = enmDocumentType.Approval
+                }));
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.Report)).
+                Select(p => new tblUserClaim
+                {
+                    UserId = UserId,
+                    CreatedBy = CreatedBy,
+                    CreatedDt = dateTime,
+                    ModifiedBy = CreatedBy,
+                    ModifiedDt = dateTime,
+                    DocumentMaster = p.documentId,
+                    IsDeleted = false,
+                    PermissionType = enmDocumentType.Report
+                }));
+            _masterContext.tblUserClaim.AddRange(usrClaim.Where(p => p.PermissionType.HasFlag(enmDocumentType.DisplayMenu))
+                .Select(p => new tblUserClaim
+                {
+                    UserId = UserId,
+                    CreatedBy = CreatedBy,
+                    CreatedDt = dateTime,
+                    ModifiedBy = CreatedBy,
+                    ModifiedDt = dateTime,
+                    DocumentMaster = p.documentId,
+                    IsDeleted = false,
+                    PermissionType = enmDocumentType.DisplayMenu
+                }));
+            _masterContext.SaveChanges();
             return true;
         }
         #endregion
@@ -395,35 +533,43 @@ namespace projAPI.Services
 
     }
 
+    
     public interface IsrvCurrentUser
     {
         int CustomerId { get; }
+        enmCustomerType customerType { get; }
         ulong DistributorId { get; }
-        int employee_id { get; }
-        enmUserType user_type { get; }
+        int EmployeeId { get; }
         ulong UserId { get; }
+        enmUserType UserType { get; }
+        int VendorId { get; }
     }
 
     public class srvCurrentUser : IsrvCurrentUser
     {
         private ulong _UserId = 0, _DistributorId = 0;
-        private int _employee_id = 0, _CustomerId = 0;
-        private enmUserType _user_type;
+        private int _EmployeeId = 0, _CustomerId = 0, _VendorId;
+        private enmUserType _UserType = enmUserType.Customer;
+        private enmCustomerType _CustomerType = enmCustomerType.None;
         public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
         {
-            _user_type = enmUserType.Customer;
             ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault()?.Value, out _UserId);
-            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault()?.Value, out _DistributorId);
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerId").FirstOrDefault()?.Value, out _CustomerId);
-            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__employee_id").FirstOrDefault()?.Value, out _employee_id);
-            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__user_type").FirstOrDefault()?.Value, out _user_type);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__EmployeeId").FirstOrDefault()?.Value, out _EmployeeId);
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__VendorId").FirstOrDefault()?.Value, out _VendorId);
+            ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault()?.Value, out _DistributorId);
+
+            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserType").FirstOrDefault()?.Value, out _UserType);
+            Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerType").FirstOrDefault()?.Value, out _CustomerType);
 
         }
         public ulong UserId { get { return _UserId; } private set { } }
-        public int employee_id { get { return _employee_id; } private set { } }
-        public enmUserType user_type { get { return _user_type; } private set { } }
-        public ulong DistributorId { get { return _DistributorId; } private set { } }
         public int CustomerId { get { return _CustomerId; } private set { } }
+        public int EmployeeId { get { return _EmployeeId; } private set { } }
+        public int VendorId { get { return _VendorId; } private set { } }
+        public ulong DistributorId { get { return _DistributorId; } private set { } }
+        public enmUserType UserType { get { return _UserType; } private set { } }
+        public enmCustomerType customerType { get { return _CustomerType; } private set { } }
 
     }
 
