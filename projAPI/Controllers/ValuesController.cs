@@ -128,7 +128,7 @@ namespace projAPI.Controllers
             {
                 Application.Add((enmApplication)d);
             }
-            isrvUsers.SetUserApplication(1,Application,1);
+         //   isrvUsers.SetUserApplication(1,Application,1);
         }
 
 

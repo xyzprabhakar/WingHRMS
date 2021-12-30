@@ -23,7 +23,7 @@ namespace projAPI.Model
         public string Longitute { get; set; }
         public string Latitude { get; set; }
         public string FromLocation { get; set; }
-        public enmUserType UserType { get; set; } = enmUserType.B2C;
+        public enmUserType UserType { get; set; } = enmUserType.Customer;
     }
 
     public class mdlMenuWraper

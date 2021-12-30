@@ -71,6 +71,20 @@ namespace projContext.DB.Masters
         public bool IsDeleted { get; set; }
     }
 
+    public class tblUserRole : d_ModifiedBy
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserRoleId { get; set; }  // primary key  must be public!   
+        [ForeignKey("tblUsersMaster")] // Foreign Key here
+        public ulong? UserId { get; set; }
+        public tblUsersMaster tblUsersMaster { get; set; }
+        [ForeignKey("tblRoleMaster")] // Foreign Key here
+        public int? RoleId { get; set; }
+        public tblRoleMaster tblRoleMaster { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
     public class tblUserAllClaim 
     {
         [Key]
@@ -80,8 +94,7 @@ namespace projContext.DB.Masters
         public ulong? UserId { get; set; }
         public tblUsersMaster tblUsersMaster { get; set; }
         public enmDocumentMaster DocumentMaster { get; set; }
-        public enmDocumentType PermissionType { get; set; }
-        public bool IsDeleted { get; set; }
+        public enmDocumentType PermissionType { get; set; }        
     }
 
     public class tblUserOTP
@@ -147,7 +160,7 @@ namespace projContext.DB.Masters
         [ForeignKey("tblCompanyMaster")] // Foreign Key here
         public int? CompanyId { get; set; }
         public tblCompanyMaster tblCompanyMaster { get; set; }
-        public bool HaveZoneCompanyAccess { get; set; }
+        public bool HaveAllZoneAccess { get; set; }
         public bool IsDeleted { get; set; }
     }
     public class tblUserZonePermission : d_ModifiedBy
@@ -188,7 +201,8 @@ namespace projContext.DB.Masters
         public tblUsersMaster tblUsersMaster { get; set; }
         [ForeignKey("tblLocationMaster")] // Foreign Key here
         public int? LocationId { get; set; }
-        public tblLocationMaster tblLocationMaster { get; set; }        
+        public tblLocationMaster tblLocationMaster { get; set; }
+
     }
 
 

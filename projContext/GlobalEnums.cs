@@ -468,11 +468,10 @@ namespace projContext
 
         public enum enmUserType
         {
-            Consolidator = 1,
+            SuperAdmin = 1,
             Employee = 2,
-            B2B = 4,
-            B2C = 8,
-            Vendor=16
+            Customer=4,
+            Vendor = 8,
         }
 
         public enum enmMessageType

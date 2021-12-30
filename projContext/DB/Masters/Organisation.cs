@@ -59,6 +59,9 @@ namespace projContext.DB.Masters
         [ForeignKey("tblCompanyMaster")] // Foreign Key here
         public int? CompanyId { get; set; }
         public tblCompanyMaster tblCompanyMaster { get; set; }
+        [ForeignKey("tblOrganisation")] // Foreign Key here
+        public int? OrgId { get; set; }
+        public tblOrganisation tblOrganisation { get; set; }
     }
     public class tblLocationMaster : d_Contact_With_Address_With_Modify_by
     {
@@ -76,6 +79,9 @@ namespace projContext.DB.Masters
         [ForeignKey("tblZoneMaster")] // Foreign Key here
         public int? ZoneId { get; set; }
         public tblZoneMaster tblZoneMaster { get; set; }
+        [ForeignKey("tblOrganisation")] // Foreign Key here
+        public int? OrgId { get; set; }
+        public tblOrganisation tblOrganisation { get; set; }
     }
 
 }

@@ -36,6 +36,7 @@ namespace projContext.DB.Masters
         public DbSet<tblRoleMaster> tblRoleMaster { get; set; }
         public DbSet<tblRoleClaim> tblRoleClaim { get; set; }
         public DbSet<tblUserClaim> tblUserClaim { get; set; }
+        public DbSet<tblUserRole> tblUserRole { get; set; }
         public DbSet<tblUserAllClaim> tblUserAllClaim { get; set; }
         public DbSet<tblUserOTP> tblUserOTP { get; set; }
         public DbSet<tblUserLoginLog> tblUserLoginLog { get; set; }

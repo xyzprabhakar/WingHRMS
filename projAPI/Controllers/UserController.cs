@@ -87,7 +87,7 @@ namespace projAPI.Controllers
                 return tempData;
             }
             string EncPassword = Classes.AESEncrytDecry.EncryptStringAES(mdlRequest.Password);
-            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, EncPassword, mdlRequest.OrgCode, mdlRequest.UserType);
+            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, EncPassword, 1,1, mdlRequest.UserType);
             if (tempDataValidate.MessageType != enmMessageType.Success)
             {
                 _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, false, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
@@ -102,7 +102,7 @@ namespace projAPI.Controllers
                     return mdl;
                 }
             }
-            if (mdlRequest.UserType.HasFlag(enmUserType.Consolidator))
+            if (mdlRequest.UserType.HasFlag(enmUserType.Customer))
             {
                 
                 ulong.TryParse(Convert.ToString(tempDataValidate.ReturnId.DistributorId), out DistributorId);
@@ -140,7 +140,7 @@ namespace projAPI.Controllers
         public mdlReturnData GetUserApplication()
         {
             mdlReturnData mdl = new mdlReturnData() { Message="",MessageType= enmMessageType.Success};
-            mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
+            //mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
             return mdl;
         }
 

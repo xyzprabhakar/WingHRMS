@@ -62,7 +62,7 @@ namespace projAPI
             services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
 
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
-            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<projContext.DB.Masters.MasterContext>(),  ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvMasters>(ctx => new srvMasters(ctx.GetRequiredService<projContext.DB.Masters.MasterContext>()));
 
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));

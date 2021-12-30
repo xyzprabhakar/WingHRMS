@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using projAPI.Model;
 using projContext;
 using projContext.DB;
+using projContext.DB.Masters;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Services
 {
+    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -21,47 +24,29 @@ namespace projAPI.Services
         string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
         string GenrateTempUser(string IP, string DeviceId);
         mdlCommonReturnUlong GetUser(ulong? UserId);
-        List<Application> GetUserApplication(ulong UserId);
         List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
         List<int> GetUserRole(ulong UserId);
         List<mdlCommonReturnUlong> GetUsers(ulong[] UserId);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
-        bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
+        void SetTempOrganisation(ulong UserId);
+        void SetTempRoleClaim(ulong UserId);
         bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
-        mdlReturnData ValidateUser(string UserName, string Password, int orgId, int Customer_Vendor_Id, enmUserType userType);
+        mdlReturnData ValidateUser(string UserName, string Password, int orgId, ulong Customer_Vendor_Id, enmUserType userType);
     }
 
-    //public interface IsrvUsers
-    //{
-    //    ulong? UserId { get; set; }
-
-    //    void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
-    //    string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
-    //    string GenrateTempUser(string IP, string DeviceId);
-    //    mdlCommonReturnUlong GetUser(ulong? UserId);
-    //    List<Application> GetUserApplication(ulong UserId);
-    //    List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
-    //    List<int> GetUserRole(ulong UserId);
-    //    List<mdlCommonReturnUlong> GetUsers(ulong[] UserId);
-    //    bool IsTempUserIDExist(string TempUserID);
-    //    void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
-    //    bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
-    //    bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
-    //    bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
-    //    mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
-    //}
-
-    public class srvUsers :  IsrvUsers
+    public class srvUsers : IsrvUsers
     {
+        private readonly MasterContext _masterContext;
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
         public ulong? UserId { get; set; }
-        public srvUsers(Context context, IsrvSettings isrvSettings)
+        public srvUsers(Context context, MasterContext masterContext, IsrvSettings isrvSettings)
         {
             _context = context;
             _IsrvSettings = isrvSettings;
+            _masterContext = masterContext;
         }
         public mdlCommonReturnUlong GetUser(ulong? UserId)
         {
@@ -80,46 +65,18 @@ namespace projAPI.Services
         }
 
         public mdlReturnData ValidateUser(string UserName,
-            string Password, int orgId, int Customer_Vendor_Id, enmUserType userType)
+            string Password, int orgId, ulong Customer_Vendor_Id, enmUserType userType)
         {
             int? OrganisationId = null;
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
-            if (userType.HasFlag(enmUserType.B2B) || userType.HasFlag(enmUserType.B2C) || userType.HasFlag(enmUserType.Vendor))
-            {
+            tblUsersMaster tempData = null;
+            IQueryable<tblUsersMaster> Query = _masterContext.tblUsersMaster.Where(p => p.UserName == UserName && p.OrgId == orgId && p.UserType == userType).AsQueryable();
 
-                //if (string.IsNullOrEmpty(OrgCode))
-                //{
-                //    ReturnData.MessageType = enmMessageType.Error;
-                //    ReturnData.Message = "Invalid Organisation Code";
-                //    return ReturnData;
-                //}
-                //else
-                //{
-                //    var temOrgData = _context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode).FirstOrDefault();
-                //    if (temOrgData == null)
-                //    {
-                //        ReturnData.MessageType = enmMessageType.Error;
-                //        ReturnData.Message = "Invalid Organisation Code";
-                //        return ReturnData;
-                //    }
-                //    if (!temOrgData.IsActive)
-                //    {
-                //        ReturnData.MessageType = enmMessageType.Error;
-                //        ReturnData.Message = "Blocked Organisation";
-                //        return ReturnData;
-                //    }
-                //    OrganisationId = temOrgData.CustomerId;
-                //}
-            }
-            tbl_user_master tempData = null;
-            if (OrganisationId.HasValue)
+            if (userType.HasFlag(enmUserType.Customer) || userType.HasFlag(enmUserType.Vendor))
             {
-                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.CustomerId == OrganisationId && p.user_type == userType).FirstOrDefault();
+                Query = Query.Where(q => q.Id == Customer_Vendor_Id);
             }
-            else
-            {
-                tempData = _context.tbl_user_master.Where(p => p.username == UserName && p.password == Password && p.user_type == userType).FirstOrDefault();
-            }
+            tempData = Query.FirstOrDefault();
             if (tempData == null)
             {
                 ReturnData.MessageType = enmMessageType.Error;
@@ -128,18 +85,16 @@ namespace projAPI.Services
             }
             else
             {
-                this.UserId = tempData.user_id;
+                this.UserId = tempData.UserId;
             }
-
-            if (tempData.password != Password)
+            if (tempData.Password != Password)
             {
-
-                BlockUnblockUser(tempData.user_id, 1);
+                BlockUnblockUser(tempData.UserId, 1);
                 ReturnData.MessageType = enmMessageType.Error;
                 ReturnData.Message = "Invalid Username or Password !!";
                 return ReturnData;
             }
-            else if (tempData.is_active != 1)
+            else if (!tempData.IsActive)
             {
                 ReturnData.MessageType = enmMessageType.Error;
                 ReturnData.Message = "Invalid User";
@@ -149,7 +104,7 @@ namespace projAPI.Services
             {
                 if (tempData.logged_blocked_Enddt < DateTime.Now)
                 {
-                    BlockUnblockUser(tempData.user_id, 0);
+                    BlockUnblockUser(tempData.UserId, 0);
                 }
                 else
                 {
@@ -162,12 +117,11 @@ namespace projAPI.Services
             ReturnData.Message = "Validate Successfully";
             ReturnData.ReturnId = new
             {
-                UserId = tempData.user_id,
+                UserId = tempData.UserId,
                 NormalizedName = tempData.NormalizedName,
-                employee_id = tempData.employee_id,
-                user_type = tempData.user_type,
-                CustomerId = tempData.CustomerId,
-                DistributorId = tempData.DistributorId,
+                Id = tempData.Id,
+                UserType = tempData.UserType,
+                OrgId = tempData.OrgId
             };
             return ReturnData;
         }
@@ -178,7 +132,7 @@ namespace projAPI.Services
             bool AllowBlockonFail = false;
             DateTime CurrentDate = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
             int BlockUserAfterLoginFailAttempets = 10, BlockUserAfterLoginFailAttempetsForTime = 30;
-            var tempData = _context.tbl_user_master.Where(p => p.user_id == UserId).FirstOrDefault();
+            var tempData = _masterContext.tblUsersMaster.Where(p => p.UserId == UserId).FirstOrDefault();
             if (tempData == null)
             {
                 return;
@@ -215,8 +169,8 @@ namespace projAPI.Services
             {
                 tempData.is_logged_blocked = 0;
             }
-            _context.tbl_user_master.Update(tempData);
-            _context.SaveChanges();
+            _masterContext.tblUsersMaster.Update(tempData);
+            _masterContext.SaveChanges();
 
         }
 
@@ -228,9 +182,9 @@ namespace projAPI.Services
                 return;
             }
 
-            _context.tblUserLoginLog.Add(new tblUserLoginLog()
+            _masterContext.tblUserLoginLog.Add(new projContext.DB.Masters.tblUserLoginLog()
             {
-                user_id = UserId.Value,
+                UserId = UserId.Value,
                 IPAddress = IPAddress,
                 DeviceDetails = DeviceDetails,
                 LoginStatus = LoginStatus,
@@ -277,32 +231,65 @@ namespace projAPI.Services
         }
 
 
-        public List<Application> GetUserApplication(ulong UserId)
-        {
-            return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
-        }
+        //public List<Application> GetUserApplication(ulong UserId)
+        //{
+        //    return _context.tblUsersApplication.Where(p => p.UserId == UserId && p.IsActive).Select(p => p.Applications.GetApplicationDetails()).ToList();
+        //}
 
-        public bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy)
-        {
-            DateTime currentDate = DateTime.Now;
-            var ExistingApplication = _context.tblUsersApplication.Where(p => p.UserId == UserId).Select(p => p.Applications).ToList();
-            Applications.RemoveAll(q => ExistingApplication.Contains(q));
-            _context.tblUsersApplication.AddRange(Applications.Select(q => new tblUsersApplication
-            {
-                Applications = q,
-                CreatedBy = CreatedBy,
-                CreatedDt = currentDate,
-                IsActive = true,
-                ModifiedBy = CreatedBy,
-                ModifiedDt = currentDate,
-                ModifyRemarks = string.Empty,
-                UserId = UserId
-            }));
-            _context.SaveChanges();
-            return true;
-        }
+        //public bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy)
+        //{
+        //    DateTime currentDate = DateTime.Now;
+        //    var ExistingApplication = _context.tblUsersApplication.Where(p => p.UserId == UserId).Select(p => p.Applications).ToList();
+        //    Applications.RemoveAll(q => ExistingApplication.Contains(q));
+        //    _context.tblUsersApplication.AddRange(Applications.Select(q => new tblUsersApplication
+        //    {
+        //        Applications = q,
+        //        CreatedBy = CreatedBy,
+        //        CreatedDt = currentDate,
+        //        IsActive = true,
+        //        ModifiedBy = CreatedBy,
+        //        ModifiedDt = currentDate,
+        //        ModifyRemarks = string.Empty,
+        //        UserId = UserId
+        //    }));
+        //    _context.SaveChanges();
+        //    return true;
+        //}
 
         #region Document
+
+        public void SetTempRoleClaim(ulong UserId)
+        {
+
+            _masterContext.Database.ExecuteSqlCommand("delete from tblUserAllClaim Where UserId=@p1;" +
+                @"insert into tblUserAllClaim(UserId,DocumentMaster,PermissionType)
+            select Distinct @p1,DocumentMaster,PermissionType from 
+             (select t2.DocumentMaster,t2.PermissionType from tblUserRole t1 inner join tblRoleClaim  t2 on t1.RoleId=t2.RoleId Where t1.UserId=@p1 and t1.IsDeleted=0 and t2.IsDeleted=0
+             union 
+             select t2.DocumentMaster,t2.PermissionType  from tblUserClaim where UserId=@p1 and IsDeleted=0) t1;", UserId);
+        }
+        public void SetTempOrganisation(ulong UserId)
+        {
+
+            _masterContext.Database.ExecuteSqlCommand(@"delete from tblUserAllLocationPermission  Where UserId=@p1;
+             insert into tblUserAllLocationPermission(UserId,LocationId)
+             select Distinct @p1,LocationId  from 
+             (select t2.LocationId from tblUserOrganisationPermission t1 inner join tblLocationMaster t2 on t1.OrgId=t2.OrgId and t1.HaveAllCompanyAccess=1 
+             Where t1.UserId=@p1 and t1.IsDeleted=0 
+             union
+             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId=@p1 and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
+             inner join tblLocationMaster t3 on t2.ZoneId=t3.ZoneId
+             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId=@p1 and t4.IsDeleted=0  and t4.HaveAllZoneAccess=1
+             union
+             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId=@p1 and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
+             inner join tblLocationMaster t3 on t2.ZoneId=t3.ZoneId
+             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId=@p1 and t4.IsDeleted=0  and t4.HaveAllZoneAccess=0
+             inner join tblUserZonePermission t5 on t5.ZoneId=t2.ZoneId and t5.UserId=@p1 and t5.IsDeleted=0  and t5.HaveAllLocationAccess=1
+             union
+             select LocationId from tblUserLocationPermission Where UserId=@p1 and IsDeleted=0 )t;", UserId);
+        }
+
+
         public List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu)
         {
             List<Document> documents = new List<Document>();
@@ -424,7 +411,7 @@ namespace projAPI.Services
         private enmUserType _user_type;
         public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
         {
-            _user_type = enmUserType.Consolidator;
+            _user_type = enmUserType.Customer;
             ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault()?.Value, out _UserId);
             ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault()?.Value, out _DistributorId);
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerId").FirstOrDefault()?.Value, out _CustomerId);
