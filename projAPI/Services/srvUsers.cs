@@ -257,7 +257,7 @@ namespace projAPI.Services
             select Distinct @p1,DocumentMaster,PermissionType from 
              (select t2.DocumentMaster,t2.PermissionType from tblUserRole t1 inner join tblRoleClaim  t2 on t1.RoleId=t2.RoleId Where t1.UserId=@p1 and t1.IsDeleted=0 and t2.IsDeleted=0
              union 
-             select t2.DocumentMaster,t2.PermissionType  from tblUserClaim where UserId=@p1 and IsDeleted=0) t1;", UserId);
+             select DocumentMaster,PermissionType  from tblUserClaim where UserId=@p1 and IsDeleted=0) t1;", UserId);
         }
         public void SetTempOrganisation(ulong UserId)
         {

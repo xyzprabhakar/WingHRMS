@@ -65,6 +65,8 @@ namespace projAPI
             services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<projContext.DB.Masters.MasterContext>(),  ctx.GetRequiredService<IsrvSettings>()));
             services.AddScoped<IsrvMasters>(ctx => new srvMasters(ctx.GetRequiredService<projContext.DB.Masters.MasterContext>()));
 
+            services.AddScoped<IsrvCustomer>(ctx => new srvCustomer(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
+
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
             services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));

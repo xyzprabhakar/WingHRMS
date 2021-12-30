@@ -98,23 +98,23 @@ namespace projAPI.Controllers
                     tempData.MessageType = enmMessageType.Error;
                     tempData.Message = "Required Organisation Code";
                     return tempData;
-                }
-                var orgData= _IsrvMasters.GetOrganisation(mdlRequest.OrgCode);
-                if (orgData == null)
-                {
-                    tempData.MessageType = enmMessageType.Error;
-                    tempData.Message = "Invalid Organisation";
-                    return tempData;
-                }
-                if (!orgData.IsActive)
-                {
-                    tempData.MessageType = enmMessageType.Error;
-                    tempData.Message = "Inactive Organisation";
-                    return tempData;
-                }
-                OrgId = orgData.Id;
-                
+                }                
             }
+            var orgData = _IsrvMasters.GetOrganisation(mdlRequest.OrgCode);
+            if (orgData == null)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = "Invalid Organisation";
+                return tempData;
+            }
+            if (!orgData.IsActive)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = "Inactive Organisation";
+                return tempData;
+            }
+            OrgId = orgData.Id;
+
             if (mdlRequest.UserType.HasFlag(enmUserType.Customer))
             {
                 var CustomerData = isrvCustomer.GetCustomer(OrgId, mdlRequest.CustomerCode);

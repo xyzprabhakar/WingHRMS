@@ -134,16 +134,16 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("DefaultDocuments")]
-        public void DefaultDocument([FromServices] IsrvUsers isrvUsers)
+        public void DefaultDocument([FromServices] IsrvUsers isrvUsers,[FromServices]MasterContext masterContext)
         {
             return;
             DateTime dt = DateTime.Now;
-            var defaultRole = _context.tbl_role_master.Where(p => p.role_name == "SuperAdmin").FirstOrDefault();
+            var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleName== "SuperAdmin").FirstOrDefault();
             if (defaultRole == null)
             {
-                defaultRole = new tbl_role_master() { role_name = "SuperAdmin", created_by = 1, created_date = dt, is_active = 1, last_modified_by = 1, last_modified_date = dt };
-                _context.tbl_role_master.Add(defaultRole);
-                _context.SaveChanges();
+                defaultRole = new tblRoleMaster() { RoleName= "SuperAdmin", CreatedBy= 1, CreatedDt= dt, IsActive=true, ModifiedBy= 1, ModifiedDt = dt };
+                masterContext.tblRoleMaster.Add(defaultRole);
+                masterContext.SaveChanges();
             }
             //role Claim
             //role Claim
@@ -154,7 +154,7 @@ namespace projAPI.Controllers
                 var edm = (enmDocumentMaster)d;
                 document.Add(new mdlRoleDocument() { documentId=edm,PermissionType =edm.GetDocumentDetails().DocumentType } );
             }
-            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.role_id, roleDocument= document }, 1);
+            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.RoleId, roleDocument= document }, 1);
         }
 
         [HttpGet]
