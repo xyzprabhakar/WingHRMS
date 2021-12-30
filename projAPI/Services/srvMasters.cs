@@ -40,6 +40,9 @@ namespace projAPI.Services
             return _masterContext.tblState.Where(q => q.StateId == StateId).Select(p => new mdlCommonReturn()
             { Id = p.StateId, Code = p.Code, Name = p.Name }).FirstOrDefault();
         }
+
+
+
         public List<mdlCommonReturn> GetStates(int CountryId)
         {
             if (CountryId == 0)
@@ -109,6 +112,16 @@ namespace projAPI.Services
                 }
             }
             return FileName;
+        }
+
+        public mdlCommonReturn GetOrganisation(string OrgCode )
+        {
+            if (string.IsNullOrEmpty( OrgCode ))
+            {
+                return new mdlCommonReturn();
+            }
+            return _masterContext.tblOrganisation.Where(q => q.Code == OrgCode ).Select(p => new mdlCommonReturn()
+            { Id = p.OrgId, Code = p.Code, Name = p.Name }).FirstOrDefault();
         }
 
 

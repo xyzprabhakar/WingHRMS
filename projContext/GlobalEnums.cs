@@ -471,7 +471,8 @@ namespace projContext
             Consolidator = 1,
             Employee = 2,
             B2B = 4,
-            B2C = 8
+            B2C = 8,
+            Vendor=16
         }
 
         public enum enmMessageType

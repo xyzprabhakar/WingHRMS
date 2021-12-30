@@ -7,8 +7,8 @@ namespace projContext.DB.Masters
 {
     public class MasterContext : DbContext
     {
-        //add-migration 31_Oct_20211 -Context projContext.DB.Masters.MasterContext
-        //update-database -Context projContext.DB.Masters.MasterContext
+        //add-migration -s projApi 31_Oct_20211 -Context projContext.DB.Masters.MasterContext
+        //update-database -s projApi -Context projContext.DB.Masters.MasterContext
         public MasterContext(DbContextOptions<MasterContext> options) : base(options)
         {
             

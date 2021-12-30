@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace projAPI.Services
 {
-    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -31,10 +30,30 @@ namespace projAPI.Services
         bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
         bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
         bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
-        mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
+        mdlReturnData ValidateUser(string UserName, string Password, int orgId, int Customer_Vendor_Id, enmUserType userType);
     }
 
-    public class srvUsers : IsrvUsers
+    //public interface IsrvUsers
+    //{
+    //    ulong? UserId { get; set; }
+
+    //    void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
+    //    string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int employee_id, enmUserType user_type, int CustomerId, ulong DistributorId);
+    //    string GenrateTempUser(string IP, string DeviceId);
+    //    mdlCommonReturnUlong GetUser(ulong? UserId);
+    //    List<Application> GetUserApplication(ulong UserId);
+    //    List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
+    //    List<int> GetUserRole(ulong UserId);
+    //    List<mdlCommonReturnUlong> GetUsers(ulong[] UserId);
+    //    bool IsTempUserIDExist(string TempUserID);
+    //    void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
+    //    bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
+    //    bool SetUserApplication(ulong UserId, List<enmApplication> Applications, ulong CreatedBy);
+    //    bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
+    //    mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType);
+    //}
+
+    public class srvUsers :  IsrvUsers
     {
         private readonly Context _context;
         private readonly IsrvSettings _IsrvSettings;
@@ -44,8 +63,6 @@ namespace projAPI.Services
             _context = context;
             _IsrvSettings = isrvSettings;
         }
-
-
         public mdlCommonReturnUlong GetUser(ulong? UserId)
         {
             if (UserId > 0)
@@ -56,42 +73,43 @@ namespace projAPI.Services
             {
                 return new mdlCommonReturnUlong();
             }
-
         }
         public List<mdlCommonReturnUlong> GetUsers(ulong[] UserId)
         {
             return new List<mdlCommonReturnUlong>();
         }
 
-        public mdlReturnData ValidateUser(string UserName, string Password, string OrgCode, enmUserType userType)
+        public mdlReturnData ValidateUser(string UserName,
+            string Password, int orgId, int Customer_Vendor_Id, enmUserType userType)
         {
             int? OrganisationId = null;
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
-            if (userType.HasFlag(enmUserType.B2B) || userType.HasFlag(enmUserType.B2C))
+            if (userType.HasFlag(enmUserType.B2B) || userType.HasFlag(enmUserType.B2C) || userType.HasFlag(enmUserType.Vendor))
             {
-                if (string.IsNullOrEmpty(OrgCode))
-                {
-                    ReturnData.MessageType = enmMessageType.Error;
-                    ReturnData.Message = "Invalid Organisation Code";
-                    return ReturnData;
-                }
-                else
-                {
-                    var temOrgData = _context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode).FirstOrDefault();
-                    if (temOrgData == null)
-                    {
-                        ReturnData.MessageType = enmMessageType.Error;
-                        ReturnData.Message = "Invalid Organisation Code";
-                        return ReturnData;
-                    }
-                    if (!temOrgData.IsActive)
-                    {
-                        ReturnData.MessageType = enmMessageType.Error;
-                        ReturnData.Message = "Blocked Organisation";
-                        return ReturnData;
-                    }
-                    OrganisationId = temOrgData.CustomerId;
-                }
+
+                //if (string.IsNullOrEmpty(OrgCode))
+                //{
+                //    ReturnData.MessageType = enmMessageType.Error;
+                //    ReturnData.Message = "Invalid Organisation Code";
+                //    return ReturnData;
+                //}
+                //else
+                //{
+                //    var temOrgData = _context.tblCustomerOrganisation.Where(p => p.OrganisationCode == OrgCode).FirstOrDefault();
+                //    if (temOrgData == null)
+                //    {
+                //        ReturnData.MessageType = enmMessageType.Error;
+                //        ReturnData.Message = "Invalid Organisation Code";
+                //        return ReturnData;
+                //    }
+                //    if (!temOrgData.IsActive)
+                //    {
+                //        ReturnData.MessageType = enmMessageType.Error;
+                //        ReturnData.Message = "Blocked Organisation";
+                //        return ReturnData;
+                //    }
+                //    OrganisationId = temOrgData.CustomerId;
+                //}
             }
             tbl_user_master tempData = null;
             if (OrganisationId.HasValue)

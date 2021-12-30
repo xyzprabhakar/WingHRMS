@@ -11,10 +11,14 @@ namespace projContext.DB.Masters
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrgId { get; set; }
+        [MaxLength(16)]
+        [RegularExpression(@"^[^<>]+$", ErrorMessage = "Character < > are not allowed")]
+        public string Code { get; set; }
         [MaxLength(254)]
         [RegularExpression(@"^[^<>]+$", ErrorMessage = "Character < > are not allowed")]
         public string Name { get; set; }
         public string Logo { get; set; }
+        public bool IsActive { get; set; }
         [NotMapped]
         public string LogoImage { get; set; }//base 64
         [NotMapped]
