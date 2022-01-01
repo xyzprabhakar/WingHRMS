@@ -167,7 +167,7 @@ namespace projAPI.Controllers
             }
 
             string JSONWebToken= _IsrvUsers.GenerateJSONWebToken(config["Jwt:Key"], config["Jwt:Issuer"],
-                UserId ,CustomerId,EmpId,VendorId,DistributorId,mdlRequest.UserType,CustomerType);
+                UserId ,CustomerId,EmpId,VendorId,DistributorId,mdlRequest.UserType,CustomerType,OrgId);
             _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, true, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
             mdl.MessageType = enmMessageType.Success;
             mdl.ReturnId =

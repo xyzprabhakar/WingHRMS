@@ -34,13 +34,15 @@ namespace projAPI.Controllers
             _srvCurrentUser = isrvCurrentUser;
             _masterContext = mc;
         }
+
         [HttpGet]
         [Route("GetOrganisation/{IncludeCountryState}/{IncludeUsername}")]
         public mdlReturnData GetOrganisation([FromServices] IsrvUsers srvUsers,
             bool IncludeCountryState, bool IncludeUsername)
         {   
             mdlReturnData returnData = new mdlReturnData();
-            var tempData = _masterContext.tblOrganisation.FirstOrDefault();
+            int OrgId = _srvCurrentUser.OrgId;
+            var tempData = _masterContext.tblOrganisation.Where(p=>p.OrgId==OrgId).FirstOrDefault();
             if (tempData == null)
             {
                 tempData = new tblOrganisation();
@@ -69,10 +71,22 @@ namespace projAPI.Controllers
         }
         [HttpPost]
         [Route("SetOrganisation")]
-        //[Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
+        [Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
         public mdlReturnData SetOrganisation([FromForm]tblOrganisationWraper mdl)
-         {  
+         {
             mdlReturnData returnData = new mdlReturnData();
+            if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Invalid Organisation";
+                return returnData;
+            }
+            else if (mdl.OrgId == 0 && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Unauthorized Access";
+                return returnData;
+            }
             string FileName = null;
             if (!(mdl.LogoImageFile == null))
             {
@@ -82,7 +96,7 @@ namespace projAPI.Controllers
             mdl.ModifiedBy = _srvCurrentUser.UserId;
             mdl.ModifiedDt = DateTime.Now;
             if (mdl.OrgId == 0)
-            {
+            {   
                 _masterContext.tblOrganisation.Add(mdl);
                 mdl.CreatedBy = mdl.ModifiedBy.Value;
                 mdl.CreatedDt = mdl.ModifiedDt.Value;
@@ -96,6 +110,7 @@ namespace projAPI.Controllers
             returnData.Message = "Save successfully";
             return returnData;
         }
+
         [AllowAnonymous]
         [Route("GetCountry/{IncludeUsername}")]
         public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)

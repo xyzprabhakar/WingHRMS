@@ -23,7 +23,7 @@ namespace projAPI.Services
         ulong? UserId { get; set; }
 
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
-        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int CustomerId, int EmployeeId, int VendorId, ulong DistributorId, enmUserType userType, enmCustomerType CustomerType);
+        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int CustomerId, int EmployeeId, int VendorId, ulong DistributorId, enmUserType userType, enmCustomerType CustomerType,int OrgId);
         string GenrateTempUser(string IP, string DeviceId);
         mdlCommonReturnUlong GetUser(ulong? UserId);
         List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
@@ -73,7 +73,6 @@ namespace projAPI.Services
             mdlReturnData ReturnData = new mdlReturnData() { MessageType = enmMessageType.None };
             tblUsersMaster tempData = null;
             IQueryable<tblUsersMaster> Query = _masterContext.tblUsersMaster.Where(p => p.UserName == UserName && p.OrgId == orgId && p.UserType == userType).AsQueryable();
-
             if (userType.HasFlag(enmUserType.Customer))
             {
                 Query = Query.Where(q => q.CustomerId == CustomerId);
@@ -225,7 +224,7 @@ namespace projAPI.Services
         public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,
             ulong UserId, int CustomerId,
             int EmployeeId, int VendorId, ulong DistributorId
-            , enmUserType userType, enmCustomerType CustomerType
+            , enmUserType userType, enmCustomerType CustomerType,int OrgId
 
             )
         {
@@ -239,7 +238,7 @@ namespace projAPI.Services
             _claim.Add(new Claim("__DistributorId", Convert.ToString(DistributorId)));
             _claim.Add(new Claim("__UserType", Convert.ToString(userType)));
             _claim.Add(new Claim("__CustomerType", Convert.ToString(CustomerType)));
-
+            _claim.Add(new Claim("__OrgId", Convert.ToString(OrgId)));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
             var token = new JwtSecurityToken(JWTIssuer, JWTIssuer, _claim, expires: DateTime.Now.AddMinutes(TokenExpiryTime),
@@ -543,12 +542,13 @@ namespace projAPI.Services
         ulong UserId { get; }
         enmUserType UserType { get; }
         int VendorId { get; }
+        int OrgId { get; }
     }
 
     public class srvCurrentUser : IsrvCurrentUser
     {
         private ulong _UserId = 0, _DistributorId = 0;
-        private int _EmployeeId = 0, _CustomerId = 0, _VendorId;
+        private int _EmployeeId = 0, _CustomerId = 0, _VendorId = 0, _OrgId = 0;
         private enmUserType _UserType = enmUserType.Customer;
         private enmCustomerType _CustomerType = enmCustomerType.None;
         public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
@@ -558,12 +558,13 @@ namespace projAPI.Services
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__EmployeeId").FirstOrDefault()?.Value, out _EmployeeId);
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__VendorId").FirstOrDefault()?.Value, out _VendorId);
             ulong.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__DistributorId").FirstOrDefault()?.Value, out _DistributorId);
-
+            int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value, out _OrgId);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserType").FirstOrDefault()?.Value, out _UserType);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerType").FirstOrDefault()?.Value, out _CustomerType);
 
         }
         public ulong UserId { get { return _UserId; } private set { } }
+        public int OrgId { get { return _OrgId; } private set { } }
         public int CustomerId { get { return _CustomerId; } private set { } }
         public int EmployeeId { get { return _EmployeeId; } private set { } }
         public int VendorId { get { return _VendorId; } private set { } }

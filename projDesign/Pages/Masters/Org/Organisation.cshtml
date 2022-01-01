@@ -12,107 +12,136 @@
                 <div class="card-body p-2">
                     <form id="frmOrganisation" method="post" action="">
                         
-                            <div class="form-container master-panel">
-                                <div class="col-md-12">
-                                    <h4> @ViewBag.Title </h4>
-                                    <hr />
-                                </div>
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
 
-                                <input type="hidden" id="lblOrganisationId" name="OrganisationId" value="1" />
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtOrganisation">
-                                            <label class="col-form-label" for="txtOrganisation">Organisation</label>
-                                            <input type="text" id="txtOrganisation" name="txtOrganisation"
-                                                   maxlength="128" autocomplete="off" pattern="^[^<>]+$"
-                                                   class="form-control" placeholder="Name" required>
-                                        </div>
-                                    </div>
-                                </div>
+                            <input type="hidden" id="lblOrganisationId" name="OrganisationId" value="1" />
 
 
-                                <div class="col-md-12">
-                                    <hr />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtAddress">
-                                            <label class="col-form-label" for="txtAddress">Address</label>
-                                            <input type="text" id="txtAddress" name="txtAddress" pattern="^[^<>]+$"
-                                                   maxlength="128" autocomplete="off"
-                                                   class="form-control" placeholder="Address" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtLocality">
-                                            <label class="col-form-label" for="txtLocality">Locality</label>
-                                            <input type="text" id="txtLocality" name="txtLocality" pattern="^[^<>]+$"
-                                                   maxlength="128" autocomplete="off"
-                                                   class="form-control" placeholder="Locality" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="">
-                                            <label class="col-form-label" for="txtCity">City</label>
-                                            <input type="text" id="txtCity" name="txtCity" pattern="^[^<>]+$"
-                                                   maxlength="32" autocomplete="off"
-                                                   class="form-control" placeholder="City" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-form-label" for="ddlcountry">Country Name</label>
-                                            <select id="ddlcountry" name="ddlcountry" class="form-control select2" required>
-                                                <option value=""> -- Please Select --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-form-label" for="ddlstate">State Name</label>
-                                            <select id="ddlstate" name="ddlstate" class="form-control select2" required>
-                                                <option value=""> -- Please Select --</option>
-                                            </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtOrgCode">
+                                        <label class="col-form-label" for="txtOrgCode">Code</label>
+                                        <input type="text" id="txtOrgCode" name="txtOrgCode"
+                                               maxlength="16" autocomplete="off" pattern="^[^<>]+$"
+                                               class="form-control" placeholder="Name" readonly required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtOrganisation">
+                                        <label class="col-form-label" for="txtOrganisation">Organisation</label>
+                                        <input type="text" id="txtOrganisation" name="txtOrganisation"
+                                               maxlength="128" autocomplete="off" pattern="^[^<>]+$"
+                                               class="form-control" placeholder="Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class=" mr-4 col-form-label">Status</label>
+                                <div class="">
+                                    <div class="form-check-inline my-1">
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
+                                            <label class="custom-control-label" for="is_active">  Active</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline my-1">
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
+                                            <label class="custom-control-label" for="is_in_active">  Inactive</label>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtPinCode">
-                                            <label class="col-form-label" for="txtPinCode">Pincode</label>
-                                            <input type="text" id="txtPinCode" name="txtPinCode" pattern="^[^<>]+$"
-                                                   maxlength="16" autocomplete="off"
-                                                   class="form-control" placeholder="Pincode" required>
-                                        </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAddress">
+                                        <label class="col-form-label" for="txtAddress">Address</label>
+                                        <input type="text" id="txtAddress" name="txtAddress" pattern="^[^<>]+$"
+                                               maxlength="128" autocomplete="off"
+                                               class="form-control" placeholder="Address" required>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <hr />
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtEmail">
-                                            <label class="col-form-label" for="txtEmail">Email</label>
-                                            <input type="email" id="txtEmail" name="txtEmail"
-                                                   maxlength="128" autocomplete="off"
-                                                   class="form-control" placeholder="Email" required>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtLocality">
+                                        <label class="col-form-label" for="txtLocality">Locality</label>
+                                        <input type="text" id="txtLocality" name="txtLocality" pattern="^[^<>]+$"
+                                               maxlength="128" autocomplete="off"
+                                               class="form-control" placeholder="Locality" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group" for="txtAlternateEmail">
-                                            <label class="col-form-label" for="txtAlternateEmail">Alternate Email</label>
-                                            <input type="email" id="txtAlternateEmail" name="txtAlternateEmail"
-                                                   maxlength="128" autocomplete="off"
-                                                   class="form-control" placeholder="Alternate Email">
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="">
+                                        <label class="col-form-label" for="txtCity">City</label>
+                                        <input type="text" id="txtCity" name="txtCity" pattern="^[^<>]+$"
+                                               maxlength="32" autocomplete="off"
+                                               class="form-control" placeholder="City" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="ddlcountry">Country Name</label>
+                                        <select id="ddlcountry" name="ddlcountry" class="form-control select2" required>
+                                            <option value=""> -- Please Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="ddlstate">State Name</label>
+                                        <select id="ddlstate" name="ddlstate" class="form-control select2" required>
+                                            <option value=""> -- Please Select --</option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtPinCode">
+                                        <label class="col-form-label" for="txtPinCode">Pincode</label>
+                                        <input type="text" id="txtPinCode" name="txtPinCode" pattern="^[^<>]+$"
+                                               maxlength="16" autocomplete="off"
+                                               class="form-control" placeholder="Pincode" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEmail">
+                                        <label class="col-form-label" for="txtEmail">Email</label>
+                                        <input type="email" id="txtEmail" name="txtEmail"
+                                               maxlength="128" autocomplete="off"
+                                               class="form-control" placeholder="Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAlternateEmail">
+                                        <label class="col-form-label" for="txtAlternateEmail">Alternate Email</label>
+                                        <input type="email" id="txtAlternateEmail" name="txtAlternateEmail"
+                                               maxlength="128" autocomplete="off"
+                                               class="form-control" placeholder="Alternate Email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtContact">
                                         <label class="col-form-label" for="txtContact">Contact</label>
@@ -121,7 +150,7 @@
                                                class="form-control" placeholder="Contact" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtAlternateContact">
                                         <label class="col-form-label" for="txtAlternateContact">Alternate Contact</label>
@@ -131,11 +160,11 @@
                                     </div>
                                 </div>
 
-                                    </div>
-                                <div class="col-md-12">
-                                    <hr />
-                                </div>
-                                <div class="row">
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtRemarks">
@@ -153,20 +182,20 @@
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <label asp-for="company_logo" class="col-form-label">Logo</label>
-                                            <input id="File1" type="file"  accept="image/x-icon"  class="form-control">                                            
+                                            <input id="File1" type="file" accept="image/x-icon" class="form-control">
                                         </div>
                                     </div>
 
                                 </div>
-                                    </div>
-                                <div class="clearfix"></div>
-                                <div class="col-md-12">
-                                    <div class="form-group text-center">
-                                        <input type="submit" class="btn btn-primary btn-lg" value="Update">
-                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                    </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Update">
+                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
                                 </div>
                             </div>
+                        </div>
                         
                     </form>
                         
@@ -213,6 +242,7 @@
                     if (data.messageType == 1) {
                         $("#lblOrganisationId").val(data.returnId.orgId);
                         $("#txtOrganisation").val(data.returnId.name);
+                        $("#txtOrgCode").val(data.returnId.code);
                         $("#txtAddress").val(data.returnId.officeAddress);
                         $("#txtLocality").val(data.returnId.locality);
                         $("#txtCity").val(data.returnId.city);
@@ -229,12 +259,20 @@
                         $("#txtAlternateEmail").val(data.returnId.alternateEmail);
                         $("#txtContact").val(data.returnId.contactNo);
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                        $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                         $("#txtRemarks").val(data.returnId.modifyRemarks);
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined))
                         {
                             var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
                         }
+                        if (data.returnId.isActive) {                            
+                            $("#is_active").checked = true;
+                        }
+                        else {
+                            $("#is_in_active").checked = true;
+                        }
+
                         $('#loader').hide();
                     }
                     else {
@@ -291,7 +329,8 @@
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
                         formdata.append("LogoImageFile", selectedFile);
-                        formdata.append("OrgId",$("#lblOrganisationId").val());
+                    formdata.append("OrgId", $("#lblOrganisationId").val());
+                        formdata.append("Code", $("#txtOrgCode").val());
                         formdata.append("Name",$("#txtOrganisation").val());
                         formdata.append("OfficeAddress",$("#txtAddress").val());
                         formdata.append("Locality",$("#txtLocality").val());
@@ -306,6 +345,12 @@
                     formdata.append("ModifyRemarks",$("#txtRemarks").val());
                     formdata.append("LogoImageType", $("#lblImgFile").val());
                     formdata.append("ImageType", "image/x-icon");
+                    if ($("#is_active").checked ) {
+                        formdata.append("IsActive", true);
+                    }
+                    else {
+                        formdata.append("IsActive", false);
+                    }
 
                     
                     ////JSON.stringify(formdata);
