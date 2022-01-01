@@ -7,6 +7,7 @@ using projContext.DB;
 using projContext.DB.Masters;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -250,33 +251,34 @@ namespace projAPI.Services
 
         public void SetTempRoleClaim(ulong UserId)
         {
-
-            _masterContext.Database.ExecuteSqlCommand("delete from tblUserAllClaim Where UserId=@p1;" +
-                @"insert into tblUserAllClaim(UserId,DocumentMaster,PermissionType)
-            select Distinct @p1,DocumentMaster,PermissionType from 
-             (select t2.DocumentMaster,t2.PermissionType from tblUserRole t1 inner join tblRoleClaim  t2 on t1.RoleId=t2.RoleId Where t1.UserId=@p1 and t1.IsDeleted=0 and t2.IsDeleted=0
+            _masterContext.Database.ExecuteSqlCommand(string.Format(@"delete from tblUserAllClaim Where UserId={0};
+                insert into tblUserAllClaim(UserId,DocumentMaster,PermissionType)
+            select Distinct {0},DocumentMaster,PermissionType from 
+             (select t2.DocumentMaster,t2.PermissionType from tblUserRole t1 inner join tblRoleClaim  t2 on t1.RoleId=t2.RoleId Where t1.UserId={0} and t1.IsDeleted=0 and t2.IsDeleted=0
              union 
-             select DocumentMaster,PermissionType  from tblUserClaim where UserId=@p1 and IsDeleted=0) t1;", UserId);
+             select DocumentMaster,PermissionType  from tblUserClaim where UserId={0} and IsDeleted=0) t1;", UserId));
+            
         }
         public void SetTempOrganisation(ulong UserId)
         {
 
-            _masterContext.Database.ExecuteSqlCommand(@"delete from tblUserAllLocationPermission  Where UserId=@p1;
+            _masterContext.Database.ExecuteSqlCommand(string.Format(@"delete from tblUserAllLocationPermission  Where UserId={0};
              insert into tblUserAllLocationPermission(UserId,LocationId)
-             select Distinct @p1,LocationId  from 
+             select Distinct {0},LocationId  from 
              (select t2.LocationId from tblUserOrganisationPermission t1 inner join tblLocationMaster t2 on t1.OrgId=t2.OrgId and t1.HaveAllCompanyAccess=1 
-             Where t1.UserId=@p1 and t1.IsDeleted=0 
+             Where t1.UserId={0} and t1.IsDeleted=0 
              union
-             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId=@p1 and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
+             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId={0} and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
              inner join tblLocationMaster t3 on t2.ZoneId=t3.ZoneId
-             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId=@p1 and t4.IsDeleted=0  and t4.HaveAllZoneAccess=1
+             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId={0} and t4.IsDeleted=0  and t4.HaveAllZoneAccess=1
              union
-             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId=@p1 and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
+             select t3.LocationId from tblUserOrganisationPermission t1 inner join tblZoneMaster t2 on t1.OrgId=t2.OrgId and t1.UserId={0} and t1.IsDeleted=0 and t1.HaveAllCompanyAccess=0 
              inner join tblLocationMaster t3 on t2.ZoneId=t3.ZoneId
-             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId=@p1 and t4.IsDeleted=0  and t4.HaveAllZoneAccess=0
-             inner join tblUserZonePermission t5 on t5.ZoneId=t2.ZoneId and t5.UserId=@p1 and t5.IsDeleted=0  and t5.HaveAllLocationAccess=1
+             inner join tblUserCompanyPermission t4 on t4.CompanyId=t2.CompanyId and t4.UserId={0} and t4.IsDeleted=0  and t4.HaveAllZoneAccess=0
+             inner join tblUserZonePermission t5 on t5.ZoneId=t2.ZoneId and t5.UserId={0} and t5.IsDeleted=0  and t5.HaveAllLocationAccess=1
              union
-             select LocationId from tblUserLocationPermission Where UserId=@p1 and IsDeleted=0 )t;", UserId);
+             select LocationId from tblUserLocationPermission Where UserId={0} and IsDeleted=0 )t;", UserId));
+            
         }
 
 
