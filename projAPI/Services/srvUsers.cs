@@ -301,19 +301,19 @@ namespace projAPI.Services
                 }
                 if (doc.HaveApproval && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Approval))
                 {
-                    permissionType = permissionType | enmDocumentType.Update;
+                    permissionType = permissionType | enmDocumentType.Approval;
                 }
                 if (doc.HaveDelete && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Delete))
                 {
-                    permissionType = permissionType | enmDocumentType.Update;
+                    permissionType = permissionType | enmDocumentType.Delete;
                 }
                 if (doc.HaveReport && alluserClaims.Any(p => p.PermissionType == enmDocumentType.Report))
                 {
-                    permissionType = permissionType | enmDocumentType.Update;
+                    permissionType = permissionType | enmDocumentType.Report;
                 }
                 if (doc.HaveDisplayMenu && alluserClaims.Any(p => p.PermissionType == enmDocumentType.DisplayMenu))
                 {
-                    permissionType = permissionType | enmDocumentType.Update;
+                    permissionType = permissionType | enmDocumentType.DisplayMenu;
                 }
                 doc.DocumentType = permissionType;
                 documents.Add(doc);
