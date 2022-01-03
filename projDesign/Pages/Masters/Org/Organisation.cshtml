@@ -178,6 +178,7 @@
                                     <div class="col-md-2">
                                         <img id="imgLogoImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
                                         <input type="hidden" id="lblImgFile">
+                                        <input type="hidden" id="lblImgName">
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
@@ -239,7 +240,8 @@
                 }
             }).then(data => {
 
-                    if (data.messageType == 1) {
+                if (data.messageType == 1) {
+                    console.log(data.returnId);
                         $("#lblOrganisationId").val(data.returnId.orgId);
                         $("#txtOrganisation").val(data.returnId.name);
                         $("#txtOrgCode").val(data.returnId.code);
@@ -260,17 +262,21 @@
                         $("#txtContact").val(data.returnId.contactNo);
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                    $("#txtRemarks").val(data.returnId.modifyRemarks);
+                    $("#lblImageName").val(data.returnId.logo);
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined))
                         {
                             var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
                         }
-                        if (data.returnId.isActive) {                            
-                            $("#is_active").checked = true;
+                        if (data.returnId.isActive) {
+                            
+                            $("#is_active").prop("checked", true);
+                            $("#is_in_active").prop("checked", false);
                         }
                         else {
-                            $("#is_in_active").checked = true;
+                            $("#is_active").prop("checked", false);
+                            $("#is_in_active").prop("checked", true);
                         }
 
                         $('#loader').hide();
@@ -323,7 +329,7 @@
                     }
                 },
                 submitHandler: function () {
-                    
+                    $('#loader').show();
                     let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetOrganisation"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
@@ -344,8 +350,9 @@
                         formdata.append("AlternateContactNo",$("#txtAlternateContact").val());
                     formdata.append("ModifyRemarks",$("#txtRemarks").val());
                     formdata.append("LogoImageType", $("#lblImgFile").val());
+                    formdata.append("Logo", $("#lblImgName").val());
                     formdata.append("ImageType", "image/x-icon");
-                    if ($("#is_active").checked ) {
+                    if ($("#is_active").is(":checked") ) {
                         formdata.append("IsActive", true);
                     }
                     else {

@@ -16,6 +16,7 @@ function startstopWorker() {
     else {
         stopWorker();
         document.getElementById("lblDataStatus").innerHTML = "Reload";
+        location.reload();
     }
 }
 
