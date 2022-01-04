@@ -16,7 +16,7 @@ function startstopWorker() {
     else {
         stopWorker();
         document.getElementById("lblDataStatus").innerHTML = "Reload";
-        location.reload();
+        
     }
 }
 
@@ -44,6 +44,18 @@ function fncCreateAllDb(e) {
     if (!thisDB.objectStoreNames.contains("tblState")) {
         thisDB.createObjectStore("tblState", { keyPath: "stateId" });
     }
+    if (!thisDB.objectStoreNames.contains("tblOrganisation")) {
+        thisDB.createObjectStore("tblOrganisation", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblCompany")) {
+        thisDB.createObjectStore("tblCompany", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblZone")) {
+        thisDB.createObjectStore("tblZone", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblLocation")) {
+        thisDB.createObjectStore("tblLocation", { keyPath: "id" });
+    }
 
     //create index coresponding to tables
     var tx = e.target.transaction;
@@ -66,6 +78,19 @@ function fncCreateAllDb(e) {
     if (!tblState_store.indexNames.contains("countryId")) {
         tblState_store.createIndex("countryId", "countryId", { unique: false });
     }
+
+    let tblCompany_store = tx.objectStore("tblCompany");
+    if (!tblCompany_store.indexNames.contains("parentId")) {
+        tblCompany_store.createIndex("parentId", "parentId", { unique: false });
+    }
+    let tblZone_store = tx.objectStore("tblZone");
+    if (!tblZone_store .indexNames.contains("parentId")) {
+        tblZone_store .createIndex("parentId", "parentId", { unique: false });
+    }
+    let tblLocation_store = tx.objectStore("tblLocation");
+    if (!tblLocation_store.indexNames.contains("parentId")) {
+        tblLocation_store.createIndex("parentId", "parentId", { unique: false });
+    }
 }
 
 function startWorker() {
@@ -82,7 +107,7 @@ function startWorker() {
             w.onmessage = function (event) {
                 if (event.data == "Done") {
                     document.getElementById("lblDataStatus").innerHTML = "Reload";
-                    //stopWorker();
+                    //location.reload();
                 }
                 else {
                     document.getElementById("lblDataStatus").innerHTML = event.data;
@@ -117,4 +142,35 @@ function stopWorker() {
 //            "body").style.visibility = "visible";
 //    }
 //};
+
+async function CheckIdExistsInIndexDb(id, StoreName) {
+    let dBVersion = localStorage.getItem('dBVersion');
+    var openRequest = await indexedDB.open("dpbs", dBVersion);
+    openRequest.onsuccess = async function (e) {
+        var db = e.target.result;
+        let ObjectStoreState = await db.transaction(StoreName, "readwrite")
+            .objectStore(StoreName);
+        var getAllRequest = await ObjectStoreState.openCursor(parseInt(id));
+        getAllRequest.onsuccess = async function () {
+            var cursor = await e.target.result;
+            if (cursor) { // key already exist
+                return true;
+            } else { // key not exist
+                return false;
+            }
+            db.close();
+        }
+        getAllRequest.on
+    }
+}
+function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
 

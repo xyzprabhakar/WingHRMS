@@ -18,46 +18,59 @@
                                 <hr />
                             </div>
 
-                            <input type="hidden" id="lblOrganisationId" name="OrganisationId" value="1" />
-
-
+                            <input type="hidden" id="lblCompanyId" name="CompanyId" value="0" />
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group" for="txtOrgCode">
-                                        <label class="col-form-label" for="txtOrgCode">Code</label>
-                                        <input type="text" id="txtOrgCode" name="txtOrgCode"
-                                               maxlength="16" autocomplete="off" pattern="^[^<>\s]+$"
-                                               class="form-control" placeholder="Code" readonly required>
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="ddlOrganisation">Organisation</label>
+                                        <select id="ddlOrganisation" name="ddlOrganisation" class="form-control select2" required>
+                                            <option value=""> -- Please Select --</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group" for="txtOrganisation">
-                                        <label class="col-form-label" for="txtOrganisation">Organisation</label>
-                                        <input type="text" id="txtOrganisation" name="txtOrganisation"
+                                    <div class="form-group" for="txtCompanyCode">
+                                        <label class="col-form-label" for="txtCompanyCode">Code</label>
+                                        <input type="text" id="txtOrgCode" name="txtCompanyCode"
+                                               maxlength="16" autocomplete="off" pattern="^[^<>\s]+$"
+                                               class="form-control" placeholder="Code" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCompanyName">
+                                        <label class="col-form-label" for="txtCompanyName">Company Name</label>
+                                        <input type="text" id="txtCompanyName" name="txtCompanyName"
                                                maxlength="128" autocomplete="off" pattern="^[^<>]+$"
                                                class="form-control" placeholder="Name" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label class=" mr-4 col-form-label">Status</label>
-                                <div class="">
-                                    <div class="form-check-inline my-1">
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
-                                            <label class="custom-control-label" for="is_active">  Active</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-check-inline my-1">
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
-                                            <label class="custom-control-label" for="is_in_active">  Inactive</label>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-inline">
+                                        <label class=" mr-4 col-form-label">Status</label>
+                                        <div class="">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                                </div>
+                                            </div>
 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            
 
 
                             <div class="col-md-12">
@@ -207,6 +220,7 @@
 
 @section Scripts {
     <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
+    <script src="~/apiJS/Comman/Organisation.js" asp-append-version="true"></script>
     <script type="text/javascript">
         
         $(document).ready(function () {
@@ -216,79 +230,96 @@
             $.validator.methods.pattern = function (value, element) {
                 return (this.optional(element) || new RegExp(element.pattern).test(value));
             };
-            $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' are not allowed";
-            
+            $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
+
+
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
+            BindOrganisationEvent("ddlOrganisation", "", "");
             var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
-            let apiurl = localStorage.getItem('baseUrl') +"Masters/GetOrganisation/false/false" ;
-            let token= localStorage.getItem('token');
-            let headerss = new Headers();
-            let lblcountryId = 0;
-            let lblstateId = 0;
-            headerss.append("Authorization", 'Bearer ' + token);
-            headerss.append("Content-Type", "application/json; charset=utf-8");
-            fetch(apiurl, {
-                method: "GET",
-                headers: headerss,
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error(response.statusText);
-                }
-            }).then(data => {
 
-                if (data.messageType == 1) {
-                    console.log(data.returnId);
-                        $("#lblOrganisationId").val(data.returnId.orgId);
-                        $("#txtOrganisation").val(data.returnId.name);
-                        $("#txtOrgCode").val(data.returnId.code);
-                        $("#txtAddress").val(data.returnId.officeAddress);
-                        $("#txtLocality").val(data.returnId.locality);
-                        $("#txtCity").val(data.returnId.city);
-                        
-                        lblcountryId = data.returnId.countryId;
-                        lblstateId = data.returnId.stateId;
-                        if (lblcountryId > 0) {
-                            $("#ddlcountry").val(lblcountryId);
-                            $("#ddlcountry").trigger('change');
-                            BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+            var companyId = getUrlVars()["companyId"];
+            if (companyId == null || companyId == '' || companyId == undefined) {
+                $("#lblOrganisationId").val("0");
+            } else {
+                if (await CheckIdExistsInIndexDb(companyId, "tblCompany")) {
+                    $("#lblOrganisationId").val(companyId);
+                    let apiurl = localStorage.getItem('baseUrl') + "Masters/GetOrganisation/false/false";
+                    let token = localStorage.getItem('token');
+                    let headerss = new Headers();
+                    let lblcountryId = 0;
+                    let lblstateId = 0;
+                    headerss.append("Authorization", 'Bearer ' + token);
+                    headerss.append("Content-Type", "application/json; charset=utf-8");
+                    fetch(apiurl, {
+                        method: "GET",
+                        headers: headerss,
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+
                         }
-                        $("#txtPinCode").val(data.returnId.pincode);
-                        $("#txtEmail").val(data.returnId.email);
-                        $("#txtAlternateEmail").val(data.returnId.alternateEmail);
-                        $("#txtContact").val(data.returnId.contactNo);
-                        $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                        $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                    $("#txtRemarks").val(data.returnId.modifyRemarks);
-                    $("#lblImageName").val(data.returnId.logo);
-                        if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined))
-                        {
-                            var img = document.getElementById("imgLogoImage");
-                            img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
-                        }
-                        if (data.returnId.isActive) {
-                            
-                            $("#is_active").prop("checked", true);
-                            $("#is_in_active").prop("checked", false);
+                    }).then(data => {
+
+                        if (data.messageType == 1) {
+
+                            $("#lblOrganisationId").val(data.returnId.orgId);
+                            $("#txtOrganisation").val(data.returnId.name);
+                            $("#txtOrgCode").val(data.returnId.code);
+                            $("#txtAddress").val(data.returnId.officeAddress);
+                            $("#txtLocality").val(data.returnId.locality);
+                            $("#txtCity").val(data.returnId.city);
+
+                            lblcountryId = data.returnId.countryId;
+                            lblstateId = data.returnId.stateId;
+                            if (lblcountryId > 0) {
+                                $("#ddlcountry").val(lblcountryId);
+                                $("#ddlcountry").trigger('change');
+                                BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                            }
+                            $("#txtPinCode").val(data.returnId.pincode);
+                            $("#txtEmail").val(data.returnId.email);
+                            $("#txtAlternateEmail").val(data.returnId.alternateEmail);
+                            $("#txtContact").val(data.returnId.contactNo);
+                            $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                            $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                            $("#txtRemarks").val(data.returnId.modifyRemarks);
+                            $("#lblImageName").val(data.returnId.logo);
+                            if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
+                                var img = document.getElementById("imgLogoImage");
+                                img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
+                            }
+                            if (data.returnId.isActive) {
+
+                                $("#is_active").prop("checked", true);
+                                $("#is_in_active").prop("checked", false);
+                            }
+                            else {
+                                $("#is_active").prop("checked", false);
+                                $("#is_in_active").prop("checked", true);
+                            }
+
+                            $('#loader').hide();
                         }
                         else {
-                            $("#is_active").prop("checked", false);
-                            $("#is_in_active").prop("checked", true);
+                            $('#loader').hide();
+                            messageBox("error", data.message);
                         }
-
+                    }).catch((error) => {
                         $('#loader').hide();
-                    }
-                    else {
-                        $('#loader').hide();
-                        messageBox("error", data.message );
-                    }
-                }).catch((error) => {
+                        messageBox("error", error.message);
+                    });
+                }
+                else {
                     $('#loader').hide();
-                    messageBox("error", error.message);
-                });
+                    messageBox("error", "unauthorized access");
+                }
+            }
+            
+
 
             
             

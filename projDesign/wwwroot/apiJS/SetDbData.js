@@ -13,7 +13,11 @@ var Apidatas = [{
 
 },
     { id: 2, name: "Country", url: "Masters/GetCountry/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblCountry", keyName: "" }] },
-    { id: 3, name: "State", url: "Masters/GetState/0/true/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblState", keyName: "" }] }
+    { id: 3, name: "State", url: "Masters/GetState/0/true/false", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblState", keyName: "" }] },
+    { id: 4, name: "Organisation", url: "User/GetCurrentUserOrganisation", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblOrganisation", keyName: "" }] },
+    { id: 5, name: "Company", url: "User/GetCurrentUserCompany", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblCompany", keyName: "" }] },
+    { id: 6, name: "Zone", url: "User/GetCurrentUserZone", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblZone", keyName: "" }] },
+    { id: 7, name: "Location", url: "User/GetCurrentUserLocation?ClearCache=true", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblLocation", keyName: "" }] },
 ]
 
 onmessage = function (e) {
@@ -75,22 +79,22 @@ async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
         
         if (KeyName == "") {
             for (var j in returnId) {
-                await ObjectStore.add(returnId[j]);
-                isAllDataDownloaded();
+                await ObjectStore.add(returnId[j]);                
             }
+            isAllDataDownloaded();
             
         }
         else {
             let tempdata = returnId[KeyName];
             for (var j in tempdata) {
                 await ObjectStore.add(tempdata[j]);
-                isAllDataDownloaded();
             }
-            
+            isAllDataDownloaded();
         }
     }
     function isAllDataDownloaded()
     {
+        
         postMessage("Loaded " + Apidatas[i].name);
         Apidatas[i].isloaded = true;
         if (Apidatas.find(checkIsNotCompleted) === undefined) {
@@ -126,6 +130,18 @@ function fncCreateAllDb(e) {
     if (!thisDB.objectStoreNames.contains("tblState")) {
         thisDB.createObjectStore("tblState", { keyPath: "stateId" });
     }
+    if (!thisDB.objectStoreNames.contains("tblOrganisation")) {
+        thisDB.createObjectStore("tblOrganisation", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblCompany")) {
+        thisDB.createObjectStore("tblCompany", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblZone")) {
+        thisDB.createObjectStore("tblZone", { keyPath: "id" });
+    }
+    if (!thisDB.objectStoreNames.contains("tblLocation")) {
+        thisDB.createObjectStore("tblLocation", { keyPath: "id" });
+    }
 
     //create index coresponding to tables
     var tx = e.target.transaction;
@@ -147,6 +163,19 @@ function fncCreateAllDb(e) {
     let tblState_store = tx.objectStore("tblState");
     if (!tblState_store.indexNames.contains("countryId")) {
         tblState_store.createIndex("countryId", "countryId", { unique: false });
+    }
+
+    let tblCompany_store = tx.objectStore("tblCompany");
+    if (!tblCompany_store.indexNames.contains("parentId")) {
+        tblCompany_store.createIndex("parentId", "parentId", { unique: false });
+    }
+    let tblZone_store = tx.objectStore("tblZone");
+    if (!tblZone_store.indexNames.contains("parentId")) {
+        tblZone_store.createIndex("parentId", "parentId", { unique: false });
+    }
+    let tblLocation_store = tx.objectStore("tblLocation");
+    if (!tblLocation_store.indexNames.contains("parentId")) {
+        tblLocation_store.createIndex("parentId", "parentId", { unique: false });
     }
 }
 

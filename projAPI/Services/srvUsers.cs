@@ -17,17 +17,23 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
+   
+
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
 
         void BlockUnblockUser(ulong UserId, byte is_logged_blocked);
-        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int CustomerId, int EmployeeId, int VendorId, ulong DistributorId, enmUserType userType, enmCustomerType CustomerType,int OrgId);
+        string GenerateJSONWebToken(string JWTKey, string JWTIssuer, ulong UserId, int CustomerId, int EmployeeId, int VendorId, ulong DistributorId, enmUserType userType, enmCustomerType CustomerType, int OrgId);
         string GenrateTempUser(string IP, string DeviceId);
         mdlCommonReturnUlong GetUser(ulong? UserId);
+        List<mdlCommonReturnWithParentID> GetUserCompany(ulong UserId, int? OrgId, List<int> OrgIds);
         List<Document> GetUserDocuments(ulong UserId, bool OnlyDisplayMenu);
+        List<mdlCommonReturnWithParentID> GetUserLocation(bool ClearCache, ulong UserId, int? OrgId, int? CompanyId, int? ZoneId);
+        List<mdlCommonReturnWithParentID> GetUserOrganisation(ulong UserId);
         List<int> GetUserRole(ulong UserId);
         List<mdlCommonReturnUlong> GetUsers(ulong[] UserId);
+        List<mdlCommonReturnWithParentID> GetUserZone(ulong UserId, int? OrgId, int? CompanyId, List<int> CompanyIds);
         bool IsTempUserIDExist(string TempUserID);
         void SaveLoginLog(string IPAddress, string DeviceDetails, bool LoginStatus, string FromLocation, string Longitude, string Latitude);
         bool SetRoleDocument(mdlRoleMaster roleDocument, ulong CreatedBy);
@@ -223,7 +229,7 @@ namespace projAPI.Services
         public string GenerateJSONWebToken(string JWTKey, string JWTIssuer,
             ulong UserId, int CustomerId,
             int EmployeeId, int VendorId, ulong DistributorId
-            , enmUserType userType, enmCustomerType CustomerType,int OrgId
+            , enmUserType userType, enmCustomerType CustomerType, int OrgId
 
             )
         {
@@ -255,7 +261,7 @@ namespace projAPI.Services
              (select t2.DocumentMaster,t2.PermissionType from tblUserRole t1 inner join tblRoleClaim  t2 on t1.RoleId=t2.RoleId Where t1.UserId={0} and t1.IsDeleted=0 and t2.IsDeleted=0
              union 
              select DocumentMaster,PermissionType  from tblUserClaim where UserId={0} and IsDeleted=0) t1;", UserId));
-            
+
         }
         public void SetTempOrganisation(ulong UserId)
         {
@@ -276,7 +282,7 @@ namespace projAPI.Services
              inner join tblUserZonePermission t5 on t5.ZoneId=t2.ZoneId and t5.UserId={0} and t5.IsDeleted=0  and t5.HaveAllLocationAccess=1
              union
              select LocationId from tblUserLocationPermission Where UserId={0} and IsDeleted=0 )t;", UserId));
-            
+
         }
 
 
@@ -535,12 +541,12 @@ namespace projAPI.Services
             List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
             returnData.AddRange(
             _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).
-                Select(p=>new mdlCommonReturnWithParentID { Code=p.tblOrganisation.Code,Name=p.tblOrganisation.Name, IsActive=p.tblOrganisation.IsActive,Id=p.OrgId??0}
+                Select(p => new mdlCommonReturnWithParentID { Code = p.tblOrganisation.Code, Name = p.tblOrganisation.Name, IsActive = p.tblOrganisation.IsActive, Id = p.OrgId ?? 0 }
                 ));
             return returnData;
         }
 
-        public List<mdlCommonReturnWithParentID> GetUserCompany(ulong UserId,int ?OrgId, List<int> OrgIds)
+        public List<mdlCommonReturnWithParentID> GetUserCompany(ulong UserId, int? OrgId, List<int> OrgIds)
         {
             List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
             if (OrgId == 0)
@@ -573,9 +579,9 @@ namespace projAPI.Services
             }
 
             return returnData;
-         }
+        }
 
-        public List<mdlCommonReturnWithParentID> GetUserZone(ulong UserId, int ?OrgId,int ?CompanyId,List<int> CompanyIds)
+        public List<mdlCommonReturnWithParentID> GetUserZone(ulong UserId, int? OrgId, int? CompanyId, List<int> CompanyIds)
         {
             List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
             if (CompanyId == 0)
@@ -586,7 +592,7 @@ namespace projAPI.Services
                                 join t2 in _masterContext.tblCompanyMaster on t1.OrgId equals t2.OrgId
                                 join t3 in _masterContext.tblZoneMaster on t2.CompanyId equals t3.CompanyId
                                 where !t1.IsDeleted && t1.UserId == UserId && t1.HaveAllCompanyAccess
-                                select new { OrgId = t3.OrgId,ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
+                                select new { OrgId = t3.OrgId, ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
                     ).Union(
                          from t1 in _masterContext.tblUserOrganisationPermission
                          join t2 in _masterContext.tblCompanyMaster on t1.OrgId equals t2.OrgId
@@ -594,7 +600,7 @@ namespace projAPI.Services
                          join t4 in _masterContext.tblUserCompanyPermission on t2.CompanyId equals t4.CompanyId
                          where !t1.IsDeleted && t1.UserId == UserId && !t1.HaveAllCompanyAccess
                          && t4.UserId == UserId && !t4.IsDeleted && t4.HaveAllZoneAccess
-                         select new  { OrgId = t3.OrgId,ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
+                         select new { OrgId = t3.OrgId, ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
                      )
                     .Union(
                     from t1 in _masterContext.tblUserOrganisationPermission
@@ -605,7 +611,7 @@ namespace projAPI.Services
                     where !t1.IsDeleted && t1.UserId == UserId && !t1.HaveAllCompanyAccess
                     && t4.UserId == UserId && !t4.IsDeleted && !t4.HaveAllZoneAccess
                     && t5.UserId == UserId && !t5.IsDeleted
-                    select new  { OrgId = t3.OrgId, ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
+                    select new { OrgId = t3.OrgId, ParentId = t3.CompanyId ?? 0, Id = t3.ZoneId, Code = string.Empty, Name = t3.Name, IsActive = t3.IsActive }
                     );
             if (CompanyId > 0)
             {
@@ -615,15 +621,15 @@ namespace projAPI.Services
             {
                 returnData.AddRange(QuerableData.Where(p => p.OrgId == OrgId).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
-            else if ((CompanyIds?.Count??0) > 0)
+            else if ((CompanyIds?.Count ?? 0) > 0)
             {
-                returnData.AddRange(QuerableData.Where(p => CompanyIds .Contains( p.ParentId )).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Where(p => CompanyIds.Contains(p.ParentId)).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
             else
             {
                 returnData.AddRange(QuerableData.Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
-            
+
             return returnData;
         }
 
@@ -638,7 +644,7 @@ namespace projAPI.Services
             {
                 returnData.AddRange(
                 _masterContext.tblUserAllLocationPermission.Where(p => p.UserId == UserId && p.tblLocationMaster.ZoneId == ZoneId).
-                    Select(p => new mdlCommonReturnWithParentID { Name = p.tblLocationMaster.Name, Code = string.Empty, Id = p.LocationId ?? 0,IsActive=p.tblLocationMaster.IsActive,ParentId=p.tblLocationMaster.ZoneId??0 }));
+                    Select(p => new mdlCommonReturnWithParentID { Name = p.tblLocationMaster.Name, Code = string.Empty, Id = p.LocationId ?? 0, IsActive = p.tblLocationMaster.IsActive, ParentId = p.tblLocationMaster.ZoneId ?? 0 }));
             }
             else if (CompanyId != null)
             {
@@ -647,24 +653,24 @@ namespace projAPI.Services
                 join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
                 join t3 in _masterContext.tblZoneMaster on t2.ZoneId equals t3.ZoneId
                 where t3.CompanyId == CompanyId
-                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive,ParentId=t3.ZoneId });
+                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t3.ZoneId });
             }
-            else if(OrgId!=null)
+            else if (OrgId != null)
             {
                 returnData.AddRange(
                 from t1 in _masterContext.tblUserAllLocationPermission
                 join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
                 where t2.OrgId == OrgId
-                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId??0 });
+                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId ?? 0 });
             }
             return returnData;
         }
-            
+
     }
 
-    
 
-    
+
+
     public interface IsrvCurrentUser
     {
         int CustomerId { get; }

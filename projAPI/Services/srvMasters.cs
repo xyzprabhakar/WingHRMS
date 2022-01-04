@@ -11,8 +11,6 @@ using projContext;
 namespace projAPI.Services
 {
     
-
-    
     public interface IsrvMasters
     {
         mdlCommonReturn GetCountry(int CountryId);

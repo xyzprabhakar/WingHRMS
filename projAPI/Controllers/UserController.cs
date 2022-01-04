@@ -196,6 +196,44 @@ namespace projAPI.Controllers
         }
 
         [Authorize]
+        [Route("GetCurrentUserOrganisation")]
+        public mdlReturnData GetCurrentUserOrganisation()
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
+            mdl.ReturnId=_IsrvUsers.GetUserOrganisation(_IsrvCurrentUser.UserId);
+            return mdl;
+        }
+        [Authorize]
+        [Route("GetCurrentUserCompany")]
+        public mdlReturnData GetCurrentUserCompany(int? OrgId )
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
+            mdl.ReturnId = _IsrvUsers.GetUserCompany(_IsrvCurrentUser.UserId, OrgId, null);
+            return mdl;
+        }
+        [Authorize]
+        [Route("GetCurrentUserZone")]
+        public mdlReturnData GetCurrentUserZone(int? OrgId,int? CompanyId )
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
+            mdl.ReturnId = _IsrvUsers.GetUserZone(_IsrvCurrentUser.UserId, OrgId, CompanyId,null);
+            return mdl;
+        }
+        [Authorize]
+        [Route("GetCurrentUserLocation")]
+        public mdlReturnData GetCurrentUserLocation(bool ClearCache,int? OrgId, int? CompanyId, int? ZoneId)
+        {
+            mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
+            mdl.ReturnId = _IsrvUsers.GetUserLocation(ClearCache, _IsrvCurrentUser.UserId, OrgId, CompanyId, ZoneId);
+            return mdl;
+        }
+
+
+
+
+
+
+        [Authorize]
         [Route("GetUserDocuments/{OnlyDisplayMenu}/{IncludeApplication}/{IncludeModule}/{IncludeSubModule}")]
         public mdlReturnData GetUserDocuments(bool OnlyDisplayMenu, bool IncludeApplication, bool IncludeModule, bool IncludeSubModule)
         {

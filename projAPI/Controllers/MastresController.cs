@@ -111,6 +111,94 @@ namespace projAPI.Controllers
             return returnData;
         }
 
+
+        [HttpGet]
+        [Route("GetCompany/{CompanyId}/{IncludeCountryState}/{IncludeUsername}")]
+        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Create))]
+        public mdlReturnData GetCompany([FromServices] IsrvUsers srvUsers,int CompanyId,
+            bool IncludeCountryState, bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (CompanyId > 0)
+            {
+                if (srvUsers.GetUserCompany(_srvCurrentUser.UserId, null, null).Where(p => p.Id == CompanyId).Count() == 0)
+                {
+                    returnData.Message = "Unauthorize access";
+                    returnData.MessageType = enmMessageType.Error;
+                    return returnData;
+                }
+            }
+            
+            var tempData = CompanyId>0? _masterContext.tblCompanyMaster.Where(p => p.CompanyId == CompanyId).FirstOrDefault():null;
+            if (tempData == null)
+            {
+                tempData = new tblCompanyMaster();
+            }
+            if (IncludeCountryState)
+            {
+                tempData.StateName = _srvMasters.GetState(tempData.StateId)?.Name;
+                tempData.CountryName = _srvMasters.GetCountry(tempData.CountryId)?.Name;
+            }
+            if (IncludeUsername)
+            {
+                tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
+            }
+            if (tempData.Logo != null)
+            {
+                var tempImages = _srvMasters.GetImage(tempData.Logo);
+                if (tempImages != null)
+                {
+                    tempData.LogoImage = Convert.ToBase64String(tempImages.File);
+                    tempData.LogoImageType = tempImages.FileType.GetDescription();
+                }
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = tempData;
+            return returnData;
+        }
+        [HttpPost]
+        [Route("SetCompany")]
+        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
+        public mdlReturnData SetCompany([FromForm] tblOrganisationWraper mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Invalid Organisation";
+                return returnData;
+            }
+            else if (mdl.OrgId == 0 && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Unauthorized Access";
+                return returnData;
+            }
+            string FileName = null;
+            if (!(mdl.LogoImageFile == null))
+            {
+                FileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _srvCurrentUser.UserId);
+                mdl.Logo = FileName;
+            }
+            mdl.ModifiedBy = _srvCurrentUser.UserId;
+            mdl.ModifiedDt = DateTime.Now;
+            if (mdl.OrgId == 0)
+            {
+                _masterContext.tblOrganisation.Add(mdl);
+                mdl.CreatedBy = mdl.ModifiedBy.Value;
+                mdl.CreatedDt = mdl.ModifiedDt.Value;
+            }
+            else
+            {
+                _masterContext.tblOrganisation.Update(mdl);
+            }
+            _masterContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            returnData.Message = "Save successfully";
+            return returnData;
+        }
+
+
         [AllowAnonymous]
         [Route("GetCountry/{IncludeUsername}")]
         public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)

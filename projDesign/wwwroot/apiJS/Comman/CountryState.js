@@ -34,8 +34,7 @@
             }
             db.close();
         };
-
-        var date = new Date();        
+       
         if (!(stateInputName == "" || stateInputName === undefined || stateInputName == null)) {
             $('#' + CountryInputName).on('change paste', function () {
                 BindState(CountryInputName, $('#' + CountryInputName).val(), stateInputName, stateId)
@@ -81,8 +80,6 @@ function BindState(CountryInputName, countryId, stateInputName, stateId) {
                     }
                 }
                 db.close();
-                var date = new Date();
-                
             }
         }
 
