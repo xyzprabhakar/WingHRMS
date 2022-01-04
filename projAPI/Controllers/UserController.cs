@@ -24,9 +24,7 @@ namespace projAPI.Controllers
         {
             _IsrvUsers = IsrvUsers;
             _IsrvSettings = isrvSettings;
-            _IsrvCurrentUser = isrvCurrentUser;
-
-
+            _IsrvCurrentUser = isrvCurrentUser;            
         }
 
         [Route("GetTempUser")]

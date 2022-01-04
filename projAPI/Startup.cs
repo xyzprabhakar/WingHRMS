@@ -120,7 +120,6 @@ namespace projAPI
             //previous code
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             /* The relevant part for Forwarded Headers */
             services.Configure<ForwardedHeadersOptions>(options =>
             {
