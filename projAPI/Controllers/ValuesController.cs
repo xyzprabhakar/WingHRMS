@@ -9,6 +9,10 @@ using projContext;
 using System.Xml.Linq;
 using projAPI.Classes;
 using System.Runtime.Serialization;
+using projAPI.Services;
+using projAPI.Model;
+using projContext.DB.Masters;
+using System.IO;
 
 namespace projAPI.Controllers
 {
@@ -112,7 +116,119 @@ namespace projAPI.Controllers
         {
         }
 
-   
+
+        [HttpGet]
+        [Route("DefaultApplication")]
+        public void DefaultApplication([FromServices] IsrvUsers isrvUsers )
+        {
+            return;
+
+            List<enmApplication> Application = new List<enmApplication>();
+            foreach (var d in Enum.GetValues(typeof(enmApplication)))
+            {
+                Application.Add((enmApplication)d);
+            }
+         //   isrvUsers.SetUserApplication(1,Application,1);
+        }
+
+
+        [HttpGet]
+        [Route("DefaultDocuments")]
+        public void DefaultDocument([FromServices] IsrvUsers isrvUsers,[FromServices]MasterContext masterContext)
+        {
+            return;
+            DateTime dt = DateTime.Now;
+            var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleName== "SuperAdmin").FirstOrDefault();
+            if (defaultRole == null)
+            {
+                defaultRole = new tblRoleMaster() { RoleName= "SuperAdmin", CreatedBy= 1, CreatedDt= dt, IsActive=true, ModifiedBy= 1, ModifiedDt = dt };
+                masterContext.tblRoleMaster.Add(defaultRole);
+                masterContext.SaveChanges();
+            }
+            //role Claim
+            //role Claim
+
+            List<mdlRoleDocument> document = new List<mdlRoleDocument>();
+            foreach (var d in Enum.GetValues(typeof(enmDocumentMaster)))
+            {
+                var edm = (enmDocumentMaster)d;
+                document.Add(new mdlRoleDocument() { documentId=edm,PermissionType =edm.GetDocumentDetails().DocumentType } );
+            }
+            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.RoleId, roleDocument= document }, 1);
+        }
+
+        [HttpGet]
+        [Route("SetCountryState")]
+        public bool SetCountryState([FromServices]MasterContext masterContext )
+        {
+            return false;
+            DateTime currentDt = DateTime.Now; 
+            List<tblCountry> countrys = new List<tblCountry>();
+            var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState","countries.csv");
+            int Id = 0;
+            int CountryId = 0;
+            using (var rd = new StreamReader(file))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0;
+                    int.TryParse(splits[0], out Id);
+                    if (Id> 0)
+                    {
+                        countrys.Add(new tblCountry()
+                        {
+                            CountryId = Id,
+                            Code = splits[3],
+                            Name = splits[1].Replace("\"", ""),
+                            ContactPrefix = splits[4],
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt,
+                            IsActive = true
+                        });
+                    }
+                    
+                    
+                }
+            }
+            masterContext.tblCountry.UpdateRange(countrys);
+
+            List<tblState> States = new List<tblState>();
+            var file1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState", "states.csv");
+            using (var rd = new StreamReader(file1))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0; CountryId=0;
+                    int.TryParse(splits[0], out Id);
+                    int.TryParse(splits[2], out CountryId);
+                    if (Id > 0 && CountryId>0)
+                    {
+                        States.Add(new tblState()
+                        {
+                            StateId = Id,
+                            Code = splits[4],
+                            Name = splits[1].Replace("\"", ""),
+                            CountryId = CountryId,
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt,
+                            IsActive = true
+
+                        }); ;
+                    }
+                    
+                }
+            }
+            masterContext.tblState.AddRange(States);
+            masterContext.SaveChanges();
+            return true;
+        }
+
 
         private void SetUserData()
         {

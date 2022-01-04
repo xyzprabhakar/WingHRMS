@@ -59,49 +59,39 @@ namespace projAPI.Model.Travel
         public string Message { get; set; }
     }
     public class mdlSearchResponse
-    {
-        public string WingSearchId { get; set; }
+    {   
         public enmMessageType ResponseStatus { get; set; }
-        public mdlError Error { get; set; }
-        public enmServiceProvider ServiceProvider { get; set; }
-        public string TraceId { get; set; }
+        public mdlError Error { get; set; }        
         public string Origin { get; set; }
         public string Destination { get; set; }
         public List<List<mdlSearchResult>> Results { get; set; }
     }
 
     public class mdlSearchResult
-    {
+    {   
         public enmServiceProvider ServiceProvider { get; set; }
-        public string traceid { get; set; }
+        public string TraceId { get; set; }
         public List<mdlSegment> Segment { get; set; }
         public List<mdlTotalpricelist> TotalPriceList { get; set; }
     }
 
     public class mdlSegment
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public mdlAirline Airline { get; set; }
         public mdlAirport Origin { get; set; }
         public mdlAirport Destination { get; set; }
         public int TripIndicator { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
+        public int Stops { get; set; }
+        public List<mdlAirport> StopDetail { get; set; }
         public int Mile { get; set; }
         public int Duration { get; set; }
         public int Layover { get; set; }
-        ////extra for tbo
-        //public int SeatRemaing { get; set; }
-        //public mdlBaggageInformation BaggageInformation { get; set; }
-        //public int RefundableType { get; set; }//0 Non Refundable,1 - Refundable,2 - Partial Refundable
-        //public enmCabinClass CabinClass { get; set; }//ECONOMY,PREMIUM_ECONOMY, BUSINESS,FIRST
-        //public string ClassOfBooking { get; set; }
-        //public string FareBasis { get; set; }
-        //public bool IsFreeMeel { get; set; }
-        //public double Convenience { get; set; }
         public mdlSsrInfo sinfo { get; set; }
-
     }
+
     public class mdlSsrInfo
     {
         public SsrInformation[] SEAT { get; set; }
@@ -146,33 +136,51 @@ namespace projAPI.Model.Travel
     {   
         public double BaseFare { get; set; }
         [IgnoreDataMember]
-        public double CustomerMarkup { get; set; }
-        
+        public double CustomerMarkup { get; set; }        
         public double WingMarkup { get; set; }
         public double MLMMarkup { get; set; }
         public double Convenience { get; set; }
         public double TotalFare { get; set; }
         public double Discount { get; set; }
-        public double PromoCode { get; set; }
-        public double PromoDiscount { get; set;}
         public double NetFare { get; set; }
         public mdlTotalpriceDetail ADULT { get; set; }
         public mdlTotalpriceDetail CHILD { get; set; }
         public mdlTotalpriceDetail INFANT { get; set; }
         public mdlFareRuleResponse FareRule { get; set; }
         public string ResultIndex { get; set; }
-        public string AlterResultIndex { get; set; }
         [IgnoreDataMember]
         public double alterPrices { get; set; }
         public string sri { get; set; }
         public List<string> msri { get; set; }
+        public int SeatRemaning { get; set; }
         [MaxLength(64)]
         public string Identifier { get; set; }//Corepreate, Publish, SME
-        public int SeatRemaning { get; set; }
         public enmCabinClass CabinClass { get; set; }
         public string ClassOfBooking { get; set; }
+        public string AlterResultIndex { get; set; }
+        [IgnoreDataMember]
+        [MaxLength(64)]
+        public string alterIdentifier { get; set; }//Corepreate, Publish, SME        
+        [IgnoreDataMember]
+        public enmCabinClass? alterCabinClass { get; set; }
+        [MaxLength(256)]
+        [IgnoreDataMember]
+        public string alterClassOfBooking { get; set; }
         [IgnoreDataMember]
         public List<mdlWingFaredetails> ConsolidateFareBreakup { get; set; }
+        public string ProviderBookingId { get; set; }
+        public enmServiceProvider ServiceProvider { get; set; }
+        public enmServiceProvider alterServiceProvider { get; set; }
+        public bool IncludeBaggageServices { get; set; }
+        public bool IncludeMealServices { get; set; }
+        public bool IncludeSeatServices { get; set; }
+        public double PurchaseAmount { get; set; }//Price at Which wing Purchase the ticket
+        public double PassengerIncentiveAmount { get; set; }
+        public double PassengerMarkupAmount { get; set; }
+        public double PassengerDiscountAmount { get; set; }
+        public double PassengerConvenienceAmount { get; set; }
+        public double SaleAmount { get; set; }
+
     }
 
     public class mdlTotalpriceDetail
@@ -273,7 +281,9 @@ namespace projAPI.Model.Travel
     public class mdlFareQuotRequestWraper
     {
         public string TraceId { get; set; }
-        public List< Tuple< string,string>> ResultIndex { get; set; }
+        public List< Tuple<string,string>> ResultIndex { get; set; }
+        public List<mdlTravellerinfo> travellerInfo { get; set; }
+        public mdlDeliveryinfo deliveryInfo { get; set; }
     }
 
     public class mdlFareQuotRequest
@@ -303,26 +313,6 @@ namespace projAPI.Model.Travel
         public mdlFlightSearchWraper SearchQuery { get; set; }
         public mdlFareQuoteCondition FareQuoteCondition { get; set; }
         public string userip { get; set; }
-
-        [IgnoreDataMember]
-        [MaxLength(64)]
-        public string PurchaseIdentifier { get; set; }//Corepreate, Publish, SME        
-        [IgnoreDataMember]
-        public enmCabinClass PurchaseCabinClass { get; set; }
-        [MaxLength(256)]
-        [IgnoreDataMember]
-        public string PurchaseClassOfBooking { get; set; }
-        //Booked by Software
-        [MaxLength(64)]
-        [IgnoreDataMember]
-        public string BookedIdentifier { get; set; }//Corepreate, Publish, SME        
-        [IgnoreDataMember]
-        public enmCabinClass BookedCabinClass { get; set; }
-        [MaxLength(256)]
-        [IgnoreDataMember]
-        public string BookedClassOfBooking { get; set; }
-
-
     }
 
     public class mdlTotalPriceInfo
@@ -440,24 +430,42 @@ namespace projAPI.Model.Travel
     public class mdlBookingRequest
     {
         public string VisitorId { get; set; }
-        public string TokenId { get; set; }
-        public string userip { get; set; }
-        public List<string> resultindex { get; set; }
         public string BookingId { get; set; }
-        public bool IsLCC { get; set; }
         public List<mdlTravellerinfo> travellerInfo { get; set; }
         public mdlDeliveryinfo deliveryInfo { get; set; }
         public mdlGstInfo gstInfo { get; set; }
-        public List<mdlPaymentInfos> paymentInfos { get; set; }
+        public double PaidAmount { get; set; }
         public double WalletAmount { get; set; }
         public double LoyaltyPoint { get; set; }
+        public double LoyaltyAmount { get; set; }
+        public double NetAmount { get; set; }
     }
-
+    
+    
 
     public class mdlDeliveryinfo
     {
         public List<string> emails { get; set; }
         public List<string> contacts { get; set; }
+        public enmPaymentMode PaymentMode { get; set; }
+        public enmPaymentGateway GatewayId { get; set; }
+        public enmPaymentSubType PaymentType { get; set; }        
+        public string PaymentTransactionNumber { get; set; }        
+        public string CardNo { get; set; }
+        public string AccountNumber { get; set; }        
+        public string BankName { get; set; }
+        public bool IncludeLoaylty { get; set; }
+        public int ConsumedLoyaltyPoint { get; set; }
+        public double ConsumedLoyaltyAmount { get; set; }
+        public double BookingAmount { get; set; }
+        public double GatewayCharge { get; set; }
+        public double NetAmount { get; set; }
+        public double PaidAmount { get; set; }
+        public double WalletAmount { get; set; }
+        public double LoyaltyAmount { get; set; }
+        public enmBookingStatus BookingStatus { get; set; }
+        public enmPaymentStatus PaymentStatus { get; set; }
+        public bool HaveRefund { get; set; }
     }
 
     public class mdlTravellerinfo
@@ -474,10 +482,6 @@ namespace projAPI.Model.Travel
         public string farebasis { get; set; }
         public DateTime PassportExpiryDate { get; set; }
         public DateTime PassportIssueDate { get; set; }
-        public mdlSSRS Baggage { get; set; }
-        public mdlSSRS ssrMealInfos { get; set; }
-        public mdlSSRS ssrSeatInfos { get; set; }
-        public mdlSSRS ssrExtraServiceInfos { get; set; }
         public List<mdlSSRS> ssrBaggageInfoslist { get; set; }
         public List<mdlSSRS> ssrMealInfoslist { get; set; }
         public List<mdlSSRS> ssrSeatInfoslist { get; set; }
@@ -549,7 +553,7 @@ namespace projAPI.Model.Travel
         public string PNR { get; set; }
         public mdlError Error { get; set; }
         public mdlMetainfo metaInfo { get; set; }
-        public int ResponseStatus { get; set; }
+        public enmMessageType ResponseStatus { get; set; }
         public mdlStatus status { get; set; }
 
     }
@@ -710,7 +714,7 @@ namespace projAPI.Model.Travel
         public bool IsDeleted { get; set; }
         public List<enmServiceProvider> ServiceProviders { get; set; }
         public List<enmCustomerType> CustomerTypes { get; set; }
-        public List<Tuple<int,string>> CustomerIds { get; set; }        
+        public List<Tuple<int?,string>> CustomerIds { get; set; }        
         public List<enmPassengerType> PassengerType { get; set; }
         public List<Tuple<int, string>> Airline { get; set; }
         public List<Tuple<string, string>> Segments { get; set; }

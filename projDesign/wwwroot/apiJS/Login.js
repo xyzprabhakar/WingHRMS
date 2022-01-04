@@ -1,6 +1,4 @@
 ﻿//Version 3
-
-
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -37,8 +35,7 @@ $('#btnLogin').bind("click", function () {
 $("#CaptchaCode").bind('keydown', function (event) {
     if (event.key == 'Enter') {        
         event.preventDefault();
-        performLogin();
-        
+        performLogin();        
     }
 });
 $("#txtUsername").bind('keydown', function (event) {
@@ -50,8 +47,7 @@ $("#txtUsername").bind('keydown', function (event) {
 $("#txtPassword").bind('keydown', function (event) {
     if (event.key == 'Enter') {        
         event.preventDefault();
-        document.getElementById("CaptchaCode").focus();
-        
+        document.getElementById("CaptchaCode").focus();        
     }
 });
 function performLogin() {
@@ -67,16 +63,11 @@ function performLogin() {
         var Password = $("#txtPassword").val();
         var CaptchaCode = $("#CaptchaCode").val();
         var CcCode = $("#hdnCcCode").val();
-        $('#btnLogin').attr("disabled", true).html('<i class="fa fa-circle-o-notch fa-spin"></i> Please wait..').css({ backgroundColor: '#d4cdcd' });
-        //$(this).css({ backgroundColor: '#d4cdcd' }).text('Processing..').attr('disabled',true);
-        //var key2 = CryptoJS.enc.Utf8.parse('8080808080808080');
-        //var iv2 = CryptoJS.enc.Utf8.parse('8080808080808080');
-
+        $('#btnLogin').attr("disabled", true).html('<i class="fa fa-circle-o-notch fa-spin"></i> Please wait..').css({ backgroundColor: '#d4cdcd' });        
         if (Username == '') {
             alert('All Fields Are Mandatory...!');
             $("#txtUsername").focus();
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
-            //$('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
         }
 
@@ -92,19 +83,9 @@ function performLogin() {
             $("#CaptchaCode").focus();
             $('#btnLogin').css({ backgroundColor: '#d05858' }).text('Login').attr('disabled', false);
             return false;
-        }
-        //encryptedpwd = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key2,
-        //    {
-        //        keySize: 128 / 8,
-        //        iv: iv2,
-        //        mode: CryptoJS.mode.CBC,
-        //        padding: CryptoJS.pad.Pkcs7
-        //    });
+        }        
     }
-    //else {
-    //    email = $("#hdnEmail").val();
-    //    isgauth = 1;
-    //}
+    
     var myData = {
         'TempUserId': window.localStorage.getItem("tempUserId"),
         'UserName': Username,//Password,    
@@ -117,8 +98,7 @@ function performLogin() {
         "FromLocation": "",
         "UserType": 2
     };
-    console.log(myData);
-
+    
     var apiurl = baseUrl+("User/Login");
     $('#loader').show();
     $.ajax({
@@ -136,8 +116,11 @@ function performLogin() {
                 window.localStorage.setItem("customerId", data.returnId.customerId);
                 window.localStorage.setItem("distributorId", data.returnId.distributorId);
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
-                window.location.href = '/Dashboard';
-                alert('Login Sucss');
+                window.localStorage.setItem("currentApplication", 0);//Need to set on user click
+                window.localStorage.setItem("refreshData", 1);
+                window.localStorage.setItem("dBVersion", 5);
+                document.cookie = `userId=${data.returnId.userId}`;
+                window.location.href = '/index';    
             }
             else {
                 alert(data.message);
@@ -170,8 +153,6 @@ $("#btnimg_captcha_change").bind("click", function () {
 //$("#btnfeedback").bind("click", function () {
 //    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdH72FLZgHi-4dIO5urvUFgVWgVokBzC2AwhwKciO-7DrTeCg/viewform?vc=0&c=0&w=1', '_blank');
 //});
-
-
 // Get the button that opens the modal
 var btn = document.getElementById("forgotten_password");
 // Get the <span> element that closes the modal

@@ -522,7 +522,7 @@ namespace projContext.Migrations
                         .HasMaxLength(128);
 
                     b.Property<string>("IPAddress")
-                        .HasMaxLength(32);
+                        .HasMaxLength(256);
 
                     b.Property<string>("Latitude")
                         .HasMaxLength(128);
@@ -1962,10 +1962,11 @@ namespace projContext.Migrations
 
             modelBuilder.Entity("projContext.DB.tbl_emp_adhar_details", b =>
                 {
-                    b.Property<int>("pan_details_id")
+                    b.Property<int>("adhar_details_id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("aadha_card_image");
+                    b.Property<string>("aadha_card_image")
+                        .HasMaxLength(256);
 
                     b.Property<string>("aadha_card_name")
                         .HasMaxLength(100);
@@ -1985,7 +1986,7 @@ namespace projContext.Migrations
 
                     b.Property<DateTime>("last_modified_date");
 
-                    b.HasKey("pan_details_id");
+                    b.HasKey("adhar_details_id");
 
                     b.HasIndex("employee_id");
 
@@ -2462,7 +2463,8 @@ namespace projContext.Migrations
 
                     b.Property<DateTime>("last_modified_date");
 
-                    b.Property<string>("pan_card_image");
+                    b.Property<string>("pan_card_image")
+                        .HasMaxLength(254);
 
                     b.Property<string>("pan_card_name")
                         .HasMaxLength(100);
@@ -2558,7 +2560,8 @@ namespace projContext.Migrations
 
                     b.Property<string>("permanent_document_type");
 
-                    b.Property<int>("permanent_pin_code");
+                    b.Property<string>("permanent_pin_code")
+                        .HasMaxLength(12);
 
                     b.Property<int>("permanent_state");
 
@@ -7186,13 +7189,13 @@ namespace projContext.Migrations
 
                     b.Property<byte>("PermissionType");
 
-                    b.Property<int>("created_by");
+                    b.Property<ulong>("created_by");
 
                     b.Property<DateTime>("created_date");
 
                     b.Property<int>("is_deleted");
 
-                    b.Property<int>("last_modified_by");
+                    b.Property<ulong>("last_modified_by");
 
                     b.Property<DateTime>("last_modified_date");
 
@@ -8224,13 +8227,15 @@ namespace projContext.Migrations
                     b.Property<int>("claim_master_id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("created_by");
+                    b.Property<bool>("IsActive");
+
+                    b.Property<ulong>("created_by");
 
                     b.Property<DateTime>("created_date");
 
                     b.Property<int>("is_deleted");
 
-                    b.Property<int>("last_modified_by");
+                    b.Property<ulong>("last_modified_by");
 
                     b.Property<DateTime>("last_modified_date");
 

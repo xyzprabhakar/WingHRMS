@@ -95,6 +95,71 @@ namespace projContext.Migrations.CRM
                     b.ToTable("tblCustomerMarkup");
                 });
 
+            modelBuilder.Entity("projContext.DB.CRM.tblCustomerMaster", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AlternateContactNo")
+                        .HasMaxLength(16);
+
+                    b.Property<string>("AlternateEmail")
+                        .HasMaxLength(254);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(254);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("ContactNo")
+                        .HasMaxLength(16);
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<ulong>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDt");
+
+                    b.Property<int>("CustomerType");
+
+                    b.Property<DateTime>("EffectiveFromDt");
+
+                    b.Property<DateTime>("EffectiveToDt");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(254);
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Locality")
+                        .HasMaxLength(254);
+
+                    b.Property<ulong?>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDt");
+
+                    b.Property<string>("ModifyRemarks")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("OfficeAddress")
+                        .HasMaxLength(254);
+
+                    b.Property<int>("OrgId");
+
+                    b.Property<string>("Pincode")
+                        .HasMaxLength(32);
+
+                    b.Property<int>("StateId");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("tblCustomerMaster");
+                });
+
             modelBuilder.Entity("projContext.DB.CRM.tblCustomerNotification", b =>
                 {
                     b.Property<int>("Sno")

@@ -39,7 +39,6 @@ namespace projDesign
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddSession(opts =>
             {
                 opts.Cookie.IsEssential = true; // make the session cookie Essential
@@ -53,8 +52,6 @@ namespace projDesign
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

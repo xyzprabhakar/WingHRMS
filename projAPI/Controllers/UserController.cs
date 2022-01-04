@@ -20,11 +20,15 @@ namespace projAPI.Controllers
         private readonly IsrvUsers _IsrvUsers;
         private readonly IsrvSettings _IsrvSettings;
         private readonly IsrvCurrentUser _IsrvCurrentUser;
-        public UserController(IsrvUsers IsrvUsers, IsrvSettings isrvSettings, IsrvCurrentUser isrvCurrentUser)
+        private readonly IsrvMasters _IsrvMasters;
+        public UserController(IsrvUsers IsrvUsers, IsrvSettings isrvSettings, IsrvCurrentUser isrvCurrentUser, IsrvMasters  IsrvMasters)
         {
             _IsrvUsers = IsrvUsers;
             _IsrvSettings = isrvSettings;
-            _IsrvCurrentUser = isrvCurrentUser;            
+            _IsrvCurrentUser = isrvCurrentUser;
+            _IsrvMasters = IsrvMasters;
+
+
         }
 
         [Route("GetTempUser")]
@@ -69,14 +73,16 @@ namespace projAPI.Controllers
         public mdlReturnData Login([FromServices] IHttpContextAccessor httpContext,
             [FromServices] IsrvEmployee isrvEmployee,
             [FromServices] IsrvDistributer isrvDistributer,
+            [FromServices] IsrvCustomer isrvCustomer,
             [FromServices] IConfiguration config,
             mdlLoginRequest mdlRequest)
         {
             string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
             string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);
             
-            int EmpId = 0, CustomerId=0;
+            int EmpId = 0, CustomerId=0,OrgId=0,VendorId=0;
             ulong DistributorId = 0, UserId=0;
+            enmCustomerType CustomerType=enmCustomerType.B2C;
 
             mdlReturnData mdl = new mdlReturnData() {MessageType= enmMessageType.Error};
             var tempData=_IsrvSettings.ValidateCaptcha(mdlRequest.CaptchaValue, mdlRequest.CaptchaId);
@@ -84,26 +90,73 @@ namespace projAPI.Controllers
             {
                 return tempData;
             }
+            if (string.IsNullOrEmpty(mdlRequest.OrgCode))
+            {
+                mdlRequest.OrgCode = config["OrganisationSetting:Organisation:OrganisationCode"];
+                if (string.IsNullOrEmpty(mdlRequest.OrgCode))
+                {
+                    tempData.MessageType = enmMessageType.Error;
+                    tempData.Message = "Required Organisation Code";
+                    return tempData;
+                }                
+            }
+            var orgData = _IsrvMasters.GetOrganisation(mdlRequest.OrgCode);
+            if (orgData == null)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = "Invalid Organisation";
+                return tempData;
+            }
+            if (!orgData.IsActive)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = "Inactive Organisation";
+                return tempData;
+            }
+            OrgId = orgData.Id;
+
+            if (mdlRequest.UserType.HasFlag(enmUserType.Customer))
+            {
+                var CustomerData = isrvCustomer.GetCustomer(OrgId, mdlRequest.CustomerCode);
+                if (CustomerData==null)
+                {
+                    tempData.MessageType = enmMessageType.Error;
+                    tempData.Message = "Invalid Customer";
+                    return tempData;
+                }
+                if (!CustomerData.IsActive)
+                {
+                    tempData.MessageType = enmMessageType.Error;
+                    tempData.Message = "Inactive Customer";
+                    return tempData;
+                }
+                CustomerId = CustomerData.CustomerId;
+                CustomerType = CustomerData.CustomerType;
+                if (CustomerType == enmCustomerType.MLM)
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
             string EncPassword = Classes.AESEncrytDecry.EncryptStringAES(mdlRequest.Password);
-            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, EncPassword, mdlRequest.OrgCode, mdlRequest.UserType);
+            mdlReturnData tempDataValidate = _IsrvUsers.ValidateUser(mdlRequest.UserName, EncPassword, OrgId, CustomerId, VendorId, mdlRequest.UserType);
             if (tempDataValidate.MessageType != enmMessageType.Success)
             {
                 _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, false, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
                 return tempDataValidate;
             }
-            if (mdlRequest.UserType.HasFlag( enmUserType.Employee))
-            {
-                
-                int.TryParse(Convert.ToString( tempDataValidate.ReturnId.employee_id),out EmpId);
+            UserId = tempDataValidate.ReturnId.UserId;
+            if (mdlRequest.UserType.HasFlag(enmUserType.Employee))
+            {   
+                int.TryParse(Convert.ToString( tempDataValidate.ReturnId.EmpId),out EmpId);
                 if (!isrvEmployee.IsActiveEmpExistsById(EmpId))
                 {
                     mdl.Message = "Inactive Employee";
                     return mdl;
                 }
             }
-            if (mdlRequest.UserType.HasFlag(enmUserType.Consolidator))
-            {
-                
+            if (mdlRequest.UserType.HasFlag(enmUserType.Customer) || enmCustomerType.MLM ==CustomerType )
+            {   
                 ulong.TryParse(Convert.ToString(tempDataValidate.ReturnId.DistributorId), out DistributorId);
                 if (!isrvDistributer.IsActiveDistributerExistsByNid(DistributorId))
                 {
@@ -111,13 +164,10 @@ namespace projAPI.Controllers
                     return mdl;
                 }
             }
-            ulong.TryParse(Convert.ToString(tempDataValidate.ReturnId.UserId),out UserId);
-            int.TryParse(Convert.ToString(tempDataValidate.ReturnId.CustomerId), out CustomerId);
+            
 
             string JSONWebToken= _IsrvUsers.GenerateJSONWebToken(config["Jwt:Key"], config["Jwt:Issuer"],
-                UserId ,EmpId,tempDataValidate.ReturnId.user_type,CustomerId,
-                DistributorId);
-
+                UserId ,CustomerId,EmpId,VendorId,DistributorId,mdlRequest.UserType,CustomerType,OrgId);
             _IsrvUsers.SaveLoginLog(_RemoteIpAddress, _DeviceId, true, mdlRequest.FromLocation, mdlRequest.Longitute, mdlRequest.Longitute);
             mdl.MessageType = enmMessageType.Success;
             mdl.ReturnId =
@@ -125,11 +175,13 @@ namespace projAPI.Controllers
                 {
                     UserId = UserId,
                     NormalizedName = tempDataValidate.ReturnId.NormalizedName,
-                    employee_id = EmpId,
-                    user_type = tempDataValidate.ReturnId.user_type,
+                    EmpId = EmpId,
                     CustomerId = CustomerId,
                     DistributorId = DistributorId,
-                    JSONWebToken= JSONWebToken
+                    VendorId = VendorId ,
+                    UserType = mdlRequest.UserType,
+                    CustomerType= CustomerType,
+                    JSONWebToken = JSONWebToken
                 };
             return mdl;
         }
@@ -139,18 +191,61 @@ namespace projAPI.Controllers
         public mdlReturnData GetUserApplication()
         {
             mdlReturnData mdl = new mdlReturnData() { Message="",MessageType= enmMessageType.Success};
-            mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
+            //mdl.ReturnId=_IsrvUsers.GetUserApplication(_IsrvCurrentUser.UserId);
             return mdl;
         }
 
         [Authorize]
-        [Route("GetUserDocuments")]
-        public mdlReturnData GetUserDocuments()
+        [Route("GetUserDocuments/{OnlyDisplayMenu}/{IncludeApplication}/{IncludeModule}/{IncludeSubModule}")]
+        public mdlReturnData GetUserDocuments(bool OnlyDisplayMenu, bool IncludeApplication, bool IncludeModule, bool IncludeSubModule)
         {
             mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.Success };
-            mdl.ReturnId = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId);
+            List<Document> documents = _IsrvUsers.GetUserDocuments(_IsrvCurrentUser.UserId, OnlyDisplayMenu).OrderBy(p=>p.DisplayOrder).ToList();
+            List<Module> modules = new List<Module>();
+            List<SubModule> submodules = new List<SubModule>();
+            List<Application> applications = new List<Application>();
+            if (IncludeModule)
+            {
+                modules = documents.Where(p => p.EnmModule.HasValue).Select(p => p.EnmModule).Distinct().Select(p => p.Value.GetModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+            if (IncludeModule)
+            {
+                submodules = documents.Where(p => p.EnmSubModule.HasValue).Select(p => p.EnmSubModule).Distinct().Select(p => p.Value.GetSubModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+            if (IncludeApplication)
+            {
+                applications = documents.Where(p => p.EnmApplication.HasValue).Select(p => p.EnmApplication).Distinct().Select(p => p.Value.GetApplicationDetails()).OrderBy(p => p.DisplayOrder).ToList();
+            }
+
+            List<mdlMenuWraper> menuWraper = new List<mdlMenuWraper>();
+            menuWraper.Add(new mdlMenuWraper { applicationId=0, menuData= getMenudata(null) });
+            //Genrate Menu 
+            foreach (var app in applications)
+            {
+                menuWraper.Add(new mdlMenuWraper { applicationId = app.Id, menuData = getMenudata(app.Id) });
+            }
+            List<mdlMenu> getMenudata(int? MenuId)
+            {   
+                List<mdlMenu> mdlMs = new List<mdlMenu>();
+                mdlMs.AddRange(modules.OrderBy(q=>q.DisplayOrder).Select(p => new mdlMenu { id=p.Id , icon_url= p.Icon,urll="#", text=p.Name, sortingorder=p.DisplayOrder,children=new List<mdlMenu>()}));
+                foreach (var mdlM in mdlMs)
+                {
+                    //check for sub module
+                    var mdlsubMs = submodules.Where(q => (int?)q.EnmModule == mdlM.id).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
+                    foreach (var mdlsubM in mdlsubMs)
+                    {
+                        mdlsubM.children.AddRange( documents.Where(q => (int)q.EnmSubModule == mdlsubM.id && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }));
+                    }
+                    var document_inner1 = documents.Where(q => (int?)q.EnmModule == mdlM.id && q.EnmSubModule==null && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
+                    mdlM.children.AddRange(mdlsubMs.Union(document_inner1).OrderBy(p=>p.sortingorder).ThenBy(p=>p.text));
+                }
+                var document_inner2 = documents.Where(q => q.EnmModule == null && q.EnmSubModule == null && (int?)q.EnmApplication== MenuId &&  q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName ?? "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });                
+                return mdlMs.Union(document_inner2).OrderBy(p=>p.sortingorder).ThenBy(p=>p.text).ToList();
+            }
+            mdl.ReturnId=new { _document= documents, _module = modules ,_submodule=submodules, _application = applications, _muenuList= menuWraper };
             return mdl;
         }
+
 
         [Authorize]
         [Route("GetDownlineEmployee")]
@@ -161,7 +256,7 @@ namespace projAPI.Controllers
             mdlReturnData mdl = new mdlReturnData() { Message = "", MessageType = enmMessageType.None };
             try
             {
-                isrvEmployee.EmpId = _IsrvCurrentUser.employee_id;
+                isrvEmployee.EmpId = _IsrvCurrentUser.EmployeeId;
                 isrvEmployee.UserId = _IsrvCurrentUser.UserId;
                 isrvEmployee.Role= _IsrvUsers.GetUserRole(_IsrvCurrentUser.UserId);
                 mdl.ReturnId = isrvEmployee.GetDownline(processingDate, OnlyActive, false, IsRequiredName);
@@ -174,7 +269,5 @@ namespace projAPI.Controllers
             }
             return mdl;
         }
-
-
     }
 }

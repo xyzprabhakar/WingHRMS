@@ -49,8 +49,6 @@ namespace projDesign
         {
             _UserID = UserID;
         }
-        
-
         string _Guid()
         {
             projContext.Context db = null;// new projContext.Context();

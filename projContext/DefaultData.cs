@@ -71,50 +71,50 @@ namespace projContext
             modelBuilder.Entity<tbl_city>().HasData(cityData);
         }
 
-        public void InsertCompany(ModelBuilder modelBuilder)
-        {
-            tbl_company_master company_Master = new tbl_company_master()
-            {
-                company_id = 1,
-                company_name = "Travolook",
-                address_line_one = "836, 2nd floor, Udyog Vihar Phase V, Sector 19",
-                address_line_two= "Gurugram",
-                city_id=13,
-                state_id=13,
-                country_id=1,
-                company_code="TR",
-                company_website = "https://www.travolook.in/",
-                is_emp_code_manual_genrate=1,
-                company_logo=null,
-                primary_email_id = "support@travolook.in",
-                secondary_email_id = null,
-                primary_contact_number = "01246434800",
-                secondary_contact_number = null,                
-                is_active = 1,
-                last_modified_by = 1,
-                last_modified_date = CurrentDate,
-                created_by=1,
-                created_date= CurrentDate,
-                pin_code= 122008,
-                total_emp=1,
-                user_type=1
-            };
-            modelBuilder.Entity<tbl_company_master>().HasData(company_Master);
-            tbl_company_emp_setting empSetting = new tbl_company_emp_setting()
-            {
-                sno = 1,
-                company_id = 1,
-                prefix_for_employee_code = "TR",
-                number_of_character_for_employee_code = 8,
-                from_range = 1,
-                current_range = 1,
-                to_range = 1,
-                is_active = 1,
-                last_genrated = CurrentDate,
+        //public void InsertCompany(ModelBuilder modelBuilder)
+        //{
+        //    tbl_company_master company_Master = new tbl_company_master()
+        //    {
+        //        company_id = 1,
+        //        company_name = "Travolook",
+        //        address_line_one = "836, 2nd floor, Udyog Vihar Phase V, Sector 19",
+        //        address_line_two= "Gurugram",
+        //        city_id=13,
+        //        state_id=13,
+        //        country_id=1,
+        //        company_code="TR",
+        //        company_website = "https://www.travolook.in/",
+        //        is_emp_code_manual_genrate=1,
+        //        company_logo=null,
+        //        primary_email_id = "support@travolook.in",
+        //        secondary_email_id = null,
+        //        primary_contact_number = "01246434800",
+        //        secondary_contact_number = null,                
+        //        is_active = 1,
+        //        last_modified_by = 1,
+        //        last_modified_date = CurrentDate,
+        //        created_by=1,
+        //        created_date= CurrentDate,
+        //        pin_code= 122008,
+        //        total_emp=1,
+        //        user_type=1
+        //    };
+        //    modelBuilder.Entity<tbl_company_master>().HasData(company_Master);
+        //    tbl_company_emp_setting empSetting = new tbl_company_emp_setting()
+        //    {
+        //        sno = 1,
+        //        company_id = 1,
+        //        prefix_for_employee_code = "TR",
+        //        number_of_character_for_employee_code = 8,
+        //        from_range = 1,
+        //        current_range = 1,
+        //        to_range = 1,
+        //        is_active = 1,
+        //        last_genrated = CurrentDate,
 
-            };
-            modelBuilder.Entity<tbl_company_emp_setting>().HasData(empSetting);
-        }
+        //    };
+        //    modelBuilder.Entity<tbl_company_emp_setting>().HasData(empSetting);
+        //}
 
         public void InsertLocation(ModelBuilder modelBuilder)
         {

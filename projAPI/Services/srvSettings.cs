@@ -16,9 +16,6 @@ using System.Drawing.Imaging;
 namespace projAPI.Services
 {
     
-    
-
-
     public interface IsrvSettings
     {
         byte[] GenerateImage(int width, int height, string captchaCode);

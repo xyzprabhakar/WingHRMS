@@ -1,0 +1,42 @@
+﻿@page
+@{
+    ViewData["Title"] = "Instant Booking Settings";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        @Html.Partial("_PartialAirLayout")
+        <div class="card mt-3">
+            <div class="card-body p-2">
+                <div class="panel">
+                    <h1>Instant Booking Setting List</h1>
+                    <hr />
+                </div>
+                <div class="col-md-12">
+                    <a href="/air/addinstantbookingsetting" class="btn btn-success btn-lg text-right float-right">Add Instant Booking Setting </a>
+                </div>
+                <div class="table-responsive no-margin">
+                    <table id="tblEmployee" class="table nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Effective From Date</th>
+                                <th>CustomerType</th>
+                                <th>Is Instant Domestic</th>
+                                <th>Is Instant Non Domestic</th>
+                                <th>Created By</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

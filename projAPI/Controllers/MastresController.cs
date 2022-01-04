@@ -14,13 +14,143 @@ using System.ComponentModel;
 using static projContext.CommonClass;
 using Microsoft.AspNetCore.Authorization;
 using projAPI.Model;
+using projContext.DB.Masters;
+using projAPI.Services;
 
 namespace projAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MastresController : Controller
+    [Authorize]
+    public class MastersController : Controller
     {
+        private readonly MasterContext _masterContext;
+        private readonly IsrvCurrentUser _srvCurrentUser;
+        
+        private readonly IsrvMasters _srvMasters;
+        public MastersController([FromServices] IsrvMasters srvMasters ,IsrvCurrentUser isrvCurrentUser, MasterContext mc)
+        {
+            _srvMasters = srvMasters;
+            _srvCurrentUser = isrvCurrentUser;
+            _masterContext = mc;
+        }
+
+        [HttpGet]
+        [Route("GetOrganisation/{IncludeCountryState}/{IncludeUsername}")]
+        public mdlReturnData GetOrganisation([FromServices] IsrvUsers srvUsers,
+            bool IncludeCountryState, bool IncludeUsername)
+        {   
+            mdlReturnData returnData = new mdlReturnData();
+            int OrgId = _srvCurrentUser.OrgId;
+            var tempData = _masterContext.tblOrganisation.Where(p=>p.OrgId==OrgId).FirstOrDefault();
+            if (tempData == null)
+            {
+                tempData = new tblOrganisation();
+            }
+            if (IncludeCountryState)
+            {
+                tempData.StateName = _srvMasters.GetState(tempData.StateId)?.Name;
+                tempData.CountryName = _srvMasters.GetCountry(tempData.CountryId)?.Name;
+            }
+            if (IncludeUsername)
+            {
+                tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
+            }
+            if (tempData.Logo != null)
+            {
+                var tempImages=_srvMasters.GetImage(tempData.Logo);
+                if (tempImages != null)
+                {
+                    tempData.LogoImage =Convert.ToBase64String( tempImages.File);
+                    tempData.LogoImageType = tempImages.FileType.GetDescription();
+                }
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = tempData;
+            return returnData;
+        }
+        [HttpPost]
+        [Route("SetOrganisation")]
+        [Authorize(nameof(enmDocumentMaster.Organisation)+nameof(enmDocumentType.Update))]        
+        public mdlReturnData SetOrganisation([FromForm]tblOrganisationWraper mdl)
+         {
+            mdlReturnData returnData = new mdlReturnData();
+            if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Invalid Organisation";
+                return returnData;
+            }
+            else if (mdl.OrgId == 0 && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Unauthorized Access";
+                return returnData;
+            }
+            string FileName = null;
+            if (!(mdl.LogoImageFile == null))
+            {
+                FileName =_srvMasters.SetImage(mdl.LogoImageFile,enmFileType.ImageICO, _srvCurrentUser.UserId);
+                mdl.Logo = FileName;
+            }
+            mdl.ModifiedBy = _srvCurrentUser.UserId;
+            mdl.ModifiedDt = DateTime.Now;
+            if (mdl.OrgId == 0)
+            {   
+                _masterContext.tblOrganisation.Add(mdl);
+                mdl.CreatedBy = mdl.ModifiedBy.Value;
+                mdl.CreatedDt = mdl.ModifiedDt.Value;
+            }
+            else
+            {
+                _masterContext.tblOrganisation.Update(mdl);
+            }
+            _masterContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            returnData.Message = "Save successfully";
+            return returnData;
+        }
+
+        [AllowAnonymous]
+        [Route("GetCountry/{IncludeUsername}")]
+        public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            var AllCountry=_masterContext.tblCountry.ToList();
+            if (IncludeUsername)
+            {
+                var tempUserIds=AllCountry.Select(p => p.ModifiedBy??0).Distinct().ToArray();
+                var AllUsers=srvUsers.GetUsers(tempUserIds);
+                AllCountry.ForEach(p => { p.Name = AllUsers.Where(q => q.Id == p.ModifiedBy).FirstOrDefault()?.Name; });
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = AllCountry.OrderBy(p=>p.Name);
+            return returnData;
+        }
+        [AllowAnonymous]
+        [Route("GetState/{CountryId}/{AllStates}/{IncludeUsername}")]
+        public mdlReturnData GetState([FromServices] IsrvUsers srvUsers,int CountryId,bool AllStates,  bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            List<tblState> State = new List<tblState>();
+            if (AllStates)
+            {
+                State.AddRange(_masterContext.tblState);
+            }
+            else
+            {
+                State.AddRange(_masterContext.tblState.Where(p=>p.CountryId==CountryId));
+            }
+            if (IncludeUsername)
+            {
+                var tempUserIds = State.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var AllUsers = srvUsers.GetUsers(tempUserIds);
+                State.ForEach(p => { p.Name = AllUsers.Where(q => q.Id == p.ModifiedBy).FirstOrDefault()?.Name; });
+            }
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = State.OrderBy(p=>p.Name);
+            return returnData;
+        }
 
     }
 

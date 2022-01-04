@@ -57,12 +57,16 @@ namespace projAPI
             //add context
             services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
             services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)));
+            services.AddDbContext<projContext.DB.Masters.MasterContext>(option => option.UseMySql(Configuration.GetConnectionString("Masters"), opt => opt.CommandTimeout(150)));
 
-            
             services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
 
             services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
-            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<projContext.DB.Masters.MasterContext>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvMasters>(ctx => new srvMasters(ctx.GetRequiredService<projContext.DB.Masters.MasterContext>()));
+
+            services.AddScoped<IsrvCustomer>(ctx => new srvCustomer(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
+
             services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
             services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
             services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
@@ -110,7 +114,6 @@ namespace projAPI
                         options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));                    
                         options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
                     
-
                 }
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();

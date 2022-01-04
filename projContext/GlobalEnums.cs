@@ -8,7 +8,30 @@ using System.Text;
 namespace projContext
 {
 
-    
+
+    public enum enmLocationType
+    {
+        HeadOffice=1,
+        Branch = 2,
+        Warehouse = 3,
+        Factory= 4,
+        RetailStore = 5,
+        Franchisees = 6,
+    }
+
+    public enum enmFileType
+    {
+        ImageJPG=1,
+        ImageICO=2,
+        ImagePNG = 3,
+        ImageBMP = 4,
+        FileXLS = 5,
+        FileXLSX = 6,
+        FileDOC = 7,
+        FileDOCX = 8,
+        FilePDF=9
+    }
+
 
     
     public enum enmApprovalStatus
@@ -331,6 +354,7 @@ namespace projContext
 
     public enum enmPaymentGateway
     {
+        None=0,
     }
 
     public enum enmComponentType
@@ -370,7 +394,7 @@ namespace projContext
     
         public enum enmCustomerType
         {
-            Admin = 1,
+            None = 1,
             MLM = 2,
             B2B = 3,
             B2C = 4,
@@ -444,10 +468,10 @@ namespace projContext
 
         public enum enmUserType
         {
-            Consolidator = 1,
+            SuperAdmin = 1,
             Employee = 2,
-            B2B = 4,
-            B2C = 8
+            Customer=4,
+            Vendor = 8,
         }
 
         public enum enmMessageType
