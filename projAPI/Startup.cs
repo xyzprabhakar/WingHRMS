@@ -55,9 +55,9 @@ namespace projAPI
             });
 
             //add context
-            services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)));
-            services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)));
-            services.AddDbContext<projContext.DB.Masters.MasterContext>(option => option.UseMySql(Configuration.GetConnectionString("Masters"), opt => opt.CommandTimeout(150)));
+            services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)),ServiceLifetime.Scoped);
+            services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)), ServiceLifetime.Scoped);
+            services.AddDbContext<projContext.DB.Masters.MasterContext>(option => option.UseMySql(Configuration.GetConnectionString("Masters"), opt => opt.CommandTimeout(150)), ServiceLifetime.Scoped);
 
             services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
 

@@ -13,6 +13,10 @@ namespace projAPI.Model
     {
         public IFormFile LogoImageFile { get; set; }        
     }
+    public class tblCompanyWraper : tblCompanyMaster
+    {
+        public IFormFile LogoImageFile { get; set; }
+    }
 
 
 #if (false)

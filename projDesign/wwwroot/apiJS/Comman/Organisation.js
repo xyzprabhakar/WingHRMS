@@ -20,13 +20,16 @@ function BindOrganisation(OrgInputName, orgId) {
     if (OrgInputName == "" || OrgInputName === undefined || OrgInputName == null) {
         return;
     }
+    if (orgId == 0) {
+        orgId =localStorage.getItem("currentOrganisation");
+    }
+
     let dBVersion = localStorage.getItem('dBVersion');
     var openRequest = indexedDB.open("dpbs", dBVersion);
     openRequest.onsuccess = function (e) {
         var db = e.target.result;
         let ObjectStoreCountry = db.transaction("tblOrganisation", "readwrite")
             .objectStore("tblOrganisation");
-
         $('#' + OrgInputName).empty();
         $('#' + OrgInputName).append(`<option value=""> -- Please Select --</option>`);
         ObjectStoreCountry.openCursor().onsuccess = function (event) {

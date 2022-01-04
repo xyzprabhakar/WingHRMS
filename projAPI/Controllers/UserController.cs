@@ -181,7 +181,8 @@ namespace projAPI.Controllers
                     VendorId = VendorId ,
                     UserType = mdlRequest.UserType,
                     CustomerType= CustomerType,
-                    JSONWebToken = JSONWebToken
+                    JSONWebToken = JSONWebToken,
+                    OrgId=OrgId,
                 };
             return mdl;
         }

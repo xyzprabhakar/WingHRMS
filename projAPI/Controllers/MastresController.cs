@@ -75,6 +75,12 @@ namespace projAPI.Controllers
         public mdlReturnData SetOrganisation([FromForm]tblOrganisationWraper mdl)
          {
             mdlReturnData returnData = new mdlReturnData();
+            if (mdl == null)
+            {
+                returnData.Message = "Invalid Data";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
             if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
             {
                 returnData.MessageType = enmMessageType.Error;
@@ -159,9 +165,24 @@ namespace projAPI.Controllers
         [HttpPost]
         [Route("SetCompany")]
         [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
-        public mdlReturnData SetCompany([FromForm] tblOrganisationWraper mdl)
+        public mdlReturnData SetCompany([FromServices] IsrvUsers srvUsers,[FromForm] tblCompanyWraper mdl)
         {
             mdlReturnData returnData = new mdlReturnData();
+            if (mdl == null)
+            {
+                returnData.Message = "Invalid Data";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (mdl.CompanyId > 0)
+            {
+                if (srvUsers.GetUserCompany(_srvCurrentUser.UserId, null, null).Where(p => p.Id == mdl.CompanyId).Count() == 0)
+                {
+                    returnData.Message = "Unauthorize access";
+                    returnData.MessageType = enmMessageType.Error;
+                    return returnData;
+                }
+            }
             if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
             {
                 returnData.MessageType = enmMessageType.Error;
@@ -184,13 +205,13 @@ namespace projAPI.Controllers
             mdl.ModifiedDt = DateTime.Now;
             if (mdl.OrgId == 0)
             {
-                _masterContext.tblOrganisation.Add(mdl);
+                _masterContext.tblCompanyMaster.Add(mdl);
                 mdl.CreatedBy = mdl.ModifiedBy.Value;
                 mdl.CreatedDt = mdl.ModifiedDt.Value;
             }
             else
             {
-                _masterContext.tblOrganisation.Update(mdl);
+                _masterContext.tblCompanyMaster.Update(mdl);
             }
             _masterContext.SaveChanges();
             returnData.MessageType = enmMessageType.Success;

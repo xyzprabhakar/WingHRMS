@@ -117,6 +117,7 @@ function performLogin() {
                 window.localStorage.setItem("distributorId", data.returnId.distributorId);
                 window.localStorage.setItem("token", data.returnId.jsonWebToken);
                 window.localStorage.setItem("currentApplication", 0);//Need to set on user click
+                window.localStorage.setItem("currentOrganisation", data.returnId.orgId);
                 window.localStorage.setItem("refreshData", 1);
                 window.localStorage.setItem("dBVersion", 6);
                 document.cookie = `userId=${data.returnId.userId}`;

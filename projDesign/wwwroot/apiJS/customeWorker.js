@@ -92,12 +92,10 @@ function fncCreateAllDb(e) {
         tblLocation_store.createIndex("parentId", "parentId", { unique: false });
     }
 }
-
 function startWorker() {
     var baseUrl = localStorage.getItem("baseUrl");
     var dBVersion = localStorage.getItem("dBVersion");
     var token = localStorage.getItem('token');
-    
     var workerData = { baseUrl_: baseUrl, dBVersion_: dBVersion, token_: token, startDownload_:1 };
     if (typeof (Worker) !== "undefined") {
         if (typeof (w) == "undefined") {
@@ -155,8 +153,10 @@ async function CheckIdExistsInIndexDb(id, StoreName) {
             var cursor = await e.target.result;
             if (cursor) { // key already exist
                 return true;
+                console.log("from true");
             } else { // key not exist
                 return false;
+                console.log("from false");
             }
             db.close();
         }
@@ -167,9 +167,9 @@ function getUrlVars() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
     for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
+        hash = hashes[i].split('=');        
+        vars.push(hash[0].toLowerCase());
+        vars[hash[0].toLowerCase()] = hash[1];        
     }
     return vars;
 }

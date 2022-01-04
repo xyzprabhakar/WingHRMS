@@ -1,7 +1,7 @@
 ﻿@page
 @{
     ViewData["PageId"] = "0";
-    ViewData["Title"] = "Organisation";
+    ViewData["Title"] = "Company";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -236,87 +236,93 @@
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
             BindOrganisationEvent("ddlOrganisation", "", "");
+            BindOrganisation("ddlOrganisation", 0);
             var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
 
-            var companyId = getUrlVars()["companyId"];
-            if (companyId == null || companyId == '' || companyId == undefined) {
-                $("#lblOrganisationId").val("0");
+            let companyId_ = getUrlVars()["companyid"];            
+            if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
+                $("#lblCompanyId").val("0");
+                $('#loader').hide();
             } else {
-                if (await CheckIdExistsInIndexDb(companyId, "tblCompany")) {
-                    $("#lblOrganisationId").val(companyId);
-                    let apiurl = localStorage.getItem('baseUrl') + "Masters/GetOrganisation/false/false";
-                    let token = localStorage.getItem('token');
-                    let headerss = new Headers();
-                    let lblcountryId = 0;
-                    let lblstateId = 0;
-                    headerss.append("Authorization", 'Bearer ' + token);
-                    headerss.append("Content-Type", "application/json; charset=utf-8");
-                    fetch(apiurl, {
-                        method: "GET",
-                        headers: headerss,
-                    }).then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            throw new Error(response.statusText);
+                CheckIdExistsInIndexDb(companyId_, "tblCompany").then(result => {
+                    if (result) {
+                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";
+                        let token = localStorage.getItem('token');
+                        let headerss = new Headers();
+                        let lblcountryId = 0;
+                        let lblstateId = 0;
+                        headerss.append("Authorization", 'Bearer ' + token);
+                        headerss.append("Content-Type", "application/json; charset=utf-8");
+                        fetch(apiurl, {
+                            method: "GET",
+                            headers: headerss,
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error(response.statusText);
 
-                        }
-                    }).then(data => {
-
-                        if (data.messageType == 1) {
-
-                            $("#lblOrganisationId").val(data.returnId.orgId);
-                            $("#txtOrganisation").val(data.returnId.name);
-                            $("#txtOrgCode").val(data.returnId.code);
-                            $("#txtAddress").val(data.returnId.officeAddress);
-                            $("#txtLocality").val(data.returnId.locality);
-                            $("#txtCity").val(data.returnId.city);
-
-                            lblcountryId = data.returnId.countryId;
-                            lblstateId = data.returnId.stateId;
-                            if (lblcountryId > 0) {
-                                $("#ddlcountry").val(lblcountryId);
-                                $("#ddlcountry").trigger('change');
-                                BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
                             }
-                            $("#txtPinCode").val(data.returnId.pincode);
-                            $("#txtEmail").val(data.returnId.email);
-                            $("#txtAlternateEmail").val(data.returnId.alternateEmail);
-                            $("#txtContact").val(data.returnId.contactNo);
-                            $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                            $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                            $("#txtRemarks").val(data.returnId.modifyRemarks);
-                            $("#lblImageName").val(data.returnId.logo);
-                            if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
-                                var img = document.getElementById("imgLogoImage");
-                                img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
-                            }
-                            if (data.returnId.isActive) {
+                        }).then(data => {
 
-                                $("#is_active").prop("checked", true);
-                                $("#is_in_active").prop("checked", false);
+                            if (data.messageType == 1) {
+                                $("#lblCompanyId").val(data.returnId.companyId);
+                                $("#txtCompanyName").val(data.returnId.name);
+                                $("#txtCompanyCode").val(data.returnId.code);
+                                $("#ddlOrganisation").val(data.returnId.orgId)
+                                $("#txtAddress").val(data.returnId.officeAddress);
+                                $("#txtLocality").val(data.returnId.locality);
+                                $("#txtCity").val(data.returnId.city);
+
+                                lblcountryId = data.returnId.countryId;
+                                lblstateId = data.returnId.stateId;
+                                if (lblcountryId > 0) {
+                                    $("#ddlcountry").val(lblcountryId);
+                                    $("#ddlcountry").trigger('change');
+                                    BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                                }
+                                $("#txtPinCode").val(data.returnId.pincode);
+                                $("#txtEmail").val(data.returnId.email);
+                                $("#txtAlternateEmail").val(data.returnId.alternateEmail);
+                                $("#txtContact").val(data.returnId.contactNo);
+                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                                $("#txtRemarks").val(data.returnId.modifyRemarks);
+                                $("#lblImageName").val(data.returnId.logo);
+                                if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
+                                    var img = document.getElementById("imgLogoImage");
+                                    img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
+                                }
+                                if (data.returnId.isActive) {
+
+                                    $("#is_active").prop("checked", true);
+                                    $("#is_in_active").prop("checked", false);
+                                }
+                                else {
+                                    $("#is_active").prop("checked", false);
+                                    $("#is_in_active").prop("checked", true);
+                                }
+
+                                $('#loader').hide();
                             }
                             else {
-                                $("#is_active").prop("checked", false);
-                                $("#is_in_active").prop("checked", true);
+                                $('#loader').hide();
+                                messageBox("error", data.message);
                             }
-
+                        }).catch((error) => {
                             $('#loader').hide();
-                        }
-                        else {
-                            $('#loader').hide();
-                            messageBox("error", data.message);
-                        }
-                    }).catch((error) => {
+                            messageBox("error", error.message);
+                        });
+                    }
+                    else {
                         $('#loader').hide();
-                        messageBox("error", error.message);
-                    });
-                }
-                else {
-                    $('#loader').hide();
-                    messageBox("error", "unauthorized access");
-                }
+                        messageBox("error", "unauthorized access");
+                    }
+                });
+                
+               
+            
             }
             
 
@@ -361,14 +367,15 @@
                 },
                 submitHandler: function () {
                     $('#loader').show();
-                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetOrganisation"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetCompany"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
-                        formdata.append("LogoImageFile", selectedFile);
-                    formdata.append("OrgId", $("#lblOrganisationId").val());
-                        formdata.append("Code", $("#txtOrgCode").val());
-                        formdata.append("Name",$("#txtOrganisation").val());
+                    formdata.append("LogoImageFile", selectedFile);
+                        formdata.append("CompanyId", $("#lblCompanyId").val());
+                        formdata.append("OrgId", $("#ddlOrganisation").val());
+                        formdata.append("Code", $("#txtCompanyCode").val());
+                        formdata.append("Name",$("#txtCompanyName").val());
                         formdata.append("OfficeAddress",$("#txtAddress").val());
                         formdata.append("Locality",$("#txtLocality").val());
                         formdata.append("City",$("#txtCity").val());
