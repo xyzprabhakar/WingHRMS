@@ -19,6 +19,10 @@ namespace projAPI.Model
         public string Name{ get; set; }
         public bool IsActive { get; set; }
     }
+    public class mdlCommonReturnWithParentID: mdlCommonReturn
+    {
+        public int ParentId { get; set; }
+    }
     public class mdlCommonReturnUlong
     {
         public ulong Id { get; set; }
@@ -26,5 +30,6 @@ namespace projAPI.Model
         public string Name { get; set; }
         public bool IsActive { get; set; }
     }
+
 
 }

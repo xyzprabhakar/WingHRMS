@@ -30,6 +30,9 @@ namespace projContext.DB.Masters
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyId { get; set; }
+        [MaxLength(16)]
+        [RegularExpression(@"^[^<>]+$", ErrorMessage = "Character < > are not allowed")]
+        public string Code { get; set; }
         [MaxLength(254)]
         [RegularExpression(@"^[^<>]+$", ErrorMessage = "Character < > are not allowed")]
         public string Name { get; set; }

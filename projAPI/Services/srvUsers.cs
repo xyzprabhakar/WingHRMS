@@ -17,8 +17,6 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
-    
-    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -532,7 +530,102 @@ namespace projAPI.Services
         }
         #endregion
 
+        public List<mdlCommonReturnWithParentID> GetUserOrganisation(ulong UserId)
+        {
+            List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
+            returnData.AddRange(
+            _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).
+                Select(p=>new mdlCommonReturnWithParentID { Code=p.tblOrganisation.Code,Name=p.tblOrganisation.Name, IsActive=p.tblOrganisation.IsActive,Id=p.OrgId??0}
+                ));
+            return returnData;
+        }
+        public List<mdlCommonReturnWithParentID> GetUserCompany(ulong UserId,int OrgId)
+        {
+            List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
+            if (OrgId == 0)
+            {
+                return returnData;
+            }
+            var data=_masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && p.OrgId == OrgId && !p.IsDeleted).FirstOrDefault();
+            if (data != null)
+            {
+                if (data.HaveAllCompanyAccess)
+                {
+                    returnData.AddRange(_masterContext.tblCompanyMaster.Where(p => p.OrgId == OrgId).Select(p => new mdlCommonReturnWithParentID { Code = p.Code, Name = p.Name, Id = p.CompanyId, IsActive = p.IsActive,ParentId=OrgId }));
+                    
+                }
+                else
+                {
+                    returnData.AddRange(
+                    from t1 in _masterContext.tblCompanyMaster
+                    join t2 in _masterContext.tblUserCompanyPermission on t1.CompanyId equals t2.CompanyId
+                    where t2.UserId == UserId && !t2.IsDeleted && t1.OrgId == OrgId
+                    select new mdlCommonReturnWithParentID { Code = t1.Code, Name = t1.Name, Id = t1.CompanyId, IsActive = t1.IsActive ,ParentId=t1.OrgId??0});
+                }
+            }
+            return returnData;
+         }
+
+        public List<mdlCommonReturnWithParentID> GetUserZone(ulong UserId, int CompanyId)
+        {
+            List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
+            if (CompanyId == 0)
+            {
+                return returnData;
+            }
+            var data = _masterContext.tblUserCompanyPermission.Where(p => p.UserId == UserId && p.CompanyId == CompanyId && !p.IsDeleted).FirstOrDefault();
+            if (data != null)
+            {
+                if (data.HaveAllZoneAccess)
+                {
+                    returnData.AddRange(_masterContext.tblZoneMaster.Where(p => p.CompanyId == CompanyId).
+                        Select(p => new mdlCommonReturnWithParentID { Code = string.Empty, Name = p.Name, Id = p.ZoneId, IsActive = p.IsActive,ParentId=p.CompanyId??0 }));
+
+                }
+                else
+                {
+                    returnData.AddRange(
+                    from t2 in _masterContext.tblUserZonePermission
+                    join t1 in _masterContext.tblZoneMaster on t2.ZoneId equals t1.ZoneId
+                    where t2.UserId == UserId && !t2.IsDeleted && t1.CompanyId== CompanyId
+                    select new mdlCommonReturnWithParentID { Code = string.Empty, Name = t1.Name, Id = t1.ZoneId, IsActive = t1.IsActive,ParentId=t1.CompanyId??0 });
+                }
+            }
+            return returnData;
+        }
+
+        public List<mdlCommonReturnWithParentID> GetUserLocation(ulong UserId, int? OrgId, int? CompanyId, int? ZoneId)
+        {
+            List<mdlCommonReturnWithParentID> returnData = new List<mdlCommonReturnWithParentID>();
+            if (ZoneId != null)
+            {
+                returnData.AddRange(
+                _masterContext.tblUserAllLocationPermission.Where(p => p.UserId == UserId && p.tblLocationMaster.ZoneId == ZoneId).
+                    Select(p => new mdlCommonReturnWithParentID { Name = p.tblLocationMaster.Name, Code = string.Empty, Id = p.LocationId ?? 0,IsActive=p.tblLocationMaster.IsActive,ParentId=p.tblLocationMaster.ZoneId??0 }));
+            }
+            else if (CompanyId != null)
+            {
+                returnData.AddRange(
+                from t1 in _masterContext.tblUserAllLocationPermission
+                join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
+                join t3 in _masterContext.tblZoneMaster on t2.ZoneId equals t3.ZoneId
+                where t3.CompanyId == CompanyId
+                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive,ParentId=t3.ZoneId });
+            }
+            else if(OrgId!=null)
+            {
+                returnData.AddRange(
+                from t1 in _masterContext.tblUserAllLocationPermission
+                join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
+                where t2.OrgId == OrgId
+                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId??0 });
+            }
+            return returnData;
+        }
+            
     }
+
+    
 
     
     public interface IsrvCurrentUser
