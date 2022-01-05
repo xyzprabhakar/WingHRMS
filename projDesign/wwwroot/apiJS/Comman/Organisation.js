@@ -1,17 +1,17 @@
 ﻿function BindOrganisationEvent(OrgInputName, CompanyInputName, ZoneInputName) {
     if (!(OrgInputName == "" || OrgInputName === undefined || OrgInputName== null)) {
-        $('#' + OrgInputName).on('change paste', function () {
-            BindCompany( $('#' + OrgInputName).val(), CompanyInputName, 0);
+        $('#' + OrgInputName).on('change paste', function (event, _Id) {
+            BindCompany($('#' + OrgInputName).val(), CompanyInputName, _Id);
         });
     }
     if (!(CompanyInputName == "" || CompanyInputName === undefined || CompanyInputName == null)) {
-        $('#' + CompanyInputName).on('change paste', function () {
-            BindZone($('#' + CompanyInputName).val(), ZoneInputName, 0);
+        $('#' + CompanyInputName).on('change paste', function (event, _Id) {
+            BindZone($('#' + CompanyInputName).val(), ZoneInputName,  _Id);
         });
     }
     if (!(ZoneInputName == "" || ZoneInputName === undefined || ZoneInputName == null)) {
-        $('#' + ZoneInputName).on('change paste', function () {
-            BindLocation($('#' + ZoneInputName).val(), LocationInputName, 0);
+        $('#' + ZoneInputName).on('change paste', function (event, _Id) {
+            BindLocation($('#' + ZoneInputName).val(), LocationInputName, _Id);
         });
     }
 }
@@ -20,156 +20,135 @@ function BindOrganisation(OrgInputName, orgId) {
     if (OrgInputName == "" || OrgInputName === undefined || OrgInputName == null) {
         return;
     }
-    if (orgId == 0) {
-        orgId =localStorage.getItem("currentOrganisation");
+    if (orgId == 0 || orgId == "" || orgId == undefined) {
+        orgId = localStorage.getItem("currentOrganisation");        
     }
-
-    let dBVersion = localStorage.getItem('dBVersion');
-    var openRequest = indexedDB.open("dpbs", dBVersion);
-    openRequest.onsuccess = function (e) {
-        var db = e.target.result;
-        let ObjectStoreCountry = db.transaction("tblOrganisation", "readwrite")
-            .objectStore("tblOrganisation");
+    GetDataAll_IndexDb("tblOrganisation").then((result) => {
         $('#' + OrgInputName).empty();
         $('#' + OrgInputName).append(`<option value=""> -- Please Select --</option>`);
-        ObjectStoreCountry.openCursor().onsuccess = function (event) {
-            var cursor = event.target.result;
-            if (cursor) {
-                if (cursor.value.id == orgId) {
-                    if (cursor.value.isActive) {
-                        $('#' + OrgInputName).append(`<option value="${cursor.value.id}" selected> ${cursor.value.code} - ${cursor.value.name}</option>`);
-                    }
-                    else {
-                        $('#' + OrgInputName).append(`<option value="${cursor.value.id}" disabled selected> ${cursor.value.code} - ${cursor.value.name}</option>`);
-                    }
+        for (let i in result) {            
+            if (result[i].id == orgId) {                
+                if (result[i].isActive) {
+                    $('#' + OrgInputName).append(`<option value="${result[i].id}" selected>${result[i].code} - ${result[i].name}</option>`);
                 }
                 else {
-                    if (cursor.value.isActive) {
-                        $('#' + OrgInputName).append(`<option value="${cursor.value.id}" > ${cursor.value.code} - ${cursor.value.name}</option>`);
-                    }
-                    else {
-                        $('#' + OrgInputName).append(`<option value="${cursor.value.id}" disabled> ${cursor.value.code} - ${cursor.value.name}</option>`);
-                    }
+                    $('#' + OrgInputName).append(`<option value="${result[i].id}" disabled selected>${result[i].code} - ${result[i].name}</option>`);
                 }
-                cursor.continue();
             }
-            db.close();
-        };
-    }
-
+            else {
+                if (result[i].isActive) {
+                    $('#' + OrgInputName).append(`<option value="${result[i].id}" >${result[i].code} - ${result[i].name}</option>`);
+                }
+                else {
+                    $('#' + OrgInputName).append(`<option value="${result[i].id}" disabled>${result[i].code} - ${result[i].name}</option>`);
+                }
+            }
+        }
+    });
 }
 
 function BindCompany(orgId, CompanyInputName, companyId) {
-    
-    if (!(CompanyInputName == "" || CompanyInputName === undefined || CompanyInputName == null)) {        
-        let dBVersion = localStorage.getItem('dBVersion');
-        var openRequest = indexedDB.open("dpbs", dBVersion);
+    if (CompanyInputName == "" || CompanyInputName === undefined || CompanyInputName == null) {
+        return;
+    }
+    if (orgId == 0 || orgId == "" || orgId == null || orgId== undefined) {
+        return;
+    }
+    let _orgId = parseInt(orgId);
+    var keyRangeValue = IDBKeyRange.only(_orgId);
+    GetDataFromIndex_IndexDb(keyRangeValue, "tblCompany", "parentId").then((result) => {
         $('#' + CompanyInputName).empty();
         $('#' + CompanyInputName).append(`<option value=""> -- Please Select --</option>`);
-        openRequest.onsuccess = function (e) {
-            var db = e.target.result;
-            let ObjectStoreState = db.transaction("tblCompany", "readwrite")
-                .objectStore("tblCompany");
-            var getAllRequest = ObjectStoreState.index("parentId").getAll(parseInt(orgId));
-            getAllRequest.onsuccess = function () {
-                for (var i in getAllRequest.result) {
-
-                    if (getAllRequest.result[i].id == companyId) {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + CompanyInputName).append(`<option value="${getAllRequest.result[i].id}" selected> ${getAllRequest.result[i].code} - ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + CompanyInputName).append(`<option value="${getAllRequest.result[i].id}" disabled selected> ${getAllRequest.result[i].code} - ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
-                    else {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + CompanyInputName).append(`<option value="${getAllRequest.result[i].id}" > ${getAllRequest.result[i].code} - ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + CompanyInputName).append(`<option value="${getAllRequest.result[i].id}" disabled> ${getAllRequest.result[i].code} - ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
+        for (var i in result) {
+            if (result[i].id == companyId) {
+                if (result[i].isActive) {
+                    $('#' + CompanyInputName).append(`<option value="${result[i].id}" selected>${result[i].code} - ${result[i].name}</option>`);
                 }
-                db.close();
+                else {
+                    $('#' + CompanyInputName).append(`<option value="${result[i].id}" disabled selected>${result[i].code} - ${result[i].name}</option>`);
+                }
+            }
+            else {
+                if (result[i].isActive) {
+                    $('#' + CompanyInputName).append(`<option value="${result[i].id}" >${result[i].code} - ${result[i].name}</option>`);
+                }
+                else {
+                    $('#' + CompanyInputName).append(`<option value="${result[i].id}" disabled>${result[i].code} - ${result[i].name}</option>`);
+                }
             }
         }
-    }
+    });
+
 }
 
 function BindZone(companyId, ZoneInputName, zoneId) {
 
-    if (!(ZoneInputName == "" || ZoneInputName === undefined || ZoneInputName == null)) {
-        let dBVersion = localStorage.getItem('dBVersion');
-        var openRequest = indexedDB.open("dpbs", dBVersion);
+    if (ZoneInputName == "" || ZoneInputName === undefined || ZoneInputName== null) {
+        return;
+    }
+    if (companyId == 0 || companyId == "" || companyId == null || companyId== undefined) {
+        return;
+    }
+    let _companyId = parseInt(companyId);
+    var keyRangeValue = IDBKeyRange.only(_orgId);
+    GetDataFromIndex_IndexDb(keyRangeValue, "tblZone", "parentId").then((result) => {
         $('#' + ZoneInputName).empty();
         $('#' + ZoneInputName).append(`<option value=""> -- Please Select --</option>`);
-        openRequest.onsuccess = function (e) {
-            var db = e.target.result;
-            let ObjectStoreState = db.transaction("tblZone", "readwrite")
-                .objectStore("tblZone");
-            var getAllRequest = ObjectStoreState.index("parentId").getAll(parseInt(companyId));
-            getAllRequest.onsuccess = function () {
-                for (var i in getAllRequest.result) {
-
-                    if (getAllRequest.result[i].id == zoneId) {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + ZoneInputName).append(`<option value="${getAllRequest.result[i].id}" selected> ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + ZoneInputName).append(`<option value="${getAllRequest.result[i].id}" disabled selected>  ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
-                    else {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + ZoneInputName).append(`<option value="${getAllRequest.result[i].id}" > ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + ZoneInputName).append(`<option value="${getAllRequest.result[i].id}" disabled>  ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
+        for (var i in result) {
+            if (result[i].id == zoneId) {
+                if (result[i].isActive) {
+                    $('#' + ZoneInputName).append(`<option value="${result[i].id}" selected>${result[i].name}</option>`);
                 }
-                db.close();
+                else {
+                    $('#' + ZoneInputName).append(`<option value="${result[i].id}" disabled selected> ${result[i].name}</option>`);
+                }
+            }
+            else {
+                if (result[i].isActive) {
+                    $('#' + ZoneInputName).append(`<option value="${result[i].id}" > ${result[i].name}</option>`);
+                }
+                else {
+                    $('#' + ZoneInputName).append(`<option value="${result[i].id}" disabled>${result[i].name}</option>`);
+                }
             }
         }
-    }
+    });
+
 }
 
 function BindLocation(zoneId, LocationInputName, locationId) {
 
-    if (!(LocationInputName == "" || LocationInputName === undefined || LocationInputName == null)) {
-        let dBVersion = localStorage.getItem('dBVersion');
-        var openRequest = indexedDB.open("dpbs", dBVersion);
+
+    if (LocationInputName == "" || LocationInputName === undefined || LocationInputName== null) {
+        return;
+    }
+    if (zoneId == 0 || zoneId == "" || zoneId == null || zoneId== undefined) {
+        return;
+    }
+    let _zoneId= parseInt(zoneId);
+    var keyRangeValue = IDBKeyRange.only(_zoneId);
+    GetDataFromIndex_IndexDb(keyRangeValue, "tblLocation", "parentId").then((result) => {
         $('#' + LocationInputName).empty();
         $('#' + LocationInputName).append(`<option value=""> -- Please Select --</option>`);
-        openRequest.onsuccess = function (e) {
-            var db = e.target.result;
-            let ObjectStoreState = db.transaction("tblLocation", "readwrite")
-                .objectStore("tblLocation");
-            var getAllRequest = ObjectStoreState.index("parentId").getAll(parseInt(zoneId));
-            getAllRequest.onsuccess = function () {
-                for (var i in getAllRequest.result) {
-
-                    if (getAllRequest.result[i].id == locationId) {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + LocationInputName).append(`<option value="${getAllRequest.result[i].id}" selected> ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + LocationInputName).append(`<option value="${getAllRequest.result[i].id}" disabled selected>  ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
-                    else {
-                        if (getAllRequest.result[i].isActive) {
-                            $('#' + LocationInputName).append(`<option value="${getAllRequest.result[i].id}" > ${getAllRequest.result[i].name}</option>`);
-                        }
-                        else {
-                            $('#' + LocationInputName).append(`<option value="${getAllRequest.result[i].id}" disabled>  ${getAllRequest.result[i].name}</option>`);
-                        }
-                    }
+        for (var i in result) {
+            if (result[i].id == locationId) {
+                if (result[i].isActive) {
+                    $('#' + LocationInputName).append(`<option value="${result[i].id}" selected>${result[i].name}</option>`);
                 }
-                db.close();
+                else {
+                    $('#' + LocationInputName).append(`<option value="${result[i].id}" disabled selected>${result[i].name}</option>`);
+                }
+            }
+            else {
+                if (result[i].isActive) {
+                    $('#' + LocationInputName).append(`<option value="${result[i].id}" >${result[i].name}</option>`);
+                }
+                else {
+                    $('#' + LocationInputName).append(`<option value="${result[i].id}" disabled>${result[i].name}</option>`);
+                }
             }
         }
-    }
+    });
+
 }
 

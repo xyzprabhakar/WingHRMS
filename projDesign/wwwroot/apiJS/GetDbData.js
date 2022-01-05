@@ -1,21 +1,24 @@
-﻿async function CheckIdExists_IndexDb(id, StoreName) {
+﻿function CheckIdExists_IndexDb(id, StoreName) {
     let dBVersion = localStorage.getItem('dBVersion');
-    var openRequest = await indexedDB.open("dpbs", dBVersion);
-    openRequest.onsuccess = async function (e) {
-        var db = e.target.result;
-        let ObjectStoreState = await db.transaction(StoreName, "readwrite")
-            .objectStore(StoreName);
-        var getAllRequest = await ObjectStoreState.openCursor(parseInt(id));
-        getAllRequest.onsuccess = async function () {
-            var cursor =  e.target.result;
-            if (cursor) { // key already exist
-                return true;                
-            } else { // key not exist
-                return false;                
+    return new Promise(
+        function (resolve, reject) {
+            var openRequest = indexedDB.open("dpbs", dBVersion);
+            openRequest.onsuccess = async function (e) {
+                var db = e.target.result;
+                let ObjectStoreState = await db.transaction(StoreName, "readwrite")
+                    .objectStore(StoreName);
+                var getAllRequest = await ObjectStoreState.getKey(parseInt( id));
+                getAllRequest.onsuccess = async function () {
+                    if (getAllRequest.result)
+                        resolve(true);
+                    else
+                        resolve(false);
+                }
             }
-            db.close();
-        }        
-    }
+            openRequest.onerror == function () {
+                reject(Error("Some Error in DB"));
+            }
+        });
 }
 
 function GetData_IndexDb(id, StoreName, dataType) {

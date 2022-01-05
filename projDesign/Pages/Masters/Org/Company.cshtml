@@ -1,6 +1,6 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "0";
+    ViewData["PageId"] = "3";
     ViewData["Title"] = "Company";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtCompanyCode">
                                         <label class="col-form-label" for="txtCompanyCode">Code</label>
-                                        <input type="text" id="txtOrgCode" name="txtCompanyCode"
+                                        <input type="text" id="txtCompanyCode" name="txtCompanyCode"
                                                maxlength="16" autocomplete="off" pattern="^[^<>\s]+$"
                                                class="form-control" placeholder="Code" required>
                                     </div>
@@ -224,6 +224,7 @@
     <script type="text/javascript">
         
         $(document).ready(function () {
+
             //bindcountry
             $('#loader').show();
             //jquery Validateor
@@ -231,24 +232,21 @@
                 return (this.optional(element) || new RegExp(element.pattern).test(value));
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
-
-
+            let token = localStorage.getItem('token');
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
             BindOrganisationEvent("ddlOrganisation", "", "");
             BindOrganisation("ddlOrganisation", 0);
             var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
-
             let companyId_ = getUrlVars()["companyid"];            
             if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
                 $("#lblCompanyId").val("0");
                 $('#loader').hide();
             } else {
-                CheckIdExistsInIndexDb(companyId_, "tblCompany").then(result => {
+                CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
                     if (result) {
-                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";
-                        let token = localStorage.getItem('token');
+                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";                        
                         let headerss = new Headers();
                         let lblcountryId = 0;
                         let lblstateId = 0;
@@ -279,8 +277,8 @@
                                 lblstateId = data.returnId.stateId;
                                 if (lblcountryId > 0) {
                                     $("#ddlcountry").val(lblcountryId);
-                                    $("#ddlcountry").trigger('change');
-                                    BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                                    $("#ddlcountry").trigger('change', [lblstateId]);
+                                    //BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
                                 }
                                 $("#txtPinCode").val(data.returnId.pincode);
                                 $("#txtEmail").val(data.returnId.email);
@@ -289,7 +287,7 @@
                                 $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                                 $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                                 $("#txtRemarks").val(data.returnId.modifyRemarks);
-                                $("#lblImageName").val(data.returnId.logo);
+                                $("#lblImgName").val(data.returnId.logo);
                                 if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
                                     var img = document.getElementById("imgLogoImage");
                                     img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
@@ -319,16 +317,9 @@
                         $('#loader').hide();
                         messageBox("error", "unauthorized access");
                     }
-                });
-                
-               
-            
+                });               
             }
-            
 
-
-            
-            
             function handleFiles() {
                 const fileList = this.files; 
                 for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
@@ -353,8 +344,6 @@
                     reader.readAsDataURL(file);
                 }
             }
-
-                
             //bind Country and States
             $("#frmOrganisation").validate({
                 errorPlacement: function (error, element) {
@@ -365,9 +354,10 @@
                         error.insertAfter(element);
                     }
                 },
-                submitHandler: function () {
+                submitHandler: function (form, event) {
+                    event.preventDefault();
                     $('#loader').show();
-                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetCompany"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetCompany"                    
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
@@ -386,10 +376,10 @@
                         formdata.append("AlternateEmail",$("#txtAlternateEmail").val());
                         formdata.append("ContactNo",$("#txtContact").val());
                         formdata.append("AlternateContactNo",$("#txtAlternateContact").val());
-                    formdata.append("ModifyRemarks",$("#txtRemarks").val());
-                    formdata.append("LogoImageType", $("#lblImgFile").val());
-                    formdata.append("Logo", $("#lblImgName").val());
-                    formdata.append("ImageType", "image/x-icon");
+                        formdata.append("ModifyRemarks",$("#txtRemarks").val());
+                        formdata.append("LogoImageType", $("#lblImgFile").val());
+                        formdata.append("Logo", $("#lblImgName").val());
+                        formdata.append("ImageType", "image/x-icon");
                     if ($("#is_active").is(":checked") ) {
                         formdata.append("IsActive", true);
                     }
@@ -397,28 +387,6 @@
                         formdata.append("IsActive", false);
                     }
 
-                    
-                    ////JSON.stringify(formdata);
-                    //var submitdata = JSON.stringify ({
-                    //    "OrgId":$("#lblOrganisationId").val(),                        
-                    //    "Name":$("#txtOrganisation").val(),
-                    //    "Address":$("#txtAddress").val(),
-                    //    "Locality":$("#txtLocality").val(),
-                    //    "City":$("#txtCity").val(),
-                    //    "State":$("#ddlstate").val(),
-                    //    "Country":$("#ddlcountry").val(),
-                    //    "PinCode":$("#txtPinCode").val(),
-                    //    "Email":$("#txtEmail").val(),
-                    //    "AlternateEmail":$("#txtAlternateEmail").val(),
-                    //    "Contact":$("#txtContact").val(),
-                    //    "AlternateContact":$("#txtAlternateContact").val(),
-                    //    "Remarks":$("#txtRemarks").val(),
-                    //    "LogoImage": $("#lblImgFile").val(),
-                    //    "ImageType":"image/x-icon",
-                    //});
-                    //alert( console.log(JSON.stringify(submitdata)));
-                   
-                   
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,

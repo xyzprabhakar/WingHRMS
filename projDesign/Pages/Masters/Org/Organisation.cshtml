@@ -1,6 +1,6 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "0";
+    ViewData["PageId"] = "2";
     ViewData["Title"] = "Organisation";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -240,15 +240,13 @@
                 }
             }).then(data => {
 
-                if (data.messageType == 1) {
-                    console.log(data.returnId);
+                if (data.messageType == 1) {                    
                         $("#lblOrganisationId").val(data.returnId.orgId);
                         $("#txtOrganisation").val(data.returnId.name);
                         $("#txtOrgCode").val(data.returnId.code);
                         $("#txtAddress").val(data.returnId.officeAddress);
                         $("#txtLocality").val(data.returnId.locality);
-                        $("#txtCity").val(data.returnId.city);
-                        
+                        $("#txtCity").val(data.returnId.city);                        
                         lblcountryId = data.returnId.countryId;
                         lblstateId = data.returnId.stateId;
                         if (lblcountryId > 0) {
@@ -261,8 +259,8 @@
                         $("#txtContact").val(data.returnId.contactNo);
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                    $("#txtRemarks").val(data.returnId.modifyRemarks);
-                    $("#lblImageName").val(data.returnId.logo);
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        $("#lblImgName").val(data.returnId.logo);
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined))
                         {
                             var img = document.getElementById("imgLogoImage");
@@ -327,7 +325,8 @@
                         error.insertAfter(element);
                     }
                 },
-                submitHandler: function () {
+                submitHandler: function (form, event) {
+                    event.preventDefault();
                     $('#loader').show();
                     let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetOrganisation"
                     let Postheaderss = new Headers();
@@ -337,7 +336,7 @@
                     formdata.append("OrgId", $("#lblOrganisationId").val());
                         formdata.append("Code", $("#txtOrgCode").val());
                         formdata.append("Name",$("#txtOrganisation").val());
-                        formdata.append("OfficeAddress",$("#txtAddress").val());
+                    formdata.append("OfficeAddress", $("#txtAddress").val()); 
                         formdata.append("Locality",$("#txtLocality").val());
                         formdata.append("City",$("#txtCity").val());
                         formdata.append("StateId",$("#ddlstate").val());
@@ -347,9 +346,9 @@
                         formdata.append("AlternateEmail",$("#txtAlternateEmail").val());
                         formdata.append("ContactNo",$("#txtContact").val());
                         formdata.append("AlternateContactNo",$("#txtAlternateContact").val());
-                    formdata.append("ModifyRemarks",$("#txtRemarks").val());
-                    formdata.append("LogoImageType", $("#lblImgFile").val());
-                    formdata.append("Logo", $("#lblImgName").val());
+                        formdata.append("ModifyRemarks",$("#txtRemarks").val());
+                        formdata.append("LogoImageType", $("#lblImgFile").val());
+                        formdata.append("Logo", $("#lblImgName").val());
                     formdata.append("ImageType", "image/x-icon");
                     if ($("#is_active").is(":checked") ) {
                         formdata.append("IsActive", true);

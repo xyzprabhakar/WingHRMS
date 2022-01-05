@@ -96,9 +96,9 @@ namespace projAPI.Controllers
             string FileName = null;
             if (!(mdl.LogoImageFile == null))
             {
-                FileName =_srvMasters.SetImage(mdl.LogoImageFile,enmFileType.ImageICO, _srvCurrentUser.UserId);
+                FileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _srvCurrentUser.UserId);
                 mdl.Logo = FileName;
-            }
+            }            
             mdl.ModifiedBy = _srvCurrentUser.UserId;
             mdl.ModifiedDt = DateTime.Now;
             if (mdl.OrgId == 0)

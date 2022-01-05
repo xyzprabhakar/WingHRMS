@@ -38,8 +38,7 @@ function BindState( countryId, stateInputName, stateId) {
     if (!(stateInputName == "" || stateInputName === undefined || stateInputName == null)) {
         if (countryId == 0 || countryId == "" || countryId == null || countryId == undefined) {
             return;
-        }
-        console.log(stateId);
+        }        
         let _countryId = parseInt(countryId);
         var keyRangeValue = IDBKeyRange.only(_countryId);
         GetDataFromIndex_IndexDb(keyRangeValue, "tblState", "countryId").then((result) => {            
