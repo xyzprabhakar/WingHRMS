@@ -208,7 +208,7 @@
 @section Scripts {
     <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
     <script type="text/javascript">
-        
+
         $(document).ready(function () {
             //bindcountry
             $('#loader').show();
@@ -253,8 +253,7 @@
                         lblstateId = data.returnId.stateId;
                         if (lblcountryId > 0) {
                             $("#ddlcountry").val(lblcountryId);
-                            $("#ddlcountry").trigger('change');
-                            BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                            $("#ddlcountry").trigger('change', [lblstateId]);                            
                         }
                         $("#txtPinCode").val(data.returnId.pincode);
                         $("#txtEmail").val(data.returnId.email);
@@ -359,28 +358,6 @@
                         formdata.append("IsActive", false);
                     }
 
-                    
-                    ////JSON.stringify(formdata);
-                    //var submitdata = JSON.stringify ({
-                    //    "OrgId":$("#lblOrganisationId").val(),                        
-                    //    "Name":$("#txtOrganisation").val(),
-                    //    "Address":$("#txtAddress").val(),
-                    //    "Locality":$("#txtLocality").val(),
-                    //    "City":$("#txtCity").val(),
-                    //    "State":$("#ddlstate").val(),
-                    //    "Country":$("#ddlcountry").val(),
-                    //    "PinCode":$("#txtPinCode").val(),
-                    //    "Email":$("#txtEmail").val(),
-                    //    "AlternateEmail":$("#txtAlternateEmail").val(),
-                    //    "Contact":$("#txtContact").val(),
-                    //    "AlternateContact":$("#txtAlternateContact").val(),
-                    //    "Remarks":$("#txtRemarks").val(),
-                    //    "LogoImage": $("#lblImgFile").val(),
-                    //    "ImageType":"image/x-icon",
-                    //});
-                    //alert( console.log(JSON.stringify(submitdata)));
-                   
-                   
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,

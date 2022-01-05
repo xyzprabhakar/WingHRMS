@@ -17,8 +17,6 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
-   
-
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }

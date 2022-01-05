@@ -229,11 +229,6 @@ namespace projAPI.Controllers
             return mdl;
         }
 
-
-
-
-
-
         [Authorize]
         [Route("GetUserDocuments/{OnlyDisplayMenu}/{IncludeApplication}/{IncludeModule}/{IncludeSubModule}")]
         public mdlReturnData GetUserDocuments(bool OnlyDisplayMenu, bool IncludeApplication, bool IncludeModule, bool IncludeSubModule)

@@ -183,6 +183,12 @@ namespace projAPI.Controllers
                     return returnData;
                 }
             }
+            if (_masterContext.tblCompanyMaster.Where(p => p.Code == mdl.Code && p.OrgId == mdl.OrgId && p.CompanyId != mdl.CompanyId).Count() > 0)
+            {
+                returnData.Message = "Code already exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
             if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
             {
                 returnData.MessageType = enmMessageType.Error;

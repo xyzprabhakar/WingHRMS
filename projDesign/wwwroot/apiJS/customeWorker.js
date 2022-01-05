@@ -105,7 +105,7 @@ function startWorker() {
             w.onmessage = function (event) {
                 if (event.data == "Done") {
                     document.getElementById("lblDataStatus").innerHTML = "Reload";
-                    //location.reload();
+                    location.reload();
                 }
                 else {
                     document.getElementById("lblDataStatus").innerHTML = event.data;
@@ -141,28 +141,7 @@ function stopWorker() {
 //    }
 //};
 
-async function CheckIdExistsInIndexDb(id, StoreName) {
-    let dBVersion = localStorage.getItem('dBVersion');
-    var openRequest = await indexedDB.open("dpbs", dBVersion);
-    openRequest.onsuccess = async function (e) {
-        var db = e.target.result;
-        let ObjectStoreState = await db.transaction(StoreName, "readwrite")
-            .objectStore(StoreName);
-        var getAllRequest = await ObjectStoreState.openCursor(parseInt(id));
-        getAllRequest.onsuccess = async function () {
-            var cursor = await e.target.result;
-            if (cursor) { // key already exist
-                return true;
-                console.log("from true");
-            } else { // key not exist
-                return false;
-                console.log("from false");
-            }
-            db.close();
-        }
-        getAllRequest.on
-    }
-}
+
 function getUrlVars() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

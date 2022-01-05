@@ -20,29 +20,36 @@ var Apidatas = [{
     { id: 7, name: "Location", url: "User/GetCurrentUserLocation?ClearCache=true", methodType: "GET", isloaded: false, postdata: null, tables: [{ tableName: "tblLocation", keyName: "" }] },
 ]
 
-onmessage = function (e) {
+onmessage = async function (e) {
     baseUrl = e.data.baseUrl_;
     dBVersion= e.data.dBVersion_;
     token = e.data.token_;
     if (e.data.startDownload_ == 1) {
-        openRequest = indexedDB.open("dpbs", dBVersion);
+        openRequest =await  indexedDB.open("dpbs", dBVersion);
         openRequest.onupgradeneeded = function (e) {
             fncCreateAllDb(e);
         }
-        openRequest.onsuccess = function (e) {
-            db = e.target.result;
+        openRequest.onsuccess = async function (e) {
+            db =  e.target.result;
             for (let i in Apidatas) {
                 Apidatas[i].isloaded = false;
             }
             for (let i in Apidatas) {                
-                LoadDataInDB(Apidatas[i], i);
+                postMessage("Loading " + Apidatas[i].name);
+                await LoadDataInDB_1(Apidatas[i], i);                
+            }
+            if (Apidatas.find(checkIsNotCompleted) === undefined) {
+                postMessage("Done");
+            }
+            function checkIsNotCompleted(Apidatas) {
+                return !Apidatas.isloaded;
             }
         }
 
     }
 };
 
- function LoadDataInDB(Apidata, ApidataPosition) {
+async function LoadDataInDB_1(Apidata, ApidataPosition) {
     let apiurl = baseUrl + Apidata.url;
     let headerss = new Headers();
     headerss.append("Authorization", 'Bearer ' + token);
@@ -50,29 +57,29 @@ onmessage = function (e) {
     //headerss["Authorization"] = 'Bearer ' + token;
     //headerss["Content-Type"] = "application/json; charset=utf-8";
     //headerss["Access-Control-Allow-Origin"] = "*";
-     fetch(apiurl, {
+     let response = await fetch(apiurl, {
          method: Apidata.methodType,
          headers: headerss,
          body: Apidata.postdata
-     }).then(response => {
-         if (response.ok) {
-             return response.json();
-         } else {
-             throw new Error(response.statusText);
+     });
+     if (response.ok) {
+         let data = await response.json();
+         if (data.messageType == 1) {
+             for (var index in Apidata.tables) {
+                 let tablename_ = Apidata.tables[index].tableName;
+                 let keyname_ = Apidata.tables[index].keyName;
+                 await SaveinDb(keyname_, tablename_, data.returnId);
+             }
          }
-     }).then(data => {
-            if (data.messageType == 1) {
-                for (var index in Apidata.tables) {
-                    let tablename_ = Apidata.tables[index].tableName;
-                    let keyname_ = Apidata.tables[index].keyName;
-                    SaveinDb(keyname_, tablename_, data.returnId, Apidatas, ApidataPosition);
-                }
-         }
-     }).catch((error) => { console.log(error) });
+     }
+     else {
+         console.log(response.statusText) 
+    }   
+    Apidatas[ApidataPosition].isloaded = true;
 }
 
-async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
-    let ObjectStore = db.transaction(Tablename, "readwrite")
+async function SaveinDb(KeyName, Tablename, returnId) {
+    let ObjectStore = await db.transaction(Tablename, "readwrite")
         .objectStore(Tablename);
     let ReqSuccess = await ObjectStore.clear();
     ReqSuccess.onsuccess = async function (event) {
@@ -81,29 +88,25 @@ async function SaveinDb(KeyName, Tablename, returnId, Apidatas,i) {
             for (var j in returnId) {
                 await ObjectStore.add(returnId[j]);                
             }
-            isAllDataDownloaded();
-            
         }
         else {
             let tempdata = returnId[KeyName];
             for (var j in tempdata) {
                 await ObjectStore.add(tempdata[j]);
-            }
-            isAllDataDownloaded();
+            }            
         }
     }
-    function isAllDataDownloaded()
-    {
-        
-        postMessage("Loaded " + Apidatas[i].name);
-        Apidatas[i].isloaded = true;
-        if (Apidatas.find(checkIsNotCompleted) === undefined) {
-            postMessage("Done");
-        }
-        function checkIsNotCompleted(Apidatas) {
-            return !Apidatas.isloaded;
-        }
-    }
+    //function isAllDataDownloaded()
+    //{   
+    //    postMessage("Loaded " + Apidatas[i].name);
+    //    Apidatas[i].isloaded = true;
+    //    if (Apidatas.find(checkIsNotCompleted) === undefined) {
+    //        postMessage("Done");
+    //    }
+    //    function checkIsNotCompleted(Apidatas) {
+    //        return !Apidatas.isloaded;
+    //    }
+    //}
 }
 
 function fncCreateAllDb(e) {
