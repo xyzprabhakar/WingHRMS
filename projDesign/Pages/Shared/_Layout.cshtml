@@ -349,68 +349,68 @@
         });
         $(".select2").select2();
 
-        $(".ip-ap").flatpickr({
-            dateFormat: "d-M-Y",
-        });
+        //$(".ip-ap").flatpickr({
+        //    dateFormat: "d-M-Y",
+        //});
 
 
-        $(".ip-ap-leave-setting").flatpickr({
-            dateFormat: "d-M-Y",
+        //$(".ip-ap-leave-setting").flatpickr({
+        //    dateFormat: "d-M-Y",
 
-        });
-        $(".ip-ap_2").flatpickr({
-            dateFormat: "d-M-Y",
-            maxDate: "today"
-        });
-        $(".AnyTimePicker").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-        });
+        //});
+        //$(".ip-ap_2").flatpickr({
+        //    dateFormat: "d-M-Y",
+        //    maxDate: "today"
+        //});
+        //$(".AnyTimePicker").flatpickr({
+        //    enableTime: true,
+        //    noCalendar: true,
+        //    dateFormat: "H:i",
+        //});
 
-        $(".iphr").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-        });
-        function onMonthOrYearChange(dObj, dStr, fp) {
-            fp.setDate(new Date(fp.currentYear, fp.currentMonth));
-        }
-        // uncomment underneath code to use flatpickr calender for report monthly report select month but remember to remove
-        //the datepicker code in jsreport.js if you enable this flatpickr calender
-        $(".monthly").flatpickr(
-            {
-                dateFormat: "Y-m",
-                //"enable": [
-                //        function (date) {
-                //         return true to disable
-                //            return (date.getDate() < 2);
-                //        }
-                //],
-                //enable: ["2025-03-30", "2025-05-21", "2025-06-08", new Date(2025, 8, 9)],
-                onYearChange: onMonthOrYearChange,
-                onMonthChange: onMonthOrYearChange
-            });
+        //$(".iphr").flatpickr({
+        //    enableTime: true,
+        //    noCalendar: true,
+        //    dateFormat: "H:i",
+        //    time_24hr: true,
+        //});
+        //function onMonthOrYearChange(dObj, dStr, fp) {
+        //    fp.setDate(new Date(fp.currentYear, fp.currentMonth));
+        //}
+        //// uncomment underneath code to use flatpickr calender for report monthly report select month but remember to remove
+        ////the datepicker code in jsreport.js if you enable this flatpickr calender
+        //$(".monthly").flatpickr(
+        //    {
+        //        dateFormat: "Y-m",
+        //        //"enable": [
+        //        //        function (date) {
+        //        //         return true to disable
+        //        //            return (date.getDate() < 2);
+        //        //        }
+        //        //],
+        //        //enable: ["2025-03-30", "2025-05-21", "2025-06-08", new Date(2025, 8, 9)],
+        //        onYearChange: onMonthOrYearChange,
+        //        onMonthChange: onMonthOrYearChange
+        //    });
 
 
-        $(".only_month_year").flatpickr(
-            {
-                dateFormat: "Ym",
+        //$(".only_month_year").flatpickr(
+        //    {
+        //        dateFormat: "Ym",
 
-                onYearChange: onMonthOrYearChange,
-                onMonthChange: onMonthOrYearChange
-            });
-        $(".date_and_time").flatpickr({
-            enableTime: true,
-            dateFormat: "d-M-Y H:i",
-            maxDate: "today"
-        });
-        $(".date_for_outdoor").flatpickr({
-            dateFormat: "d-M-Y",
-            maxDate: new Date().fp_incr(60),
-            minDate: new Date().fp_incr(-45)
-        });
+        //        onYearChange: onMonthOrYearChange,
+        //        onMonthChange: onMonthOrYearChange
+        //    });
+        //$(".date_and_time").flatpickr({
+        //    enableTime: true,
+        //    dateFormat: "d-M-Y H:i",
+        //    maxDate: "today"
+        //});
+        //$(".date_for_outdoor").flatpickr({
+        //    dateFormat: "d-M-Y",
+        //    maxDate: new Date().fp_incr(60),
+        //    minDate: new Date().fp_incr(-45)
+        //});
 
                                                     //$('ul.leftMenu li a.subMenu').on('click', function (e) {
                                                     //    debugger;

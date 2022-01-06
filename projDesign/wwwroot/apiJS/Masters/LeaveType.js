@@ -268,7 +268,7 @@ function GetData() {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('Token') },
         success: function (res) {
 
-            $("#tblleavetype").DataTable({
+            var dt=$("#tblleavetype").DataTable({
                 "processing": true, // for show progress bar
                 "serverSide": false, // for process server side
                 "bDestroy": true,
@@ -281,27 +281,20 @@ function GetData() {
                         {
                             targets: [3],
                             render: function (data, type, row) {
-                                return data == '1' ? 'Active' : 'InActive'
+                                return data == '1' ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
                             }
                         },
                         {
-                            targets: [4],
+                            targets: [11],
                             render: function (data, type, row) {
 
                                 var date = new Date(data);
                                 return GetDateFormatddMMyyyy(date);
                             }
                         },
+                        
                         {
-                            targets: [5],
-                            render: function (data, type, row) {
-
-                                var date = new Date(data);
-                                return new Date(row.modifiedon) < new Date(row.createdon) ? "-" : GetDateFormatddMMyyyy(date);
-                            }
-                        },
-                        {
-                            targets: [6],
+                            targets: [12],
                             "class": "text-center",
 
                         }
@@ -316,30 +309,19 @@ function GetData() {
                     { "data": "createdon", "name": "createdon", "autoWidth": true },
                     { "data": "modifiedon", "name": "modifiedon", "autoWidth": true },
                     {
-                        "render": function (data, type, full, meta) {
-                            //if (full.status == '1') {
-                            return '<a href="#" onclick="GetEditData(' + full.leavetypeid + ')" ><i class="fa fa-pencil-square-o"></i></a>';
-                            //}
-                            // else {
-                            //  return ''//'<a href="#" disabled="disabled" onclick="GetEditData(' + full.leavetypeid + ')" ><i class="fa fa-pencil-square-o"></i></a>';
-                            // }
+                        "render": function (data, type, full, meta) {                            
+                            return '<a href="#" onclick="GetEditData(' + full.leavetypeid + ')" ><i class="fa fa-pencil-square-o"></i></a>';                            
                         }
                     }
-                    //,
-                    //{
-                    //    "render": function (data, type, full, meta) {
-                    //       // if (full.status == '1') {
-                    //            return '<a href="#" id="A1" onclick="DeleteData(' + full.leavetypeid + ')" ><i class="fa fa-trash"></i></a>';
-                    //        //}
-                    //       // else {
-                    //           // return ''//'<a href="#" id="A1" disabled="disabled" onclick="DeleteData(' + full.leavetypeid + ')" ><i class="fa fa-trash"></i></a>';
-                    //       // }
-                    //    }
-                    //}
+                    
                 ],
-                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
-
+                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],                
             });
+            dt.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         },
         error: function (error) {
             messageBox("error", error.responseText);

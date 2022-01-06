@@ -237,14 +237,28 @@ namespace projAPI.Controllers
                 returnData.MessageType = enmMessageType.Error;
                 return returnData;
             }
-            returnData.ReturnId=from t1 in _masterContext.tblCompanyMaster
+            returnData.ReturnId=( from t1 in _masterContext.tblCompanyMaster
             join t2 in _masterContext.tblCountry on t1.CountryId equals t2.CountryId
             join t3 in _masterContext.tblState on t1.StateId equals t3.StateId
             join t4 in _masterContext.tblUsersMaster on t1.ModifiedBy equals t4.UserId
             where t1.OrgId == OrgId
-            select new { companyId = t1.CompanyId, code = t1.Code, name=t1.Name,Address =t1.OfficeAddress+", "+t1.Locality+", "+t1.City,
-            state=t3.Name, country=t2.Name, modifiedDt=t1.ModifiedDt, modifiedBy=t4.UserName
-            };
+            select new { t1.CompanyId, t1.Code, t1.Name,t1.OfficeAddress,t1.Locality,t1.City,
+            StateName=t3.Name,CountryName =t2.Name,t1.Pincode,t1.ContactNo,t1.AlternateContactNo,
+            t1.Email,t1.AlternateEmail,t1.ModifiedDt, t4.UserName,t1.IsActive
+            }).AsEnumerable().Select(p=>new {
+                companyId = p.CompanyId,
+                code = p.Code,
+                name = p.Name,
+                address = string.Concat( p.OfficeAddress + ", " +  p.Locality??string.Empty + ", " + p.City??string.Empty),
+                state = p.StateName,
+                country = p.CountryName,
+                pincode = p.Pincode,
+                contactNo = string.Concat( p.ContactNo,string.Concat( ", " , p.AlternateContactNo)??string.Empty),
+                email = string.Concat(p.Email, string.Concat(", ", p.AlternateEmail) ?? string.Empty),
+                modifiedDt = p.ModifiedDt,
+                modifiedBy = p.UserName,
+                isActive = p.IsActive
+            });
             returnData.MessageType = enmMessageType.Success;
             return returnData;
         }

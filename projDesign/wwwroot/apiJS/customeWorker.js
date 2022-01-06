@@ -153,3 +153,13 @@ function getUrlVars() {
     return vars;
 }
 
+function GetDateFormatddMMyyyy(date) {
+    var month = (date.getMonth() + 1).toString();
+    // month = month.length > 1 ? month : '0' + month;
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    return day + '-' + months[month - 1] + '-' + date.getFullYear();
+}
+
