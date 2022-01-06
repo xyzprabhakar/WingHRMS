@@ -227,6 +227,28 @@ namespace projAPI.Controllers
         }
 
 
+        [Route("GetCompanys/{OrgId}")]
+        public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers, int OrgId)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (_masterContext.tblUserOrganisationPermission.Where(p => p.OrgId == OrgId && !p.IsDeleted).Count() == 0)
+            {
+                returnData.Message = "Unauthorize access";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            returnData.ReturnId=from t1 in _masterContext.tblCompanyMaster
+            join t2 in _masterContext.tblCountry on t1.CountryId equals t2.CountryId
+            join t3 in _masterContext.tblState on t1.StateId equals t3.StateId
+            join t4 in _masterContext.tblUsersMaster on t1.ModifiedBy equals t4.UserId
+            where t1.OrgId == OrgId
+            select new { companyId = t1.CompanyId, code = t1.Code, name=t1.Name,Address =t1.OfficeAddress+", "+t1.Locality+", "+t1.City,
+            state=t3.Name, country=t2.Name, modifiedDt=t1.ModifiedDt, modifiedBy=t4.UserName
+            };
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
+
         [AllowAnonymous]
         [Route("GetCountry/{IncludeUsername}")]
         public mdlReturnData GetCountry([FromServices] IsrvUsers srvUsers,bool IncludeUsername)

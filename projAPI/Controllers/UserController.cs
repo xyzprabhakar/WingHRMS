@@ -280,6 +280,8 @@ namespace projAPI.Controllers
             return mdl;
         }
 
+        
+
 
         [Authorize]
         [Route("GetDownlineEmployee")]
