@@ -82,6 +82,8 @@ namespace projContext.DB.Masters
         [ForeignKey("tblZoneMaster")] // Foreign Key here
         public int? ZoneId { get; set; }
         public tblZoneMaster tblZoneMaster { get; set; }
+        [NotMapped]
+        public int? CompanyId { get; set; }
         [ForeignKey("tblOrganisation")] // Foreign Key here
         public int? OrgId { get; set; }
         public tblOrganisation tblOrganisation { get; set; }

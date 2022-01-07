@@ -1,6 +1,7 @@
 ﻿function BindOrganisationEvent(OrgInputName, CompanyInputName, ZoneInputName) {
     if (!(OrgInputName == "" || OrgInputName === undefined || OrgInputName== null)) {
         $('#' + OrgInputName).on('change paste', function (event, _Id) {
+            console.log($('#' + OrgInputName).val())
             BindCompany($('#' + OrgInputName).val(), CompanyInputName, _Id);
         });
     }
@@ -16,14 +17,14 @@
     }
 }
 
-function BindOrganisation(OrgInputName, orgId) {
+async function BindOrganisation(OrgInputName, orgId) {
     if (OrgInputName == "" || OrgInputName === undefined || OrgInputName == null) {
         return;
     }
-    if (orgId == 0 || orgId == "" || orgId == undefined) {
-        orgId = localStorage.getItem("currentOrganisation");  
-    }
-    GetDataAll_IndexDb("tblOrganisation").then((result) => {
+    //if (orgId == 0 || orgId == "" || orgId == undefined) {
+    //    orgId = localStorage.getItem("currentOrganisation");  
+    //}
+    await GetDataAll_IndexDb("tblOrganisation").then((result) => {
         $('#' + OrgInputName).empty();
         $('#' + OrgInputName).append(`<option value=""> -- Please Select --</option>`);
         for (let i in result) {            
@@ -44,6 +45,10 @@ function BindOrganisation(OrgInputName, orgId) {
                 }
             }
         }
+        if (result.length == 1) {
+            $('#' + OrgInputName).val(result[0].id);
+        }
+        $('#' + OrgInputName).trigger('change');
     });
 }
 
@@ -77,6 +82,11 @@ function BindCompany(orgId, CompanyInputName, companyId) {
                 }
             }
         }
+        if (result.length == 1) {
+            $('#' + CompanyInputName).val(result[0].id);
+        }
+        $('#' + CompanyInputName).trigger('change');
+
     });
 
 }
@@ -90,7 +100,7 @@ function BindZone(companyId, ZoneInputName, zoneId) {
         return;
     }
     let _companyId = parseInt(companyId);
-    var keyRangeValue = IDBKeyRange.only(_orgId);
+    var keyRangeValue = IDBKeyRange.only(_companyId);
     GetDataFromIndex_IndexDb(keyRangeValue, "tblZone", "parentId").then((result) => {
         $('#' + ZoneInputName).empty();
         $('#' + ZoneInputName).append(`<option value=""> -- Please Select --</option>`);
@@ -112,6 +122,10 @@ function BindZone(companyId, ZoneInputName, zoneId) {
                 }
             }
         }
+        if (result.length == 1) {
+            $('#' + ZoneInputName).val(result[0].id);
+        }
+        $('#' + ZoneInputName).trigger('change');
     });
 
 }
@@ -147,6 +161,9 @@ function BindLocation(zoneId, LocationInputName, locationId) {
                     $('#' + LocationInputName).append(`<option value="${result[i].id}" disabled>${result[i].name}</option>`);
                 }
             }
+        }
+        if (result.length == 1) {
+            $('#' + LocationInputName).val(result[0].id);
         }
     });
 

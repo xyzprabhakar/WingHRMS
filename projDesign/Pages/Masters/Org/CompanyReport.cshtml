@@ -164,7 +164,12 @@
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
                                 { "data": "companyId", "name": "companyId", "autoWidth": true }
                             ],
-                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
+                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                            'createdRow': function (row, data, dataIndex) {
+                                $('td:eq(4)', row).css('min-width', '200px');
+                                $('td:eq(2)', row).css('min-width', '150px');
+                                $('td:eq(9)', row).css('min-width', '200px');
+                            }
 
                         });
 

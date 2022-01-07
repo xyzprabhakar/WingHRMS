@@ -267,7 +267,7 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("GetZone/{CompanyId}/{IncludeCountryState}/{IncludeUsername}")]
-        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Create))]
+        [Authorize(nameof(enmDocumentMaster.Zone) + nameof(enmDocumentType.Create))]
         public mdlReturnData GetZone([FromServices] IsrvUsers srvUsers, int ZoneId,
             bool IncludeCountryState, bool IncludeUsername)
         {
@@ -304,7 +304,7 @@ namespace projAPI.Controllers
 
         [HttpPost]
         [Route("SetZone")]
-        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
+        [Authorize(nameof(enmDocumentMaster.Zone) + nameof(enmDocumentType.Update))]
         public mdlReturnData SetZone([FromServices] IsrvUsers srvUsers, [FromForm] tblZoneMaster mdl)
         {
             mdlReturnData returnData = new mdlReturnData();
@@ -316,7 +316,7 @@ namespace projAPI.Controllers
             }
             if (mdl.CompanyId > 0)
             {
-                if (srvUsers.GetUserCompany(_srvCurrentUser.UserId, null, null).Where(p => p.Id == mdl.CompanyId).Count() == 0)
+                if (srvUsers.GetUserZone(_srvCurrentUser.UserId, null, null,null).Where(p => p.Id == mdl.ZoneId).Count() == 0)
                 {
                     returnData.Message = "Unauthorize access";
                     returnData.MessageType = enmMessageType.Error;
@@ -414,6 +414,170 @@ namespace projAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetLocation/{LocationId}/{IncludeCountryState}/{IncludeUsername}")]
+        [Authorize(nameof(enmDocumentMaster.Location) + nameof(enmDocumentType.Update))]
+        public mdlReturnData GetLocation([FromServices] IsrvUsers srvUsers, int LocationId,
+            bool IncludeCountryState, bool IncludeUsername)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (LocationId > 0)
+            {
+                if (srvUsers.GetUserLocation(true,_srvCurrentUser.UserId, null, null, null).Where(p => p.Id ==LocationId).Count() == 0)
+                {
+                    returnData.Message = "Unauthorize access";
+                    returnData.MessageType = enmMessageType.Error;
+                    return returnData;
+                }
+            }
+
+            var tempData = LocationId > 0 ? _masterContext.tblLocationMaster.Where(p => p.LocationId == LocationId).FirstOrDefault() : null;
+            if (tempData == null)
+            {
+                tempData = new tblLocationMaster();
+            }
+            if (IncludeCountryState)
+            {
+                tempData.StateName = _srvMasters.GetState(tempData.StateId)?.Name;
+                tempData.CountryName = _srvMasters.GetCountry(tempData.CountryId)?.Name;
+            }
+            if (IncludeUsername)
+            {
+                tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
+            }
+
+            returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = tempData;
+            return returnData;
+        }
+
+        [HttpPost]
+        [Route("SetLocation")]
+        [Authorize(nameof(enmDocumentMaster.Location) + nameof(enmDocumentType.Update))]
+        public mdlReturnData SetLocation([FromServices] IsrvUsers srvUsers, [FromForm] tblLocationMaster mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (mdl == null)
+            {
+                returnData.Message = "Invalid Data";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (mdl.LocationId > 0)
+            {
+                if (srvUsers.GetUserLocation(true,_srvCurrentUser.UserId, null, null,null).Where(p => p.Id == mdl.LocationId).Count() == 0)
+                {
+                    returnData.Message = "Unauthorize access";
+                    returnData.MessageType = enmMessageType.Error;
+                    return returnData;
+                }
+            }
+            if (_masterContext.tblLocationMaster.Where(p => p.Name == mdl.Name && p.OrgId == mdl.OrgId && p.LocationId != mdl.LocationId).Count() > 0)
+            {
+                returnData.Message = "Code already exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (mdl.LocationId != 0)
+            {
+                var HeadOffice = (from t1 in _masterContext.tblLocationMaster
+                                  join t2 in _masterContext.tblZoneMaster on t1.ZoneId equals t2.ZoneId
+                                  where t2.CompanyId == mdl.CompanyId && t1.LocationType == enmLocationType.HeadOffice && t1.LocationId != mdl.LocationId
+                                  select t1.LocationId
+                                 ).Count();
+                if (HeadOffice > 0)
+                {
+                    returnData.Message = "One HeadOffice can be define in a company";
+                    returnData.MessageType = enmMessageType.Error;
+                    return returnData;
+                }
+            }
+            if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Invalid Organisation";
+                return returnData;
+            }
+            else if (mdl.OrgId == 0 && _srvCurrentUser.OrgId != 1)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Unauthorized Access";
+                return returnData;
+            }
+            mdl.ModifiedBy = _srvCurrentUser.UserId;
+            mdl.ModifiedDt = DateTime.Now;
+            if (mdl.OrgId == 0)
+            {
+                _masterContext.tblLocationMaster.Add(mdl);
+                mdl.CreatedBy = mdl.ModifiedBy.Value;
+                mdl.CreatedDt = mdl.ModifiedDt.Value;
+            }
+            else
+            {
+                _masterContext.tblLocationMaster.Update(mdl);
+            }
+            _masterContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            returnData.Message = "Save successfully";
+            return returnData;
+        }
+
+        [Route("GetLocations/{OrgId}")]
+        public mdlReturnData GetLocations([FromServices] IsrvUsers srvUsers, int OrgId)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (_masterContext.tblUserOrganisationPermission.Where(p => p.OrgId == OrgId && !p.IsDeleted).Count() == 0)
+            {
+                returnData.Message = "Unauthorize access";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            returnData.ReturnId = (from t1 in _masterContext.tblCompanyMaster
+                                   join t5 in _masterContext.tblZoneMaster on t1.CompanyId equals t5.ZoneId
+                                   join t6 in _masterContext.tblLocationMaster on t5.ZoneId equals t6.ZoneId
+                                   join t2 in _masterContext.tblCountry on t6.CountryId equals t2.CountryId
+                                   join t3 in _masterContext.tblState on t6.StateId equals t3.StateId
+                                   join t4 in _masterContext.tblUsersMaster on t6.ModifiedBy equals t4.UserId
+                                   where t1.OrgId == OrgId
+                                   select new
+                                   {
+                                       t6.LocationId,
+                                       CompanyName=t1.Code+" - "+ t1.Name,
+                                       ZoneName = t5.Name,
+                                       LocationName = t6.Name,
+                                       t6.LocationType,
+                                       t5.OfficeAddress,
+                                       t5.Locality,
+                                       t5.City,
+                                       StateName = t3.Name,
+                                       CountryName = t2.Name,
+                                       t5.Pincode,
+                                       t5.ContactNo,
+                                       t5.AlternateContactNo,
+                                       t5.Email,
+                                       t5.AlternateEmail,
+                                       t5.ModifiedDt,
+                                       t4.UserName,
+                                       t6.IsActive
+                                   }).AsEnumerable().Select(p => new {
+                                       locationId = p.LocationId,
+                                       companyName = p.CompanyName,
+                                       zoneName = p.ZoneName,
+                                       locationName=p.LocationName,
+                                       locationType=p.LocationType.GetDescription(),
+                                       address = string.Concat(p.OfficeAddress + ", " + p.Locality ?? string.Empty + ", " + p.City ?? string.Empty),
+                                       state = p.StateName,
+                                       country = p.CountryName,
+                                       pincode = p.Pincode,
+                                       contactNo = string.Concat(p.ContactNo, string.Concat(", ", p.AlternateContactNo) ?? string.Empty),
+                                       email = string.Concat(p.Email, string.Concat(", ", p.AlternateEmail) ?? string.Empty),
+                                       modifiedDt = p.ModifiedDt,
+                                       modifiedBy = p.UserName,
+                                       isActive = p.IsActive
+                                   });
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
 
         [AllowAnonymous]
         [Route("GetCountry/{IncludeUsername}")]

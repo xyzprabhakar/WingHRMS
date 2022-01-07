@@ -102,16 +102,16 @@ namespace projContext
 
         [Document( enmDocumentType.Report|enmDocumentType.DisplayMenu , 0, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Index")]
         Dashboard = 1,
-        [Document(EnmModule: enmModule.Organisation,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu, 
+        [Document(EnmModule: enmModule.Organisation,DocumentType:  enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu, 
             DisplayOrder: 1,Name: "Organisation",Description: "Dashboard the Orgasnisation Details",Icon: "far fa-circle nav-icon",ActionName:"/Masters/Org/Organisation")]
         Organisation= 2,
-        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+        [Document(EnmModule: enmModule.Organisation, DocumentType:  enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 2, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Masters/Org/Company")]        
         Company= 3,
-        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+        [Document(EnmModule: enmModule.Organisation, DocumentType:  enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 3, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Masters/Org/Zone")]        
         Zone = 4,
-        [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+        [Document(EnmModule: enmModule.Organisation, DocumentType:  enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 4, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Masters/Org/Location")]
         Location = 5,
 

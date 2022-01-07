@@ -1,17 +1,14 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "4";
-    ViewData["Title"] = "Zone";
+    ViewData["PageId"] = "5";
+    ViewData["Title"] = "Location";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-
-
 <div class="col-xl-12">
     <div class="panel">
         <div class="card">
             <div class="card-body p-2">
                 <form id="frmOrganisation" method="post" action="">
-
                     <div class="form-container master-panel">
                         <div class="col-md-12">
                             <h4> @ViewBag.Title </h4>
@@ -46,12 +43,36 @@
                         <div class="row mb-2">
 
                             <div class="col-md-6">
-                                <div class="form-group" for="txtZoneName">
-                                    <label class="col-form-label col-md-3" for="txtZoneName">Zone Name</label>
+                                <div class="form-group">
+                                    <label class="col-form-label col-md-3" for="ddlZone">Zone</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="txtZoneName" name="txtZoneName"
+                                        <select id="ddlZone" name="ddlZone" class="form-control select2" required>
+                                            <option value=""> -- Please Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtLocation">
+                                    <label class="col-form-label col-md-3" for="txtLocation">Location Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtLocation" name="txtLocation"
                                                maxlength="128" autocomplete="off" pattern="^[^<>]+$"
                                                class="form-control" placeholder="Zone Name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label col-md-3" for="ddlLocationType">Location Type</label>
+                                    <div class="col-md-9">
+                                        <select id="ddlLocationType" name="ddlLocationType" class="form-control select2" required>
+                                            <option value=""> -- Please Select --</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +235,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-12">
@@ -249,7 +270,7 @@
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
             let token = localStorage.getItem('token');
-            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "");
+            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "ddlZone");
             let _currentOrganisation = localStorage.getItem("currentOrganisation");
             let _currentCompany = localStorage.getItem("currentCompany");
             BindOrganisation("ddlOrganisation", _currentOrganisation);

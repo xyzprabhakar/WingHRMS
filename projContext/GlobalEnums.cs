@@ -11,11 +11,17 @@ namespace projContext
 
     public enum enmLocationType
     {
+        [Description("Head Office")]
         HeadOffice=1,
+        [Description("Branch")]
         Branch = 2,
+        [Description("Warehouse")]
         Warehouse = 3,
-        Factory= 4,
+        [Description("Factory")]
+        Factory = 4,
+        [Description("Retail Store")]
         RetailStore = 5,
+        [Description("Franchisees")]
         Franchisees = 6,
     }
 

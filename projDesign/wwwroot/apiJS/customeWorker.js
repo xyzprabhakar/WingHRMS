@@ -163,3 +163,19 @@ function GetDateFormatddMMyyyy(date) {
     return day + '-' + months[month - 1] + '-' + date.getFullYear();
 }
 
+function BindEnums(ControlInputName, result,selectedValue) {
+    $('#' + ControlInputName).empty();
+    for (var i in result) {
+        if (result[i].id == selectedValue) {
+            $('#' + ControlInputName).append(`<option value="${result[i].id}"  selected>${result[i].displayText}</option>`);            
+        }
+        else {
+            $('#' + ControlInputName).append(`<option value="${result[i].id}" >${result[i].displayText}</option>`);            
+        }
+    }
+    if (result.length == 1) {
+        $('#' + ControlInputName).val(result[0].id);
+    }
+    $('#' + ControlInputName).trigger('change');
+}
+

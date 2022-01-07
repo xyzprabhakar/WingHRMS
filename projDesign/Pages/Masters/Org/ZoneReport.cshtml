@@ -144,15 +144,15 @@
                                         targets: [12],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return '<a href="Company?CompanyId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
+                                            return '<a href="Zone?ZoneId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
                                         }
 
                                     }
                                 ],
                             "columns": [
                                 { "data": null, "name": "sno", "autoWidth": true },
-                                { "data": "code", "name": "code", "autoWidth": true },
-                                { "data": "name", "name": "name", "autoWidth": true },
+                                { "data": "companyName", "name": "companyName", "autoWidth": true },
+                                { "data": "zoneName", "name": "zoneName", "autoWidth": true },
                                 { "data": "isActive", "name": "isActive", "autoWidth": true },
                                 { "data": "address", "name": "address", "autoWidth": true },
                                 { "data": "state", "name": "state", "autoWidth": true },
@@ -162,10 +162,14 @@
                                 { "data": "email", "name": "email", "autoWidth": true },
                                 { "data": "modifiedBy", "name": "modifiedBy", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "companyId", "name": "companyId", "autoWidth": true }
+                                { "data": "zoneId", "name": "zoneId", "autoWidth": true }
                             ],
-                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]]
-
+                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                            'createdRow': function (row, data, dataIndex) {
+                                $('td:eq(4)', row).css('min-width', '200px');
+                                $('td:eq(2)', row).css('min-width', '150px');
+                                $('td:eq(9)', row).css('min-width', '200px');
+                            }
                         });
 
                         dt.on('order.dt search.dt', function () {
