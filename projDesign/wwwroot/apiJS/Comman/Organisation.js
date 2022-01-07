@@ -21,7 +21,7 @@ function BindOrganisation(OrgInputName, orgId) {
         return;
     }
     if (orgId == 0 || orgId == "" || orgId == undefined) {
-        orgId = localStorage.getItem("currentOrganisation");        
+        orgId = localStorage.getItem("currentOrganisation");  
     }
     GetDataAll_IndexDb("tblOrganisation").then((result) => {
         $('#' + OrgInputName).empty();

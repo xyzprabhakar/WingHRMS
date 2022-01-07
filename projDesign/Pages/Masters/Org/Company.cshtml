@@ -298,7 +298,6 @@
                                 $("#txtAddress").val(data.returnId.officeAddress);
                                 $("#txtLocality").val(data.returnId.locality);
                                 $("#txtCity").val(data.returnId.city);
-
                                 lblcountryId = data.returnId.countryId;
                                 lblstateId = data.returnId.stateId;
                                 if (lblcountryId > 0) {
@@ -310,8 +309,7 @@
                                 $("#txtEmail").val(data.returnId.email);
                                 $("#txtAlternateEmail").val(data.returnId.alternateEmail);
                                 $("#txtContact").val(data.returnId.contactNo);
-                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);
-                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);                                
                                 $("#txtRemarks").val(data.returnId.modifyRemarks);
                                 $("#lblImgName").val(data.returnId.logo);
                                 if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {

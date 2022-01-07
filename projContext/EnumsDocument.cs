@@ -109,10 +109,10 @@ namespace projContext
             DisplayOrder: 2, Name: "Company", Description: "Company", Icon: "far fa-circle nav-icon",ActionName: "/Masters/Org/Company")]        
         Company= 3,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 3, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Base/Zone")]        
+            DisplayOrder: 3, Name: "Zone", Description: "Zone", Icon: "far fa-circle nav-icon", ActionName: "/Masters/Org/Zone")]        
         Zone = 4,
         [Document(EnmModule: enmModule.Organisation, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 4, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
+            DisplayOrder: 4, Name: "Location", Description: "Location", Icon: "far fa-circle nav-icon", ActionName: "/Masters/Org/Location")]
         Location = 5,
 
         [Document(EnmModule: enmModule.Organisation, EnmSubModule:enmSubModule.Organisation_Authentication ,DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
