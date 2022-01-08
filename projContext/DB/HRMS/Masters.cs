@@ -66,6 +66,7 @@ namespace projContext.DB.HRMS
         public string Name { get; set; }
         public int Level { get; set; }
         public bool IsActive { get; set; }
+        public int OrgId { get; set; }
     }
     public class tblReligionMaster : d_ModifiedBy
     {

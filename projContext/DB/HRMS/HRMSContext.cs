@@ -13,6 +13,16 @@ namespace projContext.DB.HRMS
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<tblHolidayMaster>().HasIndex(c => new { c.OrgId });
+            modelBuilder.Entity<tblDepartment>().HasIndex(c => new { c.OrgId });
+            modelBuilder.Entity<tblDepartWorkingRole>().HasIndex(c => new { c.OrgId });
+            modelBuilder.Entity<tblGrade>().HasIndex(c => new { c.OrgId });
+            modelBuilder.Entity<tblDesignation>().HasIndex(c => new { c.OrgId });
+            modelBuilder.Entity<tblReligionMaster>().HasIndex(c => new { c.OrgId });
+        }
         public DbSet<tblHolidayMaster> tblHolidayMaster { get; set; }
         public DbSet<tblDepartment> tblDepartment { get; set; }
         public DbSet<tblDepartWorkingRole> tblDepartWorkingRole { get; set; }
