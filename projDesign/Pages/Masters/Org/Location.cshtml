@@ -15,7 +15,7 @@
                             <hr />
                         </div>
 
-                        <input type="hidden" id="lblZoneId" name="lblZoneId" value="0" />
+                        <input type="hidden" id="lblLocationId" name="lblLocationId" value="0" />
 
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -270,6 +270,7 @@
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
             let token = localStorage.getItem('token');
+            
             BindOrganisationEvent("ddlOrganisation", "ddlCompany", "ddlZone","");
             let _currentOrganisation = localStorage.getItem("currentOrganisation");            
             BindOrganisation("ddlOrganisation", _currentOrganisation);
@@ -277,14 +278,15 @@
             $("#ddlOrganisation").trigger('change',0);
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
             BindEnums("ddlLocationType", enmLocationType, 0);
-            let zoneId_ = getUrlVars()["zoneid"];
-            if (zoneId_ == null || zoneId_ == '' || zoneId_== undefined) {
-                $("#lblZoneId").val("0");
+
+            let locationId_ = getUrlVars()["locationid"];            
+            if (locationId_ == null || locationId_ == '' || locationId_== undefined) {
+                $("#lblLocationId").val("0");
                 $('#loader').hide();
             } else {
-                CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
+                CheckIdExists_IndexDb(locationId_, "tblLocation").then(result => {
                     if (result) {
-                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetZone/" + zoneId_ + "/false/false";
+                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetLocation/" + locationId_ + "/false/false";
                         let headerss = new Headers();
                         let lblcountryId = 0;
                         let lblstateId = 0;
@@ -299,16 +301,15 @@
                             } else {
                                 throw new Error(response.statusText);
                             }
-                        }).then(data => {
-
+                            }).then(data => {
+                                console.log(data.returnId);
                             if (data.messageType == 1) {
                                 $("#lblLocationId").val(data.returnId.zoneId);
                                 $("#txtLocationName").val(data.returnId.name);                                
                                 $("#ddlOrganisation").val(data.returnId.orgId)
-                                $("#ddlOrganisation").trigger('change', [data.returnId.companyId]);
-                                $("#ddlCompany").val(data.returnId.companyId);
-                                $("#ddlCompany").trigger('change', [data.returnId.ZoneId]);
-                                $("#ddlZone").val(data.returnId.zoneId);
+                                $("#ddlOrganisation").trigger('change', [data.returnId.companyId]);                                
+                                $("#ddlCompany").trigger('change', [data.returnId.zoneId]);
+                                //$("#ddlZone").val(data.returnId.zoneId);
                                 $("#ddlLocationType").val(data.returnId.locationType);
                                 $("#txtAddress").val(data.returnId.officeAddress);
                                 $("#txtLocality").val(data.returnId.locality);
@@ -366,7 +367,7 @@
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();
-                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetZone"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetLocation"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();

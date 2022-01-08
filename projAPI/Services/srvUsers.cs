@@ -613,19 +613,19 @@ namespace projAPI.Services
                     );
             if (CompanyId > 0)
             {
-                returnData.AddRange(QuerableData.Where(p => p.ParentId == CompanyId).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Where(p => p.ParentId == CompanyId).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Id = p.Id, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
             else if (OrgId > 0)
             {
-                returnData.AddRange(QuerableData.Where(p => p.OrgId == OrgId).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Where(p => p.OrgId == OrgId).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Id = p.Id, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
             else if ((CompanyIds?.Count ?? 0) > 0)
             {
-                returnData.AddRange(QuerableData.Where(p => CompanyIds.Contains(p.ParentId)).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Where(p => CompanyIds.Contains(p.ParentId)).Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Id = p.Id, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
             else
             {
-                returnData.AddRange(QuerableData.Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId,Id=p.Id ,Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
 
             return returnData;
@@ -650,7 +650,7 @@ namespace projAPI.Services
                 from t1 in _masterContext.tblUserAllLocationPermission
                 join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
                 join t3 in _masterContext.tblZoneMaster on t2.ZoneId equals t3.ZoneId
-                where t3.CompanyId == CompanyId
+                where t3.CompanyId == CompanyId && t1.UserId == UserId
                 select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t3.ZoneId });
             }
             else if (OrgId != null)
@@ -658,7 +658,15 @@ namespace projAPI.Services
                 returnData.AddRange(
                 from t1 in _masterContext.tblUserAllLocationPermission
                 join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
-                where t2.OrgId == OrgId
+                where t2.OrgId == OrgId && t1.UserId == UserId
+                select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId ?? 0 });
+            }
+            else 
+            {
+                returnData.AddRange(
+                from t1 in _masterContext.tblUserAllLocationPermission
+                join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId                
+                where t1.UserId == UserId
                 select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId ?? 0 });
             }
             return returnData;

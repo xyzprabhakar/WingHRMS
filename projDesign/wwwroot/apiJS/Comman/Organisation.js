@@ -6,6 +6,7 @@
     }
     if (!(CompanyInputName == "" || CompanyInputName === undefined || CompanyInputName == null)) {
         $('#' + CompanyInputName).on('change paste', function (event, _Id) {
+            console.log(_Id);
             BindZone($('#' + CompanyInputName).val(), ZoneInputName,  _Id);
         });
     }

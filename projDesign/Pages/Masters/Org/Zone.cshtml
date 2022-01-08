@@ -255,14 +255,14 @@
             $("#ddlOrganisation").val(_currentOrganisation.toString());
             $("#ddlOrganisation").trigger('change', _currentCompany );
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
-            let zoneId_ = getUrlVars()["zoneid"];
+            let zoneId_ = getUrlVars()["zoneid"];            
             if (zoneId_ == null || zoneId_ == '' || zoneId_== undefined) {
                 $("#lblZoneId").val("0");
                 $('#loader').hide();
             } else {
-                CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
+                CheckIdExists_IndexDb(zoneId_, "tblZone").then(result => {
                     if (result) {
-                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetZone/" + zoneId_ + "/false/false";
+                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetZone/" + zoneId_ + "/false/false";                        
                         let headerss = new Headers();
                         let lblcountryId = 0;
                         let lblstateId = 0;
@@ -277,8 +277,8 @@
                             } else {
                                 throw new Error(response.statusText);
                             }
-                        }).then(data => {
-
+                            }).then(data => {
+                                
                             if (data.messageType == 1) {
                                 $("#lblZoneId").val(data.returnId.zoneId);
                                 $("#txtZoneName").val(data.returnId.name);                                

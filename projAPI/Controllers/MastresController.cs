@@ -266,7 +266,7 @@ namespace projAPI.Controllers
 
 
         [HttpGet]
-        [Route("GetZone/{CompanyId}/{IncludeCountryState}/{IncludeUsername}")]
+        [Route("GetZone/{ZoneId}/{IncludeCountryState}/{IncludeUsername}")]
         [Authorize(nameof(enmDocumentMaster.Zone) + nameof(enmDocumentType.Create))]
         public mdlReturnData GetZone([FromServices] IsrvUsers srvUsers, int ZoneId,
             bool IncludeCountryState, bool IncludeUsername)
