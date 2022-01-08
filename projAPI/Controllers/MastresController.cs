@@ -533,7 +533,7 @@ namespace projAPI.Controllers
                 return returnData;
             }
             returnData.ReturnId = (from t1 in _masterContext.tblCompanyMaster
-                                   join t5 in _masterContext.tblZoneMaster on t1.CompanyId equals t5.ZoneId
+                                   join t5 in _masterContext.tblZoneMaster on t1.CompanyId equals t5.CompanyId
                                    join t6 in _masterContext.tblLocationMaster on t5.ZoneId equals t6.ZoneId
                                    join t2 in _masterContext.tblCountry on t6.CountryId equals t2.CountryId
                                    join t3 in _masterContext.tblState on t6.StateId equals t3.StateId

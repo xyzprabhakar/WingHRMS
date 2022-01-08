@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "4";
-    ViewData["Title"] = "Zone Report";
+    ViewData["PageId"] = "5";
+    ViewData["Title"] = "Location Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
     <div class="col-md-12">
@@ -42,6 +42,8 @@
                                             <th>Sno</th>
                                             <th>Company</th>
                                             <th>Zone Name</th>
+                                            <th>Location</th>
+                                            <th>Type</th>
                                             <th>IsActive</th>
                                             <th>Address</th>
                                             <th>State</th>
@@ -79,7 +81,7 @@
 
             $('#loadGridData').click(function () {
                 $('#loader').show();
-                let apiurl = localStorage.getItem('baseUrl') + "Masters/GetZones/" + $('#ddlOrganisation').val();
+                let apiurl = localStorage.getItem('baseUrl') + "Masters/GetLocations/" + $('#ddlOrganisation').val();
                 let token = localStorage.getItem('token');
                 let headerss = new Headers();                
                 headerss.append("Authorization", 'Bearer ' + token);
@@ -113,7 +115,7 @@
                                     title: 'Company Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13]
                                     }
                                 },
                                 {
@@ -128,23 +130,23 @@
                                 [
                                     
                                     {
-                                        targets: [3],
+                                        targets: [5],
                                         render: function (data, type, row) {                                            
                                             return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
                                         }
                                     },
                                     {
-                                        targets: [11],
+                                        targets: [13],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyy(date);
                                         }
                                     },
                                     {
-                                        targets: [12],
+                                        targets: [14],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return '<a href="Zone?ZoneId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
+                                            return '<a href="Location?LocationId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
                                         }
 
                                     }
@@ -153,6 +155,8 @@
                                 { "data": null, "name": "sno", "autoWidth": true },
                                 { "data": "companyName", "name": "companyName", "autoWidth": true },
                                 { "data": "zoneName", "name": "zoneName", "autoWidth": true },
+                                { "data": "locationName", "name": "locationName", "autoWidth": true },
+                                { "data": "locationType", "name": "locationType", "autoWidth": true },
                                 { "data": "isActive", "name": "isActive", "autoWidth": true },
                                 { "data": "address", "name": "address", "autoWidth": true },
                                 { "data": "state", "name": "state", "autoWidth": true },
@@ -166,9 +170,9 @@
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             'createdRow': function (row, data, dataIndex) {
-                                $('td:eq(4)', row).css('min-width', '200px');
-                                $('td:eq(2)', row).css('min-width', '150px');
-                                $('td:eq(9)', row).css('min-width', '200px');
+                                $('td:eq(6)', row).css('min-width', '200px');
+                                $('td:eq(1)', row).css('min-width', '150px');                                
+                                $('td:eq(11)', row).css('min-width', '200px');
                             }
                         });
 

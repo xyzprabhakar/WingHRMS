@@ -307,9 +307,10 @@
                                 $("#lblLocationId").val(data.returnId.zoneId);
                                 $("#txtLocationName").val(data.returnId.name);                                
                                 $("#ddlOrganisation").val(data.returnId.orgId)
-                                $("#ddlOrganisation").trigger('change', [data.returnId.companyId]);                                
+                                $("#ddlOrganisation").trigger('change', [data.returnId.companyId]);
+                                $("#ddlCompany").val(data.returnId.companyId);
                                 $("#ddlCompany").trigger('change', [data.returnId.zoneId]);
-                                //$("#ddlZone").val(data.returnId.zoneId);
+                                $("#ddlZone").val(data.returnId.zoneId);
                                 $("#ddlLocationType").val(data.returnId.locationType);
                                 $("#txtAddress").val(data.returnId.officeAddress);
                                 $("#txtLocality").val(data.returnId.locality);

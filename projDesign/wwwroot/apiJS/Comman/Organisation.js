@@ -17,13 +17,10 @@
     }
 }
 
-async function BindOrganisation(OrgInputName, orgId) {
+async function BindOrganisation(OrgInputName, orgId ) {
     if (OrgInputName == "" || OrgInputName === undefined || OrgInputName == null) {
         return;
     }
-    //if (orgId == 0 || orgId == "" || orgId == undefined) {
-    //    orgId = localStorage.getItem("currentOrganisation");  
-    //}
     await GetDataAll_IndexDb("tblOrganisation").then((result) => {
         $('#' + OrgInputName).empty();
         $('#' + OrgInputName).append(`<option value=""> -- Please Select --</option>`);
@@ -46,9 +43,10 @@ async function BindOrganisation(OrgInputName, orgId) {
             }
         }
         if (result.length == 1) {
-            $('#' + OrgInputName).val(result[0].id);
+            $('#' + OrgInputName).val(result[0].id);            
+            $('#' + OrgInputName).trigger('change');
         }
-        $('#' + OrgInputName).trigger('change');
+        
     });
 }
 
@@ -84,9 +82,8 @@ function BindCompany(orgId, CompanyInputName, companyId) {
         }
         if (result.length == 1) {
             $('#' + CompanyInputName).val(result[0].id);
+            $('#' + CompanyInputName).trigger('change',[0]);
         }
-        $('#' + CompanyInputName).trigger('change');
-
     });
 
 }
@@ -124,8 +121,9 @@ function BindZone(companyId, ZoneInputName, zoneId) {
         }
         if (result.length == 1) {
             $('#' + ZoneInputName).val(result[0].id);
+            $('#' + ZoneInputName).trigger('change',[0]);
         }
-        $('#' + ZoneInputName).trigger('change');
+        
     });
 
 }
