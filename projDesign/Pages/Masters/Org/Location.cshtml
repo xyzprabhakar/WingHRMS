@@ -54,9 +54,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" for="txtLocation">
-                                    <label class="col-form-label col-md-3" for="txtLocation">Location Name</label>
+                                    <label class="col-form-label col-md-3" for="txtLocationName">Location Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="txtLocation" name="txtLocation"
+                                        <input type="text" id="txtLocationName" name="txtLocationName"
                                                maxlength="128" autocomplete="off" pattern="^[^<>]+$"
                                                class="form-control" placeholder="Zone Name" required>
                                     </div>
@@ -270,13 +270,13 @@
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
             let token = localStorage.getItem('token');
-            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "ddlZone");
-            let _currentOrganisation = localStorage.getItem("currentOrganisation");
-            let _currentCompany = localStorage.getItem("currentCompany");
+            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "ddlZone","");
+            let _currentOrganisation = localStorage.getItem("currentOrganisation");            
             BindOrganisation("ddlOrganisation", _currentOrganisation);
             $("#ddlOrganisation").val(_currentOrganisation.toString());
-            $("#ddlOrganisation").trigger('change', _currentCompany );
+            $("#ddlOrganisation").trigger('change',0);
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
+            BindEnums("ddlLocationType", enmLocationType, 0);
             let zoneId_ = getUrlVars()["zoneid"];
             if (zoneId_ == null || zoneId_ == '' || zoneId_== undefined) {
                 $("#lblZoneId").val("0");
@@ -302,11 +302,14 @@
                         }).then(data => {
 
                             if (data.messageType == 1) {
-                                $("#lblZoneId").val(data.returnId.zoneId);
-                                $("#txtZoneName").val(data.returnId.name);                                
+                                $("#lblLocationId").val(data.returnId.zoneId);
+                                $("#txtLocationName").val(data.returnId.name);                                
                                 $("#ddlOrganisation").val(data.returnId.orgId)
                                 $("#ddlOrganisation").trigger('change', [data.returnId.companyId]);
-                                $("#ddlCompany").val(data.returnId.companyId)
+                                $("#ddlCompany").val(data.returnId.companyId);
+                                $("#ddlCompany").trigger('change', [data.returnId.ZoneId]);
+                                $("#ddlZone").val(data.returnId.zoneId);
+                                $("#ddlLocationType").val(data.returnId.locationType);
                                 $("#txtAddress").val(data.returnId.officeAddress);
                                 $("#txtLocality").val(data.returnId.locality);
                                 $("#txtCity").val(data.returnId.city);
@@ -368,10 +371,12 @@
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
                     
-                    formdata.append("ZoneId", $("#lblZoneId").val());
+                    formdata.append("LocationId", $("#lblLocationId").val());
                     formdata.append("OrgId", $("#ddlOrganisation").val());
                     formdata.append("CompanyId", $("#ddlCompany").val());
-                    formdata.append("Name", $("#txtZoneName").val());
+                    formdata.append("ZoneId", $("#ddlZone").val());
+                    formdata.append("Name", $("#txtLocationName").val());
+                    formdata.append("LocationType", $("#ddlLocationType").val());
                     formdata.append("OfficeAddress", $("#txtAddress").val());
                     formdata.append("Locality", $("#txtLocality").val());
                     formdata.append("City", $("#txtCity").val());
@@ -382,7 +387,7 @@
                     formdata.append("AlternateEmail", $("#txtAlternateEmail").val());
                     formdata.append("ContactNo", $("#txtContact").val());
                     formdata.append("AlternateContactNo", $("#txtAlternateContact").val());
-                    formdata.append("ModifyRemarks", $("#txtRemarks").val());                    
+                    formdata.append("ModifyRemarks", $("#txtRemarks").val());
                     if ($("#is_active").is(":checked")) {
                         formdata.append("IsActive", true);
                     }

@@ -249,7 +249,7 @@
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
             let token = localStorage.getItem('token');
-            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "");
+            BindOrganisationEvent("ddlOrganisation", "ddlCompany", "","");
             let _currentOrganisation = localStorage.getItem("currentOrganisation");
             let _currentCompany = localStorage.getItem("currentCompany");
             BindOrganisation("ddlOrganisation", _currentOrganisation);

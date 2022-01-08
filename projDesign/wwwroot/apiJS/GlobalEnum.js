@@ -19,11 +19,11 @@
 //};
 
 //Object.freeze(enmRoleMaster);
-var enmLocationType = [{ id=1, name="HeadOffice", displayText="Head Office" },
-{ id=2, name="Branch", displayText="Branch" },
-{ id=3, name="Warehouse", displayText="Warehouse" },
-{ id=4, name="Factory", displayText="Factory" },
-{ id=5, name="RetailStore", displayText="Retail Store" },
-{ id=6, name="Franchisees", displayText="Franchisees" }];
+var enmLocationType = [{ id:1, name:"HeadOffice", displayText:"Head Office" },
+{ id:2, name:"Branch", displayText:"Branch" },
+{ id:3, name:"Warehouse", displayText:"Warehouse" },
+{ id:4, name:"Factory", displayText:"Factory" },
+{ id:5, name:"RetailStore", displayText:"Retail Store" },
+{ id:6, name:"Franchisees", displayText:"Franchisees" }];
     
 

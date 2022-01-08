@@ -445,7 +445,7 @@ namespace projAPI.Controllers
             {
                 tempData.ModifiedByName = srvUsers.GetUser(tempData.ModifiedBy)?.Name;
             }
-
+            tempData.CompanyId = _masterContext.tblZoneMaster.Where(p => p.ZoneId == tempData.ZoneId).FirstOrDefault()?.CompanyId ?? 0;
             returnData.MessageType = enmMessageType.Success;
             returnData.ReturnId = tempData;
             return returnData;

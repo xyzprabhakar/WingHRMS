@@ -1,7 +1,6 @@
-﻿function BindOrganisationEvent(OrgInputName, CompanyInputName, ZoneInputName) {
+﻿function BindOrganisationEvent(OrgInputName, CompanyInputName, ZoneInputName, LocationInputName) {
     if (!(OrgInputName == "" || OrgInputName === undefined || OrgInputName== null)) {
-        $('#' + OrgInputName).on('change paste', function (event, _Id) {
-            console.log($('#' + OrgInputName).val())
+        $('#' + OrgInputName).on('change paste', function (event, _Id) {            
             BindCompany($('#' + OrgInputName).val(), CompanyInputName, _Id);
         });
     }
