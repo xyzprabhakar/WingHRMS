@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DB\HRMS\" />
     <Folder Include="DB\Logs\" />
     <Folder Include="DB_Scripts\SQLScript\" />
   </ItemGroup>
