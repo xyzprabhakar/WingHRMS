@@ -1,0 +1,266 @@
+﻿@page
+@{
+
+    ViewData["Title"] = "Customer Markup";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+ 
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <form id="frmCustomerMarkup" method="post" action="">
+
+                    <div class="form-container master-panel">
+                        <div class="col-md-12">
+                            <h4>Customer Markup @*@ViewBag.Title*@ </h4>
+                            <hr />
+                        </div>
+
+                        <input type="hidden" id="lblCompanyId" name="CompanyId" value="0" />
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtMarkupAmount">
+                                    <label class="col-form-label col-md-3" for="txtMarkupAmount">Markup Amount</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtMarkupAmount" name="txtMarkupAmount"
+                                               maxlength="15" autocomplete="off" pattern="^\d+(\.)\d{3}$"
+                                               class="form-control" placeholder="Markup Amount" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtEffectiveFromDt">
+                                    <label class="col-form-label col-md-3" for="txtEffectiveFromDt">Effective From Date</label>
+                                    <div class="col-md-9">
+                                        <input type="date" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
+                                               autocomplete="off" 
+                                               class="form-control" placeholder="Effective From Date" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtEffectiveToDt">
+                                    <label class="col-form-label col-md-3" for="txtEffectiveFromDt">Effective To Date</label>
+                                    <div class="col-md-9">
+                                        <input type="date" id="txtEffectiveToDt" name="txtEffectiveToDt"
+                                               autocomplete="off"
+                                               class="form-control" placeholder="Effective To Date" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="row mb-12">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtUserId">
+                                    <label class="col-form-label col-md-3" for="txtUserId">User Id</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtUserId" name="txtUserId" autocomplete="off" pattern="^[a-zA-Z0-9_-]*$"
+                                               class="form-control" placeholder="User Id" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtCustomerId">
+                                    <label class="col-form-label col-md-3" for="txtCustomerId">Customer Id</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtCustomerId" name="txtCustomerId"
+                                               autocomplete="off"  pattern="^[a-zA-Z0-9_-]*$"
+                                               class="form-control" placeholder="Customer Id" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12 mb-2">
+                            <hr />
+                        </div>
+                        <div class="row mb-12">
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtPinCode">
+                                    <label class="col-form-label col-md-3" for="txtPinCode">Nid</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtPinCode" name="txtPinCode" pattern="^[a-zA-Z0-9_-]*$"
+                                               maxlength="16" autocomplete="off" 
+                                               class="form-control" placeholder="Nid" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" for="txtRemarks">
+                                    <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
+                                    <div class="col-md-9">
+                                        <textarea type="tel" id="txtRemarks" name="txtRemarks" cols="5" pattern="^[^<>]+$"
+                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
+                                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary btn-lg" value="Update">
+                                <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                <a href="CustomerMarkupReport" class="btn btn-primary btn-lg">Report</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+ 
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+ 
+            //jquery Validateor
+            //$.validator.methods.pattern = function (value, element) {
+            //    return (this.optional(element) || new RegExp(element.pattern).test(value));
+            //};
+            //$.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
+            let token = localStorage.getItem('token'); 
+            
+           // let companyId_ = getUrlVars()["companyid"];
+            //if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
+            //    $("#lblCompanyId").val("0");
+            //    $('#loader').hide();
+            //} else {
+            //    CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
+            //        if (result) {
+            //            let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";
+            //            let headerss = new Headers();
+            //            let lblcountryId = 0;
+            //            let lblstateId = 0;
+            //            headerss.append("Authorization", 'Bearer ' + token);
+            //            headerss.append("Content-Type", "application/json; charset=utf-8");
+            //            fetch(apiurl, {
+            //                method: "GET",
+            //                headers: headerss,
+            //            }).then(response => {
+            //                if (response.ok) {
+            //                    return response.json();
+            //                } else {
+            //                    throw new Error(response.statusText);
+
+            //                }
+            //            }).then(data => {
+
+            //                if (data.messageType == 1) {
+            //                    $("#txtMarkupAmount").val(data.returnId.MarkupAmount);
+            //                    $("#txtEffectiveFromDt").val(data.returnId.EffectiveFromDt);
+            //                    $("#txtEffectiveToDt").val(data.returnId.EffectiveToDt);
+            //                    $("#txtUserId").val(data.returnId.UserId)
+            //                    $("#txtCustomerId").val(data.returnId.CustomerId);
+            //                    $("#txtNid").val(data.returnId.Nid);                               
+            //                    $("#txtRemarks").val(data.returnId.Remarks); 
+            //                    $('#loader').hide();
+            //                }
+            //                else {
+            //                    $('#loader').hide();
+            //                    messageBox("error", data.message);
+            //                }
+            //            }).catch((error) => {
+            //                $('#loader').hide();
+            //                messageBox("error", error.message);
+            //            });
+            //        }
+            //        else {
+            //            $('#loader').hide();
+            //            messageBox("error", "unauthorized access");
+            //        }
+            //    });
+            //}
+
+
+           
+            //save data
+            $("#frmCustomerMarkup").validate({
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();
+                    let Postapiurl = localStorage.getItem('baseUrl') + "settings/SetCustomerMarkup"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    var formdata = new FormData();
+                      
+                    formdata.append("MarkupAmount", $("#txtMarkupAmount").val());
+                    formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
+                    formdata.append("EffectiveToDt", $("#txtEffectiveToDt").val());
+                    formdata.append("UserId", $("#txtUserId").val());
+                    formdata.append("CustomerId", $("#txtCustomerId").val());
+                    formdata.append("Nid", $("#txtNid").val());
+                    formdata.append("Remarks", $("#txtRemarks").val());
+                     
+                    
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,
+                        //body: submitdata,
+                        redirect: 'follow'
+
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmCustomerMarkup");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+    </script>
+}
+
+
