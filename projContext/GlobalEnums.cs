@@ -7,6 +7,36 @@ using System.Text;
 
 namespace projContext
 {
+    public enum enmPriceType
+    {
+        PricePerNight=1,
+        PricePerDay = 2,
+        OneTime= 3,
+        Monthly = 4,
+    }
+    public enum enmAttributeDataType : byte
+    {
+        string_ = 1,
+        double_ = 2,
+        datetime_ = 3,
+        int_ = 4,
+        area_ = 5,
+        money_ = 6,
+        length_ = 6
+    }
+
+    public enum enmProductStatus
+    {
+        Available = 1,
+        Booked = 2,
+        Hold = 3
+    }
+    //public enum enmPaymentStatus
+    //{
+    //    Pending = 1,
+    //    Initiated = 2,
+    //    Settled = 3
+    //}
 
 
     public enum enmLocationType
