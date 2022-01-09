@@ -14,7 +14,7 @@
 
                     <div class="form-container master-panel">
                         <div class="col-md-12">
-                            <h4>Customer Markup @*@ViewBag.Title*@ </h4>
+                            <h4>@ViewBag.Title</h4>
                             <hr />
                         </div>
 
@@ -133,12 +133,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
- 
-            //jquery Validateor
-            //$.validator.methods.pattern = function (value, element) {
-            //    return (this.optional(element) || new RegExp(element.pattern).test(value));
-            //};
-            //$.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
+            //$('#loader').show();
+
             let token = localStorage.getItem('token'); 
             
            // let companyId_ = getUrlVars()["companyid"];
@@ -207,7 +203,7 @@
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();
-                    let Postapiurl = localStorage.getItem('baseUrl') + "settings/SetCustomerMarkup"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Air/air/settings/SetCustomerMarkup"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
@@ -215,9 +211,8 @@
                     formdata.append("MarkupAmount", $("#txtMarkupAmount").val());
                     formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
                     formdata.append("EffectiveToDt", $("#txtEffectiveToDt").val());
-                    formdata.append("UserId", $("#txtUserId").val());
                     formdata.append("CustomerId", $("#txtCustomerId").val());
-                    formdata.append("Nid", $("#txtNid").val());
+                    formdata.append("Nid", 0);
                     formdata.append("Remarks", $("#txtRemarks").val());
                      
                     

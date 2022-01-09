@@ -270,12 +270,12 @@ namespace projAPI.Controllers
         //customer markup  management start
         [HttpPost]
         [Route("air/settings/SetCustomerMarkup")]
-        public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, ulong UserId, int CustomerId, int Nid, string Remarks)
+        public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, int CustomerId, int Nid, string Remarks)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {
-                var tempData = _IsrvAir.SetCustomerMarkup(MarkupAmount, EffectiveFromDt, EffectiveToDt, UserId, CustomerId, Nid, Remarks);
+                var tempData = _IsrvAir.SetCustomerMarkup(MarkupAmount, EffectiveFromDt, EffectiveToDt, _IsrvCurrentUser.UserId, CustomerId, Nid, Remarks);
                 return tempData;
 
             }
