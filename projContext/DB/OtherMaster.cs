@@ -426,8 +426,11 @@ namespace projContext.DB
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int pkid_setting { get; set; }  // primary key  must be public!
+        [MaxLength(64)]
+        public string GroupName { get; set; }
+        [MaxLength(64)]
         public string AppSettingKey { get; set; }
-        public string AppSettingKeyDisplay { get; set; }
+        [MaxLength(2048)]
         public string AppSettingValue { get; set; }
         public int is_active { get; set; }
         public int created_by { get; set; }

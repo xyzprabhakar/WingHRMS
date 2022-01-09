@@ -30,12 +30,14 @@ namespace projAPI
         //DOJ
         public string func_dateofjoining()
         {
-            var get_date_of_joining = _context.tbl_emp_officaial_sec.Where(a => a.employee_id == _emp_id && a.is_deleted == 0).FirstOrDefault();
-            if (get_date_of_joining == null)
-            {
-                throw new Exception("Invalid DOJ");
-            }
-            return get_date_of_joining.date_of_joining.ToString("dd-MM-yyyy");
+            throw new NotImplementedException();
+
+            //var get_date_of_joining = _context.tbl_emp_officaial_sec.Where(a => a.employee_id == _emp_id && a.is_deleted == 0).FirstOrDefault();
+            //if (get_date_of_joining == null)
+            //{
+            //    throw new Exception("Invalid DOJ");
+            //}
+            //return get_date_of_joining.date_of_joining.ToString("dd-MM-yyyy");
         }
 
         //Employee Code

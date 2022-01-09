@@ -49,15 +49,13 @@ namespace projDesign
         {
             _UserID = UserID;
         }
-        
-
         string _Guid()
         {
-            projContext.Context db = new projContext.Context();
+            projContext.Context db = null;// new projContext.Context();
             tbl_guid_detail tbl = new tbl_guid_detail();
             string gg= Guid.NewGuid().ToString().Replace("-","");
             tbl.id =gg;
-            tbl.genrated_by = _UserID;
+            //tbl.genrated_by = _UserID;
             tbl.genration_dt = DateTime.Now;
             db.tbl_guid_detail.Add(tbl);
             db.SaveChanges();

@@ -8,6 +8,7 @@ using System.Globalization;
 
 namespace projAPI
 {
+    #if (false)
     public class PayrollMustersPdf
     {
         private readonly Context _context;
@@ -610,4 +611,5 @@ namespace projAPI
 
 
     }
+#endif
 }

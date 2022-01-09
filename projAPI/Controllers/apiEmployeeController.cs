@@ -26,11 +26,13 @@ using System.Reflection;
 using static projContext.CommonClass;
 using MySql.Data.MySqlClient;
 using System.Data;
-using static projAPI.Controllers.apiMastersController;
+//using static projAPI.Controllers.apiMastersController;
 using OfficeOpenXml;
 
 namespace projAPI.Controllers
 {
+#if false
+
     [Route("api/[controller]")]
     [ApiController]
     public class apiEmployeeController : ControllerBase
@@ -472,7 +474,7 @@ namespace projAPI.Controllers
                                 return Ok(objResult);
                             }
 
-                            #region Get Employee Id And  Employee Code 
+    #region Get Employee Id And  Employee Code 
                             //Get data from company master
                             var data = (from a in _context.tbl_company_emp_setting.Where(x => x.is_active == 1 && x.company_id == Convert.ToInt32(user_master.default_company_id) && _clsCurrentUser.CompanyId.Contains(user_master.default_company_id))
                                         select new
@@ -495,10 +497,10 @@ namespace projAPI.Controllers
                             }
                             string EmployeeCode = user_master.username;
 
-                            #endregion
+    #endregion
 
 
-                            #region Save Data in Employee Master
+    #region Save Data in Employee Master
 
                             tbl_employee_master employee_master_check = new tbl_employee_master();
 
@@ -530,9 +532,9 @@ namespace projAPI.Controllers
                             _context.tbl_employee_master.Add(employee_master);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
-                            #region update company setting table 
+    #region update company setting table 
 
                             // tbl_company_emp_setting
 
@@ -550,14 +552,14 @@ namespace projAPI.Controllers
                             }
 
 
-                            #endregion
+    #endregion
 
                             var employee_id = employee_master.employee_id;
 
 
                             string encryemppwd = AESEncrytDecry.EncryptStringAES(EmployeeCode.Trim().ToLower());
 
-                            #region Save Data In User Master
+    #region Save Data In User Master
                             tbl_user_master tbl_user_master = new tbl_user_master();
                             tbl_user_master.username = EmployeeCode.ToUpper();
                             tbl_user_master.password = encryemppwd;//EmployeeCode;
@@ -575,23 +577,23 @@ namespace projAPI.Controllers
                             _context.tbl_user_master.Add(tbl_user_master);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
                             var user_id = tbl_user_master.user_id;
 
-                            #region Save Data in Employment Type Master
+    #region Save Data in Employment Type Master
 
                             tbl_employment_type_master tbl_employment_type_master_ = new tbl_employment_type_master()
                             {
 
                                 employee_id = employee_id,
                                 employment_type = (byte)EmployeeType.Probation,
-                                duration_days = 0,
-                                duration_start_period = DateTime.Now,
-                                duration_end_period = new DateTime(2200, 1, 1),
-                                actual_duration_days = 0,
-                                actual_duration_start_period = DateTime.Now,
-                                actual_duration_end_period = new DateTime(2200, 1, 1),
+                                //duration_days = 0,
+                                //duration_start_period = DateTime.Now,
+                                //duration_end_period = new DateTime(2200, 1, 1),
+                                //actual_duration_days = 0,
+                                //actual_duration_start_period = DateTime.Now,
+                                //actual_duration_end_period = new DateTime(2200, 1, 1),
                                 is_deleted = 0,
                                 created_by = user_master.created_by,
                                 created_date = DateTime.Now,
@@ -601,27 +603,27 @@ namespace projAPI.Controllers
                             };
                             _context.tbl_employment_type_master.Add(tbl_employment_type_master_);
                             await _context.SaveChangesAsync();
-                            #endregion
+    #endregion
 
 
-                            #region Save Data In Employee Officaial Sec
+    #region Save Data In Employee Officaial Sec
                             // tbl_emp_officaial_sec
                             tbl_emp_officaial_sec emp_officaial_sec = new tbl_emp_officaial_sec();
                             emp_officaial_sec.employee_id = employee_id;
                             emp_officaial_sec.card_number = "0";
                             emp_officaial_sec.gender = 0;
                             emp_officaial_sec.is_deleted = 0;
-                            emp_officaial_sec.user_type = (int)enmRoleMaster.Employee;
+                            //emp_officaial_sec.user_type = (int)enmRoleMaster.Employee;
                             emp_officaial_sec.created_by = user_master.created_by;
                             emp_officaial_sec.created_date = DateTime.Now;
                             //Save data in tbl_user_master
                             _context.tbl_emp_officaial_sec.Add(emp_officaial_sec);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
 
-                            #region Save Data in emp company maping 
+    #region Save Data in emp company maping 
                             //tbl_employee_company_map
                             tbl_employee_company_map tbl_emp_comp_map = new tbl_employee_company_map();
                             tbl_emp_comp_map.employee_id = employee_id;
@@ -636,10 +638,10 @@ namespace projAPI.Controllers
                             //Save data in tbl_employee_company_map
                             _context.tbl_employee_company_map.Add(tbl_emp_comp_map);
                             await _context.SaveChangesAsync();
-                            #endregion
+    #endregion
 
 
-                            #region Save data in emp desig allocation
+    #region Save data in emp desig allocation
                             tbl_emp_desi_allocation emp_desi_alloc = new tbl_emp_desi_allocation();
                             emp_desi_alloc.employee_id = employee_id;
                             emp_desi_alloc.applicable_from_date = DateTime.Now;
@@ -649,10 +651,10 @@ namespace projAPI.Controllers
                             _context.tbl_emp_desi_allocation.Add(emp_desi_alloc);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
 
-                            #region Save Data in emp_manager
+    #region Save Data in emp_manager
                             tbl_emp_manager emp_manager = new tbl_emp_manager();
                             emp_manager.employee_id = employee_id;
                             emp_manager.applicable_from_date = DateTime.Now;
@@ -661,10 +663,10 @@ namespace projAPI.Controllers
                             //Save data in tbl_emp_managers
                             _context.tbl_emp_manager.Add(emp_manager);
                             await _context.SaveChangesAsync();
-                            #endregion
+    #endregion
 
 
-                            #region Save Emp Grade Allocation
+    #region Save Emp Grade Allocation
                             tbl_emp_grade_allocation emp_grade_allocation = new tbl_emp_grade_allocation();
                             emp_grade_allocation.employee_id = employee_id;
                             emp_grade_allocation.applicable_from_date = DateTime.Now;
@@ -675,10 +677,10 @@ namespace projAPI.Controllers
                             _context.tbl_emp_grade_allocation.Add(emp_grade_allocation);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
 
-                            #region Save Emp Personal Sec
+    #region Save Emp Personal Sec
                             tbl_emp_personal_sec emp_personal_sec = new tbl_emp_personal_sec();
                             emp_personal_sec.employee_id = employee_id;
                             emp_personal_sec.blood_group = 0;
@@ -704,9 +706,9 @@ namespace projAPI.Controllers
                             _context.tbl_emp_personal_sec.Add(emp_personal_sec);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
-                            #region Save Emp Role 
+    #region Save Emp Role 
                             tbl_user_role_map emp_user_role_map = new tbl_user_role_map();
                             emp_user_role_map.role_id = (int)enmRoleMaster.Employee;
                             emp_user_role_map.user_id = user_id;
@@ -721,7 +723,7 @@ namespace projAPI.Controllers
                             _context.tbl_user_role_map.Add(emp_user_role_map);
                             await _context.SaveChangesAsync();
 
-                            #endregion
+    #endregion
 
                             objEmpMater.employee_id = employee_id;
                             objEmpMater.emp_code = employee_master.emp_code;
@@ -969,7 +971,7 @@ namespace projAPI.Controllers
                 tbl_emp_officaial_sec tbl_emp_officaial = (from a in _context.tbl_emp_officaial_sec select a).Where(x => x.employee_id == SWeekOff.employee_id && x.is_deleted == 0).OrderByDescending(x => x.emp_official_section_id).FirstOrDefault();
                 if (tbl_emp_officaial != null)
                 {
-                    tbl_emp_officaial.is_fixed_weekly_off = SWeekOff.is_fixed_weekly_off;
+                    //tbl_emp_officaial.is_fixed_weekly_off = SWeekOff.is_fixed_weekly_off;
 
                     _context.tbl_emp_officaial_sec.Attach(tbl_emp_officaial);
                     _context.Entry(tbl_emp_officaial).State = EntityState.Modified;
@@ -1830,7 +1832,7 @@ namespace projAPI.Controllers
 
 
 
-                #region /////////////////////////////// start blood_group_doc ///////////////////////////////////////////
+    #region /////////////////////////////// start blood_group_doc ///////////////////////////////////////////
 
                 if (!string.IsNullOrEmpty(tbl_emp_personal_sec.blood_group_doc) && tbl_emp_personal.blood_group_doc != tbl_emp_personal_sec.blood_group_doc)
                 {
@@ -1865,7 +1867,7 @@ namespace projAPI.Controllers
                     //  emp_personal_sec.blood_group_doc = tbl_emp_personal_sec.blood_group_doc;
                     emp_personal_sec.blood_group_doc = tbl_emp_personal.blood_group_doc;
                 }
-                #endregion
+    #endregion
 
 
 
@@ -1918,7 +1920,7 @@ namespace projAPI.Controllers
                 emp_personal_sec.is_deleted = 2;
 
 
-                #region ** start by supriya on 10-02-2020,Account Details **
+    #region ** start by supriya on 10-02-2020,Account Details **
 
                 //emp_personal_sec.bank_acc = tbl_emp_personal_sec.bank_acc;
                 //emp_personal_sec.ifsc_code = tbl_emp_personal_sec.ifsc_code;
@@ -1942,7 +1944,7 @@ namespace projAPI.Controllers
                 //}
 
 
-                #endregion ** end by supriya on 10-02-2020,Account Details **
+    #endregion ** end by supriya on 10-02-2020,Account Details **
 
 
                 _context.tbl_emp_personal_sec.Attach(emp_personal_sec);
@@ -2681,7 +2683,7 @@ namespace projAPI.Controllers
                 _context.Entry(tbl_com_master1).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                #region  //////////////////////////////// start document_image //////////////////////////////////////
+    #region  //////////////////////////////// start document_image //////////////////////////////////////
 
 
                 if (tbl_com_master1.document_image != tbl_emp_qualification_sec.document_image)
@@ -2729,7 +2731,7 @@ namespace projAPI.Controllers
                     tbl_com_master.document_image = tbl_emp_qualification_sec.document_image;
                 }
 
-                #endregion
+    #endregion
 
 
                 tbl_com_master.employee_id = tbl_emp_qualification_sec.employee_id;
@@ -3269,7 +3271,7 @@ namespace projAPI.Controllers
                 }
 
 
-                #region  //////////////////////////////// start document_image //////////////////////////////////////
+    #region  //////////////////////////////// start document_image //////////////////////////////////////
 
 
                 //if (!string.IsNullOrEmpty(tbl_emp_family_sec.document_image) && tbl_com_master1.document_image != tbl_emp_family_sec.document_image)
@@ -3317,7 +3319,7 @@ namespace projAPI.Controllers
                 // tbl_com_master.document_image = ""; //tbl_emp_family_sec.document_image;
                 //}
 
-                #endregion
+    #endregion
 
 
 
@@ -3358,15 +3360,15 @@ namespace projAPI.Controllers
                                   employee_middle_name = e_of.employee_middle_name,
                                   employee_last_name = e_of.employee_last_name,
                                   card_number = e_of.card_number,
-                                  date_of_joining = e_of.date_of_joining,
-                                  date_of_birth = e_of.date_of_birth,
+                                  //date_of_joining = e_of.date_of_joining,
+                                  //date_of_birth = e_of.date_of_birth,
                                   official_email_id = e_of.official_email_id,
                                   username = um.username,
                                   password = um.password,
                                   company_name = cm.company_name,
                                   created_date = em.created_date,
                                   emp_name_code = string.Format("{0} {1} {2} ({3})", e_of.employee_first_name, e_of.employee_middle_name, e_of.last_modified_by, em.emp_code),
-                                  e_of.tbl_department_master.department_name,
+                                  //e_of.tbl_department_master.department_name,
                                   e_of.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_designation_master.designation_name,
                                   e_of.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_grade_master.grade_name,
 
@@ -3415,15 +3417,15 @@ namespace projAPI.Controllers
                                   employee_middle_name = e_of.employee_middle_name,
                                   employee_last_name = e_of.employee_last_name,
                                   card_number = e_of.card_number,
-                                  date_of_joining = e_of.date_of_joining,
-                                  date_of_birth = e_of.date_of_birth,
+                                  //date_of_joining = e_of.date_of_joining,
+                                  //date_of_birth = e_of.date_of_birth,
                                   official_email_id = e_of.official_email_id,
                                   username = um.username,
                                   password = um.password,
                                   company_name = cm.company_name,
                                   created_date = em.created_date,
                                   emp_name_code = string.Format("{0} {1} {2} ({3})", e_of.employee_first_name, e_of.employee_middle_name, e_of.last_modified_by, em.emp_code),
-                                  e_of.tbl_department_master.department_name,
+                                  //e_of.tbl_department_master.department_name,
                                   e_of.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_designation_master.designation_name,
                                   e_of.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_grade_master.grade_name,
 
@@ -4750,7 +4752,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region ** HEALTH CARD, STARTED BY SUPRIYA ON 16-07-2019 **
+    #region ** HEALTH CARD, STARTED BY SUPRIYA ON 16-07-2019 **
         [Route("Save_HealthCard")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.HelthCard))]
@@ -5048,7 +5050,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** HEALTH CARD, END BY SUPRIYA ON 17-07-2019 **
+    #endregion ** HEALTH CARD, END BY SUPRIYA ON 17-07-2019 **
 
 
         [Route("GetEmployeeInAdnOutTime/{employee_id}")]
@@ -5162,8 +5164,8 @@ namespace projAPI.Controllers
                     //get only father name
                     father_or_husband = p.tbl_employee_id_details.tbl_emp_family_sec.Where(h => h.relation == "Father" && h.is_deleted == 0 && h.employee_id == employee_id).Select(h => h.name_as_per_aadhar_card).FirstOrDefault(),
 
-                    p.department_id,
-                    p.tbl_department_master.department_name,
+                    //p.department_id,
+                    //p.tbl_department_master.department_name,
                     p.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(g => g.emp_grade_id).FirstOrDefault(y => y.tbl_designation_master.is_active == 1 && y.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= y.applicable_to_date.Date).desig_id,
                     p.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(g => g.emp_grade_id).FirstOrDefault(y => y.tbl_designation_master.is_active == 1 && y.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= y.applicable_to_date.Date).tbl_designation_master.designation_name,
                     p.employee_id,
@@ -5179,7 +5181,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region ** START BY SUPRIYA ON 04-09-2019**
+    #region ** START BY SUPRIYA ON 04-09-2019**
 
         [Route("Get_InactiveUser/{company_id}/{user_id}")]
         [Authorize(Policy = nameof(enmMenuMaster.Employee))]
@@ -5322,10 +5324,10 @@ namespace projAPI.Controllers
         //        return Ok(ex.Message);
         //    }
         //}
-        #endregion ** END BY SUPRIYA ON 04-09-2019**
+    #endregion ** END BY SUPRIYA ON 04-09-2019**
 
 
-        #region ** START BY SUPRIYA ON 13-09-2019, UPLOAD OFFICIAL DETAILS**
+    #region ** START BY SUPRIYA ON 13-09-2019, UPLOAD OFFICIAL DETAILS**
         [Route("Save_EmpOfficialDetailUpload")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.Upload))]
@@ -5483,7 +5485,7 @@ namespace projAPI.Controllers
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                             if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                             {
@@ -5550,7 +5552,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 list.sub_loc_name = item.Text.Text;
                                                             }
-                                                            #endregion ** END value in list**
+    #endregion ** END value in list**
                                                         }
                                                         else if (item.InnerText != null)
                                                         {
@@ -5567,7 +5569,7 @@ namespace projAPI.Controllers
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                 {
@@ -5635,7 +5637,7 @@ namespace projAPI.Controllers
                                                 {
                                                     list.sub_loc_name = thecurrentcell.InnerText;
                                                 }
-                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                             }
 
@@ -6088,7 +6090,7 @@ namespace projAPI.Controllers
                             for (int i = 0; i < objdblist.Count; i++)
                             {
 
-                                #region Get Employee Id And Genrate Employee Code 
+    #region Get Employee Id And Genrate Employee Code 
                                 //Get data from company master
                                 var data = (from a in _context.tbl_company_emp_setting.Where(x => x.is_active == 1 && x.company_id == objdblist[i].default_company_id)
                                             select new
@@ -6128,9 +6130,9 @@ namespace projAPI.Controllers
                                 //Mail Empaloyee Code
                                 string EmployeeCode = myString + emp_id;
 
-                                #endregion
+    #endregion
 
-                                #region Save Data in Employee Master
+    #region Save Data in Employee Master
 
                                 tbl_employee_master employee_master_check = new tbl_employee_master();
 
@@ -6164,9 +6166,9 @@ namespace projAPI.Controllers
                                 //Save data in tbl_employee_master
                                 _context.tbl_employee_master.Add(employee_master);
 
-                                #endregion
+    #endregion
 
-                                #region update company setting table 
+    #region update company setting table 
 
                                 // tbl_company_emp_setting
 
@@ -6179,13 +6181,13 @@ namespace projAPI.Controllers
                                 _context.tbl_company_emp_setting.Attach(tbl_company_emp_setting);
                                 _context.Entry(tbl_company_emp_setting).State = EntityState.Modified;
 
-                                #endregion
+    #endregion
 
                                 var employee_id = employee_master.employee_id;
 
                                 string encrypwd = AESEncrytDecry.EncryptStringAES(EmployeeCode);
 
-                                #region Save Data In User Master
+    #region Save Data In User Master
                                 tbl_user_master tbl_user_master = new tbl_user_master();
                                 tbl_user_master.username = EmployeeCode;
                                 tbl_user_master.password = encrypwd;//EmployeeCode;
@@ -6202,11 +6204,11 @@ namespace projAPI.Controllers
                                 //Save data in tbl_user_master
                                 _context.tbl_user_master.Add(tbl_user_master);
 
-                                #endregion
+    #endregion
 
                                 var user_idd = tbl_user_master.user_id;
 
-                                #region Save Data in Employment Type Master
+    #region Save Data in Employment Type Master
 
                                 DateTime DurationStartPeriod = DateTime.Now; //Convert.ToDateTime("2018-01-01");
                                 DateTime DurationEndPeriod = Convert.ToDateTime("2500-01-01");
@@ -6223,12 +6225,12 @@ namespace projAPI.Controllers
 
                                     employee_id = employee_id,
                                     employment_type = Convert.ToByte(p),
-                                    duration_days = 0,
-                                    duration_start_period = DurationStartPeriod,
-                                    duration_end_period = DurationEndPeriod,
-                                    actual_duration_days = 0,
-                                    actual_duration_start_period = DurationStartPeriod,
-                                    actual_duration_end_period = DurationEndPeriod,
+                                    //duration_days = 0,
+                                    //duration_start_period = DurationStartPeriod,
+                                    //duration_end_period = DurationEndPeriod,
+                                    //actual_duration_days = 0,
+                                    //actual_duration_start_period = DurationStartPeriod,
+                                    //actual_duration_end_period = DurationEndPeriod,
                                     is_deleted = 0,
                                     created_by = _clsCurrentUser.EmpId,
                                     created_date = DateTime.Now,
@@ -6239,10 +6241,10 @@ namespace projAPI.Controllers
 
                                 _context.tbl_employment_type_master.AddRange(tbl_employment_type_master_);
 
-                                #endregion
+    #endregion
 
 
-                                #region Save Data In Employee Officaial Sec
+    #region Save Data In Employee Officaial Sec
                                 // tbl_emp_officaial_sec
                                 tbl_emp_officaial_sec emp_officaial_sec = new tbl_emp_officaial_sec();
                                 emp_officaial_sec.employee_id = employee_id;
@@ -6254,28 +6256,28 @@ namespace projAPI.Controllers
                                 emp_officaial_sec.employee_last_name = objdblist[i].employee_last_name;
                                 emp_officaial_sec.gender = Convert.ToInt32(objdblist[i].Gender);
                                 emp_officaial_sec.card_number = objdblist[i].card_number;
-                                emp_officaial_sec.date_of_birth = objdblist[i].date_of_birth;
-                                emp_officaial_sec.date_of_joining = objdblist[i].date_of_joining;
+                                //emp_officaial_sec.date_of_birth = objdblist[i].date_of_birth;
+                                //emp_officaial_sec.date_of_joining = objdblist[i].date_of_joining;
                                 emp_officaial_sec.religion_id = objdblist[i].religion_id;
                                 emp_officaial_sec.marital_status = objdblist[i].marital_status;
                                 emp_officaial_sec.official_email_id = objdblist[i].official_email_id;
-                                emp_officaial_sec.current_employee_type = objdblist[i].current_employee_type;
-                                emp_officaial_sec.location_id = objdblist[i].location_id;
-                                emp_officaial_sec.department_id = objdblist[i].department_id;
-                                emp_officaial_sec.sub_dept_id = objdblist[i].sub_dept_id;
+                                //emp_officaial_sec.current_employee_type = objdblist[i].current_employee_type;
+                                //emp_officaial_sec.location_id = objdblist[i].location_id;
+                                //emp_officaial_sec.department_id = objdblist[i].department_id;
+                                //emp_officaial_sec.sub_dept_id = objdblist[i].sub_dept_id;
                                 emp_officaial_sec.is_deleted = 0;
-                                emp_officaial_sec.user_type = 6;
-                                emp_officaial_sec.sub_location_id = objdblist[i].sub_locaiton_id;
+                                //emp_officaial_sec.user_type = 6;
+                                //emp_officaial_sec.sub_location_id = objdblist[i].sub_locaiton_id;
                                 emp_officaial_sec.created_by = _clsCurrentUser.EmpId;
                                 emp_officaial_sec.created_date = DateTime.Now;
                                 //supriya end
                                 //Save data in tbl_user_master
                                 _context.tbl_emp_officaial_sec.Add(emp_officaial_sec);
 
-                                #endregion
+    #endregion
 
 
-                                #region Save Data in emp company maping 
+    #region Save Data in emp company maping 
                                 //tbl_employee_company_map
                                 tbl_employee_company_map tbl_emp_comp_map = new tbl_employee_company_map();
                                 tbl_emp_comp_map.employee_id = employee_id;
@@ -6289,10 +6291,10 @@ namespace projAPI.Controllers
 
                                 //Save data in tbl_employee_company_map
                                 _context.tbl_employee_company_map.Add(tbl_emp_comp_map);
-                                #endregion
+    #endregion
 
 
-                                #region Save data in emp desig allocation
+    #region Save data in emp desig allocation
                                 tbl_emp_desi_allocation emp_desi_alloc = new tbl_emp_desi_allocation();
                                 emp_desi_alloc.employee_id = employee_id;
                                 emp_desi_alloc.applicable_from_date = DateTime.Now;
@@ -6301,10 +6303,10 @@ namespace projAPI.Controllers
                                 //Save data in tbl_emp_desi_allocation
                                 _context.tbl_emp_desi_allocation.Add(emp_desi_alloc);
 
-                                #endregion
+    #endregion
 
 
-                                #region Save Data in emp_manager
+    #region Save Data in emp_manager
                                 tbl_emp_manager emp_manager = new tbl_emp_manager();
                                 emp_manager.employee_id = employee_id;
                                 emp_manager.applicable_from_date = DateTime.Now;
@@ -6312,10 +6314,10 @@ namespace projAPI.Controllers
                                 emp_manager.is_deleted = 0;
                                 //Save data in tbl_emp_managers
                                 _context.tbl_emp_manager.Add(emp_manager);
-                                #endregion
+    #endregion
 
 
-                                #region Save Emp Grade Allocation
+    #region Save Emp Grade Allocation
                                 tbl_emp_grade_allocation emp_grade_allocation = new tbl_emp_grade_allocation();
                                 emp_grade_allocation.employee_id = employee_id;
                                 emp_grade_allocation.applicable_from_date = DateTime.Now;
@@ -6325,10 +6327,10 @@ namespace projAPI.Controllers
                                 //Save data in tbl_emp_managers
                                 _context.tbl_emp_grade_allocation.Add(emp_grade_allocation);
 
-                                #endregion
+    #endregion
 
 
-                                #region Save Emp Personal Sec
+    #region Save Emp Personal Sec
                                 tbl_emp_personal_sec emp_personal_sec = new tbl_emp_personal_sec();
                                 emp_personal_sec.employee_id = employee_id;
                                 emp_personal_sec.blood_group = 0;
@@ -6354,11 +6356,11 @@ namespace projAPI.Controllers
                                 //Save data in tbl_emp_personal_sec
                                 _context.tbl_emp_personal_sec.Add(emp_personal_sec);
 
-                                #endregion
+    #endregion
 
 
 
-                                #region Save Emp Role Sec 
+    #region Save Emp Role Sec 
                                 tbl_user_role_map emp_role_map = new tbl_user_role_map();
                                 emp_role_map.role_id = 6; // as a user
                                 emp_role_map.user_id = user_idd;
@@ -6369,7 +6371,7 @@ namespace projAPI.Controllers
 
 
                                 _context.tbl_user_role_map.Add(emp_role_map);
-                                #endregion
+    #endregion
 
                                 _context.SaveChanges();
 
@@ -6413,13 +6415,13 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPRIYA ON 17-09-2019, UPLOAD PERSONAL AND OFFICIAL DETAILS **
+    #endregion ** END BY SUPRIYA ON 17-09-2019, UPLOAD PERSONAL AND OFFICIAL DETAILS **
 
 
 
 
 
-        #region ** START BY SUPRIYA ON 18-09-2019,UPLOAD PERSONAL DETAIL FROM EXCEL**
+    #region ** START BY SUPRIYA ON 18-09-2019,UPLOAD PERSONAL DETAIL FROM EXCEL**
 
         //[Route("Save_EmpPersonalDetailUpload")]
         //[HttpPost]
@@ -7213,7 +7215,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPRIYA ON 19-09-2019,UPLOAD PERSONAL DETAIL FROM EXCEL**
+    #endregion ** END BY SUPRIYA ON 19-09-2019,UPLOAD PERSONAL DETAIL FROM EXCEL**
 
 
         //get grade master data
@@ -7246,8 +7248,8 @@ namespace projAPI.Controllers
                                  employee_middle_name = e_of.employee_middle_name,
                                  employee_last_name = e_of.employee_last_name,
                                  card_number = e_of.card_number,
-                                 date_of_joining = e_of.date_of_joining,
-                                 date_of_birth = e_of.date_of_birth,
+                                 //date_of_joining = e_of.date_of_joining,
+                                 //date_of_birth = e_of.date_of_birth,
                                  official_email_id = e_of.official_email_id,
                                  username = um.username,
                                  password = um.password,
@@ -7258,7 +7260,7 @@ namespace projAPI.Controllers
                                  um_is_logged_blocked = um.is_logged_blocked,
                                  emp_code = em.emp_code,
                                  emp_name = string.Format("{0} {1} {2}", e_of.employee_first_name, e_of.employee_middle_name, e_of.employee_last_name),
-                                 e_of.tbl_department_master.department_name,
+                                 //e_of.tbl_department_master.department_name,
                                  e_of.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_designation_master.designation_name,
                                  e_of.tbl_employee_id_details.tbl_emp_grade_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.applicable_from_date.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.applicable_to_date.Date).tbl_grade_master.grade_name,
 
@@ -7286,7 +7288,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region **START BY SUPRIYA ON 20-11-2019,UPLOAD EMPLOYEE DOCUMENTS**
+    #region **START BY SUPRIYA ON 20-11-2019,UPLOAD EMPLOYEE DOCUMENTS**
         [Route("Save_EmpDocuments")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.Upload))]
@@ -7750,7 +7752,7 @@ namespace projAPI.Controllers
             builder.Append(RandomString(2, false));
             return builder.ToString();
         }
-        #endregion **END BY SUPRIYA ON 20-11-2019,UPLOAD EMPLOYEE DOCUMENTS**
+    #endregion **END BY SUPRIYA ON 20-11-2019,UPLOAD EMPLOYEE DOCUMENTS**
 
         [Route("GetEmployeement_Type_Master/{emp_id}")]
         [HttpGet]
@@ -7780,15 +7782,15 @@ namespace projAPI.Controllers
                       p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && !string.IsNullOrEmpty(x.employee_first_name)).employee_last_name),
                     emptypeid = p.employment_type,
                     emptypename = p.employment_type == 1 ? "Temporary" : p.employment_type == 2 ? "Probation" : p.employment_type == 3 ? "Confirmed" : p.employment_type == 4 ? "Contract" : p.employment_type == 5 ? "Confirmation Extended" : p.employment_type == 10 ? "Notice" : p.employment_type == 99 ? "FNF" : p.employment_type == 100 ? "Seprated" : "",
-                    p.actual_duration_days,
-                    p.duration_start_period,
-                    p.duration_end_period,
-                    p.actual_duration_end_period,
-                    p.actual_duration_start_period,
-                    p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(h => h.is_deleted == 0 && !string.IsNullOrEmpty(h.employee_first_name)).date_of_joining,
+                    //p.actual_duration_days,
+                    //p.duration_start_period,
+                    //p.duration_end_period,
+                    //p.actual_duration_end_period,
+                    //p.actual_duration_start_period,
+                   // p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(h => h.is_deleted == 0 && !string.IsNullOrEmpty(h.employee_first_name)).date_of_joining,
                     p.created_date,
                     p.last_modified_date,// = p.last_modified_date.Year == 2000 ? "" : p.last_modified_date.ToString("dd-MMM-yyyy"),
-                    p.duration_days,
+                    //p.duration_days,
                     p.effective_date,
                     notice_period_ = _context.tbl_employment_type_master.Join(_context.tbl_employeementtype_settings, a => a.employment_type, b => b.employeement_type, (a, b) => new
                     {
@@ -7862,7 +7864,7 @@ namespace projAPI.Controllers
                     //p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(h => h.is_deleted == 0 && !string.IsNullOrEmpty(h.employee_first_name)).date_of_joining,
                     p.created_date,
                     p.last_modified_date,
-                    p.duration_days,
+                   // p.duration_days,
                     p.effective_date,
                     //notice_period_ = _context.tbl_employment_type_master.Join(_context.tbl_employeementtype_settings, a => a.employment_type, b => b.employeement_type, (a, b) => new
                     //{
@@ -7931,7 +7933,7 @@ namespace projAPI.Controllers
 
                 if (teos != null)
                 {
-                    joining_date = teos.date_of_joining;
+                    //joining_date = teos.date_of_joining;
                 }
 
 
@@ -7965,179 +7967,179 @@ namespace projAPI.Controllers
                 objemptype_mstr.last_modified_by = objemptype.created_by;
                 objemptype_mstr.created_date = DateTime.Now;
                 objemptype_mstr.last_modified_date = DateTime.Now;
-                switch (objemptype.current_employee_type)
-                {
-                    case (int)EmployeeType.Probation:
-                        objemptype_mstr.duration_days = 360;
-                        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(360);
-                        objemptype_mstr.actual_duration_days = 360;
-                        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(360);
-                        break;
-                    case (int)EmployeeType.Confirmend:
-                        objemptype_mstr.duration_days = 10000;
-                        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.duration_end_period = new DateTime(2100, 1, 1);
-                        objemptype_mstr.actual_duration_days = 180;
-                        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.actual_duration_end_period = new DateTime(2100, 1, 1);
+                //switch (objemptype.current_employee_type)
+                //{
+                //    case (int)EmployeeType.Probation:
+                //        objemptype_mstr.duration_days = 360;
+                //        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(360);
+                //        objemptype_mstr.actual_duration_days = 360;
+                //        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(360);
+                //        break;
+                //    case (int)EmployeeType.Confirmend:
+                //        objemptype_mstr.duration_days = 10000;
+                //        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.duration_end_period = new DateTime(2100, 1, 1);
+                //        objemptype_mstr.actual_duration_days = 180;
+                //        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.actual_duration_end_period = new DateTime(2100, 1, 1);
 
-                        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
-                        if (PreViousStatus != null)
-                        {
-                            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                            if (ts.Days < 0)
-                            {
-                                throw new Exception("Can't set the Confirm date before Probation date");
-                            }
-                            objemptype_mstr.actual_duration_days = ts.Days;
-                        }
-                        break;
-                    case (int)EmployeeType.Notice:
-                        objemptype_mstr.duration_days = 60;
-                        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(60);
-                        objemptype_mstr.actual_duration_days = 60;
-                        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(60);
-                        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
-                        if (PreViousStatus != null)
-                        {
-                            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                            if (ts.Days < 0)
-                            {
-                                throw new Exception("Can't set the Notice date before Confirm date");
-                            }
-                            objemptype_mstr.actual_duration_days = ts.Days;
-                        }
-                        else
-                        {
-                            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
-                            if (PreViousStatus != null)
-                            {
-                                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                if (ts.Days < 0)
-                                {
-                                    throw new Exception("Can't set the Notice date before Probation date");
-                                }
-                                objemptype_mstr.actual_duration_days = ts.Days;
-                            }
-                        }
-                        break;
-                    case (int)EmployeeType.FNF:
-                        objemptype_mstr.duration_days = 30;
-                        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(30);
-                        objemptype_mstr.actual_duration_days = 30;
-                        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(30);
-                        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
-                        if (PreViousStatus != null)
-                        {
-                            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                            if (ts.Days < 0)
-                            {
-                                throw new Exception("Can't set the FNF date before Notice date");
-                            }
-                            objemptype_mstr.actual_duration_days = ts.Days;
-                        }
-                        else
-                        {
-                            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
-                            if (PreViousStatus != null)
-                            {
-                                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                if (ts.Days < 0)
-                                {
-                                    throw new Exception("Can't set the Notice date before Confirm date");
-                                }
-                                objemptype_mstr.actual_duration_days = ts.Days;
-                            }
-                            else
-                            {
-                                PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
-                                if (PreViousStatus != null)
-                                {
-                                    objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                    TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                    if (ts.Days < 0)
-                                    {
-                                        throw new Exception("Can't set the Notice date before Probation date");
-                                    }
-                                    objemptype_mstr.actual_duration_days = ts.Days;
-                                }
-                            }
-                        }
-                        break;
-                    case (int)EmployeeType.Terminate:
-                        objemptype_mstr.duration_days = 10000;
-                        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(10000);
-                        objemptype_mstr.actual_duration_days = 10000;
-                        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
-                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(10000);
-                        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
-                        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.FNF).FirstOrDefault();
-                        if (PreViousStatus != null)
-                        {
-                            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                            if (ts.Days < 0)
-                            {
-                                throw new Exception("Can't set the Terminate date before FNF date");
-                            }
-                            objemptype_mstr.actual_duration_days = ts.Days;
-                        }
-                        else
-                        {
-                            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
-                            if (PreViousStatus != null)
-                            {
-                                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                if (ts.Days < 0)
-                                {
-                                    throw new Exception("Can't set the Terminate date before Notice date");
-                                }
-                                objemptype_mstr.actual_duration_days = ts.Days;
-                            }
-                            else
-                            {
-                                PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
-                                if (PreViousStatus != null)
-                                {
-                                    objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                    TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                    if (ts.Days < 0)
-                                    {
-                                        throw new Exception("Can't set the Terminate date before Confirm date");
-                                    }
-                                    objemptype_mstr.actual_duration_days = ts.Days;
-                                }
-                                else
-                                {
-                                    PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
-                                    if (PreViousStatus != null)
-                                    {
-                                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
-                                        TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
-                                        if (ts.Days < 0)
-                                        {
-                                            throw new Exception("Can't set the Terminate date before Probation date");
-                                        }
-                                        objemptype_mstr.actual_duration_days = ts.Days;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                }
+                //        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
+                //        if (PreViousStatus != null)
+                //        {
+                //            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //            if (ts.Days < 0)
+                //            {
+                //                throw new Exception("Can't set the Confirm date before Probation date");
+                //            }
+                //            objemptype_mstr.actual_duration_days = ts.Days;
+                //        }
+                //        break;
+                //    case (int)EmployeeType.Notice:
+                //        objemptype_mstr.duration_days = 60;
+                //        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(60);
+                //        objemptype_mstr.actual_duration_days = 60;
+                //        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(60);
+                //        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
+                //        if (PreViousStatus != null)
+                //        {
+                //            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //            if (ts.Days < 0)
+                //            {
+                //                throw new Exception("Can't set the Notice date before Confirm date");
+                //            }
+                //            objemptype_mstr.actual_duration_days = ts.Days;
+                //        }
+                //        else
+                //        {
+                //            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
+                //            if (PreViousStatus != null)
+                //            {
+                //                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                if (ts.Days < 0)
+                //                {
+                //                    throw new Exception("Can't set the Notice date before Probation date");
+                //                }
+                //                objemptype_mstr.actual_duration_days = ts.Days;
+                //            }
+                //        }
+                //        break;
+                //    case (int)EmployeeType.FNF:
+                //        objemptype_mstr.duration_days = 30;
+                //        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(30);
+                //        objemptype_mstr.actual_duration_days = 30;
+                //        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(30);
+                //        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
+                //        if (PreViousStatus != null)
+                //        {
+                //            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //            if (ts.Days < 0)
+                //            {
+                //                throw new Exception("Can't set the FNF date before Notice date");
+                //            }
+                //            objemptype_mstr.actual_duration_days = ts.Days;
+                //        }
+                //        else
+                //        {
+                //            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
+                //            if (PreViousStatus != null)
+                //            {
+                //                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                if (ts.Days < 0)
+                //                {
+                //                    throw new Exception("Can't set the Notice date before Confirm date");
+                //                }
+                //                objemptype_mstr.actual_duration_days = ts.Days;
+                //            }
+                //            else
+                //            {
+                //                PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
+                //                if (PreViousStatus != null)
+                //                {
+                //                    objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                    TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                    if (ts.Days < 0)
+                //                    {
+                //                        throw new Exception("Can't set the Notice date before Probation date");
+                //                    }
+                //                    objemptype_mstr.actual_duration_days = ts.Days;
+                //                }
+                //            }
+                //        }
+                //        break;
+                //    case (int)EmployeeType.Terminate:
+                //        objemptype_mstr.duration_days = 10000;
+                //        objemptype_mstr.duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(10000);
+                //        objemptype_mstr.actual_duration_days = 10000;
+                //        objemptype_mstr.actual_duration_start_period = objemptype.effective_empmnt_type_dt;
+                //        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt.AddDays(10000);
+                //        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
+                //        PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.FNF).FirstOrDefault();
+                //        if (PreViousStatus != null)
+                //        {
+                //            objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //            TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //            if (ts.Days < 0)
+                //            {
+                //                throw new Exception("Can't set the Terminate date before FNF date");
+                //            }
+                //            objemptype_mstr.actual_duration_days = ts.Days;
+                //        }
+                //        else
+                //        {
+                //            PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Notice).FirstOrDefault();
+                //            if (PreViousStatus != null)
+                //            {
+                //                objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                if (ts.Days < 0)
+                //                {
+                //                    throw new Exception("Can't set the Terminate date before Notice date");
+                //                }
+                //                objemptype_mstr.actual_duration_days = ts.Days;
+                //            }
+                //            else
+                //            {
+                //                PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Confirmend).FirstOrDefault();
+                //                if (PreViousStatus != null)
+                //                {
+                //                    objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                    TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                    if (ts.Days < 0)
+                //                    {
+                //                        throw new Exception("Can't set the Terminate date before Confirm date");
+                //                    }
+                //                    objemptype_mstr.actual_duration_days = ts.Days;
+                //                }
+                //                else
+                //                {
+                //                    PreViousStatus = _context.tbl_employment_type_master.Where(x => x.is_deleted == 0 && x.employee_id == objemptype.employee_id && x.employment_type == (int)EmployeeType.Probation).FirstOrDefault();
+                //                    if (PreViousStatus != null)
+                //                    {
+                //                        objemptype_mstr.actual_duration_end_period = objemptype.effective_empmnt_type_dt;
+                //                        TimeSpan ts = objemptype_mstr.actual_duration_end_period - objemptype_mstr.actual_duration_start_period;
+                //                        if (ts.Days < 0)
+                //                        {
+                //                            throw new Exception("Can't set the Terminate date before Probation date");
+                //                        }
+                //                        objemptype_mstr.actual_duration_days = ts.Days;
+                //                    }
+                //                }
+                //            }
+                //        }
+                //        break;
+                //}
 
                 _context.tbl_employment_type_master.Add(objemptype_mstr);
                 if (PreViousStatus != null)
@@ -8153,7 +8155,7 @@ namespace projAPI.Controllers
 
                 if (objemptype_mstr.effective_date < DateTime.Now.AddDays(1))
                 {
-                    teos.current_employee_type = objemptype_mstr.employment_type;
+                 //   teos.current_employee_type = objemptype_mstr.employment_type;
                     _context.tbl_emp_officaial_sec.Update(teos);
                     _context.SaveChanges();
                 }
@@ -8435,7 +8437,7 @@ namespace projAPI.Controllers
             return emptypelist;
         }
 
-        #region ** START BY SUPRIYA ON 03-12-2019, UPDATE EMPLOYMENT TYPE IN OFFICIAL SECTION **
+    #region ** START BY SUPRIYA ON 03-12-2019, UPDATE EMPLOYMENT TYPE IN OFFICIAL SECTION **
 
         [Route("UpdatOfficialEmploymentType")]
         [HttpGet]
@@ -8489,7 +8491,7 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion ** END BY SUPRIYA ON 03-12-2019,UPDATE EMPLOYMENT TYPE IN OFFICIAL SECTION **
+    #endregion ** END BY SUPRIYA ON 03-12-2019,UPDATE EMPLOYMENT TYPE IN OFFICIAL SECTION **
 
         [HttpGet("GetEmployeeWorkingRoleAllocation/{employee_id}")]
         [Authorize(Policy = nameof(enmMenuMaster.Dashboard))]
@@ -8659,16 +8661,16 @@ namespace projAPI.Controllers
 
                     for (int i = 0; i < data.Count; i++)
                     {
-                        int emp_location_id = _context.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.employee_id == data[i].employee_id).location_id ?? 0;
+                        //int emp_location_id = _context.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.employee_id == data[i].employee_id).location_id ?? 0;
 
-                        if (location_id == emp_location_id)
-                        {
-                            objemp_list.Add(new
-                            {
-                                employee_id = data[i].employee_id,
-                                emp_name_code = string.Format("{0} ({1})", data[i].emp_name, data[i].emp_code),
-                            });
-                        }
+                        //if (location_id == emp_location_id)
+                        //{
+                        //    objemp_list.Add(new
+                        //    {
+                        //        employee_id = data[i].employee_id,
+                        //        emp_name_code = string.Format("{0} ({1})", data[i].emp_name, data[i].emp_code),
+                        //    });
+                        //}
 
                     }
                 }
@@ -8816,14 +8818,14 @@ namespace projAPI.Controllers
 
                             if (emp_dept_loc_id != null)
                             {
-                                if (location_id == emp_dept_loc_id.location_id && dept_id == emp_dept_loc_id.department_id)
-                                {
-                                    objemp_list.Add(new
-                                    {
-                                        employee_id = data[J].employee_id,
-                                        emp_name_code = string.Format("{0} ({1})", data[J].emp_name, data[J].emp_code),
-                                    });
-                                }
+                                //if (location_id == emp_dept_loc_id.location_id && dept_id == emp_dept_loc_id.department_id)
+                                //{
+                                //    objemp_list.Add(new
+                                //    {
+                                //        employee_id = data[J].employee_id,
+                                //        emp_name_code = string.Format("{0} ({1})", data[J].emp_name, data[J].emp_code),
+                                //    });
+                                //}
                             }
 
 
@@ -8845,7 +8847,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region **Start E-Separation**
+    #region **Start E-Separation**
 
         [Route("Save_Employee_Separation")]
         [HttpPost]
@@ -9089,9 +9091,9 @@ namespace projAPI.Controllers
                                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_middle_name,
                                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_last_name),
                         emp_code = p.emp_mstr.emp_code,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
                         p.resignation_dt,
                         p.policy_relieving_dt,
                         p.req_relieving_date,
@@ -9158,7 +9160,7 @@ namespace projAPI.Controllers
                         p.diff_notice_days,
                         p.req_reason,
                         p.req_remarks,
-                        doj = p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
+                        //doj = p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
                         departmenet_ = p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
                         final_status = _context.tbl_approved_emp_separation_cancellation.Where(x => x.fkid_empSepration == p.sepration_id && x.is_deleted == 0).FirstOrDefault().is_final_approve == 0 ? "Cancel Req Pending" : _context.tbl_approved_emp_separation_cancellation.Where(x => x.fkid_empSepration == p.sepration_id && x.is_deleted == 0).FirstOrDefault().is_final_approve == 2 ? "Approved" : _context.tbl_approved_emp_separation_cancellation.Where(x => x.fkid_empSepration == p.sepration_id && x.is_deleted == 0).FirstOrDefault().is_final_approve == 1 ? "Cancelled" : (p.is_cancel == 0 ? (p.is_final_approve == 0 ? "Pending" : p.is_final_approve == 1 ? "Approved" : p.is_final_approve == 2 ? "Rejected" : p.is_final_approve == 3 ? "In Process" : "-") : p.is_cancel == 1 ? "Cancelled" : ""),
                         p.is_deleted,
@@ -9206,9 +9208,9 @@ namespace projAPI.Controllers
                              p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_middle_name,
                              p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_last_name),
                         emp_code = p.emp_mstr.emp_code,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
-                        p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
+                        //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
                         p.resignation_dt,
                         p.policy_relieving_dt,
                         p.req_relieving_date,
@@ -9470,11 +9472,11 @@ namespace projAPI.Controllers
                 {
                     p.sepration_id,
                     p.emp_id,
-                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
+                    //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
                     p.emp_mstr.tbl_emp_officaial_sec.OrderByDescending(q => q.emp_official_section_id).FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
                     p.emp_mstr.tbl_emp_desi_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.applicable_from_date.Date <= p.resignation_dt.Date && p.resignation_dt.Date <= q.applicable_to_date.Date && q.desig_id != null).tbl_designation_master.designation_name,
                     p.emp_mstr.tbl_emp_grade_allocation.OrderByDescending(q => q.emp_grade_id).FirstOrDefault(q => q.applicable_from_date.Date <= p.resignation_dt.Date && p.resignation_dt.Date <= q.applicable_to_date.Date && q.grade_id != null).tbl_grade_master.grade_name,
-                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
+                    //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
                     policy_notice_days = p.diff_notice_days < 0 ? (p.req_notice_days - (p.diff_notice_days)) : p.diff_notice_days == 0 ? p.req_notice_days : 0,
                     p.resignation_dt,
                     p.req_relieving_date,
@@ -9516,7 +9518,7 @@ namespace projAPI.Controllers
                 List<object> _approval_history = new List<object>();
 
                 var managers = _clEmployeeDetail.Get_Emp_manager_dtl(emp_id);
-                #region old
+    #region old
                 //var emp_manager_dtl = _context.tbl_emp_manager.Where(x => x.is_deleted == 0 && x.employee_id == emp_id && x.tem.tbl_employee_company_map.FirstOrDefault(q => q.is_deleted == 0).company_id == company_id).Select(p => new
                 //{
                 //    p.employee_id,
@@ -9539,7 +9541,7 @@ namespace projAPI.Controllers
 
 
                 //}).FirstOrDefault();
-                #endregion
+    #endregion
 
                 if (managers != null && managers.Count > 0)
                 {
@@ -9765,7 +9767,7 @@ namespace projAPI.Controllers
                 return Ok(objresponse);
             }
 
-            #region old
+    #region old
             //try
             //{
 
@@ -9870,7 +9872,7 @@ namespace projAPI.Controllers
             //    objresponse.Message = ex.Message;
             //    return Ok(objresponse);
             //}
-            #endregion
+    #endregion
         }
 
 
@@ -10939,9 +10941,9 @@ namespace projAPI.Controllers
                               p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_first_name,
                               p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_middle_name,
                               p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).employee_last_name),
-                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
-                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
-                    p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
+                    //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).date_of_joining,
+                    //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_location_master.location_name,
+                    //p.emp_mstr.tbl_emp_officaial_sec.FirstOrDefault(q => q.is_deleted == 0).tbl_department_master.department_name,
                     p.resignation_dt,
                     policy_relieving_dt = p.is_withdrawal == 1 ? p.last_wrking_dt : p.policy_relieving_dt,
                     p.req_relieving_date,
@@ -10972,7 +10974,7 @@ namespace projAPI.Controllers
                 return Ok(objresponse);
             }
         }
-        #endregion **Start by Supriya on 11-05-2020,E-Separation**
+    #endregion **Start by Supriya on 11-05-2020,E-Separation**
 
         [Route("Get_Emp_all_Company/{emp_id}")]
         [HttpGet]
@@ -11093,7 +11095,7 @@ namespace projAPI.Controllers
                             string currentmonth = Convert.ToString(DateTime.Now.Month).Length.ToString() == "1" ? "0" + Convert.ToString(DateTime.Now.Month) : Convert.ToString(DateTime.Now.Month);
                             var currentyearmonth = Convert.ToString(DateTime.Now.Year) + currentmonth;
                             var path = "";
-                            #region comment extra sections
+    #region comment extra sections
                             //if (objdetaills.UploadSection == "QualificationSection")
                             //{
                             //    MyFileName = "EmpQualificationSection_" + DateTime.Now.ToString("dd_MM_yyyy_hh_mm_ss_tt") + ext; //Guid.NewGuid().ToString().Replace("-", "") +
@@ -11211,7 +11213,7 @@ namespace projAPI.Controllers
                             //    }
                             //    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + "/EmployeeDetail/" + company_name + "/DeleteManualPunch/" + currentyearmonth + "/");
                             //}
-                            #endregion
+    #endregion
                             if (objdetaills.UploadSection == "FullUpload")
                             {
                                 MyFileName = "EmpFamilySection_" + DateTime.Now.ToString("dd_MM_yyyy_hh_mm_ss_tt") + ext; //Guid.NewGuid().ToString().Replace("-", "") +
@@ -11248,7 +11250,7 @@ namespace projAPI.Controllers
 
                 }
 
-                #region comments extra section
+    #region comments extra section
                 //if (objdetaills.UploadSection == "QualificationSection")
                 //{
                 //    if (!string.IsNullOrEmpty(get_file_path))
@@ -13667,7 +13669,7 @@ namespace projAPI.Controllers
                 //        return Ok(objresponse);
                 //    }
                 //}
-                #endregion
+    #endregion
 
                 if (objdetaills.UploadSection == "FullUpload")
                 {
@@ -13724,7 +13726,7 @@ namespace projAPI.Controllers
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+    #region ** START Add value in list **
                                                             //if (!string.IsNullOrEmpty(item.Text.Text) && item.Text.Text.Trim().ToUpper() != "NA" && item.Text.Text.Trim().ToUpper() != "N.A" && item.Text.Text.Trim().ToUpper() != "N.A.")
                                                             if (!string.IsNullOrEmpty(item.Text.Text))
                                                             {
@@ -13996,7 +13998,7 @@ namespace projAPI.Controllers
                                                             }
 
 
-                                                            #endregion ** END value in list**
+    #endregion ** END value in list**
                                                         }
                                                         //else if (item.InnerText != null)
                                                         //{
@@ -14013,7 +14015,7 @@ namespace projAPI.Controllers
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                 //if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && thecurrentcell.InnerText != "NA" && thecurrentcell.InnerText.Trim().ToUpper() != "N.A" && thecurrentcell.InnerText.Trim().ToUpper() != "N.A.")
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText))
@@ -14273,7 +14275,7 @@ namespace projAPI.Controllers
                                                     }
                                                 }
 
-                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                             }
 
@@ -14478,7 +14480,7 @@ namespace projAPI.Controllers
                             var currentyearmonth = Convert.ToString(DateTime.Now.Year) + currentmonth;
                             var path = "";
 
-                            #region comment extra sections
+    #region comment extra sections
                             if (objdetaills.UploadSection == "QualificationSection")
                             {
                                 MyFileName = "EmpQualificationSection_" + DateTime.Now.ToString("dd_MM_yyyy_hh_mm_ss_tt") + ext; //Guid.NewGuid().ToString().Replace("-", "") +
@@ -14596,7 +14598,7 @@ namespace projAPI.Controllers
                                 }
                                 path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + "/EmployeeDetail/" + company_name + "/DeleteManualPunch/" + currentyearmonth + "/");
                             }
-                            #endregion
+    #endregion
                             else if (objdetaills.UploadSection == "FullUpload")
                             {
                                 MyFileName = "EmpFamilySection_" + DateTime.Now.ToString("dd_MM_yyyy_hh_mm_ss_tt") + ext; //Guid.NewGuid().ToString().Replace("-", "") +
@@ -14634,7 +14636,7 @@ namespace projAPI.Controllers
                 }
 
 
-                #region comments extra section
+    #region comments extra section
                 if (objdetaills.UploadSection == "QualificationSection")
                 {
                     if (!string.IsNullOrEmpty(get_file_path))
@@ -14686,7 +14688,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -14720,7 +14722,7 @@ namespace projAPI.Controllers
                                                                 {
                                                                     list.remark = item.Text.Text;
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -14739,7 +14741,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
 
 
@@ -14759,7 +14761,7 @@ namespace projAPI.Controllers
                                                         list.marks_division_cgpa = Convert.ToDouble(thecurrentcell.InnerText).ToString("P", nfi);
                                                     }
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
 
@@ -14853,7 +14855,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -14900,7 +14902,7 @@ namespace projAPI.Controllers
                                                                     list.aadhar_card_no = item.Text.Text;
 
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -14918,7 +14920,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
@@ -14970,7 +14972,7 @@ namespace projAPI.Controllers
                                                         list.aadhar_card_no = thecurrentcell.InnerText;
 
                                                     }
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15075,7 +15077,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -15090,7 +15092,7 @@ namespace projAPI.Controllers
                                                                     list.applicable_from_date = Convert.ToDateTime(DateTime.FromOADate(Convert.ToDouble(item.Text.Text)).GetDateTimeFormats()[5]);
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -15108,7 +15110,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                     {
@@ -15125,7 +15127,7 @@ namespace projAPI.Controllers
 
 
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15227,7 +15229,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -15238,7 +15240,7 @@ namespace projAPI.Controllers
                                                                     list.weekly_off = item.Text.Text;
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -15256,7 +15258,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                     {
@@ -15269,7 +15271,7 @@ namespace projAPI.Controllers
 
 
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15371,7 +15373,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -15389,7 +15391,7 @@ namespace projAPI.Controllers
                                                                 {
                                                                     list.applicable_to_date = Convert.ToDateTime(DateTime.FromOADate(Convert.ToDouble(item.Text.Text)).GetDateTimeFormats()[5]);
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -15407,7 +15409,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                     {
@@ -15428,7 +15430,7 @@ namespace projAPI.Controllers
 
 
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15530,7 +15532,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -15548,7 +15550,7 @@ namespace projAPI.Controllers
                                                                 {
                                                                     list.applicable_to_date = Convert.ToDateTime(DateTime.FromOADate(Convert.ToDouble(item.Text.Text)).GetDateTimeFormats()[5]);
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -15566,7 +15568,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                     {
@@ -15587,7 +15589,7 @@ namespace projAPI.Controllers
 
 
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15689,7 +15691,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                                 {
@@ -15727,7 +15729,7 @@ namespace projAPI.Controllers
                                                                 {
                                                                     list.applicable_to_date = DateTime.ParseExact(item.Text.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
 
 
                                                             }
@@ -15745,7 +15747,7 @@ namespace projAPI.Controllers
                                                 else
                                                 {
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                     {
@@ -15791,7 +15793,7 @@ namespace projAPI.Controllers
                                                     }
 
 
-                                                    #endregion
+    #endregion
                                                 }
                                             }
                                         }
@@ -15903,7 +15905,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -15954,7 +15956,7 @@ namespace projAPI.Controllers
                                                                     list.emergency_contact_mobile_number = item.Text.Text;
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -15971,7 +15973,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
@@ -16023,7 +16025,7 @@ namespace projAPI.Controllers
                                                     {
                                                         list.emergency_contact_mobile_number = thecurrentcell.InnerText;
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
 
@@ -16146,7 +16148,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -16188,7 +16190,7 @@ namespace projAPI.Controllers
                                                                     // enmPaymentMode PayMode = (enmPaymentMode)Enum.Parse(typeof(enmPaymentMode), item.Text.Text, true);
                                                                     list.payment_mode = item.Text.Text; ;
                                                                 }
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -16205,7 +16207,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
@@ -16249,7 +16251,7 @@ namespace projAPI.Controllers
                                                         // enmPaymentMode PayMode = (enmPaymentMode)Enum.Parse(typeof(enmPaymentMode), item.Text.Text, true);
                                                         list.payment_mode = thecurrentcell.InnerText;
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
                                             }
@@ -16371,7 +16373,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -16418,7 +16420,7 @@ namespace projAPI.Controllers
                                                                     list.esic_number = item.Text.Text;
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -16435,7 +16437,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
                                                     {
@@ -16482,7 +16484,7 @@ namespace projAPI.Controllers
                                                     {
                                                         list.esic_number = thecurrentcell.InnerText;
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
                                             }
@@ -16604,7 +16606,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -16629,7 +16631,7 @@ namespace projAPI.Controllers
                                                                     list.day_status = item.Text.Text;
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -16646,7 +16648,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
                                                     {
@@ -16673,7 +16675,7 @@ namespace projAPI.Controllers
                                                     {
                                                         list.day_status = thecurrentcell.InnerText;
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
                                             }
@@ -16781,7 +16783,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -16804,7 +16806,7 @@ namespace projAPI.Controllers
                                                                     list.day_status = item.Text.Text;
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -16821,7 +16823,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
                                                     {
@@ -16843,7 +16845,7 @@ namespace projAPI.Controllers
                                                     {
                                                         list.day_status = thecurrentcell.InnerText;
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
                                             }
@@ -16963,7 +16965,7 @@ namespace projAPI.Controllers
                                                             {
                                                                 //code to take the string value  
                                                                 excelResult.Append(item.Text.Text + " ");
-                                                                #region ** START Add value in list **
+    #region ** START Add value in list **
                                                                 if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnnoo == "B")
                                                                 {
                                                                     list.emp_code = item.Text.Text;
@@ -16974,7 +16976,7 @@ namespace projAPI.Controllers
 
                                                                 }
 
-                                                                #endregion ** END value in list**
+    #endregion ** END value in list**
                                                             }
                                                             else if (item.InnerText != null)
                                                             {
@@ -16991,7 +16993,7 @@ namespace projAPI.Controllers
                                                 {
                                                     //read columns value
                                                     excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                    #region ** START Add value in list **
+    #region ** START Add value in list **
 
                                                     if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnnoo == "B")
                                                     {
@@ -17001,7 +17003,7 @@ namespace projAPI.Controllers
                                                     {
                                                         list.attendance_dt = Convert.ToDateTime(DateTime.FromOADate(Convert.ToDouble(thecurrentcell.InnerText)).GetDateTimeFormats()[5]);
                                                     }
-                                                    #endregion ** END value in list**
+    #endregion ** END value in list**
 
                                                 }
                                             }
@@ -17053,7 +17055,7 @@ namespace projAPI.Controllers
                         return Ok(objresponse);
                     }
                 }
-                #endregion
+    #endregion
                 else if (objdetaills.UploadSection == "FullUpload")
                 {
                     if (!string.IsNullOrEmpty(get_file_path))
@@ -18597,13 +18599,13 @@ namespace projAPI.Controllers
                     }
                     else
                     {
-                        var _invalidate2 = _dates.Where(x => emp_off_sec.Any(y => y.date_of_joining.Date > x.applicable_from_date.Date || y.date_of_joining.Date > x.applicable_to_date.Date)).ToList();
-                        if (_invalidate2.Count() > 0)
-                        {
-                            MissingDtlMessage.Append("Applicable Form or to Date cannot be less than Employee Joining Date for following employee code:-");
-                            _invalidate2.ForEach(y => MissingDtlMessage.Append("" + y.emp_code + ", "));
-                            MissingDtlMessage.Append("</br>");
-                        }
+                        //var _invalidate2 = _dates.Where(x => emp_off_sec.Any(y => y.date_of_joining.Date > x.applicable_from_date.Date || y.date_of_joining.Date > x.applicable_to_date.Date)).ToList();
+                        //if (_invalidate2.Count() > 0)
+                        //{
+                        //    MissingDtlMessage.Append("Applicable Form or to Date cannot be less than Employee Joining Date for following employee code:-");
+                        //    _invalidate2.ForEach(y => MissingDtlMessage.Append("" + y.emp_code + ", "));
+                        //    MissingDtlMessage.Append("</br>");
+                        //}
 
                     }
                 }
@@ -18998,7 +19000,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region Get employee directory / Birthday / Anniversary method 
+    #region Get employee directory / Birthday / Anniversary method 
 
         [Route("Get_Employee_from_all_Company_dir/{companyid}/{emp_id}")]
         [HttpGet]
@@ -19081,7 +19083,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+    #endregion
         [HttpGet("Get_PaymentMode")]
 
         public IActionResult Get_PaymentMode()
@@ -19205,7 +19207,7 @@ namespace projAPI.Controllers
                     _context.Entry(tblemp_pan_details).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
 
-                    #region  //////////////////////////////// start pan_card_image //////////////////////////////////////
+    #region  //////////////////////////////// start pan_card_image //////////////////////////////////////
 
                     if (tblemp_pan_details.pan_card_image != null && tblemp_pan_details.pan_card_image != "" && tblemp_pan_details.pan_card_image != tbl_emp_personal_sec.pan_card_image)
                     {
@@ -19251,7 +19253,7 @@ namespace projAPI.Controllers
                         emp_pan_details.pan_card_image = tbl_emp_personal_sec.pan_card_image;
                     }
 
-                    #endregion
+    #endregion
                 }
                 else
                 {
@@ -19316,7 +19318,7 @@ namespace projAPI.Controllers
                     _context.Entry(tblemp_adhar_details).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
 
-                    #region /////////////////////////////// start aadha_card_image ///////////////////////////////////////////
+    #region /////////////////////////////// start aadha_card_image ///////////////////////////////////////////
 
                     if (tblemp_adhar_details.aadha_card_image != null && tblemp_adhar_details.aadha_card_image != "" && tblemp_adhar_details.aadha_card_image != tbl_emp_personal_sec.aadha_card_image)
                     {
@@ -19361,7 +19363,7 @@ namespace projAPI.Controllers
                     {
                         emp_adhar_details.aadha_card_image = tbl_emp_personal_sec.aadha_card_image;
                     }
-                    #endregion
+    #endregion
                 }
                 else
                 {
@@ -20826,7 +20828,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region ** START BY SUPRIYA, PREVIOUS EMPLOYEMENT DETAL ON 01-06-2020 **
+    #region ** START BY SUPRIYA, PREVIOUS EMPLOYEMENT DETAL ON 01-06-2020 **
         [Route("Save_Previous_EmployementDetail")]
         [HttpPost]
         ////[Authorize(Policy = "3067")]
@@ -20944,7 +20946,7 @@ namespace projAPI.Controllers
             }
 
         }
-        #endregion ** End BY SUPRIYA, PREVIOUS EMPLOYEMENT DETAL ON 01-06-2020 **
+    #endregion ** End BY SUPRIYA, PREVIOUS EMPLOYEMENT DETAL ON 01-06-2020 **
 
 
         public EmployeeDetailListt CheckEmpdaAllDatafromexcel(List<EmployeeAllDataUpload> list)
@@ -20955,7 +20957,7 @@ namespace projAPI.Controllers
             List<EmployeeAllDataUpload> issuedetaillist = new List<EmployeeAllDataUpload>();
             Response_Msg objresponse = new Response_Msg();
 
-            #region ********* Load basic Details ************************
+    #region ********* Load basic Details ************************
 
             int indexofEmptyEmp = -1;
             while ((indexofEmptyEmp = list.FindIndex(p => p.emp_code?.Trim() == string.Empty || p.emp_code?.Trim() == null)) >= 0)
@@ -21341,7 +21343,7 @@ namespace projAPI.Controllers
 
 
 
-            #endregion
+    #endregion
 
             StringBuilder MissingDtlMessage = new StringBuilder();
             StringBuilder CurrentMissingDtlMessage = new StringBuilder("");
@@ -22448,7 +22450,7 @@ namespace projAPI.Controllers
 
         }
 
-        #region **START Emp Withdrawl PROCESS  **
+    #region **START Emp Withdrawl PROCESS  **
 
         [HttpPost("Save_Emp_Withdrawal")]
         [Authorize(Policy = nameof(enmMenuMaster.EmployeeWithdrawal))]
@@ -22518,11 +22520,7 @@ namespace projAPI.Controllers
 
                     var emp_status = _context.tbl_employment_type_master.OrderByDescending(y => y.effective_date).Where(x => x.is_deleted == 0 && x.employee_id == objtbl.emp_id).FirstOrDefault();
                     if (emp_status != null)
-                    {
-                        emp_status.actual_duration_end_period = DateTime.Now;
-                        TimeSpan ts = emp_status.actual_duration_end_period - emp_status.actual_duration_start_period;
-                        emp_status.actual_duration_days = ts.Days;
-
+                    {   
                         //emp_status.is_deleted = 1;
                         emp_status.last_modified_by = _clsCurrentUser.EmpId;
                         emp_status.last_modified_date = DateTime.Now;
@@ -22547,12 +22545,7 @@ namespace projAPI.Controllers
                         created_date = DateTime.Now,
                         last_modified_date = DateTime.Now,
                         effective_date = DateTime.Now,
-                        duration_days = 1,
-                        duration_start_period = DateTime.Now,
-                        duration_end_period = DateTime.Now.AddDays(1),
-                        actual_duration_days = 60,
-                        actual_duration_start_period = DateTime.Now,
-                        actual_duration_end_period = DateTime.Now.AddDays(1),
+                        
                     };
                     _context.tbl_employment_type_master.Add(tbl_employment_type_master_);
 
@@ -22573,13 +22566,7 @@ namespace projAPI.Controllers
                         last_modified_by = _clsCurrentUser.EmpId,
                         created_date = DateTime.Now,
                         last_modified_date = DateTime.Now,
-                        effective_date = DateTime.Now.AddDays(1),
-                        duration_days = 30,
-                        duration_start_period = DateTime.Now.AddDays(1),
-                        duration_end_period = DateTime.Now.AddDays(31),
-                        actual_duration_days = 60,
-                        actual_duration_start_period = DateTime.Now.AddDays(1),
-                        actual_duration_end_period = DateTime.Now.AddDays(31),
+                        effective_date = DateTime.Now.AddDays(1)                       
                     };
                     _context.tbl_employment_type_master.Add(tbl_employment_type_master1_);
 
@@ -22686,10 +22673,7 @@ namespace projAPI.Controllers
                 var emp_status = _context.tbl_employment_type_master.OrderByDescending(y => y.effective_date).Where(x => x.is_deleted == 0 && x.employee_id == objtbl.emp_id).FirstOrDefault();
                 if (emp_status != null)
                 {
-                    emp_status.actual_duration_end_period = DateTime.Now;
-                    TimeSpan ts = emp_status.actual_duration_end_period - emp_status.actual_duration_start_period;
-                    emp_status.actual_duration_days = ts.Days;
-
+                    
                     //emp_status.is_deleted = 1;
                     emp_status.last_modified_by = _clsCurrentUser.EmpId;
                     emp_status.last_modified_date = DateTime.Now;
@@ -22714,13 +22698,7 @@ namespace projAPI.Controllers
                     last_modified_by = _clsCurrentUser.EmpId,
                     created_date = DateTime.Now,
                     last_modified_date = DateTime.Now,
-                    effective_date = DateTime.Now,
-                    duration_days = 1,
-                    duration_start_period = DateTime.Now,
-                    duration_end_period = DateTime.Now.AddDays(1),
-                    actual_duration_days = 60,
-                    actual_duration_start_period = DateTime.Now,
-                    actual_duration_end_period = DateTime.Now.AddDays(1),
+                    effective_date = DateTime.Now,                  
                 };
                 _context.tbl_employment_type_master.Add(tbl_employment_type_master_);
 
@@ -22742,12 +22720,7 @@ namespace projAPI.Controllers
                     created_date = DateTime.Now,
                     last_modified_date = DateTime.Now,
                     effective_date = DateTime.Now.AddDays(1),
-                    duration_days = 30,
-                    duration_start_period = DateTime.Now.AddDays(1),
-                    duration_end_period = DateTime.Now.AddDays(31),
-                    actual_duration_days = 60,
-                    actual_duration_start_period = DateTime.Now.AddDays(1),
-                    actual_duration_end_period = DateTime.Now.AddDays(31),
+                  
                 };
                 _context.tbl_employment_type_master.Add(tbl_employment_type_master1_);
 
@@ -22870,9 +22843,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion **END Emp Withdrawl ** 
+    #endregion **END Emp Withdrawl ** 
 
-        #region KT Module - Made by Anil
+#if false
+    #region KT Module - Made by Anil
         [Route("Get_Employee_esperation/{companyid}/{emp_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.Dashboard))]
@@ -22961,7 +22935,7 @@ namespace projAPI.Controllers
 
                             var kt_id = tbl_kt_task_master.id;
 
-                            #region for multiple employee store in KT task emp details table
+    #region for multiple employee store in KT task emp details table
 
                             var employeesplit = obj_kt_task_Master.emp_id_list.Split(",");
 
@@ -22993,7 +22967,7 @@ namespace projAPI.Controllers
                             }
                             _context.tbl_kt_task_emp_details.AddRange(objemplist);
 
-                            #endregion
+    #endregion
 
                             _context.SaveChanges();
 
@@ -23075,7 +23049,7 @@ namespace projAPI.Controllers
                         _context.SaveChanges();
                         var kt_id = tbl_kt_task_master.id;
 
-                        #region for multiple employee store in KT task emp details table
+    #region for multiple employee store in KT task emp details table
 
                         var employeelist = objkt.emp_id_list.Split(",");
 
@@ -23105,7 +23079,7 @@ namespace projAPI.Controllers
                         }
                         _context.tbl_kt_task_emp_details.AddRange(objemplist);
 
-                        #endregion
+    #endregion
                     }
                     catch (Exception ex)
                     {
@@ -23310,7 +23284,7 @@ namespace projAPI.Controllers
                                 _context.UpdateRange(kt_emp_list);
                             }
 
-                            #region for multiple employee store in KT task emp details table
+    #region for multiple employee store in KT task emp details table
 
                             var employeelist = obj_kt_task_Master.emp_id_list.Split(",");
 
@@ -23344,7 +23318,7 @@ namespace projAPI.Controllers
                             }
                             _context.tbl_kt_task_emp_details.AddRange(objemplist);
 
-                            #endregion
+    #endregion
 
                             await _context.SaveChangesAsync();
 
@@ -23747,6 +23721,8 @@ namespace projAPI.Controllers
             }
 
         }
-        #endregion
+    #endregion
+#endif
     }
+#endif
 }

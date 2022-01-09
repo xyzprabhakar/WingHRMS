@@ -16,6 +16,7 @@ using projContext.DB;
 
 namespace projAPI
 {
+#if (false)
     public class clsComponentValues
     {
 
@@ -964,7 +965,7 @@ namespace projAPI
         {
             using (var context = new Context())
             {
-                _CompanyId = context.tbl_user_master.Where(a => a.employee_id == _EmpID && a.is_active == 1).Select(a => a.default_company_id).FirstOrDefault();
+                _CompanyId = 1;// context.tbl_user_master.Where(a => a.employee_id == _EmpID && a.is_active == 1).Select(a => a.default_company_id).FirstOrDefault();
                 if (_CompanyId > 0)
                 {
                     var tempdata = context.tbl_company_master.FirstOrDefault(a => a.company_id == _CompanyId);
@@ -979,6 +980,8 @@ namespace projAPI
 
         private async Task LoadEmpOfficialSection()
         {
+            throw new NotImplementedException();
+#if false
             using (var context = new Context())
             {
                 var empmaster = context.tbl_employee_master.Where(p => p.employee_id == _EmpID).FirstOrDefault();
@@ -1053,6 +1056,7 @@ namespace projAPI
                     }
                 }
             }
+#endif
         }
 
         private async Task LoadBankDetails()
@@ -1400,7 +1404,7 @@ namespace projAPI
         }
 
 
-        #region *****************Dynamic All Function ************************************
+#region *****************Dynamic All Function ************************************
         public int fncCompanyId_sys()
         {
             return _CompanyId;
@@ -1677,10 +1681,12 @@ namespace projAPI
         {
             return _NoticePaymentDay;
         }
-        #endregion
+#endregion
 
 
     }
+
+#endif
 }
 
 

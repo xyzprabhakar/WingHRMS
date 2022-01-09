@@ -1,0 +1,40 @@
+﻿@page
+@{
+    ViewData["Title"] = "ViewEmployee";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="panel">
+                    <h1>Service Provider List</h1>
+                    <hr />
+                </div>
+                <div class="col-md-12">
+                    <a href="/air/addserviceprovider" class="btn btn-success btn-lg text-right float-right">Add Service Provider </a>
+                </div>
+                <div class="table-responsive no-margin">
+                    <table id="tblEmployee" class="table nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Effective From Date</th>
+                                <th>Is Active</th>
+                                <th>Created By</th>
+                                <th>Remarks</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

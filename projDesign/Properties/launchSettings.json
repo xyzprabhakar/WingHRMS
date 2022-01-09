@@ -13,7 +13,8 @@
       "launchUrl": "Login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "jsWebView2Debugging": true
     },
     "projDesign": {
       "commandName": "Project",

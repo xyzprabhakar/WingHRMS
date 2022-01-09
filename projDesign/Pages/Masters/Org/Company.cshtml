@@ -1,0 +1,456 @@
+﻿@page
+@{
+    ViewData["PageId"] = "3";
+    ViewData["Title"] = "Company";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">
+                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+
+                            <input type="hidden" id="lblCompanyId" name="CompanyId" value="0" />
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlOrganisation">Organisation</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlOrganisation" name="ddlOrganisation" class="form-control select2" required>
+                                                <option value=""> -- Please Select --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCompanyCode">
+                                        <label class="col-form-label col-md-3" for="txtCompanyCode">Code</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCompanyCode" name="txtCompanyCode"
+                                                   maxlength="16" autocomplete="off" pattern="^[^<>\s]+$"
+                                                   class="form-control" placeholder="Code" required>
+                                        </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCompanyName">
+                                        <label class="col-form-label col-md-3" for="txtCompanyName">Company Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCompanyName" name="txtCompanyName"
+                                                   maxlength="128" autocomplete="off" pattern="^[^<>]+$"
+                                                   class="form-control" placeholder="Name" required>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Status</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAddress">
+                                        <label class="col-form-label col-md-3" for="txtAddress">Address</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtAddress" name="txtAddress" pattern="^[^<>]+$"
+                                                   maxlength="128" autocomplete="off"
+                                                   class="form-control" placeholder="Address" required>
+                                        </div></div>
+                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtLocality">
+                                        <label class="col-form-label col-md-3" for="txtLocality">Locality</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtLocality" name="txtLocality" pattern="^[^<>]+$"
+                                                   maxlength="128" autocomplete="off"
+                                                   class="form-control" placeholder="Locality" required>
+                                        </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="">
+                                        <label class="col-form-label col-md-3" for="txtCity">City</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCity" name="txtCity" pattern="^[^<>]+$"
+                                                   maxlength="32" autocomplete="off"
+                                                   class="form-control" placeholder="City" required>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlcountry">Country Name</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlcountry" name="ddlcountry" class="form-control select2" required>
+                                                <option value=""> -- Please Select --</option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlstate">State Name</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlstate" name="ddlstate" class="form-control select2" required>
+                                                <option value=""> -- Please Select --</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtPinCode">
+                                        <label class="col-form-label col-md-3" for="txtPinCode">Pincode</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtPinCode" name="txtPinCode" pattern="^[^<>]+$"
+                                                   maxlength="16" autocomplete="off"
+                                                   class="form-control" placeholder="Pincode" required>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <hr />
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEmail">
+                                        <label class="col-form-label col-md-3" for="txtEmail">Email</label>
+                                        <div class="col-md-9">
+                                            <input type="email" id="txtEmail" name="txtEmail"
+                                                   maxlength="128" autocomplete="off"
+                                                   class="form-control" placeholder="Email" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAlternateEmail">
+                                        <label class="col-form-label col-md-3" for="txtAlternateEmail">Alternate Email</label>
+                                        <div class="col-md-9">
+                                            <input type="email" id="txtAlternateEmail" name="txtAlternateEmail"
+                                                   maxlength="128" autocomplete="off"
+                                                   class="form-control" placeholder="Alternate Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtContact">
+                                        <label class="col-form-label col-md-3" for="txtContact">Contact</label>
+                                        <div class="col-md-9">
+                                            <input type="tel" id="txtContact" name="txtContact"
+                                                   maxlength="16" autocomplete="off"
+                                                   class="form-control" placeholder="Contact" required>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAlternateContact">
+                                        <label class="col-form-label col-md-3" for="txtAlternateContact">Alternate Contact</label>
+                                        <div class="col-md-9">
+                                            <input type="tel" id="txtAlternateContact" name="txtAlternateContact"
+                                                   maxlength="16" autocomplete="off"
+                                                   class="form-control" placeholder="Alternate Contact">
+                                        </div>
+                                    </div></div>
+
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtRemarks">
+                                        <label class="col-form-label" for="txtRemarks">Remarks</label>
+                                        <textarea type="tel" id="txtRemarks" name="txtRemarks" cols="5" pattern="^[^<>]+$"
+                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
+                            </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        <img id="imgLogoImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
+                                        <input type="hidden" id="lblImgFile">
+                                        <input type="hidden" id="lblImgName">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label asp-for="company_logo" class="col-form-label">Logo</label>
+                                            <input id="File1" type="file" accept="image/x-icon" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Update">
+                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                    <a href="CompanyReport" class="btn btn-primary btn-lg">Report</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
+    <script src="~/apiJS/Comman/Organisation.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+
+            //bindcountry
+            $('#loader').show();
+            //jquery Validateor
+            $.validator.methods.pattern = function (value, element) {
+                return (this.optional(element) || new RegExp(element.pattern).test(value));
+            };
+            $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
+            let token = localStorage.getItem('token');
+            const inputElement = document.getElementById("File1");
+            inputElement.addEventListener("change", handleFiles, false);
+            BindOrganisationEvent("ddlOrganisation", "", "","");
+            BindOrganisation("ddlOrganisation", 0);
+            var selectedFile = null;
+            BindCountryState("ddlcountry", 0, "ddlstate", 0);
+            let companyId_ = getUrlVars()["companyid"];            
+            if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
+                $("#lblCompanyId").val("0");
+                $('#loader').hide();
+            } else {
+                CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
+                    if (result) {
+                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";                        
+                        let headerss = new Headers();
+                        let lblcountryId = 0;
+                        let lblstateId = 0;
+                        headerss.append("Authorization", 'Bearer ' + token);
+                        headerss.append("Content-Type", "application/json; charset=utf-8");
+                        fetch(apiurl, {
+                            method: "GET",
+                            headers: headerss,
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error(response.statusText);
+
+                            }
+                        }).then(data => {
+
+                            if (data.messageType == 1) {
+                                $("#lblCompanyId").val(data.returnId.companyId);
+                                $("#txtCompanyName").val(data.returnId.name);
+                                $("#txtCompanyCode").val(data.returnId.code);
+                                $("#ddlOrganisation").val(data.returnId.orgId)
+                                $("#txtAddress").val(data.returnId.officeAddress);
+                                $("#txtLocality").val(data.returnId.locality);
+                                $("#txtCity").val(data.returnId.city);
+                                lblcountryId = data.returnId.countryId;
+                                lblstateId = data.returnId.stateId;
+                                if (lblcountryId > 0) {
+                                    $("#ddlcountry").val(lblcountryId);
+                                    $("#ddlcountry").trigger('change', [lblstateId]);
+                                    //BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                                }
+                                $("#txtPinCode").val(data.returnId.pincode);
+                                $("#txtEmail").val(data.returnId.email);
+                                $("#txtAlternateEmail").val(data.returnId.alternateEmail);
+                                $("#txtContact").val(data.returnId.contactNo);
+                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);                                
+                                $("#txtRemarks").val(data.returnId.modifyRemarks);
+                                $("#lblImgName").val(data.returnId.logo);
+                                if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
+                                    var img = document.getElementById("imgLogoImage");
+                                    img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
+                                }
+                                if (data.returnId.isActive) {
+
+                                    $("#is_active").prop("checked", true);
+                                    $("#is_in_active").prop("checked", false);
+                                }
+                                else {
+                                    $("#is_active").prop("checked", false);
+                                    $("#is_in_active").prop("checked", true);
+                                }
+
+                                $('#loader').hide();
+                            }
+                            else {
+                                $('#loader').hide();
+                                messageBox("error", data.message);
+                            }
+                        }).catch((error) => {
+                            $('#loader').hide();
+                            messageBox("error", error.message);
+                        });
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", "unauthorized access");
+                    }
+                });               
+            }
+
+            function handleFiles() {
+                const fileList = this.files; 
+                for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+                    const file = fileList[i];
+                    var imgsizee = this.files[i].size;
+                    var sizekb = imgsizee / 1024;
+                    sizekb = sizekb.toFixed(0);
+                    if (sizekb < 10 || sizekb > 500) {
+                        $("#File1").val("");
+                        messageBox("error", 'The size of the photograph should fall between 10KB to 500KB. Your Photo Size is ' + sizekb + 'kb.');                        
+                        return false;
+                    }
+                    if (!(file.type == 'image/x-icon')) {
+                        messageBox("error", 'Only Icon file can be uploaded');
+                        return false;
+                    }
+                    selectedFile=file;
+                    var img = document.getElementById("imgLogoImage");
+                    img.file = file;
+                    const reader = new FileReader();
+                    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result; }; })(img);
+                    reader.readAsDataURL(file);
+                }
+            }
+            //bind Country and States
+            $("#frmOrganisation").validate({
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetCompany"                    
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    var formdata = new FormData();
+                    formdata.append("LogoImageFile", selectedFile);
+                        formdata.append("CompanyId", $("#lblCompanyId").val());
+                        formdata.append("OrgId", $("#ddlOrganisation").val());
+                        formdata.append("Code", $("#txtCompanyCode").val());
+                        formdata.append("Name",$("#txtCompanyName").val());
+                        formdata.append("OfficeAddress",$("#txtAddress").val());
+                        formdata.append("Locality",$("#txtLocality").val());
+                        formdata.append("City",$("#txtCity").val());
+                        formdata.append("StateId",$("#ddlstate").val());
+                        formdata.append("CountryId",$("#ddlcountry").val());
+                        formdata.append("Pincode",$("#txtPinCode").val());
+                        formdata.append("Email",$("#txtEmail").val());
+                        formdata.append("AlternateEmail",$("#txtAlternateEmail").val());
+                        formdata.append("ContactNo",$("#txtContact").val());
+                        formdata.append("AlternateContactNo",$("#txtAlternateContact").val());
+                        formdata.append("ModifyRemarks",$("#txtRemarks").val());
+                        formdata.append("LogoImageType", $("#lblImgFile").val());
+                        formdata.append("Logo", $("#lblImgName").val());
+                        formdata.append("ImageType", "image/x-icon");
+                    if ($("#is_active").is(":checked") ) {
+                        formdata.append("IsActive", true);
+                    }
+                    else {
+                        formdata.append("IsActive", false);
+                    }
+
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,
+                        //body: submitdata,
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+    </script>
+}
+        
+

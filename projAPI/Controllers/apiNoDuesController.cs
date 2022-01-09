@@ -14,6 +14,9 @@ using projAPI.Model;
 using projContext;
 using projContext.DB;
 
+
+
+#if false
 namespace projAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -43,7 +46,7 @@ namespace projAPI.Controllers
 
         /////////////////////////////////////////////////////-------------------------------------------------------------------------------------------------------------
 
-        #region Start No Due Particular MasterS
+#region Start No Due Particular MasterS
         //Save No Due Particular Master
         [Route("Save_NoDueParticularMaster")]
         [HttpPost]
@@ -192,10 +195,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion End Particular Master
+#endregion End Particular Master
 
         /////////////////////////////////////////////////////---------------------------------------------------------------------------------------------------------------
-        #region Start Particular Assignee
+#region Start Particular Assignee
 
         [Route("Save_NoDueParticularResponsible")]
         [HttpPost]
@@ -375,7 +378,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion End Particular Assignee 
+#endregion End Particular Assignee 
         /////////////////////////////////////////////////////-------------------------------------------------------------------------------------------------------------
 
         [Route("Get_EmpResponsibleForNoDue/{company_id}/{dept_id}")]
@@ -425,7 +428,7 @@ namespace projAPI.Controllers
 
 
 
-        #region NO Due Clearence Detail of Employee
+#region NO Due Clearence Detail of Employee
 
         //Get NoDues Clearence Request Of Emps
         [Route("Get_NoDuesClearenceRequestOfEmps")]
@@ -487,7 +490,7 @@ namespace projAPI.Controllers
                     is_outstanding = result.Where(z => z.emp_id == x.Key.emp_id && z.sepration_id == x.Key.sepration_id).Select(a => a.is_outstanding).Distinct().Any(y => y == 1) ? "Yes" : "No"
                 }).ToList();
 
-                #region old
+#region old
 
                 //var result1 = _context.tbl_No_dues_particular_master.Join(_context.tbl_emp_separation, tndp => tndp.department_id, tes => tes.emp_id, (tndp, tes) => new { tndp, tes }).Where(x => x.tndp.is_deleted == 0 && x.tes.resignation_dt > DateTime.MinValue && x.tes.is_deleted != 1 && x.tes.final_relieve_dt > DateTime.Now.AddDays(-6) && x.tes.final_relieve_dt <= DateTime.Now && _clsCurrentUser.RoleId.Contains(1) ? x.tndp.department_id == currUserDept : true).Select(a => new
                 //{
@@ -515,7 +518,7 @@ namespace projAPI.Controllers
                 //    status = a.tndp.is_deleted == 0 ? "Active" : a.tndp.is_deleted == 1 ? "Deleted" : "",
                 //    requester_id = a.tndp.created_by
                 //}).Distinct().ToList();
-                #endregion
+#endregion
 
                 return Ok(data);
 
@@ -650,7 +653,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion NO Due Clearence Detail of Employee
+#endregion NO Due Clearence Detail of Employee
 
         [HttpPost("GetNoDuesClearenceReport")]
         [Authorize(Policy = nameof(enmMenuMaster.EmpSalary))]
@@ -942,3 +945,5 @@ namespace projAPI.Controllers
 
     }// Class End
 }
+
+#endif

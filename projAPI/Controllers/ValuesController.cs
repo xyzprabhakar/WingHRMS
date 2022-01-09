@@ -8,6 +8,11 @@ using projContext.DB;
 using projContext;
 using System.Xml.Linq;
 using projAPI.Classes;
+using System.Runtime.Serialization;
+using projAPI.Services;
+using projAPI.Model;
+using projContext.DB.Masters;
+using System.IO;
 
 namespace projAPI.Controllers
 {
@@ -24,20 +29,27 @@ namespace projAPI.Controllers
         }
 
         // GET api/values
-        [HttpGet]
+      
         // //[Authorize(Policy = "1")]
         //public ActionResult<IEnumerable<mdlSalaryInputValues>> Get()
         //{
         //    clsComponentValues ob = new clsComponentValues(_context, 1, 201905, 0, 8, "0");
         //    return ob.CalculateComponentValues(); ;
         //}
-        public ActionResult<string> Get()
+        public class mdl {
+            public string Name { get; set; }
+            [IgnoreDataMember]
+            public DateTime DOB{ get; set; }
+        }
+        [HttpGet]
+        public ActionResult<List<Tuple<string,string>>> Get()
         {
-            int v = 0x12;
-            float c = 23.5f;
-            double b = 16.45;
-            decimal a = Convert.ToDecimal(b);
-            return a.ToString();
+            List<Tuple<string, string>> ob = new List<Tuple<string, string>>();
+            ob.Add(Tuple.Create("Prabhakar", "Kumar"));
+            ob.Add(Tuple.Create("Divakar", "Kumar"));
+            ob.Add(Tuple.Create("Shresht", "Kumar"));
+
+            return ob;
         }
 
         // GET api/values/5
@@ -104,15 +116,124 @@ namespace projAPI.Controllers
         {
         }
 
+
         [HttpGet]
-        [Route("GetGUID")]
-        public string GetGUID(int id)
+        [Route("DefaultApplication")]
+        public void DefaultApplication([FromServices] IsrvUsers isrvUsers )
         {
-            return new GenrateGUID(id).GetGuid;
+            return;
+
+            List<enmApplication> Application = new List<enmApplication>();
+            foreach (var d in Enum.GetValues(typeof(enmApplication)))
+            {
+                Application.Add((enmApplication)d);
+            }
+         //   isrvUsers.SetUserApplication(1,Application,1);
         }
+
+
+        [HttpGet]
+        [Route("DefaultDocuments")]
+        public void DefaultDocument([FromServices] IsrvUsers isrvUsers,[FromServices]MasterContext masterContext)
+        {
+            return;
+            DateTime dt = DateTime.Now;
+            var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleName== "SuperAdmin").FirstOrDefault();
+            if (defaultRole == null)
+            {
+                defaultRole = new tblRoleMaster() { RoleName= "SuperAdmin", CreatedBy= 1, CreatedDt= dt, IsActive=true, ModifiedBy= 1, ModifiedDt = dt };
+                masterContext.tblRoleMaster.Add(defaultRole);
+                masterContext.SaveChanges();
+            }
+            //role Claim
+            //role Claim
+
+            List<mdlRoleDocument> document = new List<mdlRoleDocument>();
+            foreach (var d in Enum.GetValues(typeof(enmDocumentMaster)))
+            {
+                var edm = (enmDocumentMaster)d;
+                document.Add(new mdlRoleDocument() { documentId=edm,PermissionType =edm.GetDocumentDetails().DocumentType } );
+            }
+            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.RoleId, roleDocument= document }, 1);
+        }
+
+        [HttpGet]
+        [Route("SetCountryState")]
+        public bool SetCountryState([FromServices]MasterContext masterContext )
+        {
+            return false;
+            DateTime currentDt = DateTime.Now; 
+            List<tblCountry> countrys = new List<tblCountry>();
+            var file = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState","countries.csv");
+            int Id = 0;
+            int CountryId = 0;
+            using (var rd = new StreamReader(file))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0;
+                    int.TryParse(splits[0], out Id);
+                    if (Id> 0)
+                    {
+                        countrys.Add(new tblCountry()
+                        {
+                            CountryId = Id,
+                            Code = splits[3],
+                            Name = splits[1].Replace("\"", ""),
+                            ContactPrefix = splits[4],
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt,
+                            IsActive = true
+                        });
+                    }
+                    
+                    
+                }
+            }
+            masterContext.tblCountry.UpdateRange(countrys);
+
+            List<tblState> States = new List<tblState>();
+            var file1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImportData", "CountryState", "states.csv");
+            using (var rd = new StreamReader(file1))
+            {
+                while (!rd.EndOfStream)
+                {
+                    var splits = rd.ReadLine().Split(',');
+                    Id = 0; CountryId=0;
+                    int.TryParse(splits[0], out Id);
+                    int.TryParse(splits[2], out CountryId);
+                    if (Id > 0 && CountryId>0)
+                    {
+                        States.Add(new tblState()
+                        {
+                            StateId = Id,
+                            Code = splits[4],
+                            Name = splits[1].Replace("\"", ""),
+                            CountryId = CountryId,
+                            CreatedBy = 1,
+                            ModifiedBy = 1,
+                            CreatedDt = currentDt,
+                            ModifiedDt = currentDt,
+                            IsActive = true
+
+                        }); ;
+                    }
+                    
+                }
+            }
+            masterContext.tblState.AddRange(States);
+            masterContext.SaveChanges();
+            return true;
+        }
+
 
         private void SetUserData()
         {
+            throw new NotImplementedException();
+#if false
             var AllEmp=_context.tbl_employee_master.Where(p => p.is_active == 1).ToList();
             var ExistingCompanyMap=_context.tbl_employee_company_map.Where(p => p.is_deleted == 0).ToList();
             List<tbl_employee_company_map> NewCompanyMap = AllEmp.Select(p => new tbl_employee_company_map
@@ -196,23 +317,23 @@ namespace projAPI.Controllers
                 effective_date = p.date_of_joining,
             }).ToList();
 
-            NewemploymentType.AddRange(AllEmpOfficail.Where(p=>p.current_employee_type==3).Select(p => new tbl_employment_type_master
-            {
-                employee_id = p.employee_id,
-                employment_type = (byte)EmployeeType.Confirmend,
-                duration_days = 0,
-                duration_start_period = DateTime.Now,
-                duration_end_period = new DateTime(2200, 1, 1),
-                actual_duration_days = 0,
-                actual_duration_start_period = DateTime.Now,
-                actual_duration_end_period = new DateTime(2200, 1, 1),
-                is_deleted = 0,
-                created_by = 1,
-                created_date = new DateTime(2200, 1, 1),
-                last_modified_by = 0,
-                last_modified_date = new DateTime(2200, 1, 1),
-                effective_date = p.confirmation_date,
-            }));
+            //NewemploymentType.AddRange(AllEmpOfficail.Where(p=>p.current_employee_type==3).Select(p => new tbl_employment_type_master
+            //{
+            //    employee_id = p.employee_id,
+            //    employment_type = (byte)EmployeeType.Confirmend,
+            //    duration_days = 0,
+            //    duration_start_period = DateTime.Now,
+            //    duration_end_period = new DateTime(2200, 1, 1),
+            //    actual_duration_days = 0,
+            //    actual_duration_start_period = DateTime.Now,
+            //    actual_duration_end_period = new DateTime(2200, 1, 1),
+            //    is_deleted = 0,
+            //    created_by = 1,
+            //    created_date = new DateTime(2200, 1, 1),
+            //    last_modified_by = 0,
+            //    last_modified_date = new DateTime(2200, 1, 1),
+            //    effective_date = p.confirmation_date,
+            //}));
 
             var ExistingemploymentType = _context.tbl_employment_type_master.Where(p => p.is_deleted== 0).ToList();
             for (int i = NewemploymentType.Count - 1; i >= 0; i--)
@@ -228,7 +349,7 @@ namespace projAPI.Controllers
 
             _context.SaveChanges();
 
-
+#endif
 
         }
     }

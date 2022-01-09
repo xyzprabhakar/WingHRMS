@@ -11,6 +11,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiCountryController : ControllerBase
@@ -188,4 +189,6 @@ namespace projAPI.Controllers
             return _context.tbl_country.Any(e => e.country_id == id);
         }
     }
+
+#endif
 }

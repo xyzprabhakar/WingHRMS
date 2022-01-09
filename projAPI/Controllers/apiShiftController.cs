@@ -16,6 +16,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if (false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiShiftController : ControllerBase
@@ -937,8 +938,8 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-
-        #region---get employee list/shift master/add roaster master for roaster master
+#if false
+#region---get employee list/shift master/add roaster master for roaster master
         //created by : vibhav
         //created on : 27 Dec 2018
         [Route("GetEmployeeForRoaster/{companyid}")]
@@ -1289,7 +1290,8 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
+#endif
 
         //Get Last Comb Off id
         [Route("GetLastCombOffId")]
@@ -1312,7 +1314,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region ** Start by Supriya, on 22-04-2020, Shift Assingment **
+#region ** Start by Supriya, on 22-04-2020, Shift Assingment **
 
 
         [Route("Save_ShiftAllignment")]
@@ -1412,7 +1414,7 @@ namespace projAPI.Controllers
 
             return Ok(objresponse);
         }
-
+#if false
         [Route("Get_EmpShiftDetails/{from_date}/{to_date}/{company_id}/{location_id}/{dept_id}/{EmpType}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.ShiftAssignemnt))]
@@ -1929,7 +1931,8 @@ namespace projAPI.Controllers
             }
         }
 
-
+#endif
+#if false
         [Route("Shift_Change_Notification")]
         [HttpGet]
         //[Authorize(Policy ="9017")]
@@ -2030,7 +2033,8 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-
-        #endregion ** End by Supriya, on 22-04-2020, Shift Assingment **
+#endif
+#endregion ** End by Supriya, on 22-04-2020, Shift Assingment **
     }
+#endif
 }

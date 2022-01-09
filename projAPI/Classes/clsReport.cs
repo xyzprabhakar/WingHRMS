@@ -14,6 +14,7 @@ using MySql.Data.MySqlClient;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class clsReport
     {
 
@@ -55,4 +56,6 @@ namespace projAPI.Classes
            
         }
     }
+
+#endif
 }

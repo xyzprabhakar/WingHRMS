@@ -25,6 +25,7 @@ using projContext.DB;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiLeaveController : ControllerBase
@@ -1352,7 +1353,7 @@ namespace projAPI.Controllers
 
                     }
                     //end check attandance already freezed or not
-
+#if false
                     if (!(_context.tbl_leave_type.Where(p => p.leave_type_id == varleaveinfo.leave_type_id && p.leave_type_name == "LWP").Count() > 0))
                     //if (!_context.tbl_leave_type.Any(p => p.leave_type_id == varleaveinfo.leave_type_id && p.leave_type_name == "LWP"))
                     {
@@ -1371,7 +1372,7 @@ namespace projAPI.Controllers
                         IsLWP = true;
                     }
 
-
+#endif
                     //leave_holiday_weekoff check_holiday_and_weekoff = check_holiday_weekoff_exist_on_leaveapp(LeaveModel.from_date, LeaveModel.to_date, Convert.ToInt32(LeaveModel.r_e_id));
                     //if (check_holiday_and_weekoff.Holiday == 1)
                     //{
@@ -1908,7 +1909,7 @@ namespace projAPI.Controllers
             }
         }
 
-
+#if false
         [Route("GetLeaveApplicationByEmp30march21")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.LeaveApplicationReport))]
@@ -2045,7 +2046,7 @@ namespace projAPI.Controllers
                 status_ = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approved" : a.is_final_approve == 2 ? "Rejected" : a.is_final_approve == 3 ? "In Process" : "") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
             }).Distinct().ToList();
 
-            #region single
+        #region single
 
             //var leaveRequest1 = _context.tbl_leave_request.OrderByDescending(y => y.leave_request_id).Where(x => ((_clsCurrentUser.Is_SuperAdmin || _clsCurrentUser.Is_HRAdmin) ? (objmodel.empdtl.Count > 1 ? true : objmodel.empdtl.Contains(x.r_e_id ?? 0)) : objmodel.empdtl.Contains(x.r_e_id ?? 0)) && ((x.from_date.Date <= DateTime.Parse(objmodel.from_date).Date && DateTime.Parse(objmodel.from_date).Date <= x.to_date.Date) || (x.from_date.Date <= DateTime.Parse(objmodel.to_date).Date && DateTime.Parse(objmodel.to_date).Date <= x.to_date.Date)
             // || (DateTime.Parse(objmodel.from_date).Date <= x.from_date.Date && x.to_date.Date <= DateTime.Parse(objmodel.to_date).Date))).Select(a => new
@@ -2157,7 +2158,7 @@ namespace projAPI.Controllers
             //     approver_remarks = string.Concat(a.approval1_remarks ?? "", a.approval2_remarks ?? "", a.approval3_remarks ?? "", a.admin_remarks ?? ""),
             //     status_ = a.is_deleted == 0 ? (a.is_final_approve == 0 ? "Pending" : a.is_final_approve == 1 ? "Approved" : a.is_final_approve == 2 ? "Rejected" : a.is_final_approve == 3 ? "In Process" : "") : a.is_deleted == 1 ? "Deleted" : a.is_deleted == 2 ? "Cancel" : "",
             // }));
-            #endregion
+        #endregion
 
             var data = leaveRequest;
             if (compoffRequest != null)
@@ -2393,6 +2394,9 @@ namespace projAPI.Controllers
                 return Ok(objresponse);
             }
         }
+
+#endif
+
 
         [Route("DeleteLeaveApplication")]
         [HttpPost]
@@ -2634,22 +2638,22 @@ namespace projAPI.Controllers
                                         req.r.a1_e_id = objmodel.a1_e_id;
                                         req.r.approval_date1 = DateTime.Now;
                                     }
-                                    else if (emp_manager.m_two_id == objmodel.a1_e_id)
-                                    {
-                                        req.r.is_approved2 = objmodel.is_approved1;
-                                        req.r.approval2_remarks = objmodel.approval1_remarks;
-                                        req.r.a2_e_id = objmodel.a1_e_id;
-                                        req.r.approval_date2 = DateTime.Now;
-                                    }
-                                    else if (emp_manager.m_three_id == objmodel.a1_e_id)
-                                    {
-                                        req.r.is_approved3 = objmodel.is_approved1;
-                                        req.r.approval3_remarks = objmodel.approval1_remarks;
-                                        req.r.a3_e_id = objmodel.a1_e_id;
-                                        req.r.approval_date3 = DateTime.Now;
-                                    }
+                                    //else if (emp_manager.m_two_id == objmodel.a1_e_id)
+                                    //{
+                                    //    req.r.is_approved2 = objmodel.is_approved1;
+                                    //    req.r.approval2_remarks = objmodel.approval1_remarks;
+                                    //    req.r.a2_e_id = objmodel.a1_e_id;
+                                    //    req.r.approval_date2 = DateTime.Now;
+                                    //}
+                                    //else if (emp_manager.m_three_id == objmodel.a1_e_id)
+                                    //{
+                                    //    req.r.is_approved3 = objmodel.is_approved1;
+                                    //    req.r.approval3_remarks = objmodel.approval1_remarks;
+                                    //    req.r.a3_e_id = objmodel.a1_e_id;
+                                    //    req.r.approval_date3 = DateTime.Now;
+                                    //}
 
-                                    final_app_id = (final_approver == 1 ? emp_manager.m_one_id : final_approver == 2 ? emp_manager.m_two_id : final_approver == 3 ? emp_manager.m_three_id : 0) ?? 0;
+                                    final_app_id = (final_approver == 1 ? emp_manager.m_one_id : 0) ?? 0;
 
                                     //if (final_app_id == objmodel.a1_e_id)
                                     //{
@@ -2780,7 +2784,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
 
         [Route("GetOutdoorLeaveForApproval/{LoginEmployeeId}")]
@@ -2788,6 +2792,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.OutdoorApproval))]
         public IActionResult GetOutdoorLeaveForApproval([FromRoute] int LoginEmployeeId)
         {
+            throw new NotImplementedException();
+#if false
 
             try
             {
@@ -2895,6 +2901,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         [Route("GetAttandenceApproval/{LoginEmployeeId}")]
@@ -2903,6 +2910,8 @@ namespace projAPI.Controllers
         public IActionResult GetAttandenceApproval([FromRoute] int LoginEmployeeId)
         {
 
+            throw new NotImplementedException();
+#if false
             try
             {
                 ResponseMsg objResult = new ResponseMsg();
@@ -2951,9 +2960,9 @@ namespace projAPI.Controllers
                         approver_remarks = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? a.approval1_remarks :
                                                 a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? a.approval2_remarks :
                                                 a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? a.approval3_remarks : ""),
-                        my_status = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? (a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approved" : a.is_approved1 == 2 ? "Reject" : "") :
-                                    a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? (a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approved" : a.is_approved2 == 2 ? "Reject" : "") :
-                                    a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? (a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approved" : a.is_approved3 == 2 ? "Reject" : "") : ""),
+                        my_status = (a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id == _clsCurrentUser.EmpId ? (a.is_approved1 == 0 ? "Pending" : a.is_approved1 == 1 ? "Approved" : a.is_approved1 == 2 ? "Reject" : "") : "",
+                                    //a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id == _clsCurrentUser.EmpId ? (a.is_approved2 == 0 ? "Pending" : a.is_approved2 == 1 ? "Approved" : a.is_approved2 == 2 ? "Reject" : "") :
+                                    //a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id == _clsCurrentUser.EmpId ? (a.is_approved3 == 0 ? "Pending" : a.is_approved3 == 1 ? "Approved" : a.is_approved3 == 2 ? "Reject" : "") : ""),
                         diff = b.out_time.Subtract(b.in_time),
                         diff_time = (Math.Round(b.out_time.Subtract(b.in_time).TotalHours, 2)) >= 0 ? Math.Round(b.out_time.Subtract(b.in_time).TotalHours, 2) : 0,
                         // workinghrs = (TempIndex.system_out_time - TempIndex.system_in_time).TotalHours
@@ -2962,8 +2971,8 @@ namespace projAPI.Controllers
                         a.is_deleted,
                         a.is_final_approve,
                         mgr1 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_one_id,
-                        mgr2 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id,
-                        mgr3 = a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id,
+                        mgr2 =0,// a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_two_id,
+                        mgr3 =0,// a.tbl_employee_requester.tbl_emp_manager.FirstOrDefault(q => q.is_deleted == 0).m_three_id,
                         b.is_freezed,
                         a.company_id,
 
@@ -3017,6 +3026,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -3025,8 +3035,9 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.CompoffApproval))]
         public IActionResult GetCompOffLeaveApproval([FromRoute] int LoginEmployeeId)
         {
+            throw new NotImplementedException();
+#if false
             ResponseMsg objResult = new ResponseMsg();
-
             try
             {
 
@@ -3270,6 +3281,7 @@ namespace projAPI.Controllers
                 objResult.Message = ex.Message;
                 return Ok(objResult);
             }
+#endif
         }
 
 
@@ -3764,22 +3776,7 @@ namespace projAPI.Controllers
                                         req.a1_e_id = objmodel.a1_e_id;
                                         req.approval_date1 = DateTime.Now;
                                     }
-                                    else if (tbl_emp_m.m_two_id == objmodel.a1_e_id)
-                                    {
-                                        req.is_approved2 = objmodel.is_approved1;
-                                        req.approval2_remarks = objmodel.approval1_remarks;
-                                        req.a2_e_id = objmodel.a1_e_id;
-                                        req.approval_date2 = DateTime.Now;
-                                    }
-                                    else if (tbl_emp_m.m_three_id == objmodel.a1_e_id)
-                                    {
-                                        req.is_approved3 = objmodel.is_approved1;
-                                        req.approval3_remarks = objmodel.approval1_remarks;
-                                        req.a3_e_id = objmodel.a1_e_id;
-                                        req.approval_date3 = DateTime.Now;
-                                    }
-
-                                    final_mgr_id = (final_approvel == 1 ? tbl_emp_m.m_one_id : final_approvel == 2 ? tbl_emp_m.m_two_id : final_approvel == 3 ? tbl_emp_m.m_three_id : 0) ?? 0;
+                                    final_mgr_id = (final_approvel == 1 ? tbl_emp_m.m_one_id : 0) ?? 0;
 
                                     if (final_mgr_id == objmodel.a1_e_id)
                                     {
@@ -3928,13 +3925,15 @@ namespace projAPI.Controllers
 
 
 
-        #region MANNUAL LEAVE TYPE ,STARTED BY SUPRIYA ON 21-06-2019
+#region MANNUAL LEAVE TYPE ,STARTED BY SUPRIYA ON 21-06-2019
 
         [Route("Get_LeaveInfo_for_LeaveType")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.ManualLeave))]
         public IActionResult Get_LeaveInfo_for_LeaveType()
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 //var only_date = transactiondate.ToString("yyyy-MM-dd 00:00:00"); 
@@ -3950,6 +3949,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message.ToString());
             }
+#endif
         }
 
         [Route("Get_LeaveInfo_byleave_typeid/{leave_type_id}")]
@@ -4018,17 +4018,17 @@ namespace projAPI.Controllers
 
                     clsLeaveCredit objcls = new clsLeaveCredit(_context, objtbl.company_id);
 
-                    var result = objcls.Save_Mannual_Leave(objleave);
-                    if (result == 1)
-                    {
-                        objresponse.StatusCode = 0;
-                        objresponse.Message = "Transaction Successfully Saved";
-                    }
-                    else
-                    {
-                        objresponse.StatusCode = 1;
-                        objresponse.Message = "Something went wrong, please try after sometime...!!";
-                    }
+                    //var result = objcls.Save_Mannual_Leave(objleave);
+                    //if (result == 1)
+                    //{
+                    //    objresponse.StatusCode = 0;
+                    //    objresponse.Message = "Transaction Successfully Saved";
+                    //}
+                    //else
+                    //{
+                    //    objresponse.StatusCode = 1;
+                    //    objresponse.Message = "Something went wrong, please try after sometime...!!";
+                    //}
 
                 }
 
@@ -4047,6 +4047,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.ManualLeave))]
         public IActionResult GetLeaveLedger() // Get all Leaves
         {
+            throw new NotImplementedException();
+#if false
             try
             {
 
@@ -4102,6 +4104,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message.ToString());
             }
+#endif
         }
 
         [Route("GetLeaveBalances")]
@@ -4227,17 +4230,19 @@ namespace projAPI.Controllers
                 return Ok(ex.Message.ToString());
             }
         }
-        #endregion MANNUAL LEAVE TYPE, END BY SUPRIYA ON 22-06-2019
+#endregion MANNUAL LEAVE TYPE, END BY SUPRIYA ON 22-06-2019
 
 
 
-        #region ** STARTED BY SUPRIYA ON 28-06-2019
+#region ** STARTED BY SUPRIYA ON 28-06-2019
 
         [Route("GetLeaveApplicationForApproval/{loginempid}/{year}")]
         [Authorize(Policy = nameof(enmMenuMaster.LeaveApproval))]
         [HttpGet]
         public IActionResult GetLeaveApplicationForApproval([FromRoute] int loginempid, int year)
         {
+            throw new NotImplementedException();
+#if false
             Response_Msg objResult = new Response_Msg();
 
             try
@@ -4335,6 +4340,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         //[Route("Save_LeaveApplicationForApprover")]
@@ -4586,16 +4592,19 @@ namespace projAPI.Controllers
         //    }
 
         //}
-        #endregion ** END BY SUPRIYA ON 28-06-2019
+#endregion ** END BY SUPRIYA ON 28-06-2019
 
 
-        #region ** STARTED BY SUPRIYA ON 24-07-2019
+#region ** STARTED BY SUPRIYA ON 24-07-2019
 
         [Route("GetLeaveBalancesByEmpID/{employee_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.Dashboard))]
         public IActionResult GetLeaveBalancesByEmpID([FromRoute] int employee_id)
         {
+            throw new NotImplementedException();
+#if false
+
             Response_Msg objResult = new Response_Msg();
             if (!_clsCurrentUser.DownlineEmpId.Contains(employee_id))
             {
@@ -4604,6 +4613,7 @@ namespace projAPI.Controllers
                 return Ok(objResult);
 
             }
+
 
             try
             {
@@ -4687,13 +4697,14 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message.ToString());
             }
+#endif
         }
 
-        #endregion ** END BY SUPRIYA ON 24-07-2019
+#endregion ** END BY SUPRIYA ON 24-07-2019
 
 
 
-
+#if false
         [Route("Gettbl_leave_infoByCompID/{company_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.LeaveSetting))]
@@ -4749,10 +4760,10 @@ namespace projAPI.Controllers
             }
         }
 
+#endif
 
 
-
-        #region CREATED BY AMARJEET ON 31-07-2019 FOR LEAVE APPROVAL
+#region CREATED BY AMARJEET ON 31-07-2019 FOR LEAVE APPROVAL
 
         [HttpGet("GetLeaveApplicationForAdmin/{company_id}")]
         //[Authorize]
@@ -4982,9 +4993,9 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
-        #region **Cancellation BY ADMIN ,STARTED BY SUPRIYA ON 31-07-2019
+#region **Cancellation BY ADMIN ,STARTED BY SUPRIYA ON 31-07-2019
 
 
         [HttpGet("GetOutdoorLeaveForApprovalByAdmin/{company_id}")]
@@ -5517,7 +5528,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 return Ok(ex.Message);
             }
         }
-        #endregion ** END BY SUPRIYA ON 31-07-2019
+#endregion ** END BY SUPRIYA ON 31-07-2019
 
 
         [Route("Get_LeaveInfo_for_LeaveTypeByCompIDD/{transactiondate}/{company_id}")]
@@ -5618,6 +5629,9 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         }
         public leave_holiday_weekoff check_holiday_weekoff_exist_on_leaveapp(DateTime FromDate, DateTime ToDate, int emp_id)
         {
+
+            throw new NotImplementedException();
+#if false
             leave_holiday_weekoff objResult = new leave_holiday_weekoff();
             Dictionary<List<HolidayData>, List<ShiftWeekOffData>> Data = new Dictionary<List<HolidayData>, List<ShiftWeekOffData>>();
             try
@@ -5665,6 +5679,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             {
                 return objResult;
             }
+#endif
 
         }
 
@@ -6021,12 +6036,14 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         }
 
 
-        #region ** START UPLOAD LEAVE CREDIT ,DEBIT 03-06-2020 **
+#region ** START UPLOAD LEAVE CREDIT ,DEBIT 03-06-2020 **
         [Route("Upload_LeavefromExcel")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.Upload))]
         public async Task<IActionResult> Upload_LeavefromExcel()
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 ResponseMsg objresponse = new ResponseMsg();
@@ -6164,7 +6181,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+#region ** START Add value in list **
                                                             if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                             {
                                                                 objleave_ledger.emp_name_code = item.Text.Text;
@@ -6186,7 +6203,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                                                                 objleave_ledger.remarks = item.Text.Text;
                                                             }
 
-                                                            #endregion ** END value in list**
+#endregion ** END value in list**
                                                         }
                                                     }
                                                 }
@@ -6195,7 +6212,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+#region ** START Add value in list **
 
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                 {
@@ -6218,7 +6235,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                                                     objleave_ledger.remarks = thecurrentcell.InnerText;
                                                 }
 
-                                                #endregion ** END value in list**
+#endregion ** END value in list**
 
                                             }
 
@@ -6288,11 +6305,15 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
         private LeaveLedgerList CheckLeaveFromExcel(List<LeaveLedgerModell> objlst)
         {
+            throw new NotImplementedException();
+#if false
+
             StringBuilder msg = new StringBuilder();
 
             clsLeaveCredit objcls_ = new clsLeaveCredit(_context, objlst[0].company_id);
@@ -6478,6 +6499,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 msg.Append(ex.Message);
             }
             return new LeaveLedgerList { missingleavelst = missingleavelst, duplicateleavelst = duplicateleavelst, adddbleavelst = adddbleavelst, Message_ = msg.ToString() };
+#endif
         }
 
         [Route("GetLeaveLedgerByCLD_old")]
@@ -6485,6 +6507,8 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         [Authorize(Policy = nameof(enmMenuMaster.LeaveLedeger))]
         public IActionResult GetLeaveLedgerByCLD_old(LeaveLedgerMdl obj_leave) // Get all Leaves
         {
+            throw new NotImplementedException();
+#if false
             List<LeaveLedgerModell> emp_leave_list = new List<LeaveLedgerModell>();
             try
             {
@@ -6647,6 +6671,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             }
 
             return Ok(emp_leave_list);
+#endif
         }
 
 
@@ -6655,6 +6680,8 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         [Authorize(Policy = nameof(enmMenuMaster.LeaveLedeger))]
         public IActionResult GetLeaveLedgerByCLD(LeaveLedgerMdl obj_leave) // Get all Leaves
         {
+            throw new NotImplementedException();
+#if false
             // List<LeaveLedgerModell> emp_leave_list = new List<LeaveLedgerModell>();
             try
             {
@@ -6886,6 +6913,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             }
 
             // return Ok(emp_leave_list);
+#endif
         }
 
 
@@ -6894,6 +6922,9 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         [Authorize(Policy = nameof(enmMenuMaster.LeaveLedeger))]
         public IActionResult GetLeaveLedgerByCompID([FromRoute] int company_id, int leave_type, int emp_id, int year)
         {
+            throw new NotImplementedException();
+#if false
+
             // List<LeaveLedgerModell> emp_leave_list = new List<LeaveLedgerModell>();
             try
             {
@@ -7033,6 +7064,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             }
 
             // return Ok(emp_leave_list);
+#endif
         }
 
         [Route("GetLeaveLedgerByCompID2121/{company_id}/{leave_type}/{emp_id}/{year}")]
@@ -7040,6 +7072,8 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         [Authorize(Policy = nameof(enmMenuMaster.LeaveLedeger))]
         public IActionResult GetLeaveLedgerByCompID2121([FromRoute] int company_id, int leave_type, int emp_id, int year)
         {
+            throw new NotImplementedException();
+#if false
             // List<LeaveLedgerModell> emp_leave_list = new List<LeaveLedgerModell>();
             try
             {
@@ -7248,6 +7282,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             }
 
             // return Ok(emp_leave_list);
+#endif
         }
 
 
@@ -7257,6 +7292,8 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         [Authorize(Policy = nameof(enmMenuMaster.LeaveLedeger))]
         public IActionResult GetLeaveLedgerByCompID_29mar21([FromRoute] int company_id, int leave_type, int emp_id, int year)
         {
+            throw new NotImplementedException();
+#if false
             // List<LeaveLedgerModell> emp_leave_list = new List<LeaveLedgerModell>();
             try
             {
@@ -7373,7 +7410,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 }
 
                 return Ok(1);
-                #region commented
+#region commented
                 //var CurrentMonthData1 = (_context.tbl_leave_ledger.Where(p => p.leave_type_id == leave_type && p.entry_date >= fromdate && p.entry_date < todate && p.e_id == emp_id).
                 //          Select(p => new { p.e_id, p.leave_type_id, p.credit, p.dredit, tmonth= p.transaction_date.Month })).ToList();
 
@@ -7431,7 +7468,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 //  emp_leave_list.Add(Data);
                 //return Ok(Data);
 
-                #endregion
+#endregion
             }
             catch (Exception ex)
             {
@@ -7439,6 +7476,7 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
             }
 
             // return Ok(emp_leave_list);
+#endif
         }
 
         [Route("GetLeaveDetails_monthwise/{company_id}/{leave_type}/{emp_id}/{monthyear}")]
@@ -7560,10 +7598,12 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
         }
 
 
-        #endregion ** END UPLOAD LEAVE CREDIT,DEBIT 03-06-2020 **
+#endregion ** END UPLOAD LEAVE CREDIT,DEBIT 03-06-2020 **
 
         protected string FunIsApplicationFreezed()
         {
+            throw new NotImplementedException();
+#if false
             Dictionary<string, string> app_setting_dic = _context.tbl_app_setting.Where(x => x.is_active == 1).ToDictionary(x => x.AppSettingKey.ToString(), y => y.AppSettingValue.ToString());
             string is_attendence_freezed_for_Emp = app_setting_dic.Where(x => x.Key.ToLower() == "attandance_application_freezed_for_emp").Select(y => y.Value).ToString();
             string is_attendence_freezed_for_Admin = app_setting_dic.Where(x => x.Key.ToLower() == "attandance_application_freezed__for_admin").Select(y => y.Value).ToString();
@@ -7579,8 +7619,11 @@ a.is_deleted == 0 && a.is_final_approve == 1 && _clsCurrentUser.DownlineEmpId.Co
                 if (is_attendence_freezed_for_Emp.ToLower() == "true" || is_attendence_freezed_for_Emp.ToLower() == "yes") return "true";
                 else return "false";
             }
+#endif
         }
 
 
     }
+
+#endif
 }

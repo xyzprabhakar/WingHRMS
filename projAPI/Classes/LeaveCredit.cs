@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
-
+#if(false)
     public class clsLeaveCreditNew
     {
         private readonly DateTime Currentdate;
@@ -114,10 +114,10 @@ namespace projAPI.Classes
                 _ApplicableDepartmentID.Add(0);
                 _ApplicableReligionID.Add(0);
 
-                _ApplicableEmpID = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && _ApplicableLocationID.Contains((p.location_id == null ? 0 : p.location_id) ?? 0) &&
-                _ApplicableDepartmentID.Contains((p.department_id == null ? 0 : p.department_id) ?? 0) && _ApplicableEmploymentTypeID.Contains((p.current_employee_type))
-                && _ApplicableReligionID.Contains((p.religion_id == null ? 0 : p.religion_id) ?? 0)
-                ).Select(p => p.employee_id ?? 0).Distinct().ToList();
+                //_ApplicableEmpID = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && _ApplicableLocationID.Contains((p.location_id == null ? 0 : p.location_id) ?? 0) &&
+                //_ApplicableDepartmentID.Contains((p.department_id == null ? 0 : p.department_id) ?? 0) && _ApplicableEmploymentTypeID.Contains((p.current_employee_type))
+                //&& _ApplicableReligionID.Contains((p.religion_id == null ? 0 : p.religion_id) ?? 0)
+                //).Select(p => p.employee_id ?? 0).Distinct().ToList();
 
             }
         }
@@ -510,10 +510,10 @@ namespace projAPI.Classes
                 _ApplicableDepartmentID.RemoveAll(p => p == 0);
 
                 //Now get the Employee List
-                _ApplicableEmpID = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && _ApplicableLocationID.Contains(p.location_id ?? 0) &&
-                _ApplicableDepartmentID.Contains(p.department_id ?? 0) && _ApplicableEmploymentTypeID.Contains(p.current_employee_type)
-                && _ApplicableReligionID.Contains(p.religion_id ?? 0)
-                ).Select(p => p.employee_id ?? 0).Distinct().ToList();
+                //_ApplicableEmpID = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && _ApplicableLocationID.Contains(p.location_id ?? 0) &&
+                //_ApplicableDepartmentID.Contains(p.department_id ?? 0) && _ApplicableEmploymentTypeID.Contains(p.current_employee_type)
+                //&& _ApplicableReligionID.Contains(p.religion_id ?? 0)
+                //).Select(p => p.employee_id ?? 0).Distinct().ToList();
 
             }
         }
@@ -844,10 +844,10 @@ namespace projAPI.Classes
             }
             //Now get the Employee List
 
-            var new_joinings = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && p.current_employee_type == 3 && _ApplicableLocationID.Contains(p.location_id ?? 0) &&
-               _ApplicableDepartmentID.Contains(p.department_id ?? 0) && _ApplicableEmploymentTypeID.Contains(p.current_employee_type)
-               && _ApplicableReligionID.Contains(p.religion_id ?? 0) && _mdclist.Contains(Convert.ToInt32(p.employee_id))
-             ).Select(p => new { p.employee_id, p.date_of_joining, diff_month = (DateTime.Now.Month - p.date_of_joining.Month) + 1 }).Distinct().ToList();
+            //var new_joinings = _context.tbl_emp_officaial_sec.Where(p => p.is_deleted == 0 && p.current_employee_type != 100 && p.current_employee_type == 3 && _ApplicableLocationID.Contains(p.location_id ?? 0) &&
+            //   _ApplicableDepartmentID.Contains(p.department_id ?? 0) && _ApplicableEmploymentTypeID.Contains(p.current_employee_type)
+            //   && _ApplicableReligionID.Contains(p.religion_id ?? 0) && _mdclist.Contains(Convert.ToInt32(p.employee_id))
+            // ).Select(p => new { p.employee_id, p.date_of_joining, diff_month = (DateTime.Now.Month - p.date_of_joining.Month) + 1 }).Distinct().ToList();
 
 
             int FreqMonth = 1;
@@ -866,6 +866,7 @@ namespace projAPI.Classes
 
             List<EmpLeaveBalence> EmpLeaveBalence = new List<EmpLeaveBalence>();
 
+#if false
             foreach (var joining_ in new_joinings)
             {
                 EmpLeaveBalence objempleave = new EmpLeaveBalence();
@@ -878,6 +879,7 @@ namespace projAPI.Classes
 
                 EmpLeaveBalence.Add(objempleave);
             }
+#endif
 
 
             _tlledger.AddRange(EmpLeaveBalence.Where(p => (_is_leave_accrue == 2 || (_is_leave_accrue == 1 && p.TotalCredit <= _max_accrue))).Select(p => new tbl_leave_ledger
@@ -900,8 +902,8 @@ namespace projAPI.Classes
         }
 
 
-
-        #region ** START SAVE MANNUAL LEAVE **
+        #if false
+#region ** START SAVE MANNUAL LEAVE **
 
         public List<tbl_leave_type> Get_Leave_typesByStarting_Year_Date()
         {
@@ -1087,12 +1089,12 @@ namespace projAPI.Classes
                     p.employee_middle_name,
                     p.employee_last_name,
                     p.tbl_employee_id_details.emp_code,
-                    p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).company_id,
-                    comp_name = p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).tbl_company_master.company_name,
-                    dept_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).department_id,
-                    dept_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_department_master.department_name,
-                    loc_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).location_id,
-                    loc_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_location_master.location_name,
+                    //p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).company_id,
+                    //comp_name = p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).tbl_company_master.company_name,
+                    //dept_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).department_id,
+                    //dept_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_department_master.department_name,
+                    //loc_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).location_id,
+                    //loc_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_location_master.location_name,
                 }).ToList();
 
                 emp_leave_list = data.Select(p => new LeaveLedgerModell
@@ -1110,10 +1112,10 @@ namespace projAPI.Classes
                     leave_type_name = p.leave_type_name,
                     balance = p.leavebalance,
                     e_id = p.emp_id ?? 0,
-                    dept = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_id ?? 0 : 0,
-                    dept_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_name : "",
-                    location_id = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_id ?? 0 : 0,
-                    loc_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_name : "",
+                    //dept = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_id ?? 0 : 0,
+                    //dept_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_name : "",
+                    //location_id = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_id ?? 0 : 0,
+                    //loc_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_name : "",
                 }).ToList();
 
 
@@ -1222,10 +1224,10 @@ namespace projAPI.Classes
                     p.tbl_employee_id_details.emp_code,
                     p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).company_id,
                     comp_name = p.tbl_employee_id_details.tbl_employee_company_map.FirstOrDefault(y => y.is_deleted == 0).tbl_company_master.company_name,
-                    dept_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).department_id,
-                    dept_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_department_master.department_name,
-                    loc_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).location_id,
-                    loc_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_location_master.location_name,
+                    //dept_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).department_id,
+                    //dept_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_department_master.department_name,
+                    //loc_id = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).location_id,
+                    //loc_name = p.tbl_employee_id_details.tbl_emp_officaial_sec.FirstOrDefault(y => y.is_deleted == 0).tbl_location_master.location_name,
                 }).ToList();
 
                 emp_leave_list = data.Select(p => new LeaveLedgerModell
@@ -1240,10 +1242,10 @@ namespace projAPI.Classes
                     leave_type_name = p.leave_type_name,
                     balance = p.leavebalance,
                     e_id = p.emp_id ?? 0,
-                    dept = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_id ?? 0 : 0,
-                    dept_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_name : "",
-                    location_id = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_id ?? 0 : 0,
-                    loc_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_name : "",
+                    //dept = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_id ?? 0 : 0,
+                    //dept_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).dept_name : "",
+                    //location_id = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_id ?? 0 : 0,
+                    //loc_name = emp_dataa.Where(q => q.employee_id == p.emp_id).FirstOrDefault() != null ? emp_dataa.FirstOrDefault(q => q.employee_id == p.emp_id).loc_name : "",
                 }).ToList();
 
 
@@ -1256,9 +1258,9 @@ namespace projAPI.Classes
 
             return emp_leave_list;
         }
-        #endregion ** END SAVE MANNUAL LEAVE **
-
+#endregion ** END SAVE MANNUAL LEAVE **
+#endif
     }
-
+#endif
 
 }

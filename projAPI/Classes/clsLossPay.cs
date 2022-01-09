@@ -8,6 +8,7 @@ using projContext.DB;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class clsLossPay
     {
         private class mdlDayStatus
@@ -340,4 +341,5 @@ namespace projAPI.Classes
 
 
     }
+#endif
 }

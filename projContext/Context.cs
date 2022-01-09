@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using projContext.DB;
+using projContext.DB.MLM;
 
 namespace projContext
 {
     public partial class Context : DbContext
     {
+
+        //add-migration 31_Oct_20211 -Context projContext.Context
+        //update-database -Context projContext.Context
         /// <summary>
         /// Devlopment Server
         /// </summary>
         //public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms; User ID = root; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
-        public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms_test; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
+        //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
         //public string _connectionString = "Data Source = 103.208.201.116; port = 3306; Initial Catalog = db_hrms; User ID = hrms; Password = DHRUV@123;Allow User Variables=True ; MaximumPoolsize=5000;Convert Zero Datetime=True;Default Command Timeout=600;";
 
         /// <summary>
@@ -27,21 +31,22 @@ namespace projContext
 
         // public string _connectionString = "Data Source = localhost; port = 3306; Initial Catalog = db_hrms_glaze; User ID = root; Password = glaze@123;Allow User Variables=True ; ";
         //string _connectionString = "";
-        public Context() : base()
+        public Context(DbContextOptions<Context> options) : base(options)
         {
-            Database.SetCommandTimeout((int)TimeSpan.FromMinutes(30).TotalSeconds);
+            //Database.SetCommandTimeout((int)TimeSpan.FromMinutes(30).TotalSeconds);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql(_connectionString, opt => opt.CommandTimeout(600));
-            }
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder.UseMySql(_connectionString, opt => opt.CommandTimeout(600));
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<tbl_daily_attendance>()
                 .HasKey(c => new { c.emp_id, c.attendance_dt });
             modelBuilder.Entity<tbl_attendance_summary>()
@@ -75,7 +80,7 @@ namespace projContext
             //modelBuilder.Entity<tbl_epa_kpi_submission>().HasMany<tbl_epa_kpi_criteria_submission>(s => s.tbl_epa_kpi_criteria_submissions).WithOne().HasConstraintName("FK_tblepa_submissionid");
             //modelBuilder.Entity<tbl_epa_kpi_criteria_submission>().HasOne<tbl_epa_kpi_submission>(s => s.teks).WithMany().HasConstraintName("FK_tblepa_submissionid1");
             modelBuilder.Entity<tbl_epa_kpi_criteria_submission>().HasOne<tbl_kpi_criteria_master>(s => s.tbl_kpi_criteria_master).WithMany().HasConstraintName("FK_tblepa_critid");
-            modelBuilder.Entity<tbl_user_login_logs>().HasIndex(b => b.login_date_time);
+            
 
             modelBuilder.Entity<tbl_emp_bank_details>().HasIndex(c => new { c.bank_acc }).IsUnique().HasFilter("[is_deleted] = 0");
             modelBuilder.Entity<tbl_emp_esic_details>().HasIndex(c => new { c.esic_number }).IsUnique().HasFilter("[is_deleted] = 0");
@@ -89,38 +94,58 @@ namespace projContext
 
 
             //Default Data
-            InsertCountryMaster(modelBuilder);
-            InsertCompany(modelBuilder);
-            InsertLocation(modelBuilder);
-            InsertDepartmentMaster(modelBuilder);
-            InsertAppSetting(modelBuilder);
-            InsertBanksMaster(modelBuilder);
-            insertDesignation(modelBuilder);
-            InsertDocumentTypemaster(modelBuilder);
-            InsertGradeMaster(modelBuilder);
-            InsertLeaveType(modelBuilder);
-            InsertReligionType(modelBuilder);
-            InsertPayrolldata(modelBuilder);
-            InsertRoleClaim(modelBuilder);
-            DefaultEmployee(modelBuilder);
-            InsertPayrollProcessMaster(modelBuilder);
+            //InsertCountryMaster(modelBuilder);
+            //InsertCompany(modelBuilder);
+            //InsertLocation(modelBuilder);
+            //InsertDepartmentMaster(modelBuilder);
+            //InsertAppSetting(modelBuilder);
+            //InsertBanksMaster(modelBuilder);
+            //insertDesignation(modelBuilder);
+            //InsertDocumentTypemaster(modelBuilder);
+            //InsertGradeMaster(modelBuilder);
+            //InsertLeaveType(modelBuilder);
+            //InsertReligionType(modelBuilder);
+            //InsertPayrolldata(modelBuilder);
+            //InsertRoleClaim(modelBuilder);
+            //DefaultEmployee(modelBuilder);
+            //InsertPayrollProcessMaster(modelBuilder);
         }
+
+        #region ******************* Users *****************
+        public DbSet<tbl_user_master> tbl_user_master { get; set; }
+        public DbSet<tblUserProfilePhoto> tblUserProfilePhoto { get; set; }
+        public DbSet<tblUserOTPValidation> tblUserOTPValidation { get; set; }
+        public DbSet<tblUserLoginLog> tblUserLoginLog { get; set; }        
+        public DbSet<tblUsersApplication> tblUsersApplication { get; set; }
+        public DbSet<tbl_role_master> tbl_role_master { get; set; }
+        public DbSet<tbl_role_claim_map> tbl_role_claim_map { get; set; }
+        public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
+        public DbSet<tbl_user_role_map> tbl_user_role_map { get; set; }
+
+        #endregion
+
+        #region ******************* Customer *****************
+        public DbSet<tblCustomerOrganisation> tblCustomerOrganisation { get; set; }
+        #endregion
+
+        #region ******************* Distributer *****************
+        public DbSet<tblDistributorMaster> tblDistributorMaster { get; set; }
+        public DbSet<tblDistributorKycStatus> tblDistributorKycStatus { get; set; }
+        public DbSet<tblDistributorTree> tblDistributorTree { get; set; }
+        public DbSet<tblDistributorAddress> tblDistributorAddress { get; set; }
+        public DbSet<tblDistributorCurrency> tblDistributorCurrency { get; set; }
+        public DbSet<tblDistributorCultureInfo> tblDistributorCultureInfo { get; set; }
+        public DbSet<tblDistributorBanks> tblDistributorBanks { get; set; }
+        public DbSet<tblDistributorPan> tblDistributorPan { get; set; }
+        public DbSet<tblIdentityProof> tblIdentityProof { get; set; }
+        #endregion
 
         public DbSet<tblProcessMaster> tblProcessMaster { get; set; }
         public DbSet<tblDependentProcess> tblDependentProcess { get; set; }
         public DbSet<tblProcessExecution> tblProcessExecution { get; set; }
 
-        public DbSet<tbl_guid_detail> tbl_guid_detail { get; set; }
-        public DbSet<tbl_captcha_code_details> tbl_captcha_code_details { get; set; }
-        public DbSet<tbl_user_master> tbl_user_master { get; set; }        
-        public DbSet<tbl_No_dues_particular_master> tbl_No_dues_particular_master { get; set; }
-        public DbSet<tbl_No_dues_particular_responsible> tbl_No_dues_particular_responsible { get; set; }
-        public DbSet<tbl_No_dues_clearance_Department> tbl_No_dues_clearance_Department { get; set; }
-        public DbSet<tbl_No_dues_emp_particular_Clearence_detail> tbl_No_dues_emp_particular_Clearence_detail { get; set; }
-        public DbSet<tbl_role_master> tbl_role_master { get; set; }
-        public DbSet<tbl_claim_master> tbl_claim_master { get; set; }
-        public DbSet<tbl_role_claim_map> tbl_role_claim_map { get; set; }
-        public DbSet<tbl_user_role_map> tbl_user_role_map { get; set; }
+        
+        
         public DbSet<tbl_employee_master> tbl_employee_master { get; set; }
         public DbSet<tbl_employee_company_map> tbl_employee_company_map { get; set; }
         public DbSet<tbl_emp_shift_allocation> tbl_emp_shift_allocation { get; set; }
@@ -128,6 +153,9 @@ namespace projContext
         public DbSet<tbl_emp_grade_allocation> tbl_emp_grade_allocation { get; set; }
         public DbSet<tbl_emp_desi_allocation> tbl_emp_desi_allocation { get; set; }
         public DbSet<tbl_emp_officaial_sec> tbl_emp_officaial_sec { get; set; }
+        public DbSet<tbl_emp_department_allocation> tbl_emp_department_allocation { get; set; }
+        public DbSet<tbl_emp_location_allocation> tbl_emp_location_allocation { get; set; }
+        public DbSet<tbl_emp_attendance_setting> tbl_emp_attendance_setting { get; set; }
         public DbSet<tbl_emp_weekoff> tbl_emp_weekoff { get; set; }        
         public DbSet<tbl_emp_family_sec> tbl_emp_family_sec { get; set; }
         public DbSet<tbl_emp_bank_details> tbl_emp_bank_details { get; set; }
@@ -138,12 +166,8 @@ namespace projContext
         public DbSet<tbl_emp_personal_sec> tbl_emp_personal_sec { get; set; }
         public DbSet<tbl_emp_qualification_sec> tbl_emp_qualification_sec { get; set; }
         public DbSet<tbl_employment_type_master> tbl_employment_type_master { get; set; }
-        public DbSet<tbl_role_master_log> tbl_role_master_log { get; set; }
-        public DbSet<tbl_claim_master_log> tbl_claim_master_log { get; set; }
-        public DbSet<tbl_employee_company_map_log> tbl_employee_company_map_log { get; set; }
         public DbSet<tbl_company_master> tbl_company_master { get; set; }
-        public DbSet<tbl_company_emp_setting> tbl_company_emp_setting { get; set; }
-        public DbSet<tbl_company_master_log> tbl_company_master_log { get; set; }
+        public DbSet<tbl_company_emp_setting> tbl_company_emp_setting { get; set; }        
         public DbSet<tbl_payroll_month_setting> tbl_payroll_month_setting { get; set; }
         public DbSet<tbl_country> tbl_country { get; set; }
         public DbSet<tbl_state> tbl_state { get; set; }
@@ -313,9 +337,6 @@ namespace projContext
 
         public DbSet<tbl_muster_form11_data> tbl_muster_form11_data { get; set; }
 
-        public DbSet<tbl_user_login_logs> tbl_user_login_logs { get; set; }
-
-        public DbSet<tbl_active_inactive_user_log> tbl_active_inactive_user_log { get; set; }
 
         public DbSet<tbl_document_type_master> tbl_document_type_master { get; set; }
 
@@ -345,8 +366,7 @@ namespace projContext
 
         public DbSet<tbl_question_master> tbl_question_master { get; set; }
 
-        public DbSet<tbl_epa_submission> tbl_epa_submission { get; set; }
-        //public DbSet<tbl_epa_submission_status_log> tbl_epa_submission_status_log { get; set; }
+        public DbSet<tbl_epa_submission> tbl_epa_submission { get; set; }        
         public DbSet<tbl_epa_kpi_submission> tbl_epa_kpi_submission { get; set; }
         public DbSet<tbl_epa_kpi_criteria_submission> tbl_epa_kpi_criteria_submission { get; set; }
         public DbSet<tbl_epa_kra_submission> tbl_epa_kra_submission { get; set; }
@@ -356,36 +376,19 @@ namespace projContext
         public DbSet<tbl_rpt_title_master> tbl_rpt_title_master { get; set; }
 
         public DbSet<tbl_bank_master> tbl_bank_master { get; set; }
-
         public DbSet<tbl_emp_separation> tbl_emp_separation { get; set; }
         public DbSet<tbl_approved_emp_separation_cancellation> tbl_approved_emp_separation_cancellation { get; set; }
-
         public DbSet<tbl_emp_prev_employement> tbl_emp_prev_employement { get; set; }
-
         public DbSet<tbl_emp_withdrawal> tbl_emp_withdrawal { get; set; }
-
         public DbSet<tbl_emp_fnf_asset> tbl_emp_fnf_asset { get; set; }
-
         public DbSet<tbl_fnf_reimburesment> tbl_fnf_reimburesment { get; set; }
-
         public DbSet<tbl_fnf_leave_encash> tbl_fnf_leave_encash { get; set; }
-
         public DbSet<tbl_fnf_attendance_dtl> tbl_fnf_attendance_dtl { get; set; }
-
         public DbSet<tbl_fnf_component> tbl_fnf_component { get; set; }
-
         public DbSet<tbl_fnf_loan_recover> tbl_fnf_loan_recover { get; set; }
-
         public DbSet<tbl_fnf_master> tbl_fnf_master { get; set; }
 
-        public DbSet<tbl_kt_task_master> tbl_kt_task_master { get; set; }
-
-        public DbSet<tbl_kt_task_emp_details> tbl_kt_task_emp_details { get; set; }
-
-        public DbSet<tbl_kt_status> tbl_kt_status { get; set; }
-
-        public DbSet<tbl_kt_file> tbl_kt_file { get; set; }
-
+        
         
 
         /// <summary>

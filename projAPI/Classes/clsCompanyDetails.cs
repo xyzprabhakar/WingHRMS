@@ -15,7 +15,7 @@ using static projContext.CommonClass;
 
 namespace projAPI.Classes
 {
-   
+#if(false)
     public class clsCompanyDetails
     {
         //public int _company_id;
@@ -108,4 +108,6 @@ namespace projAPI.Classes
             return sublocation_lst;
         }
     }
+
+#endif
 }

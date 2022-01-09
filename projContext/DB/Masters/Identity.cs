@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace projContext.DB.Masters
+{
+    public class tblUserIdentity
+    {
+        [Key]
+        public int CountryId { get; set; }
+        public int UserCounter { get; set; }
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
+    }
+
+    public class tblDispatchIdentity
+    {
+        [Key]
+        public int FiscalYearID { get; set; }
+        public int DispatchCounter { get; set; }
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
+    }
+
+
+    public class tblBookingIdentity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Sno { get; set; }
+        public int CountryId { get; set; }
+        public int YearId { get; set; }
+        public int WeekId { get; set; }
+        public enmBookingType BookingType { get; set; }
+        public int ProductCounter { get; set; }
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
+    }
+
+    public class tblInvoiceIdentity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Sno { get; set; }
+        public int CountryId { get; set; }
+        public int YearId { get; set; }
+        public int MonthId { get; set; }
+        public int InvoiceCounter { get; set; }
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
+    }
+    public class tblPaymentRequestIdentity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Sno { get; set; }
+        public int CountryId { get; set; }
+        public int YearId { get; set; }
+        public int MonthId { get; set; }
+        public int PaymentCounter { get; set; }
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
+    }
+}

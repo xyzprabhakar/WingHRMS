@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 namespace projAPI.Classes
 {
 
+#if(false)
     public class clsCurrentUser
-    {
+    {   
         public int EmpId { get; set; }
         public int UserId { get; set; }
         public int Is_Hod { get; set; }
@@ -25,7 +26,6 @@ namespace projAPI.Classes
         public List<int> DownlineEmpId { get; set; }
         public string is_application_freezed { get; set; }
     }
-
 
     public class clsUsersDetails
     {
@@ -72,7 +72,7 @@ namespace projAPI.Classes
         {
             if (UserID > 0)
             {
-                _tbl_user_master = _context.tbl_user_master.FirstOrDefault(p => p.user_id == UserID && p.is_active == 1);
+             //   _tbl_user_master = _context.tbl_user_master.FirstOrDefault(p => p.user_id == UserID && p.is_active == 1);
 
             }
             else
@@ -83,12 +83,12 @@ namespace projAPI.Classes
             }
             if (_tbl_user_master != null)
             {
-                _tbl_employee_master = _context.tbl_employee_master.FirstOrDefault(p => p.employee_id == _tbl_user_master.employee_id);
-                _UserId = _tbl_user_master.user_id;
-                if (_LoginUserId == 0)
-                {
-                    _LoginUserId = _UserId;
-                }
+                //_tbl_employee_master = _context.tbl_employee_master.FirstOrDefault(p => p.employee_id == _tbl_user_master.employee_id);
+                //_UserId = _tbl_user_master.user_id;
+                //if (_LoginUserId == 0)
+                //{
+                //    _LoginUserId = _UserId;
+                //}
             }
 
 
@@ -96,6 +96,8 @@ namespace projAPI.Classes
 
         public bool ValidateCaptcha(string guid, string captcha)
         {
+            throw new NotImplementedException();
+            #if (false)
 
             var get_captcha_code = _context.tbl_captcha_code_details.FirstOrDefault(a => a.guid == guid);
             if (get_captcha_code == null)
@@ -111,10 +113,14 @@ namespace projAPI.Classes
             _context.Entry(get_captcha_code).State = EntityState.Deleted;
             _context.SaveChanges();
             return true;
+            #endif
         }
 
         public int BlockUserIdAfterFailAttempt()
         {
+            throw new NotImplementedException();
+
+                #if (false)
             int WrongAttempt = 0;
             int BlockUserAfterLoginFailAttempets = Convert.ToInt32(_config["UserSetting:BlockUserAfterLoginFailAttempets"]);
             DateTime fromdt = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
@@ -152,6 +158,7 @@ namespace projAPI.Classes
                 }
             }
             return WrongAttempt;
+#endif
         }
 
         /// <summary>
@@ -210,6 +217,8 @@ namespace projAPI.Classes
 
         public bool IsIPBlock(string IP, string UserAgent)
         {
+            return false;
+#if (false)
             int BlockUserAfterLoginFailAttempets = Convert.ToInt32(_config["UserSetting:AfterFailAttemptBlockIp"]);
             int FailedTime = Convert.ToInt32(_config["UserSetting:AfterFailAttemptBlockIpForTime"]);
             DateTime fromdt = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
@@ -232,6 +241,7 @@ namespace projAPI.Classes
                 }
             }
             return false;
+#endif
         }
 
         public bool IsLoginBlock()
@@ -324,25 +334,25 @@ namespace projAPI.Classes
             {
                 return false;
             }
-            if (_tbl_user_master.is_logged_in == 1)//In case of User already login
-            {
-                if (DateTime.Compare(DateTime.Now, _tbl_user_master.last_logged_dt.AddMinutes(SessionTime)) <= 0)
-                {
-                    //check the user agent of last IP Address
-                    tbl_user_login_logs tull = _context.tbl_user_login_logs.Where(p => p.user_id == _UserId && p.is_wrong_attempt == 0).OrderByDescending(p => p.login_date_time).FirstOrDefault();
-                    if (tull != null)
-                    {
-                        if (tull.login_ip.Trim().ToLower().Equals(IP.Trim().ToLower()) && tull.user_agent.Trim().ToLower().Equals(UserAgent.Trim().ToLower()))
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
+            //if (_tbl_user_master.is_logged_in == 1)//In case of User already login
+            //{
+            //    if (DateTime.Compare(DateTime.Now, _tbl_user_master.last_logged_dt.AddMinutes(SessionTime)) <= 0)
+            //    {
+            //        //check the user agent of last IP Address
+            //        tbl_user_login_logs tull = _context.tbl_user_login_logs.Where(p => p.user_id == _UserId && p.is_wrong_attempt == 0).OrderByDescending(p => p.login_date_time).FirstOrDefault();
+            //        if (tull != null)
+            //        {
+            //            if (tull.login_ip.Trim().ToLower().Equals(IP.Trim().ToLower()) && tull.user_agent.Trim().ToLower().Equals(UserAgent.Trim().ToLower()))
+            //            {
+            //                return false;
+            //            }
+            //            else
+            //            {
+            //                return true;
+            //            }
+            //        }
+            //    }
+            //}
             return false;
         }
 
@@ -360,25 +370,25 @@ namespace projAPI.Classes
                         mdlLoginOutput.employee_first_name = tempdata.employee_first_name;
                         mdlLoginOutput.employee_middle_name = tempdata.employee_middle_name;
                         mdlLoginOutput.employee_last_name = tempdata.employee_last_name;
-                        mdlLoginOutput.default_company = _tbl_user_master.default_company_id;
+                        //mdlLoginOutput.default_company = _tbl_user_master.default_company_id;
                         mdlLoginOutput.employee_photo_path = Convert.ToString(_config["domain_url"]) + (string.IsNullOrEmpty(tempdata.employee_photo_path) ? "EmployeeImage/DefaultUser/defaultimage.jpg" : tempdata.employee_photo_path);
                         mdlLoginOutput._appSetting_domainn = Convert.ToString(_config["domain_url"]);
-                        mdlLoginOutput.is_mobile_access = tempdata.is_mobile_access;
-                        mdlLoginOutput.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
-                        mdlLoginOutput.user_Dep_id = tempdata.department_id ?? 0;
-                        if (tempdata.department_id != null)
-                        {
-                            mdlLoginOutput.user_Dep_name = _context.tbl_department_master.Where(x => x.department_id == tempdata.department_id).FirstOrDefault().department_name.Trim();
-                        }
-                        else
-                        {
-                            mdlLoginOutput.user_Dep_name = "";
+                        //mdlLoginOutput.is_mobile_access = tempdata.is_mobile_access;
+                        //mdlLoginOutput.is_mobile_attendence_access = tempdata.is_mobile_attendence_access;
+                        //mdlLoginOutput.user_Dep_id = tempdata.department_id ?? 0;
+                        //if (tempdata.department_id != null)
+                        //{
+                        //    mdlLoginOutput.user_Dep_name = _context.tbl_department_master.Where(x => x.department_id == tempdata.department_id).FirstOrDefault().department_name.Trim();
+                        //}
+                        //else
+                        //{
+                        //    mdlLoginOutput.user_Dep_name = "";
 
-                        }
+                        //}
 
                     }
                     // Now Load if Emp is Role
-                    mdlLoginOutput.employee_role_id = _context.tbl_user_role_map.Where(p => p.user_id == _UserId && p.is_deleted == 0).Select(p => (int)p.role_id).ToList();
+                    //mdlLoginOutput.employee_role_id = _context.tbl_user_role_map.Where(p => p.user_id == _UserId && p.is_deleted == 0).Select(p => (int)p.role_id).ToList();
 
                 }
             }
@@ -394,7 +404,7 @@ namespace projAPI.Classes
                 {
                     EmpID = _tbl_user_master.employee_id ?? 0;
 
-                    var tempdata = _context.tbl_emp_manager.Where(a => (a.m_one_id == EmpID || a.m_two_id == EmpID || a.m_three_id == EmpID) && a.is_deleted == 0).ToList();
+                    var tempdata = _context.tbl_emp_manager.Where(a => (a.m_one_id == EmpID ) && a.is_deleted == 0).ToList();
                     mdlLoginOutput.manager_emp_list = tempdata.Where(p => p.employee_id != null).Select(p => p.employee_id.Value).Distinct().ToList();
                 }
             }
@@ -413,48 +423,48 @@ namespace projAPI.Classes
 
         public bool LoginLog(string IP, string UserAgent, byte IsWrongAttempt = 0)
         {
-            tbl_user_login_logs tull = new tbl_user_login_logs()
-            {
-                login_ip = IP,
-                user_agent = UserAgent,
-                is_wrong_attempt = IsWrongAttempt,
-                login_date_time = DateTime.Now,
+            //tbl_user_login_logs tull = new tbl_user_login_logs()
+            //{
+            //    login_ip = IP,
+            //    user_agent = UserAgent,
+            //    is_wrong_attempt = IsWrongAttempt,
+            //    login_date_time = DateTime.Now,
 
-            };
-            if (_UserId > 0)
-            {
-                tull.user_id = _UserId;
-                if (IsWrongAttempt == 0)
-                {
-                    _tbl_user_master.is_logged_in = 1;
-                    _tbl_user_master.last_logged_dt = DateTime.Now;
-                    _context.tbl_user_master.Attach(_tbl_user_master);
-                    _context.Entry(_tbl_user_master).State = EntityState.Modified;
+            //};
+            //if (_UserId > 0)
+            //{
+            //    tull.user_id = _UserId;
+            //    if (IsWrongAttempt == 0)
+            //    {
+            //        _tbl_user_master.is_logged_in = 1;
+            //        _tbl_user_master.last_logged_dt = DateTime.Now;
+            //        _context.tbl_user_master.Attach(_tbl_user_master);
+            //        _context.Entry(_tbl_user_master).State = EntityState.Modified;
 
-                }
-            }
+            //    }
+            //}
 
 
-            _context.tbl_user_login_logs.Add(tull);
-            _context.SaveChanges();
+            //_context.tbl_user_login_logs.Add(tull);
+            //_context.SaveChanges();
             return true;
         }
 
         private bool insert_into_logs(byte transaction_type, string Remarks)
         {
-            tbl_active_inactive_user_log tbl = new tbl_active_inactive_user_log();
-            if (_UserId > 0)
-            {
-                tbl.user_id = _UserId;
-            }
-            tbl.transaction_type = transaction_type;
-            tbl.remarks = Convert.ToString(Remarks).Trim();
-            tbl.created_by = _LoginUserId;
-            tbl.modified_by = _LoginUserId;
-            tbl.is_deleted = 0;
-            tbl.modified_date = tbl.created_on = DateTime.Now;
-            _context.tbl_active_inactive_user_log.Add(tbl);
-            _context.SaveChanges();
+            //tbl_active_inactive_user_log tbl = new tbl_active_inactive_user_log();
+            //if (_UserId > 0)
+            //{
+            //    tbl.user_id = _UserId;
+            //}
+            //tbl.transaction_type = transaction_type;
+            //tbl.remarks = Convert.ToString(Remarks).Trim();
+            //tbl.created_by = _LoginUserId;
+            //tbl.modified_by = _LoginUserId;
+            //tbl.is_deleted = 0;
+            //tbl.modified_date = tbl.created_on = DateTime.Now;
+            //_context.tbl_active_inactive_user_log.Add(tbl);
+            //_context.SaveChanges();
             return true;
         }
 
@@ -587,7 +597,7 @@ namespace projAPI.Classes
             return emp_off_dtl;
         }
 
-        #region Get employee list for directory/birthday/aniversary created by Anil kumar on 2 dec 2020
+#region Get employee list for directory/birthday/aniversary created by Anil kumar on 2 dec 2020
         public List<EmployeeList> Get_Emp_dtl_for_dir(clsEmployeeDetail _clsEmployeeDetail)
         {
             List<EmployeeList> emp_off_dtl = new List<EmployeeList>();
@@ -679,7 +689,9 @@ namespace projAPI.Classes
 
             return emp_off_dtl;
         }
-        #endregion
+#endregion
 
     }
+
+#endif
 }

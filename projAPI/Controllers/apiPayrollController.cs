@@ -31,6 +31,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace projAPI.Controllers
 {
+    #if (false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiPayrollController : ControllerBase
@@ -75,7 +76,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region ******************************************* Methods added by Ranjeet **************************************************************
+#region ******************************************* Methods added by Ranjeet **************************************************************
         // Save salary group master
         [Route("Save_SalaryGroupMaster")]
         [HttpPost]
@@ -1866,6 +1867,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.PayrollInput))]
         public IActionResult Get_EmployeeData([FromRoute] int employee_id, int companyid)
         {
+            throw new NotImplementedException();
+#if false
             ResponseMsg objresponse = new ResponseMsg();
             if (!_clsCurrentUser.DownlineEmpId.Contains(employee_id))
             {
@@ -1934,6 +1937,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
         //get Reimbursement GradeLimit Master details
         [Route("Get_ProcessedMonthyear/{company_id}")]
@@ -1986,10 +1990,10 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
 
-        #region ********************************** Code Added by : Rajesh Yati for Salary Group Maped with Employee ****************************
+#region ********************************** Code Added by : Rajesh Yati for Salary Group Maped with Employee ****************************
 
         // Save salary group mapped with employee
         [Route("Save_SalaryGroupMapEmp")]
@@ -2570,7 +2574,7 @@ namespace projAPI.Controllers
 
 
 
-        #region STARTED BY SUPRIYA ON 05-07-2019
+#region STARTED BY SUPRIYA ON 05-07-2019
 
         public void SavePendingApproval(int empid, int companyid)
         {
@@ -2638,7 +2642,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ENDED BY SUPRIYA ON 05-07-2019
+#endregion ENDED BY SUPRIYA ON 05-07-2019
 
 
 
@@ -3058,6 +3062,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.EmpSalary))]
         public IActionResult Get_SalaryRevisionEmpData([FromRoute] int emp_id, DateTime _effective_date)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
 
@@ -3168,6 +3174,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         [HttpGet]
@@ -3821,6 +3828,8 @@ namespace projAPI.Controllers
         [HttpPost]
         public IActionResult Save_SalaryRevision([FromBody] SalaryRevison objsal)
         {
+            throw new NotImplementedException();
+#if false
             Response_Msg objResult = new Response_Msg();
             try
             {
@@ -3930,6 +3939,8 @@ namespace projAPI.Controllers
                 objResult.Message = ex.Message;
                 return Ok(objResult);
             }
+
+#endif
         }
 
 
@@ -3938,6 +3949,8 @@ namespace projAPI.Controllers
         [Authorize(Policy = nameof(enmMenuMaster.LoanApproval))]
         public IActionResult Get_EmpLoanData([FromRoute] int emp_id, int loan_req_id, int companyid)
         {
+            throw new NotImplementedException();
+#if false
             ResponseMsg objresponse = new ResponseMsg();
             if (!_clsCurrentUser.CompanyId.Contains(companyid))
             {
@@ -4025,6 +4038,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -4953,10 +4967,10 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion
+#endregion
 
 
-        #region  *it.intern2*
+#region  *it.intern2*
         ////#it.intern2 
 
         //[Route("Save_BankMaster")]
@@ -5522,9 +5536,9 @@ namespace projAPI.Controllers
         //}
 
 
-        #endregion
+#endregion
 
-        #region  ******************************CREATED BY AMARJEET, CREATED DATE 27-04-2019, PAYROLL ***********************************
+#region  ******************************CREATED BY AMARJEET, CREATED DATE 27-04-2019, PAYROLL ***********************************
 
         //get all employee type from enum
         [Route("GetFunctions")]
@@ -6989,10 +7003,10 @@ namespace projAPI.Controllers
 
 
 
-        #endregion  ******************************CREATED BY AMARJEET, CREATED DATE 27-04-2019, PAYROLL ***********************************
+#endregion  ******************************CREATED BY AMARJEET, CREATED DATE 27-04-2019, PAYROLL ***********************************
 
 
-        #region ********************** CREATED BY AMARJEET, DATE 17-04-2019 **************************************************
+#region ********************** CREATED BY AMARJEET, DATE 17-04-2019 **************************************************
 
 
         [Route("GetPayrollProcessedMonthyear/{company_id}")]
@@ -7093,7 +7107,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ************************************************************************************************************
+#endregion ************************************************************************************************************
 
         //[HttpGet]
         //[Route("CreatePDF")]
@@ -7126,7 +7140,7 @@ namespace projAPI.Controllers
         //}
 
 
-        #region ** START BY SUPRIYA, CREATED DATE 23-05-2019**
+#region ** START BY SUPRIYA, CREATED DATE 23-05-2019**
 
         [Route("Save_LoanRequestMaster")]
         [HttpPost]
@@ -7398,8 +7412,8 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPRIYA, CREATED DATE 24-05-2019**
-        #region ** LOP (LOSS OF PAY) START BY SUPRIYA ON 28-05-2019
+#endregion ** END BY SUPRIYA, CREATED DATE 24-05-2019**
+#region ** LOP (LOSS OF PAY) START BY SUPRIYA ON 28-05-2019
         [Route("Get_LOD_Setting/{id}/{company_id}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.TotalPayrollDaysSetting))]
@@ -7988,12 +8002,12 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** LOP (LOSS OF PAY) END BY SUPRIYA ON 30-05-2019
+#endregion ** LOP (LOSS OF PAY) END BY SUPRIYA ON 30-05-2019
 
 
 
 
-        #region ** PAYROLL MONTHLY CIRCLE, STARTED BY SUPRIYA 30-05-2019**
+#region ** PAYROLL MONTHLY CIRCLE, STARTED BY SUPRIYA 30-05-2019**
         [Route("Save_Payroll_Monthly_Setting")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.PayrollCycleSetting))]
@@ -8186,17 +8200,19 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion** PAYROLL MONTHLY CIRCLE, END BY SUPRIYA 31-05-2019**
+#endregion** PAYROLL MONTHLY CIRCLE, END BY SUPRIYA 31-05-2019**
 
 
 
 
-        #region ** REIMBURSMENT APPROVE REJECT SECTION, STARTED BY SUPRIYA ON 01-06-2019
+#region ** REIMBURSMENT APPROVE REJECT SECTION, STARTED BY SUPRIYA ON 01-06-2019
         [Route("Get_ReimRquestDetail/{employee_id}/{companyid}")]
         [HttpGet]
         //[Authorize(Policy = "8093")]
         public IActionResult Get_ReimRquestDetail([FromRoute] int employee_id, int companyid)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
 
@@ -8265,6 +8281,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message.ToString());
             }
+#endif
         }
 
         [Route("Edit_ReimbursementRequest")]
@@ -8423,14 +8440,14 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** REIMBURSMENT APPROVE REJECT SECTION, END BY SUPRIYA ON 03-06-2019
+#endregion ** REIMBURSMENT APPROVE REJECT SECTION, END BY SUPRIYA ON 03-06-2019
 
 
 
 
 
 
-        #region ** FORMULA COPY, STARTED BY SUPRIYA ON 04-06-2019
+#region ** FORMULA COPY, STARTED BY SUPRIYA ON 04-06-2019
         [Route("Get_FromulaComponent/{companyid}/{salary_group_id}")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.SalaryGroupAlignment))]
@@ -8652,9 +8669,9 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion** FORMULA COPY, END BY SUPRIYA ON 04-06-2019
+#endregion** FORMULA COPY, END BY SUPRIYA ON 04-06-2019
 
-        #region ** SALARY INPUT REPORT, STARTED BY SUPRIYA ON 06-06-2019
+#region ** SALARY INPUT REPORT, STARTED BY SUPRIYA ON 06-06-2019
 
         [Route("Get_Salary_input_Report")]
         [HttpGet]
@@ -8848,10 +8865,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** SALARY INPUT REPORT, END BY SUPRIYA ON 06-06-2019
+#endregion ** SALARY INPUT REPORT, END BY SUPRIYA ON 06-06-2019
 
 
-        #region ** UPDATE LOAN APPROVAL SETTING, CREATED BY SUPRIYA ON 12-06-2019
+#region ** UPDATE LOAN APPROVAL SETTING, CREATED BY SUPRIYA ON 12-06-2019
 
         [Route("Update_LoanApprovalSetting")]
         [HttpPost]
@@ -9040,10 +9057,10 @@ namespace projAPI.Controllers
         //    }
         //}
 
-        #endregion ** UPDATE LOAN APPROVAL SETTING, END BY SUPRIYA ON 12-06-2019
+#endregion ** UPDATE LOAN APPROVAL SETTING, END BY SUPRIYA ON 12-06-2019
 
 
-        #region ** CANCEL REIMBURSMENT REQUEST, STARTED BY SUPRIYA ON 13-06-2019
+#region ** CANCEL REIMBURSMENT REQUEST, STARTED BY SUPRIYA ON 13-06-2019
         [Route("Cancel_ReimbursementRequest")]
         [HttpPost]
         //[Authorize(Policy = "8103")]
@@ -9057,7 +9074,7 @@ namespace projAPI.Controllers
                     var exists_data = _context.tbl_rimb_req_mstr.Where(a => a.rrm_id == objrr.req_type).FirstOrDefault();
                     if (exists_data != null)
                     {
-                        #region ** Set Is Deleted 0 in Master Table **
+#region ** Set Is Deleted 0 in Master Table **
                         //  tbl_rimb_req_mstr objrrm = new tbl_rimb_req_mstr();
 
                         exists_data.is_delete = objrr.is_deleted;
@@ -9067,9 +9084,9 @@ namespace projAPI.Controllers
 
                         _context.Entry(exists_data).State = EntityState.Modified;
                         _context.SaveChanges();
-                        #endregion
+#endregion
 
-                        #region ** Set Is Deleted 0 in Detail Table **
+#region ** Set Is Deleted 0 in Detail Table **
                         var rrd_data = _context.tbl_rimb_req_details.Where(b => b.rrm_id == objrr.req_type).ToList();
 
                         if (rrd_data.Count > 0)
@@ -9088,7 +9105,7 @@ namespace projAPI.Controllers
                             _context.SaveChanges();
                         }
 
-                        #endregion
+#endregion
                         db.Commit();
 
                         objresponse.StatusCode = 0;
@@ -9111,9 +9128,9 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion ** CANCEL REIMBURSMENT REQUEST,END BY SUPRIYA ON 13-06-2019
+#endregion ** CANCEL REIMBURSMENT REQUEST,END BY SUPRIYA ON 13-06-2019
 
-        #region **STARTED BY SUPRIYA ON 14-06-2019 **
+#region **STARTED BY SUPRIYA ON 14-06-2019 **
 
         [Route("GetLoanRequestMasterByEmpandGrade/{emp_id}/{loan_type}/{company_id}")]
         [HttpPost]
@@ -9177,10 +9194,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** END BY SUPRIIYA ON 14-06-2019 **
+#endregion ** END BY SUPRIIYA ON 14-06-2019 **
 
 
-        #region ** SALARY SLIP, START BY SUPRIYA ON 20-06-2019 **
+#region ** SALARY SLIP, START BY SUPRIYA ON 20-06-2019 **
 
         [Route("Get_SalarySlip/{companyid}/{employeeid}")]
         [HttpPost]
@@ -9348,7 +9365,7 @@ namespace projAPI.Controllers
                 return Ok(ex.Message.ToString());
             }
         }
-        #endregion ** SALARY SLIP, END BY SUPRIYA ON 20-06-2019 **
+#endregion ** SALARY SLIP, END BY SUPRIYA ON 20-06-2019 **
 
         [Route("Get_Pending_Loan_Request/{company_id}/{login_emp_id}/{login_emp_role_id}")]
         [HttpGet]
@@ -9465,7 +9482,7 @@ namespace projAPI.Controllers
 
 
 
-        #region **ASSETS APPROVAL ,STARTED BY SUPRIYA ON 18-07-2019**
+#region **ASSETS APPROVAL ,STARTED BY SUPRIYA ON 18-07-2019**
 
         [Route("Save_AssetRequest")]
         [HttpPost]
@@ -10134,7 +10151,7 @@ namespace projAPI.Controllers
                                        // emp_id = p.req_emp_id,
                                        // loan_purpose = p.loan_purpose,
                                        // emp_name = p.emp_code,
-                                       dept_name = p.emp_master.tbl_emp_officaial_sec.OrderByDescending(z => z.emp_official_section_id).Take(1).FirstOrDefault(z => z.is_deleted == 0).tbl_department_master.department_name,
+                                      // dept_name = p.emp_master.tbl_emp_officaial_sec.OrderByDescending(z => z.emp_official_section_id).Take(1).FirstOrDefault(z => z.is_deleted == 0).tbl_department_master.department_name,
                                        grade_id = p.emp_master.tbl_emp_grade_allocation.OrderByDescending(z => z.emp_grade_id).Take(1).FirstOrDefault(z => z.employee_id == emp_id).grade_id,
                                        grade_name = p.emp_master.tbl_emp_grade_allocation.OrderByDescending(z => z.emp_grade_id).Take(1).FirstOrDefault(z => z.tbl_grade_master.is_active == 1).tbl_grade_master.grade_name,
                                        des_name = p.emp_master.tbl_emp_desi_allocation.OrderByDescending(z => z.emp_grade_id).Take(1).FirstOrDefault(z => z.tbl_designation_master.is_active == 1).tbl_designation_master.designation_name,
@@ -10626,13 +10643,13 @@ namespace projAPI.Controllers
         //        return Ok(objResult);
         //    }
         //}
-        #endregion ** ASSETS APPROVAL, END BY SUPRIYA ON 18-07-2019 **
+#endregion ** ASSETS APPROVAL, END BY SUPRIYA ON 18-07-2019 **
 
 
 
 
 
-        #region ** STARTED BY SUPRIYA ON 24-07-2019
+#region ** STARTED BY SUPRIYA ON 24-07-2019
 
         [Route("Get_LoanRequestByEmpId/{EmpID}/{companyid}")]
         [HttpGet]
@@ -10985,7 +11002,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion ** STARTED BY SUPRIYA ON 24-07-2019
+#endregion ** STARTED BY SUPRIYA ON 24-07-2019
 
         [HttpGet("Get_SalaryGroupMapEmpDataByComID/{company_id}")]
         //[Authorize(Policy = "8115")]
@@ -11571,7 +11588,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region ** STARTED BY SUPRIYA ON 19-08-2019,RATE OF WAGES AND RATE OF DEDUCTION**
+#region ** STARTED BY SUPRIYA ON 19-08-2019,RATE OF WAGES AND RATE OF DEDUCTION**
 
         [Route("Save_RegisterOfFinesFormIMaster")]
         [HttpPost]
@@ -11775,11 +11792,11 @@ namespace projAPI.Controllers
         //        return Ok(ex.Message);
         //    }
         //}
-        #endregion ** END BY SUPRIYA ON 19-08-2019,RATE OF WAGES AND RATE OF DEDUCTION**
+#endregion ** END BY SUPRIYA ON 19-08-2019,RATE OF WAGES AND RATE OF DEDUCTION**
 
 
 
-        #region  STARTED BY AMARJEET ON 20-08-2019 The Register of Fines in Form-I, Rule 21(4)
+#region  STARTED BY AMARJEET ON 20-08-2019 The Register of Fines in Form-I, Rule 21(4)
 
         [Route("GetProcessedPayrollMonthYear/{company_id}")]
         [HttpGet]
@@ -11833,6 +11850,9 @@ namespace projAPI.Controllers
                 }
                 else
                 {
+                    throw new NotImplementedException();
+#if false
+
                     var data = _context.tbl_salary_input.Where(a => a.company_id == company_id && a.monthyear == payroll_month && a.is_active == 1).Select(p => new
                     {
 
@@ -11859,6 +11879,7 @@ namespace projAPI.Controllers
                     }).Distinct().ToList();
 
                     return Ok(new { data = data, flag = 0 });
+#endif
                 }
             }
             catch (Exception ex)
@@ -11867,7 +11888,7 @@ namespace projAPI.Controllers
             }
         }
 
-
+#if false
         [Route("GetPayrollDetailsForMusterForm1ByEmployee/{payroll_month}/{employee_id}")]
         [HttpGet]
         //[Authorize(Policy = "8129")]
@@ -11906,15 +11927,19 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion END
+#endif
 
-        #region START 22-08-2019  The Register of Fines in Form-I, Rule 21(4) ADD
+#endregion END
+
+#region START 22-08-2019  The Register of Fines in Form-I, Rule 21(4) ADD
 
         [Route("Save_PayrollMusterForm1Data")]
         [HttpPost]
         //[Authorize(Policy = "8130")]
         public IActionResult Save_PayrollMusterForm1Data([FromBody] tbl_muster_form1_data Obj_form_data)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 Response_Msg objresponse = new Response_Msg();
@@ -11987,6 +12012,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -12059,7 +12085,9 @@ namespace projAPI.Controllers
                 else
                 {
 
-                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id && !string.IsNullOrEmpty(a.employee_first_name)).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept = b.tbl_department_master.department_name }).FirstOrDefault();
+                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id && !string.IsNullOrEmpty(a.employee_first_name)).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept =""
+                    //    b.tbl_department_master.department_name 
+                    }).FirstOrDefault();
 
                     Obj_form_data.created_date = DateTime.Now;
                     Obj_form_data.employee_code = get_emp_data.emp_code;
@@ -12152,7 +12180,7 @@ namespace projAPI.Controllers
 
 
 
-        #endregion END
+#endregion END
 
         [Route("GetPayrollDetailsForMusterForm2/{payroll_month}/{company_id}")]
         [HttpGet]
@@ -12199,7 +12227,7 @@ namespace projAPI.Controllers
                     p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && !string.IsNullOrEmpty(x.employee_first_name)).employee_last_name
                     ),
                     father_or_husband = p.tem.tbl_emp_family_sec.FirstOrDefault(h => h.relation == "Father" && h.is_deleted == 0).name_as_per_aadhar_card,
-                    department = p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0).tbl_department_master.department_name,
+                    department ="",// p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0).tbl_department_master.department_name,
                     a_is_active = p.is_active,
                     damage_orloss_and_date = _context.tbl_salary_input.Join(_context.tbl_muster_form2, an => an.component_id, anc => anc.damage_orloss_and_date_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_II_mstr_id, an.company_id }).OrderByDescending(v => v.form_II_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == payroll_month && an.is_active == 1 && an.company_id == company_id).Select(anc => anc.values).FirstOrDefault(),
                     whether_workman = _context.tbl_salary_input.Join(_context.tbl_muster_form2, an => an.component_id, anc => anc.whether_workman_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_II_mstr_id, an.company_id }).OrderByDescending(v => v.form_II_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == payroll_month && an.is_active == 1 && an.company_id == company_id).Select(anc => anc.values).FirstOrDefault(),
@@ -12236,8 +12264,8 @@ namespace projAPI.Controllers
                     payroll_month = a.payroll_month,
                     employe_name = a.employee_name,
                     father_or_husband = a.father_or_husband_name,
-                    department = b.tbl_department_master.department_name,
-                    department_id = b.tbl_department_master.department_id,
+                    department ="",// b.tbl_department_master.department_name,
+                    department_id = 0,//b.tbl_department_master.department_id,
                     a_is_active = a.is_deleted,
                     b_is_active = b.is_deleted,
                     damage_orloss_and_date = a.damage_orloss_and_date,
@@ -12261,7 +12289,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region START 26-08-2019  The Register of Deduction for Damage or Loss in Form-II, Rule 21(4) ADD
+#region START 26-08-2019  The Register of Deduction for Damage or Loss in Form-II, Rule 21(4) ADD
 
         [Route("Save_PayrollMusterForm2Data")]
         [HttpPost]
@@ -12284,7 +12312,7 @@ namespace projAPI.Controllers
                     p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && !string.IsNullOrEmpty(x.employee_first_name)).employee_last_name
                     ),
                     father_or_husband = p.tem.tbl_emp_family_sec.FirstOrDefault(h => h.relation == "Father" && h.is_deleted == 0).name_as_per_aadhar_card,
-                    department = p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0).tbl_department_master.department_name,
+                    department ="",// p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0).tbl_department_master.department_name,
                     a_is_active = p.is_active,
                     damage_orloss_and_date = _context.tbl_salary_input.Join(_context.tbl_muster_form2, an => an.component_id, anc => anc.damage_orloss_and_date_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_II_mstr_id, an.company_id }).OrderByDescending(v => v.form_II_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == Obj_form_data.payroll_month && an.is_active == 1 && an.company_id == Obj_form_data.company_id).Select(anc => anc.values).FirstOrDefault(),
                     whether_workman = _context.tbl_salary_input.Join(_context.tbl_muster_form2, an => an.component_id, anc => anc.whether_workman_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_II_mstr_id, an.company_id }).OrderByDescending(v => v.form_II_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == Obj_form_data.payroll_month && an.is_active == 1 && an.company_id == Obj_form_data.company_id).Select(anc => anc.values).FirstOrDefault(),
@@ -12302,6 +12330,7 @@ namespace projAPI.Controllers
 
                 List<tbl_muster_form2_data> objform1data = new List<tbl_muster_form2_data>();
 
+#if false
                 for (int Index = 0; Index < data.Count; Index++)
                 {
                     tbl_muster_form2_data obj = new tbl_muster_form2_data()
@@ -12328,7 +12357,7 @@ namespace projAPI.Controllers
 
                     objform1data.Add(obj);
                 }
-
+#endif
 
                 _context.tbl_muster_form2_data.AddRange(objform1data);
                 _context.SaveChangesAsync();
@@ -12414,7 +12443,9 @@ namespace projAPI.Controllers
                 else
                 {
 
-                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept = b.tbl_department_master.department_name, gender = b.gender == 1 ? "Female" : b.gender == 2 ? "Male" : b.gender == 3 ? "Other" : "" }).FirstOrDefault();
+                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept ="",
+                        //b.tbl_department_master.department_name, 
+                        gender = b.gender == 1 ? "Female" : b.gender == 2 ? "Male" : b.gender == 3 ? "Other" : "" }).FirstOrDefault();
 
                     Obj_form_data.created_date = DateTime.Now;
                     Obj_form_data.employee_code = get_emp_data.emp_code;
@@ -12485,10 +12516,10 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
 
-        #region START 27-08-2019 PDF ,Form 1
+#region START 27-08-2019 PDF ,Form 1
 
         [Route("PayrollMuster1PdfGenerator/{company_id}/{payroll_month}")]
         [HttpGet]
@@ -12542,10 +12573,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
 
-        #region **START BY SUPRIYA ON 26-08-2019,FORM 3 ADVANCE 
+#region **START BY SUPRIYA ON 26-08-2019,FORM 3 ADVANCE 
 
 
         [Route("Save_RegisterofAdvanceFormIIIMaster")]
@@ -12641,7 +12672,7 @@ namespace projAPI.Controllers
                          p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && !string.IsNullOrEmpty(x.employee_first_name)).employee_middle_name,
                          p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && !string.IsNullOrEmpty(x.employee_first_name)).employee_last_name),
                         father_or_husband = p.tem.tbl_emp_family_sec.FirstOrDefault(x => x.is_deleted == 0 && x.relation.Trim().ToUpper() == "FATHER" && x.employee_id == p.emp_id).name_as_per_aadhar_card,
-                        department = p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
+                        department ="",// p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
                         a_is_active = p.is_active,
                         advance_date = _context.tbl_salary_input.Join(_context.tbl_muster_form3, an => an.component_id, anc => anc.advance_date_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_III_mstr_id, an.company_id }).OrderByDescending(v => v.form_III_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == payroll_month && an.is_active == 1 && an.company_id == company_id).Select(anc => anc.values).FirstOrDefault(),
                         advance_amount = _context.tbl_salary_input.Join(_context.tbl_muster_form3, an => an.component_id, anc => anc.advance_amt_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_III_mstr_id, an.company_id }).OrderByDescending(v => v.form_III_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == payroll_month && an.is_active == 1 && an.company_id == company_id).Select(anc => anc.values).FirstOrDefault(),
@@ -12681,8 +12712,8 @@ namespace projAPI.Controllers
                     payroll_month = a.payroll_month,
                     employe_name = a.employee_name,
                     father_or_husband = a.father_or_husband_name,
-                    department = b.tbl_department_master.department_name,
-                    department_id = b.tbl_department_master.department_id,
+                    department ="",// b.tbl_department_master.department_name,
+                    department_id =0,// b.tbl_department_master.department_id,
                     a_is_active = a.is_deleted,
                     b_is_active = b.is_deleted,
                     advance_date = a.advance_date,
@@ -12704,12 +12735,12 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPRIYA ON 26-08-2019,FORM 3 ADVANCE
+#endregion ** END BY SUPRIYA ON 26-08-2019,FORM 3 ADVANCE
 
 
 
 
-        #region START 27-08-2019  The Register of Advance in Form-III, Rule 21(4) ADD
+#region START 27-08-2019  The Register of Advance in Form-III, Rule 21(4) ADD
 
         [Route("Save_PayrollMusterForm3Data")]
         [HttpPost]
@@ -12733,7 +12764,7 @@ namespace projAPI.Controllers
                                     p.tem.tbl_emp_officaial_sec.FirstOrDefault(b => b.is_deleted == 0 && !string.IsNullOrEmpty(b.employee_first_name)).employee_middle_name,
                                     p.tem.tbl_emp_officaial_sec.FirstOrDefault(b => b.is_deleted == 0 && !string.IsNullOrEmpty(b.employee_first_name)).employee_last_name),
                     father_or_husband = p.tem.tbl_emp_family_sec.FirstOrDefault(b => b.relation.Trim().ToUpper() == "FATHER" && b.is_deleted == 0 && b.employee_id == p.emp_id).name_as_per_aadhar_card,//.FirstOrDefault();
-                    department = p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
+                    department ="",// p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
                     a_is_active = p.is_active,
                     advance_date = _context.tbl_salary_input.Join(_context.tbl_muster_form3, an => an.component_id, anc => anc.advance_date_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_III_mstr_id, an.company_id }).OrderByDescending(v => v.form_III_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == Obj_form_data.payroll_month && an.is_active == 1 && an.company_id == Obj_form_data.company_id).Select(anc => anc.values).FirstOrDefault(),
                     advance_amount = _context.tbl_salary_input.Join(_context.tbl_muster_form3, an => an.component_id, anc => anc.advance_amt_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_III_mstr_id, an.company_id }).OrderByDescending(v => v.form_III_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == Obj_form_data.payroll_month && an.is_active == 1 && an.company_id == Obj_form_data.company_id).Select(anc => anc.values).FirstOrDefault(),
@@ -12746,7 +12777,7 @@ namespace projAPI.Controllers
                 }).Distinct().ToList();
 
 
-
+#if false
                 List<tbl_muster_form3_data> objform3data = new List<tbl_muster_form3_data>();
 
                 for (int Index = 0; Index < data.Count; Index++)
@@ -12774,10 +12805,10 @@ namespace projAPI.Controllers
 
                     objform3data.Add(obj);
                 }
+#endif
 
-
-                _context.tbl_muster_form3_data.AddRange(objform3data);
-                _context.SaveChangesAsync();
+                //_context.tbl_muster_form3_data.AddRange(objform3data);
+                //_context.SaveChangesAsync();
 
                 objresponse.StatusCode = 0;
                 objresponse.Message = "Data Successfully Saved...!";
@@ -12862,7 +12893,9 @@ namespace projAPI.Controllers
                 else
                 {
 
-                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept = b.tbl_department_master.department_name }).FirstOrDefault();
+                    var get_emp_data = _context.tbl_emp_officaial_sec.Where(a => a.is_deleted == 0 && !string.IsNullOrEmpty(a.employee_first_name) && a.employee_id == Obj_form_data.emp_id).Select(b => new { emp_name = string.Format("{0} {1} {2}", b.employee_first_name, b.employee_middle_name, b.employee_last_name), emp_code = b.tbl_employee_id_details.emp_code, dept ="",
+                        //b.tbl_department_master.department_name
+                        }).FirstOrDefault();
 
                     Obj_form_data.created_date = DateTime.Now;
                     Obj_form_data.employee_code = get_emp_data.emp_code;
@@ -12932,14 +12965,14 @@ namespace projAPI.Controllers
 
 
 
-        #endregion END
+#endregion END
 
 
 
 
 
 
-        #region ** START BY SUPRIYA ON 27-08-2019,FORM 4 OVERTIME
+#region ** START BY SUPRIYA ON 27-08-2019,FORM 4 OVERTIME
 
 
         [Route("Save_RegisterofOvertimeFormIVMaster")]
@@ -12994,6 +13027,8 @@ namespace projAPI.Controllers
         //[Authorize(Policy = "8151")]
         public IActionResult GetPayrollDetailsForMusterForm4(int payroll_month, int company_id)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 //Check If payroll_month data already freedz
@@ -13075,6 +13110,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -13095,8 +13131,8 @@ namespace projAPI.Controllers
                     payroll_month = a.payroll_month,
                     employe_name = a.employee_name,
                     father_or_husband = a.father_or_husband_name,
-                    department = b.tbl_department_master.department_name,
-                    department_id = b.tbl_department_master.department_id,
+                    //department = b.tbl_department_master.department_name,
+                    //department_id = b.tbl_department_master.department_id,
                     a_is_active = a.is_deleted,
                     b_is_active = b.is_deleted,
                     desig_id = b.tbl_employee_id_details.tbl_emp_desi_allocation.OrderByDescending(g => g.emp_grade_id).FirstOrDefault(d => d.tbl_designation_master.is_active == 1).desig_id,
@@ -13127,11 +13163,11 @@ namespace projAPI.Controllers
 
 
 
-        #endregion ** END BY SUPRIYA ON 27-08-2019,FORM 4 OVERTIME
+#endregion ** END BY SUPRIYA ON 27-08-2019,FORM 4 OVERTIME
 
 
 
-        #region START 27-08-2019  The Register of Overtime in Form-IV, Rule 21(4) ADD
+#region START 27-08-2019  The Register of Overtime in Form-IV, Rule 21(4) ADD
 
         [Route("Save_PayrollMusterForm4Data")]
         [HttpPost]
@@ -13159,7 +13195,7 @@ namespace projAPI.Controllers
                     ),
 
                     father_or_husband = p.tem.tbl_emp_family_sec.FirstOrDefault(h => h.relation.Trim().ToUpper() == "FATHER" && h.is_deleted == 0).name_as_per_aadhar_card,
-                    department = p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
+                    department ="",// p.tem.tbl_emp_officaial_sec.FirstOrDefault(x => x.is_deleted == 0 && x.tbl_department_master.is_active == 1).tbl_department_master.department_name,
                     designation = p.tem.tbl_emp_desi_allocation.OrderByDescending(x => x.emp_grade_id).FirstOrDefault(x => x.tbl_designation_master.is_active == 1).tbl_designation_master.designation_name,
                     a_is_active = p.is_active,
                     overtime_work_dt = _context.tbl_salary_input.Join(_context.tbl_muster_form4, an => an.component_id, anc => anc.overtime_date_c_id, (an, anc) => new { an.emp_id, an.values, an.monthyear, an.is_active, anc.form_IV_mstr_id, an.company_id }).OrderByDescending(v => v.form_IV_mstr_id).Where(an => an.emp_id == p.emp_id && an.monthyear == Obj_form_data.payroll_month && an.is_active == 1 && an.company_id == Obj_form_data.company_id).Select(anc => anc.values).FirstOrDefault(),
@@ -13287,6 +13323,8 @@ namespace projAPI.Controllers
         //[Authorize(Policy = "8155")]
         public IActionResult Add_PayrollMusterForm4Data([FromBody] tbl_muster_form4_data Obj_form_data)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 Response_Msg objresponse = new Response_Msg();
@@ -13326,6 +13364,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
         [Route("Reset_PayrollMusterForm4Data")]
@@ -13375,11 +13414,11 @@ namespace projAPI.Controllers
 
 
 
-        #endregion END
+#endregion END
 
 
 
-        #region START 28-08-2019 PDF , FORM 2
+#region START 28-08-2019 PDF , FORM 2
 
         [Route("PayrollMuster2PdfGenerator/{company_id}/{payroll_month}")]
         [HttpGet]
@@ -13433,10 +13472,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
 
-        #region START 29-08-2019 PDF , FORM 3
+#region START 29-08-2019 PDF , FORM 3
 
         [Route("PayrollMuster3PdfGenerator/{company_id}/{payroll_month}")]
         [HttpGet]
@@ -13490,10 +13529,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
 
-        #region START 29-08-2019 PDF ,Form 4
+#region START 29-08-2019 PDF ,Form 4
 
         [Route("PayrollMuster4PdfGenerator/{company_id}/{payroll_month}")]
         [HttpGet]
@@ -13547,10 +13586,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
 
-        #region Start 30-08-2019 , Form 5
+#region Start 30-08-2019 , Form 5
 
         public class InputRows
         {
@@ -13571,6 +13610,8 @@ namespace projAPI.Controllers
         //[Authorize(Policy = "8160")]
         public IActionResult GetPayrollDetailsForMusterForm5(int company_id, int payroll_month, int location)
         {
+            throw new NotImplementedException();
+#if false
             try
             {
                 bool allcompany_id = company_id == 0 ? true : false;
@@ -13731,6 +13772,7 @@ namespace projAPI.Controllers
             {
                 return Ok(ex.Message);
             }
+#endif
         }
 
 
@@ -13790,9 +13832,9 @@ namespace projAPI.Controllers
             }
         }
 
-        #endregion
+#endregion
 
-        #region ** START BY SUPRIYA ON 29-08-2019,FORM 10 REGISTER OF WAGES
+#region ** START BY SUPRIYA ON 29-08-2019,FORM 10 REGISTER OF WAGES
 
         [Route("Save_RegisterofOvertimeFormXMaster")]
         [HttpPost]
@@ -13977,10 +14019,10 @@ namespace projAPI.Controllers
 
 
 
-        #endregion ** END BY SUPIRYA ON 30-08-2019, FORM 10 REGISTER OF WAGES
+#endregion ** END BY SUPIRYA ON 30-08-2019, FORM 10 REGISTER OF WAGES
 
 
-        #region START 30-08-2019  The Register of Wages in Form-X, Rule 26(a) ADD
+#region START 30-08-2019  The Register of Wages in Form-X, Rule 26(a) ADD
 
         [Route("Save_PayrollMusterForm10Data")]
         [HttpPost]
@@ -14351,11 +14393,11 @@ namespace projAPI.Controllers
 
 
 
-        #endregion END
+#endregion END
 
 
 
-        #region START 28-08-2019 PDF , FORM 10
+#region START 28-08-2019 PDF , FORM 10
 
         [Route("PayrollMuster10PdfGenerator/{company_id}/{payroll_month}")]
         [HttpGet]
@@ -14409,10 +14451,10 @@ namespace projAPI.Controllers
 
         }
 
-        #endregion
+#endregion
 
 
-        #region ** START BY SUPRIYA ON 31-08-2019,FORM 11 REGISTER OF WAGE SLIP
+#region ** START BY SUPRIYA ON 31-08-2019,FORM 11 REGISTER OF WAGE SLIP
 
         [Route("Save_RegisterofWageSlipFormXIMaster")]
         [HttpPost]
@@ -14577,10 +14619,10 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion
+#endregion
 
 
-        #region START 31-08-2019  The Register of Wage Slip in Form-XI, Rule 26(2) ADD
+#region START 31-08-2019  The Register of Wage Slip in Form-XI, Rule 26(2) ADD
 
         [Route("Save_PayrollMusterForm11Data")]
         [HttpPost]
@@ -15046,10 +15088,10 @@ namespace projAPI.Controllers
 
 
 
-        #endregion END
+#endregion END
 
 
-        #region ** START BY SUPRIYA ON 02-11-2019,GET EMPLOYEE SALARY GROUP**
+#region ** START BY SUPRIYA ON 02-11-2019,GET EMPLOYEE SALARY GROUP**
 
         [Route("Get_EmpSalaryGroup/{company_id}")]
         [HttpGet]
@@ -15072,12 +15114,12 @@ namespace projAPI.Controllers
 
 
         }
-        #endregion ** START BY SUPRIYA ON 02-11-2019,GET EMPLOYEE SALARY GROUP**
+#endregion ** START BY SUPRIYA ON 02-11-2019,GET EMPLOYEE SALARY GROUP**
 
 
 
 
-        #region ** START BY SUPRIYA ON 07-11-2019, UPLOAD INCOME TAX DETAIL**
+#region ** START BY SUPRIYA ON 07-11-2019, UPLOAD INCOME TAX DETAIL**
 
         // 
         [Route("Save_EmpTaxDetailUpload")]
@@ -15210,7 +15252,7 @@ namespace projAPI.Controllers
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+#region ** START Add value in list **
                                                             if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                             {
                                                                 objemp.emp_code = item.Text.Text;
@@ -15220,7 +15262,7 @@ namespace projAPI.Controllers
                                                                 objemp.income_tax_amount = Convert.ToDouble(item.Text.Text);
                                                             }
 
-                                                            #endregion ** END value in list**
+#endregion ** END value in list**
                                                         }
                                                         //else if (item.InnerText != null)
                                                         //{
@@ -15237,7 +15279,7 @@ namespace projAPI.Controllers
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+#region ** START Add value in list **
 
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                 {
@@ -15248,7 +15290,7 @@ namespace projAPI.Controllers
                                                     objemp.income_tax_amount = Convert.ToDouble(thecurrentcell.InnerText);
                                                 }
 
-                                                #endregion ** END value in list**
+#endregion ** END value in list**
 
                                             }
 
@@ -15518,10 +15560,10 @@ namespace projAPI.Controllers
 
 
 
-        #endregion ** END BY SUPRIYA ON 07-11-2019, UPLOAD INCOME TAX DETAIL **
+#endregion ** END BY SUPRIYA ON 07-11-2019, UPLOAD INCOME TAX DETAIL **
 
 
-        #region **START BY SUPRIYA ON 19-12-2019,UPLOAD SALARYINPUT
+#region **START BY SUPRIYA ON 19-12-2019,UPLOAD SALARYINPUT
         [Route("Upload_SalaryInput")]
         [HttpPost]
         [Authorize(Policy = nameof(enmMenuMaster.PayrollInput))]
@@ -15669,7 +15711,7 @@ namespace projAPI.Controllers
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+#region ** START Add value in list **
                                                             if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                             {
                                                                 objsalaryinput.emp_code = item.Text.Text;
@@ -15683,7 +15725,7 @@ namespace projAPI.Controllers
                                                                 objsalaryinput.component_value = Convert.ToDecimal(item.Text.Text);
                                                             }
 
-                                                            #endregion ** END value in list**
+#endregion ** END value in list**
                                                         }
                                                     }
                                                 }
@@ -15692,7 +15734,7 @@ namespace projAPI.Controllers
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+#region ** START Add value in list **
 
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                 {
@@ -15707,7 +15749,7 @@ namespace projAPI.Controllers
                                                     objsalaryinput.component_value = Convert.ToDecimal(thecurrentcell.InnerText);
                                                 }
 
-                                                #endregion ** END value in list**
+#endregion ** END value in list**
 
                                             }
 
@@ -16025,7 +16067,7 @@ namespace projAPI.Controllers
             }
 
         }
-        #endregion ** END BY SUPRIYA ON 19-12-2019,UPLOAD SALARYINPUT
+#endregion ** END BY SUPRIYA ON 19-12-2019,UPLOAD SALARYINPUT
 
 
         [Route("Get_PendingAssetRequestDetailByAssetReqId/{asset_req_id}")]
@@ -16611,7 +16653,7 @@ namespace projAPI.Controllers
             }
         }
 
-        #region **FNF SALARY ,START BY SUPRIYA ON 16-07-2020 **
+#region **FNF SALARY ,START BY SUPRIYA ON 16-07-2020 **
         [HttpGet("Get_EmpFNFSalary/{empid}/{reqid}")]
         [Authorize(Policy = nameof(enmMenuMaster.EmpFNFProcess))]
         public IActionResult Get_EmpFNFSalary([FromRoute] int empid, int reqid)
@@ -16647,7 +16689,7 @@ namespace projAPI.Controllers
                 return Ok(objresponse);
             }
         }
-        #endregion ** FNF SALARY, END BY SUPRIYA ON 16-07-2020 **
+#endregion ** FNF SALARY, END BY SUPRIYA ON 16-07-2020 **
 
         [Route("Upload_SalaryRevision")]
         [HttpPost]
@@ -16789,7 +16831,7 @@ namespace projAPI.Controllers
                                                         {
                                                             //code to take the string value  
                                                             excelResult.Append(item.Text.Text + " ");
-                                                            #region ** START Add value in list **
+#region ** START Add value in list **
                                                             if (!string.IsNullOrEmpty(item.Text.Text) && currentcolumnno == "B")
                                                             {
                                                                 objsalaryinput.emp_code = item.Text.Text;
@@ -16800,7 +16842,7 @@ namespace projAPI.Controllers
                                                             }
 
 
-                                                            #endregion ** END value in list**
+#endregion ** END value in list**
                                                         }
                                                     }
                                                 }
@@ -16809,7 +16851,7 @@ namespace projAPI.Controllers
                                             {
                                                 //read columns value
                                                 excelResult.Append(Convert.ToString(thecurrentcell.InnerText) + " ");
-                                                #region ** START Add value in list **
+#region ** START Add value in list **
 
                                                 if (!string.IsNullOrEmpty(thecurrentcell.InnerText) && currentcolumnno == "B")
                                                 {
@@ -16821,7 +16863,7 @@ namespace projAPI.Controllers
                                                 }
 
 
-                                                #endregion ** END value in list**
+#endregion ** END value in list**
 
                                             }
 
@@ -17056,7 +17098,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region schedular for LWP entry made by Anil
+#region schedular for LWP entry made by Anil
         [Route("LWPEntry_Schedular")]
         [HttpGet]
         public IActionResult LWPEntry_Schedular()
@@ -17122,10 +17164,10 @@ namespace projAPI.Controllers
             }
             return dayStatuses;
         }
-        #endregion
+#endregion
 
 
-        #region **************************************** FNF Process Region*******************************************************************************
+#region **************************************** FNF Process Region*******************************************************************************
 
         //get Salary Componenet All
         [Route("Get_SalaryComponenetDetailsALL/{emp_id}/{monthyear}")]
@@ -17691,9 +17733,9 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion **************************************** FNF Process Region*******************************************************************************
+#endregion **************************************** FNF Process Region*******************************************************************************
 
-        #region Save settlement data for FNF process made by Anil
+#region Save settlement data for FNF process made by Anil
 
         [HttpPost("Save_Settlement_FNF")]
         [Authorize(Policy = nameof(enmMenuMaster.EmpFNFProcess))]
@@ -17789,9 +17831,10 @@ namespace projAPI.Controllers
                 return Ok(objResult);
             }
         }
-        #endregion
+#endregion
 
     }
+#endif
 }
 
 

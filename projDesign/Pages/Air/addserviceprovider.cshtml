@@ -1,0 +1,162 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wing Markup";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        @Html.Partial("_PartialAirLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Service Provider Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label">
+                                        Service Provider<i>*</i>
+                                    </label>
+                                    <select id="ddlprovider" class="form-control bg-light">
+                                        <option value="0">--Please Select--</option>
+                                        <option value="1">TripJack</option>
+                                        <option value="2">TBO</option>
+                                        <option value="3">Kafila</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                <label class="col-form-label">Effective From Date<i>*</i></label>
+                               
+                                    <input type="text" id="effectdate" value="12/12/2021" placeholder="Markup Amount" class="form-control ip-ap" required />
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <div class="input-group">
+                                    <label class="col-form-label">Is Enable</label>
+                                
+                                    <input type="checkbox" id="chkisenable" name="chkisenable" class="form-control" checked />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                <label class="col-form-label">Remarks</label>
+                                
+                                    <input type="text" placeholder="Remarks" class="form-control" id="remarks" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 text-center ">
+                            <hr />
+                            <button onclick="save();" class="btn btn-primary waves-effect waves-light" id="btnSaveserviceprovider">Save</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    function save() {
+        debugger;
+        var provider = $('#ddlprovider').val();
+        var rem = $('#remarks').val();
+        var eftdate = $('#effectdate').val();
+        var ischeck = false;
+        if ($("#chkisenable").prop('checked') == true) {
+            ischeck = true;
+        }
+        else {
+            ischeck = false;
+        }
+        //Validation
+        if (provider == '') {
+            messageBox("error", "Please Select Service Provider Name!");
+            return;
+        }
+        if (eftdate == '') {
+            messageBox("error", "Please Select Effective Date!");
+            return;
+        }
+        login_emp_id = 1;
+        var ur = "http://localhost:51590/api/";
+        var headerss = {};
+        headerss["Authorization"] = 'Bearer ' + localStorage.getItem('Token');
+        headerss["salt"] = $("#hdnsalt").val();
+        var apiurl = ur + "air/settings/setserviceprovider/" + eftdate + "/" + provider + "/" + ischeck + "/" + login_emp_id + "/" + rem;
+        $('#loader').show();
+        // Save
+        $.ajax({
+            url: apiurl,
+            type: "POST",
+            data: { },
+            dataType: "json",
+            contentType: "application/json",
+            headers: headerss,
+            success: function (data) {
+                debugger;
+                var statuscode = data.statusCode;
+                var Msg = data.MessageType;
+
+
+                //if data save
+                if (statuscode == "1") {
+                    //  GetAllCompany();
+                    alert(Msg);
+                    $('#loader').hide();
+                    window.location.href = '/air/serviceprovider';
+
+                }
+                else if (statuscode == "0") {
+                    messageBox("error", Msg);
+                    $('#loader').hide();
+                    return false;
+
+                }
+            },
+            error: function (request, status, error) {
+                debugger;
+                $('#loader').hide();
+                var error = "";
+                var errordata = (request.responseText);
+                try {
+                    var i = 0;
+                    while (Object.keys(errordata).length > i) {
+                        var j = 0;
+                        while (errordata[Object.keys(errordata)[i]].length > j) {
+                            error = error + "\r\n  * " + errordata[Object.keys(errordata)[i]][j];
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                    }
+
+                } catch (err) { }
+                messageBox("error", error);
+
+            }
+
+        });
+    }
+</script>
+}
+
+
+

@@ -22,6 +22,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using projAPI.Classes;
 using projContext;
+using projAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using projAPI.Services.Travel;
 
 namespace projAPI
 {
@@ -43,20 +46,42 @@ namespace projAPI
             {
                 options.AddPolicy("AllowSpecificOrigin",
                 builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-               // options.AddPolicy("AllowSpecificOrigin",
-            //  builder => builder.WithOrigins("http://192.168.10.6:1010", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-           // builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            //builder => builder.WithOrigins("http://192.168.10.129:1010", "http://192.168.10.129:1016", "http://14.143.182.168:1010", "http://14.143.182.168:1016", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //options.AddPolicy("AllowSpecificOrigin",
+                //builder => builder.WithOrigins("http://192.168.10.6:1010", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                //builder => builder.WithOrigins("http://192.168.10.129:1010", "http://192.168.10.129:1016", "http://14.143.182.168:1010", "http://14.143.182.168:1016", "http://localhost:51625", "https://localhost:51625").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
                 //builder => builder.WithOrigins("http://192.168.10.129:1013").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
             });
 
             //add context
-            services.AddDbContext<projContext.Context>();
-            services.AddScoped<clsCurrentUser>();
-            services.AddScoped<clsEmployeeDetail>(ctx => new clsEmployeeDetail(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
-            services.AddScoped<clsLeaveCredit>(ctx => new clsLeaveCredit(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<clsCurrentUser>()));
-            services.AddScoped<clsCompanyDetails>(ctx => new clsCompanyDetails(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<IHttpContextAccessor>(), ctx.GetRequiredService<clsCurrentUser>()));
+            services.AddDbContext<projContext.Context>(option=> option.UseMySql(Configuration.GetConnectionString("HRMS"), opt => opt.CommandTimeout(150)),ServiceLifetime.Scoped);
+            services.AddDbContext<projContext.DB.CRM.CrmContext>(option => option.UseMySql(Configuration.GetConnectionString("CRM"), opt => opt.CommandTimeout(150)), ServiceLifetime.Scoped);
+            services.AddDbContext<projContext.DB.Masters.MasterContext>(option => option.UseMySql(Configuration.GetConnectionString("Masters"), opt => opt.CommandTimeout(150)), ServiceLifetime.Scoped);
+
+            services.AddScoped<IsrvWallet>(ctx => new srvWallet(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
+
+            services.AddScoped<IsrvSettings>(ctx => new srvSettings(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IConfiguration>()));
+            services.AddScoped<IsrvUsers>(ctx => new srvUsers(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<projContext.DB.Masters.MasterContext>(),  ctx.GetRequiredService<IsrvSettings>()));
+            services.AddScoped<IsrvMasters>(ctx => new srvMasters(ctx.GetRequiredService<projContext.DB.Masters.MasterContext>()));
+
+            services.AddScoped<IsrvCustomer>(ctx => new srvCustomer(ctx.GetRequiredService<projContext.DB.CRM.CrmContext>()));
+
+            services.AddScoped<IsrvCurrentUser>(ctx => new srvCurrentUser(ctx.GetRequiredService<IHttpContextAccessor>()));
+            services.AddScoped<IsrvEmployee>(ctx => new srvEmployee(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>(), ctx.GetRequiredService<IConfiguration>()));
+            services.AddScoped<IsrvDistributer>(ctx => new srvDistributer(ctx.GetRequiredService<projContext.Context>(), ctx.GetRequiredService<IsrvSettings>()));
+
+
+
+
+            #region  ******************************** Travel*******************************
+            services.AddDbContext<projContext.DB.CRM.Travel.TravelContext>(option => option.UseMySql(Configuration.GetConnectionString("Travel"), opt => opt.CommandTimeout(150)));
+            services.AddScoped<Services.Travel.Air.ITripJack>(ctx => new Services.Travel.Air.TripJack(ctx.GetRequiredService<projContext.DB.CRM.Travel.TravelContext>(), ctx.GetRequiredService<IConfiguration>()));
+
+            services.AddScoped<IsrvAir>(ctx => new srvAir(ctx.GetRequiredService<IConfiguration>(), ctx.GetRequiredService<projContext.DB.CRM.Travel.TravelContext>(), ctx.GetRequiredService<Services.Travel.Air.ITripJack>()));
+
+            
+            #endregion
 
             //add authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -67,7 +92,6 @@ namespace projAPI
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
@@ -77,18 +101,20 @@ namespace projAPI
             services.Configure<AppSettings>(Configuration);
 
             //add authorization
-
             //  IEnumerable<string> allAccessRights = new projContext.Context().tbl_claim_master.Select(p => p.claim_master_id.ToString()).Distinct().ToList();
-
-
-
             services.AddAuthorization(options =>
             {
-                foreach (enmMenuMaster _enm in Enum.GetValues(typeof(enmMenuMaster)))
+                foreach (enmDocumentMaster _enm in Enum.GetValues(typeof(enmDocumentMaster)))
                 {
-                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(Convert.ToString(_enm.ToString()))));
+                    var DocumentType=_enm.GetDocumentDetails().DocumentType;                    
+                        options.AddPolicy(_enm.ToString()+ enmDocumentType.Create.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Create)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Update.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Update)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Approval.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Approval)));
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Delete.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Delete)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.Report.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.Report)));                    
+                        options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
+                    
                 }
-
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();
             //services.AddSingleton<IAuthorizationHandler, AccessRightHandler>();
@@ -96,7 +122,13 @@ namespace projAPI
             services.AddHttpContextAccessor();
             //previous code
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            /* The relevant part for Forwarded Headers */
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
 
             //var context = new CustomAssemblyLoadContext();
@@ -111,7 +143,7 @@ namespace projAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,7 +165,7 @@ namespace projAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            #region for scheduler
+            #region for schedulerCompanyReport
             //app.UseQuartz();
             app.UseMvc();
             #endregion

@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class AttendanceController : ControllerBase
@@ -184,12 +185,12 @@ namespace projAPI.Controllers
                 }
                 for (int Index = 0; Index < teos.Count; Index++)
                 {
-                    Classes.clsCalcualteDailyAttendance CalculateAttendance = new Classes.clsCalcualteDailyAttendance(
-                    _context, teos[Index].employee_id ?? 0, teos[Index].emp_official_section_id, teos[Index].location_id ?? 0,
-                    teos[Index].religion_id ?? 0, Convert.ToByte(teos[Index].is_fixed_weekly_off), PayrollDate, teos[Index].punch_type,
-                    teos[Index].is_ot_allowed, Convert.ToByte(teos[Index].is_comb_off_allowed), fromdate.Value
-                    , todate.Value, teos[Index].date_of_joining);
-                    CalculateAttendance.CalculateEmployeeAttendance();
+                    //Classes.clsCalcualteDailyAttendance CalculateAttendance = new Classes.clsCalcualteDailyAttendance(
+                    //_context, teos[Index].employee_id ?? 0, teos[Index].emp_official_section_id, teos[Index].location_id ?? 0,
+                    //teos[Index].religion_id ?? 0, Convert.ToByte(teos[Index].is_fixed_weekly_off), PayrollDate, teos[Index].punch_type,
+                    //teos[Index].is_ot_allowed, Convert.ToByte(teos[Index].is_comb_off_allowed), fromdate.Value
+                    //, todate.Value, teos[Index].date_of_joining);
+                    //CalculateAttendance.CalculateEmployeeAttendance();
 
                 }
 
@@ -227,16 +228,16 @@ namespace projAPI.Controllers
                     // PayrollDate = Convert.ToInt32(payroll.from_date.ToString("dd"));
                     PayrollDate = Convert.ToInt32(payroll.from_date);
                 }
-                for (int Index = 0; Index < teos.Count; Index++)
-                {
-                    Classes.clsCalcualteDailyAttendance CalculateAttendance = new Classes.clsCalcualteDailyAttendance(
-                        _context, teos[Index].employee_id ?? 0, teos[Index].emp_official_section_id, teos[Index].location_id ?? 0,
-                        teos[Index].religion_id ?? 0, Convert.ToByte(teos[Index].is_fixed_weekly_off), PayrollDate, teos[Index].punch_type,
-                        teos[Index].is_ot_allowed, Convert.ToByte(teos[Index].is_comb_off_allowed), fromdate.Value
-                        , todate.Value, teos[Index].date_of_joining);
-                    return CalculateAttendance.GetEmpWeekOff();
+                //for (int Index = 0; Index < teos.Count; Index++)
+                //{
+                //    Classes.clsCalcualteDailyAttendance CalculateAttendance = new Classes.clsCalcualteDailyAttendance(
+                //        _context, teos[Index].employee_id ?? 0, teos[Index].emp_official_section_id, teos[Index].location_id ?? 0,
+                //        teos[Index].religion_id ?? 0, Convert.ToByte(teos[Index].is_fixed_weekly_off), PayrollDate, teos[Index].punch_type,
+                //        teos[Index].is_ot_allowed, Convert.ToByte(teos[Index].is_comb_off_allowed), fromdate.Value
+                //        , todate.Value, teos[Index].date_of_joining);
+                //    return CalculateAttendance.GetEmpWeekOff();
 
-                }
+                //}
                 return Data;
 
 
@@ -281,7 +282,7 @@ namespace projAPI.Controllers
 
         #region get employee Montahly and daily attendance data
 
-
+#if false
         [Route("GetEmployeeMonthalyAtten/{CalenderDate}/{EmployeeId}/{for_all_emp}/{is_managerr_dec}")]
         [HttpGet]
         [Authorize(Policy = nameof(enmMenuMaster.Dashboard))]
@@ -808,6 +809,8 @@ namespace projAPI.Controllers
             }
         }
 
+#endif
+
         //get all holidaylist first time
         [Route("GetHolidayList")]
         [HttpGet]
@@ -980,7 +983,7 @@ namespace projAPI.Controllers
                 return Ok(ex.Message);
             }
         }
-        #endregion
+#endregion
 
 
         int GetQuarter(DateTime date)
@@ -1002,7 +1005,7 @@ namespace projAPI.Controllers
                 return 2;
         }
 
-        #region---Call Leave Credit And Debit AND Expire
+#region---Call Leave Credit And Debit AND Expire
         [HttpGet]
         [Route("EmployeeLeaveCreditAndDebit")]
         ////[Authorize(Policy = "10011")]
@@ -1268,7 +1271,7 @@ namespace projAPI.Controllers
             //}
         }
 
-        #endregion
+#endregion
 
         //attendance data for pichart
         [HttpGet]
@@ -1316,7 +1319,7 @@ namespace projAPI.Controllers
         }
 
 
-        #region **START BY SUPRIYA ON 28-09-2019 ,SAVE ATTANDANCE FROM EXCEL
+#region **START BY SUPRIYA ON 28-09-2019 ,SAVE ATTANDANCE FROM EXCEL
         [Route("SaveAttandance_ExcelUpload")]
         [HttpPost]
         ////[Authorize(Policy = "10013")]
@@ -1760,6 +1763,7 @@ namespace projAPI.Controllers
         }
 
 
-        #endregion ** END BY SUPRIYA ON 28-09-2019,SAVE ATTANDACNE FROM EXCEL
+#endregion ** END BY SUPRIYA ON 28-09-2019,SAVE ATTANDACNE FROM EXCEL
     }
+#endif
 }

@@ -1,0 +1,220 @@
+﻿@page
+@{
+    ViewData["Title"] = "Wing Convenience";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="col-xl-12">
+    <div class="panel ">
+
+        @Html.Partial("_PartialAirLayout")
+
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Discount Details</h4><hr />
+                    </div>
+
+                    <div class="tabs-container" id="c2" style="display:block;">
+                        <div class="col-md-6 mt-1">
+                            <div class="form-group">
+                                <label class="control-label">Applicability</label>
+                                
+                                    <select id="ddlApplicability" class="form-control select2">
+                                        <option value="On Ticket"> On Ticket </option>
+                                        <option value="OnPassenger"> On Passenger</option>
+                                    </select>
+
+                               
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <div class="form-group">
+                                <label class="control-label">Flight Type</label>
+                               
+                                    <select id="ddlFlighttype" class="form-control select2">
+                                        <option value="All"> All </option>
+                                        <option value="ConnectFlight"> Connected Flight </option>
+                                        <option value="DirectFlight"> Direct Flight</option>
+                                    </select>
+
+                               
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 mt-1">
+                            <div class="form-group">
+                               
+                                    <label class="control-label">Customer Type<i>*</i></label>
+                               
+                               
+                                    <div class="input-group">
+                                        <label class="input-group-addon input-group-addon-custom">
+                                            <input id="cboxIsAllCustomerType" class="ace ace-switch" type="checkbox" value="Is All Customer Type">
+                                            All
+                                        </label>
+                                        <select id="ddlcustomertype" class="form-control select2" multiple>
+                                            <option value="0">--Please Select--</option>
+                                        </select>
+                                    </div>
+
+                               
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="control-label">Customer<i>*</i></label>
+                               
+                                    <div class="input-group">
+                                        <label class="input-group-addon input-group-addon-custom">
+                                            <input id="cboxIsAllCustomer" class="ace ace-switch" type="checkbox" value="Is All Customer">
+                                            All
+                                        </label>
+                                        <select id="ddlcustomer" class="form-control select2" multiple>
+                                            <option value="0">--Please Select--</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label for="IsAllPessengerType" class="control-label">PessengerType</label>
+                                 
+                                        <div class="input-group">
+                                            <label class="input-group-addon input-group-addon-custom">
+                                                <input id="cboxIsAllPessengerType" class="ace ace-switch" type="checkbox" value="IsAllPessengerType" />
+                                                All
+                                            </label>
+                                            <select id="selectIsAllPessengerType" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+
+                                   
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="control-label">Service Provider<i>*</i></label>
+                                
+                                    <div class="input-group">
+                                        <label class="input-group-addon input-group-addon-custom">
+                                            <input id="cboxIsAllProvider" class="ace ace-switch" type="checkbox" value="IsAllProvider">
+                                            ALL
+                                        </label>
+                                        <select id="ddlprovider" class="form-control select2" multiple>
+                                            <option value="0">--Please Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                <label class="control-label">Flight Class<i>*</i></label>
+                               
+                                    <div class="input-group">
+                                        <label class="input-group-addon input-group-addon-custom">
+                                            <input id="cboxIsAllFlightClass" class="ace ace-switch" type="checkbox" value="IsAllFlightClass" />
+                                            ALL
+                                        </label>
+                                        <select id="ddlflightclass" class="form-control select2" multiple>
+                                            <option value="0">--Please Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-1">
+                                <div class="form-group">
+                                    <label for="IsAllAirline" class="control-label">Airlines</label>
+                                   
+                                        <div class="input-group">
+                                            <label class="input-group-addon input-group-addon-custom">
+                                                <input id="cboxIsAllAirline" class="ace ace-switch" type="checkbox" value="IsAllAirline" />
+                                                ALL
+                                            </label>
+                                            <select id="selectIsAllAirline" class="form-control select2" multiple>
+                                            </select>
+                                        </div>
+                                      
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                <label class="control-label">Markup Amount Type<i>*</i>
+                                    </label>
+                               
+                                    <select id="ddlamttype" class="form-control select2">
+                                        <option value="Percentage">Percentage</option>
+                                        <option value="Fixed">Fixed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label class="control-label">Markup Amount<i>*</i></label>
+                                
+                                    <input type="text" placeholder="Markup Amount" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                <label class="control-label">Remarks</label>
+                               
+                                    <input type="text" id="remarks" placeholder="Remarks" autocomplete="off" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                <label class="control-label">Applicable Date From<i>*</i></label>
+                             
+                                    <input type="text" id="fromdate" placeholder="Applicable Date From" autocomplete="off" class="form-control ip-ap" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 mt-1">
+
+                                <div class="form-group">
+                                <label class="control-label">Applicable Date To<i>*</i></label>
+                             
+                                    <input type="text" id="todate" autocomplete="off" placeholder="Applicable Date To" class="form-control ip-ap" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                <label class="control-label">Gender: <i>*</i></label>
+                               <br />
+                                    <input type="checkbox" name="gender" id="rdbmale" /> Male
+                                    <input type="checkbox" name="gender" id="rdbfemale" /> Female
+
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 text-center ">
+                                <hr />
+                                <button class="btn btn-primary waves-effect waves-light" id="btnSavePersonalDetails">Save</button>
+
+                            </div>
+
+
+                        </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

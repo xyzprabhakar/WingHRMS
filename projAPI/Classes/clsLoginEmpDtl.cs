@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace projAPI.Classes
 {
+#if(false)
     public class clsLoginEmpDtl
     {
         IConfiguration _config;
@@ -38,6 +39,8 @@ namespace projAPI.Classes
 
         private void fnc_is_managerr()
         {
+            throw new NotImplementedException();
+#if false
             var is_manager = _context.tbl_emp_manager.Where(x => x.is_deleted == 0 && x.employee_id == _emp_perform_action).FirstOrDefault();
             //if login employee is manager
             if (is_manager != null)
@@ -47,6 +50,7 @@ namespace projAPI.Classes
                     this.is_manager = 1;
                 }
             }
+#endif
         }
 
         public bool is_valid()
@@ -94,4 +98,5 @@ namespace projAPI.Classes
             //}
         }
     }
+#endif
 }

@@ -29,14 +29,29 @@
         <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css" />
         <link href="~/assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
         <link href="~/assets/css/style.css" rel="stylesheet" type="text/css" />
-        <script src="~/assets/js/jquery.min.js"></script>
+        
     </environment>
     <script>
-        if (localStorage.getItem('Token') == null || localStorage.getItem('ApiUrl') == null) {
-            window.location = '/Login';
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return null;
         }
+        if (this.getCookie("userId") == null) {
+            window.location = '/Login';
+        }        
     </script>
-    <script src="~/Comman/JS/JsLayout.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    
 
     <style>
 
@@ -75,10 +90,11 @@
     <div class="topbar">
 
         <!-- LOGO -->
-        <div class="topbar-left" >
+        <div class="topbar-left">
             <a id="hrms_logo_link">
                 @*<img src="~/Login Page Logos/company logo.png" width="185" height="37" alt="Travolook" title="Travolook" />*@
-                <img src="~/Login Page Logos/company logo.png" width="185" height="50" alt="Travolook" title="Travolook" />
+                @*<img src="~/Login Page Logos/company logo.png" width="185" height="50" alt="Travolook" title="Travolook" />*@
+                DB
             </a>
         </div>
 
@@ -86,28 +102,41 @@
         <nav class="navbar-custom">
 
             <!-- Search input -->
-
-
-            <ul class="list-unstyled topbar-nav float-right mb-0">
-                <li class="hidden-sm">
-                    <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="btn-fullscreen">
-                        <i class="mdi mdi-fullscreen nav-icon"></i>
+            <ul class="list-unstyled topbar-nav float-right mb-0 align-middle">
+                <li onclick="startstopWorker()">
+                    <a class="nav-link waves-effect waves-light" href="javascript:void(0);">
+                        <i class="mdi mdi-reload nav-icon"> </i> <span class="hidden-sm font-18" id="lblDataStatus"> Reload </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link waves-effect waves-light" href="javascript:void(0);" id="">
+                        <i class="mdi mdi-notification-clear-all nav-icon"> </i> <span class="hidden-sm font-18"> Notification </span>
                     </a>
                 </li>
 
-                <li id="metabb"><a href="/view/Dashboard" class="nav-link waves-effect waves-light"><i class="fa fa-user"></i> Me</a></li>
-                <li id="limyteam" style="display:none;"><a href="/Leave/OutdoorLeaveApproval" class="nav-link waves-effect waves-light"><i class="fa fa-users"></i> My Team</a></li>
-                
 
-
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" id="dropdownMenuButtonApplication" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <i class="mdi mdi-settings nav-icon"> </i><span class="hidden-sm font-18"> Application </span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonApplication">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" id="userpop" data-toggle="dropdown" href="#" role="button"
                        aria-haspopup="false" aria-expanded="false">
                         <img id="profile_icon" src="~/assets/images/users/user-1.jpg" alt="profile-user" class="rounded-circle" />
-                        <span class="ml-1 nav-user-name hidden-sm"> <span id="login_emp_name"></span> <i class="mdi mdi-chevron-down"></i> </span>
+                        <span class="ml-1 nav-user-name hidden-sm font-18"> <span id="login_emp_name"> Prabhakar </span> <i class="mdi mdi-chevron-down"></i> </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" id="ul_right_menu">
-
+                        <a class="dropdown-item" href="#">Change Password</a>
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -118,8 +147,6 @@
                         <i class="mdi mdi-menu nav-icon"></i>
                     </button>
                 </li>
-
-
 
             </ul>
 
@@ -150,12 +177,8 @@
                 <!-- end page title end breadcrumb -->
 
                 <div class="row mt-3">
-
-                    <div>@Html.Partial("_GuIDPartial")</div>
-
+                    @*<div>@Html.Partial("_GuIDPartial")</div>*@
                     @RenderBody()
-
-
                 </div>  <!-- container -->
                 <div class="row mt-5">
                     <div class="col-xl-12 mt-2">
@@ -212,29 +235,25 @@
 
 
     <!--Plugins-->
+    <script src="~/assets/js/jquery.min.js"></script>
+
     <!----date picker-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="~/calender/JqCalender/jquery-ui.js"></script>
     <!--end here-->
     <script src="~/assets/plugins/raphael/raphael-min.js"></script>
     <script src="~/assets/plugins/morris/morris.min.js"></script>
-
     <script src="~/js/selectBox.js"></script>
     <script src="~/assets/pages/jquery.dashboard.init.js"></script>
-
-
     <link href="~/datetimepickers/css/anypicker-font.css" rel="stylesheet" />
     <link href="~/datetimepickers/css/anypicker.css" rel="stylesheet" />
     <script src="~/datetimepickers/js/jquery-1.11.1.min.js"></script>
+    <!--Jquery Validation-->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="~/datetimepickers/js/anypicker.js"></script>
     <!---Added for message box---->
     <script src="~/js/msgbox/jquery.msgBox.js"></script>
-
-
-    @*<script src="~/js/jquery.jqGrid.min.js"></script>*@
-
     <script src="~/flatpickers/flatpickr.min.js"></script>
-
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/metisMenu.min.js"></script>
     <script src="~/assets/js/waves.min.js"></script>
@@ -253,7 +272,6 @@
     <!-- Required datatable js -->
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Buttons examples For Datatable buttons-->
     <script src="~/assets/plugins/datatables/dataTables.buttons.min.js"></script>
     <script src="~/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
@@ -267,6 +285,11 @@
     <script src="~/js/popup.js"></script>
     <script src="~/js/aes.js"></script>
     <script src="~/assets/js/app.js"></script>
+    <!-- Set Data in Db -->
+    <script src="~/apiJS/GlobalEnum.js" asp-append-version="true"></script>
+    <script src="~/apiJS/customeWorker.js" asp-append-version="true"></script>
+    <script src="~/apiJS/GetDbData.js" asp-append-version="true"></script>
+    <script src="~/Comman/JS/BindMenus.js" asp-append-version="true"></script>
 
     <script>
         $(function () {
@@ -321,120 +344,122 @@
             e.preventDefault();
             $('.userLoginPanel').toggle();
         });
+        $(".select2").select2();
 
-        $(".ip-ap").flatpickr({
-            dateFormat: "d-M-Y",
-        });
-
-
-        $(".ip-ap-leave-setting").flatpickr({
-            dateFormat: "d-M-Y",
-
-        });
-        $(".ip-ap_2").flatpickr({
-            dateFormat: "d-M-Y",
-            maxDate: "today"
-        });
-        $(".AnyTimePicker").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-        });
-
-        $(".iphr").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-        });
-        function onMonthOrYearChange(dObj, dStr, fp) {
-            fp.setDate(new Date(fp.currentYear, fp.currentMonth));
-        }
-        // uncomment underneath code to use flatpickr calender for report monthly report select month but remember to remove
-        //the datepicker code in jsreport.js if you enable this flatpickr calender
-        $(".monthly").flatpickr(
-            {
-                dateFormat: "Y-m",
-                //"enable": [
-                //        function (date) {
-                //         return true to disable
-                //            return (date.getDate() < 2);
-                //        }
-                //],
-                //enable: ["2025-03-30", "2025-05-21", "2025-06-08", new Date(2025, 8, 9)],
-                onYearChange: onMonthOrYearChange,
-                onMonthChange: onMonthOrYearChange
-            });
+            //$(".ip-ap").flatpickr({
+            //    dateFormat: "d-M-Y",
+            //});
 
 
-        $(".only_month_year").flatpickr(
-            {
-                dateFormat: "Ym",
+            //$(".ip-ap-leave-setting").flatpickr({
+            //    dateFormat: "d-M-Y",
 
-                onYearChange: onMonthOrYearChange,
-                onMonthChange: onMonthOrYearChange
-            });
-        $(".date_and_time").flatpickr({
-            enableTime: true,
-            dateFormat: "d-M-Y H:i",
-            maxDate: "today"
-        });
-        $(".date_for_outdoor").flatpickr({
-            dateFormat: "d-M-Y",
-            maxDate: new Date().fp_incr(60),
-            minDate: new Date().fp_incr(-45)
-        });
+            //});
+            //$(".ip-ap_2").flatpickr({
+            //    dateFormat: "d-M-Y",
+            //    maxDate: "today"
+            //});
+            //$(".AnyTimePicker").flatpickr({
+            //    enableTime: true,
+            //    noCalendar: true,
+            //    dateFormat: "H:i",
+            //});
 
-        //$('ul.leftMenu li a.subMenu').on('click', function (e) {
-        //    debugger;
-        //    e.preventDefault();
-        //    let check = $(this).next('ul');
-        //    let icons = check.next('span.fa');
-        //    if (check.hasClass('hasSubmenu')) {
-        //        if (check.is(':visible')) {
-        //            check.slideUp();
-        //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
-        //        }
-        //        else {
-        //            check.slideDown();
-        //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
-        //        }
-        //    }
+            //$(".iphr").flatpickr({
+            //    enableTime: true,
+            //    noCalendar: true,
+            //    dateFormat: "H:i",
+            //    time_24hr: true,
+            //});
+            //function onMonthOrYearChange(dObj, dStr, fp) {
+            //    fp.setDate(new Date(fp.currentYear, fp.currentMonth));
+            //}
+            //// uncomment underneath code to use flatpickr calender for report monthly report select month but remember to remove
+            ////the datepicker code in jsreport.js if you enable this flatpickr calender
+            //$(".monthly").flatpickr(
+            //    {
+            //        dateFormat: "Y-m",
+            //        //"enable": [
+            //        //        function (date) {
+            //        //         return true to disable
+            //        //            return (date.getDate() < 2);
+            //        //        }
+            //        //],
+            //        //enable: ["2025-03-30", "2025-05-21", "2025-06-08", new Date(2025, 8, 9)],
+            //        onYearChange: onMonthOrYearChange,
+            //        onMonthChange: onMonthOrYearChange
+            //    });
 
-        //});
+
+            //$(".only_month_year").flatpickr(
+            //    {
+            //        dateFormat: "Ym",
+
+            //        onYearChange: onMonthOrYearChange,
+            //        onMonthChange: onMonthOrYearChange
+            //    });
+            //$(".date_and_time").flatpickr({
+            //    enableTime: true,
+            //    dateFormat: "d-M-Y H:i",
+            //    maxDate: "today"
+            //});
+            //$(".date_for_outdoor").flatpickr({
+            //    dateFormat: "d-M-Y",
+            //    maxDate: new Date().fp_incr(60),
+            //    minDate: new Date().fp_incr(-45)
+            //});
+
+                                                        //$('ul.leftMenu li a.subMenu').on('click', function (e) {
+                                                        //    debugger;
+                                                        //    e.preventDefault();
+                                                        //    let check = $(this).next('ul');
+                                                        //    let icons = check.next('span.fa');
+                                                        //    if (check.hasClass('hasSubmenu')) {
+                                                        //        if (check.is(':visible')) {
+                                                        //            check.slideUp();
+                                                        //            icons.removeClass('fa-angle-up').addClass('fa-angle-down');
+                                                        //        }
+                                                        //        else {
+                                                        //            check.slideDown();
+                                                        //            icons.removeClass('fa-angle-down').addClass('fa-angle-up');
+                                                        //        }
+                                                        //    }
+
+                                                        //});
 
 
 
     </script>
-    <script type="text/javascript">
-        var key = CryptoJS.enc.Base64.parse("#base64Key#");
-        var iv = CryptoJS.enc.Base64.parse("#base64IV#");
+    @*<script type="text/javascript">
+            var key = CryptoJS.enc.Base64.parse("#base64Key#");
+            var iv = CryptoJS.enc.Base64.parse("#base64IV#");
 
-        var user_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("user_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
-        var login_emp_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("login_emp_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
+            var user_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("user_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
+            var login_emp_name_dec = CryptoJS.AES.decrypt(localStorage.getItem("login_emp_name"), key, { iv: iv }).toString(CryptoJS.enc.Utf8);
 
 
-        //var user_name = localStorage.getItem('user_name'); // get user id
-        //var login_emp_namee = localStorage.getItem('login_emp_name');
-        $('#user_name').text(user_name_dec);
-        $("#login_emp_name").text(login_emp_name_dec);
-        var profile_img_path = CryptoJS.AES.decrypt(localStorage.getItem("employee_photo_path"), key, { iv: iv }).toString(CryptoJS.enc.Utf8); //localStorage.getItem('employee_photo_path');
-        
+            //var user_name = localStorage.getItem('user_name'); // get user id
+            //var login_emp_namee = localStorage.getItem('login_emp_name');
+            $('#user_name').text(user_name_dec);
+            $("#login_emp_name").text(login_emp_name_dec);
+            var profile_img_path = CryptoJS.AES.decrypt(localStorage.getItem("employee_photo_path"), key, { iv: iv }).toString(CryptoJS.enc.Utf8); //localStorage.getItem('employee_photo_path');
 
-        if (profile_img_path == '' || profile_img_path == null) {
-            $('#profile_img').attr("src", '/img/no-profile-photo.jpg');
-            $('#profile_icon').attr("src", '/img/no-profile-photo.jpg');
-        }
-        else {
-            $('#profile_img').attr("src", profile_img_path.replace("api/", ""));
-            $('#profile_icon').attr("src", profile_img_path.replace("api/", ""));
-        }
-    </script>
+
+            if (profile_img_path == '' || profile_img_path == null) {
+                $('#profile_img').attr("src", '/img/no-profile-photo.jpg');
+                $('#profile_icon').attr("src", '/img/no-profile-photo.jpg');
+            }
+            else {
+                $('#profile_img').attr("src", profile_img_path.replace("api/", ""));
+                $('#profile_icon').attr("src", profile_img_path.replace("api/", ""));
+            }
+        </script>*@
     <!-- Custom jquery -->
-    <script src="~/apiJS/GlobalEnum.js"></script>
-    <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>    
-    <script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    @*<script src="~/apiJS/GlobalEnum.js"></script>
+        <script src="~/Comman/JS/BindMenus.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+        <script src="~/Comman/JS/CommanJS.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
     <script src="~/src/jquery.table2excel.js"></script>
+    @*<script src="~/Comman/JS/JsLayout.js?ver=@DateTime.Now.Ticks.ToString()"></script>*@
     @RenderSection("Scripts", required: false)
 
 

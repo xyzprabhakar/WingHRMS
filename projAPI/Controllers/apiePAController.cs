@@ -18,6 +18,7 @@ using static projAPI.Model.ePA;
 
 namespace projAPI.Controllers
 {
+#if(false)
     [Route("api/[controller]")]
     [ApiController]
     public class apiePAController : ControllerBase
@@ -976,6 +977,8 @@ namespace projAPI.Controllers
         [HttpGet("Get_EmpDetailsForEpa/{emp_id}/{company_id}")]
         public async Task<IActionResult> Get_EmpDetailsForEpa([FromRoute] int emp_id,int company_id)
         {
+            throw new NotImplementedException();
+#if false
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -1024,6 +1027,7 @@ namespace projAPI.Controllers
             }
 
             return Ok(new { manager_data, get_emp_data, get_desi_data, get_grad_data });
+#endif
         }
 
 
@@ -4339,4 +4343,6 @@ namespace projAPI.Controllers
         }
 
     }
+
+#endif
 }

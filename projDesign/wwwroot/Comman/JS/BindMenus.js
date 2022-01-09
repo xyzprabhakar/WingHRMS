@@ -1,10 +1,33 @@
-﻿$(document).ready(function () {
-    var role_menu_list = JSON.parse(localStorage.getItem('_menu_lst'));
-    var element = document.getElementById("side-nav");
-    BindMenuData(role_menu_list, element,true);
-    $("#side-nav").metisMenu();
-    initActiveMenu();
-})
+﻿
+$(document).ready(function () {
+    let applicationId = localStorage.getItem("currentApplication");
+    if (applicationId == null) {
+        applicationId = 0;
+    }    
+    let dBVersion = localStorage.getItem('dBVersion');
+
+    var openRequest = indexedDB.open("dpbs", dBVersion);
+    openRequest.onupgradeneeded = function (e) {
+        fncCreateAllDb(e);
+    }
+    openRequest.onsuccess = function (e) {
+        var db = e.target.result;
+        let ObjectStore = db.transaction("tblMenuMaster", "readwrite")
+            .objectStore("tblMenuMaster").get(parseInt( applicationId)).onsuccess = function (event) {
+                var element = document.getElementById("side-nav");
+                if (event.target.result !== undefined) {
+                    BindMenuData(event.target.result.menuData, element, true);
+                    $("#side-nav").metisMenu();
+                    initActiveMenu();
+                }
+                
+            };
+        openRequest.onerror = function (e) {
+            console.log(e);
+        }
+    }
+
+});
 
 function BindMenuData(datas,parentElement,tobeadded) {
     for (var i = 0; i < datas.length; i++) {
@@ -25,7 +48,7 @@ function BindMenuData(datas,parentElement,tobeadded) {
         
         itemA.appendChild(itemSpan);
         if (datas[i].children == null || datas[i].children.length == 0) {
-            itemA.href ="/"+ datas[i].urll;
+            itemA.href =""+ datas[i].urll;
         }
         else {
             itemA.href = "javascript: void(0);";            
