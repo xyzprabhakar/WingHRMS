@@ -242,6 +242,7 @@ namespace projAPI.Services
             _claim.Add(new Claim("__UserType", Convert.ToString(userType)));
             _claim.Add(new Claim("__CustomerType", Convert.ToString(CustomerType)));
             _claim.Add(new Claim("__OrgId", Convert.ToString(OrgId)));
+            _claim.Add(new Claim("__OrgIds", string.Join(",", _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).Select(p => p.OrgId))));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
             var token = new JwtSecurityToken(JWTIssuer, JWTIssuer, _claim, expires: DateTime.Now.AddMinutes(TokenExpiryTime),
@@ -687,12 +688,15 @@ namespace projAPI.Services
         enmUserType UserType { get; }
         int VendorId { get; }
         int OrgId { get; }
+        int []OrgIds { get; }
+        bool HaveOrganisationPermission(int OrgId);
     }
 
     public class srvCurrentUser : IsrvCurrentUser
     {
         private ulong _UserId = 0, _DistributorId = 0;
         private int _EmployeeId = 0, _CustomerId = 0, _VendorId = 0, _OrgId = 0;
+        private int[] _OrgIds;
         private enmUserType _UserType = enmUserType.Customer;
         private enmCustomerType _CustomerType = enmCustomerType.None;
         public srvCurrentUser(IHttpContextAccessor httpContextAccessor)
@@ -705,17 +709,27 @@ namespace projAPI.Services
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value, out _OrgId);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserType").FirstOrDefault()?.Value, out _UserType);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerType").FirstOrDefault()?.Value, out _CustomerType);
-
+            string tempOrg = httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value ?? string.Empty;
+            _OrgIds = tempOrg.Split(",")?.Select(p => Convert.ToInt32(p))?.ToArray() ?? null;
+            if (_OrgIds == null)
+            {
+                _OrgIds = new int[1];
+                _OrgIds[0] = _OrgId;
+            }
         }
         public ulong UserId { get { return _UserId; } private set { } }
         public int OrgId { get { return _OrgId; } private set { } }
+        public int[] OrgIds { get { return _OrgIds; } private set { } }
         public int CustomerId { get { return _CustomerId; } private set { } }
         public int EmployeeId { get { return _EmployeeId; } private set { } }
         public int VendorId { get { return _VendorId; } private set { } }
         public ulong DistributorId { get { return _DistributorId; } private set { } }
         public enmUserType UserType { get { return _UserType; } private set { } }
         public enmCustomerType customerType { get { return _CustomerType; } private set { } }
-
+        public bool HaveOrganisationPermission(int OrgId)
+        {
+            return _OrgIds.Any(p => p == OrgId);
+        }
     }
 
 }
