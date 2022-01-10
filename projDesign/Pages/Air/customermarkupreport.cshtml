@@ -1,0 +1,199 @@
+﻿@page
+@{
+    ViewData["PageId"] = "3";
+    ViewData["Title"] = "Customer Markup Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="col-md-12">
+    <div class="panel">
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="form-container master-panel">
+                    <div class="col-md-12">
+                        <h4>Customer Markup Report @*@ViewBag.Title *@ </h4>
+                        <hr />
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label class="col-form-label" for="ddlOrganisation">Organisation</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="ddlOrganisation" name="ddlOrganisation" class="form-control select2" required>
+                                    <option value=""> -- Please Select --</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <div class="table-responsive no-margin">
+                            <table id="dt_table1" class="table w-100 no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>Sno</th>
+                                        <th>Code</th>
+                                        <th>Customer Id</th>
+                                        <th>Nid</th>
+                                        <th>Effective From Date</th>
+                                        <th>Effective To Date</th>
+                                        <th>MarkupAmount</th>
+                                        <th>Modified By</th>
+                                        <th>Modified Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/apiJS/Comman/Organisation.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //air/settings/GetCustomerMarkup  (bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate, int CustomerId, ulong Nid, enmCustomerType CustomerType)
+            //bindcountry
+            $('#loader').show();
+            BindOrganisation("ddlOrganisation", 0);
+            $('#loader').hide();
+
+            $('#loadGridData').click(function () {
+                $('#loader').show();
+                let apiurl = localStorage.getItem('baseUrl') + "Air/air/settings/GetCustomerMarkup";
+                let token = localStorage.getItem('token');
+                let headerss = new Headers();
+                var data = { 'AllMarkup': true, 'AllActiveMarkup': true, 'ProcessingDate': '12/12/2021', 'CustomerId': 0, 'Nid': 0, 'CustomerType': 0 }
+                
+                headerss.append("Authorization", 'Bearer ' + token);
+                headerss.append("Content-Type", "application/json; charset=utf-8");
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                     data,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+
+                    if (data.messageType == 1) {
+                        var dt = $("#dt_table1").DataTable({
+                            "processing": true, // for show progress bar
+                            "serverSide": false, // for process server side
+                            responsive: true,
+                            "bDestroy": true,
+                            "filter": true, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "scrollX": 200,
+                            //"scrollY": "200px",
+                            //dom: 'lBfrtip',
+                            dom: "<'row'<'col-md-12 text-right mb-3'B>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [
+                                {
+                                    text: 'Export',
+                                    title: 'Customer Markup Data',
+                                    extend: 'excelHtml5',
+                                    exportOptions: {
+                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    }
+                                },
+                                {
+                                    extend: 'colvis',
+                                    columnText: function (dt, idx, title) {
+                                        return (idx + 1) + ': ' + title;
+                                    }
+                                }
+                            ],
+                            "aaData": data.returnId,
+                            "columnDefs":
+                                [
+
+                                    {
+                                        targets: [3],
+                                        render: function (data, type, row) {
+                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
+                                        }
+                                    },
+                                    {
+                                        targets: [11],
+                                        render: function (data, type, row) {
+                                            var date = new Date(data);
+                                            return GetDateFormatddMMyyyy(date);
+                                        }
+                                    },
+                                    {
+                                        targets: [12],
+                                        "class": "text-center",
+                                        render: function (data, type, row) {
+                                            return '<a href="Company?CompanyId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
+                                        }
+
+                                    }
+                                ],                          
+                            "columns": [
+                                { "data": null, "name": "sno", "autoWidth": true },
+                                { "data": "code", "name": "code", "autoWidth": true },
+                                { "data": "name", "name": "name", "autoWidth": true },
+                                { "data": "CustomerId", "name": "CustomerId", "autoWidth": true },
+                                { "data": "Nid", "name": "Nid", "autoWidth": true },
+                                { "data": "EffectiveFromDt", "name": "EffectiveFromDt", "autoWidth": true },
+                                { "data": "EffectiveToDt", "name": "EffectiveToDt", "autoWidth": true },
+                                { "data": "MarkupAmount", "name": "MarkupAmount", "autoWidth": true },
+                                { "data": "contactNo", "name": "contactNo", "autoWidth": true },
+                                { "data": "email", "name": "email", "autoWidth": true },
+                                { "data": "ModifyRemarks", "name": "ModifyRemarks", "autoWidth": true }
+                               
+                            ],
+                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                            'createdRow': function (row, data, dataIndex) {
+                                $('td:eq(4)', row).css('min-width', '200px');
+                                $('td:eq(2)', row).css('min-width', '150px');
+                                $('td:eq(9)', row).css('min-width', '200px');
+                            }
+
+                        });
+
+                        dt.on('order.dt search.dt', function () {
+                            dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                                cell.innerHTML = i + 1;
+                            });
+                        }).draw();
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+            });
+        });
+
+
+    </script>
+}
+
+
