@@ -41,16 +41,13 @@
                                     <tr>
                                         <th>Sno</th>
                                         <th>Code</th>
-                                        <th>Name</th>
-                                        <th>IsActive</th>
-                                        <th>Address</th>
-                                        <th>State</th>
-                                        <th>Country</th>
-                                        <th>Pincode</th>
-                                        <th>Contact No</th>
-                                        <th>Email</th>
+                                        <th>Customer Id</th>
+                                        <th>Nid</th>
+                                        <th>Effective From Date</th>
+                                        <th>Effective To Date</th>
+                                        <th>MarkupAmount</th>
                                         <th>Modified By</th>
-                                        <th>Modified Dt</th>
+                                        <th>Modified Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -72,6 +69,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            //air/settings/GetCustomerMarkup  (bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate, int CustomerId, ulong Nid, enmCustomerType CustomerType)
             //bindcountry
             $('#loader').show();
             BindOrganisation("ddlOrganisation", 0);
@@ -79,14 +77,17 @@
 
             $('#loadGridData').click(function () {
                 $('#loader').show();
-                let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompanys/" + $('#ddlOrganisation').val();
+                let apiurl = localStorage.getItem('baseUrl') + "Air/air/settings/GetCustomerMarkup";
                 let token = localStorage.getItem('token');
                 let headerss = new Headers();
+                var data = { 'AllMarkup': true, 'AllActiveMarkup': true, 'ProcessingDate': '12/12/2021', 'CustomerId': 0, 'Nid': 0, 'CustomerType': 0 }
+                
                 headerss.append("Authorization", 'Bearer ' + token);
                 headerss.append("Content-Type", "application/json; charset=utf-8");
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
+                     data,
                 }).then(response => {
                     if (response.ok) {
                         return response.json();
@@ -110,10 +111,10 @@
                             buttons: [
                                 {
                                     text: 'Export',
-                                    title: 'Company Data',
+                                    title: 'Customer Markup Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                     }
                                 },
                                 {
@@ -148,21 +149,20 @@
                                         }
 
                                     }
-                                ],
+                                ],                          
                             "columns": [
                                 { "data": null, "name": "sno", "autoWidth": true },
                                 { "data": "code", "name": "code", "autoWidth": true },
                                 { "data": "name", "name": "name", "autoWidth": true },
-                                { "data": "isActive", "name": "isActive", "autoWidth": true },
-                                { "data": "address", "name": "address", "autoWidth": true },
-                                { "data": "state", "name": "state", "autoWidth": true },
-                                { "data": "country", "name": "country", "autoWidth": true },
-                                { "data": "pincode", "name": "pincode", "autoWidth": true },
+                                { "data": "CustomerId", "name": "CustomerId", "autoWidth": true },
+                                { "data": "Nid", "name": "Nid", "autoWidth": true },
+                                { "data": "EffectiveFromDt", "name": "EffectiveFromDt", "autoWidth": true },
+                                { "data": "EffectiveToDt", "name": "EffectiveToDt", "autoWidth": true },
+                                { "data": "MarkupAmount", "name": "MarkupAmount", "autoWidth": true },
                                 { "data": "contactNo", "name": "contactNo", "autoWidth": true },
                                 { "data": "email", "name": "email", "autoWidth": true },
-                                { "data": "modifiedBy", "name": "modifiedBy", "autoWidth": true },
-                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "companyId", "name": "companyId", "autoWidth": true }
+                                { "data": "ModifyRemarks", "name": "ModifyRemarks", "autoWidth": true }
+                               
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             'createdRow': function (row, data, dataIndex) {

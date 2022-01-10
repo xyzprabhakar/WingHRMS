@@ -11,7 +11,6 @@
         <div class="card">
             <div class="card-body p-2">
                 <form id="frmCustomerMarkup" method="post" action="">
-
                     <div class="form-container master-panel">
                         <div class="col-md-12">
                             <h4>@ViewBag.Title</h4>
@@ -64,7 +63,7 @@
                                 <div class="form-group" for="txtUserId">
                                     <label class="col-form-label col-md-3" for="txtUserId">User Id</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="txtUserId" name="txtUserId" autocomplete="off" pattern="^[a-zA-Z0-9_-]*$"
+                                        <input type="text" id="txtUserId" name="txtUserId" readonly autocomplete="off" pattern="^[a-zA-Z0-9_-]*$"
                                                class="form-control" placeholder="User Id" required>
                                     </div>
                                 </div>
@@ -74,7 +73,7 @@
                                     <label class="col-form-label col-md-3" for="txtCustomerId">Customer Id</label>
                                     <div class="col-md-9">
                                         <input type="text" id="txtCustomerId" name="txtCustomerId"
-                                               autocomplete="off"  pattern="^[a-zA-Z0-9_-]*$"
+                                               autocomplete="off" readonly  pattern="^[a-zA-Z0-9_-]*$"
                                                class="form-control" placeholder="Customer Id" required>
                                     </div>
                                 </div>
@@ -88,12 +87,12 @@
                         </div>
                         <div class="row mb-12">
                             <div class="col-md-6">
-                                <div class="form-group" for="txtPinCode">
+                                <div class="form-group" for="txtNid">
                                     <label class="col-form-label col-md-3" for="txtPinCode">Nid</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="txtPinCode" name="txtPinCode" pattern="^[a-zA-Z0-9_-]*$"
+                                        <input type="text" id="txtNid" name="txtNid"  value="0" 
                                                maxlength="16" autocomplete="off" 
-                                               class="form-control" placeholder="Nid" required>
+                                               class="form-control" placeholder="Nid" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +102,7 @@
                                     <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
                                     <div class="col-md-9">
                                         <textarea type="tel" id="txtRemarks" name="txtRemarks" cols="5" pattern="^[^<>]+$"
-                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
-                                    </textarea>
+                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -133,64 +131,68 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            //$('#loader').show();
+            $('#loader').show();
+            let token = localStorage.getItem('token');           
+            let _currentOrganisation = localStorage.getItem("currentOrganisation");
+            if (_currentOrganisation == null || _currentOrganisation == '' || _currentOrganisation == undefined) {
+                $("#txtCustomerId").val("0");
+                $('#loader').hide();
+            } else {
+                $("#txtUserId").val(localStorage.getItem("userId"));
+                $("#txtCustomerId").val(localStorage.getItem("customerId"));
+               
+                $('#loader').hide();
+                //CheckIdExists_IndexDb(_currentOrganisation, "tblCompany").then(result => {
+                   
+                //    if (result) {
+                //        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + _currentOrganisation + "/false/false";
+                //        let headerss = new Headers();
+                //        let lblcountryId = 0;
+                //        let lblstateId = 0;
+                //        headerss.append("Authorization", 'Bearer ' + token);
+                //        headerss.append("Content-Type", "application/json; charset=utf-8");
+                //        fetch(apiurl, {
+                //            method: "GET",
+                //            headers: headerss,
+                //        }).then(response => {
+                //            if (response.ok) {
+                //                return response.json();
+                //            } else {
+                //                throw new Error(response.statusText);
 
-            let token = localStorage.getItem('token'); 
-            
-           // let companyId_ = getUrlVars()["companyid"];
-            //if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
-            //    $("#lblCompanyId").val("0");
-            //    $('#loader').hide();
-            //} else {
-            //    CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
-            //        if (result) {
-            //            let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";
-            //            let headerss = new Headers();
-            //            let lblcountryId = 0;
-            //            let lblstateId = 0;
-            //            headerss.append("Authorization", 'Bearer ' + token);
-            //            headerss.append("Content-Type", "application/json; charset=utf-8");
-            //            fetch(apiurl, {
-            //                method: "GET",
-            //                headers: headerss,
-            //            }).then(response => {
-            //                if (response.ok) {
-            //                    return response.json();
-            //                } else {
-            //                    throw new Error(response.statusText);
+                //            }
+                //        }).then(data => {
 
-            //                }
-            //            }).then(data => {
-
-            //                if (data.messageType == 1) {
-            //                    $("#txtMarkupAmount").val(data.returnId.MarkupAmount);
-            //                    $("#txtEffectiveFromDt").val(data.returnId.EffectiveFromDt);
-            //                    $("#txtEffectiveToDt").val(data.returnId.EffectiveToDt);
-            //                    $("#txtUserId").val(data.returnId.UserId)
-            //                    $("#txtCustomerId").val(data.returnId.CustomerId);
-            //                    $("#txtNid").val(data.returnId.Nid);                               
-            //                    $("#txtRemarks").val(data.returnId.Remarks); 
-            //                    $('#loader').hide();
-            //                }
-            //                else {
-            //                    $('#loader').hide();
-            //                    messageBox("error", data.message);
-            //                }
-            //            }).catch((error) => {
-            //                $('#loader').hide();
-            //                messageBox("error", error.message);
-            //            });
-            //        }
-            //        else {
-            //            $('#loader').hide();
-            //            messageBox("error", "unauthorized access");
-            //        }
-            //    });
-            //}
+                //            if (data.messageType == 1) {
+                //                $("#txtMarkupAmount").val(data.returnId.MarkupAmount);
+                //                $("#txtEffectiveFromDt").val(data.returnId.EffectiveFromDt);
+                //                $("#txtEffectiveToDt").val(data.returnId.EffectiveToDt);
+                //                $("#txtUserId").val(data.returnId.UserId)
+                //                $("#txtCustomerId").val(data.returnId.CustomerId);
+                //                $("#txtNid").val(data.returnId.Nid);                               
+                //                $("#txtRemarks").val(data.returnId.Remarks); 
+                //                $('#loader').hide();
+                //            }
+                //            else {
+                //                $('#loader').hide();
+                //                messageBox("error", data.message);
+                //            }
+                //        }).catch((error) => {
+                //            $('#loader').hide();
+                //            messageBox("error", error.message);
+                //        });
+                //    }
+                //    else {
+                //        $('#loader').hide();
+                //        messageBox("error", "unauthorized access");
+                //    }
+                //});
+                
+            }
 
 
            
-            //save data
+            //save form data
             $("#frmCustomerMarkup").validate({
                 errorPlacement: function (error, element) {
                     if (element.hasClass('select2') && element.next('.select2-container').length) {
@@ -207,14 +209,13 @@
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     var formdata = new FormData();
-                      
+                    
                     formdata.append("MarkupAmount", $("#txtMarkupAmount").val());
                     formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
                     formdata.append("EffectiveToDt", $("#txtEffectiveToDt").val());
                     formdata.append("CustomerId", $("#txtCustomerId").val());
                     formdata.append("Nid", 0);
-                    formdata.append("Remarks", $("#txtRemarks").val());
-                     
+                    formdata.append("Remarks", $("#txtRemarks").val());                     
                     
                     fetch(Postapiurl, {
                         method: "POST",
