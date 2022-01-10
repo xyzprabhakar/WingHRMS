@@ -11,6 +11,7 @@ namespace projAPI.Services
     public interface IsrvCustomer
     {
         tblCustomerMaster GetCustomer(int OrgId, string CustomerCode);
+        List<tblCustomerMaster> GetCustomers(int OrgId);
     }
 
     public class srvCustomer : IsrvCustomer
@@ -42,5 +43,12 @@ namespace projAPI.Services
             }
             return Data;
         }
+
+        public List<tblCustomerMaster> GetCustomers(int OrgId)
+        {
+            var Data = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId).ToList();
+            return Data;
+        }
+
     }
 }
