@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using projAPI.Model;
 using projAPI.Services;
+using projContext;
 using projContext.DB.HRMS;
 using System;
 using System.Collections.Generic;
@@ -23,8 +25,9 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetOrganisation/{OrgId}/{IncludeUsername}")]
-        public mdlReturnData GetOrganisation(int OrgId, int HolidayId)
+        [Authorize(nameof(enmDocumentMaster.Organisation) + nameof(enmDocumentType.Update))]
+        [Route("GetHoliday/{OrgId}/{IncludeUsername}")]
+        public mdlReturnData GetHoliday([FromHeader]int OrgId, int HolidayId)
         {
             mdlReturnData returnData = new mdlReturnData();
             if (!_IsrvCurrentUser.HaveOrganisationPermission(OrgId))

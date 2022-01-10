@@ -29,19 +29,38 @@ namespace projAPI
                 ulong.TryParse(context.User.Claims.Where(p => p.Type == "__UserId").FirstOrDefault()?.Value,out UserId);
                 if (UserId > 0)
                 {
-                    if (_Dbcontext.tblUserRole.Where(p => p.UserId== UserId && p.tblRoleMaster.RoleName == "SuperAdmin" && !p.IsDeleted).Count() > 0)
+                    if (requirement.IsValidateOrganisation)
                     {
-                        context.Succeed(requirement);
+                        if (requirement.RequestHeader == enmValidateRequestHeader.ValidateOrganisation)
+                        {
+                            int OrgId = 0;
+                            int.TryParse(_httpContextAccessor.HttpContext.Request.Headers.Where(p => string.Equals(p.Key, "OrgId", StringComparison.OrdinalIgnoreCase))?.FirstOrDefault().Value, out OrgId);
+                            if (OrgId > 0)
+                            {
+                                string tempOrg = _httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value ?? string.Empty;
+                                int[] _OrgIds = tempOrg.Split(",")?.Select(p => Convert.ToInt32(p))?.ToArray() ?? null;
+                                if (_OrgIds.Any(p => p == OrgId))
+                                {
+                                    context.Succeed(requirement);
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        var tempData = _Dbcontext.tblUserAllClaim.Where(p => p.DocumentMaster == requirement.accessRight && p.PermissionType == requirement.accessRightType).FirstOrDefault();
-                        if (tempData !=null)
+                        if (_Dbcontext.tblUserRole.Where(p => p.UserId == UserId && p.tblRoleMaster.RoleName == "SuperAdmin" && !p.IsDeleted).Count() > 0)
                         {
                             context.Succeed(requirement);
                         }
+                        else
+                        {
+                            var tempData = _Dbcontext.tblUserAllClaim.Where(p => p.DocumentMaster == requirement.accessRight && p.PermissionType == requirement.accessRightType).FirstOrDefault();
+                            if (tempData != null)
+                            {
+                                context.Succeed(requirement);
+                            }
+                        }
                     }
-                    
                 }
                 
             }

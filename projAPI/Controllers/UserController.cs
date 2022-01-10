@@ -268,7 +268,7 @@ namespace projAPI.Controllers
                     var mdlsubMs = submodules.Where(q => (int?)q.EnmModule == mdlM.id).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
                     foreach (var mdlsubM in mdlsubMs)
                     {
-                        mdlsubM.children.AddRange( documents.Where(q => (int)q.EnmSubModule == mdlsubM.id && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }));
+                        mdlsubM.children.AddRange( documents.Where(q => (int?)q.EnmSubModule == mdlsubM.id && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }));
                     }
                     var document_inner1 = documents.Where(q => (int?)q.EnmModule == mdlM.id && q.EnmSubModule==null && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
                     mdlM.children.AddRange(mdlsubMs.Union(document_inner1).OrderBy(p=>p.sortingorder).ThenBy(p=>p.text));

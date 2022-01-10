@@ -36,6 +36,9 @@ namespace projContext
         Authentication = 2,
 
 
+        [Module(enmApplication.HRMS,false, DisplayOrder: 0, Name: "Master", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
+        HRMS_Master = 1100,
+
         //[Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         //Gateway_Profile = 1,
         //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Booking", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Booking")]
@@ -69,6 +72,17 @@ namespace projContext
     {
         [SubModule(EnmModule: enmModule.Authentication, DisplayOrder: 1, Name: "Org Auth", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
         Organisation_Authentication = 1,
+
+        [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Holiday", Description: "Holiday", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        HRMS_Holiday = 1101,
+        [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Department", Description: "Department", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        HRMS_Department = 1102,
+        [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Wrorking Role", Description: "Wrorking Role", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        HRMS_WorkingRole = 1103,
+        [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Grade", Description: "Grade", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        HRMS_Grade = 1104,
+        [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Designation", Description: "Designation", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
+        HRMS_Designation = 1105,
 
         //[SubModule(EnmModule: enmModule.Gateway_Profile, DisplayOrder: 1, Name: "Personal", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
         //Gateway_Personal_Profile = 1,
@@ -121,6 +135,44 @@ namespace projContext
         [Document(EnmModule: enmModule.Organisation, EnmSubModule: enmSubModule.Organisation_Authentication, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 1, Name: "User Permission", Description: "User Permission", Icon: "far fa-circle nav-icon", ActionName: "/Base/Location")]
         User_Permission = 7,
+
+
+        [Document(enmApplication.HRMS, DocumentType: enmDocumentType.Create | enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Dashboard", Description: "Hrms Dashboard", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Dashboard")]
+        HRMS_Dashboard = 1100,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master,EnmSubModule :enmSubModule.HRMS_Holiday  ,enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Holiday", Description: "Holiday", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Holiday")]
+        HRMS_Holiday = 1101,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Holiday, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Assign Holiday", Description: "Holiday", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/AssignHoliday")]
+        HRMS_Holiday_Assign = 1102,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Department, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Department", Description: "Department", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Department")]
+        HRMS_Department = 1103,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Department, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Assign Department", Description: "Department", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/AssignDepartment")]
+        HRMS_Department_Assign = 1104,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_WorkingRole, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Working Role", Description: "Working Role", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/WorkingRole")]
+        HRMS_Working_Role = 1105,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_WorkingRole, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Assign WorkingRole", Description: "Working Role", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/AssignWorkingRole")]
+        HRMS_Assign_Working_Role = 1106,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Grade, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Grade", Description: "Grade", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Grade")]
+        HRMS_Grade= 1107,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Grade, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Assign Grade", Description: "Grade", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/AssignGrade")]
+        HRMS_Grade_Assign = 1108,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Designation, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Designation", Description: "Designation", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Designation")]
+        HRMS_Designation = 1109,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, EnmSubModule: enmSubModule.HRMS_Designation, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Assign Designation", Description: "Designation", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/AssignDesignation")]
+        HRMS_Designation_Assign = 1110,
+        [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Religion", Description: "Religion", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Religion")]
+        HRMS_Religion = 1111,
 
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
         //Gateway_Dashboard = 1,
@@ -487,6 +539,13 @@ namespace projContext
         Yearly,
         Quaterly,
         Monthly,
+    }
+    public enum enmValidateRequestHeader
+    {
+        ValidateOrganisation,
+        ValidateCompany,
+        ValidateZone,
+        ValidateLocation
     }
 
     public enum enmSaveStatus : byte

@@ -242,7 +242,10 @@ namespace projAPI.Services
             _claim.Add(new Claim("__UserType", Convert.ToString(userType)));
             _claim.Add(new Claim("__CustomerType", Convert.ToString(CustomerType)));
             _claim.Add(new Claim("__OrgId", Convert.ToString(OrgId)));
-            _claim.Add(new Claim("__OrgIds", string.Join(",", _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).Select(p => p.OrgId))));
+            var allOrg = _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).Select(p => p.OrgId).ToList();
+            allOrg.Add(OrgId);
+            
+            _claim.Add(new Claim("__OrgIds", string.Join(",", allOrg)));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
             var token = new JwtSecurityToken(JWTIssuer, JWTIssuer, _claim, expires: DateTime.Now.AddMinutes(TokenExpiryTime),
@@ -709,13 +712,17 @@ namespace projAPI.Services
             int.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value, out _OrgId);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__UserType").FirstOrDefault()?.Value, out _UserType);
             Enum.TryParse(httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__CustomerType").FirstOrDefault()?.Value, out _CustomerType);
-            string tempOrg = httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgId").FirstOrDefault()?.Value ?? string.Empty;
-            _OrgIds = tempOrg.Split(",")?.Select(p => Convert.ToInt32(p))?.ToArray() ?? null;
-            if (_OrgIds == null)
+            string tempOrg = httpContextAccessor.HttpContext.User.Claims.Where(p => p.Type == "__OrgIds").FirstOrDefault()?.Value ?? string.Empty;
+            try
             {
-                _OrgIds = new int[1];
-                _OrgIds[0] = _OrgId;
+                _OrgIds = tempOrg.Split(",")?.Select(p => Convert.ToInt32(p))?.ToArray() ?? null;
+                if (_OrgIds == null)
+                {
+                    _OrgIds = new int[1];
+                    _OrgIds[0] = _OrgId;
+                }
             }
+            catch { }
         }
         public ulong UserId { get { return _UserId; } private set { } }
         public int OrgId { get { return _OrgId; } private set { } }

@@ -115,6 +115,11 @@ namespace projAPI
                         options.AddPolicy(_enm.ToString() + enmDocumentType.DisplayMenu.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm, enmDocumentType.DisplayMenu)));
                     
                 }
+                foreach (enmValidateRequestHeader _enm in Enum.GetValues(typeof(enmValidateRequestHeader)))
+                {
+                    options.AddPolicy(_enm.ToString(), policy => policy.Requirements.Add(new AccessRightRequirement(_enm)));
+                }
+
             });
             services.AddScoped<IAuthorizationHandler, AccessRightHandler>();
             //services.AddSingleton<IAuthorizationHandler, AccessRightHandler>();

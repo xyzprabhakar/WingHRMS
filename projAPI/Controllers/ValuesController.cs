@@ -136,7 +136,7 @@ namespace projAPI.Controllers
         [Route("DefaultDocuments")]
         public void DefaultDocument([FromServices] IsrvUsers isrvUsers,[FromServices]MasterContext masterContext)
         {
-            return;
+            return;   
             DateTime dt = DateTime.Now;
             var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleName== "SuperAdmin").FirstOrDefault();
             if (defaultRole == null)
