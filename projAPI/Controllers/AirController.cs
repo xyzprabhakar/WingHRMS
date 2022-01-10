@@ -179,8 +179,6 @@ namespace projAPI.Controllers
             }
 
         }
-        //instant booking management end
-
         //FlightBookingAlterMaster management start
         [HttpPost]
         [Route("air/settings/SetFlightBookingAlterMaster")]
