@@ -288,14 +288,12 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("air/settings/GetCustomerMarkup")]
-        public List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup, bool AllActiveMarkup, DateTime ProcessingDate, int CustomerId, ulong Nid, enmCustomerType CustomerType)
+        public List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup,bool AllActiveMarkup,DateTime ProcessingDate,int CustomerId,ulong Nid,enmCustomerType CustomerType)
         {
             try
             {
-
-                var tempData = _IsrvAir.GetCustomerMarkup(AllMarkup, AllActiveMarkup, ProcessingDate, CustomerId, Nid, CustomerType);
+                var tempData = _IsrvAir.GetCustomerMarkup(AllMarkup, AllActiveMarkup,ProcessingDate,CustomerId,Nid,CustomerType);
                 return tempData;
-
             }
             catch (Exception ex)
             {
