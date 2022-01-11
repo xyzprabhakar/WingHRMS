@@ -44,11 +44,11 @@ namespace projAPI.Services
             return Data;
         }
 
-        public List<tblCustomerMaster> GetCustomers(int OrgId)
-        {
-            var Data = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId).ToList();
-            return Data;
-        }
+        
+
+        
+
+        
 
     }
 }

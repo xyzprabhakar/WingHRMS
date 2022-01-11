@@ -46,5 +46,10 @@ namespace projContext.DB.Masters
         public DbSet<tblUserLocationPermission> tblUserLocationPermission { get; set; }
         public DbSet<tblUserAllLocationPermission> tblUserAllLocationPermission { get; set; }
         #endregion
+
+        #region ************************ Code Genration master ********************
+        public DbSet<tblCodeGenrationMaster> tblCodeGenrationMaster { get; set; }
+        public DbSet<tblCodeGenrationDetails> tblCodeGenrationDetails { get; set; }
+        #endregion
     }
 }

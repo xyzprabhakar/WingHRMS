@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using projContext;
+using System.Text;
 
 namespace projAPI.Services
 {
@@ -124,6 +125,36 @@ namespace projAPI.Services
             { Id = p.OrgId, Code = p.Code, Name = p.Name,IsActive=p.IsActive}).FirstOrDefault();
         }
 
+        public mdlCommonReturn GenrateCode(enmCodeGenrationType genrationType,string Prefix ="",string CountryCode= "", string StateCode = "",
+            string CompanyCode = "", string ZoneCode = "", string LocationCode = "",
+            bool IncludeCountryCode=false, bool IncludeStateCode=false, bool IncludeCompanyCode=false, bool IncludeZoneCode=false,
+            bool IncludeLocationCode=false, bool IncludeYear = false, bool IncludeMonthYear = false,
+            bool IncludeYearWeek = false, byte DigitFormate = 5, int OrgId=1
+            )
+        {
+            var data=_masterContext.tblCodeGenrationMaster.Where(p => p.CodeGenrationType == genrationType).FirstOrDefault();
+            if (data == null)
+            {
+                data = new tblCodeGenrationMaster()
+                {
+                    CodeGenrationType = genrationType,
+                    IncludeCountryCode = IncludeCountryCode,
+                    IncludeStateCode = IncludeStateCode,
+                    IncludeCompanyCode = IncludeCompanyCode,
+                    IncludeZoneCode = IncludeZoneCode,
+                    IncludeLocationCode = IncludeLocationCode,
+                    IncludeYear = IncludeYear,
+                    IncludeMonthYear = IncludeMonthYear,
+                    IncludeYearWeek = IncludeYearWeek,
+                    DigitFormate = DigitFormate,
+                    OrgId = OrgId
+                };
+                _masterContext.tblCodeGenrationMaster.Add(data);
+                _masterContext.SaveChanges();
+            }
+            StringBuilder Code = new StringBuilder(data.Prefix);
+            
+        }
 
     }
 }

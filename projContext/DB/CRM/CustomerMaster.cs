@@ -16,7 +16,7 @@ namespace projContext.DB.CRM
         [MaxLength(32)]
         public string Code { get; set; }
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string Name { get; set; }        
         public DateTime EffectiveFromDt { get; set; } = DateTime.Now;
         public DateTime EffectiveToDt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }

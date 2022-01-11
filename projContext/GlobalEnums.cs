@@ -7,6 +7,14 @@ using System.Text;
 
 namespace projContext
 {
+    public enum enmCodeGenrationType
+    {
+        Employee=1,
+        Customer=2,
+        Distributor=3,
+
+    }
+
     public enum enmPriceType
     {
         PricePerNight=1,
