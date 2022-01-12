@@ -12,8 +12,10 @@ using System.Text;
 namespace projAPI.Services
 {
     
+    
     public interface IsrvMasters
     {
+        string GenrateCode(enmCodeGenrationType genrationType, string Prefix = "", string CountryCode = "", string StateCode = "", string CompanyCode = "", string ZoneCode = "", string LocationCode = "", int MonthYear = 0, int Year = 0, int YearWeek = 0, bool IncludeCountryCode = false, bool IncludeStateCode = false, bool IncludeCompanyCode = false, bool IncludeZoneCode = false, bool IncludeLocationCode = false, bool IncludeYear = false, bool IncludeMonthYear = false, bool IncludeYearWeek = false, byte DigitFormate = 5, int OrgId = 1, ulong UserId = 0);
         mdlCommonReturn GetCountry(int CountryId);
         List<mdlCommonReturn> GetCountry(int[] CountryIds);
         tblFileMaster GetImage(string FileId);
@@ -122,17 +124,18 @@ namespace projAPI.Services
                 return null;
             }
             return _masterContext.tblOrganisation.Where(q => q.Code == OrgCode).Select(p => new mdlCommonReturn()
-            { Id = p.OrgId, Code = p.Code, Name = p.Name,IsActive=p.IsActive}).FirstOrDefault();
+            { Id = p.OrgId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }).FirstOrDefault();
         }
 
-        public mdlCommonReturn GenrateCode(enmCodeGenrationType genrationType,string Prefix ="",string CountryCode= "", string StateCode = "",
-            string CompanyCode = "", string ZoneCode = "", string LocationCode = "",
-            bool IncludeCountryCode=false, bool IncludeStateCode=false, bool IncludeCompanyCode=false, bool IncludeZoneCode=false,
-            bool IncludeLocationCode=false, bool IncludeYear = false, bool IncludeMonthYear = false,
-            bool IncludeYearWeek = false, byte DigitFormate = 5, int OrgId=1
+        public string GenrateCode(enmCodeGenrationType genrationType, string Prefix = "", string CountryCode = "", string StateCode = "",
+            string CompanyCode = "", string ZoneCode = "", string LocationCode = "", int MonthYear = 0, int Year = 0, int YearWeek = 0,
+            bool IncludeCountryCode = false, bool IncludeStateCode = false, bool IncludeCompanyCode = false, bool IncludeZoneCode = false,
+            bool IncludeLocationCode = false, bool IncludeYear = false, bool IncludeMonthYear = false,
+            bool IncludeYearWeek = false, byte DigitFormate = 5, int OrgId = 1, ulong UserId = 0
             )
         {
-            var data=_masterContext.tblCodeGenrationMaster.Where(p => p.CodeGenrationType == genrationType).FirstOrDefault();
+            StringBuilder Code = new StringBuilder("");
+            var data = _masterContext.tblCodeGenrationMaster.Where(p => p.CodeGenrationType == genrationType).FirstOrDefault();
             if (data == null)
             {
                 data = new tblCodeGenrationMaster()
@@ -147,13 +150,108 @@ namespace projAPI.Services
                     IncludeMonthYear = IncludeMonthYear,
                     IncludeYearWeek = IncludeYearWeek,
                     DigitFormate = DigitFormate,
-                    OrgId = OrgId
+                    OrgId = OrgId,
+                    CreatedBy = UserId,
+                    CreatedDt = DateTime.Now,
+                    ModifiedBy = UserId,
+                    ModifiedDt = DateTime.Now,
                 };
                 _masterContext.tblCodeGenrationMaster.Add(data);
                 _masterContext.SaveChanges();
             }
-            StringBuilder Code = new StringBuilder(data.Prefix);
-            
+            Code.Append(data.Prefix);
+            IQueryable<tblCodeGenrationDetails> query = _masterContext.tblCodeGenrationDetails.Where(p => p.Id == data.Id).AsQueryable();
+            if (data.IncludeCompanyCode)
+            {
+                query = query.Where(p => p.CompanyCode == CompanyCode);
+            }
+            if (data.IncludeZoneCode)
+            {
+                query = query.Where(p => p.ZoneCode == ZoneCode);
+            }
+            if (data.IncludeLocationCode)
+            {
+                query = query.Where(p => p.LocationCode == LocationCode);
+            }
+            if (data.IncludeCountryCode)
+            {
+                query = query.Where(p => p.CountryCode == CountryCode);
+            }
+            if (data.IncludeStateCode)
+            {
+                query = query.Where(p => p.StateCode == StateCode);
+            }
+            if (data.IncludeYear)
+            {
+                query = query.Where(p => p.Year == Year);
+            }
+            if (data.IncludeMonthYear)
+            {
+                query = query.Where(p => p.MonthYear == MonthYear);
+            }
+            if (data.IncludeYearWeek)
+            {
+                query = query.Where(p => p.YearWeek == YearWeek);
+            }
+            var details = query.FirstOrDefault();
+            if (details == null)
+            {
+                details = new tblCodeGenrationDetails()
+                {
+                    Id = data.Id,
+                    CountryCode = CountryCode,
+                    StateCode = StateCode,
+                    CompanyCode = CompanyCode,
+                    ZoneCode = ZoneCode,
+                    LocationCode = LocationCode,
+                    MonthYear = MonthYear,
+                    Year = Year,
+                    YearWeek = YearWeek,
+                    Counter = 1,
+                    ModifiedDt = DateTime.Now
+                };
+                _masterContext.tblCodeGenrationDetails.Add(details);
+                _masterContext.SaveChanges();
+            }
+
+            if (data.IncludeCompanyCode)
+            {
+                Code.Append(details.CompanyCode);
+            }
+            if (data.IncludeZoneCode)
+            {
+                Code.Append(details.ZoneCode);
+            }
+            if (data.IncludeLocationCode)
+            {
+                Code.Append(details.LocationCode);
+            }
+            if (data.IncludeCountryCode)
+            {
+                Code.Append(details.CountryCode);
+            }
+            if (data.IncludeStateCode)
+            {
+                Code.Append(details.StateCode);
+            }
+            if (data.IncludeYear)
+            {
+                Code.Append(details.Year);
+            }
+            if (data.IncludeMonthYear)
+            {
+                Code.Append(details.MonthYear);
+            }
+            if (data.IncludeYearWeek)
+            {
+                Code.Append(details.YearWeek);
+            }
+            Code.Append(details.Counter.ToString("d" + data.DigitFormate));
+            details.Counter = details.Counter + 1;
+            details.ModifiedDt = DateTime.Now;
+            _masterContext.tblCodeGenrationDetails.Update(details);
+            _masterContext.SaveChanges();
+            return Code.ToString();
         }
 
     }

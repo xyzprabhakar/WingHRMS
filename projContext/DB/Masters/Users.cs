@@ -27,13 +27,13 @@ namespace projContext.DB.Masters
         public bool IsActive { get; set; }// this can be Block by admin so the user not able to log in the system
         public byte LoginFailCount { get; set; }
         public DateTime LoginFailCountdt { get; set; } = DateTime.Now;
-        public byte is_logged_blocked { get; set; }//block log in due to wrong attemp
+        public byte is_logged_blocked { get; set; } = 0;//block log in due to wrong attemp
         public DateTime logged_blocked_dt { get; set; }
         public DateTime logged_blocked_Enddt { get; set; }
-        public int? VendorId { get; set; }
-        public int? EmpId { get; set; }
-        public int? CustomerId { get; set; }
-        public ulong? DistributorId { get; set; }//Either Employee ID, Either Customer ID, Either Distributer ID
+        public int? VendorId { get; set; } = 0;
+        public int? EmpId { get; set; } = 0;
+        public int? CustomerId { get; set; } = 0;
+        public ulong? DistributorId { get; set; } = 0;//Either Employee ID, Either Customer ID, Either Distributer ID
         [ForeignKey("tblOrganisation")] // Foreign Key here
         public int? OrgId { get; set; }
         public tblOrganisation tblOrganisation { get; set; }

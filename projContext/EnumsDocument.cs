@@ -39,6 +39,9 @@ namespace projContext
         [Module(enmApplication.HRMS,false, DisplayOrder: 0, Name: "Master", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         HRMS_Master = 1100,
 
+        [Module(enmApplication.CRM, false, DisplayOrder: 0, Name: "Customer", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Customer")]
+        CRM_Customer
+
         //[Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         //Gateway_Profile = 1,
         //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Booking", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Booking")]
@@ -173,6 +176,11 @@ namespace projContext
         [Document(enmApplication.HRMS, EnmModule: enmModule.HRMS_Master, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 1, Name: "Religion", Description: "Religion", Icon: "far fa-circle nav-icon", ActionName: "/HRMS/Master/Religion")]
         HRMS_Religion = 1111,
+
+
+        [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Customer", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/Customer")]
+        HRMS_Create_Customer = 1001,
 
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
         //Gateway_Dashboard = 1,

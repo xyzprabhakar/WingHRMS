@@ -406,6 +406,67 @@ namespace projAPI.Services
             _masterContext.SaveChanges();
             return true;
         }
+        public mdlReturnData SetUserMaster(ulong UserId,string NormalizedName, string UserName, string Email, string PhoneNumber, string Password, enmUserType UserType,
+            int OrgId, int VendorId,int EmpId,int CustomerId,ulong DistributorId
+            )
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (_masterContext.tblUsersMaster.Where(p => p.UserName == UserName && p.OrgId == OrgId && p.UserType == UserType && p.UserId != UserId).Count() > 0)
+            {
+                returnData.Message = "UserName already Exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (_masterContext.tblUsersMaster.Where(p => p.Email == Email && p.OrgId == OrgId && p.UserType == UserType && p.UserId != UserId).Count() > 0)
+            {
+                returnData.Message = "UserName already Exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            var Existing = _masterContext.tblUsersMaster.Where(p => p.UserId == UserId && p.OrgId == OrgId).FirstOrDefault();
+            if (UserId > 0 && Existing == null)
+            {
+                returnData.Message = "Invalid UserId";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (UserId == 0)
+            {
+                Existing = new tblUsersMaster();
+                
+            }
+            else
+            {
+               if( Existing.Email != Email)
+                Existing.EmailConfirmed = false;
+                if (Existing.PhoneNumber != PhoneNumber)
+                    Existing.PhoneNumberConfirmed= false;
+            }
+            Existing.Password = Password;
+            Existing.NormalizedName = NormalizedName;
+            Existing.UserName = UserName;
+            Existing.Email = Email;
+            Existing.PhoneNumber= PhoneNumber;
+            Existing.UserType = UserType;
+            Existing.IsActive = true;
+            Existing.VendorId = VendorId;
+            Existing.CustomerId= CustomerId;
+            Existing.EmpId = EmpId;
+            Existing.DistributorId= DistributorId;
+
+            if (UserId > 0)
+            {
+                _masterContext.tblUsersMaster.Update(Existing);
+            }
+            else
+            {
+                _masterContext.tblUsersMaster.Add(Existing);
+            }
+            _masterContext.SaveChanges();
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
+
         public bool SetUserDocument(ulong UserId, List<mdlRoleDocument> usrClaim, ulong CreatedBy)
         {
             DateTime dateTime = DateTime.Now;

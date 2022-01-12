@@ -120,7 +120,7 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("GetCompany/{CompanyId}/{IncludeCountryState}/{IncludeUsername}")]
-        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Create))]
+        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
         public mdlReturnData GetCompany([FromServices] IsrvUsers srvUsers,int CompanyId,
             bool IncludeCountryState, bool IncludeUsername)
         {
@@ -264,10 +264,9 @@ namespace projAPI.Controllers
         }
 
 
-
         [HttpGet]
         [Route("GetZone/{ZoneId}/{IncludeCountryState}/{IncludeUsername}")]
-        [Authorize(nameof(enmDocumentMaster.Zone) + nameof(enmDocumentType.Create))]
+        [Authorize(nameof(enmDocumentMaster.Zone) + nameof(enmDocumentType.Update))]
         public mdlReturnData GetZone([FromServices] IsrvUsers srvUsers, int ZoneId,
             bool IncludeCountryState, bool IncludeUsername)
         {

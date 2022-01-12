@@ -21,5 +21,10 @@ namespace projContext.DB.CRM
         public DateTime EffectiveToDt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
         public enmCustomerType CustomerType { get; set; }
+        public string Logo { get; set; }
+        [NotMapped]
+        public string LogoImage { get; set; }//base 64
+        [NotMapped]
+        public string LogoImageType { get; set; }
     }
 }

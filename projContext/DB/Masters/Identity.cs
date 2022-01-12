@@ -34,10 +34,19 @@ namespace projContext.DB.Masters
         [ForeignKey("tblCodeGenrationMaster")] // Foreign Key here
         public int? Id { get; set; }
         public tblCodeGenrationMaster tblCodeGenrationMaster { get; set; }
-        public int Counter { get; set; }
+        public string CountryCode { get; set; } = "";
+        public string StateCode { get; set; } = "";
+        public string CompanyCode { get; set; } = "";
+        public string ZoneCode { get; set; } = "";
+        public string LocationCode { get; set; } = "";
+        public int MonthYear { get; set; }
+        public int Year { get; set; }
+        public int YearWeek { get; set; }
+        public int Counter { get; set; } = 1;
         [Timestamp]
         [ConcurrencyCheck]
         public byte[] RowVersion { get; set; }
+        public DateTime ModifiedDt { get; set; } 
 
     }
 }

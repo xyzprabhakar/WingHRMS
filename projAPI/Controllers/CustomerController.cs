@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using projAPI.Model;
 using projAPI.Services;
 using projContext;
+using projContext.DB.CRM;
 using projContext.DB.Masters;
 using System;
 using System.Collections.Generic;
@@ -16,43 +17,48 @@ namespace projAPI.Controllers
     [Authorize]
     public class CustomerController : Controller
     {
+        
+        private readonly IsrvCustomer _srvCustomers;
+        private readonly MasterContext _masterContext;
+        private readonly IsrvCurrentUser _srvCurrentUser;
+        private readonly CrmContext _crmContext;
+
+        public CustomerController(IsrvCustomer srvCustomers, MasterContext mc, CrmContext crmContext, IsrvCurrentUser srvCurrentUser)
+        {
+            _srvCustomers= srvCustomers;
+            _masterContext = mc;
+            _crmContext = crmContext;
+            _srvCurrentUser = srvCurrentUser;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
-        private readonly IsrvCustomer _srvCustomers;
-        private readonly MasterContext _masterContext;
 
-        public CustomerController(IsrvCustomer srvCustomers, MasterContext mc)
-        {
-            _srvCustomers= srvCustomers;
-            _masterContext = mc;
-        }
-        
-        [Route("GetCustomers/{OrgId}")]
-        [Authorize(policy:nameof(enmValidateRequestHeader.ValidateOrganisation))]
-        public mdlReturnData GetCustomers([FromHeader]int OrgId)
-        {
-            mdlReturnData returnData = new mdlReturnData();            
-            returnData.ReturnId = _srvCustomers.GetCustomers(OrgId);
-            returnData.MessageType = enmMessageType.Success;
-            return returnData;
-        }
+        //[Route("GetCustomers/{OrgId}/{PageId}/{PageSize}")]
+        //[Authorize(policy:nameof(enmValidateRequestHeader.ValidateOrganisation))]
+        //public mdlReturnData GetCustomers([FromHeader]int OrgId,int PageId,int PageSize)
+        //{
+        //    mdlReturnData returnData = new mdlReturnData();            
+        //    returnData.ReturnId = _srvCustomers.GetCustomers();
+        //    returnData.MessageType = enmMessageType.Success;
+        //    return returnData;
+        //}
 
 
         [HttpGet]
         [Route("GetCustomer/{CustomerId}/{IncludeCountryState}/{IncludeUsername}")]
-        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Create))]
+        [Authorize(nameof(enmDocumentMaster.HRMS_Create_Customer) + nameof(enmDocumentType.Update))]
         [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
-        public mdlReturnData GetCompany([FromServices]IsrvUsers srvUsers, [FromServices] IsrvMasters _srvMasters, [FromHeader]int OrgId ,int CompanyId,
-            bool IncludeCountryState, bool IncludeUsername)
+        public mdlReturnData GetCompany( [FromServices] IsrvMasters _srvMasters, [FromHeader]int OrgId 
+            ,int CustomerId)
         {
             mdlReturnData returnData = new mdlReturnData();
-            
-            var tempData = CompanyId > 0 ? _masterContext.tblCompanyMaster.Where(p => p.CompanyId == CompanyId).FirstOrDefault() : null;
+            var tempData = CustomerId > 0 ? _crmContext.tblCustomerMaster.Where(p => p.CustomerId == CustomerId).FirstOrDefault() : null;
             if (tempData == null)
             {
-                tempData = new tblCompanyMaster();
+                tempData = new tblCustomerMaster();
             }
             
             if (tempData.Logo != null)
@@ -70,10 +76,13 @@ namespace projAPI.Controllers
         }
 
         [HttpPost]
-        [Route("SetCompany")]
+        [Route("SetCustomer")]
         [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
-        public mdlReturnData SetCompany([FromServices] IsrvUsers srvUsers, [FromForm] tblCompanyWraper mdl)
+        [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
+        public mdlReturnData SetCustomer([FromServices] IsrvMasters _srvMasters, [FromServices] IsrvUsers srvUsers,
+            [FromForm] mdlCustomer mdl, [FromHeader] int OrgId)
         {
+            bool IsUpdate = false;
             mdlReturnData returnData = new mdlReturnData();
             if (mdl == null)
             {
@@ -81,52 +90,30 @@ namespace projAPI.Controllers
                 returnData.MessageType = enmMessageType.Error;
                 return returnData;
             }
-            if (mdl.CompanyId > 0)
+            if (mdl.CustomerId > 0)
             {
-                if (srvUsers.GetUserCompany(_srvCurrentUser.UserId, null, null).Where(p => p.Id == mdl.CompanyId).Count() == 0)
-                {
-                    returnData.Message = "Unauthorize access";
-                    returnData.MessageType = enmMessageType.Error;
-                    return returnData;
-                }
+                IsUpdate = true;
             }
-            if (_masterContext.tblCompanyMaster.Where(p => p.Code == mdl.Code && p.OrgId == mdl.OrgId && p.CompanyId != mdl.CompanyId).Count() > 0)
-            {
-                returnData.Message = "Code already exists";
-                returnData.MessageType = enmMessageType.Error;
-                return returnData;
-            }
-            if (mdl.OrgId > 0 && mdl.OrgId != _srvCurrentUser.OrgId && _srvCurrentUser.OrgId != 1)
-            {
-                returnData.MessageType = enmMessageType.Error;
-                returnData.Message = "Invalid Organisation";
-                return returnData;
-            }
-            else if (mdl.OrgId == 0 && _srvCurrentUser.OrgId != 1)
-            {
-                returnData.MessageType = enmMessageType.Error;
-                returnData.Message = "Unauthorized Access";
-                return returnData;
-            }
-            string FileName = null;
+            
             if (!(mdl.LogoImageFile == null))
             {
-                FileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _srvCurrentUser.UserId);
-                mdl.Logo = FileName;
+                mdl.NewFileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _srvCurrentUser.UserId);
+                mdl.Logo = mdl.NewFileName;
             }
             mdl.ModifiedBy = _srvCurrentUser.UserId;
             mdl.ModifiedDt = DateTime.Now;
-            if (mdl.OrgId == 0)
+            if (!IsUpdate)
             {
-                _masterContext.tblCompanyMaster.Add(mdl);
-                mdl.CreatedBy = mdl.ModifiedBy.Value;
-                mdl.CreatedDt = mdl.ModifiedDt.Value;
+                mdl.OrgId = OrgId;
+                mdl.Code = _srvMasters.GenrateCode(genrationType: enmCodeGenrationType.Customer, Prefix: "CST", OrgId: OrgId, UserId: _srvCurrentUser.UserId);
             }
-            else
+            returnData= _srvCustomers.SetCustomerMaster(mdl, _srvCurrentUser.UserId);
+            if (returnData.MessageType != enmMessageType.Success)
             {
-                _masterContext.tblCompanyMaster.Update(mdl);
+                return returnData;
             }
-            _masterContext.SaveChanges();
+
+
             returnData.MessageType = enmMessageType.Success;
             returnData.Message = "Save successfully";
             return returnData;
