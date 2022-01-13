@@ -410,7 +410,7 @@ namespace projAPI.Services
             return true;
         }
         public mdlReturnData SetUserMaster(ulong UserId, string NormalizedName, string UserName, string Email, string PhoneNumber, string Password, enmUserType UserType,
-            int OrgId, int VendorId, int EmpId, int CustomerId, ulong DistributorId
+            int OrgId, int VendorId, int EmpId, int CustomerId, ulong DistributorId 
             )
         {
             mdlReturnData returnData = new mdlReturnData();
@@ -436,7 +436,7 @@ namespace projAPI.Services
             if (UserId == 0)
             {
                 Existing = new tblUsersMaster();
-
+                Existing.RequiredChangePassword = true;
             }
             else
             {

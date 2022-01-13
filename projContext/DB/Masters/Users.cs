@@ -37,6 +37,7 @@ namespace projContext.DB.Masters
         [ForeignKey("tblOrganisation")] // Foreign Key here
         public int? OrgId { get; set; }
         public tblOrganisation tblOrganisation { get; set; }
+        public bool RequiredChangePassword { get; set; } = false;
     }
 
     public class tblRoleMaster :d_ModifiedBy

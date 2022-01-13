@@ -1,11 +1,13 @@
 ﻿
 
+
 //Load all data in index DB
 var w;
 if (localStorage.getItem("refreshData") == 1) {
     startWorker();
     localStorage.setItem("refreshData", 0);
 }
+
 
 function startstopWorker() {    
     if (document.getElementById("lblDataStatus").innerHTML.trim() == "Reload") {

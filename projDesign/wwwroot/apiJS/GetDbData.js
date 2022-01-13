@@ -30,10 +30,10 @@ function GetData_IndexDb(id, StoreName, dataType) {
                 var db = e.target.result;
                 let ObjectStoreState = db.transaction(StoreName, "readwrite")
                     .objectStore(StoreName);
-                var getAllRequest = ObjectStoreState.get(dataType == "int" ? parseInt(data) : dataType == "float" ? parseFloat(data) : data);
+                var getAllRequest = ObjectStoreState.get(dataType == "int" ? parseInt(id) : dataType == "float" ? parseFloat(id) : id);
                 getAllRequest.onsuccess = function (event) {
                     if (getAllRequest.result)
-                        resolve(objectRequest.result);
+                        resolve(getAllRequest.result);
                     else
                         reject(Error('object not found'));
                 };

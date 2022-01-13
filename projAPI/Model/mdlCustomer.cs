@@ -14,7 +14,7 @@ namespace projAPI.Model
         public bool HaveAllCompanyAccess { get; set; }
         public List<int> CompanyId { get; set;}
         public string Password { get; set; }
-
+        public bool ChangePassword { get; set; }
 
     }
 }

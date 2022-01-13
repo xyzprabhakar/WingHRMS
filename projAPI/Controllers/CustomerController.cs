@@ -114,7 +114,7 @@ namespace projAPI.Controllers
             }
             int CustomerId = returnData.ReturnId;
             ulong UserId = 0;
-            string EncPassword = Classes.AESEncrytDecry.EncryptStringAES(mdl.Password);
+            string EncPassword = mdl.ChangePassword? Classes.AESEncrytDecry.EncryptStringAES(mdl.Password): mdl.Password;
             returnData = srvUsers.SetUserMaster(UserId, mdl.Name.ToUpper(), mdl.Code.ToUpper(), mdl.Email, mdl.ContactNo, EncPassword, enmUserType.Customer, OrgId, 0, 0, CustomerId, 0);
             if (returnData.MessageType != enmMessageType.Success)
             {
