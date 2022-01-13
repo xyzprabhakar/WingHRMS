@@ -136,25 +136,47 @@ namespace projAPI.Controllers
         [Route("DefaultDocuments")]
         public void DefaultDocument([FromServices] IsrvUsers isrvUsers,[FromServices]MasterContext masterContext)
         {
-            return;   
+            
             DateTime dt = DateTime.Now;
-            var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleName== "SuperAdmin").FirstOrDefault();
-            if (defaultRole == null)
             {
-                defaultRole = new tblRoleMaster() { RoleName= "SuperAdmin", CreatedBy= 1, CreatedDt= dt, IsActive=true, ModifiedBy= 1, ModifiedDt = dt };
-                masterContext.tblRoleMaster.Add(defaultRole);
-                masterContext.SaveChanges();
-            }
-            //role Claim
-            //role Claim
+                //Super Admin Role
+                var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleId == (int)enmDefaultRole.SuperAdmin).FirstOrDefault();
+                if (defaultRole == null)
+                {
+                    defaultRole = new tblRoleMaster() { RoleName = nameof(enmDefaultRole.SuperAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
+                    masterContext.tblRoleMaster.Add(defaultRole);
+                    masterContext.SaveChanges();
+                }
+                //role Claim
+                //role Claim
 
-            List<mdlRoleDocument> document = new List<mdlRoleDocument>();
-            foreach (var d in Enum.GetValues(typeof(enmDocumentMaster)))
-            {
-                var edm = (enmDocumentMaster)d;
-                document.Add(new mdlRoleDocument() { documentId=edm,PermissionType =edm.GetDocumentDetails().DocumentType } );
+                List<mdlRoleDocument> document = new List<mdlRoleDocument>();
+                foreach (var d in Enum.GetValues(typeof(enmDocumentMaster)))
+                {
+                    var edm = (enmDocumentMaster)d;
+                    document.Add(new mdlRoleDocument() { documentId = edm, PermissionType = edm.GetDocumentDetails().DocumentType });
+                }
+                isrvUsers.SetRoleDocument(new mdlRoleMaster() { roleId = defaultRole.RoleId, roleDocument = document }, 1);
             }
-            isrvUsers.SetRoleDocument(new mdlRoleMaster() {roleId= defaultRole.RoleId, roleDocument= document }, 1);
+            {
+                //Customer
+                var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleId == (int)enmDefaultRole.CustomerAdmin).FirstOrDefault();
+                if (defaultRole == null)
+                {
+                    defaultRole = new tblRoleMaster() { RoleName = nameof(enmDefaultRole.CustomerAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
+                    masterContext.tblRoleMaster.Add(defaultRole);
+                    masterContext.SaveChanges();
+                }
+                List<mdlRoleDocument> document = new List<mdlRoleDocument>();
+                document.Add(new mdlRoleDocument() {documentId=enmDocumentMaster.CRM_Customer_Markup,PermissionType=enmDocumentType.Create});
+                document.Add(new mdlRoleDocument() { documentId = enmDocumentMaster.CRM_Customer_Markup, PermissionType = enmDocumentType.Delete });
+                document.Add(new mdlRoleDocument() { documentId = enmDocumentMaster.CRM_Customer_Markup, PermissionType = enmDocumentType.DisplayMenu });
+                
+                isrvUsers.SetRoleDocument(new mdlRoleMaster() { roleId = defaultRole.RoleId, roleDocument = document }, 1);
+            }
+
+
+            
         }
 
         [HttpGet]

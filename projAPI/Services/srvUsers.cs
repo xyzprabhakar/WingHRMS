@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace projAPI.Services
 {
     
+    
     public interface IsrvUsers
     {
         ulong? UserId { get; set; }
@@ -38,7 +39,9 @@ namespace projAPI.Services
         void SetTempOrganisation(ulong UserId);
         void SetTempRoleClaim(ulong UserId);
         bool SetUserDocument(ulong UserId, List<mdlRoleDocument> usrClaim, ulong CreatedBy);
+        mdlReturnData SetUserMaster(ulong UserId, string NormalizedName, string UserName, string Email, string PhoneNumber, string Password, enmUserType UserType, int OrgId, int VendorId, int EmpId, int CustomerId, ulong DistributorId);
         bool SetUserRole(mdlUserRolesWraper userRoles, ulong CreatedBy);
+        bool SetUserRole(ulong UserId, List<int> RoleID, bool RemovePreviousRole, ulong CreatedBy);
         mdlReturnData ValidateUser(string UserName, string Password, int orgId, int CustomerId, int VendorId, enmUserType userType);
     }
 
@@ -244,7 +247,7 @@ namespace projAPI.Services
             _claim.Add(new Claim("__OrgId", Convert.ToString(OrgId)));
             var allOrg = _masterContext.tblUserOrganisationPermission.Where(p => p.UserId == UserId && !p.IsDeleted).Select(p => p.OrgId).ToList();
             allOrg.Add(OrgId);
-            
+
             _claim.Add(new Claim("__OrgIds", string.Join(",", allOrg)));
             int TokenExpiryTime = 10080;
             int.TryParse(_IsrvSettings.GetSettings("UserSetting", "TokenExpiryTime"), out TokenExpiryTime);
@@ -406,8 +409,8 @@ namespace projAPI.Services
             _masterContext.SaveChanges();
             return true;
         }
-        public mdlReturnData SetUserMaster(ulong UserId,string NormalizedName, string UserName, string Email, string PhoneNumber, string Password, enmUserType UserType,
-            int OrgId, int VendorId,int EmpId,int CustomerId,ulong DistributorId
+        public mdlReturnData SetUserMaster(ulong UserId, string NormalizedName, string UserName, string Email, string PhoneNumber, string Password, enmUserType UserType,
+            int OrgId, int VendorId, int EmpId, int CustomerId, ulong DistributorId
             )
         {
             mdlReturnData returnData = new mdlReturnData();
@@ -433,26 +436,26 @@ namespace projAPI.Services
             if (UserId == 0)
             {
                 Existing = new tblUsersMaster();
-                
+
             }
             else
             {
-               if( Existing.Email != Email)
-                Existing.EmailConfirmed = false;
+                if (Existing.Email != Email)
+                    Existing.EmailConfirmed = false;
                 if (Existing.PhoneNumber != PhoneNumber)
-                    Existing.PhoneNumberConfirmed= false;
+                    Existing.PhoneNumberConfirmed = false;
             }
             Existing.Password = Password;
             Existing.NormalizedName = NormalizedName;
             Existing.UserName = UserName;
             Existing.Email = Email;
-            Existing.PhoneNumber= PhoneNumber;
+            Existing.PhoneNumber = PhoneNumber;
             Existing.UserType = UserType;
             Existing.IsActive = true;
             Existing.VendorId = VendorId;
-            Existing.CustomerId= CustomerId;
+            Existing.CustomerId = CustomerId;
             Existing.EmpId = EmpId;
-            Existing.DistributorId= DistributorId;
+            Existing.DistributorId = DistributorId;
 
             if (UserId > 0)
             {
@@ -467,6 +470,31 @@ namespace projAPI.Services
             return returnData;
         }
 
+        public bool SetUserRole(ulong UserId, List<int> RoleID, bool RemovePreviousRole, ulong CreatedBy)
+        {
+            var ExistingRole = _masterContext.tblUserRole.Where(p => p.UserId == UserId && !p.IsDeleted).ToList();
+            if (RemovePreviousRole)
+            {
+                ExistingRole.ForEach(q => { q.IsDeleted = true; q.ModifiedBy = CreatedBy; q.ModifiedDt = DateTime.Now; });
+                _masterContext.UpdateRange(ExistingRole);
+                _masterContext.SaveChanges();
+                ExistingRole = new List<tblUserRole>();
+            }
+            RoleID.RemoveAll(p => ExistingRole.Select(q => q.RoleId).Contains(p));
+            _masterContext.tblUserRole.AddRange(RoleID.Select(p => new tblUserRole
+            {
+                UserId = UserId,
+                RoleId = p,
+                IsDeleted = false,
+                CreatedBy = CreatedBy,
+                CreatedDt = DateTime.Now,
+                ModifiedBy = CreatedBy,
+                ModifiedDt = DateTime.Now
+            }
+            ));
+            _masterContext.SaveChanges();
+            return true;
+        }
         public bool SetUserDocument(ulong UserId, List<mdlRoleDocument> usrClaim, ulong CreatedBy)
         {
             DateTime dateTime = DateTime.Now;
@@ -690,7 +718,7 @@ namespace projAPI.Services
             }
             else
             {
-                returnData.AddRange(QuerableData.Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId,Id=p.Id ,Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
+                returnData.AddRange(QuerableData.Select(p => new mdlCommonReturnWithParentID { ParentId = p.ParentId, Id = p.Id, Code = p.Code, Name = p.Name, IsActive = p.IsActive }));
             }
 
             return returnData;
@@ -726,11 +754,11 @@ namespace projAPI.Services
                 where t2.OrgId == OrgId && t1.UserId == UserId
                 select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId ?? 0 });
             }
-            else 
+            else
             {
                 returnData.AddRange(
                 from t1 in _masterContext.tblUserAllLocationPermission
-                join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId                
+                join t2 in _masterContext.tblLocationMaster on t1.LocationId equals t2.LocationId
                 where t1.UserId == UserId
                 select new mdlCommonReturnWithParentID { Name = t2.Name, Code = string.Empty, Id = t2.LocationId, IsActive = t2.IsActive, ParentId = t2.ZoneId ?? 0 });
             }

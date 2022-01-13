@@ -49,7 +49,7 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("GetCustomer/{CustomerId}/{IncludeCountryState}/{IncludeUsername}")]
-        [Authorize(nameof(enmDocumentMaster.HRMS_Create_Customer) + nameof(enmDocumentType.Update))]
+        [Authorize(nameof(enmDocumentMaster.CRM_Create_Customer) + nameof(enmDocumentType.Update))]
         [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
         public mdlReturnData GetCompany( [FromServices] IsrvMasters _srvMasters, [FromHeader]int OrgId 
             ,int CustomerId)
@@ -77,7 +77,7 @@ namespace projAPI.Controllers
 
         [HttpPost]
         [Route("SetCustomer")]
-        [Authorize(nameof(enmDocumentMaster.Company) + nameof(enmDocumentType.Update))]
+        [Authorize(nameof(enmDocumentMaster.CRM_Create_Customer) + nameof(enmDocumentType.Update))]
         [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
         public mdlReturnData SetCustomer([FromServices] IsrvMasters _srvMasters, [FromServices] IsrvUsers srvUsers,
             [FromForm] mdlCustomer mdl, [FromHeader] int OrgId)
@@ -112,7 +112,18 @@ namespace projAPI.Controllers
             {
                 return returnData;
             }
-
+            int CustomerId = returnData.ReturnId;
+            ulong UserId = 0;
+            string EncPassword = Classes.AESEncrytDecry.EncryptStringAES(mdl.Password);
+            returnData = srvUsers.SetUserMaster(UserId, mdl.Name.ToUpper(), mdl.Code.ToUpper(), mdl.Email, mdl.ContactNo, EncPassword, enmUserType.Customer, OrgId, 0, 0, CustomerId, 0);
+            if (returnData.MessageType != enmMessageType.Success)
+            {
+                return returnData;
+            }
+            UserId = returnData.ReturnId;
+            List<int> CustomerRole = new List<int>();
+            CustomerRole.Add((int)enmDefaultRole.CustomerAdmin);
+            srvUsers.SetUserRole(UserId , CustomerRole,false,_srvCurrentUser.UserId);
 
             returnData.MessageType = enmMessageType.Success;
             returnData.Message = "Save successfully";

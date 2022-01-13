@@ -7,6 +7,16 @@ using System.Text;
 
 namespace projContext
 {
+    public enum enmDefaultRole
+    { 
+        SuperAdmin=1,
+        HRAdmin=11,
+        EmployeeManager = 21,
+        Employee =22,        
+        CustomerAdmin=31,
+        Distributor=41
+    }
+
     public enum enmApplication 
     {
         [Application(IsArea: false, DisplayOrder: 0, Name: "Gateway", Description: "Basic", Icon: "nav-icon fas fa-tree", AreaName: "")]
@@ -180,7 +190,13 @@ namespace projContext
 
         [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 1, Name: "Customer", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/Customer")]
-        HRMS_Create_Customer = 1001,
+        CRM_Create_Customer = 1001,
+        [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "IP Filter", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/CustomerIPFilter")]
+        CRM_Customer_IP = 1002,
+        [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Customer Markup", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/CustomerMarkup")]
+        CRM_Customer_Markup = 1003,
 
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
         //Gateway_Dashboard = 1,

@@ -13,6 +13,8 @@ namespace projAPI.Model
         public string NewFileName { get; set; }
         public bool HaveAllCompanyAccess { get; set; }
         public List<int> CompanyId { get; set;}
-        
+        public string Password { get; set; }
+
+
     }
 }
