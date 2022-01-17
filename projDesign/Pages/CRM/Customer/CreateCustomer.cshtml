@@ -49,7 +49,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtCustomerName">
-                                        <label class="col-form-label col-md-3" for="txtCustomerName">Company Name</label>
+                                        <label class="col-form-label col-md-3" for="txtCustomerName">Customer Name</label>
                                         <div class="col-md-9">
                                             <input type="text" id="txtCustomerName" name="txtCustomerName"
                                                    maxlength="128" autocomplete="off" pattern="^[^<>]+$"
@@ -95,7 +95,7 @@
                                     <div class="form-group" for="txtConfirmPassword">
                                         <label class="col-form-label col-md-3" for="txtConfirmPassword">Confirm password</label>
                                         <div class="col-md-9">
-                                            <input type="text" id="txtConfirmPassword" name="txtConfirmPassword"
+                                            <input type="password" id="txtConfirmPassword" name="txtConfirmPassword"
                                                    maxlength="256" autocomplete="off" 
                                                    class="form-control" placeholder="Confirm Password">
                                         </div>
@@ -272,11 +272,10 @@
 
 @section Scripts {
     <script src="~/apiJS/Comman/CountryState.js" asp-append-version="true"></script>
-    <script src="~/apiJS/Comman/Organisation.js" asp-append-version="true"></script>
     <script type="text/javascript">
         
         $(document).ready(function () {
-
+            let OrgId = localStorage.getItem("currentOrganisation");
             //bindcountry
             $('#loader').show();
             //jquery Validateor
@@ -287,87 +286,81 @@
             let token = localStorage.getItem('token');
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
-            BindOrganisationEvent("ddlOrganisation", "", "","");
-            BindOrganisation("ddlOrganisation", 0);
             var selectedFile = null;
             BindCountryState("ddlcountry", 0, "ddlstate", 0);
-            let companyId_ = getUrlVars()["companyid"];            
-            if (companyId_ == null || companyId_ == '' || companyId_ == undefined) {
-                $("#lblCompanyId").val("0");
+            let customerId_ = getUrlVars()["customerid"];            
+            if (customerId_ == null || customerId_ == '' || customerId_ == undefined) {
+                $("#lblCustomerId").val("0");
                 $('#loader').hide();
             } else {
-                CheckIdExists_IndexDb(companyId_, "tblCompany").then(result => {
-                    if (result) {
-                        let apiurl = localStorage.getItem('baseUrl') + "Masters/GetCompany/" + companyId_ + "/false/false";                        
-                        let headerss = new Headers();
-                        let lblcountryId = 0;
-                        let lblstateId = 0;
-                        headerss.append("Authorization", 'Bearer ' + token);
-                        headerss.append("Content-Type", "application/json; charset=utf-8");
-                        fetch(apiurl, {
-                            method: "GET",
-                            headers: headerss,
-                        }).then(response => {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                throw new Error(response.statusText);
+                let apiurl = localStorage.getItem('baseUrl') + "Customer/GetCustomer/" + customerId_ + "/false/false";
+                let headerss = new Headers();
+                let lblcountryId = 0;
+                let lblstateId = 0;
+                headerss.append("Authorization", 'Bearer ' + token);
+                headerss.append("Content-Type", "application/json; charset=utf-8");
+                headerss.append("OrgId", OrgId);
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        OrgId = data.returnId.orgId;
+                        $("#lblCustomerId").val(data.returnId.companyId);
+                        $("#txtCustomerName").val(data.returnId.name);
+                        $("#txtCustomerCode").val(data.returnId.code);
+                        $("#ddlCustomerType").val(data.returnId.customerType);
+                        $("#txtAddress").val(data.returnId.officeAddress);
+                        $("#txtLocality").val(data.returnId.locality);
+                        $("#txtCity").val(data.returnId.city);
+                        lblcountryId = data.returnId.countryId;
+                        lblstateId = data.returnId.stateId;
+                        if (lblcountryId > 0) {
+                            $("#ddlcountry").val(lblcountryId);
+                            $("#ddlcountry").trigger('change', [lblstateId]);
+                            //BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
+                        }
+                        $("#txtPassword").val(data.returnId.password);
+                        $("#txtConfirmPassword").val(data.returnId.password);
+                        $("#lblExistingPassword").val(data.returnId.password);
+                        $("#txtPinCode").val(data.returnId.pincode);
+                        $("#txtEmail").val(data.returnId.email);
+                        $("#txtAlternateEmail").val(data.returnId.alternateEmail);
+                        $("#txtContact").val(data.returnId.contactNo);
+                        $("#txtAlternateContact").val(data.returnId.alternateContactNo);
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        $("#lblImgName").val(data.returnId.logo);
+                        if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
+                            var img = document.getElementById("imgLogoImage");
+                            img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
+                        }
+                        if (data.returnId.isActive) {
 
-                            }
-                        }).then(data => {
+                            $("#is_active").prop("checked", true);
+                            $("#is_in_active").prop("checked", false);
+                        }
+                        else {
+                            $("#is_active").prop("checked", false);
+                            $("#is_in_active").prop("checked", true);
+                        }
 
-                            if (data.messageType == 1) {
-                                $("#lblCompanyId").val(data.returnId.companyId);
-                                $("#txtCompanyName").val(data.returnId.name);
-                                $("#txtCompanyCode").val(data.returnId.code);
-                                $("#ddlOrganisation").val(data.returnId.orgId)
-                                $("#txtAddress").val(data.returnId.officeAddress);
-                                $("#txtLocality").val(data.returnId.locality);
-                                $("#txtCity").val(data.returnId.city);
-                                lblcountryId = data.returnId.countryId;
-                                lblstateId = data.returnId.stateId;
-                                if (lblcountryId > 0) {
-                                    $("#ddlcountry").val(lblcountryId);
-                                    $("#ddlcountry").trigger('change', [lblstateId]);
-                                    //BindState("ddlcountry", lblcountryId, "ddlstate", lblstateId);
-                                }
-                                $("#txtPinCode").val(data.returnId.pincode);
-                                $("#txtEmail").val(data.returnId.email);
-                                $("#txtAlternateEmail").val(data.returnId.alternateEmail);
-                                $("#txtContact").val(data.returnId.contactNo);
-                                $("#txtAlternateContact").val(data.returnId.alternateContactNo);                                
-                                $("#txtRemarks").val(data.returnId.modifyRemarks);
-                                $("#lblImgName").val(data.returnId.logo);
-                                if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
-                                    var img = document.getElementById("imgLogoImage");
-                                    img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
-                                }
-                                if (data.returnId.isActive) {
-
-                                    $("#is_active").prop("checked", true);
-                                    $("#is_in_active").prop("checked", false);
-                                }
-                                else {
-                                    $("#is_active").prop("checked", false);
-                                    $("#is_in_active").prop("checked", true);
-                                }
-
-                                $('#loader').hide();
-                            }
-                            else {
-                                $('#loader').hide();
-                                messageBox("error", data.message);
-                            }
-                        }).catch((error) => {
-                            $('#loader').hide();
-                            messageBox("error", error.message);
-                        });
+                        $('#loader').hide();
                     }
                     else {
                         $('#loader').hide();
-                        messageBox("error", "unauthorized access");
+                        messageBox("error", data.message);
                     }
-                });               
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
             }
 
             function handleFiles() {
@@ -407,15 +400,22 @@
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();
-                    let Postapiurl = localStorage.getItem('baseUrl') + "Masters/SetCompany"                    
+                    if (!($("#txtPassword").val() == $("#txtConfirmPassword").val())) {
+                        $('#loader').hide();
+                        messageBox("error", "Password and Confirm Password is not match");
+                        return;
+                    }
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Customer/SetCustomer"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
                     var formdata = new FormData();
                     formdata.append("LogoImageFile", selectedFile);
-                        formdata.append("CompanyId", $("#lblCompanyId").val());
-                        formdata.append("OrgId", $("#ddlOrganisation").val());
+                    formdata.append("CustomerId", $("#lblCustomerId").val());
+                    formdata.append("OrgId", OrgId);
                         formdata.append("Code", $("#txtCompanyCode").val());
-                        formdata.append("Name",$("#txtCompanyName").val());
+                        formdata.append("Name", $("#txtCompanyName").val());
+                        formdata.append("CustomerType", $("#ddlCustomerType").val());
                         formdata.append("OfficeAddress",$("#txtAddress").val());
                         formdata.append("Locality",$("#txtLocality").val());
                         formdata.append("City",$("#txtCity").val());
@@ -430,6 +430,11 @@
                         formdata.append("LogoImageType", $("#lblImgFile").val());
                         formdata.append("Logo", $("#lblImgName").val());
                         formdata.append("ImageType", "image/x-icon");
+                        formdata.append("HaveAllCompanyAccess", true);                    
+                    if (($("#txtPassword").val() != $("#lblExistingPassword").val())) {
+                        formdata.append("ChangePassword", true);
+                    }
+                    
                     if ($("#is_active").is(":checked") ) {
                         formdata.append("IsActive", true);
                     }
