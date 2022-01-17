@@ -87,7 +87,7 @@
                                         <div class="col-md-9">
                                             <input type="password" id="txtPassword" name="txtCustomerCode"
                                                    maxlength="256" autocomplete="off"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -430,9 +430,18 @@
                         formdata.append("LogoImageType", $("#lblImgFile").val());
                         formdata.append("Logo", $("#lblImgName").val());
                         formdata.append("ImageType", "image/x-icon");
-                        formdata.append("HaveAllCompanyAccess", true);                    
+                        formdata.append("HaveAllCompanyAccess", true);
                     if (($("#txtPassword").val() != $("#lblExistingPassword").val())) {
                         formdata.append("ChangePassword", true);
+                        formdata.append("Password", $("#txtPassword").val());
+                    }
+                    else {
+                        if (parseInt($("#lblCustomerId").val()) > 0) {
+                            formdata.append("Password", $("#lblExistingPassword").val());
+                        }
+                        else {
+                            formdata.append("Password", $("#txtPassword").val());
+                        }
                     }
                     
                     if ($("#is_active").is(":checked") ) {
