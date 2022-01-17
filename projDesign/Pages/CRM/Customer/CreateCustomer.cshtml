@@ -24,7 +24,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label col-md-3" for="ddlCustomerType">Type</label>
                                         <div class="col-md-9">
-                                            <select id="ddlCustomerType" name="ddlCustomerType" class="form-control" required>
+                                            <select id="ddlCustomerType" name="ddlCustomerType" class="form-control" autofocus required>
                                                 <option value=""> -- Please Select --</option>
                                                 <option value="3"> B2B</option>
                                                 <option value="4"> B2C</option>
@@ -232,9 +232,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtRemarks">
                                         <label class="col-form-label" for="txtRemarks">Remarks</label>
-                                        <textarea type="tel" id="txtRemarks" name="txtRemarks" cols="5" pattern="^[^<>]+$"
-                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
-                            </textarea>
+                                        <textarea type="tel" id="txtRemarks" name="txtRemarks"  pattern="^[^<>]+$"
+                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks" ></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -413,8 +412,8 @@
                     formdata.append("LogoImageFile", selectedFile);
                     formdata.append("CustomerId", $("#lblCustomerId").val());
                     formdata.append("OrgId", OrgId);
-                        formdata.append("Code", $("#txtCompanyCode").val());
-                        formdata.append("Name", $("#txtCompanyName").val());
+                        formdata.append("Code", $("#txtCustomerCode").val());
+                        formdata.append("Name", $("#txtCustomerName").val());
                         formdata.append("CustomerType", $("#ddlCustomerType").val());
                         formdata.append("OfficeAddress",$("#txtAddress").val());
                         formdata.append("Locality",$("#txtLocality").val());

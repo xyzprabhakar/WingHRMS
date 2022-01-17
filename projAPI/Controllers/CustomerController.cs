@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using projAPI.Model;
 using projAPI.Services;
 using projContext;
@@ -124,62 +125,99 @@ namespace projAPI.Controllers
             List<int> CustomerRole = new List<int>();
             CustomerRole.Add((int)enmDefaultRole.CustomerAdmin);
             srvUsers.SetUserRole(UserId , CustomerRole,false,_srvCurrentUser.UserId);
-
             returnData.MessageType = enmMessageType.Success;
             returnData.Message = "Save successfully";
             return returnData;
         }
 
-
-        [Route("GetCompanys/{OrgId}")]
-        public mdlReturnData GetCompanys([FromServices] IsrvUsers srvUsers, int OrgId)
+        [HttpPost]
+        [Route("GetCustomers")]
+        [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
+        public mdlReturnData GetCustomers([FromServices] IsrvMasters srvMasters,[FromServices] IsrvUsers srvUsers, [FromHeader]int OrgId, [FromBody]DataTableParameters dtp)
         {
             mdlReturnData returnData = new mdlReturnData();
-            if (_masterContext.tblUserOrganisationPermission.Where(p => p.OrgId == OrgId && !p.IsDeleted).Count() == 0)
+            try {
+                IQueryable<tblCustomerMaster> CustomerData = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId).AsQueryable();
+                int recordsTotal = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId).Count();
+                int recordsFiltered = recordsTotal;
+                if (dtp.search != null)
+                {
+                    CustomerData = CustomerData.Where(p => p.Code.Contains(dtp.search.value) ||
+                    p.Name.Contains(dtp.search.value) ||
+                    p.OfficeAddress.Contains(dtp.search.value) ||
+                    p.Locality.Contains(dtp.search.value)
+                    );
+                }
+                if (!(dtp.order == null || dtp.order.Count() == 0))
+                {
+                    if (dtp.order[0].dir == "asc")
+                    {
+                        CustomerData = CustomerData.OrderBy(p => EF.Property<object>(p, dtp.columns[dtp.order[0].column].name));
+                    }
+                    else
+                    {
+                        CustomerData = CustomerData.OrderByDescending(p => EF.Property<object>(p, dtp.columns[dtp.order[0].column].name));
+                    }
+                }
+
+                if (dtp.length > 0)
+                {
+                    CustomerData = CustomerData.Skip(dtp.start).Take(dtp.length);
+                }
+
+                var data = CustomerData.ToList();
+                var CountryList = data.Select(p => p.CountryId).ToArray();
+                var StateList = data.Select(p => p.StateId).ToArray();
+                var userList = data.Select(p => p.ModifiedBy ?? 0).ToArray();
+                var AllCountryName = srvMasters.GetCountry(CountryList);
+                var AllStateName = srvMasters.GetStates(StateList);
+                var AllUserList = srvUsers.GetUsers(userList);
+                data.ForEach(p =>
+                {
+                    var tempCountry = AllCountryName.Where(q => q.Id == p.CountryId).FirstOrDefault();
+                    p.CountryName = String.Concat(tempCountry?.Code ?? "", " - ", tempCountry?.Name ?? "");
+                    var tempState = AllStateName.Where(q => q.Id == p.StateId).FirstOrDefault();
+                    p.StateName = String.Concat(tempState?.Code ?? "", " - ", tempState?.Name ?? "");
+                    var tempUserName = AllUserList.Where(q => q.Id == p.ModifiedBy).FirstOrDefault();
+                    p.ModifiedByName = String.Concat(tempUserName?.Name ?? "");
+                });
+
+                var jsonData = new
+                {
+                    draw = dtp.draw,
+                    recordsFiltered = recordsTotal,
+                    recordsTotal = recordsTotal,
+                    data = data.AsEnumerable().Select(p =>
+                    new
+                    {
+                    customerId = p.CustomerId,
+                    code = p.Code,
+                    name = p.Name,
+                    customerType = p.CustomerType,
+                    address = string.Concat(p.OfficeAddress + ", " + p.Locality ?? string.Empty + ", " + p.City ?? string.Empty),
+                    state = p.StateName,
+                    country = p.CountryName,
+                    pincode = p.Pincode,
+                    contactNo = string.Concat(p.ContactNo, string.Concat(", ", p.AlternateContactNo) ?? string.Empty),
+                    email = string.Concat(p.Email, string.Concat(", ", p.AlternateEmail) ?? string.Empty),
+                    modifiedDt = p.ModifiedDt,
+                    modifiedBy = p.ModifiedByName,
+                    isActive = p.IsActive
+                    }
+                    )
+                };
+                returnData.ReturnId = jsonData;
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
             {
-                returnData.Message = "Unauthorize access";
+                returnData.Message = ex.Message;
                 returnData.MessageType = enmMessageType.Error;
                 return returnData;
             }
-            returnData.ReturnId = (from t1 in _masterContext.tblCompanyMaster
-                                   join t2 in _masterContext.tblCountry on t1.CountryId equals t2.CountryId
-                                   join t3 in _masterContext.tblState on t1.StateId equals t3.StateId
-                                   join t4 in _masterContext.tblUsersMaster on t1.ModifiedBy equals t4.UserId
-                                   where t1.OrgId == OrgId
-                                   select new
-                                   {
-                                       t1.CompanyId,
-                                       t1.Code,
-                                       t1.Name,
-                                       t1.OfficeAddress,
-                                       t1.Locality,
-                                       t1.City,
-                                       StateName = t3.Name,
-                                       CountryName = t2.Name,
-                                       t1.Pincode,
-                                       t1.ContactNo,
-                                       t1.AlternateContactNo,
-                                       t1.Email,
-                                       t1.AlternateEmail,
-                                       t1.ModifiedDt,
-                                       t4.UserName,
-                                       t1.IsActive
-                                   }).AsEnumerable().Select(p => new {
-                                       companyId = p.CompanyId,
-                                       code = p.Code,
-                                       name = p.Name,
-                                       address = string.Concat(p.OfficeAddress + ", " + p.Locality ?? string.Empty + ", " + p.City ?? string.Empty),
-                                       state = p.StateName,
-                                       country = p.CountryName,
-                                       pincode = p.Pincode,
-                                       contactNo = string.Concat(p.ContactNo, string.Concat(", ", p.AlternateContactNo) ?? string.Empty),
-                                       email = string.Concat(p.Email, string.Concat(", ", p.AlternateEmail) ?? string.Empty),
-                                       modifiedDt = p.ModifiedDt,
-                                       modifiedBy = p.UserName,
-                                       isActive = p.IsActive
-                                   });
-            returnData.MessageType = enmMessageType.Success;
-            return returnData;
+
+            
         }
 
 

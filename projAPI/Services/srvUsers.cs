@@ -467,6 +467,7 @@ namespace projAPI.Services
             }
             _masterContext.SaveChanges();
             returnData.MessageType = enmMessageType.Success;
+            returnData.ReturnId = Existing.UserId;
             return returnData;
         }
 

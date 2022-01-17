@@ -143,7 +143,7 @@ namespace projAPI.Controllers
                 var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleId == (int)enmDefaultRole.SuperAdmin).FirstOrDefault();
                 if (defaultRole == null)
                 {
-                    defaultRole = new tblRoleMaster() { RoleName = nameof(enmDefaultRole.SuperAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
+                    defaultRole = new tblRoleMaster() {RoleId = (int)enmDefaultRole.SuperAdmin, RoleName = nameof(enmDefaultRole.SuperAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
                     masterContext.tblRoleMaster.Add(defaultRole);
                     masterContext.SaveChanges();
                 }
@@ -163,7 +163,7 @@ namespace projAPI.Controllers
                 var defaultRole = masterContext.tblRoleMaster.Where(p => p.RoleId == (int)enmDefaultRole.CustomerAdmin).FirstOrDefault();
                 if (defaultRole == null)
                 {
-                    defaultRole = new tblRoleMaster() { RoleName = nameof(enmDefaultRole.CustomerAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
+                    defaultRole = new tblRoleMaster() { RoleId= (int)enmDefaultRole.CustomerAdmin, RoleName = nameof(enmDefaultRole.CustomerAdmin), CreatedBy = 1, CreatedDt = dt, IsActive = true, ModifiedBy = 1, ModifiedDt = dt };
                     masterContext.tblRoleMaster.Add(defaultRole);
                     masterContext.SaveChanges();
                 }
