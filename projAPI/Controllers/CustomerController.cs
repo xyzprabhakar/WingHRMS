@@ -56,23 +56,32 @@ namespace projAPI.Controllers
             ,int CustomerId)
         {
             mdlReturnData returnData = new mdlReturnData();
-            var tempData = CustomerId > 0 ? _crmContext.tblCustomerMaster.Where(p => p.CustomerId == CustomerId).FirstOrDefault() : null;
-            if (tempData == null)
+            mdlCustomer mdl = new mdlCustomer();
+            tblCustomerMaster tempData = CustomerId > 0 ? _crmContext.tblCustomerMaster.Where(p => p.CustomerId == CustomerId).FirstOrDefault() : null;
+            if (tempData != null)
             {
-                tempData = new tblCustomerMaster();
+                mdl = new mdlCustomer(tempData);
+                var tempuserData=_masterContext.tblUsersMaster.Where(p => p.OrgId == OrgId && p.UserType == enmUserType.Customer && p.UserName == tempData.Code).FirstOrDefault();
+                if (tempuserData != null)
+                {
+                    mdl.Password = tempuserData.Password;
+                    mdl.UserId = tempuserData.UserId;
+                }
+                
             }
             
-            if (tempData.Logo != null)
+            
+            if (mdl.Logo != null)
             {
-                var tempImages = _srvMasters.GetImage(tempData.Logo);
+                var tempImages = _srvMasters.GetImage(mdl.Logo);
                 if (tempImages != null)
                 {
-                    tempData.LogoImage = Convert.ToBase64String(tempImages.File);
-                    tempData.LogoImageType = tempImages.FileType.GetDescription();
+                    mdl.LogoImage = Convert.ToBase64String(tempImages.File);
+                    mdl.LogoImageType = tempImages.FileType.GetDescription();
                 }
             }
             returnData.MessageType = enmMessageType.Success;
-            returnData.ReturnId = tempData;
+            returnData.ReturnId = mdl;
             return returnData;
         }
 
@@ -143,21 +152,62 @@ namespace projAPI.Controllers
                 int recordsFiltered = recordsTotal;
                 if (dtp.search != null)
                 {
-                    CustomerData = CustomerData.Where(p => p.Code.Contains(dtp.search.value) ||
-                    p.Name.Contains(dtp.search.value) ||
-                    p.OfficeAddress.Contains(dtp.search.value) ||
-                    p.Locality.Contains(dtp.search.value)
-                    );
+                    if (dtp.search.value.Contains("@"))
+                    {
+                        CustomerData = CustomerData.Where(p => p.Email.Contains(dtp.search.value) ||
+                                            p.AlternateEmail.Contains(dtp.search.value));
+                    }
+                    else
+                    {
+                        CustomerData = CustomerData.Where(p => p.Code.Contains(dtp.search.value) ||
+                       p.Name.Contains(dtp.search.value) ||
+                       p.OfficeAddress.Contains(dtp.search.value) ||
+                       p.Locality.Contains(dtp.search.value) ||
+                       p.ContactNo.Contains(dtp.search.value) ||
+                       p.AlternateContactNo.Contains(dtp.search.value) 
+                       );
+                    }
+                    
                 }
                 if (!(dtp.order == null || dtp.order.Count() == 0))
                 {
                     if (dtp.order[0].dir == "asc")
                     {
-                        CustomerData = CustomerData.OrderBy(p => EF.Property<object>(p, dtp.columns[dtp.order[0].column].name));
+                        switch (dtp.order[0].column)
+                        {
+                            //case 0: CustomerData = CustomerData.OrderBy(p => EF.Property<object>(p, "Id"));break;
+                            case 0: CustomerData = CustomerData.OrderBy(p => p.CustomerId); break;
+                            case 1: CustomerData = CustomerData.OrderBy(p => p.Code); break;
+                            case 2: CustomerData = CustomerData.OrderBy(p => p.Name); break;
+                            case 3: CustomerData = CustomerData.OrderBy(p => p.CustomerType); break;
+                            case 4: CustomerData = CustomerData.OrderBy(p => p.IsActive); break;
+                            case 5: CustomerData = CustomerData.OrderBy(p => p.OfficeAddress); break;
+                            case 6: CustomerData = CustomerData.OrderBy(p => p.StateId); break;
+                            case 8: CustomerData = CustomerData.OrderBy(p => p.Pincode); break;
+                            case 9: CustomerData = CustomerData.OrderBy(p => p.ContactNo); break;
+                            case 10: CustomerData = CustomerData.OrderBy(p => p.Email); break;
+                            case 11: CustomerData = CustomerData.OrderBy(p => p.ModifiedBy); break;
+                            case 12: CustomerData = CustomerData.OrderBy(p => p.ModifiedDt); break;
+                        }
                     }
                     else
                     {
-                        CustomerData = CustomerData.OrderByDescending(p => EF.Property<object>(p, dtp.columns[dtp.order[0].column].name));
+                        switch (dtp.order[0].column)
+                        {
+                            //case 0: CustomerData = CustomerData.OrderBy(p => EF.Property<object>(p, "Id"));break;
+                            case 0: CustomerData = CustomerData.OrderByDescending(p => p.CustomerId); break;
+                            case 1: CustomerData = CustomerData.OrderByDescending(p => p.Code); break;
+                            case 2: CustomerData = CustomerData.OrderByDescending(p => p.Name); break;
+                            case 3: CustomerData = CustomerData.OrderByDescending(p => p.CustomerType); break;
+                            case 4: CustomerData = CustomerData.OrderByDescending(p => p.IsActive); break;
+                            case 5: CustomerData = CustomerData.OrderByDescending(p => p.OfficeAddress); break;
+                            case 6: CustomerData = CustomerData.OrderByDescending(p => p.StateId); break;
+                            case 8: CustomerData = CustomerData.OrderByDescending(p => p.Pincode); break;
+                            case 9: CustomerData = CustomerData.OrderByDescending(p => p.ContactNo); break;
+                            case 10: CustomerData = CustomerData.OrderByDescending(p => p.Email); break;
+                            case 11: CustomerData = CustomerData.OrderByDescending(p => p.ModifiedBy); break;
+                            case 12: CustomerData = CustomerData.OrderByDescending(p => p.ModifiedDt); break;
+                        }
                     }
                 }
 

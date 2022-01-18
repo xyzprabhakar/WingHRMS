@@ -102,7 +102,7 @@
                         request.setRequestHeader("OrgId", OrgId);
                     },
                     "dataSrc": function (json) {
-                        console.log(json.returnId);
+                        
                         if (json.messageType == 1) {
                             json.draw = json.returnId.draw;
                             json.recordsTotal = json.returnId.recordsTotal;
@@ -111,7 +111,7 @@
                             return json.data;
                         }
                         else {
-                            messageBox("error", json.returnId.message);
+                            messageBox("error", json.message);
                         }
                         
                     }
@@ -157,7 +157,11 @@
                             render: function (data, type, row) {
                                 return '<a href="CreateCustomer?CustomerId=' + parseInt(data) + '" > <i class="fa fa-pencil-square-o"></i> Edit</a>';
                             }
-
+                        },
+                        {
+                            
+                            targets: [6,7,11,13],
+                            'bSortable': false,
                         }
                     ],
                 "columns": [
@@ -174,9 +178,9 @@
                     { "data": "email", "name": "email", "autoWidth": true },
                     { "data": "modifiedBy", "name": "modifiedBy", "autoWidth": true },
                     { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                    { "data": "companyId", "name": "companyId", "autoWidth": true }
+                    { "data": "customerId", "name": "customerId", "autoWidth": true }
                 ],
-                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 'createdRow': function (row, data, dataIndex) {
                     $('td:eq(5)', row).css('min-width', '200px');
                     $('td:eq(2)', row).css('min-width', '150px');
@@ -184,6 +188,22 @@
                 }
 
             });
+            //SearchOnly at least 3 Charcter or enter key
+            // Grab the datatables input box and alter how it is bound to events
+            $(".dataTables_filter input")
+                .unbind() // Unbind previous default bindings
+                .bind("input", function (e) { // Bind our desired behavior
+                    // If the length is 3 or more characters, or the user pressed ENTER, search
+                    if (this.value.length >= 3 || e.keyCode == 13) {
+                        // Call the API search function
+                        dt.search(this.value).draw();
+                    }
+                    // Ensure we clear the search if they backspace far enough
+                    if (this.value == "") {
+                        dt.search("").draw();
+                    }
+                    return;
+              });
 
             //dt.on('order.dt search.dt', function () {
             //    dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {

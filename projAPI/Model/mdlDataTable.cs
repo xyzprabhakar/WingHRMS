@@ -13,7 +13,7 @@ namespace projAPI.Model
         public List<DataOrder> order { get; set; }
         public Search search { get; set; }
         public int start { get; set; }
-        public string Hi { get; set; }
+        
     }
 
     public class Search
@@ -24,7 +24,7 @@ namespace projAPI.Model
 
     public class DataTableColumn
     {
-        public int data { get; set; }
+        public string data { get; set; }
         public string name { get; set; }
         public bool orderable { get; set; }
         public bool searchable { get; set; }

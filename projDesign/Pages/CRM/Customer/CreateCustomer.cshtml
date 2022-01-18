@@ -18,6 +18,7 @@
                             </div>
 
                             <input type="hidden" id="lblCustomerId" name="CustomerId" value="0" />
+                            <input type="hidden" id="lblUserId" name="UserId" value="0" />
 
                             <div class="row mb-2">
                                 <div class="col-md-6">
@@ -96,7 +97,7 @@
                                         <label class="col-form-label col-md-3" for="txtConfirmPassword">Confirm password</label>
                                         <div class="col-md-9">
                                             <input type="password" id="txtConfirmPassword" name="txtConfirmPassword"
-                                                   maxlength="256" autocomplete="off" 
+                                                   maxlength="256" autocomplete="off"
                                                    class="form-control" placeholder="Confirm Password">
                                         </div>
                                     </div>
@@ -232,8 +233,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group" for="txtRemarks">
                                         <label class="col-form-label" for="txtRemarks">Remarks</label>
-                                        <textarea type="tel" id="txtRemarks" name="txtRemarks"  pattern="^[^<>]+$"
-                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks" ></textarea>
+                                        <textarea type="tel" id="txtRemarks" name="txtRemarks" pattern="^[^<>]+$"
+                                                  maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -311,7 +312,8 @@
                 }).then(data => {
                     if (data.messageType == 1) {
                         OrgId = data.returnId.orgId;
-                        $("#lblCustomerId").val(data.returnId.companyId);
+                        $("#lblCustomerId").val(data.returnId.customerId);
+                        $("#lblUserId").val(data.returnId.userId);
                         $("#txtCustomerName").val(data.returnId.name);
                         $("#txtCustomerCode").val(data.returnId.code);
                         $("#ddlCustomerType").val(data.returnId.customerType);
@@ -430,6 +432,7 @@
                         formdata.append("Logo", $("#lblImgName").val());
                         formdata.append("ImageType", "image/x-icon");
                         formdata.append("HaveAllCompanyAccess", true);
+                        formdata.append("UserId", $("#lblUserId").val());
                     if (($("#txtPassword").val() != $("#lblExistingPassword").val())) {
                         formdata.append("ChangePassword", true);
                         formdata.append("Password", $("#txtPassword").val());
