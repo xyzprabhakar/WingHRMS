@@ -13,6 +13,7 @@ namespace projAPI.Model
         public List<DataOrder> order { get; set; }
         public Search search { get; set; }
         public int start { get; set; }
+        public string Hi { get; set; }
     }
 
     public class Search

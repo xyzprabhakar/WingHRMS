@@ -95,7 +95,7 @@
                     "contentType": "application/json; charset=utf-8",
                     "datatype": "json",
                     "data": function (data) {
-                        return JSON.stringify({ dataTableParameters: data })
+                        return JSON.stringify(data);
                     } ,
                     'beforeSend': function (request) {
                         request.setRequestHeader("Authorization", 'Bearer ' + token);

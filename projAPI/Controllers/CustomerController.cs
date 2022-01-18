@@ -133,8 +133,9 @@ namespace projAPI.Controllers
         [HttpPost]
         [Route("GetCustomers")]
         [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
-        public mdlReturnData GetCustomers([FromServices] IsrvMasters srvMasters,[FromServices] IsrvUsers srvUsers, [FromHeader]int OrgId, [FromBody]DataTableParameters dtp)
+        public mdlReturnData GetCustomers([FromServices] IsrvMasters srvMasters,[FromServices] IsrvUsers srvUsers,DataTableParameters dtp , [FromHeader]int OrgId )
         {
+            
             mdlReturnData returnData = new mdlReturnData();
             try {
                 IQueryable<tblCustomerMaster> CustomerData = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId).AsQueryable();
