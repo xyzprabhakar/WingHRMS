@@ -308,7 +308,9 @@
             $(".ip-ap").flatpickr({
                 dateFormat: "d-M-Y",
             });
-            
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtEffectiveToDt").val(GetDateFormatddMMyyyy(new Date("2999-12-31")));
+
             //jquery Validateor
             $.validator.methods.pattern = function (value, element) {
                 return (this.optional(element) || new RegExp(element.pattern).test(value));
@@ -364,8 +366,8 @@
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                         $("#txtRemarks").val(data.returnId.modifyRemarks);
                         $("#lblImgName").val(data.returnId.logo);
-                        $("#txtEffectiveFromDt").val(data.returnId.effectiveFromDt);
-                        $("#txtEffectiveToDt").val(data.returnId.effectiveToDt);
+                        $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date( data.returnId.effectiveFromDt)));
+                        $("#txtEffectiveToDt").val(GetDateFormatddMMyyyy(new Date( data.returnId.effectiveToDt)));
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
                             var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
