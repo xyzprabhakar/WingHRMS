@@ -422,7 +422,7 @@ namespace projAPI.Services
             }
             if (_masterContext.tblUsersMaster.Where(p => p.Email == Email && p.OrgId == OrgId && p.UserType == UserType && p.UserId != UserId).Count() > 0)
             {
-                returnData.Message = "UserName already Exists";
+                returnData.Message = "Email already Exists";
                 returnData.MessageType = enmMessageType.Error;
                 return returnData;
             }

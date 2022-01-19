@@ -49,6 +49,42 @@ namespace projAPI.Controllers
 
 
         [HttpGet]
+        [Route("CheckEmail")]
+        public bool CheckEmail([FromServices] IsrvMasters _srvMasters, int OrgId
+            , string  txtEmail, int CustomerId)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (_srvCustomers.CustomerEmailExists(txtEmail, CustomerId, OrgId))
+            {
+                return false;
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = "Email already exist";
+            }
+            else
+            {
+                return true;
+                returnData.MessageType = enmMessageType.Success;
+            }
+            //return returnData;
+        }
+        [HttpGet]
+        [Route("CheckContact")]
+        public bool CheckContact([FromServices] IsrvMasters _srvMasters, int OrgId
+            , string txtContact, int CustomerId)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            if (_srvCustomers.CustomerContactNoExists(txtContact, CustomerId,OrgId))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+        }
+
+        [HttpGet]
         [Route("GetCustomer/{CustomerId}/{IncludeCountryState}/{IncludeUsername}")]
         [Authorize(nameof(enmDocumentMaster.CRM_Create_Customer) + nameof(enmDocumentType.Update))]
         [Authorize(nameof(enmValidateRequestHeader.ValidateOrganisation))]
@@ -123,7 +159,7 @@ namespace projAPI.Controllers
                 return returnData;
             }
             int CustomerId = returnData.ReturnId;
-            ulong UserId = 0;
+            ulong UserId = mdl.UserId;
             string EncPassword = mdl.ChangePassword? Classes.AESEncrytDecry.EncryptStringAES(mdl.Password): mdl.Password;
             returnData = srvUsers.SetUserMaster(UserId, mdl.Name.ToUpper(), mdl.Code.ToUpper(), mdl.Email, mdl.ContactNo, EncPassword, enmUserType.Customer, OrgId, 0, 0, CustomerId, 0);
             if (returnData.MessageType != enmMessageType.Success)
@@ -238,9 +274,10 @@ namespace projAPI.Controllers
                     draw = dtp.draw,
                     recordsFiltered = recordsTotal,
                     recordsTotal = recordsTotal,
-                    data = data.AsEnumerable().Select(p =>
+                    data = data.AsEnumerable().Select((p, iterator) =>
                     new
                     {
+                    Sno= iterator+1,
                     customerId = p.CustomerId,
                     code = p.Code,
                     name = p.Name,

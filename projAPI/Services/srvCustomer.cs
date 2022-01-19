@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace projAPI.Services
 {
+    
+
     public interface IsrvCustomer
     {
+        bool CustomerContactNoExists(string ContactNo, int Customerid, int OrgId);
+        bool CustomerEmailExists(string Email, int Customerid, int OrgId);
         tblCustomerMaster GetCustomer(int OrgId, string CustomerCode);
         mdlReturnData SetCustomerMaster(mdlCustomer mdl, ulong UserId);
-
-
     }
 
     public class srvCustomer : IsrvCustomer
@@ -52,13 +54,35 @@ namespace projAPI.Services
             return Data;
         }
 
-        public mdlReturnData SetCustomerMaster(mdlCustomer mdl,ulong UserId)
+        public bool CustomerEmailExists(string Email, int Customerid,int OrgId)
+        {
+            return _crmContext.tblCustomerMaster.Where(p => p.Email == Email && p.CustomerId != Customerid).Count() > 0;
+        }
+        public bool CustomerContactNoExists(string ContactNo, int Customerid, int OrgId)
+        {
+            return _crmContext.tblCustomerMaster.Where(p => p.ContactNo == ContactNo && p.CustomerId != Customerid).Count() > 0;
+        }
+
+        public mdlReturnData SetCustomerMaster(mdlCustomer mdl, ulong UserId)
         {
             mdlReturnData returnData = new mdlReturnData();
             bool IsUpdate = false;
-            if (_crmContext.tblCustomerMaster.Where(p => p.OrgId == mdl.OrgId && p.Code == mdl.Code && p.CustomerId != mdl.CustomerId).Count() > 0) 
+
+            if (_crmContext.tblCustomerMaster.Where(p => p.OrgId == mdl.OrgId && p.Code == mdl.Code && p.CustomerId != mdl.CustomerId).Count() > 0)
             {
                 returnData.Message = "Code already exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (CustomerEmailExists(mdl.Email, mdl.CustomerId, mdl.OrgId))
+            {
+                returnData.Message = "Email already exists";
+                returnData.MessageType = enmMessageType.Error;
+                return returnData;
+            }
+            if (CustomerContactNoExists(mdl.ContactNo, mdl.CustomerId, mdl.OrgId))
+            {
+                returnData.Message = "Contact No already exists";
                 returnData.MessageType = enmMessageType.Error;
                 return returnData;
             }
@@ -73,19 +97,19 @@ namespace projAPI.Services
                     return returnData;
                 }
                 IsUpdate = true;
-                
+
             }
             else
             {
                 tbl = new tblCustomerMaster();
                 tbl.CreatedBy = UserId;
                 tbl.CreatedDt = DateTime.Now;
-                
+
             }
-            
+
             tbl.CustomerType = mdl.CustomerType;
             tbl.Code = mdl.Code;
-            tbl.Name= mdl.Name;
+            tbl.Name = mdl.Name;
             tbl.OrgId = mdl.OrgId;
             tbl.OfficeAddress = mdl.OfficeAddress;
             tbl.Locality = mdl.Locality;
@@ -98,6 +122,7 @@ namespace projAPI.Services
             tbl.ContactNo = mdl.ContactNo;
             tbl.AlternateContactNo = mdl.AlternateContactNo;
             tbl.ModifyRemarks = mdl.ModifyRemarks;
+            tbl.IsActive = mdl.IsActive;
             if (mdl.NewFileName != null && tbl.Logo != mdl.NewFileName)
             {
                 tbl.Logo = mdl.NewFileName;
@@ -116,11 +141,11 @@ namespace projAPI.Services
             }
             _crmContext.SaveChanges();
             returnData.ReturnId = tbl.CustomerId;
-            mdl.CustomerId= tbl.CustomerId;
+            mdl.CustomerId = tbl.CustomerId;
             returnData.MessageType = enmMessageType.Success;
             return returnData;
         }
-        
-        
+
+
     }
 }

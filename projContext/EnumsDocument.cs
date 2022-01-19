@@ -189,7 +189,7 @@ namespace projContext
 
 
         [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Customer", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/Customer")]
+            DisplayOrder: 1, Name: "Customer", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/CreateCustomer")]
         CRM_Create_Customer = 1001,
         [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Update | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 1, Name: "IP Filter", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/CustomerIPFilter")]

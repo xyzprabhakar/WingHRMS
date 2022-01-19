@@ -104,6 +104,28 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-2">                                
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEffectiveFromDt">
+                                        <label class="col-form-label col-md-3" for="txtEffectiveFromDt">Effective From</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control ip-ap" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEffectiveToDt">
+                                        <label class="col-form-label col-md-3" for="txtConfirmPassword">Effective To</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtEffectiveToDt" name="txtEffectiveToDt"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control ip-ap">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <hr />
                             </div>
@@ -255,9 +277,9 @@
                             <div class="clearfix"></div>
                             <div class="col-md-12">
                                 <div class="form-group text-center">
-                                    <input type="submit" class="btn btn-primary btn-lg" value="Update">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Save">
                                     <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                    <a href="CompanyReport" class="btn btn-primary btn-lg">Report</a>
+                                    <a href="CustomerReport" class="btn btn-primary btn-lg">Report</a>
 
                                 </div>
                             </div>
@@ -275,15 +297,24 @@
     <script type="text/javascript">
         
         $(document).ready(function () {
-            let OrgId = localStorage.getItem("currentOrganisation");
-            //bindcountry
             $('#loader').show();
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            //bindcountry
+            $(".ip-ap").flatpickr({
+                dateFormat: "d-M-Y",
+            });
+            
             //jquery Validateor
             $.validator.methods.pattern = function (value, element) {
                 return (this.optional(element) || new RegExp(element.pattern).test(value));
             };
             $.validator.messages.pattern = "Invalid input entered. Char '<' and '>' and Space are not allowed";
-            let token = localStorage.getItem('token');
+            
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
             var selectedFile = null;
@@ -293,13 +324,9 @@
                 $("#lblCustomerId").val("0");
                 $('#loader').hide();
             } else {
-                let apiurl = localStorage.getItem('baseUrl') + "Customer/GetCustomer/" + customerId_ + "/false/false";
-                let headerss = new Headers();
+                let apiurl = localStorage.getItem('baseUrl') + "Customer/GetCustomer/" + customerId_ + "/false/false";                
                 let lblcountryId = 0;
-                let lblstateId = 0;
-                headerss.append("Authorization", 'Bearer ' + token);
-                headerss.append("Content-Type", "application/json; charset=utf-8");
-                headerss.append("OrgId", OrgId);
+                let lblstateId = 0;                
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -337,6 +364,8 @@
                         $("#txtAlternateContact").val(data.returnId.alternateContactNo);
                         $("#txtRemarks").val(data.returnId.modifyRemarks);
                         $("#lblImgName").val(data.returnId.logo);
+                        $("#txtEffectiveFromDt").val(data.returnId.effectiveFromDt);
+                        $("#txtEffectiveToDt").val(data.returnId.effectiveToDt);
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage === undefined)) {
                             var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
@@ -388,8 +417,88 @@
                     reader.readAsDataURL(file);
                 }
             }
-            //bind Country and States
+
+
+            $.validator.addMethod("notEqualTo",
+                function (value, element, param) {
+                    var notEqual = true;
+                    value = $.trim(value);
+                    for (i = 0; i < param.length; i++) {
+                        if (value == $.trim($(param[i]).val())) { notEqual = false; }
+                    }
+                    return this.optional(element) || notEqual;
+                },
+                "Please enter a diferent value."
+            );
+
             $("#frmOrganisation").validate({
+                onkeyup: false,
+                rules: {
+                    txtEmail: {
+                        remote: {
+                            url: localStorage.getItem('baseUrl') + "customer/CheckEmail",
+                            method: "get",
+                            headers: { "Authorization": 'Bearer ' + token },
+                            data: {
+                                CustomerId: function () { return $("#lblCustomerId").val() },
+                                OrgId: function () { return OrgId }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                                return false;
+                            }
+                        }
+                    },
+                    txtContact: {
+                        remote: {
+                            url: localStorage.getItem('baseUrl') + "customer/CheckContact",
+                            method: "get",
+                            headers: { "Authorization": 'Bearer ' + token },
+                            data: {
+                                CustomerId: function () { return $("#lblCustomerId").val() },
+                                OrgId: function () { return OrgId }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                                return false;
+                            }
+                        }
+                    },
+                    txtConfirmPassword: {
+                        required: true,
+                        equalTo: "#txtPassword"
+                    },
+                    txtAlternateEmail:
+                    {
+                        notEqualTo:["#txtEmail"]
+                    },
+                    txtAlternateContact:
+                    {
+                        notEqualTo: ["#txtContact"]
+                    }
+                },
+                messages: {
+                    txtEmail: {
+                        required: "Required",
+                        email: "Enter valid Email",
+                        remote: "Email address already in use. Please use other email"
+                    },
+                    txtContact: {
+                        required: "Required",                        
+                        remote: "Contact already in use. Please use other Contact"
+                    },
+                    txtAlternateEmail: {                        
+                        email: "Enter valid Email",
+                        notEqualTo: "Alternate Email should be different"
+                    },
+                    txtAlternateContact: {                      
+                        notEqualTo: "Alternate Contact should be different"
+                    },
+                    txtConfirmPassword: {
+                        required: "Required",
+                        equalTo: "Confirm Password is not match"
+                    }
+                },
                 errorPlacement: function (error, element) {
                     if (element.hasClass('select2') && element.next('.select2-container').length) {
                         error.insertAfter(element.next('.select2-container'));
@@ -431,8 +540,11 @@
                         formdata.append("LogoImageType", $("#lblImgFile").val());
                         formdata.append("Logo", $("#lblImgName").val());
                         formdata.append("ImageType", "image/x-icon");
-                        formdata.append("HaveAllCompanyAccess", true);
-                        formdata.append("UserId", $("#lblUserId").val());
+                    formdata.append("HaveAllCompanyAccess", true);                    
+                    formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
+                    formdata.append("EffectiveToDt", $("#txtEffectiveToDt").val());
+                    formdata.append("UserId", $("#lblUserId").val());
+                    
                     if (($("#txtPassword").val() != $("#lblExistingPassword").val())) {
                         formdata.append("ChangePassword", true);
                         formdata.append("Password", $("#txtPassword").val());
@@ -440,9 +552,11 @@
                     else {
                         if (parseInt($("#lblCustomerId").val()) > 0) {
                             formdata.append("Password", $("#lblExistingPassword").val());
+                            formdata.append("ChangePassword", false);
                         }
                         else {
                             formdata.append("Password", $("#txtPassword").val());
+                            formdata.append("ChangePassword", true);
                         }
                     }
                     
