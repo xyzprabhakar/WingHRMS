@@ -102,8 +102,7 @@ namespace projAPI.Controllers
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
-            {
-                
+            {   
                 var tempData = _IsrvAir.SetServiceProvider(EffectiveFromDate, ServiceProvider, IsEnable, UserId, Remarks);
                
                return tempData;
@@ -119,20 +118,39 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("settings/getserviceprovider")]
-        public List<tblFlightSerivceProvider> getserviceprovider(DateTime ProcessDate, bool IsOnlyActive)
+        [Route("settings/getserviceproviders")]
+        public mdlReturnData getserviceproviders([FromServices]IsrvUsers srvUsers, bool IsDateFitlter,enmServiceProvider ServiceProvider, DateTime EffectiveFromDate, DateTime EffectiveToDate)
         {
-           try
+            mdlReturnData mdl = new mdlReturnData();
+            try
             {
+                IEnumerable<tblFlightSerivceProvider> Datas = null;
+                if (!IsDateFitlter)
+                {
+                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.ServiceProvider == ServiceProvider).OrderByDescending(p => p.EffectiveFromDate).Take(10).AsEnumerable();
+                }
+                else
+                {
+                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.EffectiveFromDate>= EffectiveFromDate && p.EffectiveFromDate<=EffectiveToDate).OrderByDescending(p => p.EffectiveFromDate).AsEnumerable();
+                }
+                
 
-                var tempData = _IsrvAir.GetServiceProvider(ProcessDate, IsOnlyActive);
-                return tempData;
+                var ModifiedBys = Datas.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                foreach (var d in Datas)
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                }
+                mdl.ReturnId = Datas;
+                mdl.MessageType = enmMessageType.Success;
+                return mdl;
 
             }
             catch (Exception ex)
             {
-               
-                return null;
+                mdl.MessageType = enmMessageType.Error;
+                mdl.Message = ex.Message;
+                return mdl;
             }
 
         }

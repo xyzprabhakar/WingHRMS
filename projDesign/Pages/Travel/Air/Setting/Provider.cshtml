@@ -1,0 +1,282 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200101";
+    ViewData["Title"] = "Provider";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlProvider">Provider</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlProvider" name="ddlProvider" class="form-control" autofocus required>
+                                                <option value=""> -- Please Select --</option>
+                                                <option value="1"> TripJack</option>
+                                                <option value="2"> TBO</option>
+                                                <option value="3"> Kafila</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Status</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-2">
+
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCustomerName">
+                                        <label class="col-form-label col-md-3" for="txtCustomerName">Customer Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCustomerName" name="txtCustomerName"
+                                                   maxlength="128" autocomplete="off" pattern="^[^<>]+$"
+                                                   class="form-control" placeholder="Name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEffectiveFromDt">
+                                        <label class="col-form-label col-md-3" for="txtEffectiveFromDt">Effective From</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control ip-ap" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtRemarks">
+                                        <label class="col-form-label" for="txtRemarks">Remarks</label>
+                                        <input type="text" id="txtRemarks" name="txtRemarks" pattern="^[^<>]+$"
+                                               maxlength="128" autocomplete="off" class="form-control" placeholder="Remarks">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                    <a href="ProviderReport" class="btn btn-primary btn-lg">Report</a>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        
+                    </form>
+                     
+                    <div class="table-responsive no-margin">
+                            <table id="dt_table1" class="table w-100 no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>Provider</th>
+                                        <th>EffectiveFrom Dt</th>
+                                        <th>IsActive</th>
+                                        <th>Remarks</th>
+                                        <th>Modified By</th>
+                                        <th>Modified Dt</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+            $('#loader').show();
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            //bindcountry
+            $(".ip-ap").flatpickr({
+                dateFormat: "d-M-Y",
+            });
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
+
+            
+            $("ddlProvider").change(function () {
+                let ProviderId = this.value
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviders?IsDateFitlter=false&ServiceProvider=" + ProviderId ;
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        OrgId = data.returnId.orgId;
+                        $("#lblCustomerId").val(data.returnId.customerId);
+                        $("#lblUserId").val(data.returnId.userId);
+                        $("#txtCustomerName").val(data.returnId.name);
+                        $("#txtCustomerCode").val(data.returnId.code);
+                        $("#ddlCustomerType").val(data.returnId.customerType);
+                        $("#txtAddress").val(data.returnId.officeAddress);
+                        $("#txtLocality").val(data.returnId.locality);
+                        $("#txtCity").val(data.returnId.city);
+                        
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        
+                        $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date(data.returnId.effectiveFromDt)));
+                        
+                        if (data.returnId.isActive) {
+
+                            $("#is_active").prop("checked", true);
+                            $("#is_in_active").prop("checked", false);
+                        }
+                        else {
+                            $("#is_active").prop("checked", false);
+                            $("#is_in_active").prop("checked", true);
+                        }
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+                
+            });
+            
+            
+            $("#frmOrganisation").validate({
+                onkeyup: false,
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();
+                    if (!($("#txtPassword").val() == $("#txtConfirmPassword").val())) {
+                        $('#loader').hide();
+                        messageBox("error", "Password and Confirm Password is not match");
+                        return;
+                    }
+                    let Postapiurl = localStorage.getItem('baseUrl') + "Customer/SetCustomer"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
+                    var formdata = new FormData();
+                    formdata.append("Provider", $("#lblCustomerId").val());
+                    formdata.append("OrgId", OrgId);
+                    formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
+                    formdata.append("UserId", $("#lblUserId").val());
+                    if ($("#is_active").is(":checked") ) {
+                        formdata.append("IsActive", true);
+                    }
+                    else {
+                        formdata.append("IsActive", false);
+                    }
+
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,
+                        //body: submitdata,
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+    </script>
+}
+        
+

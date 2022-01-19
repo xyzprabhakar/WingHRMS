@@ -35,6 +35,9 @@ namespace projContext
         ETS= 13,
         [Application(IsArea: false, DisplayOrder: 6, Name: "Warehouse Management", Description: "", Icon: "nav-icon fas fa-industry", AreaName: "/WMS/Dashboard")]
         WMS = 14,
+        [Application(IsArea: false, DisplayOrder: 7, Name: "Travel", Description: "", Icon: "nav-icon fas fa-industry", AreaName: "/Travel/Index")]
+        Travel = 20,
+
     }
 
     public enum enmModule : int
@@ -45,12 +48,25 @@ namespace projContext
         [Module(false, DisplayOrder: 0, Name: "Authentication ", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         Authentication = 2,
 
-
         [Module(enmApplication.HRMS,false, DisplayOrder: 0, Name: "Master", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         HRMS_Master = 1100,
 
         [Module(enmApplication.CRM, false, DisplayOrder: 0, Name: "Customer", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Customer")]
-        CRM_Customer
+        CRM_Customer=1000,
+        
+        [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Air", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
+        Travel_Air=2001,
+        [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Hotel", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
+        Travel_Hotel = 2002,
+        [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Bus", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
+        Travel_Bus = 2003,
+        [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Train", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
+        Travel_Train = 2004,
+        [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Holiday Package", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
+        Travel_HolidayPackage = 2005,
+
+
+
 
         //[Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         //Gateway_Profile = 1,
@@ -97,6 +113,11 @@ namespace projContext
         [SubModule(EnmModule: enmModule.HRMS_Master, DisplayOrder: 1, Name: "Designation", Description: "Designation", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
         HRMS_Designation = 1105,
 
+
+        [SubModule(EnmModule: enmModule.Travel_Air, DisplayOrder: 1, Name: "Setting", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "")]
+        Travel_Air_Setting = 2001,
+        [SubModule(EnmModule: enmModule.Travel_Air, DisplayOrder: 1, Name: "Setting", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "")]
+        Travel_Hotel_Setting = 2002,
         //[SubModule(EnmModule: enmModule.Gateway_Profile, DisplayOrder: 1, Name: "Personal", Description: "Address,Email, Contact", Icon: "nav-icon fas fa-file", CntrlName: "Profile")]
         //Gateway_Personal_Profile = 1,
 
@@ -197,6 +218,23 @@ namespace projContext
         [Document(enmApplication.CRM, EnmModule: enmModule.CRM_Customer, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
             DisplayOrder: 1, Name: "Customer Markup", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/CRM/Customer/CustomerMarkup")]
         CRM_Customer_Markup = 1003,
+
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air,EnmSubModule:enmSubModule.Travel_Air_Setting , enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Provider", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Setting/Provider")]
+        Travel_Air_Provider = 200101,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Setting, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Provider Priority", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Setting/ProviderPriority")]
+        Travel_Air_ProviderPriority = 200102,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Setting, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Instant Booking", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Setting/InstantBooking")]
+        Travel_Air_InstantBooking = 200103,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Setting, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "FlightClass Filter", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Setting/FlightClassFilter")]
+        Travel_Air_FlightClassFilter = 200104,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Setting, enmDocumentType.Delete | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "FlightClass Alter", Description: "Create, Update Customer", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Setting/FlightClassAlter")]
+        Travel_Air_FlightClassAlter = 200105,
+
 
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]
         //Gateway_Dashboard = 1,
