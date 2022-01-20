@@ -242,7 +242,7 @@ namespace projAPI.Controllers
             {
                 modules = documents.Where(p => p.EnmModule.HasValue).Select(p => p.EnmModule).Distinct().Select(p => p.Value.GetModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
             }
-            if (IncludeModule)
+            if (IncludeSubModule)
             {
                 submodules = documents.Where(p => p.EnmSubModule.HasValue).Select(p => p.EnmSubModule).Distinct().Select(p => p.Value.GetSubModuleDetails()).OrderBy(p => p.DisplayOrder).ToList();
             }
@@ -261,20 +261,36 @@ namespace projAPI.Controllers
             List<mdlMenu> getMenudata(int? MenuId)
             {   
                 List<mdlMenu> mdlMs = new List<mdlMenu>();
-                mdlMs.AddRange(modules.OrderBy(q=>q.DisplayOrder).Select(p => new mdlMenu { id=p.Id , icon_url= p.Icon,urll="#", text=p.Name, sortingorder=p.DisplayOrder,children=new List<mdlMenu>()}));
+                mdlMs.AddRange(modules.Where(q=> (int?)q.EnmApplication== MenuId).OrderBy(q=>q.DisplayOrder).Select(p => new mdlMenu { id=p.Id , icon_url= p.Icon,urll="#", text=p.Name, sortingorder=p.DisplayOrder,children=new List<mdlMenu>()}));
                 foreach (var mdlM in mdlMs)
                 {
                     //check for sub module
-                    var mdlsubMs = submodules.Where(q => (int?)q.EnmModule == mdlM.id).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
+                    var mdlsubMs = submodules.Where(q => (int?)q.EnmModule == mdlM.id).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }).ToList();
                     foreach (var mdlsubM in mdlsubMs)
-                    {
+                    {   
                         mdlsubM.children.AddRange( documents.Where(q => (int?)q.EnmSubModule == mdlsubM.id && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }));
                     }
-                    var document_inner1 = documents.Where(q => (int?)q.EnmModule == mdlM.id && q.EnmSubModule==null && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });
-                    mdlM.children.AddRange(mdlsubMs.Union(document_inner1).OrderBy(p=>p.sortingorder).ThenBy(p=>p.text));
+                    var document_inner1 = documents.Where(q => (int?)q.EnmModule == mdlM.id && q.EnmSubModule==null && q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName??"#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() }).ToList();
+                    if (document_inner1 == null)
+                    {
+                        mdlM.children.AddRange(mdlsubMs.OrderBy(p => p.sortingorder).ThenBy(p => p.text));
+                    }
+                    else
+                    {
+                        mdlM.children.AddRange(mdlsubMs.Union(document_inner1).OrderBy(p => p.sortingorder).ThenBy(p => p.text));
+                    }
+                        
                 }
-                var document_inner2 = documents.Where(q => q.EnmModule == null && q.EnmSubModule == null && (int?)q.EnmApplication== MenuId &&  q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName ?? "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>() });                
-                return mdlMs.Union(document_inner2).OrderBy(p=>p.sortingorder).ThenBy(p=>p.text).ToList();
+                var document_inner2 = documents.Where(q => q.EnmModule == null && q.EnmSubModule == null && (int?)q.EnmApplication== MenuId &&  q.DocumentType.HasFlag(enmDocumentType.DisplayMenu)).Select(p => new mdlMenu { id = p.Id, icon_url = p.Icon, urll = p.ActionName ?? "#", text = p.Name, sortingorder = p.DisplayOrder, children = new List<mdlMenu>()}).ToList();
+                if (document_inner2 == null)
+                {
+                    return mdlMs.OrderBy(p => p.sortingorder).ThenBy(p => p.text).ToList();
+                }
+                else
+                {
+                    return mdlMs.Union(document_inner2).OrderBy(p => p.sortingorder).ThenBy(p => p.text).ToList();
+                }
+                    
             }
             mdl.ReturnId=new { _document= documents, _module = modules ,_submodule=submodules, _application = applications, _muenuList= menuWraper };
             return mdl;

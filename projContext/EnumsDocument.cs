@@ -65,9 +65,6 @@ namespace projContext
         [Module(enmApplication.Travel, false, DisplayOrder: 0, Name: "Holiday Package", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Air")]
         Travel_HolidayPackage = 2005,
 
-
-
-
         //[Module( enmApplication.Gateway, false, DisplayOrder: 0, Name: "Profile", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Profile")]
         //Gateway_Profile = 1,
         //[Module(EnmApplication: enmApplication.Gateway, IsArea: false, DisplayOrder: 0, Name: "Booking", Description: "", Icon: "nav-icon far fa-plus-square", AreaName: "", CntrlName: "Booking")]

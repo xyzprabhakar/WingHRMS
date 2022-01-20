@@ -29,6 +29,65 @@ $(document).ready(function () {
 
 });
 
+$(document).ready(function () {
+    var dBVersion = localStorage.getItem("dBVersion");
+    var openRequest = indexedDB.open("dpbs", dBVersion);
+    openRequest.onupgradeneeded = function (e) {
+        fncCreateAllDb(e);
+    }
+    openRequest.onsuccess = function (e) {
+        var db = e.target.result;
+        let ObjectStore = db.transaction("tblApplicationMaster", "readwrite")
+            .objectStore("tblApplicationMaster");
+
+        ObjectStore.openCursor().onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                if (cursor.value.displayOrder > 0) {
+                    if (document.getElementById("divContainerIndex")) {
+                        $("#divContainerIndex").append(`<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                         <div class="card">
+                            <div class="card-body">
+                                <div class="row d-flex justify-content-cente">
+                                    <h4 class="mt-3 mb-3 col-12"  title="${cursor.value.name}"><a class="clsApplicationArray" href="#" data-application-redirect="${cursor.value.areaName}" data-application-id="${cursor.value.id}" onclick=fncApplicationChange(this)><i class="${cursor.value.icon}"></i>&nbsp;&nbsp;${cursor.value.name}</a></h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                            ${cursor.value.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`);
+                    }
+                    $("#divContainerApplicationMenu").append(`<a class="dropdown-item clsApplicationArray" href="#" data-application-redirect="${cursor.value.areaName}" data-application-id="${cursor.value.id}" onclick=fncApplicationChange(this)>${cursor.value.name}</a>`);
+                    
+                }
+                cursor.continue();
+            }
+
+        };
+    }
+    openRequest.onerror = function (e) {
+        console.log(e);
+    }
+    //$(document).on("click", ".clsApplicationArray", function (e) {
+    //    e.preventDefault()
+    //    let applicationId = e.getAttribute("data-application-id");
+    //    let redirectUrl= e.getAttribute("data-application-redirect");
+    //    localStorage.setItem("currentApplication", applicationId);
+    //    window.location.href = redirectUrl;
+    //});
+});
+
+function fncApplicationChange(e) {
+    let applicationId = e.getAttribute("data-application-id");
+    let redirectUrl = e.getAttribute("data-application-redirect");
+    localStorage.setItem("currentApplication", applicationId);
+    window.location.href = redirectUrl;
+}
+
+
 function BindMenuData(datas,parentElement,tobeadded) {
     for (var i = 0; i < datas.length; i++) {
         
