@@ -112,4 +112,23 @@ function MsgBoxAndRedirect(text,url) {
         }
     });
 }
+function MsgPrompt(text) {
+    msgBoxImagePath = "/js/msgbox/images/";
+    $.msgBox({
+        title: "Remarks",
+        content: text,
+        type: "prompt",
+        buttons: [{ value: "OK" }, { value: "Cancel" }],
+        inputs: [{ type: "text", name: "Remarks", header: "Remarks",maxlength:255 }],
+        success: function (result) {
+            if (result == "OK") {
+                if (this.val() === undefined) {
+                    alert('You cancelled');
+                }
+                return { "promptStatus":true,"Remarks": this.val() };
+            }
+            return { "promptStatus": false};;
+        }
+    });
+}
 

@@ -100,7 +100,7 @@ namespace projAPI.Controllers
         [HttpPost]
         [Route("settings/setserviceprovider")]
         [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Create))]
-        public mdlReturnData setserviceprovider([FromForm] tblFlightSerivceProvider mdl)
+        public mdlReturnData setserviceprovider(tblFlightSerivceProvider mdl)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
@@ -126,8 +126,9 @@ namespace projAPI.Controllers
             try
             {
                 var tempData = _travelContext.tblFlightSerivceProvider.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
-                if (tempData == null)
+                if (tempData != null)
                 {
+                    tempData.IsDeleted = true;
                     tempData.ModifiedBy = _IsrvCurrentUser.UserId;
                     tempData.ModifiedDt = DateTime.Now;
                     tempData.ModifyRemarks = string.Concat(tempData.ModifyRemarks ?? "", mdl.ModifyRemarks ?? "");
@@ -175,7 +176,7 @@ namespace projAPI.Controllers
                  {
                      d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
                  });
-                mdl.ReturnId = Datas;
+                mdl.ReturnId = Datas.Select(p=>new {p.Id,p.ModifiedByName,p.EffectiveFromDate,p.IsEnabled,p.ModifyRemarks, ServiceProvider = p.ServiceProvider.ToString(),p.ModifiedDt });
                 mdl.MessageType = enmMessageType.Success;
                 return mdl;
 

@@ -126,7 +126,9 @@
 @section Scripts {
     
     <script type="text/javascript">
+
         
+
         $(document).ready(function () {
             
             let OrgId = localStorage.getItem("currentOrganisation");
@@ -142,6 +144,8 @@
             $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
 
             
+
+
             $("#ddlProvider").change(function () {
                 $('#loader').show();
                 let ProviderId = this.value
@@ -205,7 +209,7 @@
                                         targets: [6],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return '<a href="Zone?ZoneId=' + parseInt(data) + '" > <i class="fa fa-trash-alt"></i> Delete</a>';
+                                            return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
                                         }
 
                                     }
@@ -262,17 +266,24 @@
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
                     Postheaderss.append("Content-Type", "application/json; charset=utf-8");
-                    var formdata = new FormData();
-                    formdata.append("ServiceProvider", $("#ddlProvider").val());
-                    formdata.append("ModifyRemarks", $("#txtRemarks").val());
-                    formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
-                    if ($("#is_active").is(":checked") ) {
-                        formdata.append("isEnabled", true);
+                    let isEnabled = false;
+                    if ($("#is_active").is(":checked")) {
+                        isEnabled =true;
                     }
                     else {
-                        formdata.append("IsEnabled", false);
+                        isEnabled =false;
                     }
 
+                    var formdata = JSON.stringify({
+                        "ServiceProvider": $("#ddlProvider").val(),
+                        "ModifyRemarks": $("#txtRemarks").val(),
+                        "EffectiveFromDate": $("#txtEffectiveFromDt").val(),
+                        "IsEnabled": isEnabled
+                    });
+                    //formdata.append("ServiceProvider", $("#ddlProvider").val());
+                    //formdata.append("ModifyRemarks", $("#txtRemarks").val());
+                    //formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
+                    
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,
@@ -291,6 +302,8 @@
                         if (data.messageType == 1) {                            
                             $('#loader').hide();
                             messageBox("success", "Save successfully");
+                            $("#ddlProvider").trigger('change');
+
                         }
                         else {
                             $('#loader').hide();
@@ -311,6 +324,67 @@
 
         });
 
+
+        function fncDeleteGridData(e) {
+            msgBoxImagePath = "/js/msgbox/images/";
+            $.msgBox({
+                title: "Remarks",
+                content: "Please enter the remarks",
+                type: "prompt",
+                buttons: [{ value: "OK" }, { value: "Cancel" }],
+                inputs: [{ type: "text", name: "txtDeletedRemarks", header: "Remarks", maxlength: 255 }],
+                success: function (result) {
+                    if (result == "OK") {
+                        let remarks=$('input[name=txtDeletedRemarks]').val();
+                        if (remarks !== undefined) {
+                            $('#loader').show();
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteServiceProvider"
+                            let Postheaderss = new Headers();
+                            Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
+                            Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
+                            Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+                            var formdata = JSON.stringify({
+                                "Id": e.getAttribute("data-delete-id"),
+                                "ModifyRemarks": remarks,
+                            });
+                            fetch(Postapiurl, {
+                                method: "POST",
+                                headers: Postheaderss,
+                                body: formdata,
+                                //body: submitdata,
+                                redirect: 'follow'
+
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                } else {
+                                    throw new Error(response.statusText);
+                                }
+                            }).then(data => {
+
+                                if (data.messageType == 1) {
+                                    $('#loader').hide();
+                                    messageBox("success", "Deleted successfully");
+                                    $("#ddlProvider").trigger('change');
+
+                                }
+                                else {
+                                    $('#loader').hide();
+                                    messageBox("error", data.message);
+                                }
+                            }).catch((error) => {
+                                $('#loader').hide();
+                                messageBox("error", error.message);
+                            });
+                        }
+                        
+                    }
+                    return false;
+                }
+            });
+
+            
+        }
 
     </script>
 }
