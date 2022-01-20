@@ -61,7 +61,7 @@ namespace projAPI.Services
         {
             if (UserId > 0)
             {
-                return new mdlCommonReturnUlong();
+                return _masterContext.tblUsersMaster.Where(p => UserId==p.UserId).Select(p => new mdlCommonReturnUlong { Id = p.UserId, Code = p.UserName, Name = p.NormalizedName }).FirstOrDefault();
             }
             else
             {
@@ -70,7 +70,8 @@ namespace projAPI.Services
         }
         public List<mdlCommonReturnUlong> GetUsers(ulong[] UserId)
         {
-            return new List<mdlCommonReturnUlong>();
+            return _masterContext.tblUsersMaster.Where(p => UserId.Contains(p.UserId)).Select(p => new mdlCommonReturnUlong { Id = p.UserId, Code = p.UserName, Name = p.NormalizedName }).ToList();
+            
         }
 
         public mdlReturnData ValidateUser(string UserName,

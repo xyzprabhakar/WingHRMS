@@ -11,6 +11,7 @@ using projAPI.Model.Travel;
 using projAPI.Services;
 using projAPI.Classes;
 using projContext.DB.CRM.Travel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace projAPI.Controllers
 {
@@ -97,24 +98,57 @@ namespace projAPI.Controllers
         #region **********settings*********
         //service provider management start
         [HttpPost]
-        [Route("settings/setserviceprovider/{EffectiveFromDate}/{ServiceProvider}/{IsEnable}/{UserId}/{Remarks}")]
-        public mdlReturnData setserviceprovider(DateTime EffectiveFromDate, enmServiceProvider ServiceProvider, bool IsEnable, ulong UserId, string Remarks)
+        [Route("settings/setserviceprovider")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Create))]
+        public mdlReturnData setserviceprovider([FromForm] tblFlightSerivceProvider mdl)
         {
-            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {   
-                var tempData = _IsrvAir.SetServiceProvider(EffectiveFromDate, ServiceProvider, IsEnable, UserId, Remarks);
-               
+                var tempData = _IsrvAir.SetServiceProvider(mdl.EffectiveFromDate ,mdl.ServiceProvider , mdl.IsEnabled, _IsrvCurrentUser.UserId , mdl.ModifyRemarks);
                return tempData;
                 
             }
             catch (Exception ex)
             {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = ex.Message;
-                return mdl;
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
             }
             
+        }
+        [HttpPost]
+        [Route("settings/DeleteServiceProvider")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Update))]
+        public mdlReturnData DeleteServiceProvider(tblFlightSerivceProvider mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                var tempData = _travelContext.tblFlightSerivceProvider.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
+                if (tempData == null)
+                {
+                    tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                    tempData.ModifiedDt = DateTime.Now;
+                    tempData.ModifyRemarks = string.Concat(tempData.ModifyRemarks ?? "", mdl.ModifyRemarks ?? "");
+                    _travelContext.tblFlightSerivceProvider.Update(tempData);
+                    _travelContext.SaveChanges();
+                    returnData.MessageType = enmMessageType.Success;
+                }
+                else
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid data";
+                }
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
         }
 
         [HttpGet]
@@ -124,23 +158,23 @@ namespace projAPI.Controllers
             mdlReturnData mdl = new mdlReturnData();
             try
             {
-                IEnumerable<tblFlightSerivceProvider> Datas = null;
+                List<tblFlightSerivceProvider> Datas = new List<tblFlightSerivceProvider>();
                 if (!IsDateFitlter)
                 {
-                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.ServiceProvider == ServiceProvider).OrderByDescending(p => p.EffectiveFromDate).Take(10).AsEnumerable();
+                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.ServiceProvider == ServiceProvider).OrderByDescending(p => p.EffectiveFromDate).Take(10).ToList();
                 }
                 else
                 {
-                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.EffectiveFromDate>= EffectiveFromDate && p.EffectiveFromDate<=EffectiveToDate).OrderByDescending(p => p.EffectiveFromDate).AsEnumerable();
+                    Datas = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.EffectiveFromDate>= EffectiveFromDate && p.EffectiveFromDate<=EffectiveToDate).OrderByDescending(p => p.EffectiveFromDate).ToList();
                 }
                 
 
                 var ModifiedBys = Datas.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
                 var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
-                foreach (var d in Datas)
-                {
-                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
-                }
+                Datas.ForEach(d =>
+                 {
+                     d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                 });
                 mdl.ReturnId = Datas;
                 mdl.MessageType = enmMessageType.Success;
                 return mdl;
