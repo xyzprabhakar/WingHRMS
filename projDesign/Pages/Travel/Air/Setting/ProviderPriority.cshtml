@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200101";
-    ViewData["Title"] = "Provider";
+    ViewData["PageId"] = "200102";
+    ViewData["Title"] = "Provider Priority";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -25,28 +25,26 @@
                                         <label class="col-form-label col-md-3" for="ddlProvider">Provider</label>
                                         <div class="col-md-9">
                                             <select id="ddlProvider" name="ddlProvider" class="form-control" autofocus required>
-                                                <option value=""> -- Please Select --</option>
+                                                <option value=""> -- Please Select --</option>                                               
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3">Status</label>
-                                        <div class="col-md-8">
-                                            <div class="form-check-inline my-1">
-                                                <div class="custom-control custom-radio">
-                                                    <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
-                                                    <label class="custom-control-label" for="is_active">  Active</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-check-inline my-1">
-                                                <div class="custom-control custom-radio">
-                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
-                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
-                                                </div>
-                                            </div>
-
+                                        <label class="col-form-label col-md-3" for="ddlPriority">Priority</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlPriority" name="ddlPriority" class="form-control" required>
+                                                <option value=""> -- Please Select --</option>
+                                                <option value="1"> 1</option>
+                                                <option value="2"> 2</option>
+                                                <option value="3"> 3</option>
+                                                <option value="4"> 4</option>
+                                                <option value="5"> 5</option>
+                                                <option value="6"> 6</option>
+                                                <option value="7"> 7</option>
+                                                <option value="8"> 8</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +100,7 @@
                                     <tr>
                                         <th>Provider</th>
                                         <th>EffectiveFrom Dt</th>
-                                        <th>IsActive</th>
+                                        <th>Priority</th>
                                         <th>Remarks</th>
                                         <th>Modified By</th>
                                         <th>Modified Dt</th>
@@ -136,109 +134,14 @@
             headerss.append("OrgId", OrgId);
             //bindcountry
             $(".ip-ap").flatpickr({
-                enableTime: true,
-                dateFormat: "d-M-Y H:i",
+                dateFormat: "d-M-Y",
             });
-            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));            
-            BindEnums("ddlProvider", enmServiceProvider, "");
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            BindEnums("ddlProvider", enmServiceProvider, null);
+            LoadPriority();
+
+
             
-
-
-            $("#ddlProvider").change(function () {
-                $('#loader').show();
-                let ProviderId = this.value
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviders?IsDateFitlter=false&ServiceProvider=" + ProviderId ;
-                fetch(apiurl, {
-                    method: "GET",
-                    headers: headerss,
-                }).then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error(response.statusText);
-                    }
-                }).then(data => {
-                    if (data.messageType == 1) {
-                        var dt = $("#dt_table1").DataTable({
-                            "processing": true, // for show progress bar
-                            "serverSide": false, // for process server side
-                            responsive: true,
-                            "bDestroy": true,
-                            "filter": true, // this is for disable filter (search box)
-                            "orderMulti": false, // for disable multiple column at once
-                            "scrollX": 200,
-                            //"scrollY": "200px",
-                            //dom: 'lBfrtip',
-                            //dom: "<'row'<'col-md-12 text-right mb-3'B>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                            //buttons: [
-                            //    {
-                            //        text: 'Export',
-                            //        title: 'Company Data',
-                            //        extend: 'excelHtml5',
-                            //        exportOptions: {
-                            //            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-                            //        }
-                            //    },
-                            //    {
-                            //        extend: 'colvis',
-                            //        columnText: function (dt, idx, title) {
-                            //            return (idx + 1) + ': ' + title;
-                            //        }
-                            //    }
-                            //],
-                            "aaData": data.returnId,
-                            "columnDefs":
-                                [
-
-                                    {
-                                        targets: [2],
-                                        render: function (data, type, row) {
-                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
-                                        }
-                                    },
-                                    {
-                                        targets: [1,5],
-                                        render: function (data, type, row) {
-                                            var date = new Date(data);
-                                            return GetDateFormatddMMyyyy(date);
-                                        }
-                                    },
-                                    {
-                                        targets: [6],
-                                        "class": "text-center",
-                                        render: function (data, type, row) {
-                                            return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
-                                        }
-
-                                    }
-                                ],
-                            "columns": [
-                                { "data": "serviceProvider", "name": "ServiceProvider", "autoWidth": true },
-                                { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
-                                { "data": "isEnabled", "name": "isEnabled", "autoWidth": true },
-                                { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
-                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
-                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "id", "name": "id", "autoWidth": true }
-                            ],
-                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
-                            'createdRow': function (row, data, dataIndex) {
-                                $('td:eq(3)', row).css('min-width', '200px');
-                            }
-                        });
-
-                        $('#loader').hide();
-                    }
-                    else {
-                        $('#loader').hide();
-                        messageBox("error", data.message);
-                    }
-                }).catch((error) => {
-                    $('#loader').hide();
-                    messageBox("error", error.message);
-                });
-                
-            });
             
             
             $("#frmOrganisation").validate({
@@ -259,34 +162,24 @@
                         messageBox("error", "Password and Confirm Password is not match");
                         return;
                     }
-                    let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/setserviceprovider"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/setServiceProviderPriority"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
                     Postheaderss.append("Content-Type", "application/json; charset=utf-8");
-                    let isEnabled = false;
-                    if ($("#is_active").is(":checked")) {
-                        isEnabled =true;
-                    }
-                    else {
-                        isEnabled =false;
-                    }
+                    
 
                     var formdata = JSON.stringify({
                         "ServiceProvider": $("#ddlProvider").val(),
                         "ModifyRemarks": $("#txtRemarks").val(),
                         "EffectiveFromDate": $("#txtEffectiveFromDt").val(),
-                        "IsEnabled": isEnabled
+                        "priority": $("#ddlPriority").val(),
                     });
-                    //formdata.append("ServiceProvider", $("#ddlProvider").val());
-                    //formdata.append("ModifyRemarks", $("#txtRemarks").val());
-                    //formdata.append("EffectiveFromDt", $("#txtEffectiveFromDt").val());
                     
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,
-                        body: formdata,
-                        //body: submitdata,
+                        body: formdata,                        
                         redirect: 'follow'
                         
                     }).then(response => {
@@ -300,8 +193,7 @@
                         if (data.messageType == 1) {                            
                             $('#loader').hide();
                             messageBox("success", "Save successfully");
-                            $("#ddlProvider").trigger('change');
-
+                            
                         }
                         else {
                             $('#loader').hide();
@@ -323,7 +215,85 @@
         });
 
 
+        function LoadPriority() {
+            $('#loader').show();
+            let ProviderId = this.value
+            let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getServiceProvidersPriority?IsDateFitlter=false&ServiceProvider=0" ;
+            fetch(apiurl, {
+                method: "GET",
+                headers: headerss,
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.statusText);
+                }
+            }).then(data => {
+                if (data.messageType == 1) {
+                    var dt = $("#dt_table1").DataTable({
+                        "processing": true, // for show progress bar
+                        "serverSide": false, // for process server side
+                        responsive: true,
+                        "bDestroy": true,
+                        "filter": true, // this is for disable filter (search box)
+                        "orderMulti": false, // for disable multiple column at once
+                        "scrollX": 200,
+                        "aaData": data.returnId,
+                        "columnDefs":
+                            [
+
+                                {
+                                    targets: [1, 5],
+                                    render: function (data, type, row) {
+                                        var date = new Date(data);
+                                        return GetDateFormatddMMyyyy(date);
+                                    }
+                                },
+                                {
+                                    targets: [6],
+                                    "class": "text-center",
+                                    render: function (data, type, row) {
+                                        return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
+                                    }
+
+                                }
+                            ],
+                        "columns": [
+                            { "data": "serviceProvider", "name": "ServiceProvider", "autoWidth": true },
+                            { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
+                            { "data": "priority", "name": "priority", "autoWidth": true },
+                            { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
+                            { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
+                            { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
+                            { "data": "id", "name": "id", "autoWidth": true }
+                        ],
+                        "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                        'createdRow': function (row, data, dataIndex) {
+                            $('td:eq(3)', row).css('min-width', '200px');
+                        }
+                    });
+
+                    $('#loader').hide();
+                }
+                else {
+                    $('#loader').hide();
+                    messageBox("error", data.message);
+                }
+            }).catch((error) => {
+                $('#loader').hide();
+                messageBox("error", error.message);
+            });
+
+        }
+
+
         function fncDeleteGridData(e) {
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
             msgBoxImagePath = "/js/msgbox/images/";
             $.msgBox({
                 title: "Remarks",
@@ -336,7 +306,7 @@
                         let remarks=$('input[name=txtDeletedRemarks]').val();
                         if (remarks !== undefined) {
                             $('#loader').show();
-                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteServiceProvider"
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteServiceProviderPriority"
                             let Postheaderss = new Headers();
                             Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
                             Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
@@ -348,8 +318,7 @@
                             fetch(Postapiurl, {
                                 method: "POST",
                                 headers: Postheaderss,
-                                body: formdata,
-                                //body: submitdata,
+                                body: formdata,                                
                                 redirect: 'follow'
 
                             }).then(response => {

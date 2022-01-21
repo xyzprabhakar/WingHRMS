@@ -167,8 +167,11 @@ function GetDateFormatddMMyyyy(date) {
 
 function BindEnums(ControlInputName, result,selectedValue) {
     $('#' + ControlInputName).empty();
+    let isselected = false;
+    $('#' + ControlInputName).append(`<option value="" >--Please select --</option>`);
     for (var i in result) {
         if (result[i].id == selectedValue) {
+            isselected = true;
             $('#' + ControlInputName).append(`<option value="${result[i].id}"  selected>${result[i].displayText}</option>`);            
         }
         else {
@@ -176,9 +179,12 @@ function BindEnums(ControlInputName, result,selectedValue) {
         }
     }
     if (result.length == 1) {
+        isselected = true;
         $('#' + ControlInputName).val(result[0].id);
     }
-    $('#' + ControlInputName).trigger('change');
+    if (isselected) {
+        $('#' + ControlInputName).trigger('change');
+    }
 }
 
 function SortByName(a, b) {

@@ -93,9 +93,11 @@ namespace projAPI.Controllers
             mdl.MessageType = enmMessageType.Success;            
             return mdl;
         }
-       #endregion
+        #endregion
 
         #region **********settings*********
+
+        #region *************** Provider ***********************
         //service provider management start
         [HttpPost]
         [Route("settings/setserviceprovider")]
@@ -119,7 +121,7 @@ namespace projAPI.Controllers
         }
         [HttpPost]
         [Route("settings/DeleteServiceProvider")]
-        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Update))]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Delete))]
         public mdlReturnData DeleteServiceProvider(tblFlightSerivceProvider mdl)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -189,7 +191,107 @@ namespace projAPI.Controllers
             }
 
         }
-        //service provider management end
+        #endregion
+
+
+        #region *************** Provider priority ***********************
+        //service provider management start
+        [HttpPost]
+        [Route("settings/setServiceProviderPriority")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_ProviderPriority) + nameof(enmDocumentType.Create))]
+        public mdlReturnData setServiceProviderPriority(tblFlightSerivceProviderPriority mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                var tempData = _IsrvAir.SetServiceProviderPriority(mdl.EffectiveFromDate, mdl.ServiceProvider, mdl.priority, _IsrvCurrentUser.UserId, mdl.ModifyRemarks);
+                return tempData;
+
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+        [HttpPost]
+        [Route("settings/DeleteServiceProviderPriority")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_ProviderPriority) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteServiceProviderPriority(tblFlightSerivceProviderPriority mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                var tempData = _travelContext.tblFlightSerivceProviderPriority.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
+                if (tempData != null)
+                {
+                    tempData.IsDeleted = true;
+                    tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                    tempData.ModifiedDt = DateTime.Now;
+                    tempData.ModifyRemarks = string.Concat(tempData.ModifyRemarks ?? "", mdl.ModifyRemarks ?? "");
+                    _travelContext.tblFlightSerivceProviderPriority.Update(tempData);
+                    _travelContext.SaveChanges();
+                    returnData.MessageType = enmMessageType.Success;
+                }
+                else
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid data";
+                }
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("settings/getServiceProvidersPriority")]
+        public mdlReturnData getServiceProvidersPriority([FromServices] IsrvUsers srvUsers, bool IsDateFitlter, enmServiceProvider ServiceProvider, DateTime EffectiveFromDate, DateTime EffectiveToDate)
+        {
+            mdlReturnData mdl = new mdlReturnData();
+            try
+            {
+                List<tblFlightSerivceProviderPriority> Datas = new List<tblFlightSerivceProviderPriority>();
+                if (!IsDateFitlter)
+                {
+                    
+                    Datas = _IsrvAir.GetServiceProviderPriority(DateTime.Now, true); 
+                }
+                else
+                {
+                    Datas = _travelContext.tblFlightSerivceProviderPriority.Where(p => !p.IsDeleted && p.EffectiveFromDate >= EffectiveFromDate && p.EffectiveFromDate <= EffectiveToDate).OrderByDescending(p => p.EffectiveFromDate).ToList();
+                }
+
+
+                var ModifiedBys = Datas.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                Datas.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                mdl.ReturnId = Datas.Select(p => new { p.Id, p.ModifiedByName, p.EffectiveFromDate, p.priority, p.ModifyRemarks, ServiceProvider = p.ServiceProvider.ToString(), p.ModifiedDt }).OrderBy(p=>p.priority);
+                mdl.MessageType = enmMessageType.Success;
+                return mdl;
+
+            }
+            catch (Exception ex)
+            {
+                mdl.MessageType = enmMessageType.Error;
+                mdl.Message = ex.Message;
+                return mdl;
+            }
+
+        }
+        #endregion
+
+
 
         //instant booking management start
         [HttpPost]

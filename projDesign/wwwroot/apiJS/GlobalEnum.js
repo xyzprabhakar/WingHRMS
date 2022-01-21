@@ -27,3 +27,4 @@ var enmLocationType = [{ id:1, name:"HeadOffice", displayText:"Head Office" },
 { id:6, name:"Franchisees", displayText:"Franchisees" }];
     
 
+var enmServiceProvider = [{ id: 1, name: "TripJack", displayText: "TripJack" }, { id: 2, name: "TBO", displayText: "TBO" }, { id: 1, name: "TripJack", displayText: "Kafila" }]

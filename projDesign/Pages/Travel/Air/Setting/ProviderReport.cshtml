@@ -1,0 +1,183 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200101";
+    ViewData["Title"] = "Provider Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <div class="form-container master-panel">
+                        <div class="col-md-12">
+                            <h4> @ViewBag.Title </h4>
+                            <hr />
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="form-group" for="txtEffectiveFromDt">
+                                    <label class="col-form-label col-md-4" for="txtEffectiveFromDt">Effective From</label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
+                                               maxlength="256" autocomplete="off"
+                                               class="form-control ip-ap" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group" for="txtEffectiveToDt">
+                                    <label class="col-form-label col-md-4" for="txtEffectiveToDt">Effective To</label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="txtEffectiveToDt" name="txtEffectiveToDt"
+                                               maxlength="256" autocomplete="off"
+                                               class="form-control ip-ap" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">                            
+                            <hr />
+                            <div class="table-responsive no-margin">
+                                <table id="dt_table1" class="table w-100 no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Provider</th>
+                                            <th>EffectiveFrom Dt</th>
+                                            <th>IsActive</th>
+                                            <th>Remarks</th>
+                                            <th>Modified By</th>
+                                            <th>Modified Dt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            $(".ip-ap").flatpickr({
+                dateFormat: "d-M-Y",
+            });
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtEffectiveToDt").val(GetDateFormatddMMyyyy(new Date()));
+
+
+            //bindcountry
+            $("#loadGridData").click(function () {
+                $('#loader').show();
+                
+
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviders?IsDateFitlter=true&ServiceProvider=0&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        var dt = $("#dt_table1").DataTable({
+                            "processing": true, // for show progress bar
+                            "serverSide": false, // for process server side
+                            responsive: true,
+                            "bDestroy": true,
+                            "filter": true, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "scrollX": 200,
+                            //"scrollY": "200px",
+                            //dom: 'lBfrtip',
+                            dom: "<'row'<'col-md-12 text-right mb-3'B>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [
+                                {
+                                    text: 'Export',
+                                    title: 'Company Data',
+                                    extend: 'excelHtml5',
+                                    exportOptions: {
+                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    }
+                                },
+                                {
+                                    extend: 'colvis',
+                                    columnText: function (dt, idx, title) {
+                                        return (idx + 1) + ': ' + title;
+                                    }
+                                }
+                            ],
+                            "aaData": data.returnId,
+                            "columnDefs":
+                                [
+
+                                    {
+                                        targets: [2],
+                                        render: function (data, type, row) {
+                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
+                                        }
+                                    },
+                                    {
+                                        targets: [1, 5],
+                                        render: function (data, type, row) {
+                                            var date = new Date(data);
+                                            return GetDateFormatddMMyyyy(date);
+                                        }
+                                    }
+                                ],
+                            "columns": [
+                                { "data": "serviceProvider", "name": "ServiceProvider", "autoWidth": true },
+                                { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
+                                { "data": "isEnabled", "name": "isEnabled", "autoWidth": true },
+                                { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
+                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
+                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
+                            ],
+                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                            'createdRow': function (row, data, dataIndex) {
+                                $('td:eq(3)', row).css('min-width', '200px');
+                            }
+                        });
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
+            });
+        });
+
+
+    </script>
+}
+        
+
