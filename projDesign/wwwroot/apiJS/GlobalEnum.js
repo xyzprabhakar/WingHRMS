@@ -27,4 +27,5 @@ var enmLocationType = [{ id:1, name:"HeadOffice", displayText:"Head Office" },
 { id:6, name:"Franchisees", displayText:"Franchisees" }];
     
 
-var enmServiceProvider = [{ id: 1, name: "TripJack", displayText: "TripJack" }, { id: 2, name: "TBO", displayText: "TBO" }, { id: 1, name: "TripJack", displayText: "Kafila" }]
+var enmServiceProvider = [{ id: 1, name: "TripJack", displayText: "TripJack" }, { id: 2, name: "TBO", displayText: "TBO" }, { id: 3, name: "Kafila", displayText: "Kafila" }]
+var enmCustomerType = [{ id: 2, name: "MLM", displayText: "MLM" }, { id: 3, name: "B2B", displayText: "B2B" }, { id: 4, name: "B2C", displayText: "B2C" }, { id: 5, name: "InHouse", displayText: "InHouse" }]

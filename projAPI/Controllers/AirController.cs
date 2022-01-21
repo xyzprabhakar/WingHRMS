@@ -295,6 +295,7 @@ namespace projAPI.Controllers
         //instant booking management start
         [HttpPost]
         [Route("settings/SetInstantBookingSetting")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_InstantBooking) + nameof(enmDocumentType.Create))]
         public mdlReturnData SetInstantBookingSetting(tblFlightInstantBooking mdl)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -316,7 +317,7 @@ namespace projAPI.Controllers
 
         [HttpPost]
         [Route("settings/DeleteInstantBookingSetting")]
-        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Delete))]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_InstantBooking) + nameof(enmDocumentType.Delete))]
         public mdlReturnData DeleteInstantBookingSetting(tblFlightInstantBooking mdl)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -351,7 +352,7 @@ namespace projAPI.Controllers
 
 
         [HttpGet]
-        [Route("air/settings/getInstantBookingSetting")]
+        [Route("settings/getInstantBookingSetting")]
         public mdlReturnData GetInstantBookingSetting([FromServices] IsrvUsers srvUsers, bool IsDateFitlter, enmCustomerType CustomerType, DateTime EffectiveFromDate, DateTime EffectiveToDate)
         {
             {
