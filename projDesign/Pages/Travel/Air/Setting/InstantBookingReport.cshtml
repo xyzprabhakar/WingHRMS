@@ -92,11 +92,12 @@
                 $('#loader').show();
                 
 
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getInstantBookingSetting?IsDateFitlter=true&CustomerType=0&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getInstantBookingSetting?IsDateFitlter=true&CustomerType=1&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
                 }).then(response => {
+                    debugger;
                     if (response.ok) {
                         return response.json();
                     } else {
@@ -118,7 +119,7 @@
                             buttons: [
                                 {
                                     text: 'Export',
-                                    title: 'Company Data',
+                                    title: 'Instant Booking Report',
                                     extend: 'excelHtml5',
                                     exportOptions: {
                                         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -156,9 +157,8 @@
                                 { "data": "instantNonDomestic", "name": "instantNonDomestic", "autoWidth": true },
                                 { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
-                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "id", "name": "id", "autoWidth": true }
-                            ],
+                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true }
+                                ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             'createdRow': function (row, data, dataIndex) {
                                 $('td:eq(3)', row).css('min-width', '200px');
