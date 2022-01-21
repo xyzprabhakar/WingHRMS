@@ -1,6 +1,6 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200101";
+    ViewData["PageId"] = "200103";
     ViewData["Title"] = "Instant Booking Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -136,13 +136,13 @@
                                 [
 
                                     {
-                                        targets: [2],
+                                        targets: [2,3],
                                         render: function (data, type, row) {
-                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
+                                            return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
                                         }
                                     },
                                     {
-                                        targets: [1, 5],
+                                        targets: [1, 6],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyy(date);
@@ -150,10 +150,10 @@
                                     }
                                 ],
                             "columns": [
-                                { "data": "CustomerType", "name": "CustomerType", "autoWidth": true },
+                                { "data": "customerType", "name": "customerType", "autoWidth": true },
                                 { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
-                                { "data": "InstantDomestic", "name": "InstantDomestic", "autoWidth": true },
-                                { "data": "InstantNonDomestic", "name": "InstantNonDomestic", "autoWidth": true },
+                                { "data": "instantDomestic", "name": "instantDomestic", "autoWidth": true },
+                                { "data": "instantNonDomestic", "name": "instantNonDomestic", "autoWidth": true },
                                 { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
