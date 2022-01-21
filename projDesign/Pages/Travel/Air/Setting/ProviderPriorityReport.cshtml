@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200101";
-    ViewData["Title"] = "Provider Report";
+    ViewData["PageId"] = "200102";
+    ViewData["Title"] = "Provider Priority Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
     <div class="col-md-12">
@@ -50,7 +50,7 @@
                                         <tr>
                                             <th>Provider</th>
                                             <th>EffectiveFrom Dt</th>
-                                            <th>IsActive</th>
+                                            <th>Priority</th>
                                             <th>Remarks</th>
                                             <th>Modified By</th>
                                             <th>Modified Dt</th>
@@ -91,7 +91,7 @@
                 $('#loader').show();
                 
 
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviders?IsDateFitlter=true&ServiceProvider=0&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviderspriority?IsDateFitlter=true&ServiceProvider=0&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -132,29 +132,30 @@
                             ],
                             "aaData": data.returnId,
                             "columnDefs":
-                                [
-
-                                    {
-                                        targets: [2],
-                                        render: function (data, type, row) {
-                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
-                                        }
-                                    },
+                                [   
                                     {
                                         targets: [1, 5],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
-                                            return GetDateFormatddMMyyyy(date);
+                                            return GetDateFormatddMMyyyyHHtt(date);
                                         }
+                                    }, {
+                                        targets: [6],
+                                        "class": "text-center",
+                                        render: function (data, type, row) {
+                                            return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
+                                        }
+
                                     }
                                 ],
                             "columns": [
                                 { "data": "serviceProvider", "name": "ServiceProvider", "autoWidth": true },
                                 { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
-                                { "data": "isEnabled", "name": "isEnabled", "autoWidth": true },
+                                { "data": "priority", "name": "priority", "autoWidth": true },
                                 { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
+                                { "data": "id", "name": "id", "autoWidth": true }
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             'createdRow': function (row, data, dataIndex) {
@@ -175,6 +176,73 @@
 
             });
         });
+
+
+        function fncDeleteGridData(e) {
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            msgBoxImagePath = "/js/msgbox/images/";
+            $.msgBox({
+                title: "Remarks",
+                content: "Please enter the remarks",
+                type: "prompt",
+                buttons: [{ value: "OK" }, { value: "Cancel" }],
+                inputs: [{ type: "text", name: "txtDeletedRemarks", header: "Remarks", maxlength: 255 }],
+                success: function (result) {
+                    if (result == "OK") {
+                        let remarks = $('input[name=txtDeletedRemarks]').val();
+                        if (remarks !== undefined) {
+                            $('#loader').show();
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteServiceProviderPriority"
+                            let Postheaderss = new Headers();
+                            Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
+                            Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
+                            Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+                            var formdata = JSON.stringify({
+                                "Id": e.getAttribute("data-delete-id"),
+                                "ModifyRemarks": remarks,
+                            });
+                            fetch(Postapiurl, {
+                                method: "POST",
+                                headers: Postheaderss,
+                                body: formdata,
+                                redirect: 'follow'
+
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                } else {
+                                    throw new Error(response.statusText);
+                                }
+                            }).then(data => {
+
+                                if (data.messageType == 1) {
+                                    $('#loader').hide();
+                                    messageBox("success", "Deleted successfully");
+                                    $("#ddlProvider").trigger('change');
+
+                                }
+                                else {
+                                    $('#loader').hide();
+                                    messageBox("error", data.message);
+                                }
+                            }).catch((error) => {
+                                $('#loader').hide();
+                                messageBox("error", error.message);
+                            });
+                        }
+
+                    }
+                    return false;
+                }
+            });
+
+
+        }
 
 
     </script>

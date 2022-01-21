@@ -234,12 +234,7 @@
                 },
                 submitHandler: function (form, event) {
                     event.preventDefault();
-                    $('#loader').show();
-                    if (!($("#txtPassword").val() == $("#txtConfirmPassword").val())) {
-                        $('#loader').hide();
-                        messageBox("error", "Password and Confirm Password is not match");
-                        return;
-                    }
+                    $('#loader').show();                    
                     let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/setserviceprovider"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);

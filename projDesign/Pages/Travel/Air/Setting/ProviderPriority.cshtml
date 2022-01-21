@@ -82,7 +82,7 @@
                                 <div class="form-group text-center">
                                     <input type="submit" class="btn btn-primary btn-lg" value="Save">
                                     <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                    <a href="ProviderReport" class="btn btn-primary btn-lg">Report</a>
+                                    <a href="ProviderPriorityReport" class="btn btn-primary btn-lg">Report</a>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -134,15 +134,13 @@
             headerss.append("OrgId", OrgId);
             //bindcountry
             $(".ip-ap").flatpickr({
-                dateFormat: "d-M-Y",
+                enableTime: true,
+                dateFormat: "d-M-Y G:i K",
             });
-            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
-            BindEnums("ddlProvider", enmServiceProvider, null);
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyyHHtt(new Date()));
+            BindEnums("ddlProvider", enmServiceProvider, "");
             LoadPriority();
 
-
-            
-            
             
             $("#frmOrganisation").validate({
                 onkeyup: false,
@@ -156,12 +154,7 @@
                 },
                 submitHandler: function (form, event) {
                     event.preventDefault();
-                    $('#loader').show();
-                    if (!($("#txtPassword").val() == $("#txtConfirmPassword").val())) {
-                        $('#loader').hide();
-                        messageBox("error", "Password and Confirm Password is not match");
-                        return;
-                    }
+                    $('#loader').show();                    
                     let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/setServiceProviderPriority"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
@@ -216,8 +209,13 @@
 
 
         function LoadPriority() {
-            $('#loader').show();
-            let ProviderId = this.value
+            $('#loader').show();            
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);            
             let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getServiceProvidersPriority?IsDateFitlter=false&ServiceProvider=0" ;
             fetch(apiurl, {
                 method: "GET",
@@ -246,7 +244,7 @@
                                     targets: [1, 5],
                                     render: function (data, type, row) {
                                         var date = new Date(data);
-                                        return GetDateFormatddMMyyyy(date);
+                                        return GetDateFormatddMMyyyyHHtt(date);
                                     }
                                 },
                                 {
