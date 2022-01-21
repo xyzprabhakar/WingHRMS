@@ -106,10 +106,9 @@ namespace projAPI.Controllers
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
-            {   
-                var tempData = _IsrvAir.SetServiceProvider(mdl.EffectiveFromDate ,mdl.ServiceProvider , mdl.IsEnabled, _IsrvCurrentUser.UserId , mdl.ModifyRemarks);
-               return tempData;
-                
+            {
+                var tempData = _IsrvAir.SetServiceProvider(mdl.EffectiveFromDate, mdl.ServiceProvider, mdl.IsEnabled, _IsrvCurrentUser.UserId, mdl.ModifyRemarks);
+                return tempData;
             }
             catch (Exception ex)
             {
@@ -296,43 +295,97 @@ namespace projAPI.Controllers
         //instant booking management start
         [HttpPost]
         [Route("settings/SetInstantBookingSetting")]
-        public mdlReturnData SetInstantBookingSetting(DateTime EffectiveFromDate, enmCustomerType CustomerType, bool InstantDomestic, bool InstantNonDomestic, ulong UserId, string Remarks)
+        public mdlReturnData SetInstantBookingSetting(tblFlightInstantBooking mdl)
         {
-            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {
 
-                var tempData = _IsrvAir.SetInstantBookingSeting(EffectiveFromDate, CustomerType, InstantDomestic, InstantNonDomestic, UserId, Remarks);
-
+                var tempData = _IsrvAir.SetInstantBookingSeting(mdl.EffectiveFromDate, mdl.CustomerType, mdl.InstantDomestic, mdl.InstantNonDomestic, _IsrvCurrentUser.UserId, mdl.ModifyRemarks);
                 return tempData;
-
             }
             catch (Exception ex)
             {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = ex.Message;
-                return mdl;
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+
+        }
+
+        [HttpPost]
+        [Route("settings/DeleteInstantBookingSetting")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Provider) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteInstantBookingSetting(tblFlightInstantBooking mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                var tempData = _travelContext.tblFlightInstantBooking.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
+                if (tempData != null)
+                {
+                    tempData.IsDeleted = true;
+                    tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                    tempData.ModifiedDt = DateTime.Now;
+                    tempData.ModifyRemarks = string.Concat(tempData.ModifyRemarks ?? "", mdl.ModifyRemarks ?? "");
+                    _travelContext.tblFlightInstantBooking.Update(tempData);
+                    _travelContext.SaveChanges();
+                    returnData.MessageType = enmMessageType.Success;
+                }
+                else
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid data";
+                }
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
             }
 
         }
 
+
         [HttpGet]
         [Route("air/settings/getInstantBookingSetting")]
-        public List<tblFlightInstantBooking> GetInstantBookingSetting(bool FilterDate, DateTime ProcessDate)
+        public mdlReturnData GetInstantBookingSetting([FromServices] IsrvUsers srvUsers, bool IsDateFitlter, enmCustomerType CustomerType, DateTime EffectiveFromDate, DateTime EffectiveToDate)
         {
-            try
             {
+                mdlReturnData mdl = new mdlReturnData();
+                try
+                {
+                    List<tblFlightInstantBooking> Datas = new List<tblFlightInstantBooking>();
+                    if (!IsDateFitlter)
+                    {
+                        Datas = _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == CustomerType).OrderByDescending(p => p.EffectiveFromDate).Take(10).ToList();
+                    }
+                    else
+                    {
+                        Datas = _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.EffectiveFromDate >= EffectiveFromDate && p.EffectiveFromDate <= EffectiveToDate).OrderByDescending(p => p.EffectiveFromDate).ToList();
+                    }
 
-                var tempData = _IsrvAir.GetInstantBookingSeting(FilterDate,ProcessDate);
-                return tempData;
 
+                    var ModifiedBys = Datas.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                    var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                    Datas.ForEach(d =>
+                    {
+                        d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                    });
+                    mdl.ReturnId = Datas.Select(p => new { p.Id, p.ModifiedByName, p.EffectiveFromDate, p.InstantDomestic,p.InstantNonDomestic, p.ModifyRemarks, CustomerType = p.CustomerType.ToString(), p.ModifiedDt });
+                    mdl.MessageType = enmMessageType.Success;
+                    return mdl;
+                }
+                catch (Exception ex)
+                {
+                    mdl.MessageType = enmMessageType.Error;
+                    mdl.Message = ex.Message;
+                    return mdl;
+                }
             }
-            catch (Exception ex)
-            {
-
-                return null;
-            }
-
         }
         //FlightBookingAlterMaster management start
         [HttpPost]
