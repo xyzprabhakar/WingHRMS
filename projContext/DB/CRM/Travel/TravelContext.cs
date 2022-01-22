@@ -7,8 +7,8 @@ namespace projContext.DB.CRM.Travel
 {
     public class TravelContext : DbContext
     {
-        //add-migration OrganizationMaster -Context projContext.DB.CRM.Travel.TravelContext -o Migrations.Travel2
-        //update-database -Context projContext.DB.CRM.Travel.TravelContext
+        //add-migration OrganizationMaster -s projApi -Context projContext.DB.CRM.Travel.TravelContext -o Migrations.Travel2
+        //update-database -s projApi -Context projContext.DB.CRM.Travel.TravelContext
 
 
         public TravelContext(DbContextOptions<TravelContext> options) : base(options)

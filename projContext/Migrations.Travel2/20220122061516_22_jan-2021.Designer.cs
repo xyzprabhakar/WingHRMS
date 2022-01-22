@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projContext.DB.CRM.Travel;
 
 namespace projContext.Migrations.Travel2
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20220122061516_22_jan-2021")]
+    partial class _22_jan2021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace projContext.Migrations.Travel2
                     b.Property<string>("ImagePath")
                         .HasMaxLength(500);
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<ulong?>("ModifiedBy");
 
@@ -401,21 +403,8 @@ namespace projContext.Migrations.Travel2
                     b.Property<string>("BookingClassCode")
                         .HasMaxLength(16);
 
-                    b.Property<ulong>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDt");
-
                     b.Property<string>("GenerlizedName")
                         .HasMaxLength(32);
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<ulong?>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDt");
-
-                    b.Property<string>("ModifyRemarks")
-                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);

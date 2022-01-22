@@ -13,6 +13,7 @@ using projAPI.Services;
 using projAPI.Model;
 using projContext.DB.Masters;
 using System.IO;
+using projContext.DB.CRM.Travel;
 
 namespace projAPI.Controllers
 {
@@ -177,6 +178,29 @@ namespace projAPI.Controllers
 
 
             
+        }
+
+        [HttpGet]
+        [Route("DefaultFlightFareClass")]
+        public bool DefaultFlightFareClass([FromServices] TravelContext travelContext)
+        {
+            
+            List<tblFlightClassOfBooking> tbl = new List<tblFlightClassOfBooking>();
+
+            DateTime currentDt = DateTime.Now;
+            string[] code= { "A",  "B",    "C",    "D",    "E",    "F",    "G",    "H",    "J",    "K",    "L",    "M",    "M",    "P",    "Q",    "R",    "S",    "T",    "U",    "V",    "W",    "X",    "Y",    "Z"};
+            string[] name = { "First Class Discounted", "Economy/Coach – Usually an upgradable fare to Business ",  "Business Class",   "Business Class Discounted",    "Shuttle Service (no reservation allowed) or Economy/Coach Discounted", "First Class",  "Conditional Reservation",  "Economy/Coach Discounted – Usually an upgradable fare to Business",    "Business Class Premium",   "Economy/Coach Discounted", "Economy/Coach Discounted", "Economy/Coach Discounted – Usually an upgradable fare to Business",    "Economy/Coach Discounted", "First Class Premium",  "Economy/Coach Discounted", "First Class Suite or Supersonic (discontinued)",   "Economy/Coach",    "Economy/Coach Discounted", "Shuttle Service (no reservation needed/seat guaranteed)",  "Economy/Coach Discounted", "Economy/Coach Premium",    "Economy/Coach Discounted", "Economy/Coach",    "Business Class Discounted"};
+            string[] description = { "FIRST CLASS", "ECONOMY",  "BUSINESS", "BUSINESS", "ECONOMY",  "FIRST CLASS",  "ECONOMY",  "ECONOMY",  "BUSINESS CLASS",   "ECONOMY",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "FIRST CLASS",  "ECONOMY",  "FIRST CLASS",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "ECONOMY",  "BUSINESS CLASS",};
+            for (int i = 0; i < code.Length; i++)
+            {
+                if (travelContext.tblFlightClassOfBooking.Where(p => p.BookingClassCode == code[i]).Count() == 0)
+                {
+                    travelContext.tblFlightClassOfBooking.Add(new tblFlightClassOfBooking() { BookingClassCode=code[i],Name=name[i],GenerlizedName=description[i],IsActive=true, CreatedBy=1,CreatedDt= currentDt ,ModifiedBy=1,ModifiedDt=currentDt,ModifyRemarks=string.Empty});
+                }
+            }
+            travelContext.SaveChanges();
+
+            return true;
         }
 
         [HttpGet]

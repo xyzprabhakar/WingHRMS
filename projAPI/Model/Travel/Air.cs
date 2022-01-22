@@ -727,8 +727,11 @@ namespace projAPI.Model.Travel
     public class mdlFlightAlter 
     {
         public int AlterId { get; set; }
+        [Required]
         public enmCabinClass CabinClass { get; set; }
+        [Required]
         public string Identifier { get; set; }
+        [Required]
         public string ClassOfBooking { get; set; }
         public string Remarks { get; set; }
         public List<Tuple<enmCabinClass, string,string>> AlterDetails { get; set; }

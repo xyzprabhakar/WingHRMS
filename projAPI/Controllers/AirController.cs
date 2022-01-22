@@ -30,6 +30,159 @@ namespace projAPI.Controllers
             _context = context;
             _travelContext = travelContext;
         }
+
+        #region ************ Master **************************
+
+        [Route("Master/CheckAirFareCode")]
+        public bool CheckAirFareCode(string txtCode,int BookingClassId)
+        {
+           return _travelContext.tblFlightClassOfBooking.Count(p => p.BookingClassCode == txtCode && p.BookingClassId!= BookingClassId) > 0?false:true;
+            
+        }
+
+        [HttpGet]
+        [Route("Master/getAirFareCode/{BookingClassId}")]
+        public mdlReturnData getAirFareCode(int BookingClassId)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblFlightClassOfBooking tempData = null;
+                if (BookingClassId > 0)
+                {
+                    tempData = _travelContext.tblFlightClassOfBooking.Where(p => p.BookingClassId == BookingClassId).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblFlightClassOfBooking();
+                }
+                returnData.ReturnId = tempData;
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("Master/setAirFareCode")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_FareClass) + nameof(enmDocumentType.Update))]
+        public mdlReturnData setAirFareCode(tblFlightClassOfBooking mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblFlightClassOfBooking tempData = null;
+                if (mdl == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid Data";
+                    return returnData;
+                }
+                if (_travelContext.tblFlightClassOfBooking.Count(p => p.BookingClassCode == mdl.BookingClassCode && p.BookingClassId != mdl.BookingClassId) > 0)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Code already exists";
+                    return returnData;
+                }
+
+                if (mdl.BookingClassId > 0)
+                {
+                    tempData = _travelContext.tblFlightClassOfBooking.Where(p => p.BookingClassId == mdl.BookingClassId).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblFlightClassOfBooking();
+                    tempData.CreatedBy = _IsrvCurrentUser.UserId;
+                    tempData.CreatedDt = DateTime.Now;
+                }
+                tempData.BookingClassCode = mdl.BookingClassCode;
+                tempData.Name = mdl.Name;
+                tempData.GenerlizedName = mdl.GenerlizedName;
+                tempData.IsActive = mdl.IsActive;
+                tempData.ModifyRemarks = mdl.ModifyRemarks;
+                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                tempData.ModifiedDt= DateTime.Now;
+
+                if (tempData.BookingClassId>0)
+                {
+                    _travelContext.tblFlightClassOfBooking.Update(tempData);
+                }
+                else
+                {
+                    _travelContext.tblFlightClassOfBooking.Add(tempData);
+                }
+                _travelContext.SaveChanges();
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("Master/getAirFareCodes")]
+        public mdlReturnData getAirFareCodes([FromServices] IsrvUsers srvUsers)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                List<tblFlightClassOfBooking> tempData = new List<tblFlightClassOfBooking>();
+               tempData = _travelContext.tblFlightClassOfBooking.ToList();
+                var ModifiedBys = tempData.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                tempData.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                returnData.ReturnId = tempData.AsEnumerable().Select((p, iterator) => new
+                {
+                    Sno = iterator + 1,
+                    modifiedByName = p.ModifiedByName,
+                    modifiedDt = p.ModifiedDt,
+                    modifyRemarks = p.ModifyRemarks,
+                    p.BookingClassId,
+                    p.BookingClassCode,
+                    p.Name,p.GenerlizedName,p.IsActive
+                });
+                 returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+
+
+        #endregion
+
         [Route("GetAirport/{onlyActive}/{isDomestic}")]
         public mdlReturnData GetAirport(bool onlyActive, bool isDomestic)
         {
@@ -291,7 +444,7 @@ namespace projAPI.Controllers
         #endregion
 
 
-
+        #region ***************** Instant Booking **********************
         //instant booking management start
         [HttpPost]
         [Route("settings/SetInstantBookingSetting")]
@@ -362,7 +515,7 @@ namespace projAPI.Controllers
                     List<tblFlightInstantBooking> Datas = new List<tblFlightInstantBooking>();
                     if (!IsDateFitlter)
                     {
-                        Datas = _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == CustomerType).OrderByDescending(p => p.EffectiveFromDate).Take(10).ToList();
+                        Datas =   _travelContext.tblFlightInstantBooking.Where(p => !p.IsDeleted && p.CustomerType == CustomerType).OrderByDescending(p => p.EffectiveFromDate).Take(10).ToList();
                     }
                     else
                     {
@@ -389,16 +542,24 @@ namespace projAPI.Controllers
             }
         }
         //FlightBookingAlterMaster management start
+        #endregion
+
+
         [HttpPost]
-        [Route("air/settings/SetFlightBookingAlterMaster")]
-        public mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl, ulong UserId)
+        [Route("settings/SetFlightBookingAlterMaster")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_FlightClassAlter) + nameof(enmDocumentType.Create))]
+        public mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl)
         {
-           mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            if (ModelState.IsValid)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p=>p.ErrorMessage));
+                return tempData;
+            }
             try
             {
-
-                 tempData = _IsrvAir.SetFlightBookingAlterMaster(mdl, UserId);
-
+                 tempData = _IsrvAir.SetFlightBookingAlterMaster(mdl, _IsrvCurrentUser.UserId);
                 return tempData;
 
             }
@@ -412,19 +573,24 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("air/settings/GetFlightBookingAlterMaster")]
-        public List<mdlFlightAlter> GetFlightBookingAlterMaster()
+        [Route("settings/getFlightBookingAlterMaster")]
+        public mdlReturnData GetFlightBookingAlterMaster()
         {
+            
+            mdlReturnData tempData = new mdlReturnData();
             try
             {
-
-                var tempData = _IsrvAir.GetFlightBookingAlterMaster();
+                List<mdlFlightAlter> mdl = new List<mdlFlightAlter>();
+                mdl = _IsrvAir.GetFlightBookingAlterMaster();
+                tempData.ReturnId = mdl;
+                tempData.MessageType = enmMessageType.Success;
                 return tempData;
-
             }
             catch (Exception ex)
             {
-                return null;
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = ex.Message;
+                return tempData;
             }
 
         }

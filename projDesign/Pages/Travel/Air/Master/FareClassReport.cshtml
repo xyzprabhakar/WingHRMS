@@ -1,0 +1,166 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200102";
+    ViewData["Title"] = "Provider Priority Report";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <div class="form-container master-panel">
+                        <div class="col-md-12">
+                            <h4> @ViewBag.Title </h4>
+                            <hr />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">                            
+                            <hr />
+                            <div class="table-responsive no-margin">
+                                <table id="dt_table1" class="table w-100 no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Sno</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Generlized Name</th>
+                                            <th>Is Active</th>
+                                            <th>Remarks</th>
+                                            <th>Modified By</th>
+                                            <th>Modified Dt</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            
+            //bindcountry
+            $("#loadGridData").click(function () {
+                $('#loader').show();
+                
+
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes";
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        var dt = $("#dt_table1").DataTable({
+                            "processing": true, // for show progress bar
+                            "serverSide": false, // for process server side
+                            responsive: true,
+                            "bDestroy": true,
+                            "filter": true, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "scrollX": 200,
+                            //"scrollY": "200px",
+                            //dom: 'lBfrtip',
+                            dom: "<'row'<'col-md-12 text-right mb-3'B>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [
+                                {
+                                    text: 'Export',
+                                    title: 'Company Data',
+                                    extend: 'excelHtml5',
+                                    exportOptions: {
+                                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8]
+                                    }
+                                },
+                                {
+                                    extend: 'colvis',
+                                    columnText: function (dt, idx, title) {
+                                        return (idx + 1) + ': ' + title;
+                                    }
+                                }
+                            ],
+                            "aaData": data.returnId,
+                            "columnDefs":
+                                [
+                                    {
+                                        targets: [4],
+                                        render: function (data, type, row) {
+                                            return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
+                                        }
+                                    },
+                                    {
+                                        targets: [7],
+                                        render: function (data, type, row) {
+                                            var date = new Date(data);
+                                            return GetDateFormatddMMyyyyHHtt(date);
+                                        }
+                                    }, {
+                                        targets: [8],
+                                        "class": "text-center",
+                                        render: function (data, type, row) {
+                                            return `<a class="dropdown-item" href=FareClass?BookingClassId=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
+                                        }
+
+                                    }
+                                ],
+                            "columns": [
+                                { "data": "sno", "name": "sno", "autoWidth": true },
+                                { "data": "bookingClassCode", "name": "bookingClassCode", "autoWidth": true },
+                                { "data": "name", "name": "name", "autoWidth": true },
+                                { "data": "generlizedName", "name": "generlizedName", "autoWidth": true },
+                                { "data": "isActive", "name": "isActive", "autoWidth": true },
+                                { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
+                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
+                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
+                                { "data": "bookingClassId", "name": "bookingClassId", "autoWidth": true }
+                            ],
+                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                            
+                        });
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
+            });
+        });
+
+
+    </script>
+}
+        
+

@@ -130,18 +130,21 @@ namespace projContext.DB.CRM.Travel
         public bool isLcc { get; set; }
         [MaxLength(500)]
         public string ImagePath { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
     }
 
-    public class tblFlightClassOfBooking
+    public class tblFlightClassOfBooking : d_ModifiedBy
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookingClassId { get; set; }
-        [MaxLength(20)]
+        [MaxLength(16)]
+        public string  BookingClassCode { get; set; }
+        [MaxLength(256)]
         public string Name { get; set; }
-        [MaxLength(20)]
+        [MaxLength(32)]
         public string GenerlizedName { get; set; }//SME, FlexPlue, Corporate
+        public bool IsActive { get; set; }
     }
 
     public class tblAirport : d_ModifiedBy
