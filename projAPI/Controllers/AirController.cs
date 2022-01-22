@@ -545,13 +545,15 @@ namespace projAPI.Controllers
         #endregion
 
 
+        #region ********************** flight Alter **************************
+
         [HttpPost]
         [Route("settings/SetFlightBookingAlterMaster")]
         [Authorize(nameof(enmDocumentMaster.Travel_Air_FlightClassAlter) + nameof(enmDocumentType.Create))]
         public mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl)
         {
             mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 tempData.MessageType = enmMessageType.Error;
                 tempData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p=>p.ErrorMessage));
@@ -572,9 +574,43 @@ namespace projAPI.Controllers
 
         }
 
+        [HttpPost]
+        [Route("settings/DeleteFlightBookingAlterMaster")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_FlightClassAlter) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteFlightBookingAlterMaster(mdlFlightAlter mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            
+            try
+            {
+                var tempData = _travelContext.tblFlightBookingAlterMaster.Where(p=>p.AlterId==mdl.AlterId && !p.IsDeleted).FirstOrDefault();
+                if (tempData == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "No Data";
+                    return returnData;
+                }
+                tempData.IsDeleted = true;
+                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                tempData.ModifiedDt = DateTime.Now;
+                tempData.ModifyRemarks = tempData.ModifyRemarks ?? "" + mdl.Remarks;
+                _travelContext.tblFlightBookingAlterMaster.Update(tempData);
+                _travelContext.SaveChanges();
+                return returnData;
+
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
         [HttpGet]
         [Route("settings/getFlightBookingAlterMaster")]
-        public mdlReturnData GetFlightBookingAlterMaster()
+        public mdlReturnData GetFlightBookingAlterMaster([FromServices]IsrvUsers srvUsers )
         {
             
             mdlReturnData tempData = new mdlReturnData();
@@ -582,7 +618,24 @@ namespace projAPI.Controllers
             {
                 List<mdlFlightAlter> mdl = new List<mdlFlightAlter>();
                 mdl = _IsrvAir.GetFlightBookingAlterMaster();
-                tempData.ReturnId = mdl;
+                var ModifiedBys = mdl.Select(p => p.ModifiedBy?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                mdl.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                tempData.ReturnId = mdl.AsEnumerable().Select((p, iterator) => new
+                {
+                    Sno = iterator + 1,
+                    modifiedByName = p.ModifiedByName,
+                    modifiedDt = p.ModifiedDt,
+                    modifyRemarks = p.Remarks,
+                    alterId=p.AlterId,
+                    cabinClass=p.CabinClass.ToString(),
+                    identifier=p.Identifier,
+                    classOfBooking=p.ClassOfBooking,
+                    alterDetails=p.AlterDetails.Select(q=>new { Item1 = q.Item1.ToString(),q.Item2,q.Item3})
+                });
                 tempData.MessageType = enmMessageType.Success;
                 return tempData;
             }
@@ -594,6 +647,7 @@ namespace projAPI.Controllers
             }
 
         }
+        #endregion
         //FlightBookingAlterMaster management end
 
         //SetFlightFareFilter management start

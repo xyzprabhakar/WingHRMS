@@ -1,6 +1,6 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200102";
+    ViewData["PageId"] = "200105";
     ViewData["Title"] = "Provider Priority Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -15,42 +15,23 @@
                         </div>
 
                         <div class="row">
-
-                            <div class="col-md-5">
-                                <div class="form-group" for="txtEffectiveFromDt">
-                                    <label class="col-form-label col-md-4" for="txtEffectiveFromDt">Effective From</label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
-                                               maxlength="256" autocomplete="off"
-                                               class="form-control ip-ap" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group" for="txtEffectiveToDt">
-                                    <label class="col-form-label col-md-4" for="txtEffectiveToDt">Effective To</label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="txtEffectiveToDt" name="txtEffectiveToDt"
-                                               maxlength="256" autocomplete="off"
-                                               class="form-control ip-ap" required>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">                            
+                        <div class="col-md-12">
                             <hr />
                             <div class="table-responsive no-margin">
-                                <table id="dt_table1" class="table w-100 no-margin">
+                                <table id="dt_table1" class="table w-100 no-margin table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Provider</th>
-                                            <th>EffectiveFrom Dt</th>
-                                            <th>Priority</th>
+                                            <th>Sno</th>
+                                            <th>Cabin Class</th>
+                                            <th>Identifier</th>
+                                            <th>classOfBooking</th>
+                                            <th>Alter Details</th>
                                             <th>Remarks</th>
                                             <th>Modified By</th>
                                             <th>Modified Dt</th>
@@ -80,19 +61,10 @@
             headerss.append("Authorization", 'Bearer ' + token);
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
-            $(".ip-ap").flatpickr({
-                dateFormat: "d-M-Y",
-            });
-            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
-            $("#txtEffectiveToDt").val(GetDateFormatddMMyyyy(new Date()));
-
-
             //bindcountry
             $("#loadGridData").click(function () {
                 $('#loader').show();
-                
-
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getserviceproviderspriority?IsDateFitlter=true&ServiceProvider=0&EffectiveFromDate=" + $("#txtEffectiveFromDt").val() + "&EffectiveToDate=" + $("#txtEffectiveToDt").val() ;
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getFlightBookingAlterMaster" ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -121,7 +93,7 @@
                                     title: 'Company Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                        columns: [0,1, 2, 3, 4, 5, 6, 7]
                                     }
                                 },
                                 {
@@ -133,34 +105,47 @@
                             ],
                             "aaData": data.returnId,
                             "columnDefs":
-                                [   
-                                    {
-                                        targets: [1, 5],
+                                [{
+                                    targets: [4],
+                                    "class": "text-center",
+                                    render: function (data, type, row) {
+                                        let returndata = '';
+                                        for (var i in data) {
+                                            returndata = returndata + `<div class="col-md-12 mb-1" ><div class="col-md-4"><span class="badge badge-info">${data[i].item1}</span></div><div class="col-md-4"> <span class="badge badge-warning">Identifier : ${data[i].item2}</span></div><div class="col-md-4"> <span class="badge badge-success">CB : ${data[i].item3}</span></div></div>`;
+                                        }
+                                        return returndata ;
+                                        
+                                    }
+                                }
+                                    ,{
+                                        targets: [7],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyyHHtt(date);
                                         }
-                                    }, {
-                                        targets: [6],
+                                    },
+                                    {
+                                        targets: [8],
                                         "class": "text-center",
                                         render: function (data, type, row) {
                                             return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
                                         }
-
                                     }
                                 ],
                             "columns": [
-                                { "data": "serviceProvider", "name": "ServiceProvider", "autoWidth": true },
-                                { "data": "effectiveFromDate", "name": "effectiveFromDate", "autoWidth": true },
-                                { "data": "priority", "name": "priority", "autoWidth": true },
+                                { "data": "sno", "name": "sno", "autoWidth": true },
+                                { "data": "cabinClass", "name": "cabinClass", "autoWidth": true },
+                                { "data": "identifier", "name": "identifier", "autoWidth": true },
+                                { "data": "classOfBooking", "name": "classOfBooking", "autoWidth": true },
+                                { "data": "alterDetails", "name": "alterDetails", "autoWidth": true },
                                 { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "id", "name": "id", "autoWidth": true }
+                                { "data": "alterId", "name": "alterId", "autoWidth": true }
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             'createdRow': function (row, data, dataIndex) {
-                                $('td:eq(3)', row).css('min-width', '200px');
+                                $('td:eq(4)', row).css('min-width', '200px');
                             }
                         });
 
@@ -198,14 +183,17 @@
                         let remarks = $('input[name=txtDeletedRemarks]').val();
                         if (remarks !== undefined) {
                             $('#loader').show();
-                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteServiceProviderPriority"
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteFlightBookingAlterMaster"
                             let Postheaderss = new Headers();
                             Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
                             Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
                             Postheaderss.append("Content-Type", "application/json; charset=utf-8");
                             var formdata = JSON.stringify({
-                                "Id": e.getAttribute("data-delete-id"),
-                                "ModifyRemarks": remarks,
+                                "AlterId": e.getAttribute("data-delete-id"),
+                                "Remarks": remarks,
+                                "ClassOfBooking": "Dummy",
+                                "CabinClass": 2,
+                                "Identifier":"Dummy"
                             });
                             fetch(Postapiurl, {
                                 method: "POST",
@@ -223,8 +211,9 @@
 
                                 if (data.messageType == 1) {
                                     $('#loader').hide();
+
                                     messageBox("success", "Deleted successfully");
-                                    $("#ddlProvider").trigger('change');
+                                    $("#loadGridData").trigger('click');
 
                                 }
                                 else {

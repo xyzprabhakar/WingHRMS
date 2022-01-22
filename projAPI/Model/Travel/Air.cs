@@ -735,6 +735,9 @@ namespace projAPI.Model.Travel
         public string ClassOfBooking { get; set; }
         public string Remarks { get; set; }
         public List<Tuple<enmCabinClass, string,string>> AlterDetails { get; set; }
+        public ulong ?ModifiedBy { get; set; }
+        public string ModifiedByName { get; set; }
+        public DateTime? ModifiedDt { get; set; }        
     }
 
     public class mdlFlightFareFilter
@@ -744,5 +747,8 @@ namespace projAPI.Model.Travel
         public bool IsEanableAllFare { get; set; }
         public string Remarks { get; set; }
         public List<Tuple<string, string>> FilterDetails { get; set; }
+        public ulong? ModifiedBy { get; set; }
+        public string ModifiedByName { get; set; }
+        public DateTime? ModifiedDt { get; set; }
     }
 }

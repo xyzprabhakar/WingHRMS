@@ -244,8 +244,10 @@ namespace projAPI.Services.Travel
                 CabinClass = p.CabinClass,
                 Identifier = p.Identifier,
                 ClassOfBooking = p.ClassOfBooking,
-                AlterDetails = p.tblFlightBookingAlterDetails.Select(q => new Tuple<enmCabinClass, string, string>(q.CabinClass, q.Identifier, q.ClassOfBooking)).ToList()
-
+                AlterDetails = p.tblFlightBookingAlterDetails.Select(q => new Tuple<enmCabinClass, string, string>(q.CabinClass, q.Identifier, q.ClassOfBooking)).ToList(),
+                Remarks = p.ModifyRemarks,
+                ModifiedBy = p.ModifiedBy,
+                ModifiedDt = p.ModifiedDt
             }
             ).ToList();
         }
@@ -288,7 +290,10 @@ namespace projAPI.Services.Travel
                     FilterId = p.FilterId,
                     IsEanableAllFare = p.IsEanableAllFare,
                     CustomerType = p.CustomerType,
-                    FilterDetails = p.tblFlightFareFilterDetails.Select(q => new Tuple<string, string>(q.Identifier, q.ClassOfBooking)).ToList()
+                    FilterDetails = p.tblFlightFareFilterDetails.Select(q => new Tuple<string, string>(q.Identifier, q.ClassOfBooking)).ToList(),
+                    Remarks = p.ModifyRemarks,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDt = p.ModifiedDt
                 }
            ).ToList();
             }
