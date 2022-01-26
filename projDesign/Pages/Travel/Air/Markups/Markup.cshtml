@@ -1,0 +1,265 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200105";
+    ViewData["Title"] = "Provider Priority";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlCabinClass">Cabin Class</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlCabinClass" name="ddlCabinClass" class="form-control" autofocus required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtIdentifier">
+                                        <label class="col-form-label col-md-3" for="txtIdentifier">Identifier</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtIdentifier" name="txtIdentifier"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlClassOfBooking">Fare Code</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlClassOfBooking" name="ddlClassOfBooking" class="form-control" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtRemarks">
+                                        <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtRemarks" name="txtRemarks"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <input type="button" id="btnAddSubGridData" class="btn btn-success" value="Add ++">
+                            </div>
+                            <div class="table-responsive">
+                                <table id="tblHolding" class="table table-striped display" >
+                                    <thead><tr><th style="min-width:150px">Cabin Class</th><th style="min-width:100px">Identifier</th><th style="min-width:200px">Booking Class</th><th>Remove Row</th></tr></thead>
+                                    <tbody id="tbodyHolding">
+                                    </tbody>
+                                </table>
+
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                        <a href="FlightClassAlterReport" class="btn btn-primary btn-lg">Report</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+
+</form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+        var subGridviewRowdata = null;
+        $(document).ready(function () {
+            
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            LoadClassofBooking()
+            $(document).on("click", ".btnRemoveHoldingRow", function () {
+                $(this).parent().parent().remove();
+            });
+            $("#frmOrganisation").validate({
+                onkeyup: false,
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();                    
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/SetFlightBookingAlterMaster"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
+                    Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+
+                    let cabinclass = $('select[name="ddlAlterCabinClass"]').map(function () { return $(this).val(); }).get();
+                    let identifier = $('input[name="txtAlterIdentifier"]').map(function () { return $(this).val(); }).get();
+                    let fareclass = $('select[name="ddlAlterBookingClass"]').map(function () { return $(this).val(); }).get();
+                    let AlterDetails = [];
+                    for (var i in cabinclass) {
+                        AlterDetails.push({ "Item1": cabinclass[i], "Item2": identifier[i], "Item3": fareclass[i] });
+                    }
+                    var formdata = JSON.stringify({
+                        "CabinClass": $("#ddlCabinClass").val(),
+                        "Identifier": $("#txtIdentifier").val(),
+                        "ClassOfBooking": $("#ddlClassOfBooking").val(),
+                        "Remarks": $("#txtRemarks").val(),
+                        "AlterDetails": AlterDetails
+                        
+                    });
+                    console.log(formdata);
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,                        
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                            
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                $("#tbodyHolding").empty();
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+        function LoadClassofBooking() {
+            $('#loader').show();            
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);            
+            let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes" ;
+            fetch(apiurl, {
+                method: "GET",
+                headers: headerss,
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.statusText);
+                }
+            }).then(data => {
+                if (data.messageType == true) {
+                    var FlightBookingClass = '';
+                    var FlightCabinClass = '';
+                    
+                    for (var i in data.returnId) {
+                        if (data.returnId[i].isActive) {                            
+                            FlightBookingClass = FlightBookingClass + `<option value = "${data.returnId[i].bookingClassCode}"  >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option >`
+                            $('#ddlClassOfBooking').append(`<option value="${data.returnId[i].bookingClassCode}" >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option>`);
+                        }
+                        
+                    }
+                    for (var i in enmCabinClass) {
+                        FlightCabinClass = FlightCabinClass + `<option value = "${enmCabinClass[i].id}" > ${enmCabinClass[i].displayText}</option >`;
+                        $('#ddlCabinClass').append(`<option value="${enmCabinClass[i].id}" >${enmCabinClass[i].displayText}</option>`);
+                    }
+                    subGridviewRowdata =`<tr>
+                                 <td class="row-index text-center">
+                                         <select name="ddlAlterCabinClass" class="form-control required">
+                                                <option value = ""  selected > -- Please Select --</option>${FlightCabinClass}
+                                                </select>
+                                            </td>
+                                            <td class="row-index text-center">
+                                                <input type="text" name="txtAlterIdentifier"
+                                                       maxlength="32" autocomplete="off"
+                                                       class="form-control" required placeholder="Identifier">
+                                            </td>
+                                            <td class="row-index text-center">
+                                                <select name="ddlAlterBookingClass" class="form-control" required>
+                                                <option value = ""  selected > -- Please Select --</option>${FlightBookingClass}
+                                                </select>
+                                            </td>
+                                            <td id="coldel">
+                                                <a class="dropdown-item btnRemoveHoldingRow" href="#"> <i class="fa fa-trash-alt"></i> Delete</a>
+                                            </td>
+                                        </tr>`;
+
+                    $("#btnAddSubGridData").click(function () {
+                        $("#tbodyHolding").prepend(subGridviewRowdata);
+                    });
+                    
+                    $('#loader').hide();
+                }
+                else {
+                    $('#loader').hide();
+                    messageBox("error", data.message);
+                }
+            }).catch((error) => {
+                $('#loader').hide();
+                messageBox("error", error.message);
+            });
+
+        }
+
+
+        
+    </script>
+}
+        
+

@@ -33,6 +33,7 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblFlightMarkupPassengerType> tblFlightMarkupPassengerType { get; set; }
         public DbSet<tblFlightMarkupFlightClass> tblFlightMarkupFlightClass { get; set; }
         public DbSet<tblFlightMarkupAirline> tblFlightMarkupAirline { get; set; }
+        public DbSet<tblFlightMarkupSegment> tblFlightMarkupSegment { get; set; }
         public DbSet<tblFlightConvenience> tblFlightConvenience { get; set; }
         public DbSet<tblFlightConvenienceServiceProvider> tblFlightConvenienceServiceProvider { get; set; }
         public DbSet<tblFlightConvenienceCustomerType> tblFlightConvenienceCustomerType { get; set; }
@@ -40,6 +41,7 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblFlightConveniencePassengerType> tblFlightConveniencePassengerType { get; set; }
         public DbSet<tblFlightConvenienceFlightClass> tblFlightConvenienceFlightClass { get; set; }
         public DbSet<tblFlightConvenienceAirline> tblFlightConvenienceAirline { get; set; }
+        public DbSet<tblFlightConvenienceSegment> tblFlightConvenienceSegment { get; set; }
         public DbSet<tblFlightDiscount> tblFlightDiscount { get; set; }
         public DbSet<tblFlightDiscountServiceProvider> tblFlightDiscountServiceProvider { get; set; }
         public DbSet<tblFlightDiscountCustomerType> tblFlightDiscountCustomerType { get; set; }
@@ -47,6 +49,7 @@ namespace projContext.DB.CRM.Travel
         public DbSet<tblFlightDiscountPassengerType> tblFlightDiscountPassengerType { get; set; }
         public DbSet<tblFlightDiscountFlightClass> tblFlightDiscountFlightClass { get; set; }
         public DbSet<tblFlightDiscountAirline> tblFlightDiscountAirline { get; set; }
+        public DbSet<tblFlightDiscountSegment> tblFlightDiscountSegment { get; set; }
 
         #region ************************* Caching **************************
         public DbSet<tblFlightSearchRequest_Caching> tblFlightSearchRequest_Caching { get; set; }        

@@ -16,6 +16,7 @@ namespace projAPI.Services
         bool CustomerContactNoExists(string ContactNo, int Customerid, int OrgId);
         bool CustomerEmailExists(string Email, int Customerid, int OrgId);
         tblCustomerMaster GetCustomer(int OrgId, string CustomerCode);
+        List<tblCustomerMaster> GetCustomers(int OrgId, List<string> CustomerCodes);
         mdlReturnData SetCustomerMaster(mdlCustomer mdl, ulong UserId);
     }
 
@@ -51,6 +52,21 @@ namespace projAPI.Services
                     Data.IsActive = false;
                 }
             }
+            return Data;
+        }
+
+        public List<tblCustomerMaster> GetCustomers(int OrgId, List<string> CustomerCodes)
+        {
+            if (CustomerCodes == null)
+            {
+                return new List<tblCustomerMaster>();
+            }
+            if (CustomerCodes.Count == 0)
+            {
+                return new List<tblCustomerMaster>();
+            }
+            DateTime currentDate = DateTime.Now;
+            var Data = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId && CustomerCodes.Contains( p.Code)).ToList();
             return Data;
         }
 

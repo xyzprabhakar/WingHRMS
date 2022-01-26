@@ -115,7 +115,9 @@ namespace projContext
         Travel_Air_Master = 2001,
         [SubModule(EnmModule: enmModule.Travel_Air, DisplayOrder: 2, Name: "Setting", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "")]
         Travel_Air_Setting = 2002,
-        
+        [SubModule(EnmModule: enmModule.Travel_Air, DisplayOrder: 3, Name: "Markups", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "")]
+        Travel_Air_Markups = 2003,
+
         [SubModule(EnmModule: enmModule.Travel_Air, DisplayOrder: 1, Name: "Setting", Description: "", Icon: "nav-icon fas fa-file", CntrlName: "")]
         Travel_Hotel_Setting = 2005,
         
@@ -241,11 +243,24 @@ namespace projContext
             DisplayOrder: 1, Name: "Airline", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Master/Airline")]
         Travel_Air_Airline = 200110,
         [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Master, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Airport", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Master/Airport")]
+            DisplayOrder: 2, Name: "Airport", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Master/Airport")]
         Travel_Air_Airport = 200111,
         [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Master, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
-            DisplayOrder: 1, Name: "Fare Class", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Master/FareClass")]
+            DisplayOrder: 3, Name: "Fare Class", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Master/FareClass")]
         Travel_Air_FareClass = 200112,
+
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Markups, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 1, Name: "Markup", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Markups/Markup")]
+        Travel_Air_Markups = 200121,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Markups, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 2, Name: "Customer Markup", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Markups/CustomerMarkup")]
+        Travel_Air_CustomerMarkups = 200122,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Markups, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 3, Name: "Discount", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Markups/Discount")]
+        Travel_Air_Discount = 200123,
+        [Document(enmApplication.Travel, EnmModule: enmModule.Travel_Air, EnmSubModule: enmSubModule.Travel_Air_Markups, enmDocumentType.Update | enmDocumentType.Create | enmDocumentType.Report | enmDocumentType.DisplayMenu,
+            DisplayOrder: 4, Name: "Convenience", Description: "", Icon: "far fa-circle nav-icon", ActionName: "/Travel/Air/Markups/Convenience")]
+        Travel_Air_Convenience = 200124,
 
 
         //[Document(enmDocumentType.Report, 1, "Dashboard", "Dashboard", "far fa-circle nav-icon", "/Home/Index")]

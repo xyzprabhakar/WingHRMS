@@ -59,11 +59,7 @@ namespace projContext.DB.CRM.Travel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public virtual int? ChargeId { get; set; }
-        [ForeignKey("tblCustomerMaster")] // Foreign Key here
         public  int? CustomerId { get; set; }
-        public tblCustomerOrganisation tblCustomerMaster { get; set; }
-        
-
     }
 
     public class DbWingPassengerType
