@@ -21,18 +21,208 @@
                                     <div class="form-group">
                                         <label class="col-form-label col-md-3" for="ddlCabinClass">Cabin Class</label>
                                         <div class="col-md-9">
-                                            <select id="ddlCabinClass" name="ddlCabinClass" class="form-control" autofocus required>
+                                            <select id="ddlApplicability" name="ddlApplicability" class="form-control select2" autofocus required>
+                                                <option value="">-- Please Select--</option>
+                                                <option value="1">On Ticket</option>
+                                                <option value="2">On Passenger</option>
+                                                <option value="4">On Baggage Services</option>
+                                                <option value="8">On Meal Services</option>
+                                                <option value="16">On Seat Services</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group" for="txtIdentifier">
-                                        <label class="col-form-label col-md-3" for="txtIdentifier">Identifier</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtIdentifier" name="txtIdentifier"
+                                    <div class="form-group" for="chkProvider">
+                                        <label class="col-form-label col-md-3">Providers</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkProvider">
+                                                <label class="form-check-label" for="chkProvider">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlProvider" name="ddlProvider" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkCustomerType">
+                                        <label class="col-form-label col-md-3">Customer Type</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkCustomerType">
+                                                <label class="form-check-label" for="chkCustomerType">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlCustomerType" name="ddlCustomerType" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkCustomer">
+                                        <label class="col-form-label col-md-3">Customers</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkCustomer">
+                                                <label class="form-check-label" for="chkCustomer">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input type="text" id="txtCustomerCodes" name="txtCustomerCodes"
                                                    maxlength="256" autocomplete="off"
-                                                   class="form-control" required>
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkPessengerType">
+                                        <label class="col-form-label col-md-3">Passenger Type</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkPessengerType">
+                                                <label class="form-check-label" for="chkPessengerType">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlPessengerType" name="ddlPessengerType" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkFlightClass">
+                                        <label class="col-form-label col-md-3">Flight Class</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkFlightClass">
+                                                <label class="form-check-label" for="chkFlightClass">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlFlightClass" name="ddlFlightClass" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkAirline">
+                                        <label class="col-form-label col-md-3">Airline</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkAirline">
+                                                <label class="form-check-label" for="chkAirline">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlAirline" name="ddlAirline" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkSegments">
+                                        <label class="col-form-label col-md-3">Segments</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkSegments">
+                                                <label class="form-check-label" for="chkSegments">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input type="text" id="txtSegments" name="txtSegments"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="ddlFlightType">
+                                        <label class="col-form-label col-md-3">Flight Type</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlFlightType" name="ddlFlightType" class="form-control select2">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkSegments">
+                                        <label class="col-form-label col-md-3">Gender</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlGender" name="ddlGender" class="form-control select2">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtBookingFromDt">
+                                        <label class="col-form-label col-md-3">Booking FromDt</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtBookingFromDt" name="txtBookingFromDt" maxlength="256" autocomplete="off" required
+                                                   class="form-control ip-ap">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtBookingToDt">
+                                        <label class="col-form-label col-md-3">Booking ToDt</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtBookingToDt" name="txtBookingToDt" maxlength="256" autocomplete="off" required
+                                                   class="form-control ip-ap">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtTravelFromDt">
+                                        <label class="col-form-label col-md-3">Travel FromDt</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtTravelFromDt" name="txtTravelFromDt" maxlength="256" autocomplete="off" required
+                                                   class="form-control ip-ap">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtTravelToDt">
+                                        <label class="col-form-label col-md-3">travel ToDt</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtTravelToDt" name="txtTravelToDt" maxlength="256" autocomplete="off" required
+                                                   class="form-control ip-ap">
                                         </div>
                                     </div>
                                 </div>
@@ -41,51 +231,96 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="ddlClassOfBooking">Fare Code</label>
-                                        <div class="col-md-9">
-                                            <select id="ddlClassOfBooking" name="ddlClassOfBooking" class="form-control" required>
-                                            </select>
+                                        <label class="col-form-label col-md-3">Is Markup%</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="chkMarkupPercentage_active" type="radio" value="true" name="chkMarkupPercentage">
+                                                    <label class="custom-control-label" for="chkMarkupPercentage_active">  Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="chkMarkupPercentage_in_active" type="radio" value="false" name="chkMarkupPercentage" checked>
+                                                    <label class="custom-control-label" for="chkMarkupPercentage_in_active">  No</label>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group" for="txtRemarks">
-                                        <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
+                                    <div class="form-group" for="txtPercentageValue">
+                                        <label class="col-form-label col-md-3">Percentage value</label>
                                         <div class="col-md-9">
-                                            <input type="text" id="txtRemarks" name="txtRemarks"
-                                                   maxlength="256" autocomplete="off"
+                                            <input type="number" min="0" max="100" step="0.05" value="0.00" id="txtPercentageValue" name="txtPercentageValue" maxlength="256" autocomplete="off"
                                                    class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group text-center">
-                                <input type="button" id="btnAddSubGridData" class="btn btn-success" value="Add ++">
-                            </div>
-                            <div class="table-responsive">
-                                <table id="tblHolding" class="table table-striped display" >
-                                    <thead><tr><th style="min-width:150px">Cabin Class</th><th style="min-width:100px">Identifier</th><th style="min-width:200px">Booking Class</th><th>Remove Row</th></tr></thead>
-                                    <tbody id="tbodyHolding">
-                                    </tbody>
-                                </table>
 
-                                </div>
-
-                                <div class="clearfix"></div>
-                                <div class="col-md-12">
-
-                                    <div class="form-group text-center">
-                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
-                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                        <a href="FlightClassAlterReport" class="btn btn-primary btn-lg">Report</a>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtAmount">
+                                        <label class="col-form-label col-md-3">Amount</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="0" max="100000" step="0.05" value="0.00" id="txtAmount" name="txtAmount" maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <hr />
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtPercentageCaping">
+                                        <label class="col-form-label col-md-3">Percentage Capping</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="0" max="100000" step="0.05" value="0.00" id="txtPercentageCaping" name="txtPercentageCapping" maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="clearfix"></div>
-
                             </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Is MLM Incentive</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="chkMLMIncentive_active" type="radio" value="true" name="chkMLMIncentive">
+                                                    <label class="custom-control-label" for="chkMLMIncentive_active">  Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="chkMLMIncentive_in_active" type="radio" value="false" name="chkMLMIncentive" checked>
+                                                    <label class="custom-control-label" for="chkMLMIncentive_in_active">  No</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-12">
+
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                    <a href="FlightClassAlterReport" class="btn btn-primary btn-lg">Report</a>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
 
 </form>
                     
@@ -99,19 +334,154 @@
     <script type="text/javascript">
         var subGridviewRowdata = null;
         $(document).ready(function () {
-            
+
+            $('#loader').show();
+            $(".ip-ap").flatpickr({
+                dateFormat: "d-M-Y",
+            });
+
+            $("#txtPercentageValue").hide();
+            $("#txtPercentageCaping").hide();
             let OrgId = localStorage.getItem("currentOrganisation");
             let token = localStorage.getItem('token');
             let headerss = new Headers();
             headerss.append("Authorization", 'Bearer ' + token);
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
-            LoadClassofBooking()
+            BindEnums("ddlCustomerType", enmCustomerType, "");
+            BindEnums("ddlProvider", enmServiceProvider, "");
+            BindEnums("ddlFlightClass", enmCabinClass, "");
+            BindEnums("ddlFlightType", enmFlightType, "");
+            BindEnums("ddlPessengerType", enmPassengerType, "");
+            BindEnums("ddlGender", enmGender, "");
+            $("#txtBookingFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtBookingToDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtTravelFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtTravelToDt").val(GetDateFormatddMMyyyy(new Date()));
+            $(".chkIsAll").change(function () {
+                if (this.checked) {
+                    $(this).parent().parent().next().hide();
+                }
+                else {
+                    $(this).parent().parent().next().show();
+                }
+            });
+            $("#chkMarkupPercentage_active").change(function () {
+                if (this.checked) {
+                    $("#txtPercentageValue").show();
+                    $("#txtPercentageCaping").show();
+                    $("#txtAmount").hide();
+                }
+                else {
+                    $("#txtPercentageValue").hide();
+                    $("#txtPercentageCaping").hide();
+                    $("#txtAmount").show();
+                }
+            });
+            var api = localStorage.getItem('baseUrl') + "air/GetAirline/true";
+                fetch(api, {
+                method: "GET",
+                headers: headerss,
+                redirect: 'follow'
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.statusText);
+                }
+            }).then(data => {
+                if (data.messageType == 1) {
+                    $('#ddlAirline').empty();
+                    $('#ddlAirline').append(`<option value="" >--Please select --</option>`);
+                    for (var i in data.returnId) {
+                        $('#ddlAirline').append(`<option value="${data.returnId[i].id}"  >${data.returnId[i].code} - ${data.returnId[i].name}</option>`);
+                    }
+                    $('#loader').hide();
+                }
+                else {
+                    $('#loader').hide();
+                    messageBox("error", data.message);
+                }
+            }).catch((error) => {
+                $('#loader').hide();
+                messageBox("error", error.message);
+            });
+
+            
+            
+
+
+            ///ddlAirline
+            
+
+            
             $(document).on("click", ".btnRemoveHoldingRow", function () {
                 $(this).parent().parent().remove();
             });
+
+
+
             $("#frmOrganisation").validate({
                 onkeyup: false,
+                rules: {
+                    ddlProvider:
+                    {
+                        required: "#chkProvider:unchecked"
+                    },
+                    ddlCustomerType:
+                    {
+                        required: "#chkCustomerType:unchecked"
+                    },
+                    txtCustomerCodes: {
+                        remote: {
+                            url: localStorage.getItem('baseUrl') + "customer/CheckCustomerCode",
+                            method: "get",
+                            headers: { "Authorization": 'Bearer ' + token },
+                            data: {
+                                OrgId: function () { return localStorage.getItem("currentOrganisation"); }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                                return false;
+                            }
+                        },
+                        required: "#chkCustomer:unchecked"
+                    },
+                    ddlFlightClass:
+                    {
+                        required: "#chkFlightClass:unchecked"
+                    },
+                    ddlPessengerType:
+                    {
+                        required: "#chkPessengerType:unchecked"
+                    },
+                    ddlAirline:
+                    {
+                        required: "#chkAirline:unchecked"
+                    },
+
+                },
+                messages: {
+                    ddlCustomerType: {
+                        required: "Required",
+                    },
+                    txtCustomerCodes: {
+                        required: "Required",
+                        remote: "Enter valid Customer codes"
+                    },
+                    ddlProvider: {
+                        required: "Required",
+                    },
+                    ddlFlightClass: {
+                        required: "Required",
+                    },
+                    ddlPessengerType: {
+                        required: "Required",
+                    },
+                    ddlAirline: {
+                        required: "Required",
+                    }
+                },
                 errorPlacement: function (error, element) {
                     if (element.hasClass('select2') && element.next('.select2-container').length) {
                         error.insertAfter(element.next('.select2-container'));
@@ -122,26 +492,73 @@
                 },
                 submitHandler: function (form, event) {
                     event.preventDefault();
+                    
                     $('#loader').show();                    
-                    let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/SetFlightBookingAlterMaster"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/SetMarkup"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
                     Postheaderss.append("Content-Type", "application/json; charset=utf-8");
 
-                    let cabinclass = $('select[name="ddlAlterCabinClass"]').map(function () { return $(this).val(); }).get();
-                    let identifier = $('input[name="txtAlterIdentifier"]').map(function () { return $(this).val(); }).get();
-                    let fareclass = $('select[name="ddlAlterBookingClass"]').map(function () { return $(this).val(); }).get();
-                    let AlterDetails = [];
-                    for (var i in cabinclass) {
-                        AlterDetails.push({ "Item1": cabinclass[i], "Item2": identifier[i], "Item3": fareclass[i] });
+                    let varCustomerIds = [];
+                    let varAirline = [];
+                    let varSegments = [];
+
+                    let varServiceProviders  = $('select[name="ddlProvider"]').map(function () { return $(this).val(); }).get();
+                    let varCustomerTypes = $('select[name="ddlCustomerType"]').map(function () { return $(this).val(); }).get();
+                    if (!($('#txtCustomer').val() == null || $('#txtCustomer').val() == "" || $('#txtCustomer').val() === undefined)) {
+                        let tempCustomer = $('#txtCustomer').val().split(",");
+                        for (var i in tempCustomer) {
+                            varCustomerIds.push({ "Item1": 0, "Item2": tempCustomer[i] });
+                        }
                     }
+                    //let varCustomerTypes = $('select[name="ddlCustomerType"]').map(function () { return $(this).val(); }).get();
+                    if (!($('#txtSegments').val() == null || $('#txtSegments').val() == "" || $('#txtSegments').val() === undefined)) {
+                        let tempSegment = $('#txtSegments').val().split(",");
+                        for (var i in tempSegment) {
+                            let seg = tempSegment[i].split();
+                            if (seg.length < 2) {
+                                $('#loader').hide();
+                                messageBox("error", "Segment is not valid");
+                            }
+                            varSegments.push({ "Item1": seg[0], "Item2": seg[1] });
+                        }
+                    }
+                    let varPassengerType = $('select[name="ddlPessengerType"]').map(function () { return $(this).val(); }).get();
+                    let tempAirline = $('input[name="ddlAirline"]').map(function () { return $(this).val(); }).get();
+                    let varCabinClass = $('select[name="ddlFlightClass"]').map(function () { return $(this).val(); }).get();
+                    for (var i in tempAirline) {
+                        varAirline.push({ "Item1": tempAirline[i], "Item2": "" });
+                    }
+                    
                     var formdata = JSON.stringify({
-                        "CabinClass": $("#ddlCabinClass").val(),
-                        "Identifier": $("#txtIdentifier").val(),
-                        "ClassOfBooking": $("#ddlClassOfBooking").val(),
-                        "Remarks": $("#txtRemarks").val(),
-                        "AlterDetails": AlterDetails
+                        "Applicability": $("#ddlApplicability").val(),
+                        "IsAllProvider": $("#chkProvider").prop('checked'),
+                        "IsAllCustomerType": $("#chkCustomerType").prop('checked'),
+                        "IsAllCustomer": $("#chkCustomer").prop('checked'),
+                        "IsAllPessengerType": $("#chkPessengerType").prop('checked'),
+                        "IsAllFlightClass": $("#chkFlightClass").prop('checked'),
+                        "IsAllAirline": $("#chkAirline").prop('checked'),
+                        "IsAllSegment": $("#chkSegments").prop('checked'),
+                        "IsMLMIncentive": $("#chkMLMIncentive_active").prop('checked'),
+                        "FlightType": $("#ddlFlightType").val(),
+                        "Gender": $("#ddlGender").val(),
+                        "IsPercentage": $("#chkMarkupPercentage_active").prop('checked'),
+                        "PercentageValue": $("#txtPercentageValue").val(),
+                        "Amount": $("#txtAmount").val(),
+                        "AmountCaping": $("#txtPercentageCaping").val(),
+                        "TravelFromDt": $("#txtTravelFromDt").val(),
+                        "TravelToDt": $("#txtTravelToDt").val(),
+                        "BookingFromDt": $("#txtBookingFromDt").val(),
+                        "BookingToDt": $("#txtBookingToDt").val(),
+                        "ServiceProviders": varServiceProviders,
+                        "CustomerTypes": varCustomerTypes,
+                        "CustomerIds": varCustomerIds,
+                        "PassengerType": varPassengerType,
+                        "Airline": varAirline,
+                        "Segments": varSegments,
+                        "CabinClass": varCabinClass
+                        
                         
                     });
                     console.log(formdata);
@@ -183,79 +600,6 @@
             });
 
         });
-
-
-        function LoadClassofBooking() {
-            $('#loader').show();            
-            let OrgId = localStorage.getItem("currentOrganisation");
-            let token = localStorage.getItem('token');
-            let headerss = new Headers();
-            headerss.append("Authorization", 'Bearer ' + token);
-            headerss.append("Content-Type", "application/json; charset=utf-8");
-            headerss.append("OrgId", OrgId);            
-            let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes" ;
-            fetch(apiurl, {
-                method: "GET",
-                headers: headerss,
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error(response.statusText);
-                }
-            }).then(data => {
-                if (data.messageType == true) {
-                    var FlightBookingClass = '';
-                    var FlightCabinClass = '';
-                    
-                    for (var i in data.returnId) {
-                        if (data.returnId[i].isActive) {                            
-                            FlightBookingClass = FlightBookingClass + `<option value = "${data.returnId[i].bookingClassCode}"  >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option >`
-                            $('#ddlClassOfBooking').append(`<option value="${data.returnId[i].bookingClassCode}" >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option>`);
-                        }
-                        
-                    }
-                    for (var i in enmCabinClass) {
-                        FlightCabinClass = FlightCabinClass + `<option value = "${enmCabinClass[i].id}" > ${enmCabinClass[i].displayText}</option >`;
-                        $('#ddlCabinClass').append(`<option value="${enmCabinClass[i].id}" >${enmCabinClass[i].displayText}</option>`);
-                    }
-                    subGridviewRowdata =`<tr>
-                                 <td class="row-index text-center">
-                                         <select name="ddlAlterCabinClass" class="form-control required">
-                                                <option value = ""  selected > -- Please Select --</option>${FlightCabinClass}
-                                                </select>
-                                            </td>
-                                            <td class="row-index text-center">
-                                                <input type="text" name="txtAlterIdentifier"
-                                                       maxlength="32" autocomplete="off"
-                                                       class="form-control" required placeholder="Identifier">
-                                            </td>
-                                            <td class="row-index text-center">
-                                                <select name="ddlAlterBookingClass" class="form-control" required>
-                                                <option value = ""  selected > -- Please Select --</option>${FlightBookingClass}
-                                                </select>
-                                            </td>
-                                            <td id="coldel">
-                                                <a class="dropdown-item btnRemoveHoldingRow" href="#"> <i class="fa fa-trash-alt"></i> Delete</a>
-                                            </td>
-                                        </tr>`;
-
-                    $("#btnAddSubGridData").click(function () {
-                        $("#tbodyHolding").prepend(subGridviewRowdata);
-                    });
-                    
-                    $('#loader').hide();
-                }
-                else {
-                    $('#loader').hide();
-                    messageBox("error", data.message);
-                }
-            }).catch((error) => {
-                $('#loader').hide();
-                messageBox("error", error.message);
-            });
-
-        }
 
 
         

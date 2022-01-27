@@ -191,6 +191,15 @@ namespace projAPI.Controllers
             return mdl;            
         }
 
+        [AllowAnonymous]
+        [Route("GetAirline/{onlyActive}")]
+        public mdlReturnData GetAirline(bool onlyActive)
+        {
+            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdl.ReturnId = onlyActive ? _travelContext.tblAirline.Where(p => p.IsActive).Select(p => new { p.Id, p.Code, p.Name }).OrderBy(p => p.Code).ThenBy(p => p.Name) : _travelContext.tblAirline.Select(p => new { p.Id, p.Code, p.Name }).OrderBy(p=>p.Code).ThenBy(p=>p.Name); 
+            return mdl;
+        }
+
         #region ************************ Flight Booking ******************************
 
         [HttpPost]
@@ -937,6 +946,7 @@ namespace projAPI.Controllers
                         IsAllFlightClass=mdl.IsAllFlightClass,
                         IsAllAirline=mdl.IsAllAirline,
                         IsMLMIncentive= mdl.IsMLMIncentive,//only acceptable in Markup not in ( Convienve and Discount)
+                        IsAllSegment=mdl.IsAllSegment,
                         FlightType=mdl.FlightType,
                         Gender=mdl.Gender,
                         IsPercentage=mdl.IsPercentage,
@@ -964,7 +974,7 @@ namespace projAPI.Controllers
 
                 returnData.MessageType = enmMessageType.Success;
                 returnData.Message = "Save successfully";
-                returnData.Message = "Save successfully";
+                
                 return returnData;
 
             }

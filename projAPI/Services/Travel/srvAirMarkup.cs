@@ -139,7 +139,7 @@ namespace projAPI.Services.Travel
                     PassengerType = p.tblFlightMarkupPassengerType.Select(q => q.PassengerType).ToList(),
                     CabinClass = p.tblFlightMarkupFlightClass.Select(q => q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightMarkupCustomerDetails.
-                    Select(q => Tuple.Create(q.CustomerId, q.tblCustomerMaster.OrganisationCode)).ToList(),
+                    Select(q => Tuple.Create(q.CustomerId, string.Empty)).ToList(),
                     Segments = p.tblFlightMarkupSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
                     Airline = p.tblFlightMarkupAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
                 })?.ToList() ?? new List<mdlWingMarkup_Air>();
@@ -207,7 +207,7 @@ namespace projAPI.Services.Travel
                     PassengerType = p.tblFlightDiscountPassengerType.Select(q => q.PassengerType).ToList(),
                     CabinClass = p.tblFlightDiscountFlightClass.Select(q => q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightDiscountCustomerDetails.
-                    Select(q => Tuple.Create(q.CustomerId, q.tblCustomerMaster.OrganisationCode)).ToList(),
+                    Select(q => Tuple.Create(q.CustomerId, string.Empty)).ToList(),
                     Segments = p.tblFlightDiscountSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
                     Airline = p.tblFlightDiscountAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
                 })?.ToList() ?? new List<mdlWingMarkup_Air>();
@@ -275,7 +275,7 @@ namespace projAPI.Services.Travel
                     PassengerType = p.tblFlightConveniencePassengerType.Select(q => q.PassengerType).ToList(),
                     CabinClass = p.tblFlightConvenienceFlightClass.Select(q => q.CabinClass).ToList(),
                     CustomerIds = p.tblFlightConvenienceCustomerDetails.
-                    Select(q => Tuple.Create(q.CustomerId, q.tblCustomerMaster.OrganisationCode)).ToList(),
+                    Select(q => Tuple.Create(q.CustomerId, string.Empty)).ToList(),
                     Segments = p.tblFlightConvenienceSegment.Select(q => new Tuple<string, string>(q.orign, q.destination)).ToList(),
                     Airline = p.tblFlightConvenienceAirline.Select(q => new Tuple<int, string>(q.AirlineId ?? 0, q.tblAirline.Code)).ToList()
                 })?.ToList() ?? new List<mdlWingMarkup_Air>();
