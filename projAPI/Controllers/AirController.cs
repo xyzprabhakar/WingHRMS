@@ -854,6 +854,7 @@ namespace projAPI.Controllers
         #region **********wing markup*********
         [HttpPost]
         [Route("Markups/SetMarkup")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Markups) + nameof(enmDocumentType.Create))]
         public mdlReturnData SetMarkup([FromServices]IsrvCustomer isrvCustomer ,mdlWingMarkup_Air mdl,[FromHeader]int OrgId)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -993,10 +994,11 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("air/settings/GetWingMarkup")]
-        
-        public List<mdlWingMarkup_Air_Wraper> GetWingMarkup([FromServices] IsrvUsers srvUsers, [FromServices] IsrvCustomer srvCustomer, bool FilterBookingDt, DateTime FromDt, DateTime ToDt, int OrgId)
+        [Route("Markups/GetWingMarkup/{FilterBookingDt}/{FromDt}/{ToDt}")]
+        public mdlReturnData GetWingMarkup([FromServices] IsrvUsers srvUsers, [FromServices] IsrvCustomer srvCustomer, 
+            bool FilterBookingDt, DateTime FromDt, DateTime ToDt, [FromHeader]int OrgId)
         {
+            mdlReturnData returnData = new mdlReturnData() {MessageType=enmMessageType.Info };
             try
             {
                 IQueryable<tblFlightMarkupMaster> tempData = FilterBookingDt ?
@@ -1016,18 +1018,18 @@ namespace projAPI.Controllers
                 var mdl = tempData.Select(p => new mdlWingMarkup_Air_Wraper
                 {
                     Id = p.Id,
-                    Applicability = p.Applicability,
-                    ServiceProviders = p.IsAllProvider ? "All" : string.Join(", ", p.tblFlightMarkupServiceProvider.Select(q => q.ServiceProvider.ToString())),
-                    CustomerTypes = p.IsAllCustomerType ? "All" : string.Join(", ", p.tblFlightMarkupCustomerType.Select(q => q.customerType.ToString())),
-                    PassengerType = p.IsAllPessengerType ? "All" : string.Join(", ", p.tblFlightMarkupPassengerType.Select(q => q.PassengerType.ToString())),
+                    Applicability = Convert.ToString( p.Applicability),
+                    ServiceProviders = p.IsAllProvider ? "All" : string.Join(", ", p.tblFlightMarkupServiceProvider.Select(q => Convert.ToString( q.ServiceProvider))),
+                    CustomerTypes = p.IsAllCustomerType ? "All" : string.Join(", ", p.tblFlightMarkupCustomerType.Select(q => Convert.ToString(q.customerType))),
+                    PassengerType = p.IsAllPessengerType ? "All" : string.Join(", ", p.tblFlightMarkupPassengerType.Select(q => Convert.ToString(q.PassengerType))),
                     Airline = p.IsAllAirline ? "All" : string.Join(", ", p.tblFlightMarkupAirline.Select(q => q.tblAirline.Code)),
                     CustomerCode = p.IsAllAirline ? "All" : "",
                     Segments = p.IsAllSegment ? "All" : string.Join(", ", p.tblFlightMarkupSegment.Select(q => string.Concat(q.orign, "-", q.destination))),
-                    CabinClass = p.IsAllFlightClass ? "All" : string.Join(", ", p.tblFlightMarkupFlightClass.Select(q => q.CabinClass.ToString())),
+                    CabinClass = p.IsAllFlightClass ? "All" : string.Join(", ", p.tblFlightMarkupFlightClass.Select(q => Convert.ToString(q.CabinClass))),
                     IsMLMIncentive = p.IsMLMIncentive,
-                    FlightType = p.FlightType,
+                    FlightType = Convert.ToString(p.FlightType),
                     IsPercentage = p.IsPercentage,
-                    Gender = p.Gender,
+                    Gender = Convert.ToString(p.Gender),
                     PercentageValue = p.PercentageValue,
                     Amount = p.Amount,
                     AmountCaping = p.AmountCaping,
@@ -1052,16 +1054,56 @@ namespace projAPI.Controllers
                     p.CreatedByName=  ModifiedByName.FirstOrDefault(q => q.Id == p.CreatedBy)?.Name;
 
                 });
-                return mdl;
+
+                returnData.MessageType = enmMessageType.Success;
+                returnData.ReturnId = mdl;
+                
 
             }
             catch (Exception ex)
             {
-                return null;
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
             }
+
+            return returnData;
 
         }
 
+
+        [HttpPost]
+        [Route("Markups/DeleteWingMarkup")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Markups) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteFlightBookingAlterMaster(mdlDeleteData mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+
+            try
+            {
+                var tempData = _travelContext.tblFlightMarkupMaster.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
+                if (tempData == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "No Data";
+                    return returnData;
+                }
+                tempData.IsDeleted = true;
+                tempData.DeletedBy = _IsrvCurrentUser.UserId;
+                tempData.DeletedDt = DateTime.Now;
+                tempData.DeletedRemarks =  mdl.Remarks;
+                _travelContext.tblFlightMarkupMaster.Update(tempData);
+                _travelContext.SaveChanges();
+                return returnData;
+
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
 
         //wing markup management end
         #endregion

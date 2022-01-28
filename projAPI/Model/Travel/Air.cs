@@ -691,7 +691,7 @@ namespace projAPI.Model.Travel
     public class mdlWingMarkup_Air_Wraper
     {
         public int Id { get; set; }
-        public enmFlightSearvices Applicability { get; set; }
+        public string Applicability { get; set; }
         //public bool IsAllProvider { get; set; }
         //public bool IsAllCustomerType { get; set; }
         //public bool IsAllCustomer { get; set; }
@@ -700,8 +700,8 @@ namespace projAPI.Model.Travel
         //public bool IsAllAirline { get; set; }
         //public bool IsAllSegment { get; set; }
         public bool IsMLMIncentive { get; set; }
-        public enmFlightType FlightType { get; set; }
-        public enmGender Gender { get; set; }
+        public string FlightType { get; set; }
+        public string Gender { get; set; }
         public bool IsPercentage { get; set; }
         public double PercentageValue { get; set; }
         public double Amount { get; set; }

@@ -30,6 +30,11 @@ namespace projAPI.Model
         public string Name { get; set; }
         public bool IsActive { get; set; }
     }
+    public class mdlDeleteData
+    {
+        public int Id { get; set; }
+        public string Remarks{ get; set; }
+    }
 
 
 }

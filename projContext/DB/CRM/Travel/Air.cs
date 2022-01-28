@@ -32,6 +32,10 @@ namespace projContext.DB.CRM.Travel
         public DateTime BookingFromDt { get; set; }
         public DateTime BookingToDt { get; set; }
         public bool IsDeleted { get; set; }
+        public ulong DeletedBy { get; set; }
+        public DateTime DeletedDt { get; set; }
+        [MaxLength(256)]
+        public string DeletedRemarks { get; set; }
     }
 
 

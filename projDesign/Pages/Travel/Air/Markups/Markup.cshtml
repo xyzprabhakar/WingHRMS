@@ -312,7 +312,7 @@
                                 <div class="form-group text-center">
                                     <input type="submit" class="btn btn-primary btn-lg" value="Save">
                                     <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                    <a href="FlightClassAlterReport" class="btn btn-primary btn-lg">Report</a>
+                                    <a href="MarkupReport" class="btn btn-primary btn-lg">Report</a>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -372,11 +372,14 @@
                     $("#txtPercentageCaping").parent().parent().show();
                     $("#txtAmount").parent().parent().hide();
                 }
-                else {
+            });
+            $("#chkMarkupPercentage_in_active").change(function () {
+                if (this.checked) {
                     $("#txtPercentageValue").parent().parent().hide();
                     $("#txtPercentageCaping").parent().parent().hide();
                     $("#txtAmount").parent().parent().show();
                 }
+                
             });
             var api = localStorage.getItem('baseUrl') + "air/GetAirline/true";
                 fetch(api, {

@@ -13,40 +13,97 @@
                             <h4> @ViewBag.Title </h4>
                             <hr />
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-2">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
+                                    <label class="col-form-label col-md-3">Filter Type</label>
+                                    <div class="col-md-8">
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input class="custom-control-input" id="chk_BookingDt" type="radio" value="true" name="chk_BookingDt" checked>
+                                                <label class="custom-control-label" for="chk_BookingDt">  On Booking Dt</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input class="custom-control-input" id="chk_TravelDt" type="radio" value="false" name="chk_TravelDt" >
+                                                <label class="custom-control-label" for="chk_TravelDt">  On Travel Dt</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <hr />
-                            <div class="table-responsive no-margin">
-                                <table id="dt_table1" class="table w-100 no-margin table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Sno</th>
-                                            <th>Cabin Class</th>
-                                            <th>Identifier</th>
-                                            <th>classOfBooking</th>
-                                            <th>Alter Details</th>
-                                            <th>Remarks</th>
-                                            <th>Modified By</th>
-                                            <th>Modified Dt</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                <div class="clear"></div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEffectiveFromDt">
+                                        <label class="col-form-label col-md-4" for="txtEffectiveFromDt">Effective From</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txtEffectiveFromDt" name="txtEffectiveFromDt"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control ip-ap" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtEffectiveToDt">
+                                        <label class="col-form-label col-md-4" for="txtEffectiveToDt">Effective To</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txtEffectiveToDt" name="txtEffectiveToDt"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control ip-ap" required>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="button" id="loadGridData" class="btn btn-primary btn-lg" value="Get Data">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                                <div class="table-responsive no-margin">
+                                    <table id="dt_table1" class="table w-100 no-margin table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Applicability</th>
+                                                <th>ServiceProviders</th>
+                                                <th>CustomerTypes</th>
+                                                <th>CustomerCode</th>
+                                                <th>PassengerType</th>
+                                                <th>Airline</th>
+                                                <th>Segments</th>
+                                                <th>CabinClass</th>
+                                                <th>IsMLMIncentive</th>
+                                                <th>FlightType</th>
+                                                <th>Gender</th>
+                                                <th>Is Percentage</th>
+                                                <th>Percentage Value</th>
+                                                <th>Amount Caping</th>
+                                                <th>Amount</th>
+                                                <th>Travel FromDt</th>
+                                                <th>Travel ToDt</th>
+                                                <th>Booking FromDt</th>
+                                                <th>Booking ToDt</th>
+                                                <th>Created By</th>
+                                                <th>Created Dt</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+
                         </div>
-
-
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -58,13 +115,25 @@
             let OrgId = localStorage.getItem("currentOrganisation");
             let token = localStorage.getItem('token');
             let headerss = new Headers();
+
+            $(".ip-ap").flatpickr({
+                dateFormat: "d-M-Y",
+            });
+
+            $("#txtEffectiveFromDt").val(GetDateFormatddMMyyyy(new Date()));
+            $("#txtEffectiveToDt").val(GetDateFormatddMMyyyy(new Date()));
+
             headerss.append("Authorization", 'Bearer ' + token);
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
             //bindcountry
             $("#loadGridData").click(function () {
                 $('#loader').show();
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/settings/getFlightBookingAlterMaster" ;
+                let chk_BookingDt = $("#chk_BookingDt").prop('checked');
+                let fromDt = $("#txtEffectiveFromDt").val();
+                let toDt = $("#txtEffectiveToDt").val();
+                
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/Markups/GetWingMarkup/" + chk_BookingDt + "/" + fromDt + "/" + toDt ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -93,7 +162,7 @@
                                     title: 'Company Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [0,1, 2, 3, 4, 5, 6, 7]
+                                        columns: [0,1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20]
                                     }
                                 },
                                 {
@@ -106,26 +175,28 @@
                             "aaData": data.returnId,
                             "columnDefs":
                                 [{
-                                    targets: [4],
+                                    targets: [8,11],
                                     "class": "text-center",
                                     render: function (data, type, row) {
-                                        let returndata = '';
-                                        for (var i in data) {
-                                            returndata = returndata + `<div class="col-md-12 mb-1" ><div class="col-md-4"><span class="badge badge-info">${data[i].item1}</span></div><div class="col-md-4"> <span class="badge badge-warning">Identifier : ${data[i].item2}</span></div><div class="col-md-4"> <span class="badge badge-success">CB : ${data[i].item3}</span></div></div>`;
-                                        }
-                                        return returndata ;
+                                        return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
                                         
                                     }
                                 }
                                     ,{
-                                        targets: [7],
+                                        targets: [15,16,17,18],
+                                        render: function (data, type, row) {
+                                            var date = new Date(data);
+                                            return GetDateFormatddMMyyyy(date);
+                                        }
+                                    }, {
+                                        targets: [20],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyyHHtt(date);
                                         }
                                     },
                                     {
-                                        targets: [8],
+                                        targets: [21],
                                         "class": "text-center",
                                         render: function (data, type, row) {
                                             return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
@@ -133,20 +204,31 @@
                                     }
                                 ],
                             "columns": [
-                                { "data": "sno", "name": "sno", "autoWidth": true },
+                                { "data": "applicability", "name": "applicability", "autoWidth": true },
+                                { "data": "serviceProviders", "name": "serviceProviders", "autoWidth": true },
+                                { "data": "customerTypes", "name": "customerTypes", "autoWidth": true },
+                                { "data": "customerCode", "name": "customerCode", "autoWidth": true },
+                                { "data": "passengerType", "name": "passengerType", "autoWidth": true },
+                                { "data": "airline", "name": "airline", "autoWidth": true },
+                                { "data": "segments", "name": "segments", "autoWidth": true },
                                 { "data": "cabinClass", "name": "cabinClass", "autoWidth": true },
-                                { "data": "identifier", "name": "identifier", "autoWidth": true },
-                                { "data": "classOfBooking", "name": "classOfBooking", "autoWidth": true },
-                                { "data": "alterDetails", "name": "alterDetails", "autoWidth": true },
-                                { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
-                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
-                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "alterId", "name": "alterId", "autoWidth": true }
+                                { "data": "isMLMIncentive", "name": "isMLMIncentive", "autoWidth": true },
+                                { "data": "flightType", "name": "flightType", "autoWidth": true },
+                                { "data": "gender", "name": "gender", "autoWidth": true },
+                                { "data": "isPercentage", "name": "isPercentage", "autoWidth": true },
+                                { "data": "percentageValue", "name": "percentageValue", "autoWidth": true },
+                                { "data": "amountCaping", "name": "amountCaping", "autoWidth": true },
+                                { "data": "amount", "name": "amount", "autoWidth": true },
+                                { "data": "travelFromDt", "name": "travelFromDt", "autoWidth": true },
+                                { "data": "travelToDt", "name": "travelToDt", "autoWidth": true },
+                                { "data": "bookingFromDt", "name": "bookingFromDt", "autoWidth": true },
+                                { "data": "bookingToDt", "name": "bookingToDt", "autoWidth": true },
+                                { "data": "createdByName", "name": "createdByName", "autoWidth": true },
+                                { "data": "createdDt", "name": "createdDt", "autoWidth": true },
+                                { "data": "id", "name": "id", "autoWidth": true }
                             ],
-                            "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
-                            'createdRow': function (row, data, dataIndex) {
-                                $('td:eq(4)', row).css('min-width', '200px');
-                            }
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                            
                         });
 
                         $('#loader').hide();
@@ -183,17 +265,14 @@
                         let remarks = $('input[name=txtDeletedRemarks]').val();
                         if (remarks !== undefined) {
                             $('#loader').show();
-                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteFlightBookingAlterMaster"
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/DeleteWingMarkup"
                             let Postheaderss = new Headers();
                             Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
                             Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
                             Postheaderss.append("Content-Type", "application/json; charset=utf-8");
                             var formdata = JSON.stringify({
-                                "AlterId": e.getAttribute("data-delete-id"),
+                                "Id": e.getAttribute("data-delete-id"),
                                 "Remarks": remarks,
-                                "ClassOfBooking": "Dummy",
-                                "CabinClass": 2,
-                                "Identifier":"Dummy"
                             });
                             fetch(Postapiurl, {
                                 method: "POST",
