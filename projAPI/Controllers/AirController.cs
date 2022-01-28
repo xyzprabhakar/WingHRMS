@@ -898,7 +898,7 @@ namespace projAPI.Controllers
                         {
                             string codes = mdl.CustomerIds[i].Item2;
                             mdl.CustomerIds.RemoveAt(i);
-                            mdl.CustomerIds.Insert(i, new Tuple<int?,string>(allCustomerList.FirstOrDefault(q => q.Code == mdl.CustomerIds[i].Item2)?.CustomerId, codes) ) ;
+                            mdl.CustomerIds.Insert(i, new Tuple<int?,string>(allCustomerList.FirstOrDefault(q => q.Code == mdl.CustomerIds[i].Item2)?.Id, codes) ) ;
                         }
                         if (CustomerList.Count() != mdl.CustomerIds.Count())
                         {
@@ -958,14 +958,19 @@ namespace projAPI.Controllers
                         BookingFromDt= mdl.BookingFromDt,
                         BookingToDt = mdl.BookingToDt,
                         IsDeleted=false,
-                        tblFlightMarkupServiceProvider=markupServiceProvider,
+                        RequestedBy=_IsrvCurrentUser.UserId,
+                        RequestedDt=DateTime.Now,
+                        ApprovedBy= _IsrvCurrentUser.UserId,
+                        ApprovedDt = DateTime.Now,
+                        ApprovalStatus= enmApprovalType.Approved,
+                        tblFlightMarkupServiceProvider =markupServiceProvider,
                         tblFlightMarkupCustomerType=markupCustomerType,
                         tblFlightMarkupCustomerDetails=markupCustomer,
                         tblFlightMarkupPassengerType=markupPassengerType,
                         tblFlightMarkupFlightClass=markupFlightClass,
                         tblFlightMarkupAirline=markupAirline,
                         tblFlightMarkupSegment=markupSegment
-
+                        
 
                     };
                     _travelContext.tblFlightMarkupMaster.Add(markupMaster);
@@ -989,14 +994,65 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("air/settings/GetWingMarkup")]
-        public List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId,
-            DateTime TravelDt, DateTime BookingDate)
+        
+        public List<mdlWingMarkup_Air_Wraper> GetWingMarkup([FromServices] IsrvUsers srvUsers, [FromServices] IsrvCustomer srvCustomer, bool FilterBookingDt, DateTime FromDt, DateTime ToDt, int OrgId)
         {
             try
             {
+                IQueryable<tblFlightMarkupMaster> tempData = FilterBookingDt ?
+                _travelContext.tblFlightMarkupMaster.Where(p=> 
+                !p.IsDeleted &&
+                ((p.BookingFromDt>= FromDt && p.BookingFromDt<= ToDt) ||
+                (p.BookingToDt >= FromDt && p.BookingToDt <= ToDt) ||
+                (p.BookingFromDt<=FromDt && p.BookingToDt >= FromDt))
+                ) :
+                _travelContext.tblFlightMarkupMaster.Where(p =>
+                !p.IsDeleted &&
+                ((p.TravelFromDt >= FromDt && p.TravelFromDt <= ToDt) ||
+                (p.TravelToDt >= FromDt && p.TravelToDt <= ToDt) ||
+                (p.TravelFromDt <= FromDt && p.TravelToDt >= FromDt))
+                );
 
-                var tempData = _IsrvAir.GetWingMarkup(OnlyActive, FilterDateCriteria, CustomerType, customerId,TravelDt, BookingDate);
-                return tempData;
+                var mdl = tempData.Select(p => new mdlWingMarkup_Air_Wraper
+                {
+                    Id = p.Id,
+                    Applicability = p.Applicability,
+                    ServiceProviders = p.IsAllProvider ? "All" : string.Join(", ", p.tblFlightMarkupServiceProvider.Select(q => q.ServiceProvider.ToString())),
+                    CustomerTypes = p.IsAllCustomerType ? "All" : string.Join(", ", p.tblFlightMarkupCustomerType.Select(q => q.customerType.ToString())),
+                    PassengerType = p.IsAllPessengerType ? "All" : string.Join(", ", p.tblFlightMarkupPassengerType.Select(q => q.PassengerType.ToString())),
+                    Airline = p.IsAllAirline ? "All" : string.Join(", ", p.tblFlightMarkupAirline.Select(q => q.tblAirline.Code)),
+                    CustomerCode = p.IsAllAirline ? "All" : "",
+                    Segments = p.IsAllSegment ? "All" : string.Join(", ", p.tblFlightMarkupSegment.Select(q => string.Concat(q.orign, "-", q.destination))),
+                    CabinClass = p.IsAllFlightClass ? "All" : string.Join(", ", p.tblFlightMarkupFlightClass.Select(q => q.CabinClass.ToString())),
+                    IsMLMIncentive = p.IsMLMIncentive,
+                    FlightType = p.FlightType,
+                    IsPercentage = p.IsPercentage,
+                    Gender = p.Gender,
+                    PercentageValue = p.PercentageValue,
+                    Amount = p.Amount,
+                    AmountCaping = p.AmountCaping,
+                    TravelFromDt = p.TravelFromDt,
+                    TravelToDt = p.TravelToDt,
+                    BookingFromDt = p.BookingFromDt,
+                    BookingToDt = p.BookingToDt,
+                    IsDeleted = p.IsDeleted,
+                    CustomerId = p.tblFlightMarkupCustomerDetails.Select(q => q.CustomerId??0).ToList(),
+                    CreatedBy=p.RequestedBy,
+                    CreatedDt=p.RequestedDt??DateTime.Now
+                }).ToList();
+                List<int>CustomerId=mdl.SelectMany(p => p.CustomerId).Distinct().ToList();
+                ulong [] UserId = mdl.Select(p => p.CreatedBy).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(UserId);
+                var CustomerName = srvCustomer.GetCustomers(OrgId, CustomerId);
+                mdl.ForEach(p => {
+                    if (p.CustomerCode== "")
+                    {
+                        p.CustomerCode = string.Join(", ", CustomerName.Where(q => p.CustomerId.Contains(q.Id)).Select(q => q.Code));
+                    }
+                    p.CreatedByName=  ModifiedByName.FirstOrDefault(q => q.Id == p.CreatedBy)?.Name;
+
+                });
+                return mdl;
 
             }
             catch (Exception ex)

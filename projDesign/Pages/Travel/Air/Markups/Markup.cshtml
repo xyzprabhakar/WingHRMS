@@ -340,8 +340,8 @@
                 dateFormat: "d-M-Y",
             });
 
-            $("#txtPercentageValue").hide();
-            $("#txtPercentageCaping").hide();
+            $("#txtPercentageValue").parent().parent().hide();
+            $("#txtPercentageCaping").parent().parent().hide();
             let OrgId = localStorage.getItem("currentOrganisation");
             let token = localStorage.getItem('token');
             let headerss = new Headers();
@@ -368,14 +368,14 @@
             });
             $("#chkMarkupPercentage_active").change(function () {
                 if (this.checked) {
-                    $("#txtPercentageValue").show();
-                    $("#txtPercentageCaping").show();
-                    $("#txtAmount").hide();
+                    $("#txtPercentageValue").parent().parent().show();
+                    $("#txtPercentageCaping").parent().parent().show();
+                    $("#txtAmount").parent().parent().hide();
                 }
                 else {
-                    $("#txtPercentageValue").hide();
-                    $("#txtPercentageCaping").hide();
-                    $("#txtAmount").show();
+                    $("#txtPercentageValue").parent().parent().hide();
+                    $("#txtPercentageCaping").parent().parent().hide();
+                    $("#txtAmount").parent().parent().show();
                 }
             });
             var api = localStorage.getItem('baseUrl') + "air/GetAirline/true";

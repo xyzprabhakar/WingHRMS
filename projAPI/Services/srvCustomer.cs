@@ -16,7 +16,8 @@ namespace projAPI.Services
         bool CustomerContactNoExists(string ContactNo, int Customerid, int OrgId);
         bool CustomerEmailExists(string Email, int Customerid, int OrgId);
         tblCustomerMaster GetCustomer(int OrgId, string CustomerCode);
-        List<tblCustomerMaster> GetCustomers(int OrgId, List<string> CustomerCodes);
+        List<mdlCommonReturn> GetCustomers(int OrgId, List<string> CustomerCodes);
+        List<mdlCommonReturn> GetCustomers(int OrgId, List<int> CustomerId);
         mdlReturnData SetCustomerMaster(mdlCustomer mdl, ulong UserId);
     }
 
@@ -55,18 +56,36 @@ namespace projAPI.Services
             return Data;
         }
 
-        public List<tblCustomerMaster> GetCustomers(int OrgId, List<string> CustomerCodes)
+        public List<mdlCommonReturn> GetCustomers(int OrgId, List<string> CustomerCodes)
         {
             if (CustomerCodes == null)
             {
-                return new List<tblCustomerMaster>();
+                return new List<mdlCommonReturn>();
             }
             if (CustomerCodes.Count == 0)
             {
-                return new List<tblCustomerMaster>();
+                return new List<mdlCommonReturn>();
             }
             DateTime currentDate = DateTime.Now;
-            var Data = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId && CustomerCodes.Contains( p.Code)).ToList();
+            var Data = _crmContext.tblCustomerMaster.Where(p => p.OrgId == OrgId && CustomerCodes.Contains(p.Code)).
+                Select(p => new mdlCommonReturn { Id = p.CustomerId, Code = p.Code, Name = p.Name, IsActive = p.IsActive }).ToList();
+            return Data;
+        }
+
+        public List<mdlCommonReturn> GetCustomers(int OrgId, List<int> CustomerId)
+        {
+            
+            if (CustomerId == null)
+            {
+                return new List<mdlCommonReturn>();
+            }
+            if (CustomerId.Count == 0)
+            {
+                return new List<mdlCommonReturn>();
+            }
+            DateTime currentDate = DateTime.Now;
+            var Data = _crmContext.tblCustomerMaster.Where(p =>  p.OrgId == OrgId && CustomerId.Contains(p.CustomerId)).
+                Select(p=>new  mdlCommonReturn{ Id=p.CustomerId, Code=p.Code, Name=p.Name,IsActive=p.IsActive }).ToList();
             return Data;
         }
 
