@@ -11,11 +11,8 @@ $(document).ready(function () {
         if (token == null) {
             window.location = '/Login';
         }
-
-
         empid = CryptoJS.AES.decrypt(localStorage.getItem("emp_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
         company_id = CryptoJS.AES.decrypt(localStorage.getItem("company_id"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; });
-
 
         if (localStorage.getItem("new_compangy_idd") != null) {
             BindAllEmp_Company('ddlCompany', empid, CryptoJS.AES.decrypt(localStorage.getItem("new_compangy_idd"), localStorage.getItem("sit_id")).toString(CryptoJS.enc.Utf8).replace(/[\'\"]/g, function (m) { return m === "'" ? '' : ''; }));
@@ -75,7 +72,6 @@ $(document).ready(function () {
 function showEmployeementType(emp_idd) {
     if (emp_idd > 0) {
         $.ajax({
-
             url: localStorage.getItem("ApiUrl") + "/apiEmployee/GetEmployeement_Type_Master/" + emp_idd,
             type: "GET",
             contentType: 'application/json',
@@ -89,6 +85,7 @@ function showEmployeementType(emp_idd) {
                     messageBox("info", response.message);
                     return false;
                 }
+                
 
                 $("#tblemptypemaster").DataTable({
                     "processing": false,//for show progress bar
@@ -196,7 +193,7 @@ function showEmployeementType(emp_idd) {
                     "lengthMenu": [[10, 50, -1], [10, 50, "All"]]
                 });
 
-
+                
                 $("#tblemptypedtl").DataTable({
                     "processing": false,//for show progress bar
                     "serverSide": false,//for process server side
