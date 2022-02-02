@@ -138,7 +138,9 @@ namespace projAPI.Services
                 DistributorId = tempData.DistributorId,
                 CustomerId = tempData.CustomerId,
                 UserType = tempData.UserType,
-                OrgId = tempData.OrgId
+                OrgId = tempData.OrgId,
+                Email= tempData.Email,
+                PhoneNumber = tempData.PhoneNumber
             };
             return ReturnData;
         }

@@ -175,6 +175,8 @@ namespace projAPI.Controllers
                 {
                     UserId = UserId,
                     NormalizedName = tempDataValidate.ReturnId.NormalizedName,
+                    Email = tempDataValidate.ReturnId.Email,
+                    PhoneNumber = tempDataValidate.ReturnId.PhoneNumber,
                     EmpId = EmpId,
                     CustomerId = CustomerId,
                     DistributorId = DistributorId,
