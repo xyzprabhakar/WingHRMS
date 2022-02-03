@@ -688,7 +688,42 @@ namespace projAPI.Model.Travel
 
 
     #region *************************** Customer Markup ********************
-    
+    public class mdlWingMarkup_Air_Wraper
+    {
+        public int Id { get; set; }
+        public string Applicability { get; set; }
+        //public bool IsAllProvider { get; set; }
+        //public bool IsAllCustomerType { get; set; }
+        //public bool IsAllCustomer { get; set; }
+        //public bool IsAllPessengerType { get; set; }//Applicable For All Pasenger
+        //public bool IsAllFlightClass { get; set; }
+        //public bool IsAllAirline { get; set; }
+        //public bool IsAllSegment { get; set; }
+        public bool IsMLMIncentive { get; set; }
+        public string FlightType { get; set; }
+        public string Gender { get; set; }
+        public bool IsPercentage { get; set; }
+        public double PercentageValue { get; set; }
+        public double Amount { get; set; }
+        public double AmountCaping { get; set; }
+        public DateTime TravelFromDt { get; set; } = DateTime.Now;
+        public DateTime TravelToDt { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime BookingFromDt { get; set; } = DateTime.Now.AddDays(30);
+        public DateTime BookingToDt { get; set; } = DateTime.Now.AddDays(60);
+        public bool IsDeleted { get; set; }
+        public string ServiceProviders { get; set; }
+        public string CustomerTypes { get; set; }
+        public List<int> CustomerId { get; set; }
+        public string CustomerCode { get; set; }
+        public string PassengerType { get; set; }
+        public string Airline { get; set; }
+        public string Segments { get; set; }
+        public string CabinClass { get; set; }
+        public ulong CreatedBy { get; set; }
+        public string CreatedByName { get; set; }
+        public DateTime CreatedDt { get; set; }
+    }
+
     public class mdlWingMarkup_Air 
     {
         public int Id { get; set; }

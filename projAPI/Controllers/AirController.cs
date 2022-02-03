@@ -347,6 +347,15 @@ namespace projAPI.Controllers
 
 
 
+        [AllowAnonymous]
+        [Route("GetAirline/{onlyActive}")]
+        public mdlReturnData GetAirline(bool onlyActive)
+        {
+            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdl.ReturnId = onlyActive ? _travelContext.tblAirline.Where(p => p.IsActive).Select(p => new { p.Id, p.Code, p.Name }).OrderBy(p => p.Code).ThenBy(p => p.Name) : _travelContext.tblAirline.Select(p => new { p.Id, p.Code, p.Name }).OrderBy(p=>p.Code).ThenBy(p=>p.Name); 
+            return mdl;
+        }
+
         #region ************************ Flight Booking ******************************
 
         [HttpPost]
@@ -911,47 +920,346 @@ namespace projAPI.Controllers
         //customer markup management end
         #endregion
 
-        #region **********wing markup*********
-        //wing markup  management start
-        //[HttpPost]
-        //[Route("air/settings/SetCustomerMarkup")]
-        //public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, ulong UserId, int CustomerId, int Nid, string Remarks)
-        //{
-        //    mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-        //    try
-        //    {
-        //        var tempData = _IsrvAir.SetCustomerMarkup(MarkupAmount, EffectiveFromDt, EffectiveToDt, UserId, CustomerId, Nid, Remarks);
-        //        return tempData;
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        mdl.MessageType = enmMessageType.Error;
-        //        mdl.Message = ex.Message;
-        //        return mdl;
-        //    }
-
-        //}
-
-        [HttpGet]
-        [Route("air/settings/GetWingMarkup")]
-        public List<mdlWingMarkup_Air> GetWingMarkup(bool OnlyActive, bool FilterDateCriteria, enmCustomerType CustomerType, int customerId,
-            DateTime TravelDt, DateTime BookingDate)
+        public mdlReturnData ValidateBasicMarkup(mdlWingMarkup_Air mdl)
         {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.None};
+            if (mdl.TravelFromDt > mdl.TravelToDt)
+            {
+                returnData.Message = returnData.Message+ ", TravelFrom date should be less then TravelToDt ";
+                returnData.MessageType = enmMessageType.Error;
+            }
+            if (mdl.BookingFromDt > mdl.BookingToDt)
+            {
+                returnData.Message = returnData.Message + ", BookingFromDt date should be less then BookingToDt";
+                returnData.MessageType = enmMessageType.Error;
+            }
+            if (mdl.BookingFromDt > mdl.TravelFromDt)
+            {
+                returnData.Message = returnData.Message + ", BookingFromDt date should be less then TravelFromDt";
+                returnData.MessageType = enmMessageType.Error;
+            }
+            if (!mdl.IsAllCustomerType)
+            {
+                if (!mdl.IsAllCustomer)
+                {
+                    returnData.Message = returnData.Message + ", select All Customer Type";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllProvider)
+            {
+                if ((mdl.ServiceProviders?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Providers";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllCustomerType)
+            {
+                if ((mdl.CustomerTypes?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Customer Types";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllCustomer)
+            {
+                if ((mdl.CustomerIds?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Customer";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllPessengerType)
+            {
+                if ((mdl.PassengerType?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Passenger Type";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllFlightClass)
+            {
+                if ((mdl.CabinClass?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Cabin class";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllAirline)
+            {
+                if ((mdl.Airline?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Airline";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            if (!mdl.IsAllSegment)
+            {
+                if ((mdl.Segments?.Count() ?? 0) == 0)
+                {
+                    returnData.Message = returnData.Message + ", Select Segments";
+                    returnData.MessageType = enmMessageType.Error;
+                }
+            }
+            returnData.MessageType = enmMessageType.Success;
+            return returnData;
+        }
+
+        #region **********wing markup*********
+        [HttpPost]
+        [Route("Markups/SetMarkup")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Markups) + nameof(enmDocumentType.Create))]
+        public mdlReturnData SetMarkup([FromServices]IsrvCustomer isrvCustomer ,mdlWingMarkup_Air mdl,[FromHeader]int OrgId)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            if (!ModelState.IsValid)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p => p.ErrorMessage));
+                return returnData;
+            }
+            returnData = ValidateBasicMarkup(mdl);
+            if (returnData.MessageType == enmMessageType.Error)
+            {
+                return returnData;
+            }
+
             try
             {
+                
+                {
+                    List<tblFlightMarkupServiceProvider> markupServiceProvider = null;
+                    List<tblFlightMarkupCustomerType> markupCustomerType = null;
+                    List<tblFlightMarkupCustomerDetails> markupCustomer = null;
+                    List<tblFlightMarkupPassengerType> markupPassengerType = null;
+                    List<tblFlightMarkupFlightClass> markupFlightClass = null;
+                    List<tblFlightMarkupAirline> markupAirline = null;
+                    List<tblFlightMarkupSegment> markupSegment = null;
+                    if (!mdl.IsAllProvider)
+                    {
+                        markupServiceProvider = new List<tblFlightMarkupServiceProvider>();
+                        markupServiceProvider.AddRange(mdl.ServiceProviders.Select(p => new tblFlightMarkupServiceProvider {ServiceProvider=p }));
+                    }
+                    if (!mdl.IsAllCustomerType)
+                    {
+                        markupCustomerType = new List<tblFlightMarkupCustomerType>();
+                        markupCustomerType.AddRange(mdl.CustomerTypes.Select(p => new tblFlightMarkupCustomerType { customerType = p }));
+                    }
+                    if (!mdl.IsAllCustomer)
+                    {
+                        var CustomerList= mdl.CustomerIds.Select(p => p.Item2).Distinct().ToList();
+                        var allCustomerList = isrvCustomer.GetCustomers(OrgId, CustomerList);
+                        for (int i = 0; i < mdl.CustomerIds.Count(); i++)
+                        {
+                            string codes = mdl.CustomerIds[i].Item2;
+                            mdl.CustomerIds.RemoveAt(i);
+                            mdl.CustomerIds.Insert(i, new Tuple<int?,string>(allCustomerList.FirstOrDefault(q => q.Code == mdl.CustomerIds[i].Item2)?.Id, codes) ) ;
+                        }
+                        if (CustomerList.Count() != mdl.CustomerIds.Count())
+                        {
+                            returnData.Message = "Duplicate Customer Ids";
+                            returnData.MessageType = enmMessageType.Error;
+                            return returnData;
+                        }
+                        if (mdl.CustomerIds.Any(p => p.Item1 == null))
+                        {
+                            returnData.Message = "Invalid Customer "+string.Concat(", "+ mdl.CustomerIds.Select(p=>p.Item2));
+                            returnData.MessageType = enmMessageType.Error;
+                            return returnData;
+                        }
+                        markupCustomer = new List<tblFlightMarkupCustomerDetails>();
+                        markupCustomer.AddRange(mdl.CustomerIds.Select(p => new tblFlightMarkupCustomerDetails { CustomerId = p.Item1 }));
+                    }
+                    if (!mdl.IsAllPessengerType)
+                    {
+                        markupPassengerType = new List<tblFlightMarkupPassengerType>();
+                        markupPassengerType.AddRange(mdl.PassengerType.Select(p => new tblFlightMarkupPassengerType { PassengerType = p }));
+                    }
+                    if (!mdl.IsAllFlightClass)
+                    {
+                        markupFlightClass = new List<tblFlightMarkupFlightClass>();
+                        markupFlightClass.AddRange(mdl.CabinClass.Select(p => new tblFlightMarkupFlightClass { CabinClass= p }));
+                    }
+                    if (!mdl.IsAllAirline)
+                    {
+                        markupAirline= new List<tblFlightMarkupAirline>();
+                        markupAirline.AddRange(mdl.Airline.Select(p => new tblFlightMarkupAirline { AirlineId = p.Item1 }));
+                    }
+                    if (!mdl.IsAllSegment)
+                    {
+                        markupSegment = new List<tblFlightMarkupSegment>();
+                        markupSegment.AddRange(mdl.Segments.Select(p => new tblFlightMarkupSegment { orign=p.Item1, destination = p.Item2 }));
+                    }
 
-                var tempData = _IsrvAir.GetWingMarkup(OnlyActive, FilterDateCriteria, CustomerType, customerId,TravelDt, BookingDate);
-                return tempData;
+
+                    tblFlightMarkupMaster markupMaster = new tblFlightMarkupMaster() {
+                        Applicability= mdl.Applicability,
+                        IsAllProvider=mdl.IsAllProvider,
+                        IsAllCustomerType=mdl.IsAllCustomerType,
+                        IsAllCustomer=mdl.IsAllCustomer,
+                        IsAllPessengerType=mdl.IsAllPessengerType,
+                        IsAllFlightClass=mdl.IsAllFlightClass,
+                        IsAllAirline=mdl.IsAllAirline,
+                        IsMLMIncentive= mdl.IsMLMIncentive,//only acceptable in Markup not in ( Convienve and Discount)
+                        IsAllSegment=mdl.IsAllSegment,
+                        FlightType=mdl.FlightType,
+                        Gender=mdl.Gender,
+                        IsPercentage=mdl.IsPercentage,
+                        PercentageValue=mdl.PercentageValue,
+                        Amount=mdl.Amount,
+                        AmountCaping=mdl.AmountCaping,
+                        TravelFromDt=mdl.TravelFromDt,
+                        TravelToDt= mdl.TravelToDt,
+                        BookingFromDt= mdl.BookingFromDt,
+                        BookingToDt = mdl.BookingToDt,
+                        IsDeleted=false,
+                        RequestedBy=_IsrvCurrentUser.UserId,
+                        RequestedDt=DateTime.Now,
+                        ApprovedBy= _IsrvCurrentUser.UserId,
+                        ApprovedDt = DateTime.Now,
+                        ApprovalStatus= enmApprovalType.Approved,
+                        tblFlightMarkupServiceProvider =markupServiceProvider,
+                        tblFlightMarkupCustomerType=markupCustomerType,
+                        tblFlightMarkupCustomerDetails=markupCustomer,
+                        tblFlightMarkupPassengerType=markupPassengerType,
+                        tblFlightMarkupFlightClass=markupFlightClass,
+                        tblFlightMarkupAirline=markupAirline,
+                        tblFlightMarkupSegment=markupSegment
+                        
+
+                    };
+                    _travelContext.tblFlightMarkupMaster.Add(markupMaster);
+                    _travelContext.SaveChanges();
+                }
+
+                returnData.MessageType = enmMessageType.Success;
+                returnData.Message = "Save successfully";
+                
+                return returnData;
 
             }
             catch (Exception ex)
             {
-                return null;
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
             }
 
         }
 
+        [HttpGet]
+        [Route("Markups/GetWingMarkup/{FilterBookingDt}/{FromDt}/{ToDt}")]
+        public mdlReturnData GetWingMarkup([FromServices] IsrvUsers srvUsers, [FromServices] IsrvCustomer srvCustomer, 
+            bool FilterBookingDt, DateTime FromDt, DateTime ToDt, [FromHeader]int OrgId)
+        {
+            mdlReturnData returnData = new mdlReturnData() {MessageType=enmMessageType.Info };
+            try
+            {
+                IQueryable<tblFlightMarkupMaster> tempData = FilterBookingDt ?
+                _travelContext.tblFlightMarkupMaster.Where(p=> 
+                !p.IsDeleted &&
+                ((p.BookingFromDt>= FromDt && p.BookingFromDt<= ToDt) ||
+                (p.BookingToDt >= FromDt && p.BookingToDt <= ToDt) ||
+                (p.BookingFromDt<=FromDt && p.BookingToDt >= FromDt))
+                ) :
+                _travelContext.tblFlightMarkupMaster.Where(p =>
+                !p.IsDeleted &&
+                ((p.TravelFromDt >= FromDt && p.TravelFromDt <= ToDt) ||
+                (p.TravelToDt >= FromDt && p.TravelToDt <= ToDt) ||
+                (p.TravelFromDt <= FromDt && p.TravelToDt >= FromDt))
+                );
+
+                var mdl = tempData.Select(p => new mdlWingMarkup_Air_Wraper
+                {
+                    Id = p.Id,
+                    Applicability = Convert.ToString( p.Applicability),
+                    ServiceProviders = p.IsAllProvider ? "All" : string.Join(", ", p.tblFlightMarkupServiceProvider.Select(q => Convert.ToString( q.ServiceProvider))),
+                    CustomerTypes = p.IsAllCustomerType ? "All" : string.Join(", ", p.tblFlightMarkupCustomerType.Select(q => Convert.ToString(q.customerType))),
+                    PassengerType = p.IsAllPessengerType ? "All" : string.Join(", ", p.tblFlightMarkupPassengerType.Select(q => Convert.ToString(q.PassengerType))),
+                    Airline = p.IsAllAirline ? "All" : string.Join(", ", p.tblFlightMarkupAirline.Select(q => q.tblAirline.Code)),
+                    CustomerCode = p.IsAllAirline ? "All" : "",
+                    Segments = p.IsAllSegment ? "All" : string.Join(", ", p.tblFlightMarkupSegment.Select(q => string.Concat(q.orign, "-", q.destination))),
+                    CabinClass = p.IsAllFlightClass ? "All" : string.Join(", ", p.tblFlightMarkupFlightClass.Select(q => Convert.ToString(q.CabinClass))),
+                    IsMLMIncentive = p.IsMLMIncentive,
+                    FlightType = Convert.ToString(p.FlightType),
+                    IsPercentage = p.IsPercentage,
+                    Gender = Convert.ToString(p.Gender),
+                    PercentageValue = p.PercentageValue,
+                    Amount = p.Amount,
+                    AmountCaping = p.AmountCaping,
+                    TravelFromDt = p.TravelFromDt,
+                    TravelToDt = p.TravelToDt,
+                    BookingFromDt = p.BookingFromDt,
+                    BookingToDt = p.BookingToDt,
+                    IsDeleted = p.IsDeleted,
+                    CustomerId = p.tblFlightMarkupCustomerDetails.Select(q => q.CustomerId??0).ToList(),
+                    CreatedBy=p.RequestedBy,
+                    CreatedDt=p.RequestedDt??DateTime.Now
+                }).ToList();
+                List<int>CustomerId=mdl.SelectMany(p => p.CustomerId).Distinct().ToList();
+                ulong [] UserId = mdl.Select(p => p.CreatedBy).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(UserId);
+                var CustomerName = srvCustomer.GetCustomers(OrgId, CustomerId);
+                mdl.ForEach(p => {
+                    if (p.CustomerCode== "")
+                    {
+                        p.CustomerCode = string.Join(", ", CustomerName.Where(q => p.CustomerId.Contains(q.Id)).Select(q => q.Code));
+                    }
+                    p.CreatedByName=  ModifiedByName.FirstOrDefault(q => q.Id == p.CreatedBy)?.Name;
+
+                });
+
+                returnData.MessageType = enmMessageType.Success;
+                returnData.ReturnId = mdl;
+                
+
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+            }
+
+            return returnData;
+
+        }
+
+
+        [HttpPost]
+        [Route("Markups/DeleteWingMarkup")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Markups) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteFlightBookingAlterMaster(mdlDeleteData mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+
+            try
+            {
+                var tempData = _travelContext.tblFlightMarkupMaster.Where(p => p.Id == mdl.Id && !p.IsDeleted).FirstOrDefault();
+                if (tempData == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "No Data";
+                    return returnData;
+                }
+                tempData.IsDeleted = true;
+                tempData.DeletedBy = _IsrvCurrentUser.UserId;
+                tempData.DeletedDt = DateTime.Now;
+                tempData.DeletedRemarks =  mdl.Remarks;
+                _travelContext.tblFlightMarkupMaster.Update(tempData);
+                _travelContext.SaveChanges();
+                return returnData;
+
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
 
         //wing markup management end
         #endregion

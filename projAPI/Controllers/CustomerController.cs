@@ -57,15 +57,31 @@ namespace projAPI.Controllers
             if (_srvCustomers.CustomerEmailExists(txtEmail, CustomerId, OrgId))
             {
                 return false;
-                returnData.MessageType = enmMessageType.Error;
-                returnData.Message = "Email already exist";
             }
             else
             {
                 return true;
-                returnData.MessageType = enmMessageType.Success;
+                
             }
             //return returnData;
+        }
+        [HttpGet]
+        [Route("CheckCustomerCode")]
+        public bool CheckCustomerCode([FromServices] IsrvMasters _srvMasters, int OrgId
+            , string txtEmail, string txtCustomerCodes)
+        {
+            mdlReturnData returnData = new mdlReturnData();
+            var customer=txtCustomerCodes.Split(",").ToList();
+            var cst = _srvCustomers.GetCustomers(OrgId, customer);
+            foreach (var c in customer)
+            {
+                if (!cst.Any(p => p.Code.Trim().ToLower() == c.Trim().ToLower()))
+                {
+                    return false;
+                }
+                    
+            }
+            return true;
         }
         [HttpGet]
         [Route("CheckContact")]

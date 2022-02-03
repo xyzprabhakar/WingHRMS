@@ -32,6 +32,10 @@ namespace projContext.DB.CRM.Travel
         public DateTime BookingFromDt { get; set; }
         public DateTime BookingToDt { get; set; }
         public bool IsDeleted { get; set; }
+        public ulong DeletedBy { get; set; }
+        public DateTime DeletedDt { get; set; }
+        [MaxLength(256)]
+        public string DeletedRemarks { get; set; }
     }
 
 
@@ -59,11 +63,7 @@ namespace projContext.DB.CRM.Travel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public virtual int? ChargeId { get; set; }
-        [ForeignKey("tblCustomerMaster")] // Foreign Key here
         public  int? CustomerId { get; set; }
-        public tblCustomerOrganisation tblCustomerMaster { get; set; }
-        
-
     }
 
     public class DbWingPassengerType
