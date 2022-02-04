@@ -39,30 +39,45 @@ namespace projAPI.Services
 
         public string GetClientIP(IHttpContextAccessor httpContext)
         {
-            string ip = Convert.ToString(httpContext.HttpContext.Connection.RemoteIpAddress);
-            if (ip == "::1")
+            try
             {
-                var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
-                if (addressList.Length > 1)
+                string ip = Convert.ToString(httpContext.HttpContext.Connection.RemoteIpAddress);
+                if (ip == "::1")
                 {
-                    return Convert.ToString(addressList[1]);
-                }
-                else if (addressList.Length > 0)
-                {
-                    return Convert.ToString(addressList[0]);
-                }
+                    var addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+                    if (addressList.Length > 1)
+                    {
+                        return Convert.ToString(addressList[1]);
+                    }
+                    else if (addressList.Length > 0)
+                    {
+                        return Convert.ToString(addressList[0]);
+                    }
 
-                return ip;
+                    return ip;
+                }
+                else
+                {
+                    return ip;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return ip;
+                return "";
             }
         }
 
         public string GetDeviceDetails(string IP)
         {
-            return Dns.GetHostEntry(IP).HostName;
+            try
+            {
+                return Dns.GetHostEntry(IP).HostName;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+            
         }
 
         public string GetSettings(string SettingGroup, string SettingName)

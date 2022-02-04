@@ -35,11 +35,24 @@ namespace projAPI.Controllers
         public mdlReturnData GetTempUser([FromServices] IHttpContextAccessor httpContext)
         {
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Error };
-            string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
-            string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);
-            var TempUserID =_IsrvUsers.GenrateTempUser(_DeviceId,_DeviceId);
-            mdl.ReturnId = new { TempUserId = TempUserID };
-            return mdl;
+            if (httpContext == null)
+            {
+                mdl.Message= "httpcontext is null";
+            }
+            try
+            {
+                string _RemoteIpAddress = _IsrvSettings.GetClientIP(httpContext);
+                string _DeviceId = _IsrvSettings.GetDeviceDetails(_RemoteIpAddress);
+                var TempUserID = _IsrvUsers.GenrateTempUser(_DeviceId, _DeviceId);
+                mdl.ReturnId = new { TempUserId = TempUserID };
+                return mdl;
+            }
+            catch (Exception ex)
+            {
+                mdl.Message= ex.Message;
+                return mdl;
+            }
+            
         }
 
         
