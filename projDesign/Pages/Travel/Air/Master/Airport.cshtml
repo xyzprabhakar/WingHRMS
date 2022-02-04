@@ -1,0 +1,269 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200111";
+    ViewData["Title"] = "AirPort";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+                            <input type="hidden" id="Id" name="Id" value="0" />
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtairportCode">Airport Code</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtairportCode" name="txtairportCode"
+                                                   maxlength="16" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtairportName">Airport Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtairportName" name="txtairportName"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtGenerlizedName">Generlized Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtGenerlizedName" name="txtGenerlizedName"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtRemarks">
+                                        <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtRemarks" name="txtRemarks"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Status</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active" type="radio" value="true" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_active">  Active</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active" type="radio" value="false" name="chkstatus">
+                                                    <label class="custom-control-label" for="is_in_active">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                        <a href="FareClassReport" class="btn btn-primary btn-lg">Report</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        
+
+        $(document).ready(function () {
+
+            $('#loader').show();
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            let bookingclassid_ = getUrlVars()["bookingclassid"];
+            if (bookingclassid_ == null || bookingclassid_ == '' || bookingclassid_ == undefined) {
+                $("#lblBookingClassId").val("0");
+                $('#loader').hide();
+            } else {
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCode/" + bookingclassid_ ;
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        console.log(data.returnId);
+                        $("#lblBookingClassId").val(data.returnId.bookingClassId);
+                        $("#txtairportCode").val(data.returnId.bookingClassCode);
+                        $("#txtairportName").val(data.returnId.name);
+                        $("#txtGenerlizedName").val(data.returnId.generlizedName);
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        if (data.returnId.isActive) {
+
+                            $("#is_active").prop("checked", true);
+                            $("#is_in_active").prop("checked", false);
+                        }
+                        else {
+                            $("#is_active").prop("checked", false);
+                            $("#is_in_active").prop("checked", true);
+                        }
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
+            }
+
+
+
+            
+            
+            $("#frmOrganisation").validate({
+                onkeyup: false,
+                rules: {
+                    txtairportCode: {
+                        remote: {
+                            url: localStorage.getItem('baseUrl') + "air/Master/CheckAirFareCode",
+                            method: "get",
+                            headers: { "Authorization": 'Bearer ' + token },
+                            data: {
+                                BookingClassId: function () { return $("#lblBookingClassId").val() },
+                                OrgId: function () { return OrgId }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                                return false;
+                            }
+                        }
+                    },
+                },
+                messages: {
+                    txtairportCode: {
+                        required: "Required",
+                        email: "Enter valid code",
+                        remote: "code already in use. Please use other code"
+                    },
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();                    
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirFareCode"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
+                    Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+
+                    let IsActive
+                    if ($("#is_active").is(":checked")) {
+                        IsActive=true;
+                    }
+                    else {
+                        IsActive =false;
+                    }
+
+                    var formdata = JSON.stringify({
+                        "BookingClassId": $("#lblBookingClassId").val(),
+                        "BookingClassCode": $("#txtairportCode").val(),
+                        "Name": $("#txtairportName").val(),
+                        "GenerlizedName": $("#txtGenerlizedName").val(),
+                        "ModifyRemarks": $("#txtRemarks").val(),
+                        "IsActive": IsActive ,
+                    });
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,                        
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                            
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+    </script>
+}
+        
+

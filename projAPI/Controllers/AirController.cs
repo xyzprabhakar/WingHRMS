@@ -31,7 +31,7 @@ namespace projAPI.Controllers
             _travelContext = travelContext;
         }
 
-        #region ************ Master **************************
+        #region ************ Master Fare Class**************************
 
         [Route("Master/CheckAirFareCode")]
         public bool CheckAirFareCode(string txtCode,int BookingClassId)
@@ -183,13 +183,169 @@ namespace projAPI.Controllers
 
         #endregion
 
+        #region *********************Master Airport *****************
+
+        [HttpGet]
+        [Route("Master/getAirPort/{AirportCode}")]
+        public mdlReturnData getAirPortCode(int Id)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblAirport tempData = null;
+                if (Id> 0)
+                {
+                    tempData = _travelContext.tblAirport.Where(p => p.Id == Id).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblAirport();
+                }
+                returnData.ReturnId = tempData;
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("Master/setAirPort")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Airport) + nameof(enmDocumentType.Update))]
+        public mdlReturnData setAirPort(tblAirport mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblAirport tempData = null;
+                if (mdl == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid Data";
+                    return returnData;
+                }
+                if (_travelContext.tblAirport.Count(p => p.AirportCode == mdl.AirportCode ) > 0)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Airport Code already exists";
+                    return returnData;
+                }
+
+                if (mdl.Id > 0)
+                {
+                    tempData = _travelContext.tblAirport.Where(p => p.AirportCode == mdl.AirportCode).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblAirport();
+                    tempData.CreatedBy = _IsrvCurrentUser.UserId;
+                    tempData.CreatedDt = DateTime.Now;
+                }
+                tempData.AirportCode = mdl.AirportCode;
+                tempData.AirportName= mdl.AirportName;
+                tempData.Terminal = mdl.Terminal;
+                tempData.CityCode = mdl.CityCode;
+                tempData.CityName = mdl.CityName;
+                tempData.CountryCode = mdl.CountryCode;
+                tempData.CountryName= mdl.CountryName;
+                tempData.IsDomestic = mdl.IsDomestic;
+                tempData.IsActive = mdl.IsActive;
+                tempData.ModifyRemarks = mdl.ModifyRemarks;
+                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                tempData.ModifiedDt = DateTime.Now;
+
+                if (tempData.Id > 0)
+                {
+                    _travelContext.tblAirport.Update(tempData);
+                }
+                else
+                {
+                    _travelContext.tblAirport.Add(tempData);
+                }
+                _travelContext.SaveChanges();
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("Master/getAirAirPorts")]
+        public mdlReturnData getAirPorts([FromServices] IsrvUsers srvUsers)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                List<tblAirport> tempData = new List<tblAirport>();
+                tempData = _travelContext.tblAirport.ToList();
+                var ModifiedBys = tempData.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                tempData.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                returnData.ReturnId = tempData.AsEnumerable().Select((p, iterator) => new
+                {
+                    Sno = iterator + 1,
+                    modifiedByName = p.ModifiedByName,
+                    modifiedDt = p.ModifiedDt,
+                    modifyRemarks = p.ModifyRemarks,
+                    p.Id,
+                    p.AirportCode,
+                    p.AirportName,
+                    p.Terminal,
+                    p.CityCode,
+                    p.CityName,
+                    p.CountryCode,
+                    p.CountryName,
+                    p.IsDomestic,
+                    p.IsActive
+                });
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
         [Route("GetAirport/{onlyActive}/{isDomestic}")]
         public mdlReturnData GetAirport(bool onlyActive, bool isDomestic)
         {
-            mdlReturnData mdl = new mdlReturnData() {  MessageType= enmMessageType.Success};
-            mdl.ReturnId= _IsrvAir.GetAirport(onlyActive, isDomestic);
-            return mdl;            
+            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+            mdl.ReturnId = _IsrvAir.GetAirport(onlyActive, isDomestic);
+            return mdl;
         }
+        #endregion
+
+
 
         [AllowAnonymous]
         [Route("GetAirline/{onlyActive}")]
