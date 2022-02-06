@@ -47,9 +47,9 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtGenerlizedName">Generlized Name</label>
+                                        <label class="col-form-label col-md-3" for="txtTerminal">Terminal</label>
                                         <div class="col-md-9">
-                                            <input type="text" id="txtGenerlizedName" name="txtGenerlizedName"
+                                            <input type="text" id="txtTerminal" name="txtTerminal"
                                                    maxlength="256" autocomplete="off"
                                                    class="form-control" required>
                                         </div>
@@ -61,12 +61,87 @@
                                         <div class="col-md-9">
                                             <input type="text" id="txtRemarks" name="txtRemarks"
                                                    maxlength="256" autocomplete="off"
-                                                   class="form-control" >
+                                                   class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
+
                             <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtCountryCode">Country Code</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCountryCode" name="txtCountryCode"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCountryName">
+                                        <label class="col-form-label col-md-3" for="txtCountryName">Country Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCountryName" name="txtCountryName"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtCityCode">City Code</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCityCode" name="txtCityCode"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" for="txtCityName">
+                                        <label class="col-form-label col-md-3" for="txtCityName">City Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtCityName" name="txtCityName"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Is Domestic</label>
+                                        <div class="col-md-8">
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_active_domestic" type="radio" value="true" name="chkdomestic">
+                                                    <label class="custom-control-label" for="is_active_domestic">  Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input" id="is_in_active_domestic" type="radio" value="false" name="chkdomestic">
+                                                    <label class="custom-control-label" for="is_in_active_domestic">  Inactive</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-form-label col-md-3">Status</label>
@@ -88,20 +163,20 @@
                                     </div>
                                 </div>
                             </div>
-                                <div class="clearfix"></div>
-                                <div class="col-md-12">
-                                    <div class="form-group text-center">
-                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
-                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                        <a href="FareClassReport" class="btn btn-primary btn-lg">Report</a>
-                                    </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12">
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                    <a href="FareClassReport" class="btn btn-primary btn-lg">Report</a>
                                 </div>
-                                <div class="col-md-12">
-                                    <hr />
-                                </div>
-                                <div class="clearfix"></div>
-
                             </div>
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
                 </form>
                     
                 </div>
@@ -113,62 +188,60 @@
     
     <script type="text/javascript">
 
-        
-
         $(document).ready(function () {
-
-            $('#loader').show();
+          //  $('#loader').show();
             let OrgId = localStorage.getItem("currentOrganisation");
             let token = localStorage.getItem('token');
             let headerss = new Headers();
             headerss.append("Authorization", 'Bearer ' + token);
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
-            let bookingclassid_ = getUrlVars()["bookingclassid"];
-            if (bookingclassid_ == null || bookingclassid_ == '' || bookingclassid_ == undefined) {
-                $("#lblBookingClassId").val("0");
-                $('#loader').hide();
-            } else {
-                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCode/" + bookingclassid_ ;
-                fetch(apiurl, {
-                    method: "GET",
-                    headers: headerss,
-                }).then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error(response.statusText);
-                    }
-                }).then(data => {
-                    if (data.messageType == 1) {
-                        console.log(data.returnId);
-                        $("#lblBookingClassId").val(data.returnId.bookingClassId);
-                        $("#txtairportCode").val(data.returnId.bookingClassCode);
-                        $("#txtairportName").val(data.returnId.name);
-                        $("#txtGenerlizedName").val(data.returnId.generlizedName);
-                        $("#txtRemarks").val(data.returnId.modifyRemarks);
-                        if (data.returnId.isActive) {
 
-                            $("#is_active").prop("checked", true);
-                            $("#is_in_active").prop("checked", false);
-                        }
-                        else {
-                            $("#is_active").prop("checked", false);
-                            $("#is_in_active").prop("checked", true);
-                        }
+        //    let bookingclassid_ = getUrlVars()["bookingclassid"];
+        //    if (bookingclassid_ == null || bookingclassid_ == '' || bookingclassid_ == undefined) {
+        //        $("#lblBookingClassId").val("0");
+        //        $('#loader').hide();
+        //    } else {
+        //        let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCode/" + bookingclassid_ ;
+        //        fetch(apiurl, {
+        //            method: "GET",
+        //            headers: headerss,
+        //        }).then(response => {
+        //            if (response.ok) {
+        //                return response.json();
+        //            } else {
+        //                throw new Error(response.statusText);
+        //            }
+        //        }).then(data => {
+        //            if (data.messageType == 1) {
+        //                console.log(data.returnId);
+        //                $("#lblBookingClassId").val(data.returnId.bookingClassId);
+        //                $("#txtairportCode").val(data.returnId.bookingClassCode);
+        //                $("#txtairportName").val(data.returnId.name);
+        //                $("#txtGenerlizedName").val(data.returnId.generlizedName);
+        //                $("#txtRemarks").val(data.returnId.modifyRemarks);
+        //                if (data.returnId.isActive) {
 
-                        $('#loader').hide();
-                    }
-                    else {
-                        $('#loader').hide();
-                        messageBox("error", data.message);
-                    }
-                }).catch((error) => {
-                    $('#loader').hide();
-                    messageBox("error", error.message);
-                });
+        //                    $("#is_active").prop("checked", true);
+        //                    $("#is_in_active").prop("checked", false);
+        //                }
+        //                else {
+        //                    $("#is_active").prop("checked", false);
+        //                    $("#is_in_active").prop("checked", true);
+        //                }
 
-            }
+        //                $('#loader').hide();
+        //            }
+        //            else {
+        //                $('#loader').hide();
+        //                messageBox("error", data.message);
+        //            }
+        //        }).catch((error) => {
+        //            $('#loader').hide();
+        //            messageBox("error", error.message);
+        //        });
+
+        //    }
 
 
 
@@ -176,34 +249,34 @@
             
             $("#frmOrganisation").validate({
                 onkeyup: false,
-                rules: {
-                    txtairportCode: {
-                        remote: {
-                            url: localStorage.getItem('baseUrl') + "air/Master/CheckAirFareCode",
-                            method: "get",
-                            headers: { "Authorization": 'Bearer ' + token },
-                            data: {
-                                BookingClassId: function () { return $("#lblBookingClassId").val() },
-                                OrgId: function () { return OrgId }
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                messageBox("error", 'ajax loading error... ... ' + textStatus);
-                                return false;
-                            }
-                        }
-                    },
-                },
-                messages: {
-                    txtairportCode: {
-                        required: "Required",
-                        email: "Enter valid code",
-                        remote: "code already in use. Please use other code"
-                    },
-                },
+                //rules: {
+                //    txtairportCode: {
+                //        remote: {
+                //            url: localStorage.getItem('baseUrl') + "air/Master/CheckAirFareCode",
+                //            method: "get",
+                //            headers: { "Authorization": 'Bearer ' + token },
+                //            data: {
+                //                BookingClassId: function () { return $("#txtairportCode").val() },
+                //                OrgId: function () { return OrgId }
+                //            },
+                //            error: function (xhr, textStatus, errorThrown) {
+                //                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                //                return false;
+                //            }
+                //        }
+                //    },
+                //},
+                //messages: {
+                //    txtairportCode: {
+                //        required: "Required",
+                //        email: "Enter valid code",
+                //        remote: "code already in use. Please use other code"
+                //    },
+                //},
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();                    
-                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirFareCode"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirPort"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
@@ -217,12 +290,24 @@
                         IsActive =false;
                     }
 
+                    let IsDomestic
+                    if ($("#is_active_domestic").is(":checked")) {
+                        IsDomestic= true;
+                    }
+                    else {
+                        IsDomestic= false;
+                    }
+
                     var formdata = JSON.stringify({
-                        "BookingClassId": $("#lblBookingClassId").val(),
-                        "BookingClassCode": $("#txtairportCode").val(),
-                        "Name": $("#txtairportName").val(),
-                        "GenerlizedName": $("#txtGenerlizedName").val(),
+                        "AirportCode": $("#txtairportCode").val(),
+                        "AirportName": $("#txtairportName").val(),
+                        "Terminal": $("#txtTerminal").val(),
+                        "CityCode": $("#txtCityCode").val(),
+                        "CityName": $("#txtCityName").val(),
+                        "CountryCode": $("#txtCountryCode").val(),
+                        "CountryName": $("#txtCountryName").val(),
                         "ModifyRemarks": $("#txtRemarks").val(),
+                        "IsDomestic": IsDomestic,
                         "IsActive": IsActive ,
                     });
                     fetch(Postapiurl, {
