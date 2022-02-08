@@ -57,7 +57,8 @@ namespace projAPI.Services.Travel
                 {
                     continue;
                 }
-                var sp = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && p.ServiceProvider == provider && p.EffectiveFromDate <= ProcessDate).OrderByDescending(p => p.EffectiveFromDate).Take(1).FirstOrDefault();
+                var sp = _travelContext.tblFlightSerivceProvider.Where(p => !p.IsDeleted && 
+                p.ServiceProvider == provider && p.EffectiveFromDate <= ProcessDate).OrderByDescending(p => p.EffectiveFromDate).Take(1).FirstOrDefault();
                 if (sp == null)
                 {
                     var tempData = SetServiceProvider(ProcessDate, provider, true, 1, string.Empty);
