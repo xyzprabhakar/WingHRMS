@@ -516,26 +516,38 @@ namespace projAPI.Controllers
         [Route("SearchFlight/{orgCode}")]
         public async Task<mdlReturnData> SearchFlightAsync( mdlFlightSearchWraper request,string orgCode)
         {
+            
             mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-            Organisation org = new Organisation();
-            var tempData=org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, orgCode);
-            if (tempData.MessageType != enmMessageType.Success)
+            try
             {
-                return tempData;
-            }
-            var md= await _IsrvAir.FlightSearchAsync(request, tempData.ReturnId.CustomerType, tempData.ReturnId.CustomerId, _IsrvCurrentUser.DistributorId);
+                //Organisation org = new Organisation();
+                //var tempData=org.ValidateOrganisationForFlight(_context, _IsrvCurrentUser, orgCode);
+                //if (tempData.MessageType != enmMessageType.Success)
+                //{
+                //    return tempData;
+                //}
+                if (_IsrvCurrentUser.customerType == enmCustomerType.B2B)
+                {
+                    //Check Customer Is Valid                
+                }
 
-            if (md.ResponseStatus == enmMessageType.Success)
-            {
-                mdl.MessageType = enmMessageType.Success;
-                mdl.ReturnId = md;
+                var md = await _IsrvAir.FlightSearchAsync(request, _IsrvCurrentUser.customerType, _IsrvCurrentUser.CustomerId, _IsrvCurrentUser.DistributorId);
+                if (md.ResponseStatus == enmMessageType.Success)
+                {
+                    mdl.MessageType = enmMessageType.Success;
+                    mdl.ReturnId = md;
+                }
+                else
+                {
+                    mdl.MessageType = enmMessageType.Error;
+                    mdl.Message = md.Error?.Message;
+                }
             }
-            else
+            catch (Exception ex)
             {
                 mdl.MessageType = enmMessageType.Error;
-                mdl.Message = md.Error?.Message;
-            }
-                  
+                mdl.Message = ex.Message;
+            }    
             return mdl;
         }
 
