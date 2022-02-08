@@ -1,7 +1,7 @@
 ﻿@page
 @{
     ViewData["PageId"] = "200102";
-    ViewData["Title"] = "Fair Class Report";
+    ViewData["Title"] = "Airline Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
     <div class="col-md-12">
@@ -30,9 +30,9 @@
                                             <th>Sno</th>
                                             <th>Code</th>
                                             <th>Name</th>
-                                            <th>Generlized Name</th>
+                                            <th>Image</th>
+                                            <th>Is Lcc</th>
                                             <th>Is Active</th>
-                                            <th>Remarks</th>
                                             <th>Modified By</th>
                                             <th>Modified Dt</th>
                                             <th>Action</th>
@@ -67,7 +67,7 @@
                 $('#loader').show();
                 
 
-                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes";
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirlines";
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -112,6 +112,12 @@
                                     {
                                         targets: [4],
                                         render: function (data, type, row) {
+                                            return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
+                                        }
+                                    },
+                                    {
+                                        targets: [5],
+                                        render: function (data, type, row) {
                                             return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
                                         }
                                     },
@@ -125,21 +131,21 @@
                                         targets: [8],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return `<a class="dropdown-item" href=FareClass?BookingClassId=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
+                                            return `<a class="dropdown-item" href=Airline?id=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
                                         }
 
                                     }
                                 ],
                             "columns": [
                                 { "data": "sno", "name": "sno", "autoWidth": true },
-                                { "data": "bookingClassCode", "name": "bookingClassCode", "autoWidth": true },
+                                { "data": "code", "name": "code", "autoWidth": true },
                                 { "data": "name", "name": "name", "autoWidth": true },
-                                { "data": "generlizedName", "name": "generlizedName", "autoWidth": true },
+                                { "data": "image", "name": "image", "autoWidth": true },
+                                { "data": "islcc", "name": "islcc", "autoWidth": true },
                                 { "data": "isActive", "name": "isActive", "autoWidth": true },
-                                { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "bookingClassId", "name": "bookingClassId", "autoWidth": true }
+                                { "data": "id", "name": "id", "autoWidth": true }
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             

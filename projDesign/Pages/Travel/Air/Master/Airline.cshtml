@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200111";
-    ViewData["Title"] = "AirPort";
+    ViewData["PageId"] = "200112";
+    ViewData["Title"] = "Airline";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -16,13 +16,13 @@
                                 <h4> @ViewBag.Title </h4>
                                 <hr />
                             </div>
-                            <input type="hidden" id="lblAirportId" name="lblAirportId" value="0" />
+                            <input type="hidden" id="lblBookingClassId" name="lblairlineId" value="0" />
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtairportCode">Airport Code</label>
+                                        <label class="col-form-label col-md-3" for="txtCode">Code</label>
                                         <div class="col-md-9">
-                                            <input type="text" id="txtairportCode" name="txtairportCode"
+                                            <input type="text" id="txtCode" name="txtCode"
                                                    maxlength="16" autocomplete="off"
                                                    class="form-control" required>
                                         </div>
@@ -30,9 +30,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtairportName">Airport Name</label>
+                                        <label class="col-form-label col-md-3" for="txtName">Name</label>
                                         <div class="col-md-9">
-                                            <input type="text" id="txtairportName" name="txtairportName"
+                                            <input type="text" id="txtName" name="txtName"
                                                    maxlength="256" autocomplete="off"
                                                    class="form-control" required>
                                         </div>
@@ -43,97 +43,21 @@
 
 
 
-
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtTerminal">Terminal</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtTerminal" name="txtTerminal"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" for="txtRemarks">
-                                        <label class="col-form-label col-md-3" for="txtRemarks">Remarks</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtRemarks" name="txtRemarks"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtCountryCode">Country Code</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtCountryCode" name="txtCountryCode"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" for="txtCountryName">
-                                        <label class="col-form-label col-md-3" for="txtCountryName">Country Name</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtCountryName" name="txtCountryName"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label col-md-3" for="txtCityCode">City Code</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtCityCode" name="txtCityCode"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" for="txtCityName">
-                                        <label class="col-form-label col-md-3" for="txtCityName">City Name</label>
-                                        <div class="col-md-9">
-                                            <input type="text" id="txtCityName" name="txtCityName"
-                                                   maxlength="256" autocomplete="off"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-form-label col-md-3">Is Domestic</label>
+                                        <label class="col-form-label col-md-3">Is LCC</label>
                                         <div class="col-md-8">
                                             <div class="form-check-inline my-1">
                                                 <div class="custom-control custom-radio">
-                                                    <input class="custom-control-input" id="is_active_domestic" type="radio" value="true" name="chkdomestic">
-                                                    <label class="custom-control-label" for="is_active_domestic">  Yes</label>
+                                                    <input class="custom-control-input" id="is_active_lcc" type="radio" value="true" name="chklcc">
+                                                    <label class="custom-control-label" for="is_active_lcc">  Yes</label>
                                                 </div>
                                             </div>
                                             <div class="form-check-inline my-1">
                                                 <div class="custom-control custom-radio">
-                                                    <input class="custom-control-input" id="is_in_active_domestic" type="radio" value="false" name="chkdomestic">
-                                                    <label class="custom-control-label" for="is_in_active_domestic">  No</label>
+                                                    <input class="custom-control-input" id="is_in_active_lcc" type="radio" value="false" name="chklcc">
+                                                    <label class="custom-control-label" for="is_in_active_lcc">  No</label>
                                                 </div>
                                             </div>
 
@@ -163,21 +87,40 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="clearfix"></div>
-                            <div class="col-md-12">
-                                <div class="form-group text-center">
-                                    <input type="submit" class="btn btn-primary btn-lg" value="Save">
-                                    <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
-                                    <a href="AirportReport" class="btn btn-primary btn-lg">Report</a>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <hr />
-                            </div>
-                            <div class="clearfix"></div>
 
-                        </div>
-                </form>
+
+                            <div class="row mb-2">
+
+                                <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        <img id="imgairlineImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
+                                        <input type="hidden" id="lblImgFile">
+                                        <input type="hidden" id="lblImgName">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label asp-for="airline_image" class="col-form-label">Airline Photo</label>
+                                            <input id="File1" type="file" accept="image/x-icon" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                        <a href="AirlineReport" class="btn btn-primary btn-lg">Report</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+</form>
                     
                 </div>
             </div>
@@ -188,7 +131,10 @@
     
     <script type="text/javascript">
 
+        
+
         $(document).ready(function () {
+
             $('#loader').show();
             let OrgId = localStorage.getItem("currentOrganisation");
             let token = localStorage.getItem('token');
@@ -196,13 +142,15 @@
             headerss.append("Authorization", 'Bearer ' + token);
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
+            let airline_ = getUrlVars()["id"];
+            const inputElement = document.getElementById("File1");
+            inputElement.addEventListener("change", handleFiles, false);
 
-            let airportid_ = getUrlVars()["id"];
-            if (airportid_ == null || airportid_ == '' || airportid_== undefined) {
-                $("#lblAirportId").val("0");
+            if (airline_ == null || airline_ == '' || airline_ == undefined) {
+                $("#lblairlineId").val("0");
                 $('#loader').hide();
             } else {
-                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirPort/" + airportid_;
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirlineCode/" + airline_ ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -215,15 +163,15 @@
                 }).then(data => {
                     if (data.messageType == 1) {
                         console.log(data.returnId);
-                        $("#lblAirportId").val(data.returnId.id);
-                        $("#txtairportCode").val(data.returnId.airportCode);
-                        $("#txtairportName").val(data.returnId.airportName);
-                        $("#txtCityCode").val(data.returnId.cityCode);
-                        $("#txtCityName").val(data.returnId.cityName);
-                        $("#txtCountryCode").val(data.returnId.countryCode);
-                        $("#txtCountryName").val(data.returnId.countryName);
-                        $("#txtTerminal").val(data.returnId.terminal);
-                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        $("#lblairlineId").val(data.returnId.id);
+                        $("#txtCode").val(data.returnId.code);
+                        $("#txtName").val(data.returnId.name);
+                        $("#lblImgFile").val(data.returnId.airlineImage);
+                        if (!(data.returnId.airlineImage == null || data.returnId.airlineImage == '' || data.returnId.airlineImage=== undefined)) {
+                            var img = document.getElementById("imgairlineImage");
+                            img.src = `data:${data.returnId.airlineImageType};base64,${data.returnId.airlineImage}`;
+                        }
+
                         if (data.returnId.isActive) {
 
                             $("#is_active").prop("checked", true);
@@ -234,17 +182,16 @@
                             $("#is_in_active").prop("checked", true);
                         }
 
+                        if (data.returnId.islcc) {
 
-
-                        if (data.returnId.isDomestic) {
-
-                            $("#is_active_domestic").prop("checked", true);
-                            $("#is_in_active_domestic").prop("checked", false);
+                            $("#is_active_lcc").prop("checked", true);
+                            $("#is_in_active_lcc").prop("checked", false);
                         }
                         else {
-                            $("#is_active_domestic").prop("checked", false);
-                            $("#is_in_active_domestic").prop("checked", true);
+                            $("#is_active_lcc").prop("checked", false);
+                            $("#is_in_active_lcc").prop("checked", true);
                         }
+
 
                         $('#loader').hide();
                     }
@@ -260,18 +207,42 @@
             }
 
 
-
-
+            function handleFiles() {
+                const fileList = this.files;
+                for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+                    const file = fileList[i];
+                    var imgsizee = this.files[i].size;
+                    var sizekb = imgsizee / 1024;
+                    sizekb = sizekb.toFixed(0);
+                    if (sizekb < 10 || sizekb > 500) {
+                        $("#File1").val("");
+                        messageBox("error", 'The size of the airline should fall between 10KB to 500KB. Your Photo Size is ' + sizekb + 'kb.');
+                        return false;
+                    }
+                    if (!(file.type == 'image/x-icon')) {
+                        messageBox("error", 'Only Icon file can be uploaded');
+                        return false;
+                    }
+                    selectedFile = file;
+                    var img = document.getElementById("imgairlineImage");
+                    img.file = file;
+                    const reader = new FileReader();
+                    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result; }; })(img);
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            
             $("#frmOrganisation").validate({
                 onkeyup: false,
                 //rules: {
-                //    txtairportCode: {
+                //    txtCode: {
                 //        remote: {
                 //            url: localStorage.getItem('baseUrl') + "air/Master/CheckAirFareCode",
                 //            method: "get",
                 //            headers: { "Authorization": 'Bearer ' + token },
                 //            data: {
-                //                BookingClassId: function () { return $("#txtairportCode").val() },
+                //                BookingClassId: function () { return $("#lblBookingClassId").val() },
                 //                OrgId: function () { return OrgId }
                 //            },
                 //            error: function (xhr, textStatus, errorThrown) {
@@ -282,7 +253,7 @@
                 //    },
                 //},
                 //messages: {
-                //    txtairportCode: {
+                //    txtCode: {
                 //        required: "Required",
                 //        email: "Enter valid code",
                 //        remote: "code already in use. Please use other code"
@@ -291,7 +262,7 @@
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();                    
-                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirPort"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirline"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
@@ -305,25 +276,22 @@
                         IsActive =false;
                     }
 
-                    let IsDomestic
-                    if ($("#is_active_domestic").is(":checked")) {
-                        IsDomestic= true;
+                    let IsLcc
+                    if ($("#is_active_lcc").is(":checked")) {
+                        IsLcc = true;
                     }
                     else {
-                        IsDomestic= false;
+                        IsLcc = false;
                     }
 
                     var formdata = JSON.stringify({
-                        "AirportCode": $("#txtairportCode").val(),
-                        "AirportName": $("#txtairportName").val(),
-                        "Terminal": $("#txtTerminal").val(),
-                        "CityCode": $("#txtCityCode").val(),
-                        "CityName": $("#txtCityName").val(),
-                        "CountryCode": $("#txtCountryCode").val(),
-                        "CountryName": $("#txtCountryName").val(),
-                        "ModifyRemarks": $("#txtRemarks").val(),
-                        "IsDomestic": IsDomestic,
-                        "IsActive": IsActive ,
+                        "Id": $("#lblAirlineId").val(),
+                        "Code": $("#txtCode").val(),
+                        "Name": $("#txtName").val(),
+                        "ImagePath": $("#lblImgFile").val(),
+                        "IsActive": IsActive,
+                        "IsLcc": IsLcc,
+
                     });
                     fetch(Postapiurl, {
                         method: "POST",

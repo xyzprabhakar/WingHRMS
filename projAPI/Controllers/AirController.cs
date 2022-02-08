@@ -186,7 +186,7 @@ namespace projAPI.Controllers
         #region *********************Master Airport *****************
 
         [HttpGet]
-        [Route("Master/getAirPort/{AirportCode}")]
+        [Route("Master/getAirPort/{Id}")]
         public mdlReturnData getAirPortCode(int Id)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -293,7 +293,7 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Master/getAirAirPorts")]
+        [Route("Master/getAirPorts")]
         public mdlReturnData getAirPorts([FromServices] IsrvUsers srvUsers)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -346,6 +346,160 @@ namespace projAPI.Controllers
         #endregion
 
 
+
+        #region *********************Master Airline *****************
+
+        [HttpGet]
+        [Route("Master/getAirlineCode/{Id}")]
+        public mdlReturnData getAirlineCode(int Id)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblAirline tempData = null;
+                if (Id > 0)
+                {
+                    tempData = _travelContext.tblAirline.Where(p => p.Id == Id).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblAirline();
+                }
+                returnData.ReturnId = tempData;
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("Master/setAirline")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_Airline) + nameof(enmDocumentType.Update))]
+        public mdlReturnData setAirline([FromServices] IsrvMasters _srvMasters, tblAirline mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblAirline tempData = null;
+                if (mdl == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid Data";
+                    return returnData;
+                }
+                if (_travelContext.tblAirline.Count(p => p.Code == mdl.Code) > 0)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Airline Code already exists";
+                    return returnData;
+                }
+
+                if (mdl.Id > 0)
+                {
+                    tempData = _travelContext.tblAirline.Where(p => p.Code == mdl.Code).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblAirline();
+                    tempData.CreatedBy = _IsrvCurrentUser.UserId;
+                    tempData.CreatedDt = DateTime.Now;
+                }
+
+
+                if (!(mdl.ImagePath == null))
+                {
+                 //   mdl.ImagePath = _srvMasters.SetImage(mdl.ImagePath, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
+                 }
+
+                tempData.Code = mdl.Code;
+                tempData.Name = mdl.Name;
+                tempData.ImagePath = mdl.ImagePath;
+                tempData.isLcc = mdl.isLcc;
+                tempData.IsActive = mdl.IsActive;
+                tempData.ModifyRemarks = mdl.ModifyRemarks;
+                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                tempData.ModifiedDt = DateTime.Now;
+
+                if (tempData.Id > 0)
+                {
+                    _travelContext.tblAirline.Update(tempData);
+                }
+                else
+                {
+                    _travelContext.tblAirline.Add(tempData);
+                }
+                _travelContext.SaveChanges();
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("Master/getAirlines")]
+        public mdlReturnData getAirlines([FromServices] IsrvUsers srvUsers)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                List<tblAirline> tempData = new List<tblAirline>();
+                tempData = _travelContext.tblAirline.ToList();
+                var ModifiedBys = tempData.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                tempData.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                returnData.ReturnId = tempData.AsEnumerable().Select((p, iterator) => new
+                {
+                    Sno = iterator + 1,
+                    modifiedByName = p.ModifiedByName,
+                    modifiedDt = p.ModifiedDt,
+                    modifyRemarks = p.ModifyRemarks,
+                    p.Id,
+                    p.Code,
+                    p.Name,
+                    p.ImagePath,
+                    p.isLcc,
+                    p.IsActive
+                });
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        #endregion
 
         [AllowAnonymous]
         [Route("GetAirline/{onlyActive}")]

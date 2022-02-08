@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200102";
-    ViewData["Title"] = "Fair Class Report";
+    ViewData["PageId"] = "200111";
+    ViewData["Title"] = "Airport Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
     <div class="col-md-12">
@@ -28,10 +28,17 @@
                                     <thead>
                                         <tr>
                                             <th>Sno</th>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Generlized Name</th>
+                                            <th>Airport Code</th>
+                                            <th>Airport Name</th>
+
+                                            <th>Terminal</th>
+                                            <th>City Code</th>
+                                            <th>City Name</th>
+                                            <th>Country Code</th>
+                                            <th>Country Name</th>
+
                                             <th>Is Active</th>
+                                            <th>Is Domestic</th>
                                             <th>Remarks</th>
                                             <th>Modified By</th>
                                             <th>Modified Dt</th>
@@ -67,7 +74,7 @@
                 $('#loader').show();
                 
 
-                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes";
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirPorts";
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -93,10 +100,10 @@
                             buttons: [
                                 {
                                     text: 'Export',
-                                    title: 'Company Data',
+                                    title: 'Airport Report',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8]
+                                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
                                     }
                                 },
                                 {
@@ -110,36 +117,47 @@
                             "columnDefs":
                                 [
                                     {
-                                        targets: [4],
+                                        targets: [8],
                                         render: function (data, type, row) {
                                             return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
                                         }
                                     },
                                     {
-                                        targets: [7],
+                                        targets: [9],
+                                        render: function (data, type, row) {
+                                            return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
+                                        }
+                                    },
+                                    {
+                                        targets: [12],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyyHHtt(date);
                                         }
                                     }, {
-                                        targets: [8],
+                                        targets: [13],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return `<a class="dropdown-item" href=FareClass?BookingClassId=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
+                                            return `<a class="dropdown-item" href=Airport?id=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
                                         }
 
                                     }
                                 ],
                             "columns": [
                                 { "data": "sno", "name": "sno", "autoWidth": true },
-                                { "data": "bookingClassCode", "name": "bookingClassCode", "autoWidth": true },
-                                { "data": "name", "name": "name", "autoWidth": true },
-                                { "data": "generlizedName", "name": "generlizedName", "autoWidth": true },
+                                { "data": "airportCode", "name": "airportCode", "autoWidth": true },
+                                { "data": "airportName", "name": "airportName", "autoWidth": true },
+                                { "data": "terminal", "name": "terminal", "autoWidth": true },
+                                { "data": "cityCode", "name": "cityCode", "autoWidth": true },
+                                { "data": "cityName", "name": "cityName", "autoWidth": true },
+                                { "data": "countryCode", "name": "countryCode", "autoWidth": true },
+                                { "data": "countryName", "name": "countryName", "autoWidth": true },
+                                { "data": "isDomestic", "name": "isDomestic", "autoWidth": true },
                                 { "data": "isActive", "name": "isActive", "autoWidth": true },
                                 { "data": "modifyRemarks", "name": "modifyRemarks", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
                                 { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
-                                { "data": "bookingClassId", "name": "bookingClassId", "autoWidth": true }
+                                { "data": "id", "name": "id", "autoWidth": true }
                             ],
                             "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
                             
