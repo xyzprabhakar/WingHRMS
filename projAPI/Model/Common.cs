@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace projAPI.Model
 {
@@ -19,6 +20,14 @@ namespace projAPI.Model
         public string Name{ get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class mdlFile
+    {
+        public IFormFile LogoImageFile { get; set; }
+        public string NewFileName { get; set; }
+
+    }
+
     public class mdlCommonReturnWithParentID: mdlCommonReturn
     {
         public int ParentId { get; set; }

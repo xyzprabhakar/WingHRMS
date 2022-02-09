@@ -418,16 +418,19 @@ namespace projAPI.Controllers
                 }
                 else
                 {
+
+
                     tempData = new tblAirline();
                     tempData.CreatedBy = _IsrvCurrentUser.UserId;
                     tempData.CreatedDt = DateTime.Now;
                 }
 
 
-                if (!(mdl.ImagePath == null))
-                {
-                 //   mdl.ImagePath = _srvMasters.SetImage(mdl.ImagePath, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
-                 }
+                //if (!(mdlFile.NewFileName == null))
+                //{
+                //    mdlFile.NewFileName = _srvMasters.SetImage(mdlFile.NewFileName, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
+                //    mdlFile.LogoImageFile = mdl.ImagePath;
+                //}
 
                 tempData.Code = mdl.Code;
                 tempData.Name = mdl.Name;
@@ -511,6 +514,158 @@ namespace projAPI.Controllers
         }
 
         #region ************************ Flight Booking ******************************
+
+
+        #region *********************Customer markup *****************
+
+        [HttpGet]
+        [Route("Master/getCustomerMarkupId/{id}")]
+        public mdlReturnData getCustomerMarkup(int Id)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblFlightCustomerMarkup tempData = null;
+                if (Id > 0)
+                {
+                    tempData = _travelContext.tblFlightCustomerMarkup.Where(p => p.Id == Id ).FirstOrDefault();
+                    if (tempData == null)
+                    {
+                        returnData.MessageType = enmMessageType.Error;
+                        returnData.Message = "Invalid Data";
+                        return returnData;
+                    }
+                }
+                else
+                {
+                    tempData = new tblFlightCustomerMarkup();
+                }
+                returnData.ReturnId = tempData;
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+        }
+
+        [HttpPost]
+        [Route("Master/setCustomerMarkup")]
+        [Authorize(nameof(enmDocumentMaster.Travel_Air_CustomerMarkups) + nameof(enmDocumentType.Update))]
+        public mdlReturnData setCustomerMarkup([FromServices] IsrvMasters _srvMasters, tblFlightCustomerMarkup mdl)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                tblFlightCustomerMarkup tempData = null;
+                if (mdl == null)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Invalid Data";
+                    return returnData;
+                }
+                if (_travelContext.tblFlightCustomerMarkup.Count(p => p.Nid == mdl.Nid && p.CustomerId==mdl.CustomerId && p.EffectiveFromDt==mdl.EffectiveFromDt && p.EffectiveToDt==mdl.EffectiveToDt) > 0)
+                {
+                    returnData.MessageType = enmMessageType.Error;
+                    returnData.Message = "Customer Markup record already exists";
+                    return returnData;
+                }
+
+                //if (mdl.Id > 0)
+                //{
+                //    tempData = _travelContext.tblFlightCustomerMarkup.Where(p => p.Nid == mdl.Nid && p.CustomerId == mdl.CustomerId && p.EffectiveFromDt == mdl.EffectiveFromDt && p.EffectiveToDt == mdl.EffectiveToDt).FirstOrDefault();
+                //    if (tempData == null)
+                //    {
+                //        returnData.MessageType = enmMessageType.Error;
+                //        returnData.Message = "Invalid Data";
+                //        return returnData;
+                //    }
+                //}
+                //else
+                {
+
+
+                    tempData = new tblFlightCustomerMarkup();
+                    tempData.CreatedBy = _IsrvCurrentUser.UserId;
+                    tempData.CreatedDt = DateTime.Now;
+                }
+
+
+                
+                tempData.CustomerId = mdl.CustomerId;
+                tempData.Nid= mdl.Nid;
+                tempData.EffectiveFromDt = mdl.EffectiveFromDt;
+                tempData.EffectiveToDt = mdl.EffectiveToDt;
+                tempData.IsDeleted= mdl.IsDeleted;
+                tempData.ModifyRemarks = mdl.ModifyRemarks;
+                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
+                tempData.ModifiedDt = DateTime.Now;
+
+                if (tempData.Id > 0)
+                {
+                    _travelContext.tblFlightCustomerMarkup.Update(tempData);
+                }
+                else
+                {
+                    _travelContext.tblFlightCustomerMarkup.Add(tempData);
+                }
+                _travelContext.SaveChanges();
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("Master/getCustomerMarkupReport/{customerid}/{Nid}/{datefrom}/{dateto}")]
+        public mdlReturnData getcustomermarkupreport(int customerid,int nid,DateTime datefrom,DateTime dateto, [FromServices] IsrvUsers srvUsers)
+        {
+            mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            try
+            {
+                List<tblFlightCustomerMarkup> tempData = new List<tblFlightCustomerMarkup>();
+                tempData = _travelContext.tblFlightCustomerMarkup.ToList().Where(p => p.EffectiveFromDt >= datefrom && p.EffectiveToDt<=dateto).ToList();
+                var ModifiedBys = tempData.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
+                tempData.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name;
+                });
+                returnData.ReturnId = tempData.AsEnumerable().Select((p, iterator) => new
+                {
+                    Sno = iterator + 1,
+                    modifiedByName = p.ModifiedByName,
+                    modifiedDt = p.ModifiedDt,
+                    modifyRemarks = p.ModifyRemarks,
+                    p.Id,
+                    p.CustomerId,
+                    p.Nid,
+                    p.EffectiveToDt,
+                    p.EffectiveFromDt,
+                    p.IsDeleted
+                });
+                returnData.MessageType = enmMessageType.Success;
+                return returnData;
+            }
+            catch (Exception ex)
+            {
+                returnData.MessageType = enmMessageType.Error;
+                returnData.Message = ex.Message;
+                return returnData;
+            }
+
+        }
+
+        #endregion
 
         [HttpPost]
         [Route("SearchFlight/{orgCode}")]
@@ -1024,67 +1179,67 @@ namespace projAPI.Controllers
         //lightBookingAlterMaster management end
         #endregion
 
-        #region **********customer markup*********
-        //customer markup  management start
-        [HttpPost]
-        [Route("air/settings/SetCustomerMarkup")]
-        public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, int CustomerId, int Nid, string Remarks)
-        {
-            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-            try
-            {
-                var tempData = _IsrvAir.SetCustomerMarkup(MarkupAmount, EffectiveFromDt, EffectiveToDt, _IsrvCurrentUser.UserId, CustomerId, Nid, Remarks);
-                return tempData;
+        //#region **********customer markup*********
+        ////customer markup  management start
+        //[HttpPost]
+        //[Route("air/settings/SetCustomerMarkup")]
+        //public mdlReturnData SetCustomerMarkup(double MarkupAmount, DateTime EffectiveFromDt, DateTime EffectiveToDt, int CustomerId, int Nid, string Remarks)
+        //{
+        //    mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+        //    try
+        //    {
+        //        var tempData = _IsrvAir.SetCustomerMarkup(MarkupAmount, EffectiveFromDt, EffectiveToDt, _IsrvCurrentUser.UserId, CustomerId, Nid, Remarks);
+        //        return tempData;
 
-            }
-            catch (Exception ex)
-            {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = ex.Message;
-                return mdl;
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mdl.MessageType = enmMessageType.Error;
+        //        mdl.Message = ex.Message;
+        //        return mdl;
+        //    }
 
-        }
+        //}
 
-        [HttpGet]
-        [Route("air/settings/GetCustomerMarkup")]
-        public List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup,bool AllActiveMarkup,DateTime ProcessingDate,int CustomerId,ulong Nid,enmCustomerType CustomerType)
-        {
-            try
-            {
-                var tempData = _IsrvAir.GetCustomerMarkup(AllMarkup, AllActiveMarkup,ProcessingDate,CustomerId,Nid,CustomerType);
-                return tempData;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+        //[HttpGet]
+        //[Route("air/settings/GetCustomerMarkup")]
+        //public List<tblFlightCustomerMarkup> GetCustomerMarkup(bool AllMarkup,bool AllActiveMarkup,DateTime ProcessingDate,int CustomerId,ulong Nid,enmCustomerType CustomerType)
+        //{
+        //    try
+        //    {
+        //        var tempData = _IsrvAir.GetCustomerMarkup(AllMarkup, AllActiveMarkup,ProcessingDate,CustomerId,Nid,CustomerType);
+        //        return tempData;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
 
-        }
+        //}
 
-        [HttpPost]
-        [Route("air/settings/RemoveCustomerMarkup")]
-        public mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId, string Remarks)
-        {
-            mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
-            try
-            {
-                var tempData = _IsrvAir.RemoveCustomerMarkup(MarkupID, UserId, Remarks);
-                return tempData;
+        //[HttpPost]
+        //[Route("air/settings/RemoveCustomerMarkup")]
+        //public mdlReturnData RemoveCustomerMarkup(int MarkupID, ulong UserId, string Remarks)
+        //{
+        //    mdlReturnData mdl = new mdlReturnData() { MessageType = enmMessageType.Success };
+        //    try
+        //    {
+        //        var tempData = _IsrvAir.RemoveCustomerMarkup(MarkupID, UserId, Remarks);
+        //        return tempData;
 
-            }
-            catch (Exception ex)
-            {
-                mdl.MessageType = enmMessageType.Error;
-                mdl.Message = ex.Message;
-                return mdl;
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mdl.MessageType = enmMessageType.Error;
+        //        mdl.Message = ex.Message;
+        //        return mdl;
+        //    }
 
-        }
+        //}
 
 
-        //customer markup management end
-        #endregion
+        ////customer markup management end
+        //#endregion
 
 
         public mdlReturnData ValidateBasicMarkup(mdlWingMarkup_Air mdl)
