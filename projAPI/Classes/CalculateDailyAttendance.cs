@@ -388,7 +388,7 @@ namespace projAPI.Classes
                 {
                     ////get the In time
 
-                    tbl_attendance_details Tempattddata = _AttendanceData.Where(p => p.punch_time >= _Tdas[Index].shift_in_time.AddHours(0 - _AttendancePickLowerLimit)).OrderByDescending(p => p.punch_time).FirstOrDefault();
+                    tbl_attendance_details Tempattddata = _AttendanceData.Where(p => p.punch_time <= _Tdas[Index].shift_in_time && p.punch_time >= _Tdas[Index].shift_in_time.AddHours(0 - _AttendancePickLowerLimit)).OrderByDescending(p => p.punch_time).FirstOrDefault();
                     if (Tempattddata == null)
                     {
                         Tempattddata = _AttendanceData.Where(p => p.punch_time >= _Tdas[Index].shift_in_time &&
