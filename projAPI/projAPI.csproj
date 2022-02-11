@@ -24,9 +24,17 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="wwwroot\HealthCard\**" />
+    <Compile Remove="wwwroot\KTTask\**" />
     <Content Remove="bin\**" />
+    <Content Remove="wwwroot\HealthCard\**" />
+    <Content Remove="wwwroot\KTTask\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="wwwroot\HealthCard\**" />
+    <EmbeddedResource Remove="wwwroot\KTTask\**" />
     <None Remove="bin\**" />
+    <None Remove="wwwroot\HealthCard\**" />
+    <None Remove="wwwroot\KTTask\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,15 +57,21 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\CompanyLogo\Glaze Trading India Pvt Ltd\" />
-    <Folder Include="wwwroot\HealthCard\" />
-    <Folder Include="wwwroot\KTTask\KTFormat\" />
+    <Folder Include="wwwroot\EmployeeDocs\Aadhar\" />
+    <Folder Include="wwwroot\EmployeeDocs\Aadha\" />
+    <Folder Include="wwwroot\EmployeeDocs\BloodGroup\" />
+    <Folder Include="wwwroot\EmployeeDocs\CorresAdd\" />
+    <Folder Include="wwwroot\EmployeeDocs\Family\" />
+    <Folder Include="wwwroot\EmployeeDocs\Pan\" />
+    <Folder Include="wwwroot\EmployeeImage\" />
+    <Folder Include="wwwroot\HealthCards\" />
     <Folder Include="wwwroot\LeaveCredit\Certificate\" />
     <Folder Include="wwwroot\excelexport\" />
     <Folder Include="wwwroot\CompanyPolicies\" />
     <Folder Include="wwwroot\CurrentOpening\" />
     <Folder Include="wwwroot\CompanyPolicies\" />
     <Folder Include="wwwroot\CurrentOpening\" />
-    <Folder Include="wwwroot\HealthCard\" />
+    <Folder Include="wwwroot\MobileFiles\" />
     <Folder Include="wwwroot\PayrollMusters\" />
   </ItemGroup>
 
