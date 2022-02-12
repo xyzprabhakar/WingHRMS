@@ -519,7 +519,7 @@ namespace projAPI.Controllers
         #region *********************Customer markup *****************
 
         [HttpGet]
-        [Route("Master/getCustomerMarkupId/{id}")]
+        [Route("Markups/getCustomerMarkupId/{id}")]
         public mdlReturnData getCustomerMarkup(int Id)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
@@ -553,7 +553,7 @@ namespace projAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Master/setCustomerMarkup")]
+        [Route("Markups/setCustomerMarkup")]
         [Authorize(nameof(enmDocumentMaster.Travel_Air_CustomerMarkups) + nameof(enmDocumentType.Update))]
         public mdlReturnData setCustomerMarkup([FromServices] IsrvMasters _srvMasters, tblFlightCustomerMarkup mdl)
         {
@@ -567,7 +567,7 @@ namespace projAPI.Controllers
                     returnData.Message = "Invalid Data";
                     return returnData;
                 }
-                if (_travelContext.tblFlightCustomerMarkup.Count(p => p.Nid == mdl.Nid && p.CustomerId==mdl.CustomerId && p.EffectiveFromDt==mdl.EffectiveFromDt && p.EffectiveToDt==mdl.EffectiveToDt) > 0)
+                if (_travelContext.tblFlightCustomerMarkup.Count(p => p.Nid == mdl.Nid && p.CustomerId==mdl.CustomerId && p.EffectiveFromDt==mdl.EffectiveFromDt && p.EffectiveToDt==mdl.EffectiveToDt && p.MarkupAmount==mdl.MarkupAmount) > 0)
                 {
                     returnData.MessageType = enmMessageType.Error;
                     returnData.Message = "Customer Markup record already exists";
@@ -597,6 +597,7 @@ namespace projAPI.Controllers
                 
                 tempData.CustomerId = mdl.CustomerId;
                 tempData.Nid= mdl.Nid;
+                tempData.MarkupAmount = mdl.MarkupAmount;
                 tempData.EffectiveFromDt = mdl.EffectiveFromDt;
                 tempData.EffectiveToDt = mdl.EffectiveToDt;
                 tempData.IsDeleted= mdl.IsDeleted;
@@ -626,14 +627,14 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Master/getCustomerMarkupReport/{customerid}/{Nid}/{datefrom}/{dateto}")]
+        [Route("Markups/getCustomerMarkupReport/{customerid}/{Nid}/{datefrom}/{dateto}")]
         public mdlReturnData getcustomermarkupreport(int customerid,int nid,DateTime datefrom,DateTime dateto, [FromServices] IsrvUsers srvUsers)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {
                 List<tblFlightCustomerMarkup> tempData = new List<tblFlightCustomerMarkup>();
-                tempData = _travelContext.tblFlightCustomerMarkup.ToList().Where(p => p.EffectiveFromDt >= datefrom && p.EffectiveToDt<=dateto).ToList();
+                tempData = _travelContext.tblFlightCustomerMarkup.ToList().Where(p => p.EffectiveFromDt <= datefrom && p.EffectiveToDt>=dateto).ToList();
                 var ModifiedBys = tempData.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
                 var ModifiedByName = srvUsers.GetUsers(ModifiedBys);
                 tempData.ForEach(d =>
@@ -643,6 +644,7 @@ namespace projAPI.Controllers
                 returnData.ReturnId = tempData.AsEnumerable().Select((p, iterator) => new
                 {
                     Sno = iterator + 1,
+                    p.MarkupAmount,
                     modifiedByName = p.ModifiedByName,
                     modifiedDt = p.ModifiedDt,
                     modifyRemarks = p.ModifyRemarks,

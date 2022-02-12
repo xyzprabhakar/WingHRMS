@@ -20,14 +20,14 @@
                                     <div class="col-md-8">
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
-                                                <input class="custom-control-input" id="chk_BookingDt" type="radio" value="true" name="chk_BookingDt" checked>
-                                                <label class="custom-control-label" for="chk_BookingDt">  On Booking Dt</label>
+                                                <input class="custom-control-input" id="chk_distributorid" type="radio" value="true" name="chk_id" checked>
+                                                <label class="custom-control-label" for="chk_distributorid">  On Distributor ID</label>
                                             </div>
                                         </div>
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
-                                                <input class="custom-control-input" id="chk_TravelDt" type="radio" value="false" name="chk_TravelDt" >
-                                                <label class="custom-control-label" for="chk_TravelDt">  On Travel Dt</label>
+                                                <input class="custom-control-input" id="chk_nid" type="radio" value="false" name="chk_id" >
+                                                <label class="custom-control-label" for="chk_nid">  On Nid</label>
                                             </div>
                                         </div>
 
@@ -71,25 +71,12 @@
                                     <table id="dt_table1" class="table w-100 no-margin table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Applicability</th>
-                                                <th>ServiceProviders</th>
-                                                <th>CustomerTypes</th>
-                                                <th>CustomerCode</th>
-                                                <th>PassengerType</th>
-                                                <th>Airline</th>
-                                                <th>Segments</th>
-                                                <th>CabinClass</th>
-                                                <th>IsMLMIncentive</th>
-                                                <th>FlightType</th>
-                                                <th>Gender</th>
-                                                <th>Is Percentage</th>
-                                                <th>Percentage Value</th>
-                                                <th>Amount Caping</th>
-                                                <th>Amount</th>
-                                                <th>Travel FromDt</th>
-                                                <th>Travel ToDt</th>
-                                                <th>Booking FromDt</th>
-                                                <th>Booking ToDt</th>
+                                                <th>Customer ID</th>
+                                                <th>Nid</th>
+                                                <th>Markup Amount</th>
+                                                <th>Effective From Date</th>
+                                                <th>Effective To Date</th>
+                                                <th>Status</th>
                                                 <th>Created By</th>
                                                 <th>Created Dt</th>
                                                 <th>Action</th>
@@ -129,11 +116,13 @@
             //bindcountry
             $("#loadGridData").click(function () {
                 $('#loader').show();
-                let chk_BookingDt = $("#chk_BookingDt").prop('checked');
                 let fromDt = $("#txtEffectiveFromDt").val();
                 let toDt = $("#txtEffectiveToDt").val();
-                
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/Markups/GetWingMarkup/" + chk_BookingDt + "/" + fromDt + "/" + toDt ;
+                let customerid= '0';
+                let nid = '0';
+
+
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/Markups/getCustomerMarkupReport/" + customerid + "/" + nid + "/" + fromDt + "/" + toDt;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -162,7 +151,7 @@
                                     title: 'Company Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [0,1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                                        columns: [0,1, 2, 3, 4, 5, 6, 7,8]
                                     }
                                 },
                                 {
@@ -175,57 +164,40 @@
                             "aaData": data.returnId,
                             "columnDefs":
                                 [{
-                                    targets: [8,11],
+                                    targets: [5],
                                     "class": "text-center",
                                     render: function (data, type, row) {
-                                        return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
+                                        return data == 1 ? `<spam class="badge badge-success">In-Active</spam>` : '<spam class="badge badge-danger">Active</spam>'
                                         
                                     }
                                 }
                                     ,{
-                                        targets: [15,16,17,18],
+                                        targets: [3,4],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyy(date);
                                         }
                                     }, {
-                                        targets: [20],
-                                        render: function (data, type, row) {
-                                            var date = new Date(data);
-                                            return GetDateFormatddMMyyyyHHtt(date);
-                                        }
-                                    },
-                                    {
-                                        targets: [21],
+                                        targets: [8],
                                         "class": "text-center",
                                         render: function (data, type, row) {
-                                            return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
+                                            return `<a class="dropdown-item" href=CustomerMarkup?id=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
                                         }
+
                                     }
+                                    
                                 ],
                             "columns": [
-                                { "data": "applicability", "name": "applicability", "autoWidth": true },
-                                { "data": "serviceProviders", "name": "serviceProviders", "autoWidth": true },
-                                { "data": "customerTypes", "name": "customerTypes", "autoWidth": true },
-                                { "data": "customerCode", "name": "customerCode", "autoWidth": true },
-                                { "data": "passengerType", "name": "passengerType", "autoWidth": true },
-                                { "data": "airline", "name": "airline", "autoWidth": true },
-                                { "data": "segments", "name": "segments", "autoWidth": true },
-                                { "data": "cabinClass", "name": "cabinClass", "autoWidth": true },
-                                { "data": "isMLMIncentive", "name": "isMLMIncentive", "autoWidth": true },
-                                { "data": "flightType", "name": "flightType", "autoWidth": true },
-                                { "data": "gender", "name": "gender", "autoWidth": true },
-                                { "data": "isPercentage", "name": "isPercentage", "autoWidth": true },
-                                { "data": "percentageValue", "name": "percentageValue", "autoWidth": true },
-                                { "data": "amountCaping", "name": "amountCaping", "autoWidth": true },
-                                { "data": "amount", "name": "amount", "autoWidth": true },
-                                { "data": "travelFromDt", "name": "travelFromDt", "autoWidth": true },
-                                { "data": "travelToDt", "name": "travelToDt", "autoWidth": true },
-                                { "data": "bookingFromDt", "name": "bookingFromDt", "autoWidth": true },
-                                { "data": "bookingToDt", "name": "bookingToDt", "autoWidth": true },
-                                { "data": "createdByName", "name": "createdByName", "autoWidth": true },
-                                { "data": "createdDt", "name": "createdDt", "autoWidth": true },
+                                { "data": "customerId", "name": "customerId", "autoWidth": true },
+                                { "data": "nid", "name": "nid", "autoWidth": true },
+                                { "data": "markupAmount", "name": "markupAmount", "autoWidth": true },
+                                { "data": "effectiveFromDt", "name": "effectiveFromDt", "autoWidth": true },
+                                { "data": "effectiveToDt", "name": "effectiveToDt", "autoWidth": true },
+                                { "data": "IsDeleted", "name": "IsDeleted", "autoWidth": true },
+                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
+                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
                                 { "data": "id", "name": "id", "autoWidth": true }
+
                             ],
                             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
                             
@@ -246,73 +218,7 @@
         });
 
 
-        function fncDeleteGridData(e) {
-            let OrgId = localStorage.getItem("currentOrganisation");
-            let token = localStorage.getItem('token');
-            let headerss = new Headers();
-            headerss.append("Authorization", 'Bearer ' + token);
-            headerss.append("Content-Type", "application/json; charset=utf-8");
-            headerss.append("OrgId", OrgId);
-            msgBoxImagePath = "/js/msgbox/images/";
-            $.msgBox({
-                title: "Remarks",
-                content: "Please enter the remarks",
-                type: "prompt",
-                buttons: [{ value: "OK" }, { value: "Cancel" }],
-                inputs: [{ type: "text", name: "txtDeletedRemarks", header: "Remarks", maxlength: 255 }],
-                success: function (result) {
-                    if (result == "OK") {
-                        let remarks = $('input[name=txtDeletedRemarks]').val();
-                        if (remarks !== undefined) {
-                            $('#loader').show();
-                            let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/DeleteWingMarkup"
-                            let Postheaderss = new Headers();
-                            Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
-                            Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
-                            Postheaderss.append("Content-Type", "application/json; charset=utf-8");
-                            var formdata = JSON.stringify({
-                                "Id": e.getAttribute("data-delete-id"),
-                                "Remarks": remarks,
-                            });
-                            fetch(Postapiurl, {
-                                method: "POST",
-                                headers: Postheaderss,
-                                body: formdata,
-                                redirect: 'follow'
-
-                            }).then(response => {
-                                if (response.ok) {
-                                    return response.json();
-                                } else {
-                                    throw new Error(response.statusText);
-                                }
-                            }).then(data => {
-
-                                if (data.messageType == 1) {
-                                    $('#loader').hide();
-
-                                    messageBox("success", "Deleted successfully");
-                                    $("#loadGridData").trigger('click');
-
-                                }
-                                else {
-                                    $('#loader').hide();
-                                    messageBox("error", data.message);
-                                }
-                            }).catch((error) => {
-                                $('#loader').hide();
-                                messageBox("error", error.message);
-                            });
-                        }
-
-                    }
-                    return false;
-                }
-            });
-
-
-        }
-
+      
 
     </script>
 }

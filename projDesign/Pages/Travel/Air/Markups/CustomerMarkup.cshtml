@@ -64,6 +64,8 @@
 
                             <div class="row mb-2">
 
+
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-form-label col-md-3">Status</label>
@@ -84,6 +86,17 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="txtmarkupamount">Markup Amount</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtmarkupamount" name="txtmarkupamount"
+                                                   maxlength="256" autocomplete="off"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
 
 
@@ -130,7 +143,7 @@
                 $("#lblcustomermarkupId").val("0");
                 $('#loader').hide();
             } else {
-                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getCustomerMarkupId/" + customermarkupid_ ;
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Markups/getCustomerMarkupId/" + customermarkupid_ ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -144,12 +157,15 @@
                     if (data.messageType == 1) {
                         console.log(data.returnId);
                         $("#lblcustomermarkupId").val(data.returnId.id);
-                        $("#txtcustomerNid").val(data.returnId.customerid);
+                        $("#txtcustomerNid").val(data.returnId.customerId);
                         $("#txtNid").val(data.returnId.nid);
-
-                        $("#txteffectiveFromDt").val(data.returnId.effectiveFromDt);
-                        $("#txteffectiveToDt").val(data.returnId.effectiveToDt);
+                        var effrmdate = new Date(data.returnId.effectiveFromDt);
                         
+                        var eftodate = new Date(data.returnId.effectiveToDt);
+                        
+                        $("#txteffectiveFromDt").val(GetDateFormatddMMyyyy(effrmdate));
+                        $("#txteffectiveToDt").val(GetDateFormatddMMyyyy(eftodate));
+                        $("#txtmarkupamount").val(data.returnId.markupAmount);
                         if (data.returnId.isDeleted) {
 
                             $("#is_active").prop("checked", true);
@@ -181,7 +197,7 @@
                 submitHandler: function (form, event) {
                     event.preventDefault();
                     $('#loader').show();                    
-                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setCustomerMarkup"
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/setCustomerMarkup"
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
@@ -202,7 +218,8 @@
                         "EffectiveFromDt": $("#txteffectiveFromDt").val(),
                         "EffectiveToDt": $("#txteffectiveToDt").val(),
                         "IsDeleted": IsActive,
-                        
+                        "MarkupAmount": $("#txtmarkupamount").val(),
+
                     });
                     fetch(Postapiurl, {
                         method: "POST",
