@@ -1,7 +1,7 @@
 ﻿@page
 @{
-    ViewData["PageId"] = "200105";
-    ViewData["Title"] = "Provider Priority Report";
+    ViewData["PageId"] = "200123";
+    ViewData["Title"] = "Discout Report";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
     <div class="col-md-12">
@@ -133,7 +133,7 @@
                 let fromDt = $("#txtEffectiveFromDt").val();
                 let toDt = $("#txtEffectiveToDt").val();
                 
-                let apiurl = localStorage.getItem('baseUrl') + "/Air/Markups/GetWingMarkup/" + chk_BookingDt + "/" + fromDt + "/" + toDt ;
+                let apiurl = localStorage.getItem('baseUrl') + "/Air/Markups/GetWingDiscount/" + chk_BookingDt + "/" + fromDt + "/" + toDt ;
                 fetch(apiurl, {
                     method: "GET",
                     headers: headerss,
@@ -265,7 +265,7 @@
                         let remarks = $('input[name=txtDeletedRemarks]').val();
                         if (remarks !== undefined) {
                             $('#loader').show();
-                            let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/DeleteWingMarkup"
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/Markups/DeleteWingDiscount"
                             let Postheaderss = new Headers();
                             Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
                             Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
