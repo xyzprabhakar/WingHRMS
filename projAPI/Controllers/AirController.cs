@@ -1040,6 +1040,7 @@ namespace projAPI.Controllers
         [Authorize(nameof(enmDocumentMaster.Travel_Air_FlightClassAlter) + nameof(enmDocumentType.Create))]
         public mdlReturnData SetFlightBookingAlterMaster(mdlFlightAlter mdl)
         {
+          
             mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
             if (!ModelState.IsValid)
             {
@@ -1068,7 +1069,6 @@ namespace projAPI.Controllers
         public mdlReturnData DeleteFlightBookingAlterMaster(mdlFlightAlter mdl)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
-            
             try
             {
                 var tempData = _travelContext.tblFlightBookingAlterMaster.Where(p=>p.AlterId==mdl.AlterId && !p.IsDeleted).FirstOrDefault();
@@ -1140,14 +1140,14 @@ namespace projAPI.Controllers
 
         //SetFlightFareFilter management start
         [HttpPost]
-        [Route("air/settings/SetFlightFareFilter")]
-        public mdlReturnData SetFlightFareFilter(mdlFlightFareFilter mdl, ulong UserId)
+        [Route("settings/SetFlightFareFilter")]
+        public mdlReturnData SetFlightFareFilter(mdlFlightFareFilter mdl)
         {
             mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
-            {
+            { 
 
-                tempData = _IsrvAir.SetFlightFareFilter(mdl, UserId);
+                tempData = _IsrvAir.SetFlightFareFilter(mdl, _IsrvCurrentUser.UserId);
 
                 return tempData;
 

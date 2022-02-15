@@ -1,0 +1,330 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200103";
+    ViewData["Title"] = "Flight Class Filter";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+
+
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" for="ddlCustomerType">Customer Type</label>
+                                        <div class="col-md-9">
+                                            <select id="ddlCustomerType" name="ddlCustomerType" class="form-control" autofocus required>
+                                                <option value=""> -- Please Select --</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" for="chkFlightClass">
+                                        <label class="col-form-label col-md-3">Fare Code</label>
+                                        <div class="col-form-label col-md-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input chkIsAll" type="checkbox" value="" id="chkFlightClass">
+                                                <label class="form-check-label" for="chkFlightClass">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="ddlFlightClass" name="ddlFlightClass" class="form-control select2" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+                            
+
+                            
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                        <a href="InstantBookingReport" class="btn btn-primary btn-lg">Report</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+
+</form>
+                     
+                    
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        function LoadClassofBooking() {
+            $('#loader').show();
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCodes";
+            fetch(apiurl, {
+                method: "GET",
+                headers: headerss,
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.statusText);
+                }
+            }).then(data => {
+                if (data.messageType == true) {
+                    var FlightBookingClass = '';
+                    var FlightCabinClass = '';
+
+                    for (var i in data.returnId) {
+                        if (data.returnId[i].isActive) {
+                            FlightBookingClass = FlightBookingClass + `<option value = "${data.returnId[i].bookingClassCode}"  >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option >`
+                            $('#ddlFlightClass').append(`<option value="${data.returnId[i].bookingClassCode}" >${data.returnId[i].bookingClassCode} - ${data.returnId[i].name}</option>`);
+                        }
+
+                    }
+                    subGridviewRowdata = `<tr>
+                                 <td class="row-index text-center">
+                                         <select name="ddlAlterCabinClass" class="form-control required">
+                                                <option value = ""  selected > -- Please Select --</option>${FlightCabinClass}
+                                                </select>
+                                            </td>
+                                            <td class="row-index text-center">
+                                                <input type="text" name="txtAlterIdentifier"
+                                                       maxlength="32" autocomplete="off"
+                                                       class="form-control" required placeholder="Identifier">
+                                            </td>
+                                            <td class="row-index text-center">
+                                                <select name="ddlAlterBookingClass" class="form-control" required>
+                                                <option value = ""  selected > -- Please Select --</option>${FlightBookingClass}
+                                                </select>
+                                            </td>
+                                            <td id="coldel">
+                                                <a class="dropdown-item btnRemoveHoldingRow" href="#"> <i class="fa fa-trash-alt"></i> Delete</a>
+                                            </td>
+                                        </tr>`;
+
+                    $("#btnAddSubGridData").click(function () {
+                        $("#tbodyHolding").prepend(subGridviewRowdata);
+                    });
+
+                    $('#loader').hide();
+                }
+                else {
+                    $('#loader').hide();
+                    messageBox("error", data.message);
+                }
+            }).catch((error) => {
+                $('#loader').hide();
+                messageBox("error", error.message);
+            });
+
+        }
+
+
+        $(document).ready(function () {
+            
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            //bindcountry
+            BindEnums("ddlCustomerType", enmCustomerType, "");
+
+            LoadClassofBooking()
+            $(".chkIsAll").change(function () {
+                if (this.checked) {
+                    $(this).parent().parent().next().hide();
+                }
+                else {
+                    $(this).parent().parent().next().show();
+                }
+            });
+
+            
+            
+            $("#frmOrganisation").validate({
+                onkeyup: false,
+                rules: {
+                    ddlFlightClass:
+                    {
+                        required: "#chkFlightClass:unchecked"
+                    }
+                    ,
+                    message:{
+                        ddlFlightClass: {
+                    required: "Required",
+                }
+            },
+                },
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('select2') && element.next('.select2-container').length) {
+                        error.insertAfter(element.next('.select2-container'));
+                    }
+
+
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/SetFlightFareFilter"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
+                    Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+
+                    let varFilterClass = $('select[name="ddlFlightClass"]').map(function () { return $(this).val(); }).get();
+                    
+                    var formdata = JSON.stringify({
+                        "CustomerType": $("#ddlCustomerType").val(),
+                        "FilterId": "0",
+                        "IsEanableAllFare": $("#chkFlightClass").prop('checked'),
+                        "FilterDetails": varFilterClass
+                    });
+                    
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                            $("#ddlCustomerType").trigger('change');
+
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+
+        function fncDeleteGridData(e) {
+            msgBoxImagePath = "/js/msgbox/images/";
+            $.msgBox({
+                title: "Remarks",
+                content: "Please enter the remarks",
+                type: "prompt",
+                buttons: [{ value: "OK" }, { value: "Cancel" }],
+                inputs: [{ type: "text", name: "txtDeletedRemarks", header: "Remarks", maxlength: 255 }],
+                success: function (result) {
+                    if (result == "OK") {
+                        let remarks=$('input[name=txtDeletedRemarks]').val();
+                        if (remarks !== undefined) {
+                            $('#loader').show();
+                            let Postapiurl = localStorage.getItem('baseUrl') + "air/settings/DeleteInstantBookingSetting"
+                            let Postheaderss = new Headers();
+                            Postheaderss.append("Authorization", 'Bearer ' + localStorage.getItem('token'));
+                            Postheaderss.append("OrgId", localStorage.getItem('currentOrganisation'));
+                            Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+                            var formdata = JSON.stringify({
+                                "Id": e.getAttribute("data-delete-id"),
+                                "ModifyRemarks": remarks,
+                            });
+                            fetch(Postapiurl, {
+                                method: "POST",
+                                headers: Postheaderss,
+                                body: formdata,                                
+                                redirect: 'follow'
+
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                } else {
+                                    throw new Error(response.statusText);
+                                }
+                            }).then(data => {
+
+                                if (data.messageType == 1) {
+                                    $('#loader').hide();
+                                    messageBox("success", "Deleted successfully");
+                                    $("#ddlCustomerType").trigger('change');
+
+                                }
+                                else {
+                                    $('#loader').hide();
+                                    messageBox("error", data.message);
+                                }
+                            }).catch((error) => {
+                                $('#loader').hide();
+                                messageBox("error", error.message);
+                            });
+                        }
+                        
+                    }
+                    return false;
+                }
+            });
+
+            
+        }
+
+    </script>
+}
+        
+
