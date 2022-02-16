@@ -56,6 +56,7 @@ namespace projAPI.Controllers
             mdlReturnData returnData = new mdlReturnData();
             if (_srvCustomers.CustomerEmailExists(txtEmail, CustomerId, OrgId))
             {
+                
                 return false;
             }
             else
@@ -325,6 +326,168 @@ namespace projAPI.Controllers
         }
 
 
+
+        #region Customer IP Filter
+        [HttpPost]
+        [Route("SetCustomerIPFilter")]
+        [Authorize(nameof(enmDocumentMaster.CRM_Customer_IP) + nameof(enmDocumentType.Create))]
+        public mdlReturnData SetCustomerIPFilter(mdlCustomerIPFilter mdl, [FromServices] IsrvUsers srvUsers)
+        {
+
+            mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            if (!ModelState.IsValid)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p => p.ErrorMessage));
+                return tempData;
+            }
+            try
+            {
+                {
+                    if (mdl.allipapplicable == false && mdl.IPAddess.Trim().Length == 0)
+                    {
+                        tempData.MessageType = enmMessageType.Warning;
+                        tempData.Message = "Please enter IP Address";
+                        return tempData;
+                    }
+
+                    var TobeUpdated = _crmContext.tblCustomerIPFilter.Where(p => p.CustomerId == mdl.CustomerID).ToList();
+
+                    using (var transaction = _crmContext.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            TobeUpdated.ForEach(p =>
+                            {
+                                //p.IsDeleted = true;
+                                p.ModifiedDt = DateTime.Now;
+                                p.ModifiedBy = srvUsers.UserId;
+                            });
+
+                            if (mdl.allipapplicable == false)
+                            {
+                                tblCustomerIPFilter ipfilter_ = new tblCustomerIPFilter()
+                                {
+                                    CustomerId = mdl.CustomerID,
+                                    AllowedAllIp = mdl.allipapplicable,
+                                    CreatedBy =(ulong) srvUsers.UserId,
+                                    CreatedDt = DateTime.Now,
+                                    tblCustomerIPFilterDetails = mdl.IPAddess.Split(",").Select(p => new tblCustomerIPFilterDetails { CustomerId = mdl.CustomerID, IPAddress = p }).ToList()
+                                };
+                                _crmContext.tblCustomerIPFilter.Add(ipfilter_);
+                            }
+
+                            else
+                            {
+                                tblCustomerIPFilter ipfilter_ = new tblCustomerIPFilter()
+                                {
+                                    CustomerId = mdl.CustomerID,
+                                    AllowedAllIp = mdl.allipapplicable,
+                                    CreatedBy = (ulong)srvUsers.UserId,
+                                    CreatedDt = DateTime.Now
+                                };
+                                _crmContext.tblCustomerIPFilter.Add(ipfilter_);
+
+                            }
+
+                           _crmContext.SaveChangesAsync();
+                            transaction.Commit();
+                        }
+                        catch (Exception exx)
+                        {
+                            transaction.Rollback();
+                            tempData.MessageType = enmMessageType.Error;
+                            tempData.Message = exx.Message.ToString();
+                            return tempData;
+
+
+                        }
+                    }
+                }
+
+                tempData.MessageType = enmMessageType.Success;
+                tempData.Message = "Save Succesfully !...";
+                return tempData;
+
+            }
+            catch (Exception ex)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = ex.Message;
+                return tempData;
+            }
+
+        }
+
+
+        [HttpPost]
+        [Route("DeleteCustomerIPFilter")]
+        [Authorize(nameof(enmDocumentMaster.CRM_Customer_IP) + nameof(enmDocumentType.Delete))]
+        public mdlReturnData DeleteCustomerIPFilter(mdlCustomerIPFilter mdl, [FromServices] IsrvUsers srvUsers)
+        {
+
+            mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            if (!ModelState.IsValid)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p => p.ErrorMessage));
+                return tempData;
+            }
+            try
+            {
+                var ExistingData_ipfilter = _crmContext.tblCustomerIPFilter.FirstOrDefault(p => p.CustomerId == mdl.CustomerID);
+                if (ExistingData_ipfilter == null)
+                {
+                    tempData.MessageType = enmMessageType.Warning;
+                    tempData.Message = "Invalid Record !...";
+                    return tempData;
+                }
+                else
+                {
+                    // run delete command
+                    //ExistingData_ipfilter.IsDeleted = true;
+                    ExistingData_ipfilter.ModifiedDt = DateTime.Now;
+                    ExistingData_ipfilter.ModifiedBy = srvUsers.UserId;
+
+                    _crmContext.SaveChangesAsync();
+                    tempData.MessageType = enmMessageType.Success;
+                    tempData.Message = "Save Succesfully !...";
+                    return tempData;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = ex.Message;
+                return tempData;
+            }
+
+        }
+
+
+        [HttpPost]
+        [Route("GetCustomerIPFilter")]
+        [Authorize(nameof(enmDocumentMaster.CRM_Customer_IP) + nameof(enmDocumentType.Report))]
+        public mdlReturnData GetCustomerIPFilter(mdlCustomerIPFilter mdl, [FromServices] IsrvUsers srvUsers)
+        {
+
+            mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+            if (!ModelState.IsValid)
+            {
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(p => p.ErrorMessage));
+                return tempData;
+            }
+            //return _crmContext.tblCustomerIPFilter.Where(p => p.CustomerId == Convert.ToInt32(mdl.CustomerID)).Include(p => p.tblCustomerIPFilterDetails).ToList();
+
+            return tempData;
+        }
+
+
+        #endregion
 
     }
 

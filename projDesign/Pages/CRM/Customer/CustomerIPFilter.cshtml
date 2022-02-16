@@ -1,0 +1,300 @@
+﻿@page
+@{
+    ViewData["PageId"] = "200112";
+    ViewData["Title"] = "Customer IP Filter";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-xl-12">
+        <div class="panel">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form id="frmOrganisation" method="post" action="">                        
+                        <div class="form-container master-panel">
+                            <div class="col-md-12">
+                                <h4> @ViewBag.Title </h4>
+                                <hr />
+                            </div>
+                            <div class="row mb-2">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3">Select Customer</label>
+                                        
+                                        <div class="col-md-7">
+                                            <select id="ddlCustomer" name="ddlCustomerType" class="form-control select2" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+
+                            <div  class="row mb-2">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-md-3" >Is All IP Address</label>
+                                        <div class="col-sm-5"><input id="cboxIsAllApplicable" class="ace ace-switch" type="checkbox" asp-for="allipapplicable"></div>
+                                            <div class="col-sm-5">
+                                                <input id="txtIPAddess" asp-for="IPAddess" class="form-control" />
+                                            </div>
+                                                       
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                                <div class="clearfix"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                        <input type="reset" id="clearform" class="btn btn-primary btn-lg" value="Reset">
+                                        <a href="FareClassReport" class="btn btn-primary btn-lg">Report</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        LoadCustomer();
+
+        function LoadCustomer() {
+        
+            $('#loader').show();
+
+
+                let OrgId = localStorage.getItem("currentOrganisation");
+                let token = localStorage.getItem('token');
+                let headerss = new Headers();
+                headerss.append("Authorization", 'Bearer ' + token);
+                headerss.append("Content-Type", "application/json; charset=utf-8");
+                headerss.append("OrgId", OrgId);
+
+            let apiurl = localStorage.getItem('baseUrl') + "Customer/GetCustomers";
+                fetch(apiurl, {
+                    method: "POST",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == true) {
+                        var customercode = '';
+
+                        for (var i in data.returnId) {
+                            if (data.returnId[i].isActive) {
+                                customercode = customercode + `<option value = "${data.returnId[i].code}"  >${data.returnId[i].code} - ${data.returnId[i].name}</option >`
+                                $('#ddlCustomer').append(`<option value="${data.returnId[i].code}" >${data.returnId[i].code} - ${data.returnId[i].name}</option>`);
+                            }
+
+                        }
+                     
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
+            }
+        
+
+
+        $(document).ready(function () {
+            $(window).load(function () {
+                if ($("#cboxIsAllApplicable").prop("checked") == true) {
+                    $('#txtIPAddess').hide();
+                } else {
+                    $('#txtIPAddess').show();
+                }
+            })
+            $("#cboxIsAllApplicable").change(function () {
+                if (this.checked) {
+                    $('#txtIPAddess').hide();
+                } else {
+                    $('#txtIPAddess').show();
+                }
+            });
+
+
+        });
+
+
+
+        $(document).ready(function () {
+
+            $('#loader').show();
+            let OrgId = localStorage.getItem("currentOrganisation");
+            let token = localStorage.getItem('token');
+            let headerss = new Headers();
+            headerss.append("Authorization", 'Bearer ' + token);
+            headerss.append("Content-Type", "application/json; charset=utf-8");
+            headerss.append("OrgId", OrgId);
+            let bookingclassid_ = getUrlVars()["bookingclassid"];
+            if (bookingclassid_ == null || bookingclassid_ == '' || bookingclassid_ == undefined) {
+                $("#lblBookingClassId").val("0");
+                $('#loader').hide();
+            } else {
+                let apiurl = localStorage.getItem('baseUrl') + "Air/Master/getAirFareCode/" + bookingclassid_ ;
+                fetch(apiurl, {
+                    method: "GET",
+                    headers: headerss,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(data => {
+                    if (data.messageType == 1) {
+                        console.log(data.returnId);
+                        $("#lblBookingClassId").val(data.returnId.bookingClassId);
+                        $("#txtCode").val(data.returnId.bookingClassCode);
+                        $("#txtName").val(data.returnId.name);
+                        $("#txtGenerlizedName").val(data.returnId.generlizedName);
+                        $("#txtRemarks").val(data.returnId.modifyRemarks);
+                        if (data.returnId.isActive) {
+
+                            $("#is_active").prop("checked", true);
+                            $("#is_in_active").prop("checked", false);
+                        }
+                        else {
+                            $("#is_active").prop("checked", false);
+                            $("#is_in_active").prop("checked", true);
+                        }
+
+                        $('#loader').hide();
+                    }
+                    else {
+                        $('#loader').hide();
+                        messageBox("error", data.message);
+                    }
+                }).catch((error) => {
+                    $('#loader').hide();
+                    messageBox("error", error.message);
+                });
+
+            }
+
+
+
+            
+            
+            $("#frmOrganisation").validate({
+                onkeyup: false,
+                rules: {
+                    txtCode: {
+                        remote: {
+                            url: localStorage.getItem('baseUrl') + "air/Master/CheckAirFareCode",
+                            method: "get",
+                            headers: { "Authorization": 'Bearer ' + token },
+                            data: {
+                                BookingClassId: function () { return $("#lblBookingClassId").val() },
+                                OrgId: function () { return OrgId }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                messageBox("error", 'ajax loading error... ... ' + textStatus);
+                                return false;
+                            }
+                        }
+                    },
+                },
+                messages: {
+                    txtCode: {
+                        required: "Required",
+                        email: "Enter valid code",
+                        remote: "code already in use. Please use other code"
+                    },
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault();
+                    $('#loader').show();                    
+                    let Postapiurl = localStorage.getItem('baseUrl') + "air/Master/setAirFareCode"
+                    let Postheaderss = new Headers();
+                    Postheaderss.append("Authorization", 'Bearer ' + token);
+                    Postheaderss.append("OrgId", OrgId);
+                    Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+
+                    let IsActive
+                    if ($("#is_active").is(":checked")) {
+                        IsActive=true;
+                    }
+                    else {
+                        IsActive =false;
+                    }
+
+                    var formdata = JSON.stringify({
+                        "BookingClassId": $("#lblBookingClassId").val(),
+                        "BookingClassCode": $("#txtCode").val(),
+                        "Name": $("#txtName").val(),
+                        "GenerlizedName": $("#txtGenerlizedName").val(),
+                        "ModifyRemarks": $("#txtRemarks").val(),
+                        "IsActive": IsActive ,
+                    });
+                    fetch(Postapiurl, {
+                        method: "POST",
+                        headers: Postheaderss,
+                        body: formdata,                        
+                        redirect: 'follow'
+                        
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error(response.statusText);
+                        }
+                    }).then(data => {
+
+                        if (data.messageType == 1) {                            
+                            $('#loader').hide();
+                            messageBox("success", "Save successfully");
+                            
+                        }
+                        else {
+                            $('#loader').hide();
+                            messageBox("error", data.message);
+                        }
+                    }).catch((error) => {
+                        $('#loader').hide();
+                        messageBox("error", error.message);
+                    });
+                    
+                }
+            });
+            $('#clearform').on('click', function () {
+                var form = $("#frmOrganisation");
+                form.validate().resetForm();  // clear out the validation errors
+                form[0].reset();                  // clear out the form data
+            });
+
+        });
+
+    </script>
+}
+        
+

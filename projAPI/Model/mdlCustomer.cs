@@ -53,4 +53,22 @@ namespace projAPI.Model
         public ulong UserId { get; set; }
 
     }
+
+    public class mdlCustomerIPFilter
+    {
+        public int CustomerID { set; get; }
+
+        public bool allipapplicable { set; get; }
+
+        public string IPAddess { set; get; } = "";
+
+        public int IPFilterId { set; get; }
+
+        public List<tblCustomerIPFilter> IPFilterReport { get; set; }
+
+
+    }
+
+
+
 }
