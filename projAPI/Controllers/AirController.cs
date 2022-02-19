@@ -1157,7 +1157,7 @@ namespace projAPI.Controllers
         }
 
         [HttpGet]
-        [Route("settings/GetFlightFareFilter")]
+        [Route("settings/GetFlightFareFilter/{ApplyCustomerFilter}/{CustomerType}")]
         public List<mdlFlightFareFilter> GetFlightFareFilter(bool ApplyCustomerFilter, enmCustomerType CustomerType)
         {
             try
