@@ -93,13 +93,13 @@
 
                                 <div class="col-md-6">
                                     <div class="col-md-2">
-                                        <img id="imgairlineImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
+                                        <img id="imgLogoImage" class="mt-sm-4" src="~/images/dbImages50.png" width="50" />
                                         <input type="hidden" id="lblImgFile">
                                         <input type="hidden" id="lblImgName">
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
-                                            <label asp-for="airline_image" class="col-form-label">Airline Photo</label>
+                                            <label asp-for="airline_image" class="col-form-label">Airline Logo</label>
                                             <input id="File1" type="file" accept="image/x-icon" class="form-control">
                                         </div>
                                     </div>
@@ -166,10 +166,10 @@
                         $("#lblairlineId").val(data.returnId.id);
                         $("#txtCode").val(data.returnId.code);
                         $("#txtName").val(data.returnId.name);
-                        $("#lblImgFile").val(data.returnId.imagePath);
-
+                        //$("#lblImgFile").val(data.returnId.imagePath);
+                        $("#lblImgName").val(data.returnId.logo);
                         if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage=== undefined)) {
-                            var img = document.getElementById("imgairlineImage");
+                            var img = document.getElementById("imgLogoImage");
                             img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
                         }
 
@@ -225,7 +225,7 @@
                         return false;
                     }
                     selectedFile = file;
-                    var img = document.getElementById("imgairlineImage");
+                    var img = document.getElementById("imgLogoImage");
                     img.file = file;
                     const reader = new FileReader();
                     reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result; }; })(img);

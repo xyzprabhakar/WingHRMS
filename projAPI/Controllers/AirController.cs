@@ -412,6 +412,8 @@ namespace projAPI.Controllers
                 }
 
                 if (mdl.Id > 0) IsUpdate = true;
+
+
                 if (!(mdl.LogoImageFile == null))
                 {
                     mdl.NewFileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
@@ -425,7 +427,15 @@ namespace projAPI.Controllers
                     mdl.CreatedDt = DateTime.Now;
                 }
 
+
+
                 tempData = mdl;
+
+                if (mdl.NewFileName != null && tempData.ImagePath != mdl.NewFileName)
+                {
+                    tempData.ImagePath = mdl.NewFileName;
+                }
+                
                 if (IsUpdate)
                 {
                     _travelContext.tblAirline.Update(tempData);
