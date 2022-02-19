@@ -201,6 +201,28 @@ function BindEnums(ControlInputName, result,selectedValue) {
     }
 }
 
+function BindEnumswithAll(ControlInputName, result, selectedValue) {
+    $('#' + ControlInputName).empty();
+    let isselected = false;
+    $('#' + ControlInputName).append(`<option value="" >--select All--</option>`);
+    for (var i in result) {
+        if (result[i].id == selectedValue) {
+            isselected = true;
+            $('#' + ControlInputName).append(`<option value="${result[i].id}"  selected>${result[i].displayText}</option>`);
+        }
+        else {
+            $('#' + ControlInputName).append(`<option value="${result[i].id}" >${result[i].displayText}</option>`);
+        }
+    }
+    if (result.length == 1) {
+        isselected = true;
+        $('#' + ControlInputName).val(result[0].id);
+    }
+    if (isselected) {
+        $('#' + ControlInputName).trigger('change');
+    }
+}
+
 function SortByName(a, b) {
     var aName = a.name.toLowerCase();
     var bName = b.name.toLowerCase();

@@ -1158,18 +1158,38 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("settings/GetFlightFareFilter/{ApplyCustomerFilter}/{CustomerType}")]
-        public List<mdlFlightFareFilter> GetFlightFareFilter(bool ApplyCustomerFilter, enmCustomerType CustomerType)
+        public mdlReturnData GetFlightFareFilter(bool ApplyCustomerFilter, enmCustomerType CustomerType,[FromServices]IsrvUsers _srvUsers)
         {
+            mdlReturnData tempData = new mdlReturnData() { MessageType = enmMessageType.Success };
+
             try
             {
+                List<mdlFlightFareFilter> Datas = _IsrvAir.GetFlightFareFilter(ApplyCustomerFilter, CustomerType);
+                var ModifiedBys = Datas.Select(p => p.ModifiedBy ?? 0).Distinct().ToArray();
+                var ModifiedByName = _srvUsers.GetUsers(ModifiedBys);
+                Datas.ForEach(d =>
+                {
+                    d.ModifiedByName = ModifiedByName.FirstOrDefault(p => p.Id == d.ModifiedBy)?.Name??"";
+                });
 
-                var tempData = _IsrvAir.GetFlightFareFilter(ApplyCustomerFilter, CustomerType);
+                tempData.ReturnId = Datas.Select(p => new
+                {
+                    customerType = Convert.ToString(p.CustomerType),
+                    isEanableAllFare = p.IsEanableAllFare,
+                    filterDetails = string.Join(", ", p.FilterDetails.Select(q => q.Item1)),
+                    remarks=p.Remarks,
+                    modifiedByName=p.ModifiedByName,
+                    modifiedDt=p.ModifiedDt,
+                    filterid=p.FilterId
+                }) ;
                 return tempData;
 
             }
             catch (Exception ex)
             {
-                return null;
+                tempData.MessageType = enmMessageType.Error;
+                tempData.Message = ex.Message;
+                return tempData;
             }
 
         }

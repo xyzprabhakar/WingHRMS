@@ -83,14 +83,14 @@
             headerss.append("Content-Type", "application/json; charset=utf-8");
             headerss.append("OrgId", OrgId);
             //bindcountry
-            BindEnums("ddlCustomerType", enmCustomerType, "");
-
+            BindEnumswithAll("ddlCustomerType", enmCustomerType, "");
+            
 
             $("#loadGridData").click(function () {
                 $('#loader').show();
                 let CustomerType = $("#ddlCustomerType").val();
                 let ApplyCustomerFilter = true;
-                if (CustomerType == '') ApplyCustomerFilter = false;
+                if (CustomerType == '') { ApplyCustomerFilter = false   ; CustomerType = 1 }
                 let apiurl = localStorage.getItem('baseUrl') + "Air/settings/GetFlightFareFilter/" + ApplyCustomerFilter+"/"+CustomerType+"";
                 fetch(apiurl, {
                     method: "GET",
@@ -141,14 +141,14 @@
                                     }
                                 }
                                     ,{
-                                        targets: [6],
+                                        targets: [5],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyy(date);
                                         }
                                     },
                                     {
-                                        targets: [7],
+                                        targets: [6],
                                         "class": "text-center",
                                         render: function (data, type, row) {
                                             return `<a class="dropdown-item" href="#"  data-delete-id="${data}" onClick=fncDeleteGridData(this) > <i class="fa fa-trash-alt"></i> Delete</a>`;
@@ -160,8 +160,8 @@
                                 { "data": "isEanableAllFare", "name": "isEanableAllFare", "autoWidth": true },
                                 { "data": "filterDetails", "name": "filterDetails", "autoWidth": true },
                                 { "data": "remarks", "name": "remarks", "autoWidth": true },
-                                { "data": "createdByName", "name": "createdByName", "autoWidth": true },
-                                { "data": "createdDt", "name": "createdDt", "autoWidth": true },
+                                { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
+                                { "data": "modifiedDt", "name": "modifiedDt", "autoWidth": true },
                                 { "data": "filterid", "name": "filterid", "autoWidth": true }
                             ],
                             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
