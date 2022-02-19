@@ -145,7 +145,7 @@
             let airline_ = getUrlVars()["id"];
             const inputElement = document.getElementById("File1");
             inputElement.addEventListener("change", handleFiles, false);
-
+            var selectedFile = null;
             if (airline_ == null || airline_ == '' || airline_ == undefined) {
                 $("#lblairlineId").val("0");
                 $('#loader').hide();
@@ -166,10 +166,11 @@
                         $("#lblairlineId").val(data.returnId.id);
                         $("#txtCode").val(data.returnId.code);
                         $("#txtName").val(data.returnId.name);
-                        $("#lblImgFile").val(data.returnId.airlineImage);
-                        if (!(data.returnId.airlineImage == null || data.returnId.airlineImage == '' || data.returnId.airlineImage=== undefined)) {
+                        $("#lblImgFile").val(data.returnId.imagePath);
+
+                        if (!(data.returnId.logoImage == null || data.returnId.logoImage == '' || data.returnId.logoImage=== undefined)) {
                             var img = document.getElementById("imgairlineImage");
-                            img.src = `data:${data.returnId.airlineImageType};base64,${data.returnId.airlineImage}`;
+                            img.src = `data:${data.returnId.logoImageType};base64,${data.returnId.logoImage}`;
                         }
 
                         if (data.returnId.isActive) {
@@ -266,7 +267,7 @@
                     let Postheaderss = new Headers();
                     Postheaderss.append("Authorization", 'Bearer ' + token);
                     Postheaderss.append("OrgId", OrgId);
-                    Postheaderss.append("Content-Type", "application/json; charset=utf-8");
+                    //Postheaderss.append("Content-Type", "application/json; charset=utf-8");
 
                     let IsActive
                     if ($("#is_active").is(":checked")) {
@@ -284,15 +285,28 @@
                         IsLcc = false;
                     }
 
-                    var formdata = JSON.stringify({
-                        "Id": $("#lblAirlineId").val(),
-                        "Code": $("#txtCode").val(),
-                        "Name": $("#txtName").val(),
-                        "ImagePath": $("#lblImgFile").val(),
-                        "IsActive": IsActive,
-                        "IsLcc": IsLcc,
+                    alert($("#lblImgFile").val());
+                    var formdata = new FormData();
+                    formdata.append("Id", $("#lblairlineId").val());
+                    formdata.append("Code", $("#txtCode").val());
+                    formdata.append("Name", $("#txtName").val());
+                    formdata.append("IsActive", IsActive);
+                    formdata.append("IsLcc", IsLcc);
+                    formdata.append("LogoImageType", $("#lblImgFile").val());
+                    formdata.append("ImagePath", $("#lblImgName").val());
+                    formdata.append("ImageType", "image/x-icon");
+                    formdata.append("LogoImageFile", selectedFile);
 
-                    });
+                    //var formdata = JSON.stringify({
+                    //    "Id": $("#lblAirlineId").val(),
+                    //    "Code": $("#txtCode").val(),
+                    //    "Name": $("#txtName").val(),
+                    //    "ImagePath": $("#lblImgFile").val(),
+                    //    "IsActive": IsActive,
+                    //    "IsLcc": IsLcc,
+
+                    //});
+
                     fetch(Postapiurl, {
                         method: "POST",
                         headers: Postheaderss,

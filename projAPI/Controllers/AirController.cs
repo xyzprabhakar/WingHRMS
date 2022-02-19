@@ -351,28 +351,32 @@ namespace projAPI.Controllers
 
         [HttpGet]
         [Route("Master/getAirlineCode/{Id}")]
-        public mdlReturnData getAirlineCode(int Id)
+        public mdlReturnData getAirlineCode(int Id,[FromServices] IsrvMasters _srvMasters)
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {
-                tblAirline tempData = null;
-                if (Id > 0)
+
+                mdlAirline_ mdl = new mdlAirline_();
+
+                tblAirline tempData = Id > 0 ? _travelContext.tblAirline.Where(p => p.Id == Id).FirstOrDefault() : null;
+                if (tempData != null)
                 {
-                    tempData = _travelContext.tblAirline.Where(p => p.Id == Id).FirstOrDefault();
-                    if (tempData == null)
+                    mdl = new mdlAirline_(tempData);    
+                }
+
+                if (mdl.ImagePath != null)
+                {
+                    var tempImages = _srvMasters.GetImage(mdl.ImagePath);
+                    if (tempImages != null)
                     {
-                        returnData.MessageType = enmMessageType.Error;
-                        returnData.Message = "Invalid Data";
-                        return returnData;
+                        mdl.LogoImage = Convert.ToBase64String(tempImages.File);
+                        mdl.LogoImageType = tempImages.FileType.GetDescription();
                     }
                 }
-                else
-                {
-                    tempData = new tblAirline();
-                }
-                returnData.ReturnId = tempData;
+
                 returnData.MessageType = enmMessageType.Success;
+                returnData.ReturnId = mdl;
                 return returnData;
             }
             catch (Exception ex)
@@ -387,11 +391,12 @@ namespace projAPI.Controllers
         [HttpPost]
         [Route("Master/setAirline")]
         [Authorize(nameof(enmDocumentMaster.Travel_Air_Airline) + nameof(enmDocumentType.Update))]
-        public mdlReturnData setAirline([FromServices] IsrvMasters _srvMasters, tblAirline mdl)
+        public mdlReturnData setAirline([FromServices] IsrvMasters _srvMasters, [FromForm] mdlAirline_ mdl )
         {
             mdlReturnData returnData = new mdlReturnData() { MessageType = enmMessageType.Success };
             try
             {
+                bool IsUpdate = false;
                 tblAirline tempData = null;
                 if (mdl == null)
                 {
@@ -399,49 +404,29 @@ namespace projAPI.Controllers
                     returnData.Message = "Invalid Data";
                     return returnData;
                 }
-                if (_travelContext.tblAirline.Count(p => p.Code == mdl.Code) > 0)
+                if (_travelContext.tblAirline.Count(p => p.Code == mdl.Code && p.Id !=mdl.Id) > 0)
                 {
                     returnData.MessageType = enmMessageType.Error;
                     returnData.Message = "Airline Code already exists";
                     return returnData;
                 }
 
-                if (mdl.Id > 0)
+                if (mdl.Id > 0) IsUpdate = true;
+                if (!(mdl.LogoImageFile == null))
                 {
-                    tempData = _travelContext.tblAirline.Where(p => p.Code == mdl.Code).FirstOrDefault();
-                    if (tempData == null)
-                    {
-                        returnData.MessageType = enmMessageType.Error;
-                        returnData.Message = "Invalid Data";
-                        return returnData;
-                    }
+                    mdl.NewFileName = _srvMasters.SetImage(mdl.LogoImageFile, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
+                    mdl.ImagePath = mdl.NewFileName;
                 }
-                else
+                mdl.ModifiedBy = _IsrvCurrentUser.UserId;
+                mdl.ModifiedDt = DateTime.Now;
+                if (!IsUpdate)
                 {
-
-
-                    tempData = new tblAirline();
-                    tempData.CreatedBy = _IsrvCurrentUser.UserId;
-                    tempData.CreatedDt = DateTime.Now;
+                    mdl.CreatedBy = _IsrvCurrentUser.UserId;
+                    mdl.CreatedDt = DateTime.Now;
                 }
 
-
-                //if (!(mdlFile.NewFileName == null))
-                //{
-                //    mdlFile.NewFileName = _srvMasters.SetImage(mdlFile.NewFileName, enmFileType.ImageICO, _IsrvCurrentUser.UserId);
-                //    mdlFile.LogoImageFile = mdl.ImagePath;
-                //}
-
-                tempData.Code = mdl.Code;
-                tempData.Name = mdl.Name;
-                tempData.ImagePath = mdl.ImagePath;
-                tempData.isLcc = mdl.isLcc;
-                tempData.IsActive = mdl.IsActive;
-                tempData.ModifyRemarks = mdl.ModifyRemarks;
-                tempData.ModifiedBy = _IsrvCurrentUser.UserId;
-                tempData.ModifiedDt = DateTime.Now;
-
-                if (tempData.Id > 0)
+                tempData = mdl;
+                if (IsUpdate)
                 {
                     _travelContext.tblAirline.Update(tempData);
                 }

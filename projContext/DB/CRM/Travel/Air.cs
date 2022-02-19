@@ -131,6 +131,10 @@ namespace projContext.DB.CRM.Travel
         [MaxLength(500)]
         public string ImagePath { get; set; }
         public bool IsActive { get; set; }
+        [NotMapped]
+        public string LogoImage { get; set; }//base 64
+        [NotMapped]
+        public string LogoImageType { get; set; }
     }
 
     public class tblFlightClassOfBooking : d_ModifiedBy
