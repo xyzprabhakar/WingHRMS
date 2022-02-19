@@ -30,7 +30,6 @@
                                             <th>Sno</th>
                                             <th>Code</th>
                                             <th>Name</th>
-                                            <th>Image</th>
                                             <th>Is Lcc</th>
                                             <th>Is Active</th>
                                             <th>Modified By</th>
@@ -96,7 +95,7 @@
                                     title: 'Company Data',
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8]
+                                        columns: [0,1, 2, 3, 4, 5, 6]
                                     }
                                 },
                                 {
@@ -110,25 +109,25 @@
                             "columnDefs":
                                 [
                                     {
-                                        targets: [4],
+                                        targets: [3],
                                         render: function (data, type, row) {
                                             return data == 1 ? `<spam class="badge badge-success">Yes</spam>` : '<spam class="badge badge-danger">No</spam>'
                                         }
                                     },
                                     {
-                                        targets: [5],
+                                        targets: [4],
                                         render: function (data, type, row) {
                                             return data == 1 ? `<spam class="badge badge-success">Active</spam>` : '<spam class="badge badge-danger">InActive</spam>'
                                         }
                                     },
                                     {
-                                        targets: [7],
+                                        targets: [6],
                                         render: function (data, type, row) {
                                             var date = new Date(data);
                                             return GetDateFormatddMMyyyyHHtt(date);
                                         }
                                     }, {
-                                        targets: [8],
+                                        targets: [7],
                                         "class": "text-center",
                                         render: function (data, type, row) {
                                             return `<a class="dropdown-item" href=Airline?id=${data}> <i class="fa fa-pencil-square-o"></i> Edit</a>`;
@@ -140,7 +139,6 @@
                                 { "data": "sno", "name": "sno", "autoWidth": true },
                                 { "data": "code", "name": "code", "autoWidth": true },
                                 { "data": "name", "name": "name", "autoWidth": true },
-                                { "data": "image", "name": "image", "autoWidth": true },
                                 { "data": "islcc", "name": "islcc", "autoWidth": true },
                                 { "data": "isActive", "name": "isActive", "autoWidth": true },
                                 { "data": "modifiedByName", "name": "modifiedByName", "autoWidth": true },
