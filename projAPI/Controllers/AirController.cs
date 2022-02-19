@@ -1176,7 +1176,7 @@ namespace projAPI.Controllers
                 {
                     customerType = Convert.ToString(p.CustomerType),
                     isEanableAllFare = p.IsEanableAllFare,
-                    filterDetails = string.Join(", ", p.FilterDetails.Select(q => q.Item1)),
+                    filterDetails = string.Join(", ", p.FilterDetails.Select(q =>string.Concat( q.Item1," - ", q.Item2))),
                     remarks=p.Remarks,
                     modifiedByName=p.ModifiedByName,
                     modifiedDt=p.ModifiedDt,
